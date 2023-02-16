@@ -33,7 +33,13 @@ tm_shape = function(shp,
 					crs = NULL,
 					bbox = NULL,
 					unit = NULL,
-					filter = NULL) {
+					filter = NULL,
+					projection = NULL) {
+	if (!is.null(projection)) {
+		#warning("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		crs = projection
+		projection = NULL
+	}
 	tm_element_list(tm_element(shp = shp,
 							   is.main = is.main,
 							   crs = crs,

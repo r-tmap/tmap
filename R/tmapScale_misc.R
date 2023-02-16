@@ -3,9 +3,11 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 		values = if (is.na(values[1])) getAesOption("values.var", o, aes, layer, cls = cls) else values
 		
 		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
-			m = getPalMeta(values[1])
-			if (is.null(m)) {
-				getAesOption("value.na", o, aes, layer, cls = cls)		
+			m = getPalMeta(as.character(values[1]))
+			ona = getAesOption("value.na", o, aes, layer, cls = cls)	
+			
+			if (!is.na(ona) || is.null(m)) {
+				ona	
 			} else{
 				cols4all::c4a_na(values)
 			}
@@ -24,14 +26,24 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 		# label.na FALSE or "": never show NA's
 		# label.na NA: show NA is there are any
 		# label.na "qwerty" always snow NA's
-		na.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
-		if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
+		
+		label.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
+		if (is.na(label.na)) label.show = NA # will be TRUE if there are NAs
 		if (is.logical(label.na)) label.na = getAesOption("label.na", o, aes, layer, cls = cls)
 	})
 }
 
+update_na.show = function(label.show, na.show, anyNA) {
+	if (is.na(label.show)) {
+		if (is.na(na.show)) anyNA else na.show
+	} else {
+		label.show
+	}
+}
 
-tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
+
+
+tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev) {
 	
 	ids = if (is.null(sortRev)) {
 		NULL
@@ -39,7 +51,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
 		rep(0L, n)
 	}
 	
-	if (identical(na.show, FALSE)) {
+	if (identical(label.show, FALSE)) {
 		legend = within(legend,{
 			title = NA
 			nitems = 0
@@ -61,4 +73,13 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
 			na.show = TRUE
 		})
 	}
-	return(format_aes_results(rep(value.na, n), ids, legend))}
+	
+	vals = rep(value.na, n)
+	
+	if (bypass_ord) {
+		format_aes_results(vals, legend = legend)
+	} else {
+		format_aes_results(vals, ids, legend)			
+	}
+	
+}

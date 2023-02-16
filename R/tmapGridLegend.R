@@ -22,7 +22,7 @@ process_comp_box = function(comp, sc, o) {
 	comp
 }
 
-tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums) {
+tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
 	
 	n = length(comp)
 	# if (stack == "vertical") {
@@ -186,7 +186,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}, comp, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	
 	
-	legGrobs = lapply(comp, tmapGridLegPlot, o = o)
+	legGrobs = lapply(comp, tmapGridLegPlot, o = o, fH = fH, fW = fW)
 	
 	
 	#sq = function(x) do.call(seq, as.list(unname(range(x))))
@@ -229,7 +229,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	do.call(grid::grobTree, c(list(groupframe), grbs, grDesign, list(vp=vp)))
 }
 
-tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, pos.h, pos.v) {
+tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 	
@@ -242,7 +242,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	colsIn = g$colsIn[cols]
 	
 
-	
 	if (any(pos.h %in% c("LEFT", "RIGHT"))) {
 		pos.h = tolower(pos.h)
 		CASE.h = toupper
@@ -355,7 +354,15 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	grbsQ = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stack[id[1]], pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums)
+			if (any(!stack_auto[id])) {
+				# get first specified 'stack' argument
+				stck = stack[id][which(!stack_auto[id])[1]]
+			} else {
+				# get first stack argument
+				stck = stack[id[1]]
+			}
+			
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums, fH = sum(rowsIn), fW = sum(colsIn))
 		}
 	}))
 

@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
 
 ```{r, echo = FALSE, message = FALSE}
 #library(tmap)
-devtools::load_all(".")
+devtools::load_all()
 data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
@@ -33,18 +33,17 @@ data(World, metro, rivers, land)
 
 **tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2022.
 
-
 #### tmap 4 - tmap 3.x
 
-* tmap 3.x supports several map layer variables, e.g. `"col"`, `"size"`, and `"shape"` for the map layer function `tm_symbols`. There will be many more of those variables in tmap 4. Besides these visual variables, there will also be so-called transformation variables. A *transformation variable* is used to change the spatial coordinates (for instance, a cartogram). A *visual variable* only changes the appearance of a spatial object, e.g. fill color or line width. See below.
+* **tmap 3.x** supports several map layer variables, for example `"col"`, `"size"`, and `"shape"` for the  `tm_symbols()` map layer function. There will be many more of those variables in **tmap 4**. Besides the visual variables, so-called transformation variables also will be available. A *transformation variable* role is to change the spatial coordinates (for instance, to create a cartogram). A *visual variable* only changes the appearance of a spatial object, e.g. fill color or line width. You can find some examples of these variables below.
 
-* Map layer arguments (e.g. the arguments of `tm_polygons`) are much better organized: for each visual/transformation variable, there are only four arguments. In case of the visual variable `"fill"` these are: `"fill"`, `"fill.scale"`, `"fill.legend"` and `"fill.free"`, which respectively specify the data variable or visual value that defined the polygon fill color, the used scaling function, the legend layout, and whether scales are applied freely across facets.
+* Map layer arguments (e.g. the arguments of `tm_polygons()`) are much better organized: for each visual/transformation variable, there are only four arguments. In case of the visual variable `"fill"` these are: `"fill"`, `"fill.scale"`, `"fill.legend"` and `"fill.free"`, which respectively specify the data variable or visual value that defines the polygon fill color, the used scaling function, the legend layout, and whether scales are applied freely across facets.
 
-* The input for each transformation/visual variable can be multivariate, in the sense that multiple data variables are scaled to one transformation of visual variable. An example is a bivarite choropleth, in which a cross tabulation of two data variables is mapped to one (bivariate) color palette.
+* The input for each visual/transformation variable can be multivariate, in the sense that multiple data variables are scaled to one transformation of visual variable. An example is a bivariate choropleth, in which a cross tabulation of two data variables is mapped to one (bivariate) color palette.
 
-* Own map layer functions can be written (e.g. as an extension package)
+* User-defined map layer functions can be written (e.g. as an extension package).
 
-* Like tmap 3.x, tmap 4.0 comes with two modes, a `"plot"` and a `"view"` mode. However, other modes can be added as well, so you may expect an extension package **tmap.rayshader** at some point (or start writing one yourself).
+* Like **tmap 3.x**, **tmap 4.0** comes with two modes, a `"plot"` and a `"view"` mode. However, other modes can be added as well, so you may expect an extension package **tmap.rayshader** at some point (or start writing one yourself).
 
 * Legends and other map components (such as scale bars) can be drawn anywhere on or outside the map.
 
@@ -54,13 +53,13 @@ data(World, metro, rivers, land)
 
 #### tmap 4 - ggplot2
 
-The tmap package is very similar to **gplot2** and its Grammar of Graphics, but tailored to spatial data visualization, whereas **ggplot2** is much more general. More specifically
+The **tmap** package is very similar to **gplot2** and its Grammar of Graphics, but tailored to spatial data visualization, whereas **ggplot2** is much more general. More specifically:
 
-* In tmap, the visual/transformation variables are always specifies in the map layer functions, whereas in ggplot2 the aesthetics are normally specified at plot level.
+* In **tmap**, the visual/transformation variables are always specifies in the map layer functions, whereas in ggplot2 the aesthetics are usually specified at plot level.
 
-* In ggplot2, scales are determines on plot level, whereas in tmap, they are determined on map layer level.
+* In **ggplot2**, scales are determined on plot level, whereas in **tmap**, they are determined on map layer level.
 
-* In tmap, spatial data (e.g. an `sf` object) is specified with `tm_shape`. The spatial coordinates (`x` and `y`) are considered to be part of the data (which can be changed with transformation variables). In principle, any map layer function can be used with any spatial class. E.g. `tm_dots` renders dots for `sf` points data, but it also works for other spatial classes: e.g. centroids for `sf` polygons/lines and raster data (`stars` / `terra` packages). However, in `ggplot`, each spatial class requires a custom map layer function, e.g. `geom_sf` for `sf` objects.
+* In **tmap**, spatial data (e.g. an `sf` object) is specified with `tm_shape()`. The spatial coordinates (`x` and `y`) are considered to be part of the data (which can be changed with transformation variables). In principle, any map layer function can be used with any spatial class. E.g. `tm_dots()` renders dots for `sf` points data, but it also works for other spatial classes: e.g. centroids for `sf` polygons/lines and raster data (**stars** / **terra** packages). However, in `ggplot()`, each spatial class requires a custom map layer function, e.g. `geom_sf()` for `sf` objects.
 
 * **tmap** has a static plot mode and an interactive mode.
 
@@ -72,7 +71,7 @@ There are several great R packages for spatial data visualization, including: **
 
 The interactive `"view"` mode of **tmap** is similar to **mapview** in the sense that it uses the same building blocks (packages like **leaflet**, **leafsync**, and **leafgl**).
 
-Colors are important for data visualization. For this purpose, **tmap** is build on **cols4all**, a new R package to analyse color palettes, test them on color-blind-friendliness and other properties.
+Colors are important for data visualization. For this purpose, **tmap** uses **cols4all**, a new R package to analyse color palettes, and check their color-blind-friendliness and other properties.
 
 ## Map layers
 
@@ -80,10 +79,9 @@ A (thematic) map consists of one or more **map layers**. Each map layer has a sp
 
 Transformation variables will only be used for specific map layers such as the cartogram, whereas visual variables will used in almost all map layers.
 
-
 ## Visual variables
 
-A **visual variable** describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern. (In ggplot2 these are called aesthetics.). A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or **data-driven** (more on this later). If it can *only* be specified with a constant value, it is called a **visual constant**. 
+A **visual variable** describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in **ggplot2** these are called aesthetics). A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or be **data-driven** (more on this later). If it can *only* be specified with a constant value, it is called a **visual constant**. 
 
 The following table shows which visual variables are used in standard map layers.
 
@@ -96,11 +94,11 @@ The following table shows which visual variables are used in standard map layers
 | `tm_raster`   	| `col` (color), `alpha` (transparency)	| |
 | `tm_text`   		| `size`, `col` | |
 
-New in tmap 4.0 is that users can write their own custom map layer functions; more on this in another vignette. Important for now is that map layers and their visual variables can be extended if needed.   
+New in **tmap 4.0** is that users can write their own custom map layer functions; more on this in another vignette. Important for now is that map layers and their visual variables can be extended if needed.   
 
 ### Constant visual values
 
-The following map draws gold country polygons. 
+The following code draws gold country polygons. 
 
 ```{r}
 tm_shape(World) +
@@ -109,10 +107,9 @@ tm_shape(World) +
 
 All the visual variables mentioned in the previous table are used, but with constant values. For instance, polygon borders are drawn with width `lwd` and colored with `col`. Each of these visual variables has a default value, in case of the border width and color respectively `1` and `"black"`. The only visual variable for which we have specified a different value is `fill`, which we have set to `"gold"`.
 
-For those who are completely new to tmap: the function `tm_shape` specifies the spatial data object, which can be any spatial data object from the packages `sf`, `stars`, `terra`, `sp`, and `raster`. The subsequent map layer functions (stacked with the `+` operator) specify how this spatial data is visualized.
+For those who are completely new to **tmap**: the function `tm_shape()` specifies the spatial data object, which can be any spatial data object from the packages `sf`, `stars`, `terra`, `sp`, and `raster`. The subsequent map layer functions (stacked with the `+` operator) specify how this spatial data is visualized.
 
 In the next example we have three layers: a basemap from OpenTopoMap, country polygon boundaries, and dots for metropolitan areas:
-
 
 ```{r}
 tm_basemap(server = "OpenTopoMap", zoom = 2, alpha = 0.5) +
@@ -123,7 +120,7 @@ tm_shape(metro) +
 tm_layout(inner.margins = rep(0, 4))
 ```
 
-Each visual variable argument can also be specified with a data variable. What happens in that case is that the values of data variable are mapped to values of the corresponding visual variable.
+Each visual variable argument can also be specified with a data variable (e.g., a column name). What happens in that case is that the values of data variable are mapped to values of the corresponding visual variable.
 
 ```{r}
 tm_shape(World) +
@@ -179,8 +176,7 @@ Africa = World[World$continent == "Africa", ]
 Africa$life_exp = round(Africa$life_exp)
 ```
 
-
-Like tmap 3.x, it is possible to create facets by specifying multiple data variable names and scales to one visual (or transformation) variable, in this case `"fill"`:
+Like **tmap 3.x**, it is possible to create facets by specifying multiple data variable names and scales to one visual (or transformation) variable, in this case `"fill"`:
 
 ```{r, class.source='bg-success',message=FALSE,fig.height=7}
 tm_shape(Africa) +
@@ -197,15 +193,15 @@ tm_shape(Africa) +
 			  legend.text.size = 0.5)
 ```
 
-Both `tm_scale_categorical` and `tm_scale_ordinal` tread data as categorical data, so ignoring the fact that they are actually numbers. The only difference is that categorical does not assume any order between the categories, whereas ordinal does. This is similar to a factor in R which can be ordered or not.
+Both `tm_scale_categorical()` and `tm_scale_ordinal()` tread data as categorical data, so ignoring the fact that they are actually numbers. The only difference is that categorical does not assume any order between the categories, whereas ordinal does. This is similar to a factor in R which can be ordered or not.
 
-The other shown scales can only be applied to numeric data. Note that in this example the breaks of `tm_scale_intervals` are similar to the tick marks of `tm_scale_continous`. However, when using class intervals only a few colors are used (in this case 6 plus a color for missing values) whereas in a continuous scale a gradient of colors is used. The advantage of using class intervals is that it is relatively easy to read data values from the map, e.g. the value of South Africa is 55 to 60, while the advantage of using a continuous color scale is that the colors in the map are more accurate (because they are unrounded).
+The other shown scales can only be applied to numeric data. Note that in this example the breaks of `tm_scale_intervals()` are similar to the tick marks of `tm_scale_continous()`. However, when using class intervals only a few colors are used (in this case 6 plus a color for missing values) whereas in a continuous scale a gradient of colors is used. The advantage of using class intervals is that it is relatively easy to read data values from the map, e.g. the value of South Africa is 55 to 60, while the advantage of using a continuous color scale is that the colors in the map are more accurate (because they are unrounded).
 
-For `tm_scale_intervals` it is possible to chose how to determine the breaks (with the argument `style`). For `tm_scale_continous` it is possible to use a transformation function: in this case the built-in log transformation is used (which is pretty useless for this particular example because of the data range).
+For `tm_scale_intervals()` it is possible to chose how to determine the breaks (with the argument `style`). For `tm_scale_continous()` it is possible to use a transformation function: in this case the built-in log transformation is used (which is pretty useless for this particular example because of the data range).
 
-Finally, `tm_scale_discrete` uses a discrete linear scale. Note that this is different than `tm_scale_ordinal`, which does not use colors for values that are not present (as categories), for instance 53.
+Finally, `tm_scale_discrete()` uses a discrete linear scale. Note that this is different than `tm_scale_ordinal()`, which does not use colors for values that are not present (as categories), for instance 53.
 
-Each `tm_scale_` functions can (in principle) be applied to any visual or transformation variable. Note that this is different from `ggplot2` where scales are organized by variable and by type (e.g. `ggplot2::scale_fill_continuous`). This is related to another difference with `ggplot2`. In `tmap`, the scales are set directly in the map layer function to the target visual/transformation variable, for instance `tm_polygons(fill = "x", fill.scale = tm_scale_continuous())`. In `ggplot`, scales are set outside the layer functions.
+Each `tm_scale_` functions can (in principle) be applied to any visual or transformation variable. Note that this is different from **ggplot2** where scales are organized by variable and by type (e.g. `ggplot2::scale_fill_continuous()`). This is related to another difference with **ggplot2**. In **tmap**, the scales are set directly in the map layer function to the target visual/transformation variable, for instance `tm_polygons(fill = "x", fill.scale = tm_scale_continuous())`. In `ggplot()`, scales are set outside the layer functions.
 
 Each `tm_scale_` function has (at least) the following arguments: `values`, `values.repeat`, `values.range`, `values.scale`, `value.na`, `value.null`, `value.neutral`, `labels`, `label.na`, `label.null`, and `label.format`.
 The `value*` arguments determine the visual values to which the data values are mapped. In case the scale is applied to a visual variable that represents color, they takes color values or a color palette. However, if for instance the same scale is applied to line width, then values should be numeric values that represent line widths.
@@ -218,7 +214,7 @@ tm_shape(World) +
 	tm_symbols(size = "HPI", size.scale = tm_scale_intervals(values = c(0.3,0.5, 0.8), value.na = 0.1, breaks = c(12,20,30,45)), col = "grey30")
 ```
 
-The defaults for those `value*` arguments are stored in the tmap options. For instance
+The defaults for those `value*` arguments are stored in the **tmap** options. For instance
 
 ```{r}
 tmap_options("values.var")$values.var$fill
@@ -226,7 +222,4 @@ tmap_options("values.var")$values.var$fill
 
 contains the default color palettes for the visual variable `"fill"` for different types of data. For instance, when data values are all positive numbers, and `tm_scale_intervals` or `tm_scale_continuous` is applied, the default color palette is `hcl.blues3`, as can be seen in the examples above.
 
-Regarding the available color palettes: tmap uses the new R package `cols4all` which contains a large number of well-known color palettes. Please run `cols4all::c4a_gui()` which starts an interactive tool (the successor of `tmaptools::palette_explorer()`). Of course, also own color palettes can be loaded directly via a vector of color codes.
-
-
-
+Regarding the available color palettes: **tmap** uses the new R package **cols4all** which contains a large number of well-known color palettes. Please run `cols4all::c4a_gui()` which starts an interactive tool (the successor of `tmaptools::palette_explorer()`). Of course, also own color palettes can be loaded directly via a vector of color codes.

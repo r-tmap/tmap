@@ -27,8 +27,8 @@ tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 #' @export
 tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale * number_text_lines(comp$title)
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * number_text_lines(comp$title)#* o$scale 
 	
 	height = get_legend_option(comp$item.height, comp$type)
 	
@@ -64,8 +64,8 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 #' @export
 tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size #* o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -87,6 +87,9 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 		item_widths = rep(width, nlev)
 		if (comp$na.show) item_widths[nlev] = widthNA
 		comp$stretch = if (!is.na(comp$width)) "itemsNNA" else "none"	
+	} else if (comp$type == "text") {
+		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev))
+		comp$stretch = if (!is.na(comp$width)) "padding" else "none"	
 	}
 	
 	
@@ -134,7 +137,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_legend_standard_landscape
 #' @export
-tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
+tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale
 	
@@ -174,10 +177,10 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
 		
 		ni = nlev - (comp$na.show && ticks.disable.na)
 		
-		# tick marks in margin (specified with x coordinates between 1 and 2)
+		# tick marks in margin (specified with y coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
 			grTicksMargin = do.call(c, lapply(ticks[ticks_in_margin], function(y) {
-				mapply(function(i, id) gridCell(8, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - (y - 1), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(8, id, grid::linesGrob(x = c(0.5, 0.5), y = y, gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksMargin = NULL
@@ -332,6 +335,16 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
 		grItems = mapply(function(id, gpari) gridCell(6, id, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+	} else if (comp$type == "text") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		
+		# scale down (due to facet use)
+		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		
+		grItems = mapply(function(id, gpari) gridCell(6, id, grid::textGrob(x=0.5, y=0.5, gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+		
 	}
 	
 	

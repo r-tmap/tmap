@@ -9,7 +9,10 @@ get_lf = function(facet_row, facet_col, facet_page) {
 	
 	lfsi = lfs[[facet_page]]
 	
-	lfid = get_facet_id(facet_row, facet_col, nrow, ncol)
+	fr = max(1, facet_row) # facet_row can be -1 or -2
+	fc = max(1, facet_col) # facet_row can be -1 or -2
+	
+	lfid = get_facet_id(fr, fc, nrow, ncol)
 	
 	lfsi[[lfid]]
 }
@@ -19,7 +22,13 @@ assign_lf = function(lf, facet_row, facet_col, facet_page) {
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
 
-	lfid = get_facet_id(facet_row, facet_col, nrow, ncol)
+	
+	fr = max(1, facet_row) # facet_row can be -1 or -2
+	fc = max(1, facet_col) # facet_row can be -1 or -2
+	
+	
+	
+	lfid = get_facet_id(fr, fc, nrow, ncol)
 	
 	lfs[[facet_page]][[lfid]] = lf
 	assign("lfs", lfs, envir = .TMAP_LEAFLET)

@@ -3,5 +3,8 @@ getPal = function(name, n = NA, rep = TRUE, range = NA) {
 }
 
 getPalMeta = function(name) {
+	if (name %in% c("cat", "seq", "div")) {
+		name = cols4all::c4a_options("defaults")$defaults[[name]]
+	}
 	cols4all::c4a_info(name, no.match = "null", verbose = FALSE)
 }

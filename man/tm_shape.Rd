@@ -11,7 +11,8 @@ tm_shape(
   crs = NULL,
   bbox = NULL,
   unit = NULL,
-  filter = NULL
+  filter = NULL,
+  projection = NULL
 )
 }
 \arguments{

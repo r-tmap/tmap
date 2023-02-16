@@ -59,6 +59,11 @@ step1_rearrange_facets = function(tmo) {
 		
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
+				if (length(value) && is.na(value[[1]][1])) {
+					# NA -> value.blank
+					value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
+				}
+				
 				if (inherits(value, "tmapOption")) {
 					value_orig = getAesOption(value[[1]], o, aes = aes, layer = layer)
 					if (!is.list(value_orig)) value = list(value_orig)
@@ -69,18 +74,30 @@ step1_rearrange_facets = function(tmo) {
 					value_orig = value
 					value = lapply(value_orig, make.names)
 					names(value) = value_orig
+					
+					if (inherits(value_orig, "tmapAsIs")) {
+						if (inherits(scale, "tm_scale_auto")) {
+							class(scale) = c("tm_scale_asis", "tm_scale", "list")
+							scale$FUN = tmapScaleAsIs
+						}
+					}
 				}
-				
+
 				nvars = length(value) #m
 				nvari = vapply(value, length, integer(1))
 				
 				vars = unlist(value)
 				
 				data_vars = all(make.names(vars) %in% shpvars)
+				geo_vars = all(make.names(vars) %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 				
 				nflvar = nvars
 				if (data_vars) {
-					flvar = names(value)#vapply(value, "[[", 1, FUN.VALUE = character(1))
+					flvar = names(value)
+					update_grp_vars(lev = flvar)
+					add_used_vars(vars)
+				} else if (geo_vars) {
+					flvar = names(value)
 					update_grp_vars(lev = flvar)
 					add_used_vars(vars)
 				} else {

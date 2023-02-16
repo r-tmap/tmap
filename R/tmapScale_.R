@@ -6,11 +6,15 @@ tm_mv = function(...) {
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
 	if (inherits(x, "tm_shape_vars")) return(structure(list(), class = "tmapShpVars"))
+	
+	cls = if (inherits(x, "AsIs")) "tmapAsIs" else "tmapVars"
+
 	isL = is.list(x)
 	if (!isL) x = as.list(x)
-	structure(x, class = "tmapVars")
+
+	structure(x, class = cls)
 }
-format_aes_results = function(values, ord, legend) {
+format_aes_results = function(values, ord = NULL, legend) {
 	legnr = vector(mode = "integer", length = length(values))
 	legnr[1] = legend_save(legend)
 	if (is.null(ord)) {
@@ -69,7 +73,7 @@ data_type_grp = function(x) {
 	}
 }
 
-data_class = function(x) {
+data_class = function(x, check_for_color_class = FALSE) {
 	
 	# if (all(is.na(x))) {
 	# 	"na"
@@ -85,8 +89,12 @@ data_class = function(x) {
 		}
 		c("num", subclass1, subclass2)
 	} else {
-		subclass = if (is.ordered(x)) "ord" else "unord"
-		c("fact", subclass)
+		if (check_for_color_class && all(valid_colors(na.omit(head(x, 100))))) {
+			c("asis", "color")
+		} else {
+			subclass = if (is.ordered(x)) "ord" else "unord"
+			c("fact", subclass)
+		}
 	}
 	 
 	attr(cls, "units") = if (inherits(x, "units")) {
@@ -100,20 +108,38 @@ tmapScale = function(aes, value, scale, legend, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = c("tmapScale", "list"))
 }
 
-tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev) {
-	cls = data_class(x1)
+tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
 	
-	sc = getAesOption("scales.var", o, aes, layer, cls = cls)
 	
+	if (cls[1] == "asis") {
+		sc = "asis"	
+	} else {
+		sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
+		sc_pref = scale$fun_pref
+		
+		if (!is.null(sc_pref)) {
+			if (sc_pref %in% c("categorical", "continuous", "continuous_log")) {
+				sc = sc_pref
+			} else {
+				sc = sc_opt
+			}
+		} else {
+			sc = sc_opt
+		}
+	}
+	
+		
 	tm_scalefun = paste0("tm_scale_", sc)
+	
+	scale = scale[names(scale) %in% names(formals(tm_scalefun))]
 	
 	scale_new = do.call(tm_scalefun, args = scale)
 	
-	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
-	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, sortRev))
+	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, sortRev, bypass_ord))
 	
 }

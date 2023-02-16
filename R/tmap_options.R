@@ -41,10 +41,13 @@
 						 col = "black",
 						 lwd = 1,
 						 lty = "solid",
+						 text = "Abc",
+						 fontface = "plain",
 						 shape.symbols = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
 						 size.dots = .02,
+						 size.text = 1,
 						 fill_alpha = 1,
 						 col_alpha = 1),
 		value.na = list(
@@ -53,6 +56,8 @@
 			col.raster = "#00000000",
 			lty = "solid",
 			lwd = NA,
+			text = "Unknown",
+			fontface = "plain",
 			fill_alpha = 1,
 			col_alpha = 1,
 			col_alpha.raster = 0
@@ -63,6 +68,8 @@
 			col.polygons = "grey40",
 			lty = "solid",
 			lwd = 0.2,
+			text = "",
+			fontface = "plain",
 			fill_alpha = 1,
 			col_alpha = 1,
 			size = 0.2
@@ -72,6 +79,8 @@
 			col = "#00000000",
 			lty = "blank",
 			lwd = 0,
+			text = "",
+			fontface = "plain",
 			fill_alpha = 0,
 			col_alpha = 0
 		),
@@ -80,15 +89,19 @@
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
+						  text = LETTERS,
+						  fontface = c("plain", "italic", "bold"),
 						  fill_alpha = c(0.25, 1),
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0.1, 1), lwd = c(0.1, 1), lty = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+		values.range = list(fill = NA, col = NA, size = c(0.1, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 1,
 							 lwd = 2,
 							 fill_alpha = 1,
-							 col_alpha = 1),
+							 col_alpha = 1,
+							 text = "Abc",
+							 fontface = "plain"),
 		
 		# scales
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
@@ -99,7 +112,9 @@
 						  size = list(fact = "categorical", num = "continuous"),
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
-						  area = list(fact = "categorical", num = "continuous")),
+						  area = list(fact = "categorical", num = "continuous"),
+						  text = list(fact = "asis", num = "caterorical"),
+						  fontface = list(fact = "categorical", num = "caterorical")),
 		
 		# labels			  
 		label.format = list(
@@ -188,6 +203,7 @@
 		legend.group.frame = TRUE,
 		legend.resize.as.group = FALSE,
 		legend.reverse = FALSE,
+		legend.na.show = NA,
 		legend.title.color = NULL,
 		legend.title.size = 0.9,
 		legend.title.fontface = NULL,
@@ -202,37 +218,36 @@
 		legend.frame.r = 2,
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
-		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2),
-										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2),
+		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2),
+										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 1.2),
 										item.r = 2,
-										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0, lines = 0.2),
-										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA),
-										item.na.width = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA),
-										item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 1, lines = 0.2),
+										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0, lines = 0.2, text = 0.2),
+										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA),
+										item.na.width = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA),
+										item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 1, lines = 0.2, text = 0.2),
 										title.padding  = c(0, 0, 0.25, 0),
-										ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1)), lines = list()),
-										ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE),
+										ticks = list(rect = list(), symbols = list(), gradient = list(c(1, 1.5)), lines = list(), text = list()),
+										ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE, text = FALSE),
 										ticks.col = NA,
 										ticks.lwd = 1.5,
 										margins = c(0.4, 0.4, 0.4, 0.4),
 										margin.item.text = 0.25),
-		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2, lines = 1),
-										 item.width = c(rect = 6, symbols = 3, gradient = 6, lines = 6),
+		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2, lines = 1, text = 1),
+										 item.width = c(rect = 6, symbols = 3, gradient = 6, lines = 6, text = 6),
 										 item.r = 2,
-										 item.space = c(rect = 0.2, symbols = 0.3, gradient = 0, lines = 0.2),
-										 item.na.height = c(rect = NA, symbols = NA, gradient = 2, lines = NA),
-										 item.na.width = c(rect = NA, symbols = NA, gradient = 4, lines = NA),
-										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3, lines = 0.2),
+										 item.space = c(rect = 0.2, symbols = 0.3, gradient = 0, lines = 0.2, text = 0.2),
+										 item.na.height = c(rect = NA, symbols = NA, gradient = 2, lines = NA, text = NA),
+										 item.na.width = c(rect = NA, symbols = NA, gradient = 4, lines = NA, text = NA),
+										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3, lines = 0.2, text = 0.2),
 										 title.padding  = c(0, 0, 0.25, 0),
-										 ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1)), lines = list()),
-										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE),
+										 ticks = list(rect = list(), symbols = list(), gradient = list(c(1, 1.2)), lines = list(), text = list()),
+										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE, text = FALSE),
 										 ticks.col = NA,
 										 ticks.lwd = 1.5,
 										 margins = c(0.4, 0.4, 0.4, 0.4),
 										 margin.item.text = 0.25),
 		
 		# components
-		compass.type = "arrow",
 		title.size = 1.3,
 		title.color = NULL,
 		title.fontface = NULL,
@@ -240,16 +255,101 @@
 		title.bg.color = NA,
 		title.bg.alpha = 1,
 		title.padding = c(0.25, 0.25, 0.25, 0.25),
+		
 		title.frame = FALSE,
 		title.frame.lwd = 1,
 		title.frame.r = 2,
 		title.stack = "vertical",
 		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-		title.width = NA,
-		title.heigth = NA,
 		title.group.frame = TRUE,
 		title.resize.as.group = FALSE,
+
+		credits.size = .7,
+		credits.color = NA,
+		credits.fontface = NA,
+		credits.fontfamily = NA,
+		credits.bg.color = NA,
+		credits.bg.alpha = 1,
+		credits.padding = c(0.25, 0.25, 0.25, 0.25),
+		credits.frame = FALSE,
+		credits.frame.lwd = 1,
+		credits.frame.r = 2,
+		credits.stack = "vertical",
+		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		credits.width = NA,
+		credits.heigth = NA,
+		credits.group.frame = TRUE,
+		credits.resize.as.group = FALSE,
 		
+		compass.north=0, 
+		compass.type="arrow", 
+		compass.text.size=.8,
+		compass.size=NA,
+		compass.show.labels=1, 
+		compass.cardinal.directions=c("N", "E", "S", "W"), 
+		compass.text.color=NA,
+		compass.color.dark=NA, 
+		compass.color.light=NA,
+		compass.lwd=1,
+		compass.bg.color=NA,
+		compass.bg.alpha=NA,
+		compass.margins = c(0.4, 0.4, 0.4, 0.4),
+		
+		# standard arguments:
+		compass.stack = "vertical",
+		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		compass.frame = FALSE,
+		compass.frame.lwd = 1,
+		compass.frame.r = 2,
+		compass.group.frame = TRUE,
+		compass.resize.as.group = FALSE,
+		
+		scale_bar.breaks=NULL,
+		scale_bar.width=20, 
+		scale_bar.text.size = .5,
+		scale_bar.text.color=NA,
+		scale_bar.color.dark="black", 
+		scale_bar.color.light="white",
+		scale_bar.lwd=1,
+		scale_bar.position=NA,
+		scale_bar.bg.color=NA,
+		scale_bar.bg.alpha=NA,
+		scale_bar.just=NA,
+		scale_bar.size = NULL,
+		scale_bar.margins = c(0.01,0.01,0.01,0.01),
+		
+		# standard arguments:
+		scale_bar.stack = "vertical",
+		scale_bar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		scale_bar.frame = FALSE,
+		scale_bar.frame.lwd = 1,
+		scale_bar.frame.r = 2,
+		scale_bar.group.frame = TRUE,
+		scale_bar.resize.as.group = FALSE,		
+			
+		grid.x=NA,
+		grid.y=NA,
+		grid.n.x=NA,
+		grid.n.y=NA,
+		grid.projection=NA,
+		grid.col=NA,
+		grid.lwd=1,
+		grid.alpha=NA,
+		grid.labels.show=TRUE,
+		grid.labels.size=.6,
+		grid.labels.col=NA,
+		grid.labels.rot = c(0, 0),
+		grid.labels.format = list(big.mark = ","),
+		grid.labels.cardinal = FALSE,
+		grid.labels.margin.x=0,
+		grid.labels.margin.y=0,
+		grid.labels.space.x=NA,
+		grid.labels.space.y=NA,
+		grid.labels.inside.frame=FALSE,
+		grid.ticks = TRUE, #labels.show & !labels.inside.frame,
+		grid.lines = TRUE,
+		grid.ndiscr = 100,
+
 		panel.show = NA,
 		panel.labels = NA,
 		panel.label.size = 1,
@@ -312,20 +412,59 @@
 
 styles = list(
 	v3 = list(
+		value.na = list(
+			fill = "grey75",
+			col = "grey75",
+			col.raster = "#00000000",
+			lty = "solid",
+			lwd = NA,
+			text = "Unknown",
+			fontface = "plain",
+			fill_alpha = 1,
+			col_alpha = 1,
+			col_alpha.raster = 0
+		),
+		value.null = list(
+			fill = "grey95",
+			col = "grey95",
+			col.polygons = "grey40",
+			lty = "solid",
+			lwd = 0.2,
+			text = "",
+			fontface = "plain",
+			fill_alpha = 1,
+			col_alpha = 1,
+			size = 0.2
+		),
+		value.blank = list(
+			fill = "#00000000",
+			col = "#00000000",
+			lty = "blank",
+			lwd = 0,
+			text = "",
+			fontface = "plain",
+			fill_alpha = 0,
+			col_alpha = 0
+		),
+
+		values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br"),
+						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
 		frame.r = 0,
+		title.position = tm_pos_in(pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		title.size = 1.3,
 		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 		legend.text.size = 0.7,
 		legend.title.size = 0.9,
 		legend.frame = FALSE,
 		legend.frame.r = 0,
-		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
+		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 1),
 												 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
 												 item.r = 0,
 												 item.space = c(rect = 0, symbols = 0, gradient = 0),
 												 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
 												 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
-												 item.na.space = c(rect = 0, symbols = 0, gradient = 1),
+												 item.na.space = c(rect = 0, symbols = 0, gradient = 0),
 												 title.padding  = c(0, 0, 0.25, 0),
 												 ticks = list(rect = list(), symbols = list(), gradient = list()),
 												 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
@@ -384,6 +523,7 @@ styles = list(
 		basemaps = "Esri.NatGeoWorldMap",
 		basemaps.alpha = 1),
 	cobalt = list(bg.color = "#002240",
+				  outer.bg.color = "#002240",
 				  value.const = list(fill.polygons = "#0088FF",
 				  				   fill.symbols = "#FF9D00",
 				  				   col.polygons = "#002240",
@@ -398,12 +538,13 @@ styles = list(
 				  	fill = "grey40",
 				  	col = "grey40",
 				  	col.polygons = "grey40"),
-				  values.var = list(fill = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn"),
-				  				  col = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn")),
+				  values.var = list(fill = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn"),
+				  				  col = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn")),
 				  attr.color = "white",
 				  basemaps = "CartoDB.DarkMatter",
 				  basemaps.alpha = .5),
 	albatross = list(bg.color = "#00007F",
+					 outer.bg.color = "#00007F",
 					 value.const = list(fill.polygons = "#4C4C88",
 					 				   fill.symbols = "#BFBFFF",
 					 				   col.polygons = "#00004C",
@@ -450,7 +591,8 @@ styles = list(
 .defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
 										legend.position=tm_pos_in("left", "bottom"),
 										attr.position=c("right", "bottom"),
-										scale=.8),
+										scale=.8,
+										title.size = 1.3),
 							World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
 											  legend.position=tm_pos_in("left", "bottom"),
 											  attr.position=c("right", "bottom"),
@@ -688,8 +830,9 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 	
 
 	
-	if (al %in% names(y)) {
-		z = y[[al]]
+	if (any(al %in% names(y))) {
+		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
+		z = y[[al[id]]]
 	} else if (aes %in% names(y)) {
 		z = y[[aes]]
 	} else if (is.list(y)) {
@@ -796,14 +939,15 @@ tm_format <- function(format, ...) {
 	}
 	formatArgs$style <- NA
 	
-	
-	#called <- names(args)
-	#if (is.null(called)) called <- character(0)
-	
-	#attr(formatArgs, "format_args") <- called
-	#structure(list(tm_layout=formatArgs), class = "tm")
-	do.call(tm_options, formatArgs)
-	
+	if ("title" %in% names(formatArgs)) {
+		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+		title = formatArgs$title
+		formatArgs$title = NULL
+		do.call(tm_options, formatArgs) + tm_title(text = title)
+	} else {
+		do.call(tm_options, formatArgs)
+	}
+
 }
 
 # get options with a prefic

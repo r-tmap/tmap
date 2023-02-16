@@ -24,6 +24,8 @@ tm_lines(
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  trans.args = list(),
+  mapping.args = list(),
   zindex = NA,
   group = NA
 )

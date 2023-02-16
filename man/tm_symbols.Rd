@@ -38,6 +38,8 @@ tm_symbols(
   col_alpha.legend = tm_legend(),
   col_alpha.free = NA,
   plot.order = tm_plot_order("size"),
+  trans.args = list(),
+  mapping.args = list(),
   zindex = NA,
   group = NA
 )

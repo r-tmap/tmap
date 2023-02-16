@@ -1,9 +1,9 @@
 tmapValuesCheck_fill = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x)))
+	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
 }
 
 tmapValuesCheck_col = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x)))
+	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
 }
 
 
@@ -21,6 +21,12 @@ tmapValuesCheck_lwd = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+tmapValuesCheck_lty = function(x) {
+	# to do
+	TRUE
+}
+
+
 tmapValuesCheck_col_alpha= function(x) {
 	tmapValuesCheck_size(x)
 }
@@ -33,7 +39,13 @@ tmapValuesCheck_area = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+tmapValuesCheck_text = function(x) {
+	is.character(x)
+}
 
+tmapValuesCheck_fontface = function(x) {
+	(is.numeric(x) && (all(x %in% 1:5))) || (is.character(x) && (all(x %in% c("plain", "bold", "italic", "oblique", "bold.italic", "cyrillic", "cyrillic.oblique", "EUC"))))
+}
 
 tmapValuesIsDiv_fill = function(x) {
 	m = getPalMeta(x[1])
@@ -74,6 +86,15 @@ tmapValuesIsDiv_shape = function(x) {
 	FALSE
 }
 
+tmapValuesIsDiv_text = function(x) {
+	FALSE
+}
+
+tmapValuesIsDiv_fontface = function(x) {
+	FALSE
+}
+
+
 tmapValuesRange_fill = function(x, n, isdiv) {
 	m = getPalMeta(x[1])
 	
@@ -93,6 +114,8 @@ tmapValuesRange_shape = function(x, n, isdiv) {
 tmapValuesRange_lty = function(x, n, isdiv) {
 	c(0, 1)
 }
+
+
 
 
 tmapValuesRange_size = function(x, n, isdiv) {
@@ -115,6 +138,14 @@ tmapValuesRange_fill_alpha = function(x, n, isdiv) {
 
 tmapValuesRange_area = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
+}
+
+tmapValuesRange_text = function(x, n, isdiv) {
+	c(0, 1)
+}
+
+tmapValuesRange_fontface = function(x, n, isdiv) {
+	c(0, 1)
 }
 
 tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
@@ -175,52 +206,6 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		}
 	}
 	
-	
-
-	# if ((!is.na(range[1]) && (range[1] != 0 || range[2] != 1)) || isdiv) {
-	# 	# expand palette tot 101 colors
-	# 	if (!is.null(m)) {
-	# 		vvalues = grDevices::colorRampPalette(getPal(x, n = n, range = range))(101)
-	# 	} else {
-	# 		vvalues = grDevices::colorRampPalette(x)(101)
-	# 	}
-	# 	
-	# 	# expand ids and apply range
-	# 	if (isdiv) {
-	# 		range_manual = if (is.na(range[1])) c(0, 1) else range
-	# 		ids_scaled = scale_ids(ids, ntot)
-	# 		
-	# 		
-	# 		ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
-	# 											1-rev(range_manual), 
-	# 											n = nneg + cat0), 
-	# 									nneg) else NULL},
-	# 							   {if (cat0) ids_scaled[1L + nneg] else NULL},
-	# 							   if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
-	# 							   						   range_manual, 
-	# 							   			 n = npos + cat0), 
-	# 							   	 npos) else NULL)
-	# 	} else {
-	# 		ids_scaled = scale_ids(ids, n)
-	# 		ids_after_range = map_ids(ids_scaled[c(1L, n)], range, n)
-	# 	}
-	# 	
-	# } else {
-	# 	if (!is.null(m)) {
-	# 		vvalues = getPal(x, n = n, rep = rep, range = range)
-	# 	} else {
-	# 		if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
-	# 		if (length(x) != n) {
-	# 			vvalues = grDevices::colorRampPalette(x)(n)
-	# 		} else {
-	# 			vvalues = col2hex(x)
-	# 		}	
-	# 	}
-	# 	ids_after_range = ids
-	# }
-	# 
-	# 
-	# vvalues = vvalues[ids_after_range]
 	
 	if (isdiv) {
 		if (cat0) {
@@ -313,6 +298,13 @@ tmapValuesVV_area = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+tmapValuesVV_text = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
+}
+
+tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
+}
 
 tmapValuesScale_col = function(x, scale) x
 tmapValuesScale_fill = function(x, scale) x
@@ -322,6 +314,8 @@ tmapValuesScale_lty = function(x, scale) x
 tmapValuesScale_shape = function(x, scale) x
 tmapValuesScale_col_alpha = function(x, scale) x
 tmapValuesScale_fill_alpha = function(x, scale) x
+tmapValuesScale_text = function(x, scale) x
+tmapValuesScale_fontface = function(x, scale) x
 
 
 tmapValuesColorize_col = function(x, pc) do.call(process_color, c(list(col = x), pc))
@@ -332,6 +326,8 @@ tmapValuesColorize_lty = function(x, pc) x
 tmapValuesColorize_shape = function(x, pc) x
 tmapValuesColorize_col_alpha = function(x, pc) x
 tmapValuesColorize_fill_alpha = function(x, pc) x
+tmapValuesColorize_text = function(x, pc) x
+tmapValuesColorize_fontface = function(x, pc) x
 
 
 
@@ -341,8 +337,8 @@ tmap_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual"
 
 tmapSeq = function(s, n, rescale = TRUE) {
 	with(s, {
-		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, squadratic = 2)
-		if (is.null(p)) p = as.nuermic
+		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
+		#if (is.null(p)) p = as.numeric()
 		r = seq(from = from, to = to, length.out = n) ^ p
 		if (rescale) {
 			(r - (r[1])) / (r[n] - r[1]) * (to - from) + from	
@@ -421,4 +417,12 @@ tmapValuesCVV_shape = function(x, value.na, n, range, scale, rep, o) {
 
 tmapValuesCVV_lty = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_lty(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+tmapValuesCVV_text = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_text(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+tmapValuesCVV_fontface = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_fontface(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }

@@ -15,12 +15,18 @@ tmapGridLegPlot = function(...) {
 #' @export
 tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
+		bg.color = do.call("process_color", c(list(col=bg.color), o$pc))
+		title.color = do.call("process_color", c(list(col=title.color), o$pc))
+		text.color = do.call("process_color", c(list(col=text.color), o$pc))
+		
 		type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
 			"symbols"
 		} else if (mfun == "Lines") {
 			"lines"
+		} else if (mfun == "Text") {
+			"text"
 		} else {
 			"rect"
 		}
@@ -33,8 +39,8 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale * number_text_lines(comp$title)
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * number_text_lines(comp$title) # * o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -56,6 +62,9 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "itemsNNA" else "none"	
+	} else if (comp$type == "text") {
+		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev))
+		comp$stretch = if (!is.na(comp$height)) "padding" else "none"	
 	}
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
@@ -84,7 +93,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	} else if (comp$stretch == "itemsNNA") {
 		if (comp$na.show) set_unit_with_stretch(hs, head(item_ids, -1)) else set_unit_with_stretch(hs, item_ids)
 	} else {
-		sides = switch(comp$position$just.v, top = "second", bottom = "first", "both")
+		sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
 		set_unit_with_stretch(hs, sides = sides)
 	}
 
@@ -118,8 +127,8 @@ fontface2nr = function(face) {
 #' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size #* o$scale
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
@@ -159,9 +168,9 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
-tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size * comp$scale * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale * o$scale
+tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
+	textS = comp$text.size * comp$scale #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale
 	
 	nlev = comp$nitems
 	
@@ -369,6 +378,18 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 #		sizes = 
 		
 		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+	} else if (comp$type == "text") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		
+		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		
+		# scale down (due to facet use)
+		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		
+		#		sizes = 
+		grItems = mapply(function(id, gpari, txt) gridCell(id, 3, grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari)), comp$item_ids, gpars, gp$text, SIMPLIFY = FALSE)
+		
 	}
 	
 	

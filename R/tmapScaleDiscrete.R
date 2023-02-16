@@ -1,4 +1,4 @@
-tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
+tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -99,7 +99,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 		isna = is.na(vals)
 		anyNA = any(isna)
 		
-		if (is.na(na.show)) na.show = anyNA
+		na.show = update_na.show(label.show, legend$na.show, anyNA)
 		
 		if (is.na(sortRev)) {
 			ids[] = 1L
@@ -165,11 +165,13 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 			dvalues = ticks
 			vvalues = vvalues
 			vneutral = value.neutral
-			na.show = na.show
+			na.show = get("na.show", envir = parent.env(environment()))
 		})
 		
-
-		
-		format_aes_results(vals, ids, legend)
+		if (bypass_ord) {
+			format_aes_results(vals, legend = legend)
+		} else {
+			format_aes_results(vals, ids, legend)			
+		}
 	})
 }

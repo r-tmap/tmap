@@ -24,7 +24,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 	with(q, {
 		get_num_facets = function(bys) {
 			k = as.integer(substr(bys, 3, 3))
-			fn[k]
+			o$fn[k]
 		}
 
 		nvars = length(val) #m
@@ -39,11 +39,18 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 		cfun = paste0("tmapValuesColorize_", unm)
 		
 		#print(vars)
-		if (!aes$data_vars) {
+		if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const\n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
+			
+			check_fun = paste0("tmapValuesCheck_", unm)
+			if (!do.call(check_fun, list(x = val1))) {
+				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
+				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer, "\" are incorrect.")
+			}
+			
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))
 			val1 = do.call(cfun, list(x = val1, pc = o$pc))
 			
@@ -166,36 +173,43 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
-
 				# update legend options
 				oltype = o[c("legend.design", "legend.orientation")]
 				names(oltype) = c("design", "orientation")
+				
+				if (v %in% c("AREA", "MAP_COLORS") && is.null(l$show)) {
+					l$show = FALSE
+				}
+				
+				call = names(l)
+				
 				l = complete_options(l, oltype)
 				oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
 				names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
 				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
 				oleg = c(oleg, o[[settings_name]])
 				l = complete_options(l, oleg)
+				l$call = call
 				l$mfun = mfun
 				
 				# update legend class
 				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
-				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
 				# update label.format
 				s$label.format = process_label_format(s$label.format, o$label.format)
-				
+
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
 				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
-					getAesOption("value.null", o, unm, layer, cls = cls)
+					vn = getAesOption("value.null", o, unm, layer, cls = cls)
+					vn = do.call(sfun, list(x = vn, scale = o$scale))
+					do.call(cfun, list(x = vn, pc = o$pc))
 				}
-				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev)
-				#browser()
+				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev, bypass_ord = bypass_ord)
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
 						dtl[, c(varname, legname) := list(value.null, 0L)]

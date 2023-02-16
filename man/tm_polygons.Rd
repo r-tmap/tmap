@@ -34,61 +34,16 @@ tm_polygons(
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  trans.args = list(),
+  mapping.args = list(),
   zindex = NA,
-  group = NA
+  group = NA,
+  ...
 )
 
-tm_fill(
-  fill = tm_const(),
-  fill.scale = tm_scale(),
-  fill.legend = tm_legend(),
-  fill.free = NA,
-  lwd = tm_const(),
-  lwd.scale = tm_scale(),
-  lwd.legend = tm_legend(),
-  lwd.free = NA,
-  lty = tm_const(),
-  lty.scale = tm_scale(),
-  lty.legend = tm_legend(),
-  lty.free = NA,
-  fill_alpha = tm_const(),
-  fill_alpha.scale = tm_scale(),
-  fill_alpha.legend = tm_legend(),
-  fill_alpha.free = NA,
-  col_alpha = tm_const(),
-  col_alpha.scale = tm_scale(),
-  col_alpha.legend = tm_legend(),
-  col_alpha.free = NA,
-  linejoin = "round",
-  lineend = "round",
-  plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-  zindex = NA,
-  group = NA
-)
+tm_fill(...)
 
-tm_borders(
-  col = tm_const(),
-  col.scale = tm_scale(),
-  col.legend = tm_legend(),
-  col.free = NA,
-  lwd = tm_const(),
-  lwd.scale = tm_scale(),
-  lwd.legend = tm_legend(),
-  lwd.free = NA,
-  lty = tm_const(),
-  lty.scale = tm_scale(),
-  lty.legend = tm_legend(),
-  lty.free = NA,
-  col_alpha = tm_const(),
-  col_alpha.scale = tm_scale(),
-  col_alpha.legend = tm_legend(),
-  col_alpha.free = NA,
-  linejoin = "round",
-  lineend = "round",
-  plot.order = tm_plot_order("AREA", reverse = FALSE),
-  zindex = NA,
-  group = NA
-)
+tm_borders(col = tm_const(), ...)
 }
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines the fill color. See details.}

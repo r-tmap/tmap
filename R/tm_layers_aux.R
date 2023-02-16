@@ -39,9 +39,34 @@ tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group
 #' @export
 leaflet::providers
 
-tm_grid = function() {
+tm_grid = function(x=NA,
+				   y=NA,
+				   n.x=NA,
+				   n.y=NA,
+				   projection=NA,
+				   col=NA,
+				   lwd=1,
+				   alpha=NA,
+				   labels.show=TRUE,
+				   labels.size=.6,
+				   labels.col=NA,
+				   labels.rot = c(0, 0),
+				   labels.format = list(big.mark = ","),
+				   labels.cardinal = FALSE,
+				   labels.margin.x=0,
+				   labels.margin.y=0,
+				   labels.space.x=NA,
+				   labels.space.y=NA,
+				   labels.inside.frame=FALSE,
+				   ticks = labels.show & !labels.inside.frame,
+				   lines = TRUE,
+				   ndiscr = 100,
+				   zindex = NA,
+				   group = NA) {
 	tm_element_list(tm_element(
-		args = list(),
+		args = as.list(environment()),
 		mapping.fun = "Grid",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_grid", "tm_aux_layer")))
 }

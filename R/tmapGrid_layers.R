@@ -5,14 +5,13 @@ rescale_gp = function(gp, scale, skip = character()) {
 	gp
 }
 
-tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
-	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	
@@ -46,7 +45,7 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 }
 
 
-tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -81,7 +80,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -182,7 +181,7 @@ merge_alpha = function(dt, name) {
 
 
 
-tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 	
@@ -262,3 +261,48 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	}
 	NULL
 } 
+
+tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
+	
+	shadow = gp$shadow
+	
+	gp = impute_gp(gp, dt)
+	gp = rescale_gp(gp, o$scale_down)
+	
+	coords = sf::st_coordinates(shp)
+	
+	g = get("g", .TMAP_GRID)
+	
+	
+	gp = gp_to_gpar(gp, sel = "col")
+	grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
+	
+	if (shadow) {
+		gp_sh = gp
+		gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
+		grobTextSh = grid::textGrob(x = grid::unit(coords[,1], "native") + grid::unit(0.05, "lines"), y = grid::unit(coords[,2], "native") - grid::unit(0.05, "lines"), label = dt$text, gp = gp_sh)
+	} else {
+		grobTextSh <- NULL
+	}
+	
+	grobTextBG = NULL
+	
+	grb = grid::grobTree(gList(grobTextBG, grobTextSh, grobText))
+	
+	gts = get("gts", .TMAP_GRID)
+	gt = gts[[facet_page]]
+	
+	gt_name = paste0("gt_facet_", rc_text)
+	
+	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	
+	gts[[facet_page]] = gt
+	assign("gts", gts, envir = .TMAP_GRID)
+	NULL	
+}

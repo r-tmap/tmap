@@ -37,6 +37,12 @@ tmapGetShapeMeta1.stars = function(shp, o) {
 		 dims_vals = dims_vals)
 }
 
+#' @method tmapGetShapeMeta1 Raster
+#' @export
+tmapGetShapeMeta1.Raster = function(shp, o) {
+	tmapGetShapeMeta1.SpatRaster(terra::rast(shp), o)
+}
+
 
 #' @method tmapGetShapeMeta2 stars
 #' @export
@@ -54,12 +60,25 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 	
 	# slow, needs to be improved with terra functions, e.g. unique and levels
-	smeta$vars_levs = lapply(values(shp, dataframe=TRUE), function(dat) {
+	smeta$vars_levs = lapply(terra::values(shp, dataframe=TRUE), function(dat) {
 		get_fact_levels_na(dat, o)
 	})
 	names(smeta$vars_levs) = names(shp)
 	smeta
 }
+
+#' @method tmapGetShapeMeta2 SpatVector
+#' @export
+tmapGetShapeMeta2.SpatVector = function(shp, smeta, o) {
+	
+	# slow, needs to be improved with terra functions, e.g. unique and levels
+	smeta$vars_levs = lapply(values(shp), function(dat) {
+		get_fact_levels_na(dat, o)
+	})
+	names(smeta$vars_levs) = names(shp)
+	smeta
+}
+
 
 #' @method tmapGetShapeMeta2 sf
 #' @export
@@ -128,10 +147,20 @@ tmapGetShapeMeta1.SpatRaster = function(shp, o) {
 	
 }
 
-
-x = factor(sample(letters[1:4], 1e7, replace = TRUE), levels = letters[1:5])
-x[1:10000] = NA
-x = addNA(x)
+#' @method tmapGetShapeMeta1 SpatVector
+#' @export
+tmapGetShapeMeta1.SpatVector = function(shp, o) {
+	vars = names(shp)
+	names(vars) = vars
+	
+	dims = character(0)
+	dims_vals = list()
+	
+	list(vars = vars,
+		 dims = dims, 
+		 dims_vals = dims_vals)
+	
+}
 
 get_fact_levels_na = function(x, o) {
 	if (is.factor(x)) {

@@ -12,6 +12,7 @@ tm_legend(
   orientation,
   design,
   reverse,
+  na.show,
   position,
   width,
   height,

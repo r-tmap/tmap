@@ -18,6 +18,11 @@ tm_scale = function(...) {
 	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale", "list"))
 }
 
+tm_scale_asis = function(...) {
+	structure(c(list(FUN = "tmapScaleAsIs"), list(...)), class = c("tm_scale_asis", "tm_scale", "list"))
+}
+
+
 #' @export
 #' @name tm_scale_ordinal
 #' @rdname tm_scale_categorical
