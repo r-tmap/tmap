@@ -40,7 +40,7 @@ tmapLeafletLegPlot.tm_title = function(cmp, lf, o) {
 			l
 		}, lf[[1]], 0:(ncld-1), SIMPLIFY = FALSE)
 	} else {
-		title <- cmp$title
+		title <- cmp$text
 		if (title!="") {
 			lf <- lf %>% htmlwidgets::onRender(paste("
 						function(el, x) {

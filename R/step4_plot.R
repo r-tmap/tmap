@@ -222,7 +222,7 @@ step4_plot = function(tm, vp) {
 	
 	# add shape unit (needed for e.g. tm_scale_bar)
 	unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
-	crs = o$crs
+	crs = get_option_class(o$crs, "sf") #o$crs
 	longlat = sf::st_is_longlat(crs)
 	d[, units:=lapply(bbox, FUN = function(bbx) {
 		if (longlat) {
