@@ -16,6 +16,7 @@ tm_facets(
   rows = NULL,
   columns = NULL,
   pages = NULL,
+  as.layers = FALSE,
   nrows = NA,
   ncols = NA,
   byrow = TRUE,

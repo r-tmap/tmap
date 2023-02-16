@@ -59,4 +59,4 @@ Suggests:
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

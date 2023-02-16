@@ -5,9 +5,9 @@
 \alias{tm_tiles}
 \title{Map layer: basemap / overlay tiles}
 \usage{
-tm_basemap(server, alpha, zoom, zindex = NA, group = NA)
+tm_basemap(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, group = NA)
 
-tm_tiles(server, alpha, zoom, zindex = NA, group = NA)
+tm_tiles(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA)
 }
 \arguments{
 \item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \code{providers$} to see the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable basemaps.}
