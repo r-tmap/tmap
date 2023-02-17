@@ -56,3 +56,32 @@ tmapLeafletLegPlot.tm_title = function(cmp, lf, o) {
 	lf
 	
 }
+
+
+
+#' @method tmapLeafletCompPrepare tm_compass
+#' @export
+tmapLeafletCompPrepare.tm_compass = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletCompHeight tm_compass
+#' @export
+tmapLeafletCompHeight.tm_compass = function(comp, o) {
+	comp
+}
+
+#' @method tmapLeafletCompWidth tm_compass
+#' @export
+tmapLeafletCompWidth.tm_compass = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletLegPlot tm_compass
+#' @export
+tmapLeafletLegPlot.tm_compass = function(cmp, lf, o) {
+	lf |> leafem::addLogo(system.file(paste0("img/compass_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
+}
+

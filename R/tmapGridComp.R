@@ -153,13 +153,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
 		id <- rep(1:16, each=3)
 		fill <- c(dark, light, dark, light, light, dark, light, dark)
-	} else if (comp$type=="8star") {
-		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
-		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
-		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
-		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
 	} else if (comp$type=="arrow") {
 		x <- list(c(.5, .7, .5, .5, .3, .5))
 		y <- list(c(1, 0, .2, 1, 0, .2))

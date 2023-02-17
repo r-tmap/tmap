@@ -147,8 +147,6 @@ tm_format(format, ...)
 
 \item{grid.show}{TODO}
 
-\item{grid.label.pos}{TODO}
-
 \item{panel.type}{TODO}
 
 \item{panel.wrap.pos}{TODO}
@@ -270,6 +268,8 @@ tm_format(format, ...)
 \item{style}{name of the style}
 
 \item{format}{name of the format}
+
+\item{grid.labels.pos}{TODO}
 }
 \description{
 Set of tmap options that are directly related to the layout.

@@ -1,4 +1,11 @@
 shapeTM = function(shp, tmapID = NULL, bbox = NULL) {
+	if (!is.null(bbox) && (!inherits(bbox, "bbox"))) {
+		tryCatch({
+			bbox = sf::st_bbox(bbox)
+		}, error = function(e) {
+			stop("Invalid bbox", call. = FALSE)
+		})
+	} 
 	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox), class = c("shapeTM", "list"))
 }
 

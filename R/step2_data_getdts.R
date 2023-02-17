@@ -202,7 +202,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
-				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))
+				if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					vn = getAesOption("value.null", o, unm, layer, cls = cls)

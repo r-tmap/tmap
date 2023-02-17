@@ -82,6 +82,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	xy_dim = dim(shp)[1:2]
 	b = st_bbox(shp)
 	
+	
 	crs = st_crs(shp)
 	
 	

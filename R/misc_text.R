@@ -71,3 +71,9 @@ split_legend_labels <- function(txt, brks) {
 		  substr(txt[i], brks[i,2], nchar(txt[i])))
 	})
 }
+
+is.ena <- function(x) {
+	if (is.expression(x)) {
+		rep(FALSE, length(x))
+	} else is.na(x)
+}

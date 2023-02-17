@@ -167,7 +167,7 @@ merge_alpha = function(dt, name) {
 		
 		if (nchar(col) == 9) {
 			a = hex_to_num(substr(col, 8, 9)) * alpha
-			cl = substr(col, 8, 9)
+			cl = substr(col, 1, 7)
 		} else {
 			a = alpha
 			cl = col
