@@ -21,7 +21,7 @@ tm_plot_order(
 
 \item{null.order}{where should non-selected (aka null) features be plotted?}
 
-\item{null.below.na}{should null features be plotted below na features?}
+\item{null.below.na}{should null features be plotted below NA features?}
 }
 \description{
 Determine plotting order of features.

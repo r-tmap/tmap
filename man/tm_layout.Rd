@@ -303,6 +303,11 @@ tm_shape(World) +
 	tm_fill("pop_est_dens", fill.scale = tm_scale_intervals(style="kmeans"), fill.legend = tm_legend(title="Population density")) +
 	tm_style("albatross_v3", frame.lwd=10) + tm_format("World") + tm_title("The World", position = tm_pos_in("left", "top"))
 
+
+################################
+# not working yet:
+################################
+
 \dontrun{
 	tm_shape(land) +
 		tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
