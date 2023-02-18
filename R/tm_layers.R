@@ -73,7 +73,7 @@ tm_polygons = function(fill = tm_const(),
 					   group = NA,
 					   ...) {
 	args = list(...)
-	args_called <- lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
 	v3 = c("alpha", "palette", "convert2density", "area", "n", 
 	  "style", "style.args", "as.count", "breaks", "interval.closure", 
@@ -148,7 +148,7 @@ tm_polygons = function(fill = tm_const(),
 			fill_alpha = args$alpha
 		}
 		
-		fill.legend.args = list(title = imp("title", NA),
+		fill.legend.args = alist(title = imp("title", NA),
 							   show = imp("legend.show", NULL),
 							   na.show = imp("na.show", NA),
 							   format = imp("legend.format", list()),

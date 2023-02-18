@@ -36,6 +36,17 @@ step1_rearrange = function(tmel) {
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
+		
+		
+		# special case: position, in case c("left", "top") is used
+		pids = grep(".position", names(o2), fixed = TRUE)
+		
+		if (length(pids) > 0L) {
+			for (i in 1L:length(pids)) {
+				if (is.character(o2[[pids[i]]])) o2[[pids[i]]] = tm_pos_in(o2[[pids[i]]][1], o2[[pids[i]]][2])
+			}
+		}
+
 		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
 			o = tmap_options_mode(default.options = TRUE)
 			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
@@ -156,12 +167,13 @@ step1_rearrange = function(tmel) {
 			
 			ot = get_prefix_opt(class = cls, o = o)
 			
-			# type = substr(cls, 4, nchar(cls))
-			# ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
-			# names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
-			#if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
 			ca = class(a)
+			
+			# special case: position, in case c("left", "top") is used
+			if (is.character(a$position)) a$position = tm_pos_in(a$position[1], a$position[2])
+			
 			a = complete_options(a, ot)
+			
 			class(a) = ca
 			a
 		})
