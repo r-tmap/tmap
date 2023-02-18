@@ -98,6 +98,7 @@
 		values.range = list(fill = NA, col = NA, size = c(0.1, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 1,
 							 lwd = 2,
+							 lty = "solid",
 							 fill_alpha = 1,
 							 col_alpha = 1,
 							 text = "Abc",
