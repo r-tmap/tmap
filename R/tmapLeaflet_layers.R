@@ -22,10 +22,30 @@ tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_p
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf |> 
-			leaflet::addPolygons(data = shp, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group) |> 
+			leaflet::addPolygons(data = shp, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty)) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	NULL	
+}
+
+
+lty2dash = function(lty) {
+	tab = c(solid = "", dashed = "4 4", dotted = "1 3", dotdash = "1 3 4 3", longdash = "7 3", twodash = "2 2 6 2")
+	are_words = (lty %in% names(tab))
+	if (all(are_words)) {
+		unname(tab[lty])
+	} else {
+		are_letters = (suppressWarnings(!is.na(as.numeric(lty))))
+		
+		if (!all(are_letters | are_words)) {
+			stop("Incorrect lty specification: ", lty[which(!are_letters & !are_words)[1]])
+		} else {
+			lty[are_words] = unname(tab[lty[are_words]])
+			lty[are_letters] = vapply(strsplit(lty[are_letters], ""), FUN = function(x) paste(x, collapse = " "), FUN.VALUE = character(1)) 
+		}
+		lty
+	}
+	
 }
 
 tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
@@ -40,6 +60,8 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	
+	
+	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
 	if (o$use.WebGL) {
@@ -51,7 +73,7 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf |> 
-			leaflet::addPolylines(data = shp, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt) |> 
+			leaflet::addPolylines(data = shp, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty)) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	NULL	

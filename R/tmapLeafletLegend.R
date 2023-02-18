@@ -5,13 +5,20 @@ tmapLeafletLegPlot.tm_legend_standard_landscape = function(cmp, lf, o) {
 
 tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
 	
+	nuq = vapply(cmp$gp, length, FUN.VALUE = integer(1))
+	varying = names(nuq)[which(nuq>1)]
+	
+	if (!all(varying %in% c("col", "fill"))) {
+		message("Legend in view mode other than color (e.g. line width, type, etc) not implemented yet")
+		return(lf)
+	}
 	
 	group = "tmp" # TODO
 	leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
 	layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo
 	.TMAP_LEAFLET$leg_id = .TMAP_LEAFLET$leg_id + 1
 	
-	if (length(cmp$gp$col) > 1) {
+	if (length(cmp$gp$col) > 1 || (is.na(cmp$gp$fill))) {
 		pal = cmp$gp$col
 		opacity = cmp$gp$col_alpha
 	} else {
@@ -21,7 +28,9 @@ tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
 	
 	lab = cmp$labels
 	val = cmp$dvalues
-	title = cmp$title
+	title = if (nonempty_text(cmp$title)) expr_to_char(cmp$title) else NULL
+		
+		
 	
 	legpos = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = "")
 	

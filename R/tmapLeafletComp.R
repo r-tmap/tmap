@@ -85,3 +85,33 @@ tmapLeafletLegPlot.tm_compass = function(cmp, lf, o) {
 	lf |> leafem::addLogo(system.file(paste0("img/compass_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
 }
 
+
+#' @method tmapLeafletCompPrepare tm_credits
+#' @export
+tmapLeafletCompPrepare.tm_credits = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletCompHeight tm_credits
+#' @export
+tmapLeafletCompHeight.tm_credits = function(comp, o) {
+	comp
+}
+
+#' @method tmapLeafletCompWidth tm_credits
+#' @export
+tmapLeafletCompWidth.tm_credits = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletLegPlot tm_credits
+#' @export
+tmapLeafletLegPlot.tm_credits = function(cmp, lf, o) {
+	#lf |> leafem::addLogo(system.file(paste0("img/credits_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
+	message("tm_credits not implemented yet for view mode")
+	lf
+}
+
+

@@ -1,8 +1,6 @@
-legend_title = expression("Area (km"^2*")")
-
 tm_shape(NLD_muni) +
 	tm_fill(col="population", convert2density=TRUE, 
-			style="kmeans", title = "test") +
+			style="kmeans", title = expression("Population (per " * km^2 * ")")) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2) +

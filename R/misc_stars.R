@@ -27,7 +27,7 @@ is_regular_grid = function (x) {
 has_raster = function (x) {
 	if (inherits(x, "stars")) 
 		x = stars::st_dimensions(x)
-	!is.null(r = attr(x, "raster")) && all(r$dimensions %in% 
+	!is.null(r <- attr(x, "raster")) && all(r$dimensions %in% 
 												names(x))
 }
 

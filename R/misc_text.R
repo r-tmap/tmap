@@ -77,3 +77,18 @@ is.ena = function(x) {
 		rep(FALSE, length(x))
 	} else is.na(x)
 }
+
+
+nonempty_text <- function(txt) {
+	if (is.character(txt)) {
+		txt!=""
+	} else rep(TRUE, length(txt))
+}
+
+expr_to_char <- function(txt) {
+	if (is.character(txt)) {
+		txt
+	} else {
+		as.character(txt)
+	}
+}
