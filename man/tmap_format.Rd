@@ -10,14 +10,14 @@ tmap_format(format)
 tmap_format_add(..., name)
 }
 \arguments{
-\item{format}{name of the format. Run \code{tmap_format()} to see the choices.}
+\item{format}{Name of the format. Run \code{tmap_format()} to see the choices.}
 
-\item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Can also be a list of those options.}
+\item{...}{Options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Can also be a list of those options.}
 
-\item{name}{name of the new format.}
+\item{name}{Name of the new format.}
 }
 \value{
-the function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.
+The function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.
 }
 \description{
 Format options are tmap options that are shape dependent. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add} is used to add a format.
@@ -27,8 +27,8 @@ Format options are tmap options that are shape dependent. With \code{tmap_format
 tmap_format()
 
 # create option list to be used as a new format
-World_small <- tmap_format("World")
-World_small$scale <- 2
+World_small = tmap_format("World")
+World_small$scale = 2
 
 # add format
 tmap_format_add(World_small, name = "World_small")

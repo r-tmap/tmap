@@ -20,7 +20,6 @@ print.tmap = function(x, vp = NULL, ...) {
 	if (dev) timing_eval()
 }
 
-
 timing_init = function() {
 	ts = data.table(s1 = "---------", s2 = "---------", s3 = "---------", s4 = "---------", t = Sys.time())
 	assign("timings", ts, envir = .TMAP)
@@ -35,10 +34,7 @@ timing_add  = function(s1 = "", s2 = "", s3 = "", s4 = "") {
 timing_eval = function() {
 	ts = get("timings", envir = .TMAP)
 	
-	
-	
 	ts[, total := round(as.numeric(difftime(ts$t, ts$t[1], units = "secs")), 3)]
-	
 	
 	i1 = ts$s1 != ""
 	i2 = ts$s2 != "" | i1
@@ -55,7 +51,6 @@ timing_eval = function() {
 	ts[s3 == "", t3 := 0]
 	ts[s4 == "", t4 := 0]
 	
-	
 	form = function(l, x) {
 		zero = (x==0)
 		y = sprintf("%.3f", x)
@@ -68,7 +63,6 @@ timing_eval = function() {
 			  s2=form(s2, t2),
 			  s3=form(s3, t3),
 			  s4=form(s4, t4))]
-	
 	
 	print(ts[, c("s1", "s2", "s3", "s4", "total")])
 }

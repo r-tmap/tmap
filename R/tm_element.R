@@ -12,7 +12,6 @@ tm_element_list_subclass = function(tml) {
 	}, FUN.VALUE = character(1))
 }
 
-
 tm_element_list_sel = function(tml, subclass) {
 	ids = which(tm_element_list_subclass(tml) %in% subclass)
 	x = tml[ids]
@@ -30,7 +29,6 @@ tm_element_list_sel = function(tml, subclass) {
 "+.tmap" = function(e1, e2) {
 	structure(c(e1, e2), class = "tmap")
 }
-
 
 #' Print tm_element
 #' 

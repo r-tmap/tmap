@@ -1,8 +1,8 @@
-select_band <- function(x, band) {
-	nms <- stars::st_get_dimension_values(x, "band")
+select_band = function(x, band) {
+	nms = stars::st_get_dimension_values(x, "band")
 	if (!(band %in% nms)) stop("band not found")
-	r <- x[,,,which(band==nms), drop = TRUE]
-	names(r) <- band
+	r = x[,,,which(band==nms), drop = TRUE]
+	names(r) = band
 	r
 }
 
@@ -18,21 +18,20 @@ trim_stars = function(x) {
 	return(x)
 }
 
-
 # from stars package
-is_regular_grid <- function (x) {
+is_regular_grid = function (x) {
 	has_raster(x) && !(has_rotate_or_shear(x) || is_rectilinear(x) || 
 					   	is_curvilinear(x))
 }
 
-has_raster <- function (x) {
+has_raster = function (x) {
 	if (inherits(x, "stars")) 
 		x = stars::st_dimensions(x)
-	!is.null(r <- attr(x, "raster")) && all(r$dimensions %in% 
+	!is.null(r = attr(x, "raster")) && all(r$dimensions %in% 
 												names(x))
 }
 
-has_rotate_or_shear <- function (x) {
+has_rotate_or_shear = function (x) {
 	dimensions = stars::st_dimensions(x)
 	if (has_raster(x)) {
 		r = attr(dimensions, "raster")
@@ -41,12 +40,12 @@ has_rotate_or_shear <- function (x) {
 	else FALSE
 }
 
-is_curvilinear <- function (x) {
+is_curvilinear = function (x) {
 	d = stars::st_dimensions(x)
 	has_raster(x) && isTRUE(attr(d, "raster")$curvilinear)
 }
 
-is_rectilinear <- function (x) {
+is_rectilinear = function (x) {
 	d = stars::st_dimensions(x)
 	if (has_raster(x) && !is_curvilinear(x)) {
 		xy = attr(d, "raster")$dimensions
@@ -58,7 +57,7 @@ is_rectilinear <- function (x) {
 	else FALSE
 }
 
-regular_intervals <- function (x, epsilon = 1e-10) {
+regular_intervals = function (x, epsilon = 1e-10) {
 	if (length(x) <= 1) 
 		FALSE
 	else {
@@ -107,13 +106,10 @@ get_downsample = function(dims, px = round(dev.size("px") * (par("fin")[1] / dev
 # 	x
 # }
 
-
-
-
 ############# other functions
 
 
-# st_is_merc <- function(x) {
+# st_is_merc = function(x) {
 # 	crs = st_crs(x)
 # 	if (is.na(crs)) { 
 # 		NA
@@ -122,29 +118,28 @@ get_downsample = function(dims, px = round(dev.size("px") * (par("fin")[1] / dev
 # 	}
 # }
 
-get_xy_dim <- function(x) {
+get_xy_dim = function(x) {
 	d = st_dimensions(x)
 	dxy = attr(d, "raster")$dimensions
 	dim(x)[dxy]
 }
 
-
-transwarp <- function(x, crs, raster.warp) {
+transwarp = function(x, crs, raster.warp) {
 	# NOTE: dropped colors after st_warp fixed in stars 0.4-2
-	shpcolors <- attr(x[[1]], "colors")
+	shpcolors = attr(x[[1]], "colors")
 	if (raster.warp) {
-		y <- tryCatch({
+		y = tryCatch({
 			stars::st_warp(x, crs = crs)
 		}, error = function(e) {
 			stop("Unable to warp stars. You could try with raster.warp = FALSE (argument of tm_shape)", call. = FALSE)	
 		})
 	} else {
-		y <- tryCatch({
+		y = tryCatch({
 			sf::st_transform(x, crs = crs)
 		}, error = function(e) {
 			stop("Unable to transform stars", call. = FALSE)	
 		})
 	}
-	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
+	if (!is.null(shpcolors)) attr(y[[1]], "colors") = shpcolors
 	y
 }

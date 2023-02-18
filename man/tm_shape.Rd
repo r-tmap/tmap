@@ -16,19 +16,19 @@ tm_shape(
 )
 }
 \arguments{
-\item{shp}{spatial object}
+\item{shp}{Spatial object}
 
-\item{name}{name of the shape}
+\item{name}{Name of the shape}
 
-\item{is.main}{is \code{shp} the main shape, which determines the crs and bounding box of the map?}
+\item{is.main}{Is \code{shp} the main shape, which determines the crs and bounding box of the map?}
 
-\item{crs}{crs to which \code{shp} is reprojected (only used if \code{is.main = TRUE})}
+\item{crs}{CRS to which \code{shp} is reprojected (only used if \code{is.main = TRUE})}
 
-\item{bbox}{bounding box of he map (only used if \code{is.main = TRUE})}
+\item{bbox}{Bounding box of he map (only used if \code{is.main = TRUE})}
 
-\item{unit}{unit of the coordinates}
+\item{unit}{Unit of the coordinates}
 
-\item{filter}{filter features}
+\item{filter}{Filter features}
 }
 \description{
 Specify a shape, which is a spatial object from one of these spatial object class packages: \code{sf}, \code{stars}, \code{terra}.

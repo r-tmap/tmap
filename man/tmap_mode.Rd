@@ -13,7 +13,7 @@ ttm()
 ttmp()
 }
 \arguments{
-\item{mode}{one of
+\item{mode}{One of:
 \describe{
        \item{\code{"plot"}}{Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see \code{\link{tm_facets}}) and extensive layout settings (see \code{\link{tm_layout}}). It is recommended for saving static maps (see \code{\link{tmap_save}}).} 
        \item{\code{"view"}}{Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see \code{\link{tm_tiles}}). See also \code{\link{tm_view}} for options related to the \code{"view"} mode. This mode generates a \code{\link[leaflet:leaflet]{leaflet}} widget, which can also be directly obtained with \code{\link{tmap_leaflet}}. With RMarkdown, it is possible to publish it to an HTML page. 
@@ -27,7 +27,7 @@ ttmp()
        }}}
 }
 \value{
-the mode before changing
+The mode before changing
 }
 \description{
 Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.

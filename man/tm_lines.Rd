@@ -74,4 +74,9 @@ tm_shape(rivers) +
 			 lwd.legend = tm_legend(orientation = "landscape", item.width = 2),
 			 col = "type", 
 			 col.scale = tm_scale(values = c("darkblue", "darkred")))
+
+tm_shape(rivers) +
+	tm_lines(lwd = "scalerank",
+			 lty = "scalerank",
+			 lty.legend = tm_legend_combine("lwd"))
 }

@@ -278,30 +278,29 @@ Set of tmap options that are directly related to the layout.
 data(land, World)
 
 tm_shape(land) +
-	tm_raster("elevation", col.scale = tm_scale_intervals(breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
-														  values = terrain.colors(9), 
-														  midpoint = NA),
-			  col.legend = tm_legend(title="Elevation", position = tm_pos_in("left", "bottom"),
-			  					   frame = TRUE, bg.color="lightblue")) +
-tm_shape(World, is.main = TRUE, crs = "+proj=eck4") +
+	tm_raster("elevation", 
+			  col.scale = tm_scale_intervals(breaks = c(-Inf, 250, 500, 1000,
+			  										  1500, 2000, 2500, 3000, 4000, Inf),  
+			  							     values = terrain.colors(9), midpoint = NA),
+			  col.legend = tm_legend(title = "Elevation", position = tm_pos_in("left", "bottom"),
+			  					   frame = TRUE, bg.color = "lightblue")) +
+    tm_shape(World, is.main = TRUE, crs = "+proj=eck4") +
 	tm_borders("grey20") +
-	#tm_graticules(labels.size = .5) +
-	#tm_text("name", size="AREA") +
+	tm_graticules(labels.size = .5) +
+	tm_text("name", size="AREA") +
 	#tm_compass(position = c(.65, .15), color.light = "grey90") +
 	#tm_credits("Eckert IV projection", position = c("right", "BOTTOM")) +
 	tm_style("classic_v3") +
-	tm_layout(bg.color="lightblue",
-			  inner.margins=c(0, 0, .02, 0))
+	tm_layout(bg.color = "lightblue", inner.margins = c(0, 0, .02, 0))
 
-
-
-
-
-data(World, land)
+data(land, World)
 
 tm_shape(World) + 
-	tm_fill("pop_est_dens", fill.scale = tm_scale_intervals(style="kmeans"), fill.legend = tm_legend(title="Population density")) +
-	tm_style("albatross_v3", frame.lwd=10) + tm_format("World") + tm_title("The World", position = tm_pos_in("left", "top"))
+	tm_fill("pop_est_dens", fill.scale = tm_scale_intervals(style = "kmeans"),
+			fill.legend = tm_legend(title = "Population density")) +
+	tm_style("albatross_v3", frame.lwd = 10) +
+	tm_format("World") +
+	tm_title("The World", position = tm_pos_in("left", "top"))
 
 
 ################################

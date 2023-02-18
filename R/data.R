@@ -19,7 +19,6 @@
 #' @references Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{https://www.kadaster.nl/}.
 NULL
 
-
 #' @usage data(NLD_prov)
 #' @name NLD_prov
 #' @rdname Shapes
@@ -31,8 +30,6 @@ NULL
 #' @rdname Shapes
 #' @docType data
 NULL
-
-
 
 #' Spatial data of rivers
 #' 

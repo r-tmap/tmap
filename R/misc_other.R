@@ -17,9 +17,7 @@ select_sf = function(shpTM, dt) {
 		setkeyv(d, cols = "sord")
 	}
 	
-	
 	shpSel = shp[match(d$tid, stid)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
-	
 	
 	dt = dt[match(d$tid, dtid), ]
 	list(shp = shpSel, dt = dt)
@@ -47,7 +45,7 @@ get_i = function(ir, ic, ip, nby) {
 	ir + (ic - 1) * nby[1] + (ip - 1) * prod(nby[1:2])
 }
 
-completeDT <- function(DT, cols, defs = NULL){
+completeDT = function(DT, cols, defs = NULL){
 	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
 	res = DT[mDT, on=names(mDT)]
 	if (length(defs)) 
@@ -55,7 +53,7 @@ completeDT <- function(DT, cols, defs = NULL){
 	res[]
 } 
 
-completeDT2 <- function(DT, cols, defs = NULL){
+completeDT2 = function(DT, cols, defs = NULL){
 	mDT = do.call(CJ, cols)
 	res = DT[mDT, on=names(mDT)]
 	if (length(defs)) 
@@ -63,54 +61,49 @@ completeDT2 <- function(DT, cols, defs = NULL){
 	res[]
 } 
 
-cont_breaks <- function(breaks, n=101) {
-	x <- round(seq(1, 101, length.out=length(breaks)))
-	
+cont_breaks = function(breaks, n=101) {
+	x = round(seq(1, 101, length.out=length(breaks)))
 	
 	unlist(lapply(1L:(length(breaks)-1L), function(i) {
-		y <- seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
+		y = seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
 		if (i!=1) y[-1] else y
 	}), use.names = FALSE)
 }
 
-
-
-prettyCount <- function(x, n, ...) {
-	x <- na.omit(x)
+prettyCount = function(x, n, ...) {
+	x = na.omit(x)
 	if (!length(x)) return(x)
 	
-	if (!is.integer(x)) x <- as.integer(x)
+	if (!is.integer(x)) x = as.integer(x)
 	
+	mn = min(x)
+	mx = max(x)
 	
-	mn <- min(x)
-	mx <- max(x)
-	
-	any0 <- any(x==0)
+	any0 = any(x==0)
 	
 	if (mn < 0) {
-		n <- floor(n / 2)
-		pneg <- -rev(prettyCount(-x[x<0], n = n, ...)) + 1L
-		pneg <- pneg[pneg != 0L]
-		x <- x[x>0]
-		any0 <- TRUE
+		n = floor(n / 2)
+		pneg = -rev(prettyCount(-x[x<0], n = n, ...)) + 1L
+		pneg = pneg[pneg != 0L]
+		x = x[x>0]
+		any0 = TRUE
 	} else {
-		pneg <- integer()
+		pneg = integer()
 	}
 	
-	if (any0) x <- x[x!=0L]
+	if (any0) x = x[x!=0L]
 	
-	p <- pretty(x - 1L, n = n, ...) + 1L
+	p = pretty(x - 1L, n = n, ...) + 1L
 	
-	p <- p[(p %% 1) == 0]
-	p <- p[p!=0L]
+	p = p[(p %% 1) == 0]
+	p = p[p!=0L]
 	
 	if (length(x) < 2) {
 		if (any0) return(c(0L, p)) else return(p)
 	}
 	
-	
-	step <- p[2] - p[1]
-	if (p[length(p)] == mx) p <- c(p, mx+step)
+	step = p[2] - p[1]
+	if (p[length(p)] == mx) p = c(p, mx+step)
 	
 	if (any0) {
 		c(pneg, 0L, p)
@@ -119,18 +112,15 @@ prettyCount <- function(x, n, ...) {
 	}
 }
 
-
-valid_colors <- function(x) {
+valid_colors = function(x) {
 	is.na(x) | (x %in% colors()) |	(vapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", integer(1), 1) == 1L)
 }
 
-col2hex <- function(x) {
-	y <- apply(col2rgb(x), MARGIN=2, FUN=function(y)do.call(rgb, c(as.list(y), list(maxColorValue=255))))
-	y[is.na(x)] <- NA
+col2hex = function(x) {
+	y = apply(col2rgb(x), MARGIN=2, FUN=function(y)do.call(rgb, c(as.list(y), list(maxColorValue=255))))
+	y[is.na(x)] = NA
 	y
 }
-
-
 
 # get aspect ratio of a shape
 get_asp_ratio = function (x)  {
@@ -153,7 +143,6 @@ get_asp = function(bbxl) {
 		if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
 	}, FUN.VALUE = numeric(1))
 }
-
 
 leaflet2crs = function(x) {
 	epsg = get_epsg(x)
@@ -198,14 +187,13 @@ get_epsg = function (x) {
 	}
 }
 
-
-number_text_lines <- function(txt) {
+number_text_lines = function(txt) {
 	if (is.character(txt)) {
 		length(strsplit(txt, "\n")[[1]])
 	} else 1
 }
 
-nonempty_text <- function(txt) {
+nonempty_text = function(txt) {
 	if (is.character(txt)) {
 		txt!=""
 	} else rep(TRUE, length(txt))

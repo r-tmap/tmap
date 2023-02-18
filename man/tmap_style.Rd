@@ -7,13 +7,13 @@
 tmap_style(style)
 }
 \arguments{
-\item{style}{name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catalogue.}
+\item{style}{Name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catalogue.}
 }
 \value{
-the style before changing
+The style before changing
 }
 \description{
-Set or get the default tmap style. Without arguments, the current style is returned. Also the available styles are displayed. When a style is set, the corresponding tmap options  (see \code{\link{tmap_options}}) will be set accordingly. The default style (i.e. when loading the package) is \code{"white"}.
+Set or get the default tmap style. Without arguments, the current style is returned. Also the available styles are displayed. When a style is set, the corresponding tmap options (see \code{\link{tmap_options}}) will be set accordingly. The default style (i.e. when loading the package) is \code{"white"}.
 }
 \details{
 Note that \code{\link{tm_style}} is used within a plot call (so it only affects that plot), whereas \code{tmap_style} sets the style globally.
