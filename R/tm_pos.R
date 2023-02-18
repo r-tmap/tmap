@@ -4,7 +4,7 @@
 #' 
 #' @param cell.h,cell.v The plotting area is overlaid with a 3x3 grid, of which the middle grid cell is the map area. Components can be drawn into any cell. `cell.h` specifies the horizontal position (column) can take values `"left"`, `"center"`, and `"right"`, and `cell.v` specifies the vertical position (row) and can take values `"top"`, `"center"`, and `"bottom"`. See details for a graphical explanation.
 #' @param pos.h,pos.v The position of the component within the cell. The main options for `pos.h` are `"left"`, `"center"`, and `"right"`, and for `cell.v` these are `"top"`, `"center"`, and `"bottom"`. These options can also be provided in upper case; in that case there is no offset (see the tmap option `component.offset`). Also numbers between 0 and 1 can be provided, which determine the position of the component inside the cell (with (0,0) being left bottom). The arguments `just.h` and `just.v` determine the justification point.
-#' @param align.h,align.v The alignment of the component in case multiple components are stacked. When they are stacked horizontally, `align.v` determines how components that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: `"top"`, `"center"`, or `"bottom"`. Similarly, `align.h` determines how components are justified horizontally when they are stacked vertically: `"left"`, `"center"`, or `"right"`.
+#' @param align.h,align.v The alignment of the component in case multiple components are stacked. When they are stacked horizontally, `align.v` determines how components that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the highest component) are justified: `"top"`, `"center"`, or `"bottom"`. Similarly, `align.h` determines how components are justified horizontally when they are stacked vertically: `"left"`, `"center"`, or `"right"`.
 #' @param just.h,just.v The justification of the components. Only used in case `pos.h` and `pos.v` are numbers.
 #' @details 
 #' 
@@ -54,8 +54,6 @@ tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v
 	structure(args, class = "tm_pos")
 }
 
-
-
 #' @export
 #' @name tm_pos_in
 #' @rdname tm_pos
@@ -71,7 +69,6 @@ tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 #' 	args$type = "cell"
 #' 	structure(args, class = "tm_pos")
 #' }
-
 
 #' @export
 #' @name tm_pos_out
@@ -90,7 +87,6 @@ tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.
 	args$type = "autoout"
 	structure(args, class = "tm_pos")
 }
-
 
 #' @export
 #' @name tm_pos_auto_in

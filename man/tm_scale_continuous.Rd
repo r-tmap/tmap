@@ -35,7 +35,7 @@ tm_scale_continuous_log1p(...)
 
 \item{limits}{Limits of the data values that are mapped to the continuous scale}
 
-\item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logival vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.}
+\item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logical vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.}
 
 \item{ticks}{Tick values. If not specified, it is determined automatically with \code{n}}
 
@@ -43,7 +43,7 @@ tm_scale_continuous_log1p(...)
 
 \item{midpoint}{The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link{tm_polygons}}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{\link{tm_symbols}}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link{tm_symbols}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 

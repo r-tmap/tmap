@@ -92,6 +92,8 @@ tm_shape(metro_A) +
 
 tm_shape(Africa) + 
 	tm_polygons() +
-tm_shape(metro_A) +
+	tm_shape(metro_A) +
 	tm_symbols(fill = "pop1950", size = "pop2030", size.scale = tm_scale(values.scale = 3))
+
+
 }

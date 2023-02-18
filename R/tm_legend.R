@@ -93,7 +93,6 @@ tm_legend = function(title,
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
 
-
 #' @name tm_legend_hide
 #' @rdname tm_legend
 #' @export 

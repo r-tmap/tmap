@@ -12,17 +12,14 @@ tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_grid(projection = 3035, labels.inside.frame = TRUE)
 
-
 tm_shape(World) +
 	tm_polygons() +
 	tm_facets(by = "continent") +
 	tm_grid(labels.inside.frame = TRUE)
 
-
 tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_graticules()
-
 
 tm_shape(NLD_muni) +
 	tm_polygons() +

@@ -1,7 +1,7 @@
-.defaultTmapOptions <- structure(
+.defaultTmapOptions = structure(
 	list(
 		# mode specific options or default values
-		modes = list(plot = list(name = "Grid", use.gradient = F),
+		modes = list(plot = list(name = "Grid", use.gradient = FALSE),
 					 view = list(name = "Leaflet", 
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -588,7 +588,6 @@ styles = list(
 	classic_v3 = c(styles$v3, styles$classic)
 )
 
-
 .defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
 										legend.position=tm_pos_in("left", "bottom"),
 										attr.position=c("right", "bottom"),
@@ -616,9 +615,6 @@ styles = list(
 											attr.position=c("left", "bottom")))
 
 
-
-
-
 complete_options = function(x, o) {
 	nmx = names(x)
 	nmo = names(o)
@@ -634,9 +630,6 @@ complete_options = function(x, o) {
 	}
 	o
 }
-
-
-
 
 #' tmap options
 #' 
@@ -672,18 +665,18 @@ complete_options = function(x, o) {
 #' @rdname tmap_options
 #' @export
 tmap_options = function(...) {
-	o <- get("tmapOptions", envir = .TMAP)	
+	o = get("tmapOptions", envir = .TMAP)	
 	nms = names(o)
 	show.warnings = o$show.warnings
 	
 	# get current style name (default: white), and set new style name (with "(modified)")
 	sty_cur = getOption("tmap.style")
-	sty_new <- if (substr(sty_cur, nchar(sty_cur) - 9, nchar(sty_cur)) == "(modified)") sty_cur else paste(sty_cur, "(modified)")
+	sty_new = if (substr(sty_cur, nchar(sty_cur) - 9, nchar(sty_cur)) == "(modified)") sty_cur else paste(sty_cur, "(modified)")
 	
 	e1 = parent.frame()
 	set_new_style = FALSE
 	
-	lst <- list(...)
+	lst = list(...)
 	if (length(lst) >= 1 && is.null(names(lst))) {
 		arg = lst[[1]]
 		if (is.list(arg)) {
@@ -700,7 +693,7 @@ tmap_options = function(...) {
 		} else {
 			## case 2: option name is given
 			args = sapply(lst, "[", 1)
-			if (!all(args %in% nms) && show.warnings) warning("the following options do not exist: ", paste(setdiff(args, nms), collapse = ", "))
+			if (!all(args %in% nms) && show.warnings) warning("The following options do not exist: ", paste(setdiff(args, nms), collapse = ", "))
 			args = intersect(args, nms)
 			return(o[args])
 		}
@@ -767,7 +760,6 @@ tmap_option = function(name, type = NULL) {
 	get_option_class(tmap_options()[[name]], class = type, spatial_class = FALSE)
 }
 
-
 get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 	is_spatial = !spatial_class || (any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp", "dimensions")))
 	if (!is.null(class) && is_spatial) { # && is.list(o)
@@ -794,14 +786,11 @@ get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 # 	o
 # }
 
-
-
 tmap_graphics_name = function() {
 	mode = getOption("tmap.mode")
 	
 	get("tmapOptions", envir = .TMAP)$modes[[mode]]$name
 }
-
 
 tmapOption = function(...) {
 	structure(list(...), class = "tmapOption")
@@ -851,17 +840,16 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 	z
 }
 
-
 #' @rdname tmap_options
 #' @export
-tm_options <- function(...) {
+tm_options = function(...) {
 	
 	calls = names(match.call(expand.dots = TRUE)[-1])
 	
 	e1 = parent.frame()
 	args = lapply(as.list(match.call()[-1]), eval, envir = e1)
 	
-	tm_element_list(do.call(tm_element, c(args, list(calls = calls, subclass= "tm_options"))))
+	tm_element_list(do.call(tm_element, c(args, list(calls = calls, subclass = "tm_options"))))
 	
 }	
 
@@ -906,39 +894,35 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
-
-
-
 #' @rdname tm_layout
 #' @param style name of the style
 #' @export
-tm_style <- function(style, ...) {
-	args <- list(...)
+tm_style = function(style, ...) {
+	args = list(...)
 	
-	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
+	.tmapOptions = get("tmapOptions", envir = .TMAP)	
 	check_style(style)
 	
-	args$style <- style
+	args$style = style
 	#structure(list(tm_layout=args), class = "tm")
 	do.call(tm_options, args)
 }
 
-
 #' @rdname tm_layout
 #' @param format name of the format
 #' @export
-tm_format <- function(format, ...) {
-	args <- list(...)
+tm_format = function(format, ...) {
+	args = list(...)
 	
-	.tmapFormats <- get("tmapFormats", envir = .TMAP)
+	.tmapFormats = get("tmapFormats", envir = .TMAP)
 	
 	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
 	
-	formatArgs <- .tmapFormats[[format]]
+	formatArgs = .tmapFormats[[format]]
 	if (length(args)) {
-		formatArgs[names(args)] <- args	
+		formatArgs[names(args)] = args	
 	}
-	formatArgs$style <- NA
+	formatArgs$style = NA
 	
 	if ("title" %in% names(formatArgs)) {
 		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)

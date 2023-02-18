@@ -2,13 +2,13 @@
 #' 
 #' Specify a shape, which is a spatial object from one of these spatial object class packages: \code{sf}, \code{stars}, \code{terra}.
 #' 
-#' @param shp spatial object
-#' @param name name of the shape
-#' @param is.main is \code{shp} the main shape, which determines the crs and bounding box of the map?
-#' @param crs crs to which \code{shp} is reprojected (only used if \code{is.main = TRUE})
-#' @param bbox bounding box of he map (only used if \code{is.main = TRUE})
-#' @param unit unit of the coordinates
-#' @param filter filter features
+#' @param shp Spatial object
+#' @param name Name of the shape
+#' @param is.main Is \code{shp} the main shape, which determines the crs and bounding box of the map?
+#' @param crs CRS to which \code{shp} is reprojected (only used if \code{is.main = TRUE})
+#' @param bbox Bounding box of he map (only used if \code{is.main = TRUE})
+#' @param unit Unit of the coordinates
+#' @param filter Filter features
 #' @import tmaptools
 #' @import sf
 #' @import stars

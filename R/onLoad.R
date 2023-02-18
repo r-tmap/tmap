@@ -1,8 +1,8 @@
-# envir <- environment()
-.onLoad <- function(...) {
-	options(tmap.style="white", tmap.mode="plot", tmap.design.mode = FALSE, tmap.devel.mode = FALSE)
+# envir = environment()
+.onLoad = function(...) {
+	options(tmap.style = "white", tmap.mode = "plot", tmap.design.mode = FALSE, 
+			tmap.devel.mode = FALSE)
 	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
-	
 	
 	# makeActiveBinding("tmap_pals", function() {
 	# 	remove_non_letters = function(x) gsub("[-, _, \\,, (, ), \\ , \\.]",  "", x)
@@ -17,7 +17,6 @@
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
 	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
 	
-	
 	.TMAP$round_to = as.vector(sapply((-9):9, function(i) {
 			sapply(c(1, 2.5, 5), function(j) {
 				j*10^i
@@ -26,6 +25,6 @@
 	
 } 
 
-.TMAP <- new.env(FALSE, parent=globalenv())
-.TMAP_LEAFLET <- new.env(FALSE, parent=globalenv())
-.TMAP_GRID <- new.env(FALSE, parent=globalenv())
+.TMAP = new.env(FALSE, parent = globalenv())
+.TMAP_LEAFLET = new.env(FALSE, parent = globalenv())
+.TMAP_GRID = new.env(FALSE, parent = globalenv())
