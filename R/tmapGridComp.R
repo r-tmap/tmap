@@ -410,13 +410,24 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	
 	xrange2 <- xrange/unit.size
 	
+	# to find the label width of first and last item, only used as proxy
+	tcks = pretty(c(0, xrange2*crop_factor), 4)
+	tcksL <- format(tcks, trim=TRUE)
+	rngL = c(tcksL[1], paste(unit, tail(tcksL, 1), unit))
+	rngW <- (text_width_inch(rngL) / 2) * comp$text.size
+	
+	# width for scale bar
+	sbW = as.numeric(wsu[3]) - sum(rngW)
+	
+	crop_factor2 = sbW / fW 
+	
 	if (is.null(comp$breaks)) {
-		ticks2 <- pretty(c(0, xrange2*crop_factor), 4)
+		ticks2 <- pretty(c(0, xrange2*crop_factor2), 4)
 	} else {
 		ticks2 <- comp$breaks
 	}
 	ticks3 <- ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
-	sel = which(ticks3 <= as.numeric(wsu[3]))
+	sel = which(ticks3 <= sbW)
 	
 	ticks3 = ticks3[sel]
 	ticks2 = ticks2[sel]
@@ -430,17 +441,19 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	
 	widths <- ticks3[2:n] - ticks3[1:(n-1)]
 	size <- min(comp$text.size, widths/max(ticksWidths))
-	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
+	x <- ticks3[1:(n-1)]  + ticksWidths[1]*size #+ .5*widths[1]
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
 	
 	unitWidth <- text_width_inch(unit) * size
-	width <- sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
+	#width <- sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
 	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 	
-	x <- just-just*width+x
-	xtext <- just-just*width+xtext
+	#x <- just-just*width+x
+	#xtext <- just-just*width+xtext
+	
+
 	
 	grobBG <- if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
@@ -448,12 +461,13 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	scalebar = gridCell(3,3, {
 		gTree(children=gList(
 			grobBG,
-			if (!is.na(comp$bg.color)) {
-				bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-				rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
-			} else {
-				NULL
-			}, rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
+			# if (!is.na(comp$bg.color)) {
+			# 	bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
+			# 	rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
+			# } else {
+			# 	NULL
+			# }, 
+			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
 			), name="scale_bar")
 	})
