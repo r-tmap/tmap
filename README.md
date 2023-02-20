@@ -3,7 +3,7 @@ tmap: thematic maps in R
 
 <!--[![Build Status](https://travis-ci.org/mtennekes/tmap.png?branch=master)](https://travis-ci.org/mtennekes/tmap)-->
 <!--[![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master)-->
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&svg=true)](https://ci.appveyor.com/project/mtennekes/tmap)
+<!--[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&svg=true)](https://ci.appveyor.com/project/mtennekes/tmap)-->
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![cran checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
@@ -43,29 +43,24 @@ For Linux and macOS users who are new to working with spatial data in R, this ma
 No additional installation required.
 
 **Linux (Ubuntu)**
-See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/150).
+See https://r-spatial.github.io/sf/#linux
 
 **macOS**
-See http://www.kyngchaos.com. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
+See https://r-spatial.github.io/sf/#macos
 
 
-Development
+Development (major update!)
 ------------
 
+We are working on a major update (version4). The development of the current CRAN release (3.3) has been stopped, but if there are critical bugs, let us know. Version 4 will be submitted to CRAN this year, when it is mature enough and when it is backwards compatible with version 3.
 
-The latest development version can be installed using `devtools`. 
-In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](http://github.com/r-tmap/tmaptools) as well:
+Are you curious about version 4? You can install the development version as follows:
 
 ```r
 library(remotes)
-install_github("r-tmap/tmaptools")
-install_github("r-tmap/tmap")
+install_github("r-tmap/tmap@v4")
 ```
 
-See [NEWS](https://github.com/r-tmap/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/r-tmap/tmap/issues) for discussions of enhancements and bugs.
-
-Do you want to help with the development of the package?
-Please let us know! 
 Any feedback, requests, tips, or bug reports are welcome!
 
 Usage
@@ -83,7 +78,7 @@ Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
-This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x and 3.x.
+This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x and 3.x. When version 4 is published on CRAN, we will publish the book, which will then be the official reference for tmap.
 
 Vignettes 
 -----
