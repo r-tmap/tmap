@@ -201,7 +201,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	ticks = get_legend_option(comp$ticks, comp$type)
 	ticks.disable.na = get_legend_option(comp$ticks.disable.na, comp$type)
 	if (length(ticks)) {
-		tick_col = if (is.na(comp$ticks.col)) comp$gp$col else comp$ticks.col
+		tick_col = if (is.na(comp$ticks.col)) comp$text.color else comp$ticks.col
 		if (is.na(tick_col)) tick_col = "white"
 		
 		ticks_in_margin = sapply(ticks, function(l) all(l>=1))
