@@ -18,8 +18,12 @@ process_components = function(cdt, o) {
 	# 		cdt$comp[[i]]$group.just = c(cdt$cell.h[i], cdt$cell.v[i])
 	# 	}
 	# }
-
 	cdt$comp = lapply(cdt$comp, function(comp) do.call(funP, list(comp = comp, o = o)))
+	
+	# filter components that are not shown (e.g. not implemented), which is determined in the Prepare step
+	cdt$show = sapply(cdt$comp, function(l) l$show)
+	cdt = cdt[cdt$show,][,show:=NULL]
+	
 	cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
 	cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
 

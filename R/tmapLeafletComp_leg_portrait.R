@@ -1,5 +1,5 @@
 tmapLeafletCompPrepare = function(...) {
-	UseMethod("tmapGridCompPrepare")
+	UseMethod("tmapLeafletCompPrepare")
 }
 
 tmapLeafletCompHeight = function(...) {

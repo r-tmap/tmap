@@ -2,6 +2,7 @@
 #' @method tmapLeafletCompPrepare tm_title
 #' @export
 tmapLeafletCompPrepare.tm_title = function(comp, o) {
+	comp$show = TRUE
 	comp
 }
 
@@ -62,6 +63,7 @@ tmapLeafletLegPlot.tm_title = function(cmp, lf, o) {
 #' @method tmapLeafletCompPrepare tm_compass
 #' @export
 tmapLeafletCompPrepare.tm_compass = function(comp, o) {
+	comp$show = TRUE
 	comp
 }
 
@@ -84,6 +86,37 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 tmapLeafletLegPlot.tm_compass = function(cmp, lf, o) {
 	lf |> leafem::addLogo(system.file(paste0("img/compass_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
 }
+
+
+
+#' @method tmapLeafletCompPrepare tm_scale_bar
+#' @export
+tmapLeafletCompPrepare.tm_scale_bar = function(comp, o) {
+	comp$show = TRUE
+	comp
+}
+
+
+#' @method tmapLeafletCompHeight tm_scale_bar
+#' @export
+tmapLeafletCompHeight.tm_scale_bar = function(comp, o) {
+	comp
+}
+
+#' @method tmapLeafletCompWidth tm_scale_bar
+#' @export
+tmapLeafletCompWidth.tm_scale_bar = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletLegPlot tm_scale_bar
+#' @export
+tmapLeafletLegPlot.tm_scale_bar = function(cmp, lf, o) {
+	lf |> leaflet::addScaleBar()
+}
+
+
 
 
 #' @method tmapLeafletCompPrepare tm_credits
@@ -112,6 +145,34 @@ tmapLeafletLegPlot.tm_credits = function(cmp, lf, o) {
 	#lf |> leafem::addLogo(system.file(paste0("img/credits_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
 	message("tm_credits not implemented yet for view mode")
 	lf
+}
+
+
+#' @method tmapLeafletCompPrepare tm_mouse_coordinates
+#' @export
+tmapLeafletCompPrepare.tm_mouse_coordinates = function(comp, o) {
+	comp$show = TRUE
+	comp
+}
+
+
+#' @method tmapLeafletCompHeight tm_mouse_coordinates
+#' @export
+tmapLeafletCompHeight.tm_mouse_coordinates = function(comp, o) {
+	comp
+}
+
+#' @method tmapLeafletCompWidth tm_mouse_coordinates
+#' @export
+tmapLeafletCompWidth.tm_mouse_coordinates = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapLeafletLegPlot tm_mouse_coordinates
+#' @export
+tmapLeafletLegPlot.tm_mouse_coordinates = function(cmp, lf, o) {
+	lf |> leafem::addMouseCoordinates()
 }
 
 

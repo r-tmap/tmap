@@ -159,6 +159,22 @@ tm_scale_bar = function(breaks,
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scale_bar", "tm_component")))))
-	
 }
+
+#' Map component: mouse coordinates
+#' 
+#' Map component that adds mouse coordinates
+#' 
+#' @param stack stack
+#' @param position
+#' @param z z
+#' @export
+tm_mouse_coordinates <- function(stack, 
+								 position,
+								 z) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
+}
+
  

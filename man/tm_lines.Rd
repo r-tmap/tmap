@@ -78,5 +78,8 @@ tm_shape(rivers) +
 tm_shape(rivers) +
 	tm_lines(lwd = "scalerank",
 			 lty = "scalerank",
-			 lty.legend = tm_legend_combine("lwd"))
+			 col = "scalerank",
+			 col.scale = tm_scale_categorical(),
+			 lty.legend = tm_legend_combine("lwd"),
+			 col.legend = tm_legend_combine("lwd"))
 }

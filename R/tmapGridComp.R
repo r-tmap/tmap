@@ -1,6 +1,7 @@
 #' @method tmapGridCompPrepare tm_title
 #' @export
 tmapGridCompPrepare.tm_title = function(comp, o) {
+	comp$show = TRUE
 	comp
 }
 
@@ -32,7 +33,7 @@ tmapGridCompPrepare.tm_credits = function(comp, o) {
 		fontface[is.na(fontface)] <-o$text.fontface
 		fontfamily[is.na(fontfamily)] <-o$text.fontfamily
 		#text <- lapply(text, rep, length.out=o$n)
-		#show <- lapply(text, nonempty_text)
+		show <- lapply(text, nonempty_text)
 		
 	})
 }
@@ -549,6 +550,31 @@ tmapGridCompWidth_text = function(comp, o) {
 }
 
 
+#' @method tmapGridCompPrepare tm_mouse_coordinates
+#' @export
+tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
+	message("tm_mouse_coordinates ignored for 'plot' mode")
+	comp$show = FALSE
+	comp
+}
 
 
+#' @method tmapGridCompHeight tm_mouse_coordinates
+#' @export
+tmapGridCompHeight.tm_mouse_coordinates = function(comp, o) {
+	comp
+}
+
+#' @method tmapGridCompWidth tm_mouse_coordinates
+#' @export
+tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapGridLegPlot tm_mouse_coordinates
+#' @export
+tmapGridLegPlot.tm_mouse_coordinates = function(cmp, lf, o) {
+	NULL
+}
 

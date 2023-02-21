@@ -247,6 +247,7 @@
 										 margin.item.text = 0.25),
 		
 		# components
+		title.show = FALSE,
 		title.size = 1.3,
 		title.color = NULL,
 		title.fontface = NULL,
@@ -263,6 +264,7 @@
 		title.group.frame = TRUE,
 		title.resize.as.group = FALSE,
 
+		credits.show = FALSE,
 		credits.size = .7,
 		credits.color = NA,
 		credits.fontface = NA,
@@ -295,6 +297,7 @@
 		compass.margins = c(0.4, 0.4, 0.4, 0.4),
 		
 		# standard arguments:
+		compass.show = FALSE,
 		compass.stack = "vertical",
 		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 		compass.frame = FALSE,
@@ -303,6 +306,7 @@
 		compass.group.frame = TRUE,
 		compass.resize.as.group = FALSE,
 		
+		scale_bar.show = FALSE,
 		scale_bar.breaks=NULL,
 		scale_bar.width=20, 
 		scale_bar.text.size = .5,
@@ -351,6 +355,21 @@
 		grid.lines = TRUE,
 		grid.ndiscr = 100,
 
+		
+		# standard arguments:
+		# mouse.stack = "vertical",
+		# mouse.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		# mouse.frame = FALSE,
+		# mouse.frame.lwd = 1,
+		# mouse.frame.r = 2,
+		# mouse.group.frame = TRUE,
+		# mouse.resize.as.group = FALSE,
+		# 
+		
+		mouse_coordinates.stack = "vertical", 
+		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		mouse_coordinates.show = FALSE,
+
 		panel.show = NA,
 		panel.labels = NA,
 		panel.label.size = 1,
@@ -367,7 +386,7 @@
 		qtm.mouse.coordinates = TRUE,
 
 		# not used/implemented in tmap4 (yet?)
-		title = NA,
+		#title = NA,
 		earth.boundary = FALSE,
 		earth.boundary.color = NULL,
 		earth.boundary.lwd = 1,
@@ -380,7 +399,7 @@
 		legend.hist.size = 0.7,
 		legend.hist.height = 0.3,
 		legend.hist.width = 0.4,
-		title.snap.to.legend = NA,
+		#title.snap.to.legend = NA,
 		main.title.size = 1.5,
 		main.title.color = "black",
 		main.title.fontface = NULL,
