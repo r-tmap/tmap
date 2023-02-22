@@ -188,6 +188,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
 				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
 				oleg = c(oleg, o[[settings_name]])
+				
+				
+				if ("position" %in% names(l) && is.character(l$position)) l$position = tm_pos_in(l$position[1], l$position[2])
+				
+				
+				
 				l = complete_options(l, oleg)
 				l$call = call
 				l$mfun = mfun

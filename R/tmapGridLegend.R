@@ -50,7 +50,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	scaleH = legHin / maxH
 	
 	# because of legend frames (for which margins are added in tmapGridLegend), the scale may be a bit above 1, even though automatic layout is applied and there is enough space
-	if (any(scaleW > 1.05) || any(scaleH > 1.05)) warning("Some legend items do not fit with the specified font size, and therefore were rescaled.", call. = FALSE)
+	if (any(scaleW > 1.05) || any(scaleH > 1.05)) warning("Some legend items or map compoments do not fit well (e.g. due to the specified font size).", call. = FALSE)
 	
 	clipW = pmax(1, scaleW) 
 	clipH = pmax(1, scaleH) 
@@ -229,7 +229,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	do.call(grid::grobTree, c(list(groupframe), grbs, grDesign, list(vp=vp)))
 }
 
-tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v) {
+tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 	
@@ -286,7 +286,25 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	#########
 	# 5 is rect category consisting of "center"s or numbers
 	
-	
+	## update scale_bar width
+	comp = mapply(function(cmp, bb) {
+		bbw = bb[3] - bb[1]
+		if (!is.null(cmp$WnativeID)) {
+			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
+			if (is.null(cmp$WnativeRange)) {
+				newIn = min(totW, cmp$width * sum(colsIn))
+				
+				#cmp$WnativeRange = bbw * cmp$units$to
+				#newIn = totW - cmp$Win + oldIn
+			} else {
+				bbw2 = bbw / sum(colsIn) * totW
+				newIn = (min(1, ((cmp$WnativeRange / bbw2) / cmp$units$to)) * totW) + (o$lin * cmp$text.size * 3.5)
+			}
+			cmp$wsu[cmp$WnativeID] = unit(newIn, "inch")
+			cmp$Win = cmp$Win + (newIn - oldIn)
+		}
+		cmp
+	}, comp, bbox, SIMPLIFY = FALSE)
 	
 	qH = rep(totH, 5)
 	qW = rep(totW, 5)

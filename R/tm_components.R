@@ -131,7 +131,6 @@ tm_compass <- function(north,
 #' @param bg.alpha bg.alpha
 #' @param size size
 #' @param stack stack
-#' @param just just
 #' @param frame frame
 #' @param frame.lwd frame.lwd
 #' @param frame.r frame.r
@@ -150,7 +149,6 @@ tm_scale_bar = function(breaks,
 						bg.alpha,
 						size,
 						stack, 
-						just, 
 						frame,
 						frame.lwd,
 						frame.r,

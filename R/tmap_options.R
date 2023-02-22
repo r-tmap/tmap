@@ -308,7 +308,7 @@
 		
 		scale_bar.show = FALSE,
 		scale_bar.breaks=NULL,
-		scale_bar.width=20, 
+		scale_bar.width=.3, 
 		scale_bar.text.size = .5,
 		scale_bar.text.color=NA,
 		scale_bar.color.dark="black", 
@@ -317,7 +317,6 @@
 		scale_bar.position=NA,
 		scale_bar.bg.color=NA,
 		scale_bar.bg.alpha=NA,
-		scale_bar.just=NA,
 		scale_bar.size = NULL,
 		scale_bar.margins = c(0.01,0.01,0.01,0.01),
 		

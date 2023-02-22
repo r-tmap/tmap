@@ -88,6 +88,8 @@ preprocess_meta = function(o, cdt) {
 }
 
 process_meta = function(o, d, cdt, aux) {
+
+	
 	gs = tmap_graphics_name()
 	
 	# add tm_grid values to o	
@@ -226,6 +228,7 @@ process_meta = function(o, d, cdt, aux) {
 		
 		# cdt[, scale := pmax(legW/mx_width, legH/mx_height, 1)]
 		# cdt[, ":="(legW_sc = legW/scale, legH_sc = legH/scale)]
+		
 		
 		if (gs == "Grid") {
 			if (type == "stack") {

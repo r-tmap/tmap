@@ -326,12 +326,13 @@ tmapGridCompPrepare.tm_scale_bar = function(comp, o) {
 			}
 		}
 		
-		# if (is.na(width))
-		# 	width = .25
-		# else if (width > 1) {
-		# 	if (show.messages) message("Scale bar width set to 0.25 of the map width")
-		# 	width = .25
-		# }
+		if (is.na(width))
+			width = .25
+		else if (width > 1) {
+			if (show.messages) message("Scale bar width set to 0.25 of the map width")
+			width = .25
+		}
+		
 		if (is.na(text.color)) text.color <- o$attr.color
 		text.size = text.size * o$scale
 		lwd = lwd * o$scale
@@ -342,7 +343,7 @@ tmapGridCompPrepare.tm_scale_bar = function(comp, o) {
 #' @method tmapGridCompHeight tm_scale_bar
 #' @export
 tmapGridCompHeight.tm_scale_bar = function(comp, o) {
-	h = 3 * o$lin * comp$text.size
+	h = 2.75 * o$lin * comp$text.size
 	
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
@@ -365,19 +366,27 @@ tmapGridCompHeight.tm_scale_bar = function(comp, o) {
 #' @method tmapGridCompWidth tm_scale_bar
 #' @export
 tmapGridCompWidth.tm_scale_bar = function(comp, o) {
-	w = comp$width * o$lin * comp$text.size
+	#w = comp$width * o$lin * comp$text.size
 
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
-	ws = c(marW[1], w, marW[2])
+	ws = c(marW[1], 0, marW[2])
 	
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
 	
+	
 	comp$Win = sum(ws)
 	comp$wsu = wsu
+	
+	# in case breaks are used: adjust the legend width later (in tmapGridLegend)
+	comp$WnativeID = 3
+	if (!is.null(comp$breaks)) {
+		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
+	}
+	
 	comp
 }
 
@@ -415,20 +424,25 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	tcks = pretty(c(0, xrange2*crop_factor), 4)
 	tcksL <- format(tcks, trim=TRUE)
 	rngL = c(tcksL[1], paste(unit, tail(tcksL, 1), unit))
-	rngW <- (text_width_inch(rngL) / 2) * comp$text.size
+	rngW <- ((text_width_inch(rngL) / 2) + o$lin * 0.5) * comp$text.size
 	
-	# width for scale bar
+	# available width for scale bar
 	sbW = as.numeric(wsu[3]) - sum(rngW)
 	
 	crop_factor2 = sbW / fW 
 	
 	if (is.null(comp$breaks)) {
-		ticks2 <- pretty(c(0, xrange2*crop_factor2), 4)
+		ticks2 <- pretty(c(0, xrange2*crop_factor2), round(comp$width * 8))
 	} else {
 		ticks2 <- comp$breaks
 	}
+
 	ticks3 <- ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
 	sel = which(ticks3 <= sbW)
+	
+	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
+		warning("Not all scale bar breaks could be plotted. Try increasing the scale bar width or descreasing the font size", call. = FALSE)
+	}
 	
 	ticks3 = ticks3[sel]
 	ticks2 = ticks2[sel]
@@ -454,8 +468,6 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	#x <- just-just*width+x
 	#xtext <- just-just*width+xtext
 	
-
-	
 	grobBG <- if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
@@ -468,6 +480,7 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 			# } else {
 			# 	NULL
 			# }, 
+			#rectGrob(gp=gpar(col = "green", fill= NA)),
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
 			), name="scale_bar")

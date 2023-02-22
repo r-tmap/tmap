@@ -56,10 +56,13 @@ process_components = function(cdt, o) {
 	if (nrow(cdt)>0L) {
 		data.table::setorder(cdt, "z")
 	}
+	
+	
 	cdt
 }
 
 process_components2 = function(cdt, o) {
+
 	# when facets are wrapped:
 	
 	
@@ -128,8 +131,7 @@ process_components2 = function(cdt, o) {
 	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
 											 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 	
-	
-	
+
 	cdt
 }
 
@@ -322,11 +324,12 @@ step4_plot = function(tm, vp) {
 	db[, i:=1L:nrow(db)]
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
 
+	## process components
+	cdt = process_components2(cdt, o)
+	
 	# init
 	do.call(FUNinit, list(o = o))
 	
-	## process components
-	cdt = process_components2(cdt, o)
 	
 	## prepare aux layers
 	
@@ -514,7 +517,7 @@ step4_plot = function(tm, vp) {
 		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
 		klegs[, id:=paste(pos.h.id, pos.v.id, sep = "__")]
 		
-		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v")]
+		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}
 	
 	do.call(FUNrun, list(o = o))
