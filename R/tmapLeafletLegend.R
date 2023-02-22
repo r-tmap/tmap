@@ -112,7 +112,7 @@ tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
 
 
 
-tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v) {
+tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
