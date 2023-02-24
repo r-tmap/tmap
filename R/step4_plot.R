@@ -165,7 +165,7 @@ step4_plot = function(tm, vp) {
 	
 		
 
-	cdt = process_components(cdt, o)
+	if (nrow(cdt)) cdt = process_components(cdt, o)
 	
 	
 	
@@ -325,7 +325,7 @@ step4_plot = function(tm, vp) {
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
 
 	## process components
-	cdt = process_components2(cdt, o)
+	if (nrow(cdt)) cdt = process_components2(cdt, o)
 	
 	# init
 	do.call(FUNinit, list(o = o))

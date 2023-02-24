@@ -233,7 +233,12 @@ process_meta = function(o, d, cdt, aux) {
 		if (gs == "Grid") {
 			if (type == "stack") {
 				if (is.na(orientation)) {
-					legs_auto = cdt[class=="autoout"]
+					if (nrow(cdt)) {
+						legs_auto = cdt[class=="autoout"]	
+					} else {
+						legs_auto = cdt
+					}
+					
 					
 					if (nrow(legs_auto) && n == 1) {
 						
