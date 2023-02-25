@@ -95,15 +95,25 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
-	if (o$use.WebGL) {
-		lf |> 
-			leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) |> 
-			assign_lf(facet_row, facet_col, facet_page)
-	} else {
-		lf |> 
-			leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) |> 
-			assign_lf(facet_row, facet_col, facet_page)
-	}
+	gp2 = gp_to_lpar(gp, mfun = "Symbols")
+	#gp = gp2leafgp(gp)
+	
+	symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+	
+	lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
+							  icon = leaflet::icons(iconUrl = symbols, iconWidth = 20, iconHeight = 20), #round(gp2$width), iconHeight = round(gp2$height)),
+							  popup = TRUE) |> 
+		 		assign_lf(facet_row, facet_col, facet_page)
+	
+	# if (o$use.WebGL) {
+	# 	lf |> 
+	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) |> 
+	# 		assign_lf(facet_row, facet_col, facet_page)
+	# } else {
+	# 	lf |> 
+	# 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) |> 
+	# 		assign_lf(facet_row, facet_col, facet_page)
+	# }
 	
 	NULL	
 }

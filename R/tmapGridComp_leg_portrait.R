@@ -259,7 +259,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		
 		# vary fill color
 		if (vary_fill) {
-			fill_list = strsplit(gp$fill[lvs], split = "-", fixed=TRUE)
+			fill_list = cont_split(gp$fill[lvs])
 			fill_list = lapply(fill_list, function(i) {
 				i[i=="NA"] <- NA
 				i
@@ -270,7 +270,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 		# vary fill alpha
 		if (vary_alpha) {
-			alpha_list = strsplit(gp$fill_alpha[lvs], split = "-", fixed=TRUE)
+			alpha_list = cont_split(gp$fill_alpha[lvs])
 			alpha_list = lapply(alpha_list, function(i) {
 				i[i=="NA"] <- 0
 				as.numeric(i)

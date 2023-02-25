@@ -84,7 +84,7 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_compass
 #' @export
 tmapLeafletLegPlot.tm_compass = function(cmp, lf, o) {
-	lf |> leafem::addLogo(system.file(paste0("img/compass_", cmp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
+	lf |> leafem::addLogo(system.file(paste0("img/compass_", cmp$type, ".png"), package = "tmap"), src = "local", position = leaflet_pos(cmp$position), width = 120, height = 120)
 }
 
 
@@ -113,7 +113,7 @@ tmapLeafletCompWidth.tm_scale_bar = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_scale_bar
 #' @export
 tmapLeafletLegPlot.tm_scale_bar = function(cmp, lf, o) {
-	lf |> leaflet::addScaleBar()
+	lf |> leaflet::addScaleBar(position = leaflet_pos(cmp$position))
 }
 
 

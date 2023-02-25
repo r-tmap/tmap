@@ -62,7 +62,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 		if (!is.character(lsti)) return(lsti)
 		
 		if (nchar(lsti[1]) > 50) {
-			x = strsplit(lsti, split = "-", fixed=TRUE)
+			x = cont_split(lsti)
 			x = lapply(x, function(i) {
 				i[i=="NA"] <- NA
 				i

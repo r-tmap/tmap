@@ -199,3 +199,5 @@ nonempty_text = function(txt) {
 	} else rep(TRUE, length(txt))
 }
 
+cont_split = function(x) strsplit(x, split = "_", fixed=TRUE)
+cont_collapse = function(x) sapply(x, paste, collapse="_")

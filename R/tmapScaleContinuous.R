@@ -200,8 +200,8 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 		
 		if (na.show) vvalues = c(vvalues, value.na)
 		
-		# temporarily stack gradient colors
-		vvalues = sapply(vvalues, paste, collapse="-")
+		# temporarily stack gradient values
+		vvalues = cont_collapse(vvalues)
 		
 		# create legend values
 		values = b
