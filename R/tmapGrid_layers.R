@@ -48,8 +48,8 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
-	
-	res = select_sf(shpTM, dt)
+
+	res = select_sf(shpTM, dt[!is.na(dt$lwd), ])
 	shp = res$shp
 	dt = res$dt
 	
@@ -83,7 +83,7 @@ appendGlist = function(glist, x) {
 tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 	
-	res = select_sf(shpTM, dt)
+	res = select_sf(shpTM, dt[!is.na(dt$size), ])
 	shp = res$shp
 	dt = res$dt
 	

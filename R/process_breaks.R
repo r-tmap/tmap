@@ -287,6 +287,7 @@ round_num = function(x, y) round2(x / y) * y
 prettyTicks = function(x, dev = 0.1) {
 	is_equi = local({
 		dff = max(x) - min(x)
+		if (dff == 0) return(TRUE)
 		steps = (x[-1] - head(x,-1)) / dff
 		all(abs(steps-steps[1]) < 1e-3)
 	})

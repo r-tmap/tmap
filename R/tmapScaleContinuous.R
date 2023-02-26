@@ -12,6 +12,8 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
+	if (attr(cls, "unique") && is.null(scale$limits) && is.null(scale$ticks)) stop("Unique value, so cannot determine continuous scale range. Please specify limits and/or ticks.", call. = FALSE)
+	
 	#if (cls[1] == "na") stop("data contain only NAs, so ", maincls, " cannot be applied", call. = FALSE)
 
 	if (cls[1] != "num") {
@@ -175,7 +177,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 			b  = prettyTicks(tr$rev(seq(limits_t[1], limits_t[2], length.out = n)))
 			b_t = tr$fun(b)
 		}
-		sel = b_t>=limits_t[1] & b_t<=limits_t[2]
+		sel = if (length(b_t) == 2) TRUE else (b_t>=limits_t[1] & b_t<=limits_t[2])
 		b_t = b_t[sel]
 		b = b[sel]
 
@@ -226,6 +228,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 		}
 		#attr(vvalues, "style") = style
 		
+
 		legend = within(legend, {
 			nitems = length(labels)
 			labels = labels

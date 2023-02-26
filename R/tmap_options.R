@@ -95,8 +95,8 @@
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0.1, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
-		value.neutral = list(size = 1,
+		values.range = list(fill = NA, col = NA, size = c(0.01, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+		value.neutral = list(size = 0.5,
 							 lwd = 2,
 							 lty = "solid",
 							 fill_alpha = 1,

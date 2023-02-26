@@ -174,9 +174,20 @@ leaflet() %>%
 tm_shape(World) +
 	tm_symbols(size = "pop_est")
 
-# to do: fix empty icons
 tm_shape(World) +
-	tm_symbols(size = "pop_est", col = "purple", lwd = 2, size.scale = tm_scale_continuous(values.scale = 2))
+	tm_symbols(size = "pop_est", col = "purple", lwd = 2, size.scale = tm_scale_continuous(values.scale = 2, limits = c(10e6, 1.5e9)))
+
+tm_shape(World) +
+	tm_symbols(size = "pop_est", 
+			   col = "economy", lwd = 2, 
+			   size.scale = tm_scale_continuous(values.scale = 2))
+
+
+tm_shape(World) +
+	tm_symbols(size = "pop_est", 
+			   shape = "economy", lwd = 2, 
+			   size.scale = tm_scale_continuous(values.scale = 2))
+
 
 
 tm_shape(World) +

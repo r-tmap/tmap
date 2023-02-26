@@ -84,7 +84,7 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	
 	rc_text = frc(facet_row, facet_col)
 	
-	res = select_sf(shpTM, dt)
+	res = select_sf(shpTM, dt[!is.na(dt$size), ])
 	shp = res$shp
 	dt = res$dt
 	
@@ -97,12 +97,13 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	
 	gp2 = gp_to_lpar(gp, mfun = "Symbols")
 	#gp = gp2leafgp(gp)
+	names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
+	gp2$baseSize = 20
 	
 	symbols = do.call(leaflegend::makeSymbolIcons, gp2)
 	
 	lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-							  icon = leaflet::icons(iconUrl = symbols, iconWidth = 20, iconHeight = 20), #round(gp2$width), iconHeight = round(gp2$height)),
-							  popup = TRUE) |> 
+							  icon = symbols) |> 
 		 		assign_lf(facet_row, facet_col, facet_page)
 	
 	# if (o$use.WebGL) {

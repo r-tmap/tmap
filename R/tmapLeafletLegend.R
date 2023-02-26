@@ -49,13 +49,13 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 	pch2shp = c("rect", "circle", "triangle", "plus", "cross", "diamond", "triangle", 
 				"cross", "star", "diamond", "circle", "polygon", "plus", "cross", 
 				"triangle", "rect", "circle", "triangle", "diamond", "circle", 
-				"circle", "circle", "rect", "diamond", "triangle", "triangle"
-	) # shapes for pch 0:25
+				"circle", "circle", "rect", "diamond", "triangle", "polygon") # shapes for pch 0:25 (NOTE: last one is a triangle upside-down. Since 21:25 are the defaults, and a polygon is chosen to differentiate from the other triangle)
 	lst$shape = pch2shp[lst$shape + 1]
 	if (mfun == "Lines") lst$shape = "line"
 
 	lst$width = lst$size * 20
 	lst$height = lst$size * 20
+	lst$width[]
 	lst$size = NULL
 	lst
 }
@@ -103,7 +103,9 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 						   domain = val, 
 						   na.color=colNA, 
 						   alpha = FALSE)
-		lf |> leaflegend::addLegendNumeric(position=legpos, group = group,
+		lf |> leaflegend::addLegendNumeric(position=legpos, 
+										   orientation = orientation,
+										   group = group,
 										   height = 200,
 										   pal=pal,
 										   values=val, 
@@ -115,101 +117,28 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 	} else {
 		vary = if ("fill" %in% cmp$varying) "fill" else if ("col" %in% cmp$varying) "col" else NA
- 		
 		
 		symbols = do.call(Map, c(list(f = leaflegend::makeSymbol), cmp$gp2))
-		#Map(leaflegend::makeSymbol)
-
-		cmp$gp2
+		
+		# alternative:
+		# names(cmp$gp2)[names(cmp$gp2) == 'stroke-width'] = "strokeWidth"
+		# cmp$gp2$baseSize = 20
+		# symbols = do.call(leaflegend::makeSymbolIcons, cmp$gp2)$iconUrl
 		
 		lf |> leaflegend::addLegendImage(symbols, 
 										 labels = lab,
 										 width = cmp$gp2$width,
-										 height = cmp$gp2$height)
-		
-		# 
-		# if (is.na(vary)) {
-		# 	lf |> 
-		# 		leaflegend::addLegendSize(
-		# 			values = cmp$gp3$size,
-		# 			breaks = cmp$gp3$size,
-		# 			color = cmp$gp3$col[1],
-		# 			fillColor = cmp$gp3$fill[1],
-		# 			strokeWidth = cmp$gp3$lwd[1],
-		# 			title = title,
-		# 			labelStyle = 'margin: auto;',
-		# 			shape = cmp$gp3$shape[1],
-		# 			opacity = cmp$gp3$alpha,
-		# 			orientation = orientation)
-		# } else {
-		# 	incl.na = nchar(cmp$gp[[vary]][length(cmp$gp[[vary]])]) < 10
-		# 	if (incl.na) {
-		# 		pal = head(cmp$gp3[[vary]], -1)
-		# 		colNA = tail(cmp$gp3[[vary]], 1)
-		# 		textNA = lab[length(lab)]
-		# 	} else {
-		# 		pal = cmp$gp3[[vary]]
-		# 		colNA = NA
-		# 		textNA = NA
-		# 	}
-		# 	pal = colorNumeric(palette = pal, 
-		# 					   domain = cmp$gp3$size, 
-		# 					   na.color=colNA, 
-		# 					   alpha = FALSE)
-		# 	
-		# 	lf |> 
-		# 		leaflegend::addLegendSize(
-		# 			values = cmp$gp3$size,
-		# 			breaks = cmp$gp3$size,
-		# 			pal =  pal,
-		# 			color = cmp$gp3$col[1],
-		# 			#fillColor = cmp$gp3$fill[1],
-		# 			strokeWidth = cmp$gp3$lwd[1],
-		# 			title = title,
-		# 			labelStyle = 'margin: auto;',
-		# 			shape = cmp$gp3$shape[1],
-		# 			opacity = cmp$gp3$alpha,
-		# 			orientation = orientation)
-		# }
+										 height = cmp$gp2$height, 
+										 position = legpos,
+										 orientation = orientation,
+										 labelStyle = "font-size: 18px; vertical-align: middle;",
+										 title = htmltools::tags$div(
+										 	title,
+										 	style = 'font-size: 18px; text-align: left; margin-bottom: 5px;'),
+										 layerId = layerId,
+										 className = leg_className)
 	}
-	# else {
-	# 	# LegendFactor
-	# 	#
-	# 
-	# 	
-	# 	#pal = rep(pal, length.out = length(lab))
-	# 	
-	# 	# if (length(opacity == length(lab))) {
-	# 	# 	pal = paste0(pal, num_to_hex(opacity * 255))
-	# 	# }
-	# 	
-	# 	legvals = lab
-	# 	#print(layerId)
-	# 	# lf |> addLegend(position=legpos,
-	# 	# 		  group = group,
-	# 	# 		  colors = pal,
-	# 	# 		  labels = legvals,
-	# 	# 		  title=title,
-	# 	# 		  opacity=opacity,
-	# 	# 		  layerId = layerId,
-	# 	# 		  className = leg_className)
-	# 	
-	# 	
-	# 	lpal = leaflet::colorFactor(gp$fill, levels = legvals)
-	# 	
-	# 	lf |> leaflegend::addLegendFactor(
-	# 		position=legpos,
-	# 		pal = lpal,
-	# 		group = group,
-	# 		title=title,
-	# 		shape = "circle",
-	# 		values = legvals,
-	# 		opacity=gp$fill_alpha,
-	# 		layerId = layerId,
-	# 		className = leg_className,orientation = orientation)
-	# 	
-	# }
-	
+
 }
 
 

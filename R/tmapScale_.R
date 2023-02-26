@@ -80,7 +80,6 @@ data_class = function(x, check_for_color_class = FALSE) {
 	# } else
 	 cls = if (is.numeric(x)) {
 	 	y = if (inherits(x, "units")) units::drop_units(x) else x
-	 	
 		subclass1 = if (is.integer(x)) "int" else "real"
 		subclass2 = if (any(y < 0 & !is.na(y)) && any(y > 0 & !is.na(y))) {
 			"div"
@@ -100,6 +99,7 @@ data_class = function(x, check_for_color_class = FALSE) {
 	attr(cls, "units") = if (inherits(x, "units")) {
 		paste0(" [", units(x), "]")
 	} else ""
+	attr(cls, "unique") = (length(unique(x)) == 1)
 	cls
 }
 
