@@ -10,6 +10,7 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 				 fillOpacity = gp$fill_alpha,
 				 opacity = gp$col_alpha,
 				 'stroke-width' = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
+				 'stroke-dasharray' = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
 				 size = {if (!all(is.na(gp$size))) gp$size else 1},
 				 shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
 	
@@ -18,6 +19,7 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 				  fillOpacity = TRUE,
 				  opacity = TRUE, 
 				  'stroke-width' = TRUE, 
+				  'stroke-dash' = FALSE,
 				  size = TRUE, 
 				  shape = TRUE)
 	
@@ -117,7 +119,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 	} else {
 		vary = if ("fill" %in% cmp$varying) "fill" else if ("col" %in% cmp$varying) "col" else NA
-		
+
 		symbols = do.call(Map, c(list(f = leaflegend::makeSymbol), cmp$gp2))
 		
 		# alternative:

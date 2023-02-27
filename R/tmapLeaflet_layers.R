@@ -60,8 +60,6 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	
-	
-	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
 	if (o$use.WebGL) {

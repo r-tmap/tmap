@@ -188,6 +188,12 @@ tm_shape(World) +
 			   shape = "economy", lwd = 2, 
 			   size.scale = tm_scale_continuous(values.scale = 2))
 
+tm_shape(World) +
+	tm_symbols(shape = "economy",
+			   col = "red",
+			   lty = "economy",
+			   lty.legend = tm_legend_combine("shape"),
+			   lwd = 2)
 
 
 tm_shape(World) +
@@ -212,20 +218,68 @@ symbols <- Map(
 	shape = c('triangle', 'plus'),
 	color = c("red", "blue"),
 	fillColor = c("green", "purple"),
-	width = c(3,5),
-	height = c(3,5),
+	width = 30,
+	height = 30,
 	opacity = 1,
-	'stroke-width' = 0.1
+	'stroke-dasharray' = lty2dash("dashed"),
+	'stroke-width' = 1
 )
+leaflet() %>%
+	addTiles() %>%
+	addLegendImage(
+		images = symbols,
+		labels = letters[1:2],
+		width = c(40),
+		height = c(40),
+		title = htmltools::tags$div(
+			'Leaf',
+			style = 'font-size: 24px; text-align: center; margin-bottom: 5px;'),
+		position = 'topright', orientation = 'vertical')
+
+
+gp2 = list(shape = c('triangle', 'plus'),
+			color = c("red", "blue"),
+			fillColor = c("green", "purple"),
+			width = 30,
+			height = 30,
+			opacity = 1,
+			'stroke-dasharray' = lty2dash("dashed"),
+			'stroke-width' = 7
+)
+
+gp2 = list(shape = c('circle', 'circle'),
+		   fillColor = "#999999", 
+		   color = "#FF0000",
+		   #color = c("red", "blue"),
+		   #fillColor = c("green", "purple"),
+		   width = 30,
+		   height = 30,
+		   opacity = 1,
+		   fillOpacity = 1,
+		   'stroke-dasharray' = lty2dash("dashed"),
+		   'stroke-width' = 7
+)
+
+gp2 = list(fillColor = "#999999", 
+		   color = "#FF0000", 
+		   #fillOpacity = 1, 
+		   opacity = 1, 
+		   'stroke-width' = 3, 
+		   'stroke-dasharray' = "4 4", # c("4 4", "1 3", "1 3 4 3", "7 3", "2 2 6 2", "4 4", "1 3"), 
+		   shape = c("circle"), #, "rect", "diamond", "triangle", "polygon", "circle", "rect"), 
+		   width = 20, height = 20)
+symbols = do.call(Map, c(list(f = makeSymbol), gp2))
+
+
 
 
 leaflet() %>%
 	addTiles() %>%
 	addLegendImage(
 		images = symbols,
-		labels = letters[1:2],
-		width = c(40, 80),
-		height = c(40, 80),
+		labels = letters[1],
+		width = c(40),
+		height = c(40),
 		title = htmltools::tags$div(
 			'Leaf',
 			style = 'font-size: 24px; text-align: center; margin-bottom: 5px;'),
