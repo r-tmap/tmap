@@ -1,5 +1,12 @@
 leaflet_pos = function(pos) {
-  paste(unlist(pos[c("pos.v", "pos.h")]), collapse = "")
+	if (pos$type %in% c("out", "autoout")) {
+		sel = c("cell.v", "cell.h")
+	} else {
+		sel = c("pos.v", "pos.h")
+	}
+	x = unlist(pos[sel])
+	
+  paste(x, collapse = "")
 }
 
 
@@ -133,10 +140,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										 height = cmp$gp2$height, 
 										 position = legpos,
 										 orientation = orientation,
-										 labelStyle = "font-size: 18px; vertical-align: middle;",
+										 labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",
 										 title = htmltools::tags$div(
 										 	title,
-										 	style = 'font-size: 18px; text-align: left; margin-bottom: 5px;'),
+										 	style = 'font-size: 14px; text-align: left; margin-bottom: 5px;'),
 										 layerId = layerId,
 										 className = leg_className)
 	}

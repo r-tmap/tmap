@@ -197,6 +197,27 @@ tm_shape(World) +
 
 
 tm_shape(World) +
+	tm_symbols(fill = "pop_est", 
+			   col = "economy",
+			   fill_alpha = "pop_est")
+
+
+tm_shape(World) +
+	tm_symbols(fill = "pop_est", 
+			   col = "economy",
+			   lwd = 3,
+			   fill_alpha = "pop_est")
+
+
+
+
+
+tm_shape(World) +
+	tm_symbols(size = "pop_est", size.legend = tm_legend(orientation = "landscape"))
+
+
+
+tm_shape(World) +
 	tm_symbols(size = "pop_est", fill = "economy", lwd = 2, size.scale = tm_scale_intervals(values.scale = 2, n = 7, style = "kmeans"), fill.legend = tm_legend_combine("size"))
 
 
@@ -284,5 +305,40 @@ leaflet() %>%
 			'Leaf',
 			style = 'font-size: 24px; text-align: center; margin-bottom: 5px;'),
 		position = 'topright', orientation = 'vertical')
+
+
+
+
+tm_shape(World) + 
+	tm_symbols(fill = "HPI", 
+			   fill.scale = tm_scale_intervals(values = "blues2"),
+			   col = "red",
+			   lwd = 3, 
+			   size = "life_exp",
+			   lty = "income_grp",
+			   size.scale = tm_scale_continuous(values.scale = 1))
+
+# todo: working on size scaling
+tm_shape(World) + 
+	tm_symbols(fill = "HPI", 
+			   fill.scale = tm_scale_intervals(values = "red_green"),
+			   shape = "income_grp",
+			   col = "grey40",
+			   lwd = 1, 
+			   size = "life_exp",
+			   size.legend = tm_legend(orientation = "landscape"),
+			   size.scale = tm_scale_continuous(values.scale = 1))
+
+
+tm_shape(World) + 
+	tm_symbols(fill = "HPI", 
+			   fill.scale = tm_scale_intervals(values = "red_green"),
+			   #shape = "income_grp",
+			   col = "grey40",
+			   lwd = 1, 
+			   size = "life_exp",
+			   size.scale = tm_scale_continuous(values.scale = 1)) +
+	tm_facets(by = "income_grp")
+
 
 

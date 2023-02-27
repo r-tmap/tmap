@@ -170,7 +170,7 @@ step1_rearrange = function(tmel) {
 			ca = class(a)
 			
 			# special case: position, in case c("left", "top") is used
-			if (is.character(a$position)) a$position = tm_pos_in(a$position[1], a$position[2])
+			if (is.character(a$position)) a$position = str2pos(a$position)
 			
 			a = complete_options(a, ot)
 			

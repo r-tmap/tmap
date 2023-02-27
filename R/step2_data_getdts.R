@@ -190,7 +190,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				oleg = c(oleg, o[[settings_name]])
 				
 				
-				if ("position" %in% names(l) && is.character(l$position)) l$position = tm_pos_in(l$position[1], l$position[2])
+				if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
 				
 				
 				

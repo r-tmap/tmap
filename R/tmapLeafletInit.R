@@ -147,7 +147,7 @@ tmapLeafletAux = function(o, q) {
 	lfs = lapply(lfs, function(lfp) {
 		lapply(lfp, function(lf) {
 			if (length(pids)) for (pid in pids) lf = leaflet::addMapPane(lf, q$pane[pid], zIndex = q$lid2[pid] + 400)
-			lf = leaflet::addLayersControl(lf, overlayGroups = groups)
+			lf = leaflet::addLayersControl(lf, overlayGroups = groups, position = tmap:::leaflet_pos(str2pos(o$control.position)))
 		
 		})
 	})

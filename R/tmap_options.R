@@ -4,10 +4,10 @@
 		modes = list(plot = list(name = "Grid", use.gradient = FALSE),
 					 view = list(name = "Leaflet", 
 					 			use.WebGL = FALSE,
-					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 					 			crs = list(dimensions = 3857, 4326), 
 					 			facet.max = 16, 
-					 			view.legend.position = c("right", "top"), 
+					 			#view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
 					 			panel.show = FALSE,
 					 			basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
@@ -96,7 +96,7 @@
 						  shape = 21:25,
 						  area = c(0, 1)),
 		values.range = list(fill = NA, col = NA, size = c(0.01, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
-		value.neutral = list(size = 0.5,
+		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 lty = "solid",
 							 fill_alpha = 1,
@@ -904,6 +904,20 @@ tm_place_legends_top = function(height = NA) {
 		tm_options(legend.position = tm_pos_out("center", "top"))
 	} else {
 		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_pos_out("center", "top"))
+	}
+}
+
+#' @export
+tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
+	if (is.null(pos.h) || is.null(pos.v)) {
+		if (!is.null(pos.h)) {
+			warning("tm_place_legends_inside also requires pos.v", call. = FALSE)
+		} else if (!is.null(pos.v)) {
+			warning("tm_place_legends_inside also requires pos.h", call. = FALSE)
+		}
+		tm_options(legend.position = tm_pos_auto_in())
+	} else {
+		tm_options(legend.position = tm_pos_in(pos.h = pos.h, pos.v = pos.v))
 	}
 }
 

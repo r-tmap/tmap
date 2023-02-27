@@ -96,3 +96,9 @@ tm_pos_auto_in = function(align.h, align.v, just.h, just.v) {
 	args$type = "autoin"
 	structure(args, class = "tm_pos")
 }
+
+
+str2pos = function(x) {
+	tm_pos_in(x[1], x[2])
+}
+
