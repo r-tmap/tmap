@@ -4,7 +4,10 @@ leaflet_pos = function(pos) {
 	} else {
 		sel = c("pos.v", "pos.h")
 	}
-	x = unlist(pos[sel])
+	x = tolower(unlist(pos[sel]))
+	
+	if (x[1] %in% c("center", "centre")) x[1] = "top"
+	if (x[2] %in% c("center", "centre")) x[2] = "left"
 	
   paste(x, collapse = "")
 }

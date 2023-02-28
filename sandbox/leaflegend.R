@@ -338,7 +338,7 @@ tm_shape(World) +
 			   lwd = 1, 
 			   size = "life_exp",
 			   size.scale = tm_scale_continuous(values.scale = 1)) +
-	tm_facets(by = "income_grp")
+	tm_facets(by = "income_grp") + tm_title()
 
 
 

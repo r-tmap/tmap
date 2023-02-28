@@ -6,7 +6,13 @@ process_components = function(cdt, o) {
 	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
 	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) as.integer(NA) else x})
 	
+	
 	gs = tmap_graphics_name()
+	
+	if (gs == "Leaflet") {
+		cdt[class == "out", class := "in"]
+		cdt[class == "autoout", class := "in"]
+	}
 	
 	funP = paste0("tmap", gs, "CompPrepare")
 	funW = paste0("tmap", gs, "CompWidth")
@@ -24,114 +30,132 @@ process_components = function(cdt, o) {
 	cdt$show = sapply(cdt$comp, function(l) l$show)
 	cdt = cdt[cdt$show,][,show:=NULL]
 	
-	cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
-	cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
-
-	cdt[, ':='(facet_row = character(), facet_col = character())]
-	cdt$stack_auto = vapply(cdt$comp, function(l) {
-		s = l$stack
-		length(s) > 1
-	}, FUN.VALUE = logical(1))
-	cdt$stack = vapply(cdt$comp, function(l) {
-		s = l$stack
-		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
-	}, FUN.VALUE = character(1))
+	
+	## do to: proper S3 methods
+	#if (gs == "Grid") {
+		cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
+		cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
+		
+		cdt[, ':='(facet_row = character(), facet_col = character())]
+		cdt$stack_auto = vapply(cdt$comp, function(l) {
+			s = l$stack
+			length(s) > 1
+		}, FUN.VALUE = logical(1))
+		cdt$stack = vapply(cdt$comp, function(l) {
+			s = l$stack
+			if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
+		}, FUN.VALUE = character(1))
+		
+		
+		getLW = function(x) sapply(x, function(y) {
+			yW = y$Win
+			if (is.null(yW)) 0 else yW
+		})
+		getLH = function(x) sapply(x, function(y) {
+			yH = y$Hin
+			if (is.null(yH)) 0 else yH
+		})
+		# attempt to determine margins
+		cdt[, legW := getLW(comp)]
+		cdt[, legH := getLH(comp)]
+		
+		if (any(is.na(cdt$z))) {
+			cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
+		}
+		if (nrow(cdt)>0L) {
+			data.table::setorder(cdt, "z")
+		}
+	# } else if (gs == "Leaflet") {
+	# 	
+	# }
 	
 	
-	getLW = function(x) sapply(x, function(y) {
-		yW = y$Win
-		if (is.null(yW)) 0 else yW
-	})
-	getLH = function(x) sapply(x, function(y) {
-		yH = y$Hin
-		if (is.null(yH)) 0 else yH
-	})
-	# attempt to determine margins
-	cdt[, legW := getLW(comp)]
-	cdt[, legH := getLH(comp)]
-	
-	if (any(is.na(cdt$z))) {
-		cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
-	}
-	if (nrow(cdt)>0L) {
-		data.table::setorder(cdt, "z")
-	}
 	
 	
 	cdt
 }
 
 process_components2 = function(cdt, o) {
-
-	# when facets are wrapped:
+	gs = tmap_graphics_name()
 	
+	## do to: proper S3 methods
 	
+	#if (gs == "Grid") {
 	
+		# when facets are wrapped:
+		
+		
+		
+		
+		if (o$type != "grid" && o$n > 1) {
+			# # (o$nrows > 1 && o$ncols > 1) || 
+			# if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
+			# 	# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
+			# 	cdt[class != "in", by1__ := NA]
+			# 	cdt[class != "in", by2__ := NA]
+			# } else 
+			if (o$nrows == 1) {
+				# -use by2 and not by1 when they form a row
+				cdt[, by2__ := by1__]
+				cdt[, by1__ := NA]
+			} 
+		}
+		
+		stacks = o$legend.stack
+		
+		
+		# place legends inside if needed
+		#if (o$ncols > 1 && o$nrows > 1) {
+		if (o$type == "wrap") {
+			# all free legends inside
+			cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]	
+		} else if (o$type == "grid") {
+			# all free-per-facet legends inside
+			cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]	
+		}
+		
 	
-	if (o$type != "grid" && o$n > 1) {
-		# # (o$nrows > 1 && o$ncols > 1) || 
-		# if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
-		# 	# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
-		# 	cdt[class != "in", by1__ := NA]
-		# 	cdt[class != "in", by2__ := NA]
-		# } else 
-		if (o$nrows == 1) {
-			# -use by2 and not by1 when they form a row
-			cdt[, by2__ := by1__]
-			cdt[, by1__ := NA]
-		} 
-	}
+		
+		# update auto position (for 'all', 'rows', 'columns' legends)
+		cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
+		cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
+		cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
+		
+		
+		cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
+		# was:
+		# cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_col"], ifelse(cell.v == "center", stacks["per_row"], stacks["all"])), stack))]
+		# changed 
+		
+		cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+		cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+		
+		
+		cdt[class == "autoout", class := "out"]
+		
+		
+		lai = which(cdt$class == "autoin")
+		if (length(lai)) {
+			cdt$comp = lapply(cdt$comp, function(l) {
+				l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
+				l
+			})
+			cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
+		}
 	
-	stacks = o$legend.stack
-	
-	
-	# place legends inside if needed
-	#if (o$ncols > 1 && o$nrows > 1) {
-	if (o$type == "wrap") {
-		# all free legends inside
-		cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]	
-	} else if (o$type == "grid") {
-		# all free-per-facet legends inside
-		cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]	
-	}
-	
-
-	
-	# update auto position (for 'all', 'rows', 'columns' legends)
-	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
-	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
-	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
-	
-	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
-	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
-	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
-	
-	
-	cdt[class == "autoout", class := "out"]
-	
-	
-	lai = which(cdt$class == "autoin")
-	if (length(lai)) {
-		cdt$comp = lapply(cdt$comp, function(l) {
-			l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
-			l
-		})
-		cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
-	}
-
-	vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
-	hby = any(cdt$cell.h == "by" & !is.na(cdt$cell.h))
-	
-	toC = function(x) {
-		paste(x, collapse = "_")
-	}
-	
-	
-	# manual outside legends -2 is top or left, -1 is bottom or right
-	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
-											 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
-	
-
+		vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
+		hby = any(cdt$cell.h == "by" & !is.na(cdt$cell.h))
+		
+		toC = function(x) {
+			paste(x, collapse = "_")
+		}
+		
+		
+		# manual outside legends -2 is top or left, -1 is bottom or right
+		cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+												 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+		
+	#}
 	cdt
 }
 

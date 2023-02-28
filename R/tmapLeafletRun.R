@@ -6,10 +6,10 @@ tmapLeafletRun = function(o) {
 			print(lfsi[[1]])
 		} else {
 			fc = o$free.coords
-			sync = if (all(fc)) {
-				"none"
-			} else if (all(!fc)) {
+			sync = if (identical(o$sync, TRUE) || all(!fc)) {
 				"all"
+			} else if (all(fc)) {
+				"none"
 			} else if (fc[1]) {
 				asplit(matrix(1:(o$nrows*o$ncols), ncol = o$ncols, byrow = TRUE), 1)
 			} else {
@@ -17,7 +17,8 @@ tmapLeafletRun = function(o) {
 			}
 			marg = paste0(o$between.margin, "em")
 			
-			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), between = list(x = marg, y = marg)))))
+			#print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE, between = list(x = marg, y = marg)))))
+			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE))))
 		}
 	})
 }
