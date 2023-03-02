@@ -318,16 +318,20 @@ tm_shape(World) +
 			   lty = "income_grp",
 			   size.scale = tm_scale_continuous(values.scale = 1))
 
-# todo: working on size scaling
+
+tm_basemap("Esri.WorldGrayCanvas") +
 tm_shape(World) + 
 	tm_symbols(fill = "HPI", 
 			   fill.scale = tm_scale_intervals(values = "red_green"),
+			   fill.legend = tm_legend("Happy Planet Index"),
 			   shape = "income_grp",
+			   shape.legend = tm_legend("Income Group"),
 			   col = "grey40",
 			   lwd = 1, 
 			   size = "life_exp",
-			   size.legend = tm_legend(orientation = "landscape"),
-			   size.scale = tm_scale_continuous(values.scale = 1))
+			   size.legend = tm_legend("Life Expectancy", orientation = "landscape"),
+			   size.scale = tm_scale_continuous(values.scale = 1)) +
+tm_layout(inner.margins = c(0, 0, 0, 0))
 
 
 tm_shape(World) + 
@@ -338,7 +342,7 @@ tm_shape(World) +
 			   lwd = 1, 
 			   size = "life_exp",
 			   size.scale = tm_scale_continuous(values.scale = 1)) +
-	tm_facets(by = "income_grp") + tm_title()
+	tm_facets(by = "income_grp") + tm_title("Test1234")
 
 
 
