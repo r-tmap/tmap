@@ -23,7 +23,7 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 				 'stroke-width' = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
 				 'stroke-dasharray' = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
 				 size = {if (!all(is.na(gp$size))) gp$size else 1},
-				 shape = {if (!all(is.na(gp$shape))) gp$shape else 22}))
+				 shape = {if (!all(is.na(gp$shape))) gp$shape else 26}))
 	
 	lst_isnum = c(fillColor = FALSE, 
 				  color = FALSE, 
@@ -62,7 +62,7 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 	pch2shp = c("rect", "circle", "triangle", "plus", "cross", "diamond", "triangle", 
 				"cross", "star", "diamond", "circle", "polygon", "plus", "cross", 
 				"triangle", "rect", "circle", "triangle", "diamond", "circle", 
-				"circle", "circle", "rect", "diamond", "triangle", "polygon") # shapes for pch 0:25 (NOTE: last one is a triangle upside-down. Since 21:25 are the defaults, and a polygon is chosen to differentiate from the other triangle)
+				"circle", "circle", "rect", "diamond", "triangle", "polygon", "stadium") # shapes for pch 0:25 + 26 for stadium (NOTE: last one is a triangle upside-down. Since 21:25 are the defaults, and a polygon is chosen to differentiate from the other triangle)
 	lst$shape = pch2shp[lst$shape + 1]
 	if (mfun == "Lines") lst$shape = "line"
 
