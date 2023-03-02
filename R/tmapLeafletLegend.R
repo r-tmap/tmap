@@ -15,14 +15,15 @@ leaflet_pos = function(pos) {
 
 gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 	# create a list of gp elements
-	lst = c(list(fillColor = gp$fill,
-				 color = gp$col,
-				 fillOpacity = gp$fill_alpha,
-				 opacity = gp$col_alpha,
+
+	lst = c(list(fillColor = {if (!all(is.na(gp$fill))) gp$fill else "#000000"},
+				 color = {if (!all(is.na(gp$col))) gp$col else "#000000"},
+				 fillOpacity = {if (!all(is.na(gp$fill_alpha))) gp$fill_alpha else 0},
+				 opacity = {if (!all(is.na(gp$col_alpha))) gp$col_alpha else 0},
 				 'stroke-width' = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
 				 'stroke-dasharray' = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
 				 size = {if (!all(is.na(gp$size))) gp$size else 1},
-				 shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
+				 shape = {if (!all(is.na(gp$shape))) gp$shape else 22}))
 	
 	lst_isnum = c(fillColor = FALSE, 
 				  color = FALSE, 
@@ -118,7 +119,8 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		lf |> leaflegend::addLegendNumeric(position=legpos, 
 										   orientation = orientation,
 										   group = group,
-										   height = 200,
+										   height = {if (orientation == "horizontal") 20 else 200},
+										   width = {if (orientation == "vertical") 20 else 200},
 										   pal=pal,
 										   values=val, 
 										   #na.label = textNA, 
