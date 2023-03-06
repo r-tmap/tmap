@@ -56,7 +56,7 @@ Suggests:
     av,
     gifski,
     s2
-URL: https://github.com/r-tmap/tmap
+URL: https://r-tmap.github.io/tmap/, https://github.com/r-tmap/tmap
 BugReports: https://github.com/r-tmap/tmap/issues
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
