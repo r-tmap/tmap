@@ -17,7 +17,6 @@ tm_scale_bar(
   bg.alpha,
   size,
   stack,
-  just,
   frame,
   frame.lwd,
   frame.r,
@@ -49,8 +48,6 @@ tm_scale_bar(
 \item{size}{size}
 
 \item{stack}{stack}
-
-\item{just}{just}
 
 \item{frame}{frame}
 

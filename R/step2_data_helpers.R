@@ -142,3 +142,17 @@ subStr = function(x, k) {
 	}
 }
 
+
+
+limit_nx = function(nx) {
+	# bound number of facets
+	tmapOptions <- tmap::tmap_options_mode()
+	mode = getOption("tmap.mode")
+	
+	ox = tmapOptions$facet.max
+	
+	if (ox < nx) warning("Number of facets for mode \"", mode, "\" is limited to ", ox, " Change the option facet.max (with tmap_options) to allow more facets.", call. = FALSE)
+	min(ox, nx)
+}
+
+

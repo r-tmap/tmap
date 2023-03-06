@@ -5,6 +5,10 @@
 \title{Map layer: symbols}
 \usage{
 tm_symbols(
+  size = tm_const(),
+  size.scale = tm_scale(),
+  size.legend = tm_legend(),
+  size.free = NA,
   fill = tm_const(),
   fill.scale = tm_scale(),
   fill.legend = tm_legend(),
@@ -13,10 +17,6 @@ tm_symbols(
   col.scale = tm_scale(),
   col.legend = tm_legend(),
   col.free = NA,
-  size = tm_const(),
-  size.scale = tm_scale(),
-  size.legend = tm_legend(),
-  size.free = NA,
   shape = tm_const(),
   shape.scale = tm_scale(),
   shape.legend = tm_legend(),
@@ -45,11 +45,11 @@ tm_symbols(
 )
 }
 \arguments{
+\item{size, size.scale, size.legend, size.free}{Visual variable that determines the size. See details.}
+
 \item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines the fill color. See details.}
 
 \item{col, col.scale, col.legend, col.free}{Visual variable that determines the col color. See details.}
-
-\item{size, size.scale, size.legend, size.free}{Visual variable that determines the size. See details.}
 
 \item{shape, shape.scale, shape.legend, shape.free}{Visual variable that determines the shape. See details.}
 

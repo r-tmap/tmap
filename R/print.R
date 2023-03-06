@@ -6,7 +6,7 @@
 #' @param vp viewport (for \code{"plot"} mode)
 #' @export
 #' @method print tmap
-print.tmap = function(x, vp = NULL, ...) {
+print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, ...) {
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
 	x2 = step1_rearrange(x)
@@ -15,9 +15,11 @@ print.tmap = function(x, vp = NULL, ...) {
 	if (dev) timing_add("step 2")
 	x4 = step3_trans(x3)
 	if (dev) timing_add("step 3")
-	step4_plot(x4, vp = vp)
+	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
+	#if (return.asp) return(asp) else invisible(NULL)
+	invisible(res)
 }
 
 timing_init = function() {

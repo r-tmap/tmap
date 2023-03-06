@@ -1,4 +1,4 @@
-tmapGridInit = function(o) {
+tmapGridInit = function(o, return.asp = FALSE) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 	
 	
@@ -101,6 +101,9 @@ tmapGridInit = function(o) {
 	}
 	
 	gasp2 = fasp * o$ncols / o$nrows # target gasp
+	
+	# needed for tmap save and arrange
+	if (return.asp) return(gasp2)
 	
 	if (gasp2 > gasp) {
 		extra.height =   (1 - ((1 - sum(pcols))/(gasp2/o$dasp))) - sum(prows)

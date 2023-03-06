@@ -159,7 +159,7 @@ process_components2 = function(cdt, o) {
 	cdt
 }
 
-step4_plot = function(tm, vp) {
+step4_plot = function(tm, vp, return.asp, show) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
@@ -248,6 +248,20 @@ step4_plot = function(tm, vp) {
 	grps = c("by1", "by2", "by3")[o$free.coords]
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
+	
+	# limit facets
+	n_lim = limit_nx(o$n)
+	if (n_lim != o$n) {
+		fn_lim = pmin(o$fn, n_lim)
+		while(prod(fn_lim) > n_lim) {
+			fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
+		}
+		d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
+		o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
+		o$fn = fn_lim
+		o$n = n_lim
+	}
+
 	
 	
 	# add shape unit (needed for e.g. tm_scale_bar)
@@ -352,7 +366,8 @@ step4_plot = function(tm, vp) {
 	if (nrow(cdt)) cdt = process_components2(cdt, o)
 	
 	# init
-	do.call(FUNinit, list(o = o))
+	asp = do.call(FUNinit, list(o = o, return.asp = return.asp))
+	if (return.asp) return(asp)
 	
 	
 	## prepare aux layers
@@ -544,5 +559,5 @@ step4_plot = function(tm, vp) {
 		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}
 	
-	do.call(FUNrun, list(o = o))
+	do.call(FUNrun, list(o = o, show = show))
 }
