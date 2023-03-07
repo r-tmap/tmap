@@ -114,8 +114,8 @@
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
 						  area = list(fact = "categorical", num = "continuous"),
-						  text = list(fact = "asis", num = "caterorical"),
-						  fontface = list(fact = "categorical", num = "caterorical")),
+						  text = list(fact = "asis", num = "categorical"),
+						  fontface = list(fact = "categorical", num = "categorical")),
 		
 		# labels			  
 		label.format = list(
