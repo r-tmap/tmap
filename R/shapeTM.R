@@ -6,6 +6,13 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL) {
 			stop("Invalid bbox", call. = FALSE)
 		})
 	} 
+	
+	# filter empty geometries
+	if (inherits(shp, "sfc")) {
+		is_empty = sf::st_is_empty(shp)
+		shp = shp[!is_empty]
+		tmapID = tmapID[!is_empty]
+	}
 	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox), class = c("shapeTM", "list"))
 }
 

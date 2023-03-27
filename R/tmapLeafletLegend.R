@@ -99,7 +99,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	legpos = leaflet_pos(cmp$position)
 
 	if (cmp$type == "gradient") {
-		vary = if ("fill" %in% cmp$varying) "fillColor" else "col"
+		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
 			
 		incl.na = cmp$na.show
