@@ -1,4 +1,4 @@
-shapeTM = function(shp, tmapID = NULL, bbox = NULL) {
+shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 	if (!is.null(bbox) && (!inherits(bbox, "bbox"))) {
 		tryCatch({
 			bbox = sf::st_bbox(bbox)
@@ -13,7 +13,7 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL) {
 		shp = shp[!is_empty]
 		tmapID = tmapID[!is_empty]
 	}
-	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox), class = c("shapeTM", "list"))
+	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox, ...), class = c("shapeTM", "list"))
 }
 
 # stm_bbox = function(shpTM) {

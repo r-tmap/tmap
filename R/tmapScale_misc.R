@@ -1,6 +1,12 @@
-get_scale_defaults = function(scale, o, aes, layer, cls) {
+get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 	within(scale, {
-		values = if (is.na(values[1])) getAesOption("values.var", o, aes, layer, cls = cls) else values
+		values = if (is.na(values[1])) {
+			if (is.null(ct)) {
+				getAesOption("values.var", o, aes, layer, cls = cls)		
+			} else {
+				ct
+			}
+		} else values
 		
 		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
 			m = getPalMeta(as.character(values[1]))

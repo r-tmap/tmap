@@ -21,6 +21,8 @@ tmapLeafletRun = function(o, show) {
 			do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE)))
 		}
 	})
+	
+	if (length(lfs2) == 1) lfs2 = lfs2[[1]]
 	if (show) print(lfs2)
 	lfs2
 }

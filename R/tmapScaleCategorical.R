@@ -1,8 +1,15 @@
 tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
+	if (is.factor(x1) && grepl("=<>=", levels(x1)[1], fixed = TRUE)) {
+		res = strsplit(levels(x1), "=<>=", fixed = TRUE)
+		levels(x1) = vapply(res, "[", 1, FUN.VALUE = character(1))
+		ct = vapply(res, "[", 2, FUN.VALUE = character(1))
+	} else {
+		ct = NULL
+	}
 	
-	scale = get_scale_defaults(scale, o, aes, layer, cls)
+	scale = get_scale_defaults(scale, o, aes, layer, cls, ct)
 	
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings

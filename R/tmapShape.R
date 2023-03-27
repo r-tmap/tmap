@@ -4,7 +4,7 @@ tmapReproject = function(...) {
 
 #' @method tmapReproject stars
 #' @export
-tmapReproject.stars = function(shp, tmapID, bbox = NULL, crs) {
+tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 	
 	shp[[1]] = tmapID
 	
@@ -14,13 +14,13 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, crs) {
 	
 	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
 	
-	shapeTM(shp2, tmapID2, bbox)
+	shapeTM(shp2, tmapID2, bbox, ...)
 }
 
 
 #' @method tmapReproject dimensions
 #' @export
-tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, crs) {
+tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
 	
 	shp2 = transwarp(s, crs, raster.warp = TRUE)
@@ -29,16 +29,16 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, crs) {
 	d2 = stars::st_dimensions(shp2)
 	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
 	
-	shapeTM(d2, tmapID2, bbox)
+	shapeTM(d2, tmapID2, bbox, ...)
 }
 
 
 #' @method tmapReproject sfc
 #' @export
-tmapReproject.sfc = function(shp, tmapID, bbox = NULL, crs) {
+tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 	shp2 = sf::st_transform(shp, crs)
 	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
-	shapeTM(shp2, tmapID, bbox)
+	shapeTM(shp2, tmapID, bbox, ...)
 }
 
 
@@ -75,6 +75,9 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	shp = downsample_SpatRaster(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
 	
+	
+	coltabs = terra::coltab(shp)
+	
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]
 	#dt = data.table::melt(dt, id.vars = "tmapID__", variable.name = "layer", value.name = "value")
@@ -100,11 +103,22 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
+	names(coltabs) = dtcols
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
 	shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
+	
+	for (nm in dtcols) {
+		if (!is.null(coltabs[[nm]])) {
+			ct = coltabs[[nm]]
+			if (is.factor(dt[[nm]])) {
+				levels(dt[[nm]]) = paste(levels(dt[[nm]]), rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)[match(seq_along(levels(dt[[nm]])), ct[,1])], sep = "=<>=")
+			}
+				
+		}
+	}
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name, smeta = smeta), class = "tmapShape")
 	
@@ -238,6 +252,19 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 	} else filter[dt$tmapID__]
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
+	for (nm in dtcols) {
+		if (is.factor(dt[[nm]])) {
+			lvls = levels(dt[[nm]])
+			cols = attr(dt[[nm]], "colors")
+			ids = seq_along(lvls)[lvls!="NA"]
+			if (!is.null(cols)) {
+				#if (any(lvls=="NA")) {
+					dt[[nm]] = factor(as.integer(dt[[nm]]), levels = ids, labels = paste(lvls[ids], cols[ids], sep = "=<>="))
+				#}
+				#dt[[nm]] = factor()
+			}
+		}
+	}
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name, smeta = smeta), class = "tmapShape")
 }
