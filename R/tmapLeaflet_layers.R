@@ -98,11 +98,18 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
 	gp2$baseSize = 20
 	
-	symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+	if (o$use.WebGL) {
+		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))[c("col", "shape", "lwd", "lty", "fill_alpha", "col_alpha")]
+		if (any(vary)) warning("WegGL enabled: the only supported visual variables are: fill and size. The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
+		lf |> leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) |>  
+			assign_lf(facet_row, facet_col, facet_page)
+	} else {
+		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+		lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
+								  icon = symbols) |> 
+			assign_lf(facet_row, facet_col, facet_page)
+	}
 	
-	lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-							  icon = symbols) |> 
-		 		assign_lf(facet_row, facet_col, facet_page)
 	
 	# if (o$use.WebGL) {
 	# 	lf |> 
