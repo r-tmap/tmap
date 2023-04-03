@@ -36,9 +36,15 @@ tmapTransCentroid = function(shpTM, ord__, plot.order, args) {
 			### stars
 			shp = sf::st_as_sf(shp, as_points = TRUE)
 		} else {
-			shp = suppressWarnings({
-				sf::st_centroid(shp)
-			})
+			geom_types = sf::st_geometry_type(shp)
+			is_poly_or_line = geom_types %in% c("POLYGON", "MULTIPOLYGON", "LINESTRING", "MULTILINESTRING")
+			
+			if (any(is_poly_or_line)) {
+				shp[is_poly_or_line] = suppressWarnings({
+					sf::st_centroid(shp[is_poly_or_line])
+				})
+			}
+			shp
 		}
 	})
 }

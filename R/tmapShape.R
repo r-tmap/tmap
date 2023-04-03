@@ -76,7 +76,9 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	shp = downsample_SpatRaster(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
 	
 	
-	coltabs = terra::coltab(shp)
+	ctabs = terra::coltab(shp)
+	cats = terra::cats(shp)
+	
 	
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]
@@ -103,7 +105,8 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
-	names(coltabs) = dtcols
+	names(ctabs) = dtcols
+	names(cats) = dtcols
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
@@ -111,10 +114,18 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
 	
 	for (nm in dtcols) {
-		if (!is.null(coltabs[[nm]])) {
-			ct = coltabs[[nm]]
+		if (!is.null(ctabs[[nm]])) {
+			ct = ctabs[[nm]]
+			lt = cats[[nm]]
 			if (is.factor(dt[[nm]])) {
-				levels(dt[[nm]]) = paste(levels(dt[[nm]]), rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)[match(seq_along(levels(dt[[nm]])), ct[,1])], sep = "=<>=")
+				levels(dt[[nm]])
+				
+				ids = match(lt$value, ct$value)
+				cti = ct[ids,]
+				
+				cls = rgb(cti$red, cti$green, cti$blue, cti$alpha, maxColorValue = 255)
+				
+				levels(dt[[nm]]) = paste(levels(dt[[nm]]), cls, sep = "=<>=")
 			}
 				
 		}
