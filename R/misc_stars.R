@@ -161,3 +161,11 @@ transwarp <- function(x, crs, raster.warp) {
 	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
 	y
 }
+
+
+st_get_dimension_values_xy = function(.x, which) {
+	xy_name = attr(st_dimensions(.x), "raster")$dimensions[match(which, c("x", "y"))]
+	st_get_dimension_values(.x, which = xy_name)
+}
+
+

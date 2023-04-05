@@ -1,3 +1,6 @@
+version 3.3-4
+- fixed bug (some stars appeared upside down in plot mode)
+
 version 3.3-3
 - added device to tmap_save
 - fixed many small bugs (see github issue list)

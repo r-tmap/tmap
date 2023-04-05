@@ -15,8 +15,8 @@ Authors@R: c(
 	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb")
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
-Version: 3.3-3
-Date: 2022-03-01
+Version: 3.3-4
+Date: 2023-04-05
 Encoding: UTF-8
 Depends:
     R (>= 3.5.0),

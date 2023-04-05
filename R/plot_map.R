@@ -83,7 +83,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				
 				m <- matrix(rast, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE)
 				
-				y_is_neg <- all(diff(st_get_dimension_values(shp, "y")) < 0)
+				y_is_neg <- all(diff(st_get_dimension_values_xy(shp, "y")) < 0)
 				if (!y_is_neg) {
 					m <- m[nrow(m):1L, ]
 				}
