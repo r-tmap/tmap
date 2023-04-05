@@ -30,28 +30,53 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 		if (!is.null(levels)) {
 			x1 = factor(x1, levels = levels)
 		}
-		
+
 		# drop levels
 		if (levels.drop) {
 			y = droplevels(x1)
 			matching = match(levels(y), levels(x1))
-			if (length(values) == nlevels(x1)) {
+			if (length(values) == nlevels(x1) && is.null(names(values))) {
 				values = values[matching]
 				if (!is.null(nms)) nms = nms[matching]
 			}
-			if (!is.null(labels) && (length(labels) == nlevels(x1))) {
+			if (!is.null(labels) && (length(labels) == nlevels(x1)) && is.null(names(labels))) {
 				labels = labels[matching]
 			}
 			x1 = y
 		}
 		
+		lvls = levels(x1)
+		n = nlevels(x1)
 		
+		if (is.null(labels)) {
+			labs = lvls	
+		} else {
+			if (is.null(names(labels))) {
+				if (length(labels) != n) warning("labels do not have the same length as levels, so they are repeated", call. = FALSE)
+				labs = rep(labels, length.out = n)	
+			} else {
+				nms = names(labels)
+				labs = structure(lvls, names = lvls)
+				
+				nms2 = intersect(nms, lvls)
+				labs[nms2] = unname(labels[nms2])
+			}
+		}
+		names(labs) = NULL
 		
+		if (!is.null(names(values))) {
+			nms = names(values)
+			xlev = levels(x1)
+			if (!all(xlev %in% nms)) {
+				stop("All levels should occur in the vector names of values: ", paste(setdiff(xlev, nms), collapse = ", "), " are missing", call. = FALSE) 
+			} else {
+				values = values[match(xlev, nms)]
+			}
+		}
+		
+
 		
 		# combine levels
-		lvls = levels(x1)
-		
-		n = nlevels(x1)
 		if (n.max < n) {
 			if (show.warnings) warning("Number of levels of the variable assigned to the aesthetic \"",aes ,"\" of the layer \"", layer, "\" is ", n, ", which is larger than n.max (which is ", n.max, "), so levels are combined.", call. = FALSE)
 			
@@ -59,7 +84,7 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 			to = c(which(mapping[-n] - mapping[-1]!=0), n)
 			from = c(0, to[-n.max]) + 1
 			
-			new_lvls = paste0(lvls[from], "...", lvls[to])
+			new_lvls = paste0(labs[from], "...", labs[to])
 			
 			x1 = factor(mapping[as.integer(x1)], levels=1L:n.max, labels=new_lvls)
 		}
@@ -87,6 +112,7 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 		
 		ids = as.integer(x1)
 		vals = values[ids]
+
 		isna = is.na(vals)
 		anyNA = any(isna)
 		
@@ -109,11 +135,7 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 		}
 		
 		
-		if (is.null(labels)) {
-			labs = levels(x1)	
-		} else {
-			labs <- rep(labels, length.out = n)
-		}
+		
 	
 		if (legend$reverse) {
 			labs = rev(labs)

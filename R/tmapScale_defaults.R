@@ -360,10 +360,12 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	
 	m = getPalMeta(x[1])
 	
-	arecolors = !is.null(m) || valid_colors(x[1])
+	ispalette = !is.null(m) && (length(x) == 1) # the latter in case of ambiguity (e.g. "blue")
+	arecolors = valid_colors(x[1])
 	
-	# if (arecolors) {
-	values = if (!is.null(m)) {
+	values = if (!ispalette && !arecolors) {
+		rep(x, length.out = n) 
+	} else if (ispalette) {
 		getPal(x, n, rep = rep, range = range)
 	} else if (!rep && (length(x) < n)) {
 		grDevices::colorRampPalette(x)(n)
@@ -371,7 +373,9 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 		rep(x, length.out=n)
 	}
 	
+	nms = names(values)
 	values = do.call(process_color, c(list(col = values), o$pc))
+	names(values) = nms
 	value.neutral = do.call(process_color, c(list(col = values[1]), o$pc))
 	value.na = do.call(process_color, c(list(col = value.na), o$pc))
 	

@@ -133,7 +133,7 @@ tm_polygons = function(fill = tm_const(),
 
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 
-		if ("col" %in% names(args_called)) {
+		if ("col" %in% names(args_called) && (args_called$called_from != "fill")) {
 			fill = col
 			col = tm_const()
 		}
