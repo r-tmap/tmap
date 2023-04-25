@@ -4,7 +4,7 @@
 \alias{print.tmap}
 \title{Draw thematic map}
 \usage{
-\method{print}{tmap}(x, vp = NULL, ...)
+\method{print}{tmap}(x, return.asp = FALSE, show = TRUE, vp = NULL, ...)
 }
 \arguments{
 \item{x}{tmap object.}

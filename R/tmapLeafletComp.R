@@ -89,30 +89,30 @@ tmapLeafletLegPlot.tm_compass = function(cmp, lf, o) {
 
 
 
-#' @method tmapLeafletCompPrepare tm_scale_bar
+#' @method tmapLeafletCompPrepare tm_scalebar
 #' @export
-tmapLeafletCompPrepare.tm_scale_bar = function(comp, o) {
+tmapLeafletCompPrepare.tm_scalebar = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
 
 
-#' @method tmapLeafletCompHeight tm_scale_bar
+#' @method tmapLeafletCompHeight tm_scalebar
 #' @export
-tmapLeafletCompHeight.tm_scale_bar = function(comp, o) {
+tmapLeafletCompHeight.tm_scalebar = function(comp, o) {
 	comp
 }
 
-#' @method tmapLeafletCompWidth tm_scale_bar
+#' @method tmapLeafletCompWidth tm_scalebar
 #' @export
-tmapLeafletCompWidth.tm_scale_bar = function(comp, o) {
+tmapLeafletCompWidth.tm_scalebar = function(comp, o) {
 	comp
 }
 
 
-#' @method tmapLeafletLegPlot tm_scale_bar
+#' @method tmapLeafletLegPlot tm_scalebar
 #' @export
-tmapLeafletLegPlot.tm_scale_bar = function(cmp, lf, o) {
+tmapLeafletLegPlot.tm_scalebar = function(cmp, lf, o) {
 	lf |> leaflet::addScaleBar(position = leaflet_pos(cmp$position))
 }
 

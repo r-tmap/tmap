@@ -117,7 +117,7 @@ tm_compass <- function(north,
 
 #' Map component: scale bar
 #' 
-#' Map component that adds a scale bar
+#' Map component that adds a scale bar. As of version 4.0, `tm_scalebar` is used instead of `tm_scale_bar` (now deprecated), because of the potential confusion with the `tm_scale_x` scaling functions (like \code{\link{tm_scale_continuous}}).
 #' 
 #' @param breaks breaks
 #' @param width width
@@ -137,7 +137,9 @@ tm_compass <- function(north,
 #' @param margins margins
 #' @param z z
 #' @export
-tm_scale_bar = function(breaks,
+#' @rdname tm_scalebar
+#' @name tm_scalebar
+tm_scalebar = function(breaks,
 						width, 
 						text.size,
 						text.color,
@@ -156,7 +158,14 @@ tm_scale_bar = function(breaks,
 						z) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
-	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scale_bar", "tm_component")))))
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
+}
+
+#' @rdname tm_scalebar
+#' @name tm_scale_bar
+tm_scale_bar = function(...) {
+	warning("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated", call. = FALSE)
+	tm_scalebar()
 }
 
 #' Map component: mouse coordinates

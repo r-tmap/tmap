@@ -309,19 +309,19 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 
 
 
-#' @method tmapGridCompPrepare tm_scale_bar
+#' @method tmapGridCompPrepare tm_scalebar
 #' @export
-tmapGridCompPrepare.tm_scale_bar = function(comp, o) {
+tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	show.messages = o$show.messages
 	show.warnings = o$show.warnings
 	within(comp, {
 		if (is.function(call)) call = ""
 		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			warning("For tm_scale_bar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
+			warning("For tm_scalebar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
 		}
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
-				if (show.warnings) warning("First scale_bar breaks value should be 0.", call. = FALSE)
+				if (show.warnings) warning("First scalebar breaks value should be 0.", call. = FALSE)
 				breaks <- c(0, breaks)
 			}
 		}
@@ -340,9 +340,9 @@ tmapGridCompPrepare.tm_scale_bar = function(comp, o) {
 	})
 }
 
-#' @method tmapGridCompHeight tm_scale_bar
+#' @method tmapGridCompHeight tm_scalebar
 #' @export
-tmapGridCompHeight.tm_scale_bar = function(comp, o) {
+tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	h = 2.75 * o$lin * comp$text.size
 	
 	textS = comp$text.size #* o$scale
@@ -363,9 +363,9 @@ tmapGridCompHeight.tm_scale_bar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_scale_bar
+#' @method tmapGridCompWidth tm_scalebar
 #' @export
-tmapGridCompWidth.tm_scale_bar = function(comp, o) {
+tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	#w = comp$width * o$lin * comp$text.size
 
 	textS = comp$text.size #* o$scale
@@ -390,9 +390,9 @@ tmapGridCompWidth.tm_scale_bar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridLegPlot tm_scale_bar
+#' @method tmapGridLegPlot tm_scalebar
 #' @export
-tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
+tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light <- do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark <- do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
@@ -483,7 +483,7 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 			#rectGrob(gp=gpar(col = "green", fill= NA)),
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
-			), name="scale_bar")
+			), name="scalebar")
 	})
 	
 	grid::grobTree(scalebar, vp = vp)
