@@ -35,8 +35,8 @@ preprocess_meta_step1 = function(o) {
 		
 		inner.margins.extra = rep(inner.margins.extra, length.out = 4)
 		
-		if (is.list(inner.margins)) {
-			inner.margins = lapply(inner.margins, function(im) {
+		inner.margins = if (is.list(inner.margins)) {
+			lapply(inner.margins, function(im) {
 				rep(im, length.out = 4) + inner.margins.extra
 			})
 		} else {
