@@ -270,7 +270,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	longlat = sf::st_is_longlat(crs)
 	
 	d[, bbox:=lapply(bbox, FUN = function(bbx) {
-		if (longlat && !st_is_longlat(bbx)) {
+		if (!is.na(longlat) && longlat && !st_is_longlat(bbx)) {
 			sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
 		} else {
 			bbx
@@ -278,7 +278,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	})]
 	
 	d[, units:=lapply(bbox, FUN = function(bbx) {
-		if (longlat) {
+		if (!is.na(longlat) && longlat) {
 			latitude <- mean.default(bbx[c(2,4)])
 			bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
 			ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})

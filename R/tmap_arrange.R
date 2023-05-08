@@ -71,13 +71,18 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		#png( tmp, width=700, height=700, res = 100)
 		
 		curdev <- dev.cur()
-		tasps <- vapply(tms, function(tm) {
-			asp <- get_asp_ratio(tm, width = 700, height = 700, res = 100)	
-			#asp <- print_tmap(tm, return.asp = TRUE, mode = "plot")
-			# dev.off()
-			asp
-		}, numeric(1))
+		rmc = tmap_options(raster.max.cells = 36)
+		tasps <- suppressMessages({
+			vapply(tms, function(tm) {
+				asp <- get_asp_ratio(tm, width = 700, height = 700, res = 100)	
+				#asp <- print_tmap(tm, return.asp = TRUE, mode = "plot")
+				# dev.off()
+				asp
+			}, numeric(1))
+		})
+
 		dev.set(curdev)
+		tmap_options(rmc)
 		
 		#dev.off()
 		#dev.off()

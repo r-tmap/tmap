@@ -23,7 +23,12 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
 	
-	shp2 = transwarp(s, crs, raster.warp = TRUE)
+	if (is.na(sf::st_crs(shp))) {
+		shp2 = s
+	} else {
+		shp2 = transwarp(s, crs, raster.warp = TRUE)
+	}
+	
 	tmapID2 = shp2[[1]]
 	
 	d2 = stars::st_dimensions(shp2)
@@ -36,7 +41,13 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 #' @method tmapReproject sfc
 #' @export
 tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
-	shp2 = sf::st_transform(shp, crs)
+	if (is.na(sf::st_crs(shp))) {
+		shp2 = shp
+		#sf::st_crs(shp2) = crs
+		#warning("Setting missing CRS to ", as.character(crs))
+	} else {
+		shp2 = sf::st_transform(shp, crs)
+	}
 	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
 	shapeTM(shp2, tmapID, bbox, ...)
 }
