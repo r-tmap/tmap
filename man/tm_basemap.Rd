@@ -5,9 +5,23 @@
 \alias{tm_tiles}
 \title{Map layer: basemap / overlay tiles}
 \usage{
-tm_basemap(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, group = NA)
+tm_basemap(
+  server = NULL,
+  alpha = NULL,
+  zoom = NULL,
+  zindex = 0,
+  group = NA,
+  group.control = "radio"
+)
 
-tm_tiles(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA)
+tm_tiles(
+  server = NULL,
+  alpha = NULL,
+  zoom = NULL,
+  zindex = NA,
+  group = NA,
+  group.control = "check"
+)
 }
 \arguments{
 \item{server}{Name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \code{providers$} to see the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable basemaps.}
@@ -22,4 +36,13 @@ tm_tiles(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA)
 }
 \description{
 Map layer that draws tiles from a tile server. The function \code{tm_basemap} draws the tile layer as basemap, i.e. as bottom layer. In contrast,  \code{tm_tiles} draws the tile layer as overlay layer, where the stacking order corresponds with the order in which this layer is called, just like other map layers.
+}
+\examples{
+tm_basemap() +
+	tm_shape(World) +
+	tm_polygons("HPI")
+
+tm_basemap("OpenTopoMap") +
+	tm_shape(World) + 
+	tm_polygons(fill = NA, col = "black")
 }

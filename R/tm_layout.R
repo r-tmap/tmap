@@ -213,6 +213,8 @@ tm_layout = function(
 tm_view = function(use.WebGL,
 				   legend.position,
 				   control.position, 
+				   control.bases,
+				   control.overlays,
 				   leaflet.options) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
@@ -222,4 +224,6 @@ tm_plot = function(use.gradient) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
 }
+
+
 

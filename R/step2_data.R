@@ -73,6 +73,7 @@ step2_data = function(tm) {
 			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 			
 			group = if (is.na(tml$group)) tmg$tms$shp_name else as.character(tml$group)
+			group.control = as.character(tml$group.control)
 			
 			list(trans_dt = dts_trans, 
 				 trans_legend = trans_legend, 
@@ -85,6 +86,7 @@ step2_data = function(tm) {
 				 mapping_args = tml$mapping.args,
 				 lid = tml$lid,
 				 group = group,
+				 group.control = group.control,
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation
 				 gp = gp,
 				 tp = tp)

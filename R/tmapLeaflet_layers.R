@@ -106,7 +106,7 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	} else {
 		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
 		lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-								  icon = symbols) |> 
+								  icon = symbols, group = group) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	

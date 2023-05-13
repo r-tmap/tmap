@@ -128,7 +128,7 @@ step1_rearrange = function(tmel) {
 
 	# # add basemaps
 
-	if (!is.null(o$basemap.server)) {
+	if (o$basemap.show) {
 		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
 			oth = c(oth, tm_basemap())
 			oth_lay_id = c(oth_lay_id, 0L)

@@ -34,8 +34,9 @@ tm_plot_order = function(aes, reverse = TRUE, na.order = c("mix", "bottom", "top
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend Line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_polygons.R 
 #' @name tm_polygons
 #' @rdname tm_polygons
@@ -71,6 +72,7 @@ tm_polygons = function(fill = tm_const(),
 					   mapping.args = list(),
 					   zindex = NA,
 					   group = NA,
+					   group.control = "check",
 					   ...) {
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
@@ -213,6 +215,7 @@ tm_polygons = function(fill = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -284,7 +287,8 @@ tm_balloons = function(col = tm_const(),
 					   alpha = 0.5,
 					   lwd = 2,
 					   zindex = NA,
-					   group = NA) {
+					   group = NA,
+					   group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = "balloons",
@@ -317,6 +321,7 @@ tm_balloons = function(col = tm_const(),
 		mapping.fun = "Polygons",
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -335,8 +340,9 @@ tm_balloons = function(col = tm_const(),
 #' The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link{tm_facets}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link{tm_facets_grid}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link{tm_facets_wrap}} and \code{\link{tm_facets_stack}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 #' 
 #' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_raster.R 
 #' @export
 tm_raster = function(col = tm_shape_vars(),
@@ -350,7 +356,8 @@ tm_raster = function(col = tm_shape_vars(),
 					 trans.args = list(),
 					 mapping.args = list(),
 					 zindex = NA,
-					 group = NA) {
+					 group = NA,
+					 group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = "raster",
@@ -386,6 +393,7 @@ tm_raster = function(col = tm_shape_vars(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -429,8 +437,9 @@ tm_rgb = function(col = tm_mv(1:3),
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_symbols.R 
 #' @export
 tm_symbols = function(size = tm_const(),
@@ -469,7 +478,8 @@ tm_symbols = function(size = tm_const(),
 					  trans.args = list(),
 					  mapping.args = list(),
 					  zindex = NA,
-					  group = NA) {
+					  group = NA,
+					  group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = "symbols",
@@ -535,6 +545,7 @@ tm_symbols = function(size = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -570,7 +581,8 @@ tm_bubbles = function(fill = tm_const(),
 					  trans.args = list(),
 					  mapping.args = list(),
 					  zindex = NA,
-					  group = NA) {
+					  group = NA,
+					  group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = c("bubbles", "symbols"),
@@ -631,6 +643,7 @@ tm_bubbles = function(fill = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -666,7 +679,8 @@ tm_dots = function(fill = tm_const(),
 				   trans.args = list(),
 				   mapping.args = list(),
 				   zindex = NA,
-				   group = NA) {
+				   group = NA,
+				   group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = c("dots", "symbols"),
@@ -727,6 +741,7 @@ tm_dots = function(fill = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -749,8 +764,9 @@ tm_dots = function(fill = tm_const(),
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_lines.R 
 #' @export
 tm_lines = function(col = tm_const(),
@@ -775,7 +791,8 @@ tm_lines = function(col = tm_const(),
 					trans.args = list(),
 					mapping.args = list(),
 					zindex = NA,
-					group = NA) {
+					group = NA,
+					group.control = "check") {
 	
 	tm_element_list(tm_element(
 		layer = "lines",
@@ -821,6 +838,7 @@ tm_lines = function(col = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -844,8 +862,9 @@ tm_lines = function(col = tm_const(),
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_lines.R 
 #' @export
 tm_text = function(text = tm_const(),
@@ -875,6 +894,7 @@ tm_text = function(text = tm_const(),
 				   mapping.args = list(clustering = FALSE),
 				   zindex = NA,
 				   group = NA,
+				   group.control = "check",
 				   ...) {
 	
 	#if (FALSE) {
@@ -1031,5 +1051,6 @@ tm_text = function(text = tm_const(),
 		mapping.args = mapping.args,
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

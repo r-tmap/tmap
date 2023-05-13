@@ -1,7 +1,9 @@
 .defaultTmapOptions = structure(
 	list(
 		# mode specific options or default values
-		modes = list(plot = list(name = "Grid", use.gradient = FALSE),
+		modes = list(plot = list(name = "Grid", 
+								 use.gradient = FALSE,
+								 basemap.show = FALSE),
 					 view = list(name = "Leaflet", 
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -10,7 +12,7 @@
 					 			#view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
 					 			panel.show = FALSE,
-					 			basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
+					 			basemap.show = TRUE,
 					 			leaflet.options = list())),
 		
 		crs = NA,
@@ -409,7 +411,7 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
-		basemap.server = NULL,
+		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,
 		overlays = NULL,

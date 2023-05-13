@@ -11,24 +11,26 @@
 #' @rdname tm_basemap
 #' @name tm_basemap
 #' @example ./examples/tm_basemap.R
-tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, group = NA) {
+tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, group = NA, group.control = "radio") {
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, type = "basemap"),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_basemap", "tm_aux_layer")))
 }
 
 #' @export
 #' @rdname tm_basemap
 #' @name tm_tiles
-tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA) {
+tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA, group.control = "check") {
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, type = "overlay"),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_tiles", "tm_aux_layer")))
 }
 
@@ -121,4 +123,4 @@ tm_grid = function(x = NA,
 		subclass = c("tm_grid", "tm_aux_layer")))
 }
 
-tm_graticules
+#tm_graticules

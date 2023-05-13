@@ -173,7 +173,7 @@ tm_scale_bar = function(...) {
 #' Map component that adds mouse coordinates
 #' 
 #' @param stack stack
-#' @param position
+#' @param position position
 #' @param z z
 #' @export
 tm_mouse_coordinates <- function(stack, 

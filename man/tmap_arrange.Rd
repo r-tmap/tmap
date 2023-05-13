@@ -50,3 +50,9 @@ Arrange small multiples in a grid layout. Normally, small multiples are created 
 \details{
 The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
+\examples{
+tm1 = tm_shape(World) + tm_polygons("HPI")
+tm2 = tm_shape(metro) + tm_bubbles(size = "pop2020")
+
+tmap_arrange(tm1, tm2)
+}

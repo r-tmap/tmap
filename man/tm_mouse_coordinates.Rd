@@ -9,6 +9,8 @@ tm_mouse_coordinates(stack, position, z)
 \arguments{
 \item{stack}{stack}
 
+\item{position}{position}
+
 \item{z}{z}
 }
 \description{

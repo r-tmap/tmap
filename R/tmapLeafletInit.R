@@ -143,13 +143,17 @@ tmapLeafletAux = function(o, q) {
 	lfs = .TMAP_LEAFLET$lfs
 	
 	pids = which(substr(q$pane, 1, 4) == "tmap")
-	groups = unique(unlist(strsplit(q$group, split = "__", fixed = TRUE)))
+	groups_radio = unique(unlist(strsplit(q$group[q$group.control == "radio"], split = "__", fixed = TRUE)))
+	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
 
+	# remove radio button when there is only one
+	if (length(groups_radio) == 1) groups_radio = character(0)
+	
 	lfs = lapply(lfs, function(lfp) {
 		lapply(lfp, function(lf) {
 			if (length(pids)) for (pid in pids) lf = leaflet::addMapPane(lf, q$pane[pid], zIndex = q$lid2[pid] + 400)
-			lf = leaflet::addLayersControl(lf, overlayGroups = groups, position = tmap:::leaflet_pos(str2pos(o$control.position)))
-		
+			
+			lf = leaflet::addLayersControl(lf, baseGroups = groups_radio, overlayGroups = groups_check, position = tmap:::leaflet_pos(str2pos(o$control.position)))
 		})
 	})
 	.TMAP_LEAFLET$lfs = lfs

@@ -383,8 +383,14 @@ step4_plot = function(tm, vp, return.asp, show) {
 		if (is.na(a$group)) agd else as.character(a$group)
 	}, aux, aux_group_def, USE.NAMES = FALSE)
 	
+	aux_group.control = vapply(aux, function(a) {
+		a$group.control
+	}, FUN.VALUE = character(1))
+	
 	# find lid (layer plot id values) for aux layers
 	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
+	
+	
 	
 	# data frame for layer ids
 	q = do.call(rbind, c(lapply(1L:o$ng, function(ig) {
@@ -392,8 +398,9 @@ step4_plot = function(tm, vp, return.asp, show) {
 		nl = length(tmxi$layers)
 		lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
 		group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
-		data.frame(gid = ig, glid = 1:nl, lid = lid, group = group)
-	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group)) else NULL))
+		group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
+		data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
+	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL))
 	
 	q$lid2 = 0
 	qnotnull = (q$lid != 0)

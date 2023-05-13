@@ -40,10 +40,10 @@ tmapGridTilesPrep = function(a, bs, o) {
 	xs = mapply(function(b, z) {
 
 		m = tryCatch({
-			maptiles::get_tiles(x = b, provider = a$server, zoom = z, crop = FALSE, )	
+			maptiles::get_tiles(x = b, provider = a$server[1], zoom = z, crop = FALSE, )	
 		}, error = function(e) {
 			tryCatch({
-				maptiles::get_tiles(x = b, provider = a$server, zoom = z - 1, crop = FALSE)	
+				maptiles::get_tiles(x = b, provider = a$server[1], zoom = z - 1, crop = FALSE)	
 			}, error = function(e) {
 				NULL
 			})

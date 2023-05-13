@@ -32,6 +32,21 @@ The mode before changing
 \description{
 Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.
 }
+\examples{
+tmap_mode()
+
+tmap_mode("plot")
+
+tm_shape(World) + tm_polygons("HPI")
+
+tmap_mode("view")
+
+tm_shape(World) + tm_polygons("HPI")
+
+ttm()
+
+tm_shape(World) + tm_polygons("HPI")
+}
 \references{
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }

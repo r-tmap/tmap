@@ -116,12 +116,10 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		
 	if (interactive) {
 		res = lapply(tms, function(tm) {
-			print(tm, show = FALSE)[[1]]
+			print(tm, show = FALSE)
 		})
 		res2 = do.call(leafsync::latticeView, c(res, list(ncol=ncol, sync=ifelse(identical(opts$sync, TRUE), "all", "none"), no.initial.sync = FALSE)))
-	
-		
-		
+
 		# 
 		# lfs <- lapply(tms, function(tm) {
 		# 	tmap_leaflet(tm, add.titles = FALSE)
