@@ -158,13 +158,14 @@ tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pag
 		
 		color[sel] = dt$col[match(tid2, dt$tmapID__)]
 		
-		
-		
+
 		#color = rep("#FFFFFF", length(tmapID))
 		#color[match(dt$tmapID__, tmapID)] = dt$color
 		
 		pal <- na.omit(unique(color))
 		pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
+		
+		if (!length(pal)) return(NULL)
 		
 		res <- split_alpha_channel(pal, alpha = 1)
 		pal_col <- res$col

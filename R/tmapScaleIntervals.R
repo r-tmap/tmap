@@ -22,7 +22,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
 		
-		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show, sortRev = sortRev))
+		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 
 		if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
 			if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)

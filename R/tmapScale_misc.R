@@ -49,7 +49,7 @@ update_na.show = function(label.show, na.show, anyNA) {
 
 
 
-tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev) {
+tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, na.show, sortRev, bypass_ord) {
 	
 	ids = if (is.null(sortRev)) {
 		NULL
@@ -65,7 +65,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev
 			dvalues = NA 
 			vvalues = NA
 			vneutral = value.na
-			na.show = NA
+			na.show = na.show
 			show = FALSE
 		})
 	} else {
@@ -76,7 +76,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev
 			dvalues = NA
 			vvalues = value.na
 			vneutral = value.na
-			na.show = TRUE
+			na.show = na.show
 		})
 	}
 	
