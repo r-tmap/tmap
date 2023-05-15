@@ -7,13 +7,23 @@ tmapSubsetShp = function(...) {
 tmapSubsetShp.stars = function(shp, vars) {
 	ids = unique(c(which(names(shp) %in% vars),
 				   which(make.names(names(shp)) %in% vars)))
-	shp[ids]
+	shp2 = shp[ids]
+	if (!length(vars)) {
+		shp2$dummy__ = TRUE
+	}
+	shp2
 }
 
 #' @method tmapSubsetShp SpatRaster
 #' @export
 tmapSubsetShp.SpatRaster = function(shp, vars) {
-	shp[[vars]]
+	#v = setdiff(vars, names(shp))
+	#if (length(v)) stop("Variable(s) not found: \"", paste(v, collapse = "\",\""), "\"")
+	if (!length(vars)) {
+		terra::rast(extent = terra::ext(shp), crs = terra::crs(shp), vals = TRUE, names = "dummy__")
+	} else {
+		shp[[vars]]
+	}
 }
 
 #' @method tmapSubsetShp SpatRaster

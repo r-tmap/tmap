@@ -48,7 +48,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			check_fun = paste0("tmapValuesCheck_", unm)
 			if (!do.call(check_fun, list(x = val1))) {
 				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
-				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer, "\" are incorrect.")
+				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer, "\" are incorrect.", call. = FALSE)
 			}
 			
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))
@@ -176,8 +176,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				# update legend options
 				oltype = o[c("legend.design", "legend.orientation")]
 				names(oltype) = c("design", "orientation")
-				
-				if (v %in% c("AREA", "MAP_COLORS") && is.null(l$show)) {
+				if (all(v %in% c("AREA", "MAP_COLORS")) && is.null(l$show)) {
 					l$show = FALSE
 				}
 				
