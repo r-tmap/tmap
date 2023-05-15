@@ -213,7 +213,7 @@ Maps can also be made with one function call.
 This function is `qtm`:
 
 ```{r}
-qtm(World, fill = "HPI", fill.pallete = "RdYlGn")
+qtm(World, fill = "HPI", fill.palette = "RdYlGn")
 ```
 
 ### Tips 'n Tricks
