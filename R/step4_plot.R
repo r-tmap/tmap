@@ -196,6 +196,12 @@ step4_plot = function(tm, vp, return.asp, show) {
 	# determine panel type, inner margins, and automatic comp placement
 	o = preprocess_meta(o, cdt)
 	
+	# add shape unit (needed for e.g. tm_scale_bar)
+	unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
+	crs = get_option_class(o$crs, "sf") #o$crs
+	longlat = sf::st_is_longlat(crs)
+	
+	
 	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
 		b = list(by1, by2, by3)
@@ -231,7 +237,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 		bbxs = lapply(tmain, function(tmi) {
 			shpTM = get_shpTM(tmi$shpDT, by1, by2, by3)
 			mdt = get_dt(tmi$mapping_dt, by1, by2, by3)
-			bbxs2 = lapply(shpTM, stm_bbox, tmapID = mdt$tmapID__)
+			bbxs2 = lapply(shpTM, stm_bbox, tmapID = mdt$tmapID__, crs = crs)
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})
@@ -264,10 +270,6 @@ step4_plot = function(tm, vp, return.asp, show) {
 
 	
 	
-	# add shape unit (needed for e.g. tm_scale_bar)
-	unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
-	crs = get_option_class(o$crs, "sf") #o$crs
-	longlat = sf::st_is_longlat(crs)
 	
 	d[, bbox:=lapply(bbox, FUN = function(bbx) {
 		if (!is.na(longlat) && longlat && !st_is_longlat(bbx)) {

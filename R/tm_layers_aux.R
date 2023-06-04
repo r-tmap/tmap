@@ -114,12 +114,14 @@ tm_grid = function(x = NA,
 				   lines = TRUE,
 				   ndiscr = 100,
 				   zindex = NA,
-				   group = NA) {
+				   group = NA,
+				   group.control = "none") {
 	tm_element_list(tm_element(
 		args = c(list(show = TRUE), as.list(environment())),
 		mapping.fun = "Grid",
 		zindex = zindex,
 		group = group,
+		group.control = group.control,
 		subclass = c("tm_grid", "tm_aux_layer")))
 }
 

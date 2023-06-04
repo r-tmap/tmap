@@ -29,9 +29,14 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 # 	}
 # }
 
-stm_bbox = function(shpTM, tmapID) {
+stm_bbox = function(shpTM, tmapID, crs) {
 	bbox = shpTM$bbox
-	if (!is.null(bbox)) return(bbox)
+	if (!is.null(bbox)) {
+		if (sf::st_crs(bbox) != crs) {
+			bbox = tmaptools::bb(bbox, projection = crs)
+		}
+		return(bbox)
+	}
 	
 	shp = shpTM$shp
 	shpID = shpTM$tmapID
