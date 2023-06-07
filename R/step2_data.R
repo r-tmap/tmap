@@ -6,6 +6,9 @@ step2_data = function(tm) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
+	if (is.null(tmo)) {
+		return(	list(tmo = NULL, aux = aux, cmp = cmp, o = o))
+	}
 	
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)

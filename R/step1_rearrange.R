@@ -58,76 +58,84 @@ step1_rearrange = function(tmel) {
 	o = preprocess_meta_step1(o)
 	
 	
+	any_data_layer = length(tmel_spl) > 0L
 	
-	
-	# organize groups, 1 tm_shape, at least 1 tm_layers, 1 tm_facets
-	tmo = mapply(function(tmg, lid) {
-		is_tms = vapply(tmg, inherits, "tm_shape", FUN.VALUE = logical(1))
-		is_tml = vapply(tmg, inherits, "tm_layer", FUN.VALUE = logical(1))
-		is_tmf = vapply(tmg, inherits, "tm_facets", FUN.VALUE = logical(1))
+	if (any_data_layer) {
+		# organize groups, 1 tm_shape, at least 1 tm_layers, 1 tm_facets
+		tmo = mapply(function(tmg, lid) {
+			is_tms = vapply(tmg, inherits, "tm_shape", FUN.VALUE = logical(1))
+			is_tml = vapply(tmg, inherits, "tm_layer", FUN.VALUE = logical(1))
+			is_tmf = vapply(tmg, inherits, "tm_facets", FUN.VALUE = logical(1))
+			
+			# make sure there is exactly one tm_facets per group (if there are none, add one, if there are mutple, take last)
+			if (!any(is_tmf)) {
+				tmf = tm_facets()[[1]]
+				tmf$calls = NULL
+			} else {
+				# get last tm_facets element
+				k = sum(is_tmf)
+				if (k < 1) warning("Multiple tm_facets defined per layer group. Only the last one is processed", call. = FALSE)
+				tmf = tmg[[which(is_tmf)[k]]]
+			}
+			
+			# extract layers and add layer id number
+			tmls = mapply(function(l, i) {
+				l$lid = if (is.na(l$zindex)) i else l$zindex
+				l
+			}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
+			
+			structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
+		}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
 		
-		# make sure there is exactly one tm_facets per group (if there are none, add one, if there are mutple, take last)
-		if (!any(is_tmf)) {
-			tmf = tm_facets()[[1]]
-			tmf$calls = NULL
-		} else {
-			# get last tm_facets element
-			k = sum(is_tmf)
-			if (k < 1) warning("Multiple tm_facets defined per layer group. Only the last one is processed", call. = FALSE)
-			tmf = tmg[[which(is_tmf)[k]]]
-		}
+		tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
+		tmf = tmo$tmf_global # global facetting options, to be appended to options o
+		tmo$tmf_global = NULL
 		
-		# extract layers and add layer id number
-		tmls = mapply(function(l, i) {
-			l$lid = if (is.na(l$zindex)) i else l$zindex
-			l
-		}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
+		# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
+		# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
+		ids = get_main_ids(tmo)
 		
-		structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
-	}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
-
-	tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
+		tms = tmo[[ids[1]]]$tms
+		
+		
+		
+		
+	} else {
+		tmo = NULL
+		tmf = tm_facets()[[1]]
+		tmf$calls = NULL
+		tmf$fn = c(1, 1, 1)
+		tmf$n = 1
+		tmf$fl = list(NULL, NULL, NULL)
+		tmf$type = "wrap"
+		ids = 0
+		
+	}
 	
-	if (dev) timing_add(s2 = "facet meta")
-	
-	tmf = tmo$tmf_global # global facetting options, to be appended to options o
-	tmo$tmf_global = NULL
-
-	
-# 
-# 	fl  = list(1L, 1L, 1L)
-# 	for (tmg in tmo) {
-# 		
-# 	}
-	 
-	
-	# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
-	# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
-	ids = get_main_ids(tmo)
-	
-	
-	# get main crs (option or extracted from first main shape)
 	crs_option = o$crs
-	tms = tmo[[ids[1]]]$tms
-	
 	
 	if (inherits(crs_option, "leaflet_crs")) {
 		crs_leaflet = crs_option
 		crs = leaflet2crs(crs_leaflet)
-	} else if (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0)) {
+	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
 		crs = get_crs(tms)
 		crs_leaflet = leafletSimple
 	}  else {
 		crs = crs_option
 		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
 	}
+	
+	if (any_data_layer) {
+		main_class = get_class(tms)
+	} else {
+		main_class = "stars" # basemaps
+	}
+	
 
-	main_class = get_class(tms)
-
-
-
+	if (dev) timing_add(s2 = "facet meta")
+	
+	
 	# # add basemaps
-
 	if (o$basemap.show) {
 		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
 			oth = c(oth, tm_basemap())
@@ -135,10 +143,8 @@ step1_rearrange = function(tmel) {
 		}
 	}
 
-
 	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
 
-	
 	if (any(is_aux)) {
 		
 		aux = mapply(function(l, i) {
@@ -153,12 +159,7 @@ step1_rearrange = function(tmel) {
 		aux = list()
 	}
 	
-	
-	
-	
-	
-	
-	
+
 	is_comp = sapply(oth, inherits, "tm_component")
 	if (any(is_comp)) {
 		cmp = oth[is_comp]
@@ -189,10 +190,14 @@ step1_rearrange = function(tmel) {
 	
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 
-	tmo = structure(lapply(tmo, function(tmg) {
-		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = o, tmf = tmg$tmf)))
-		tmg
-	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
+	
+	if (any_data_layer) {
+		tmo = structure(lapply(tmo, function(tmg) {
+			tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = o, tmf = tmg$tmf)))
+			tmg
+		}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
+	}
+	
 	if (dev) timing_add(s2 = "prep shape")
 	
 	list(tmo = tmo, aux = aux, cmp = cmp, o = o)

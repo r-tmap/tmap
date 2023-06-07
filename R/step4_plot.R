@@ -165,6 +165,8 @@ step4_plot = function(tm, vp, return.asp, show) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
+	any_data_layer = (length(tmx) > 0L)
+	
 	# split tm in case of as.layers in tm_facets
 	# TODO
 
@@ -174,22 +176,26 @@ step4_plot = function(tm, vp, return.asp, show) {
 	o = prepreprocess_meta(o, vp)
 	
 	# get legends from layer data and put them in "components data.table" (cdt)
-	cdt = step4_plot_collect_legends(tmx)
 	
-	
-	if (length(cmp)) {
-		cdt2 = data.table::rbindlist(lapply(cmp, function(cp) {
-			data.table(by1__ = as.integer(NA),
-					   by2__ = as.integer(NA),
-					   by3__ = as.integer(NA),
-					   comp = list(cp))	
-		}))
-		cdt = data.table::rbindlist(list(cdt, cdt2))
+	if (any_data_layer) {
+		cdt = step4_plot_collect_legends(tmx)
+		if (length(cmp)) {
+			cdt2 = data.table::rbindlist(lapply(cmp, function(cp) {
+				data.table::data.table(by1__ = as.integer(NA),
+						   by2__ = as.integer(NA),
+						   by3__ = as.integer(NA),
+						   comp = list(cp))	
+			}))
+			cdt = data.table::rbindlist(list(cdt, cdt2))
+		}
+		if (nrow(cdt)) cdt = process_components(cdt, o)
+	} else {
+		cdt = data.table::data.table(by1__ = integer(0),
+									 by2__ = integer(0),
+									 by3__ = integer(0),
+									 comp = list())	
 	}
 	
-		
-
-	if (nrow(cdt)) cdt = process_components(cdt, o)
 	
 	
 	
@@ -246,13 +252,19 @@ step4_plot = function(tm, vp, return.asp, show) {
 	
 	# main group (that determines bounding box)
 	# TODO take into account multiple main groups (see step1_rearrange and get_main_ids)
-	tmain = tmx[[o$main]][[1]]
 	
-	# create table with meta data for the facets (row, col id, bbox, asp)
-	d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
-	d[, i := seq_len(nrow(d))]
-	grps = c("by1", "by2", "by3")[o$free.coords]
-	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
+	if (any_data_layer) {
+		tmain = tmx[[o$main]][[1]]
+		
+		# create table with meta data for the facets (row, col id, bbox, asp)
+		d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
+		d[, i := seq_len(nrow(d))]
+		grps = c("by1", "by2", "by3")[o$free.coords]
+		d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
+	} else {
+		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(st_bbox()))
+	}
+	
 	d[, asp:=get_asp(bbox)]
 	
 	# limit facets
@@ -267,9 +279,6 @@ step4_plot = function(tm, vp, return.asp, show) {
 		o$fn = fn_lim
 		o$n = n_lim
 	}
-
-	
-	
 	
 	d[, bbox:=lapply(bbox, FUN = function(bbx) {
 		if (!is.na(longlat) && longlat && !st_is_longlat(bbx)) {
@@ -296,7 +305,6 @@ step4_plot = function(tm, vp, return.asp, show) {
 		}
 		units <- list(projection=crs, unit=unit, to=to, projected = !longlat)
 	})]
-	
 	
 	# determine automatic position of inside comp
 	if (!any(o$free.coords) && any(cdt$class == "autoin")) {
@@ -327,7 +335,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	o = process_meta(o, d, cdt, aux)
 	
 	o$ng = length(tmx)
-
+	
 	
 	# determine row and col ids	
 	if (o$panel.type == "xtab") {
@@ -345,7 +353,9 @@ step4_plot = function(tm, vp, return.asp, show) {
 		
 	}
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
-	
+		
+	#####o$legend.autoin.pos = c("left", "top")
+
 	# prepare function names
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNaux = paste0("tmap", gs, "Aux")
@@ -359,19 +369,18 @@ step4_plot = function(tm, vp, return.asp, show) {
 	FUNgridylab = paste0("tmap", gs, "GridYLab")
 	
 	
-	
-	
 	# create table with bounding boxes (the only important property, apart from settings)
 	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
 	db[, i:=1L:nrow(db)]
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
-
+	
 	## process components
 	if (nrow(cdt)) cdt = process_components2(cdt, o)
 	
 	# init
 	asp = do.call(FUNinit, list(o = o, return.asp = return.asp))
 	if (return.asp) return(asp)
+
 	
 	
 	## prepare aux layers
@@ -395,14 +404,20 @@ step4_plot = function(tm, vp, return.asp, show) {
 	
 	
 	# data frame for layer ids
-	q = do.call(rbind, c(lapply(1L:o$ng, function(ig) {
-		tmxi = tmx[[ig]]
-		nl = length(tmxi$layers)
-		lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
-		group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
-		group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
-		data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
-	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL))
+	q = do.call(rbind, c(
+		{if (any_data_layer) {
+			lapply(1L:o$ng, function(ig) {
+				tmxi = tmx[[ig]]
+				nl = length(tmxi$layers)
+				lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
+				group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
+				group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
+				data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
+			})			
+		} else {
+			NULL
+		}}, 
+		{if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL}))
 	
 	q$lid2 = 0
 	qnotnull = (q$lid != 0)
