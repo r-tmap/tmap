@@ -153,9 +153,8 @@ tmapLeafletAux = function(o, q) {
 	lfs = lapply(lfs, function(lfp) {
 		lapply(lfp, function(lf) {
 			if (length(pids)) for (pid in pids) lf = leaflet::addMapPane(lf, q$pane[pid], zIndex = q$lid2[pid] + 400)
-			
 			if (length(groups_radio) > 0L || length(groups_check) > 0L) {
-				lf = leaflet::addLayersControl(lf, baseGroups = groups_radio, overlayGroups = groups_check, position = tmap:::leaflet_pos(str2pos(o$control.position)))
+				lf = leaflet::addLayersControl(lf, baseGroups = groups_radio, overlayGroups = groups_check, position = tmap:::leaflet_pos(str2pos(o$control.position)), options = leaflet::layersControlOptions(collapsed = o$control.collapse))
 			} else {
 				lf
 			}

@@ -1,6 +1,6 @@
-tmapLeafletTilesPrep = function(a, bs, o) {
+tmapLeafletTilesPrep = function(a, bs, id, o) {
 	tiles = lapply(1L:length(bs), function(i) a)
-	.TMAP_LEAFLET$tiles = tiles
+	.TMAP_LEAFLET$tiles[[id]] = tiles
 	paste0(a$server, collapse = "__")
 }
 
@@ -11,7 +11,7 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	rc_text = frc(facet_row, facet_col)
 	
 	
-	tiles = .TMAP_LEAFLET$tiles[[bi]]
+	tiles = .TMAP_LEAFLET$tiles[[id]][[bi]]
 	
 	for (s in tiles$server) lf = leaflet::addProviderTiles(lf, provider = s, group = s)
 	assign_lf(lf, facet_row, facet_col, facet_page)

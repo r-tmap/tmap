@@ -386,10 +386,10 @@ step4_plot = function(tm, vp, return.asp, show) {
 	## prepare aux layers
 	
 	# prepare aux layers and return group label (in case it is not user specified)
-	aux_group_def = lapply(aux, function(a) {
+	aux_group_def = mapply(function(a, id) {
 		FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
-		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
-	})
+		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, id = id, o = o))
+	}, aux, 1:length(aux))
 	aux_group = mapply(function(a, agd) {
 		if (is.na(a$group)) agd else as.character(a$group)
 	}, aux, aux_group_def, USE.NAMES = FALSE)
@@ -492,10 +492,14 @@ step4_plot = function(tm, vp, return.asp, show) {
 				}
 				
 			} else {
+				glid = q$glid[qi]
+				
+				
 				# aux layer
 				a = aux[[glid]]							
 				FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
-				id = paste0("aux", sprintf("%03d", glid))
+				
+				id = glid # to do: test!
 				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 				
 			}

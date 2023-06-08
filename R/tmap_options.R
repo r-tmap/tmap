@@ -11,6 +11,7 @@
 					 			facet.max = 16, 
 					 			#view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
+					 			control.collapse = FALSE,
 					 			panel.show = FALSE,
 					 			basemap.show = TRUE,
 					 			leaflet.options = list())),
