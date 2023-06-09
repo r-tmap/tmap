@@ -36,6 +36,7 @@ assign_lf = function(lf, facet_row, facet_col, facet_page) {
 }
 
 tmapLeafletWrap = function(label, facet_row, facet_col, facet_page, o) {
+	
 	NULL
 }
 

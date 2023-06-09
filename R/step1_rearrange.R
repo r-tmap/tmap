@@ -163,21 +163,7 @@ step1_rearrange = function(tmel) {
 	is_comp = sapply(oth, inherits, "tm_component")
 	if (any(is_comp)) {
 		cmp = oth[is_comp]
-		cmp = lapply(cmp, function(a) {
-			cls = class(a)[1]
-			
-			ot = get_prefix_opt(class = cls, o = o)
-			
-			ca = class(a)
-			
-			# special case: position, in case c("left", "top") is used
-			if (is.character(a$position)) a$position = str2pos(a$position)
-			
-			a = complete_options(a, ot)
-			
-			class(a) = ca
-			a
-		})
+		cmp = lapply(cmp, impute_comp, o = o)
 	} else {
 		cmp = list()
 	}
@@ -219,6 +205,22 @@ get_crs = function(tms) {
 
 get_class = function(tms) {
 	class(tms$shp)
+}
+
+impute_comp = function(a, o) {
+	cls = class(a)[1]
+	
+	ot = get_prefix_opt(class = cls, o = o)
+	
+	ca = class(a)
+	
+	# special case: position, in case c("left", "top") is used
+	if (is.character(a$position)) a$position = str2pos(a$position)
+	
+	a = complete_options(a, ot)
+	
+	class(a) = ca
+	a
 }
 
 

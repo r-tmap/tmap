@@ -334,6 +334,34 @@ step4_plot = function(tm, vp, return.asp, show) {
 	# calculate margins, number of rows and colums, etc.
 	o = process_meta(o, d, cdt, aux)
 	
+
+	# workaround to move panels to titles in view mode
+	# TO DO: make this generic (e.g. component prep function?)
+	if (gs == "Leaflet") {
+		if (o$panel.type != "none") {
+			cdt = rbindlist(c(list(cdt), mapply(function(lab, i) {
+				data.table::data.table(by1__ = i, 
+									   by2__ = as.integer(NA), 
+									   by3__ = as.integer(NA), 
+									   comp = list(impute_comp(tm_title(lab)[[1]], o)),
+									   class=  "in",
+									   cell.h = NA,
+									   cell.v = NA,
+									   pos.h = "left",
+									   pos.v = "top",
+									   z = 1,
+									   facet_row = as.character(NA),
+									   facet_col = as.character(NA),
+									   stack_auto = TRUE,
+									   stack = "vertical",
+									   legW = 0,
+									   legH = 0)	
+			}, o$panel.labels[[1]], seq_len(o$fn[1]), SIMPLIFY = FALSE)))
+		}
+		o$panel.type = "none"
+	}
+	
+	
 	o$ng = length(tmx)
 	
 	
