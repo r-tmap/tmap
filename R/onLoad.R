@@ -14,6 +14,10 @@
 	# 		 pals = structure(as.list(pals), names = pals))
 	# }, env = envir)
 	
+	assign("last_map", NULL, envir = .TMAP)
+	assign("last_map_new", NULL, envir = .TMAP)
+	
+	
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
 	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
 	

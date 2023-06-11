@@ -27,8 +27,50 @@ tm_element_list_sel = function(tml, subclass) {
 #' @param e2 second tmap element
 #' @export
 "+.tmap" = function(e1, e2) {
+	assign("last_map_new", match.call(), envir = .TMAP)
 	structure(c(e1, e2), class = "tmap")
 }
+
+#' Retrieve the last map to be modified or created
+#' 
+#' Retrieve the last map to be modified or created. Works in the same way as \code{ggplot2}'s \code{\link[ggplot2:last_plot]{last_plot}}, although there is a difference: \code{last_map} returns the last call instead of the stacked \code{\link{tmap-element}s}.
+#' 
+#' @return call
+#' @export
+#' @seealso \code{\link{tmap_save}}
+tmap_last = function() {
+	.x = get("last_map", envir = .TMAP)
+	if (is.null(.x) && get("tmapOptions", envir = .TMAP)$show.warnings) warning("A map has not been created yet")
+	eval(.x)
+}
+
+save_last_map = function() {
+	lt = get("last_map", envir = .TMAP)
+	ltnew = get("last_map_new", envir = .TMAP)
+	if (!is.null(ltnew)) lt = replace_last_tmap_by_correct_call(ltnew, lt)
+	assign("last_map", lt, envir = .TMAP)
+	assign("last_map_new", NULL, envir = .TMAP)
+}
+
+
+replace_last_tmap_by_correct_call = function(mc, lt) {
+	if (is.symbol(mc)) {
+		mc
+	} else if (as.character(mc[1])=="last_map") {
+		lt
+	} else {
+		if (as.character(mc[1]) %in% c("+.tmap", "+")) {
+			if (!is.null(mc[[2]])) mc[2] = list(replace_last_tmap_by_correct_call(mc[[2]], lt))
+			if (!is.null(mc[[3]])) mc[3] = list(replace_last_tmap_by_correct_call(mc[[3]], lt))
+		}
+		mc
+	}
+}
+
+
+
+
+
 
 #' Print tm_element
 #' 
