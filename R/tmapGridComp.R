@@ -1,8 +1,26 @@
+tmapGridCompPrepare_text = function(comp, o) {
+	n = length(comp$text)
+	lst = lapply(seq_len(n), function(i){
+		within(comp, {
+			color[is.na(color)] = o$attr.color
+			color = do.call("process_color", c(list(col=color), o$pc))
+			size = size * o$scale
+			fontface[is.na(fontface)] =o$text.fontface
+			fontfamily[is.na(fontfamily)] =o$text.fontfamily
+			#text = lapply(text, rep, length.out=o$n)
+			text = text[i]
+			show = nonempty_text(text)
+		})
+	})
+	class(lst) = c("tm_multi_comp", "list")
+	lst
+}
+
+
 #' @method tmapGridCompPrepare tm_title
 #' @export
 tmapGridCompPrepare.tm_title = function(comp, o) {
-	comp$show = TRUE
-	comp
+	tmapGridCompPrepare_text(comp, o)
 }
 
 #' @method tmapGridCompHeight tm_title
@@ -26,16 +44,7 @@ tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
 #' @method tmapGridCompPrepare tm_credits
 #' @export
 tmapGridCompPrepare.tm_credits = function(comp, o) {
-	within(comp, {
-		color[is.na(color)] <- o$attr.color
-		color <- do.call("process_color", c(list(col=color), o$pc))
-		size <- size * o$scale
-		fontface[is.na(fontface)] <-o$text.fontface
-		fontfamily[is.na(fontfamily)] <-o$text.fontfamily
-		#text <- lapply(text, rep, length.out=o$n)
-		show <- lapply(text, nonempty_text)
-		
-	})
+	tmapGridCompPrepare_text(comp, o)
 }
 
 #' @method tmapGridCompHeight tm_credits
@@ -59,10 +68,10 @@ tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
 #' @method tmapGridCompPrepare tm_compass
 #' @export
 tmapGridCompPrepare.tm_compass = function(comp, o) {
-	o$attr.color.light <- is_light(o$attr.color)
+	o$attr.color.light = is_light(o$attr.color)
 	within(comp, {
-		if (is.na(text.color)) text.color <- o$attr.color
-		text.color <- do.call("process_color", c(list(col=text.color), o$pc))
+		if (is.na(text.color)) text.color = o$attr.color
+		text.color = do.call("process_color", c(list(col=text.color), o$pc))
 		
 		if (is.na(color.dark)) color.dark = ifelse(o$attr.color.light, o$attr.color, o$attr.color)
 		if (is.na(color.light)) color.light = ifelse(o$attr.color.light, "black", "white")
@@ -125,11 +134,11 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 #' @method tmapGridLegPlot tm_compass
 #' @export
 tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
-	u <- 1/(comp$nlines)
-	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
+	u = 1/(comp$nlines)
+	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
-	light <- do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark <- do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
+	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
+	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
 	
 	wsu = comp$wsu
@@ -142,65 +151,65 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	
 	
 	if (comp$type=="4star") {
-		s <- c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
-		x <- list(rep.int(s, 2))
-		y <- list(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)])
-		id <- rep(1:8, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
+		s = c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
+		x = list(rep.int(s, 2))
+		y = list(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)])
+		id = rep(1:8, each=3)
+		fill = c(dark, light, dark, light, light, dark, light, dark)
 	} else if (comp$type=="8star") {
-		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
-		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
-		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
-		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
+		s = c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
+		s2 = c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
+		x = list(c(rep.int(s, 2), rep.int(s2, 2)))
+		y = list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
+		id = rep(1:16, each=3)
+		fill = c(dark, light, dark, light, light, dark, light, dark)
 	} else if (comp$type=="arrow") {
-		x <- list(c(.5, .7, .5, .5, .3, .5))
-		y <- list(c(1, 0, .2, 1, 0, .2))
-		id <- rep(1:2, each=3)
-		fill <- c(dark, light)
+		x = list(c(.5, .7, .5, .5, .3, .5))
+		y = list(c(1, 0, .2, 1, 0, .2))
+		id = rep(1:2, each=3)
+		fill = c(dark, light)
 	} else if (comp$type=="radar") {
-		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * comp$lwd
+		cr = c(.45, .42, .2, .17, .1)
+		LWD = round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * comp$lwd
 		
-		cd <- seq(1/8, 15/8, by=.25) * pi
-		cd2 <- seq(1/4, 7/4, by=.5) * pi
-		cd3 <- seq(0, 1.75, by=.25) * pi
+		cd = seq(1/8, 15/8, by=.25) * pi
+		cd2 = seq(1/4, 7/4, by=.5) * pi
+		cd3 = seq(0, 1.75, by=.25) * pi
 		
-		x <- list(.5,
+		x = list(.5,
 				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
 				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5), use.names = FALSE),
 				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
 		
-		y <- list(.5,
+		y = list(.5,
 				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
 				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5), use.names = FALSE),
 				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
 		
 	} else if (comp$type=="rose") {
-		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE) * comp$lwd
-		cd <- seq(1/8, 15/8, by=.25) * pi
-		cd2 <- seq(1/4, 7/4, by=.5) * pi
-		cd3 <- seq(0, 1.75, by=.25) * pi
+		cr = c(.45, .42, .2, .17, .1)
+		LWD = convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE) * comp$lwd
+		cd = seq(1/8, 15/8, by=.25) * pi
+		cd2 = seq(1/4, 7/4, by=.5) * pi
+		cd3 = seq(0, 1.75, by=.25) * pi
 		
-		b <- cr[4]
-		a <- 0.4142136 * b # 1/16th circleL
-		s <- c(.5, .5, .5+a, .5, .5, .5-a, 0, .5, .5-b, 1, .5, .5+b)
-		s2 <- c(.5, .5+b, .78, .5, .5+a, .78, .5, .5-b, .22, .5, .5-a, .22)
+		b = cr[4]
+		a = 0.4142136 * b # 1/16th circleL
+		s = c(.5, .5, .5+a, .5, .5, .5-a, 0, .5, .5-b, 1, .5, .5+b)
+		s2 = c(.5, .5+b, .78, .5, .5+a, .78, .5, .5-b, .22, .5, .5-a, .22)
 		
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
+		id = rep(1:16, each=3)
+		fill = c(dark, light, dark, light, light, dark, light, dark)
 		
 		
-		x <- list(.5,
+		x = list(.5,
 				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
 				  c(rep.int(s, 2), rep.int(s2, 2)))
 		
-		y <- list(.5,
+		y = list(.5,
 				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
 				  c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
@@ -209,59 +218,59 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	
 	
 	# rescale
-	resc <- function(a) (a-.5)*(comp$size/comp$nlines) + .5
+	resc = function(a) (a-.5)*(comp$size/comp$nlines) + .5
 	
-	x <- lapply(x, resc)
-	y <- lapply(y, resc)
-	if (comp$type %in% c("radar", "rose")) cr <- cr * (comp$size/comp$nlines)
+	x = lapply(x, resc)
+	y = lapply(y, resc)
+	if (comp$type %in% c("radar", "rose")) cr = cr * (comp$size/comp$nlines)
 	
 	if (comp$north!=0) {
-		drotate <- comp$north/180*pi - .5*pi
+		drotate = comp$north/180*pi - .5*pi
 		
-		xy <- mapply(function(a,b){
-			d <- atan2(b-.5, a-.5)
-			r <- sqrt((a-.5)^2 + (b-.5)^2)
+		xy = mapply(function(a,b){
+			d = atan2(b-.5, a-.5)
+			r = sqrt((a-.5)^2 + (b-.5)^2)
 			
 			list(x=r * sin(d+drotate) + .5,
 				 y=r * cos(d+drotate) + .5)
 		}, x, y, SIMPLIFY=FALSE)
-		x <- lapply(xy, "[[", 1)
-		y <- lapply(xy, "[[", 2)
-	} else drotate <- -.5*pi
+		x = lapply(xy, "[[", 1)
+		y = lapply(xy, "[[", 2)
+	} else drotate = -.5*pi
 	
 	
 	# shift compass to south direction
 	if (comp$show.labels==1) {
-		x <- lapply(x, function(a) a - (u/2) * sin(drotate + .5*pi))
-		y <- lapply(y, function(b) b - (u/2) * cos(drotate + .5*pi))
+		x = lapply(x, function(a) a - (u/2) * sin(drotate + .5*pi))
+		y = lapply(y, function(b) b - (u/2) * cos(drotate + .5*pi))
 	}
 	
 	
 	
-	grobBG <- if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
-	grobLabels <- if (comp$show.labels==0) {
+	grobLabels = if (comp$show.labels==0) {
 		NULL
 	} else {
-		selection <- if (comp$show.labels==1) {
+		selection = if (comp$show.labels==1) {
 			c(TRUE, rep.int(FALSE, 7))
 		} else if (comp$show.labels==2) {
 			rep.int(c(TRUE, FALSE), 4)
 		} else rep.int(TRUE, 8)
 		
-		labels <- comp$cardinal.directions[c(1, 1, 2, 3, 3, 3, 4, 1)]
-		labels[c(2,4,6,8)] <- paste(labels[c(2,4,6,8)], comp$cardinal.directions[c(2, 2, 4, 4)], sep="")
-		labels <- labels[selection]
+		labels = comp$cardinal.directions[c(1, 1, 2, 3, 3, 3, 4, 1)]
+		labels[c(2,4,6,8)] = paste(labels[c(2,4,6,8)], comp$cardinal.directions[c(2, 2, 4, 4)], sep="")
+		labels = labels[selection]
 		
-		lr <- (1-u)/2
-		ld <- (seq(0, 1.75, by=.25) * pi)[selection]
+		lr = (1-u)/2
+		ld = (seq(0, 1.75, by=.25) * pi)[selection]
 		
-		lx <- lr * sin(ld+drotate + .5*pi) + .5
-		ly <- lr * cos(ld+drotate + .5*pi) + .5
+		lx = lr * sin(ld+drotate + .5*pi) + .5
+		ly = lr * cos(ld+drotate + .5*pi) + .5
 		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=0, gp=gpar(col=comp$text.color, cex=comp$text.size, fontface=o$text.fontface, fontfamily=o$text.fontfamily)) # -drotate/pi*180 - 90
 	}
 	
-	grobComp <- if (comp$type %in% c("arrow", "4star", "8star")) {
+	grobComp = if (comp$type %in% c("arrow", "4star", "8star")) {
 		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=comp$lwd, col=dark))
 	} else if (comp$type=="radar") {
 		gTree(children = gList(
@@ -291,7 +300,7 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	compass = gridCell(3,3, {
 		gTree(children=gList(grobBG, 
 						 if (!is.na(comp$bg.color)) {
-						 	bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
+						 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
 						 	rectGrob(gp=gpar(col=NA, fill=bg.col))
 						 } else {
 						 	NULL
@@ -322,7 +331,7 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
 				if (show.warnings) warning("First scalebar breaks value should be 0.", call. = FALSE)
-				breaks <- c(0, breaks)
+				breaks = c(0, breaks)
 			}
 		}
 		
@@ -333,7 +342,7 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 			width = .25
 		}
 		
-		if (is.na(text.color)) text.color <- o$attr.color
+		if (is.na(text.color)) text.color = o$attr.color
 		text.size = text.size * o$scale
 		lwd = lwd * o$scale
 		show = TRUE
@@ -393,8 +402,8 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 #' @method tmapGridLegPlot tm_scalebar
 #' @export
 tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
-	light <- do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark <- do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
+	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
+	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
 	
 	wsu = comp$wsu
@@ -406,8 +415,8 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 												   heights = hsu))
 	
 	
-	unit <- comp$units$unit
-	unit.size <- 1/comp$units$to
+	unit = comp$units$unit
+	unit.size = 1/comp$units$to
 	xrange = comp$bbox[3] - comp$bbox[1]
 	crop_factor = as.numeric(wsu[3]) / fW 
 	just = 0
@@ -418,13 +427,13 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 		if (o$show.messages) message("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
 	}
 	
-	xrange2 <- xrange/unit.size
+	xrange2 = xrange/unit.size
 	
 	# to find the label width of first and last item, only used as proxy
 	tcks = pretty(c(0, xrange2*crop_factor), 4)
-	tcksL <- format(tcks, trim=TRUE)
+	tcksL = format(tcks, trim=TRUE)
 	rngL = c(tcksL[1], paste(unit, tail(tcksL, 1), unit))
-	rngW <- ((text_width_inch(rngL) / 2) + o$lin * 0.5) * comp$text.size
+	rngW = ((text_width_inch(rngL) / 2) + o$lin * 0.5) * comp$text.size
 	
 	# available width for scale bar
 	sbW = as.numeric(wsu[3]) - sum(rngW)
@@ -432,12 +441,12 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	crop_factor2 = sbW / fW 
 	
 	if (is.null(comp$breaks)) {
-		ticks2 <- pretty(c(0, xrange2*crop_factor2), round(comp$width * 8))
+		ticks2 = pretty(c(0, xrange2*crop_factor2), round(comp$width * 8))
 	} else {
-		ticks2 <- comp$breaks
+		ticks2 = comp$breaks
 	}
 
-	ticks3 <- ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
+	ticks3 = ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
 	sel = which(ticks3 <= sbW)
 	
 	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
@@ -447,35 +456,35 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	ticks3 = ticks3[sel]
 	ticks2 = ticks2[sel]
 	
-	ticks2Labels <- format(ticks2, trim=TRUE)
-	ticksWidths <- text_width_inch(ticks2Labels)
+	ticks2Labels = format(ticks2, trim=TRUE)
+	ticksWidths = text_width_inch(ticks2Labels)
 	
-	labels <- c(ticks2Labels, unit)
+	labels = c(ticks2Labels, unit)
 	
-	n <- length(ticks2)
+	n = length(ticks2)
 	
-	widths <- ticks3[2:n] - ticks3[1:(n-1)]
-	size <- min(comp$text.size, widths/max(ticksWidths))
-	x <- ticks3[1:(n-1)]  + ticksWidths[1]*size #+ .5*widths[1]
+	widths = ticks3[2:n] - ticks3[1:(n-1)]
+	size = min(comp$text.size, widths/max(ticksWidths))
+	x = ticks3[1:(n-1)]  + ticksWidths[1]*size #+ .5*widths[1]
 	
-	lineHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
+	lineHeight = convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
 	
-	unitWidth <- text_width_inch(unit) * size
-	#width <- sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
+	unitWidth = text_width_inch(unit) * size
+	#width = sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
-	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
+	xtext = x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 	
-	#x <- just-just*width+x
-	#xtext <- just-just*width+xtext
+	#x = just-just*width+x
+	#xtext = just-just*width+xtext
 	
-	grobBG <- if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
 	scalebar = gridCell(3,3, {
 		gTree(children=gList(
 			grobBG,
 			# if (!is.na(comp$bg.color)) {
-			# 	bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
+			# 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
 			# 	rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
 			# } else {
 			# 	NULL

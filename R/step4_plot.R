@@ -18,13 +18,38 @@ process_components = function(cdt, o) {
 	funW = paste0("tmap", gs, "CompWidth")
 	funH = paste0("tmap", gs, "CompHeight")
 
-	# leg_ins = which(cdt$class == "in")
-	# if (length(leg_ins)) {
-	# 	for (i in leg_ins) {
-	# 		cdt$comp[[i]]$group.just = c(cdt$cell.h[i], cdt$cell.v[i])
-	# 	}
-	# }
 	cdt$comp = lapply(cdt$comp, function(comp) do.call(funP, list(comp = comp, o = o)))
+	
+	# split components into facets (if needed)
+	is_multi = sapply(cdt$comp, inherits, what = "tm_multi_comp")
+
+	if (any(is_multi)) {
+		cdt_single = cdt[!is_multi, ]
+		cdt_multi = cdt[is_multi, ]
+		
+		allby_temp = as.data.table(do.call(expand.grid, lapply(o$fn, seq_len)))
+		names(allby_temp) = paste0("by", 1:3, "__")
+		
+		cdt_rows = data.table::rbindlist(lapply(seq_len(nrow(cdt_multi)), function(i) {
+			if (cdt_multi$class[i] %in% c("out", "autoout")) {
+				cdt_multi$comp[[i]] = cdt_multi$comp[[i]][[1]]
+				cdt_multi[i, ]
+			} else {
+				cbind(allby_temp, 
+					  comp = rep(cdt_multi$comp[[i]], length.out = nrow(allby_temp)),
+					  cdt_multi[i, setdiff(names(cdt_multi), c(names(allby_temp), "comp")), with = FALSE])		
+			}
+		}))
+		cdt = rbind(cdt_single, cdt_rows)
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	# filter components that are not shown (e.g. not implemented), which is determined in the Prepare step
 	cdt$show = sapply(cdt$comp, function(l) l$show)
@@ -176,29 +201,30 @@ step4_plot = function(tm, vp, return.asp, show) {
 	o = prepreprocess_meta(o, vp)
 	
 	# get legends from layer data and put them in "components data.table" (cdt)
-	
-	if (any_data_layer) {
-		cdt = step4_plot_collect_legends(tmx)
-		if (length(cmp)) {
-			cdt2 = data.table::rbindlist(lapply(cmp, function(cp) {
-				data.table::data.table(by1__ = as.integer(NA),
-						   by2__ = as.integer(NA),
-						   by3__ = as.integer(NA),
-						   comp = list(cp))	
-			}))
-			cdt = data.table::rbindlist(list(cdt, cdt2))
-		}
-		if (nrow(cdt)) cdt = process_components(cdt, o)
+
+	cdt_cmp = if (length(cmp)) {
+		 data.table::rbindlist(lapply(cmp, function(cp) {
+			data.table::data.table(by1__ = as.integer(NA),
+								   by2__ = as.integer(NA),
+								   by3__ = as.integer(NA),
+								   comp = list(cp))	
+		}))
 	} else {
-		cdt = data.table::data.table(by1__ = integer(0),
-									 by2__ = integer(0),
-									 by3__ = integer(0),
-									 comp = list())	
+		data.table::data.table(by1__ = integer(0),
+							   by2__ = integer(0),
+							   by3__ = integer(0),
+							   comp = list())	
 	}
 	
+	cdt = if (any_data_layer) {
+		cdt_legs = step4_plot_collect_legends(tmx)
+		data.table::rbindlist(list(cdt_legs, cdt_cmp))
+	} else {
+		cdt_cmp
+	}
 	
-	
-	
+	if (nrow(cdt)) cdt = process_components(cdt, o)
+
 	# determine panel type, inner margins, and automatic comp placement
 	o = preprocess_meta(o, cdt)
 	

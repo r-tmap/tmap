@@ -5,9 +5,6 @@ library(terra)
 library(stars)
 library(spDataLarge)
 
-tif_stars = system.file("tif/L7_ETMs.tif", package = "stars") %>% read_stars()
-tif_terra = system.file("tif/L7_ETMs.tif", package = "stars") %>% rast()
-
 landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
 
@@ -36,21 +33,25 @@ tm_shape(landsat_terra) +
 	tm_raster(c("landsat_1", "landsat_2", "landsat_3", "landsat_4"), col.free = FALSE) + tm_options(max.raster = 10000)
 
 
-tm_shape(landsat_terra) +
-	tm_raster(c("lan_1", "lan_2", "lan_3", "lan_4"), col.free = FALSE)
-
-tm_shape(tif_terra) + tm_rgb()
-tm_shape(tif_stars) + tm_rgb()
-
 
 tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 tm_shape(landsat_stars) +
-	tm_rgb(tm_mv(3,2,1), col.scale = tm_scale_rgb(maxValue = 31961))
+	tm_rgb(tm_mv_dim("band", c(3,2,1)), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
 
 
+multi_raster_file = system.file("raster/landsat.tif", package = "spDataLarge")
+multi_rast = rast(multi_raster_file)
+
+tm_shape(multi_rast) +
+	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961)) 
+#> Error: [subset] no (valid) layer selected
+
+tm_shape(multi_rast[[3:1]]) +
+	tm_rgb() 
 
 
+# idea: tm_attr to specify an attribute as mv
