@@ -188,6 +188,14 @@ tm_layout = function(
 	title.group.frame,
 	title.resize.as.group,
 	
+	# deprecated
+	main.title = NULL,
+	main.title.size,
+	main.title.color,
+	main.title.fontface,
+	main.title.fontfamily,
+	main.title.position,
+	
 	panel.show,
 	panel.labels,
 	panel.label.size,
@@ -198,13 +206,29 @@ tm_layout = function(
 	panel.label.height,
 	panel.label.rot) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	if (!is.null(title)) {
-		title.args = args[substr(names(args), 1, 5) == "title"]
-		title.args$title = NULL
-		names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
-		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
-		args$title = NULL
-		do.call(tm_options, args) + do.call(tm_title, c(list(text = title), title.args))
+	if (!is.null(title) || (!is.null(main.title))) {
+		title1 = if (!is.null(title)) {
+			title.args = args[substr(names(args), 1, 5) == "title"]
+			title.args$title = NULL
+			names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
+			warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+			if (!("position" %in% names(title.args))) title.args$position = tm_pos_in("left", "top")
+			args$title = NULL
+			do.call(tm_title, c(list(text = title), title.args))
+		} else {
+			NULL
+		}
+		title2 = if (!is.null(main.title)) {
+			main.title.args = args[substr(names(args), 1, 5) == "main.title"]
+			main.title.args$main.title = NULL
+			names(main.title.args) = substr(names(main.title.args), 7, nchar(names(main.title.args)))
+			warning("The 'main.title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+			args$main.title = NULL
+			do.call(tm_title, c(list(text = main.title), main.title.args))
+		} else {
+			NULL
+		}
+		do.call(tm_options, args) + title1 + title2
 	} else {
 		do.call(tm_options, args)
 	}
