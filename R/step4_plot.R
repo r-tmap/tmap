@@ -32,6 +32,7 @@ process_components = function(cdt, o) {
 		
 		cdt_rows = data.table::rbindlist(lapply(seq_len(nrow(cdt_multi)), function(i) {
 			if (cdt_multi$class[i] %in% c("out", "autoout")) {
+				warning("Component is specified for multiple facets (e.g. title text), but since placement is outside, only the first is used", call. = FALSE)
 				cdt_multi$comp[[i]] = cdt_multi$comp[[i]][[1]]
 				cdt_multi[i, ]
 			} else {
