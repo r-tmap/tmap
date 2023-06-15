@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_components.R
 \name{tm_title}
 \alias{tm_title}
+\alias{tm_title_in}
 \title{Map component: title}
 \usage{
 tm_title(
@@ -25,6 +26,8 @@ tm_title(
   resize.as.group,
   z
 )
+
+tm_title_in(text, ..., position = tm_pos_in("left", "top"))
 }
 \arguments{
 \item{text}{text of the title}
