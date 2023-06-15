@@ -458,7 +458,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	if (nrow(cdt)) cdt = process_components2(cdt, o)
 	
 	# init
-	asp = do.call(FUNinit, list(o = o, return.asp = return.asp))
+	asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
 	if (return.asp) return(asp)
 
 	

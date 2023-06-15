@@ -31,7 +31,7 @@ addOverlayGroup <- function(group, are.tiles = FALSE) {
 }
 
 
-tmapLeafletInit = function(o, return.asp = FALSE) {
+tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 	if (return.asp) return(1)
 	if (!requireNamespace("leaflet")) stop("leaflet package required but not installed yet.")
 

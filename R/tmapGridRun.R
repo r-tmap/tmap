@@ -1,10 +1,10 @@
 tmapGridRun = function(o, show) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
-		lapply(gts, function(gt) {
-			if (is.null(o$vp)) grid::grid.newpage()
+		mapply(function(gt,i) {
+			if (is.null(o$vp) && i != 1L) grid::grid.newpage()
 			grid::grid.draw(gt)
-		})
+		}, gts, seq_along(gts), SIMPLIFY = FALSE)
 		if (!is.null(o$vp)) upViewport(1)
 	}
 	gts

@@ -1,4 +1,4 @@
-tmapGridInit = function(o, return.asp = FALSE) {
+tmapGridInit = function(o, return.asp = FALSE, vp) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 	
 	
@@ -205,6 +205,11 @@ tmapGridInit = function(o, return.asp = FALSE) {
 	g$mapColsIn = g$colsIn[g$cols_facet_ids]
 	g$mapRowsIn = g$rowsIn[g$rows_facet_ids]
 	
+	if (is.null(vp)) {
+		grid.newpage()
+	} else {
+		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+	}
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)
 	
