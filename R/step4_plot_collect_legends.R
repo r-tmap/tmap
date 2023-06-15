@@ -131,7 +131,7 @@ step4_plot_collect_legends = function(tmx) {
 	
 	
 	# remove colums and rename legend to comp
-	if (nrow(legs) > 0L) set(legs, j= 5:ncol(legs), value = NULL)
+	set(legs, j= 5:ncol(legs), value = NULL)
 	data.table::setnames(legs, "legend", "comp")
 	legs
 }

@@ -9,6 +9,7 @@ tmapGridCompPrepare_text = function(comp, o) {
 			fontfamily[is.na(fontfamily)] =o$text.fontfamily
 			#text = lapply(text, rep, length.out=o$n)
 			text = text[i]
+			if (is.na(text)) text = ""
 			show = nonempty_text(text)
 		})
 	})

@@ -106,7 +106,20 @@ tm_facets_wrap = function(by = "VARS__",
 	tm
 }
 
-
+#' @export
+#' @rdname tm_facets
+#' @name tm_facets_wrap
+tm_facets_page = function(by = "VARS__",
+						  nrows = 1,
+						  ncols = 1,
+						  byrow = TRUE,
+						  ...) {
+	args = list(...)
+	calls = names(match.call(expand.dots = TRUE)[-1])
+	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
+	tm[[1]]$calls = calls
+	tm
+}
 
 #' @export
 #' @rdname tm_facets

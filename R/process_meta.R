@@ -41,7 +41,7 @@ preprocess_meta = function(o, cdt) {
 		n = prod(nby)
 		
 		
-		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]])) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
+		if (is.na(panel.type)) panel.type = ifelse(((type == "page" || n == 1) && is.na(panel.labels[[1]])) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
 										    ifelse((type %in% c("wrap", "stack")) || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
@@ -56,7 +56,7 @@ preprocess_meta = function(o, cdt) {
 			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE, per_facet = FALSE)
 			legend.present.fix = rep(FALSE, 4)
 		} else {
-			if (type %in% c("wrap", "stack")) {
+			if (type %in% c("wrap", "stack", "page")) {
 				#o$legend.present.auto = c(all = any(is.na(cdt$by1__) & cdt$class == "autoout"), per_row = any(!is.na(cdt$by1__) & cdt$class == "autoout"), per_col = FALSE)
 				legend.present.auto = c(all = any(cdt$class == "autoout" & is.na(cdt$by1__)), 
 										per_row = FALSE, per_col = FALSE, 
@@ -231,7 +231,7 @@ process_meta = function(o, d, cdt, aux) {
 		
 		
 		if (gs == "Grid") {
-			if (type == "stack") {
+			if (type %in% c("stack", "page")) {
 				if (is.na(orientation)) {
 					if (nrow(cdt)) {
 						legs_auto = cdt[class=="autoout"]	
@@ -240,7 +240,7 @@ process_meta = function(o, d, cdt, aux) {
 					}
 					
 					
-					if (nrow(legs_auto) && n == 1) {
+					if (type == "page" || (nrow(legs_auto) && n == 1)) {
 						
 						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
 						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
@@ -381,6 +381,9 @@ process_meta = function(o, d, cdt, aux) {
 		if (type == "grid") {
 			nrows = nby[1]
 			ncols = nby[2] 
+		} else if (type == "page") {
+			nrows = 1
+			ncols = 1
 		} else if (type == "stack") {
 			if (orientation == "horizontal") {
 				nrows = 1

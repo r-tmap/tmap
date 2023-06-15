@@ -6,6 +6,11 @@ process_components = function(cdt, o) {
 	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
 	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) as.integer(NA) else x})
 	
+	# to make sure legends positions are based on one-facet-per-page
+	if (o$type == "page") {
+		cdt[, by3__ := by1__]
+		cdt[, by1__ := NA]
+	}
 	
 	gs = tmap_graphics_name()
 	
@@ -95,7 +100,7 @@ process_components = function(cdt, o) {
 	# 	
 	# }
 	
-	
+	#cdt[, page := as.integer(NA)]
 	
 	
 	cdt
@@ -114,12 +119,7 @@ process_components2 = function(cdt, o) {
 		
 		
 		if (o$type != "grid" && o$n > 1) {
-			# # (o$nrows > 1 && o$ncols > 1) || 
-			# if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
-			# 	# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
-			# 	cdt[class != "in", by1__ := NA]
-			# 	cdt[class != "in", by2__ := NA]
-			# } else 
+			#if (o$nrows == 1 && o$ncols == 1)
 			if (o$nrows == 1) {
 				# -use by2 and not by1 when they form a row
 				cdt[, by2__ := by1__]
@@ -178,10 +178,26 @@ process_components2 = function(cdt, o) {
 		
 		
 		# manual outside legends -2 is top or left, -1 is bottom or right
-		cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
-												 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
-		
+		cdt[class %in% c("autoout", "out"), ':='(facet_row = 
+				ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)),
+				ifelse(cell.v == "by", as.character(by1__), 
+				ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+			facet_col = 
+				ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), 
+				ifelse(cell.h == "by", as.character(by2__), 
+				ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+		if (o$type == "page") {
+			cdt[cell.v == "by", facet_row := "1"]
+			cdt[cell.h == "by", facet_col := "1"]
+		}
 	#}
+		
+	if (o$type == "page") {
+		cdt[, by1__ := by3__]
+		cdt[, by3__ := NA]
+	}
+		
+		
 	cdt
 }
 
@@ -294,21 +310,26 @@ step4_plot = function(tm, vp, return.asp, show) {
 	
 	d[, asp:=get_asp(bbox)]
 	
-	# limit facets
-	n_lim = limit_nx(o$n)
-	if (n_lim != o$n) {
-		fn_lim = pmin(o$fn, n_lim)
-		while(prod(fn_lim) > n_lim) {
-			fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
+	d = d[!is.na(asp)]
+	
+
+	if (!(o$type %in% c("grid", "page")) && !is.na(o$nrows) && !is.na(o$ncols)) {
+		# limit facets
+		n_lim = limit_nx(o$n)
+		if (n_lim != o$n) {
+			fn_lim = pmin(o$fn, n_lim)
+			while(prod(fn_lim) > n_lim) {
+				fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
+			}
+			d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
+			o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
+			o$fn = fn_lim
+			o$n = n_lim
 		}
-		d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
-		o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
-		o$fn = fn_lim
-		o$n = n_lim
 	}
 	
 	d[, bbox:=lapply(bbox, FUN = function(bbx) {
-		if (!is.na(longlat) && longlat && !st_is_longlat(bbx)) {
+		if (!is.na(bbx) && !is.na(longlat) && longlat && !st_is_longlat(bbx)) {
 			sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
 		} else {
 			bbx
@@ -316,21 +337,25 @@ step4_plot = function(tm, vp, return.asp, show) {
 	})]
 	
 	d[, units:=lapply(bbox, FUN = function(bbx) {
-		if (!is.na(longlat) && longlat) {
-			latitude <- mean.default(bbx[c(2,4)])
-			bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
-			ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
-			to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
+		if (is.na(bbx)) {
+			list()
 		} else {
-			ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
-			
-			if (is.na(crs)) {
-				to <- ad$hdist
+			if (!is.na(bbx) && !is.na(longlat) && longlat) {
+				latitude <- mean.default(bbx[c(2,4)])
+				bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
+				ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
+				to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
 			} else {
-				to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+				ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
+				
+				if (is.na(crs)) {
+					to <- ad$hdist
+				} else {
+					to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+				}
 			}
+			list(projection=crs, unit=unit, to=to, projected = !longlat)
 		}
-		units <- list(projection=crs, unit=unit, to=to, projected = !longlat)
 	})]
 	
 	# determine automatic position of inside comp
@@ -562,16 +587,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 	}
 
-	
-	
-	
-	
 
-
-	
-
-	
-	
 	is_in = cdt$class == "in"
 	#is_in = rep(TRUE, nrow(cdt))
 	if (any(is_in)) {
@@ -587,7 +603,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 			if (is.na(legsi$by1__)) d2[, by1:= NA]
 			if (is.na(legsi$by2__)) d2[, by2:= NA]
 			if (is.na(legsi$by3__)) d2[, by3:= NA]
-			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "bbox", "units"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
+			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "page", "bbox", "units"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
 			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
 			legsi
 		})
@@ -596,6 +612,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	}
 	
 	legs_out = copy(cdt[!is_in])
+	legs_out[, page:=as.integer(NA)]
 	legs_out[, bbox:=list()]
 	legs_out[, units:=list()]
 	# if (any(!is_in)) {
@@ -634,9 +651,12 @@ step4_plot = function(tm, vp, return.asp, show) {
 		as.integer(strsplit(x, split = "_")[[1]])
 	}
 	
+	if (o$type == "page") {
+		cdt$page = cdt$by1__
+	}
 	
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
-		klegs = cdt[is.na(by3__) | (by3__ == k), ]
+		klegs = cdt[is.na(page) | (page == k), ] # was by3__ instead of page
 		klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
 		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
 		klegs[, id:=paste(pos.h.id, pos.v.id, sep = "__")]
