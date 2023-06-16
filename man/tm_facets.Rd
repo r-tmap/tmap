@@ -4,6 +4,7 @@
 \alias{tm_facets}
 \alias{tm_facets_grid}
 \alias{tm_facets_wrap}
+\alias{tm_facets_page}
 \alias{tm_facets_stack}
 \alias{tm_facets_hstack}
 \alias{tm_facets_vstack}
@@ -35,6 +36,8 @@ tm_facets(
 tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 
 tm_facets_wrap(by = "VARS__", nrows = NA, ncols = NA, byrow = TRUE, ...)
+
+tm_facets_page(by = "VARS__", nrows = 1, ncols = 1, byrow = TRUE, ...)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 

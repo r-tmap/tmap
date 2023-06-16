@@ -41,7 +41,8 @@ tm_grid(
   lines = TRUE,
   ndiscr = 100,
   zindex = NA,
-  group = NA
+  group = NA,
+  group.control = "none"
 )
 }
 \arguments{
