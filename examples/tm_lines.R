@@ -20,3 +20,14 @@ tm_shape(rivers) +
 			 col.scale = tm_scale_categorical(),
 			 lty.legend = tm_legend_combine("lwd"),
 			 col.legend = tm_legend_combine("lwd"))
+
+
+### tmap3
+
+tm_shape(World) +
+	tm_fill() +
+	tm_shape(rivers) +
+	tm_lines(col="black", lwd="scalerank", scale=2, legend.lwd.show = FALSE) +
+	tm_style("cobalt", title = "Rivers of the World") +
+	tm_format("World")
+

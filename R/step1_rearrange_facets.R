@@ -35,8 +35,8 @@ add_used_vars = function(v) {
 }
 
 # ## estimate number of facets
-step1_rearrange_facets = function(tmo) {
-	o = tmap_options_mode()
+step1_rearrange_facets = function(tmo, o) {
+	#o = tmap_options_mode()
 	
 	
 	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
@@ -158,7 +158,7 @@ step1_rearrange_facets = function(tmo) {
 						limitvars = FALSE
 					} else {
 						if (nsbd == 1L) {
-							warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a by variable", call. = FALSE)
+							warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a 'by'-variable", call. = FALSE)
 							nrvd = 0L
 							limitvars = TRUE
 						} else {

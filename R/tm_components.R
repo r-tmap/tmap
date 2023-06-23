@@ -42,6 +42,16 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	)))))
 }
 
+#' @export
+#' @rdname tm_title
+#' @name tm_title_in
+tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	args$position = position
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
+	)))))
+}
 
 # tm_compass = function( x = 1) {
 # 	tm_element_list(tm_element(as.list(environment()), 

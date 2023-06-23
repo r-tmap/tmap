@@ -19,6 +19,7 @@
 #' @param textNA Text used for facets of missing values.
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @param type \code{"grid"}, \code{"wrap"} or \code{"stack"}
+#' @param along deceprated Please use \code{tm_facets_page}
 #' @export
 #' @rdname tm_facets
 #' @name tm_facets
@@ -39,10 +40,17 @@ tm_facets = function(by = NULL,
 					 showNA = NA,
 					 textNA = "Mssing",
 					 scale.factor=2,
-					 type = NA # grid, wrap or stack
+					 type = NA, # grid, wrap or stack
+					 along = NULL
 					 ) {
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
+	
+	if (!is.null(along)) {
+		warning("along argument is deprecated as of tmap 4.0. Please use the argument pages instead.", call. = FALSE)
+		pages = along
+	}
+	
 	if (!is.null(by)) {
 		if (is.na(type)) type = "wrapstack"
 		rows = NULL
@@ -53,6 +61,8 @@ tm_facets = function(by = NULL,
 		type = "grid"
 		by = NULL
 	}
+	
+
 
 	tm_element_list(tm_element(
 		type = type,
@@ -108,8 +118,8 @@ tm_facets_wrap = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_wrap
-tm_facets_page = function(by = "VARS__",
+#' @name tm_facets_pagewise
+tm_facets_pagewise = function(by = "VARS__",
 						  nrows = 1,
 						  ncols = 1,
 						  byrow = TRUE,

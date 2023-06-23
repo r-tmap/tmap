@@ -87,7 +87,7 @@ step1_rearrange = function(tmel) {
 			structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
 		}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
 		
-		tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
+		tmo = step1_rearrange_facets(tmo, o) # save smeta's and keep track of group id (to obtain smeta)
 		tmf = tmo$tmf_global # global facetting options, to be appended to options o
 		tmo$tmf_global = NULL
 		
