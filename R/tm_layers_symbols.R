@@ -62,7 +62,22 @@ tm_symbols = function(size = tm_const(),
 					  mapping.args = list(),
 					  zindex = NA,
 					  group = NA,
-					  group.control = "check") {
+					  group.control = "check",
+					  ...) {
+	
+	args = list(...)
+	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	res = v3_symbols(args, args_called)
+	if (!is.null(res)) {
+		fill = res$fill
+		col = res$col
+		fill_alpha = res$fill_alpha
+		fill.scale = res$fill.scale
+		fill.legend = res$fill.legend
+		size.scale = res$size.scale
+		size.legend = res$size.legend
+	}
 	
 	tm_element_list(tm_element(
 		layer = "symbols",
@@ -132,7 +147,142 @@ tm_symbols = function(size = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-tm_bubbles = function(fill = tm_const(),
+v3_symbols = function(args, args_called) {
+	v3 = c("alpha", "border.col", "border.lwd", "border.alpha", "scale", 
+		   "perceptual", "clustering", "size.max", "size.lim", "sizes.legend", 
+		   "sizes.legend.labels", "n", "style", "style.args", "as.count", 
+		   "breaks", "interval.closure", "palette", "labels", "drop.levels", 
+		   "midpoint", "stretch.palette", "contrast", "colorNA", "textNA", 
+		   "showNA", "colorNULL", "shapes", "shapes.legend", "shapes.legend.fill", 
+		   "shapes.labels", "shapes.drop.levels", "shapeNA", "shape.textNA", 
+		   "shape.showNA", "shapes.n", "shapes.style", "shapes.style.args", 
+		   "shapes.as.count", "shapes.breaks", "shapes.interval.closure", 
+		   "legend.max.symbol.size", "just", "jitter", "xmod", "ymod", "icon.scale", 
+		   "grob.dim", "title.size", "title.col", "title.shape", "legend.size.show", 
+		   "legend.col.show", "legend.shape.show", "legend.format", "legend.size.is.portrait", 
+		   "legend.col.is.portrait", "legend.shape.is.portrait", "legend.size.reverse", 
+		   "legend.col.reverse", "legend.shape.reverse", "legend.hist", 
+		   "legend.hist.title", "legend.size.z", "legend.col.z", "legend.shape.z", 
+		   "legend.hist.z", "id", "interactive", "popup.vars", "popup.format", 
+		   "auto.palette.mapping", "max.categories")
+	
+	if (any(v3 %in% names(args))) {
+		message("Deprecated tmap v3 code detected. Code translated to v4")
+		if (!("style" %in% names(args))) {
+			if (!"breaks" %in% names(args)) {
+				style = "pretty"
+			} else {
+				style = "fixed"
+			}
+		} else {
+			style = args$style
+		}
+		
+		imp = function(name, value) {
+			if (name %in% names(args)) args[[name]] else value
+		}
+		
+		# v3 visual variable: fill
+		fill.scale.args = list(n = imp("n", 5), 
+							   style = style, 
+							   style.args = imp("style.args", list()), 
+							   breaks = imp("breaks", NULL), 
+							   interval.closure = imp("interval.closure", "left"), 
+							   drop.levels = imp("drop.levels", FALSE),
+							   midpoint = imp("midpoint", NULL), 
+							   as.count = imp("as.count", NA), 
+							   values = imp("palette", NA), 
+							   values.repeat = !imp("stretch.palette", TRUE), 
+							   values.range = imp("contrast", NA), 
+							   values.scale = 1, 
+							   value.na = imp("colorNA", NA), 
+							   value.null = imp("colorNULL", NA), 
+							   value.neutral = NA, 
+							   labels = imp("labels", NULL), 
+							   label.na = imp("textNA", NA), 
+							   label.null = NA, 
+							   label.format = imp("legend.format", list()))
+		fill.scale.args$fun_pref = if (style == "cat") {
+			"categorical"
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
+			"intervals"
+		} else if (style == "cont") {
+			"continuous"
+		} else if (style == "log10") {
+			"continuous_log"
+		} else {
+			stop("unknown style")
+		}
+		
+		fill.scale = do.call("tm_scale", args = fill.scale.args)		
+		
+		if ("col" %in% names(args_called)) {
+			fill = args_called$col
+			col = tm_const()
+		} else {
+			fill = tm_const()
+			col = tm_const
+		}
+		if ("border.col" %in% names(args)) {
+			col = args$border.col
+		}
+		
+		
+		if ("alpha" %in% names(args)) {
+			fill_alpha = args$alpha
+		} else {
+			fill_alpha = tm_const()
+		}
+		
+		fill.legend.args = alist(title = imp("title", NA),
+								 show = imp("legend.show", NULL),
+								 na.show = imp("na.show", NA),
+								 format = imp("legend.format", list()),
+								 orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
+								 reverse = imp("legend.reverse", FALSE))
+		
+		fill.legend = do.call("tm_legend", fill.legend.args)
+		
+		
+		# v3 visual variable: size
+		size.scale.args = list(values = imp("sizes.legend", NA),
+							   value.range = {if ("size.lim" %in% names(args)) {
+							   	c(args[["size.lim"]][1] / args[["size.lim"]][2], 1)
+							   }},
+							   limits = imp("size.lim", NULL),
+							   outliers.trunc = c(TRUE, FALSE),
+							   labels = imp("sizes.legend.labels", NULL),
+							   fun_pref = "continuous")
+		
+		size.scale = do.call("tm_scale", args = size.scale.args)		
+		
+		
+		size.legend.args = alist(title = imp("title.size", NA),
+								 show = imp("legend.size.show", NULL),
+								 na.show = imp("showNA", NA),
+								 format = imp("legend.format", list()),
+								 orientation = ifelse(imp("legend.size.is.portrait", FALSE), "portrait", "landscape"),
+								 reverse = imp("legend.size.reverse", FALSE))
+		
+		size.legend = do.call("tm_legend", size.legend.args)
+		list(fill = fill,
+			 col = col,
+			 fill_alpha = fill_alpha,
+			 fill.scale = fill.scale,
+			 fill.legend = fill.legend,
+			 size.scale = size.scale,
+			 size.legend = size.legend)
+	} else {
+		NULL
+	}
+}
+
+
+tm_bubbles = function(size = tm_const(),
+					  size.scale = tm_scale(),
+					  size.legend = tm_legend(),
+					  size.free = NA,
+					  fill = tm_const(),
 					  fill.scale = tm_scale(),
 					  fill.legend = tm_legend(),
 					  fill.free = NA,
@@ -140,10 +290,6 @@ tm_bubbles = function(fill = tm_const(),
 					  col.scale = tm_scale(),
 					  col.legend = tm_legend(),
 					  col.free = NA,
-					  size = tm_const(),
-					  size.scale = tm_scale(),
-					  size.legend = tm_legend(),
-					  size.free = NA,
 					  lwd = tm_const(),
 					  lwd.scale = tm_scale(),
 					  lwd.legend = tm_legend(),
@@ -165,7 +311,22 @@ tm_bubbles = function(fill = tm_const(),
 					  mapping.args = list(),
 					  zindex = NA,
 					  group = NA,
-					  group.control = "check") {
+					  group.control = "check",
+					  ...) {
+	
+	args = list(...)
+	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	res = v3_symbols(args, args_called)
+	if (!is.null(res)) {
+		fill = res$fill
+		col = res$col
+		fill_alpha = res$fill_alpha
+		fill.scale = res$fill.scale
+		fill.legend = res$fill.legend
+		size.scale = res$size.scale
+		size.legend = res$size.legend
+	}
 	
 	tm_element_list(tm_element(
 		layer = c("bubbles", "symbols"),
