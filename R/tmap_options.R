@@ -89,7 +89,7 @@
 		),
 		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
 						  col = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
-						  size = tmap_seq(0, 3, power = "sqrt"),
+						  size = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
 						  text = LETTERS,
@@ -98,7 +98,7 @@
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0.01, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 lty = "solid",

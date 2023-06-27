@@ -28,6 +28,11 @@ tm_element_list_sel = function(tml, subclass) {
 #' @export
 "+.tmap" = function(e1, e2) {
 	assign("last_map_new", match.call(), envir = .TMAP)
+	if (inherits(e2, "tm_legend")) {
+		names(e2) = paste0("legend.", names(e2))
+		
+		e2 = tm_element_list(do.call(tm_element, c(e2, list(calls = "v3", subclass = "tm_options"))))
+	}
 	structure(c(e1, e2), class = "tmap")
 }
 

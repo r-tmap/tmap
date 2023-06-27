@@ -87,6 +87,7 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 			new_lvls = paste0(labs[from], "...", labs[to])
 			
 			x1 = factor(mapping[as.integer(x1)], levels=1L:n.max, labels=new_lvls)
+			labs = new_lvls
 		}
 		n = nlevels(x1)
 		

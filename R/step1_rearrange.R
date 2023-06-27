@@ -32,11 +32,20 @@ step1_rearrange = function(tmel) {
 	}
 	
 	
+	# warning("v3 code detected")
+	# args$v3 = NULL
+	# names(args) = paste0("legend.", names(args))
+	# do.call(tm_options, args)
+	# 
+	
 	# update options with tm_option elements
+	sapply(oth, inherits, "tm_legend")
+	
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
 		
+		if ("v3" %in% o2$calls) warning("v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons", call. = FALSE)
 		
 		# special case: position, in case c("left", "top") is used
 		pids = grep(".position", names(o2), fixed = TRUE)

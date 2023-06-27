@@ -234,7 +234,7 @@ v3_symbols = function(args, args_called) {
 			fill_alpha = tm_const()
 		}
 		
-		fill.legend.args = alist(title = imp("title", NA),
+		fill.legend.args = alist(title = imp("title.col", NA),
 								 show = imp("legend.show", NULL),
 								 na.show = imp("na.show", NA),
 								 format = imp("legend.format", list()),

@@ -86,8 +86,10 @@ tm_legend = function(title,
 					 ticks.lwd,
 					 title.just,
 					 margins,
-					 margin.item.text) {
+					 margin.item.text,
+					 ...) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	structure(args, class = c("tm_legend", "tm_component", "list"))
