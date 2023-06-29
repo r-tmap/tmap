@@ -9,7 +9,7 @@ tm_shape(metro_A) +
 tm_shape(Africa) + 
 	tm_polygons() +
 	tm_shape(metro_A) +
-	tm_symbols(fill = "pop1950", size = "pop2030", size.scale = tm_scale(values.scale = 3))
+	tm_symbols(fill = "pop1950", size = "pop2030", size.scale = tm_scale(values.scale = 2))
 
 
 ##### tmap v3
@@ -75,6 +75,12 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 					  labels=c("Native", "Western", "Non-western"), 
 					  title="Origin") +
 		tm_format("NLD")
+	
+	tm_shape(NLD_prov) +
+		tm_polygons(group = "Provinces") +
+		tm_symbols(shape="name", 
+				   shape.scale = tm_scale_categorical(values = grobs))
+	
 }
 
 

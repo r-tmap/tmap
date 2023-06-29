@@ -18,7 +18,7 @@ step4_plot_collect_legends = function(tmx) {
 				})
 				
 				legs2 = lapply(legs, function(legs_aes) {
-					legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral), use.names = FALSE)
+					legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral), use.names = FALSE, recursive = FALSE)
 					legs_aes
 				})
 				

@@ -111,8 +111,8 @@
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
-						  lty = list(fact = "categorical", num = "categorical"),
-						  shape = list(fact = "categorical", num = "categorical"),
+						  lty = list(fact = "categorical", num = "intervals"),
+						  shape = list(fact = "categorical", num = "intervals"),
 						  size = list(fact = "categorical", num = "continuous"),
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
@@ -977,5 +977,17 @@ get_prefix_opt = function(prefix, class, o) {
 	ot
 }
 
-
+# (partly) named vector: get 1st name match or otherwise 1st non-named argument
+# used in tm_scale_continuous, but similar function should exists for options? (todo: check)
+get_vector_id = function(x, id) {
+	if (is.null(names(x))) {
+		x[1]
+	} else if (id %in% names(x)) {
+		unname(x[id][1L])
+	} else if (any("" %in% names(x))) {
+		unname(x[which(names(x) == "")[1]])
+	} else {
+		x[1]
+	}
+}
 				 

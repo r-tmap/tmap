@@ -79,6 +79,23 @@ appendGlist = function(glist, x) {
 	glist
 }
 
+swap_pch_15_20 = function(gp) {
+	# swap fill and col for pch 15-20
+	pch15_20 = which(gp$shape %in% 15:20)
+	if (length(pch15_20)) {
+		if (length(gp$col) == 1) {
+			gp$col = rep(gp$col, length(gp$shape))
+			gp$fill = rep(gp$fill, length(gp$shape))
+		}
+		fill = gp$col[pch15_20]
+		fill_alpha = gp$col_alpha[pch15_20]
+		gp$col[pch15_20] = gp$fill[pch15_20]
+		gp$col_alpha[pch15_20] = gp$fill_alpha[pch15_20]
+		gp$fill[pch15_20] = fill
+		gp$fill_alpha[pch15_20] = fill_alpha
+	}
+	gp
+}	
 
 tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
@@ -88,6 +105,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	dt = res$dt
 	
 	gp = impute_gp(gp, dt)
+	gp = swap_pch_15_20(gp)	
 	gp = rescale_gp(gp, o$scale_down)
 
 	#gp = gp_to_gpar(gp, sel = "all")

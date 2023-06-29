@@ -25,7 +25,7 @@ tm_scale_asis = function(...) {
 #' @export
 #' @name tm_scale_ordinal
 #' @rdname tm_scale_categorical
-tm_scale_ordinal = function(n.max = 20,
+tm_scale_ordinal = function(n.max = 30,
 							values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 							values.repeat = FALSE,
 							values.range  = 1,
@@ -63,7 +63,7 @@ tm_scale_ordinal = function(n.max = 20,
 #' @export
 #' @name tm_scale_categorical
 #' @rdname tm_scale_categorical
-tm_scale_categorical = function(n.max = 20,
+tm_scale_categorical = function(n.max = 30,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
 								values.range  = NA,

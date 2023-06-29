@@ -370,6 +370,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
 		
+		gp = swap_pch_15_20(gp)
 		gpars = gp_to_gpar(gp, split_to_n = nlev)
 		
 		# scale down (due to facet use)

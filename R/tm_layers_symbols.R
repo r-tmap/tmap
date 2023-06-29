@@ -77,29 +77,33 @@ tm_symbols = function(size = tm_const(),
 		fill.legend = res$fill.legend
 		size.scale = res$size.scale
 		size.legend = res$size.legend
+		shape.scale = res$shape.scale
+		shape.legend = res$shape.legend
 	}
 	
+
 	tm_element_list(tm_element(
 		layer = "symbols",
 		trans.fun = tmapTransCentroid,
 		trans.aes = list(),
 		trans.args = trans.args,
 		trans.isglobal = FALSE,
-		mapping.aes = list(col = tmapScale(aes = "col",
-										   value = col,
-										   scale = col.scale,
-										   legend = col.legend,
-										   free = col.free),
+		mapping.aes = list(size = tmapScale(aes = "size",
+											value = size,
+											scale = size.scale,
+											legend = size.legend,
+											free = size.free),
+						   
 						   fill = tmapScale(aes = "fill",
 						   				 value = fill,
 						   				 scale = fill.scale,
 						   				 legend = fill.legend,
 						   				 free = fill.free),
-						   size = tmapScale(aes = "size",
-						   				 value = size,
-						   				 scale = size.scale,
-						   				 legend = size.legend,
-						   				 free = size.free),
+						   col = tmapScale(aes = "col",
+						   				value = col,
+						   				scale = col.scale,
+						   				legend = col.legend,
+						   				free = col.free),
 						   shape = tmapScale(aes = "shape",
 						   				  value = shape,
 						   				  scale = shape.scale,
@@ -221,7 +225,7 @@ v3_symbols = function(args, args_called) {
 			col = tm_const()
 		} else {
 			fill = tm_const()
-			col = tm_const
+			col = tm_const()
 		}
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
@@ -265,13 +269,55 @@ v3_symbols = function(args, args_called) {
 								 reverse = imp("legend.size.reverse", FALSE))
 		
 		size.legend = do.call("tm_legend", size.legend.args)
+		
+		# v3 visual variable: shape
+		if (!("shapes.style" %in% names(args))) {
+			if (!"shapes.breaks" %in% names(args)) {
+				shapes.style = "pretty"
+			} else {
+				shapes.style = "fixed"
+			}
+		} else {
+			shapes.style = args$shapes.style
+		}
+		
+		shape.scale.args = list(n = imp("shapes.n", 5), 
+								style = shapes.style, 
+								style.args = imp("shapes.style.args", list()), 
+								breaks = imp("shapes.breaks", NULL), 
+								interval.closure = imp("shapes.interval.closure", "left"), 
+								drop.levels = imp("drop.levels", FALSE),
+								midpoint = imp("midpoint", NULL), 
+								as.count = imp("as.count", NA), 
+								values = imp("shapes", 21:25),
+								labels = imp("shapes.labels", NULL), 
+								label.na = imp("shape.textNA", NA), 
+								label.null = NA, 
+								label.format = imp("legend.format", list()),
+								fun_pref = "intervals")
+		
+		shape.scale = do.call("tm_scale", args = shape.scale.args)		
+		
+		
+		shape.legend.args = alist(title = imp("title.shape", NA),
+								 show = imp("legend.shape.show", NULL),
+								 na.show = imp("shape.showNA ", NA),
+								 format = imp("legend.format", list()),
+								 orientation = ifelse(imp("legend.shape.is.portrait", TRUE), "portrait", "landscape"),
+								 reverse = imp("legend.shape.reverse", FALSE))
+		
+		shape.legend = do.call("tm_legend", shape.legend.args)
+		
+		
 		list(fill = fill,
 			 col = col,
 			 fill_alpha = fill_alpha,
 			 fill.scale = fill.scale,
 			 fill.legend = fill.legend,
 			 size.scale = size.scale,
-			 size.legend = size.legend)
+			 size.legend = size.legend,
+			 shape.scale = shape.scale,
+			 shape.legend = shape.legend)
 	} else {
 		NULL
 	}
@@ -326,6 +372,8 @@ tm_bubbles = function(size = tm_const(),
 		fill.legend = res$fill.legend
 		size.scale = res$size.scale
 		size.legend = res$size.legend
+		shape.scale = res$shape.scale
+		shape.legend = res$shape.legend
 	}
 	
 	tm_element_list(tm_element(

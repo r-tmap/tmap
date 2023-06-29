@@ -211,7 +211,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		if (cat0) {
 			value.neutral = vvalues[1L + nneg]
 		} else {
-			value.neutral = grDevices::colorRampPalette(vvalues[c(nneg, nneg + 1L)])(1)
+			value.neutral = vvalues[1L + nneg] # first positive
 		}
 	} else {
 		value.neutral = vvalues[n/2]
