@@ -97,6 +97,9 @@ swap_pch_15_20 = function(gp) {
 	gp
 }	
 
+
+
+
 tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 	
@@ -106,6 +109,9 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	gp = impute_gp(gp, dt)
 	gp = swap_pch_15_20(gp)	
+	
+	#gp = get_pch_1000p(gp)
+	
 	gp = rescale_gp(gp, o$scale_down)
 
 	#gp = gp_to_gpar(gp, sel = "all")
@@ -113,6 +119,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
 	coords = sf::st_coordinates(shp)
+	
 	
 	
 	if (diffAlpha) {
@@ -124,7 +131,36 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		grb = grid::grobTree(grb1, grb2)
 	} else {
 		gp = gp_to_gpar(gp, sel = "all")
-		grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = paste0("symbols_", id))
+		
+		if (any(!is.na(gp$shape) & gp$shape>999)) {
+			shapeLib = get("shapeLib", envir = .TMAP)
+			justLib = get("justLib", envir = .TMAP)
+			
+			grobs <- lapply(1:length(gp$shape), function(i) {
+				if (!is.na(gp$shape[[i]]) && gp$shape[[i]]>999) {
+					grbs <- if (gp$lwd[i] == 0) {
+						gList(shapeLib[[gp$shape[[i]]-999]])	
+					} else {
+						gList(shapeLib[[gp$shape[[i]]-999]], rectGrob(gp=gpar(fill=NA, col=gp$col[i], lwd=gp$lwd[i])))	
+					}
+					gTree(children=grbs, vp=viewport(x=grid::unit(coords[i,1], "native"), 
+													 y=grid::unit(coords[i,2], "native"),
+													 width=unit(gp$size[i]*2/3, "lines"),
+													 height=unit(gp$size[i]*2/3, "lines")))
+				} else {
+					pointsGrob(x=grid::unit(coords[i,1], "native"), 
+							   y=grid::unit(coords[i,2], "native"),
+							   size=unit(gp$size[i], "lines"),
+							   pch=gp$shape[[i]],
+							   gp=gp)
+				}
+			})
+			grb = gTree(children=do.call(gList, grobs), name=paste0("symbols_", id))
+		} else {
+			grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = paste0("symbols_", id))
+		}
+		
+		
 	}
 	
 

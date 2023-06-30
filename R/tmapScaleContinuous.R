@@ -45,10 +45,14 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 		udiv = identical(use_div(brks = NULL, midpoint), TRUE)
 
 		ticks.specified = !is.null(ticks)
-		limits.specified = !is.null(limits)
+		limits.specified = (length(limits) == 2L)
 		
 		if (!limits.specified) {
-			limits = range(x1, na.rm = TRUE)
+			if (is.na(limits)) {
+				limits = range(x1, na.rm = TRUE)
+			} else {
+				limits = range(c(x1, 0), na.rm = TRUE)
+			}
 			if (ticks.specified) limits = range(c(limits, ticks))
 		}
 
@@ -175,6 +179,8 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 			#pretty()
 			#tr$fun(round(tr$rev(pretty(limits_t)),1))
 			b  = prettyTicks(tr$rev(seq(limits_t[1], limits_t[2], length.out = n)))
+			if (!(aes %in% c("col", "fill"))) b = b[b!=0]
+			
 			b_t = tr$fun(b)
 		}
 		sel = if (length(b_t) == 2) TRUE else (b_t>=limits_t[1] & b_t<=limits_t[2])

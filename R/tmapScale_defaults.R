@@ -8,8 +8,19 @@ tmapValuesCheck_col = function(x) {
 
 
 tmapValuesCheck_shape = function(x) {
-	# to do
-	TRUE
+	isSymbol = function(s) {
+		inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
+	}
+
+	if (all(is.numeric(x))) {
+		TRUE
+	} else if (is.list(x)) {
+	 	if (isSymbol(x)) {
+	 		TRUE
+	 	} else {
+	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)))
+	 	}
+	} else FALSE
 }
 
 
@@ -305,6 +316,27 @@ tmapValuesVV_text = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
+
+# for symbols, which need to be 'submitted' (content replaced by an integer)
+tmapValuesSubmit_col = function(x) x
+tmapValuesSubmit_fill = function(x) x
+tmapValuesSubmit_size = function(x) x
+tmapValuesSubmit_lwd = function(x) x
+tmapValuesSubmit_lty = function(x) x
+tmapValuesSubmit_shape = function(x) {
+	if (is.list(x)) {
+		gs = tmap_graphics_name()
+		fun = paste0("submit_symbols_", gs)
+		do.call(fun, args = list(x))
+	} else {
+		x
+	}
+}
+tmapValuesSubmit_col_alpha = function(x) x
+tmapValuesSubmit_fill_alpha = function(x) x
+tmapValuesSubmit_text = function(x) x
+tmapValuesSubmit_fontface = function(x) x
+
 
 tmapValuesScale_col = function(x, scale) x
 tmapValuesScale_fill = function(x, scale) x

@@ -120,6 +120,11 @@
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
 		
+		scale.args.defaults = list(continuous = list(n = c(fill = 5, col = 5, 5), 
+													 outliers.trunc = c(FALSE, FALSE), 
+													 values.scale = 2, 
+													 limits = list(fill = NA, col = NA, 0))), # NA means take data range, 0 means include 0
+		
 		# labels			  
 		label.format = list(
 			fun = NULL,
@@ -859,6 +864,27 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 	}
 	z
 }
+
+getAesValue = function(x, aes) {
+	nms = names(x)
+	
+	if (is.null(nms)) {
+		x
+	} else if (any(nms %in% c("fill", "col", "size", "shape", "lwd", "lty", "fontsize", "fontface"))) {
+		if (aes %in% nms) {
+			x[[aes]]
+		} else {
+			if (any(nms == "")) {
+				x[[which(nms == "")[1]]]
+			} else {
+				x
+			}
+		}
+	} else {
+		x
+	} 
+}
+
 
 #' @rdname tmap_options
 #' @export

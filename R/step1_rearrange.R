@@ -4,6 +4,11 @@ step1_rearrange = function(tmel) {
 	# get options (mode specific)
 	o = tmap_options_mode()
 	
+	# reset symbols
+	assign("shapeLib", list(), envir = .TMAP)
+	assign("justLib", list(), envir = .TMAP)
+	
+	
 	# find shape, (aesthetic) layer, facet, and other elements
 	is_tms = vapply(tmel, inherits, "tm_shape", FUN.VALUE = logical(1))
 	is_tml = vapply(tmel, inherits, "tm_layer", FUN.VALUE = logical(1))

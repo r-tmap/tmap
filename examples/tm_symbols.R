@@ -76,10 +76,19 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 					  title="Origin") +
 		tm_format("NLD")
 	
+	grobs2 = grobs
+	grobs2[[6]] = 21
+	
+	NLD_prov$population[1:5] = 500000
 	tm_shape(NLD_prov) +
 		tm_polygons(group = "Provinces") +
 		tm_symbols(shape="name", 
-				   shape.scale = tm_scale_categorical(values = grobs))
+				   fill = "red",
+				   col = "blue",
+				   size = "population",
+				   size.scale = tm_scale_continuous(values.scale = 4),
+				   shape.scale = tm_scale_categorical(values = grobs2),
+				   shape.legend = tm_legend_hide())
 	
 }
 
@@ -117,4 +126,22 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 				  panel.background=element_blank())
 	}
 }
+
+
+tm_shape(metro) + 
+	tm_symbols("pop2010", size.scale = tm_scale_continuous(n = 8, values.scale = 3), shape = 22)
+
+
+
+data("NLD_prov")
+NLD_prov$x = seq(10, by = 5, length.out = 12)
+
+tm_shape(NLD_prov) + 
+	tm_symbols(size = "x", size.scale = tm_scale_continuous(values.scale = 4)) +
+	tm_text(text = "x")
+
+tm_shape(metro) + 
+	tm_symbols("pop2010", fill = "pop2020", 
+			   fill.scale = tm_scale_continuous(), 
+			   size.scale = tm_scale_continuous(), shape = 22)
 

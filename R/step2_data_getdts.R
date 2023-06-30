@@ -205,6 +205,16 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				# update label.format
 				s$label.format = process_label_format(s$label.format, o$label.format)
 
+				
+				# update options
+				scaleName = substr(class(s)[1],10, 30)
+				if (scaleName %in% names(o$scale.args.defaults)) {
+					def = o$scale.args.defaults[[scaleName]]
+					for (nam in names(def)) {
+						if (is.null(s[[nam]])) s[[nam]] = getAesValue(def[[nam]], unm)
+					}
+				}
+				
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
 				if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units"))
@@ -214,6 +224,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 					vn = do.call(sfun, list(x = vn, scale = o$scale))
 					do.call(cfun, list(x = vn, pc = o$pc))
 				}
+				
 				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev, bypass_ord = bypass_ord)
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
