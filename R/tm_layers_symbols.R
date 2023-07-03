@@ -59,7 +59,9 @@ tm_symbols = function(size = tm_const(),
 					  col_alpha.free = NA,
 					  plot.order = tm_plot_order("size"),
 					  trans.args = list(),
-					  mapping.args = list(),
+					  mapping.args = list(icon.scale = 3,
+					  					just = NA,
+					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
@@ -249,7 +251,7 @@ v3_symbols = function(args, args_called) {
 		
 		
 		# v3 visual variable: size
-		size.scale.args = list(values = imp("sizes.legend", NA),
+		size.scale.args = list(ticks = imp("sizes.legend", NULL),
 							   value.range = {if ("size.lim" %in% names(args)) {
 							   	c(args[["size.lim"]][1] / args[["size.lim"]][2], 1)
 							   }},

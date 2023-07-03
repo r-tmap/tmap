@@ -1,4 +1,14 @@
-tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+update_scale_args = function(scaleName, args, aes, o) {
+	if (scaleName %in% names(o$scale.misc.args)) {
+		def = o$scale.misc.args[[scaleName]]
+		for (nam in names(def)) {
+			if (is.null(args[[nam]])) args[[nam]] = getAesValue(def[[nam]], aes)
+		}
+	}
+	args
+}
+
+tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	# style = if (inherits(scale, "tm_scale_continuous")) {
 	# 	"cont"
 	# } else if (inherits(scale, "tm_scale_log10")) {
@@ -8,6 +18,10 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass
 	# }
 	# 
 	
+	
+	
+	# update misc argument from tmap option scale.misc.args
+	scale = update_scale_args("continuous", scale, aes, o)
 	
 	cls = data_class(x1)
 	maincls = class(scale)[1]

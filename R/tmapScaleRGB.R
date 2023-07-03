@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	
 	cls1 = data_class(x1)
 	cls2 = data_class(x2)
@@ -16,7 +16,7 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev, bypas
 	
 	isna = is.na(x1) | is.na(x2) | is.na(x3)
 	if (any(isna)) {
-		values = rep(scale$value.na, length(x1))
+		values = rep(scale$value.na, length(x1)) 
 		values[!isna] = grDevices::rgb(x1[!isna], x2[!isna], x3[!isna], maxColorValue = scale$maxValue)
 		
 	} else {
@@ -41,7 +41,7 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev, bypas
 }
 
 
-tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	legend = list(title = NA, 
 				  nitems = 0,
 				  labels = NA, 

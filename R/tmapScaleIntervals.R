@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	

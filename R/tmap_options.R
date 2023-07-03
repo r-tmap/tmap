@@ -120,10 +120,10 @@
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
 		
-		scale.args.defaults = list(continuous = list(n = c(fill = 5, col = 5, 5), 
-													 outliers.trunc = c(FALSE, FALSE), 
-													 values.scale = 2, 
-													 limits = list(fill = NA, col = NA, 0))), # NA means take data range, 0 means include 0
+		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5), 
+												 outliers.trunc = c(FALSE, FALSE), 
+												 trans = "identity",
+												 limits = list(fill = NA, col = NA, 0))), # NA means take data range, 0 means include 0
 		
 		# labels			  
 		label.format = list(

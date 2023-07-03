@@ -334,7 +334,29 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
-		grItems = mapply(function(id, gpari) gridCell(6, id, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+		shapeLib = get("shapeLib", envir = .TMAP)
+		justLib = get("justLib", envir = .TMAP)
+		
+		grItems = mapply(function(id, gpari) {
+			grobs = if (gpari$shape > 999) {
+				grbs = if (gpari$lwd == 0) {
+					gList(shapeLib[[gpari$shape-999]])	
+				} else {
+					gList(shapeLib[[gpari$shape-999]], rectGrob(gp=gpar(fill=NA, col=gpari$col, lwd=gpari$lwd)))	
+				}
+				grid::gTree(children=grbs, vp=viewport(x=0.5, 
+													   y=0.5,
+													   width=unit(gpari$size*2/3, "lines"),
+													   height=unit(gpari$size*2/3, "lines")))
+			} else {
+				grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)
+			}
+			#grb = gTree(children=do.call(gList, grobs), name=paste0("symbols_", id))
+			gridCell(6, id, grobs)	
+		}, comp$item_ids, gpars, SIMPLIFY = FALSE)
+		
+		
+		
 	} else if (comp$type == "text") {
 		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)

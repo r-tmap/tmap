@@ -98,16 +98,46 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
 	gp2$baseSize = 20
 	
+	
+	
 	if (o$use.WebGL) {
 		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))[c("col", "shape", "lwd", "lty", "fill_alpha", "col_alpha")]
 		if (any(vary)) warning("WegGL enabled: the only supported visual variables are: fill and size. The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
 		lf |> leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) |>  
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		
+		sn = suppressWarnings(as.numeric(gp2$shape))
+		
+		sid = which(!is.na(sn))
+		
+		gp2$shape[sid] = "circle" # as dummy
 		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+		
+		symbols$iconWidth = rep(NA, length(symbols$iconUrl))
+		symbols$iconHeight = rep(NA, length(symbols$iconUrl))
+		
+		if (length(sid)) {
+			iconLib <- get("shapeLib", envir = .TMAP)[sn[sid]-999]
+			symbols_icons <- merge_icons(iconLib)
+			size = gp2$width[sid] / gp2$baseSize
+			
+			for (i in seq_along(sid)) {
+				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]
+				symbols$iconWidth[sid[i]] <- symbols_icons$iconWidth[i] * size[i]
+				symbols$iconHeight[sid[i]] <- symbols_icons$iconHeight[i] * size[i]
+				if (all(c("iconAnchorX", "iconAnchorY") %in% names(symbols_icons))) {
+					symbols$iconAnchorX[sid[i]] <- symbols_icons$iconAnchorX[i] * size[i]
+					symbols$iconAnchorY[sid[i]] <- symbols_icons$iconAnchorY[i] * size[i]
+
+				}
+			}
+		}
+
 		lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
 								  icon = symbols, group = group) |> 
 			assign_lf(facet_row, facet_col, facet_page)
+		
 	}
 	
 	

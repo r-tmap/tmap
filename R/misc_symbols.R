@@ -12,20 +12,22 @@ pchs = stats::setNames(c(seq(0L, 25L, 1L), seq(100L, 109L, 1L)),
 
 get_pch_names = function(x) {
 	if (is.numeric(x)) {
-		if (!(all(x %in% pchs))) stop("Unknown symbol values", call. = FALSE)
-		names(pchs)[match(x, pchs)]
+		if (!(all(x %in% pchs | x > 999))) stop("Unknown symbol values", call. = FALSE)
+		y = names(pchs)[match(x, pchs)]
+		y[x > 999] = x[x>999]
+		y
 	} else {
 		if (!all(x %in% names(pchs))) stop("Unknown symbol values", call. = FALSE)
 		x
 	}
 }
-
-get_pch_number = function(x) {
-	if (is.numeric(x)) {
-		if (!(all(x %in% pchs))) stop("Unknown symbol values", call. = FALSE)
-		x
-	} else {
-		if (!all(x %in% names(pchs))) stop("Unknown symbol values", call. = FALSE)
-		unname(pchs[match(x, names(pchs))])
-	}
-}
+# 
+# get_pch_number = function(x) {
+# 	if (is.numeric(x)) {
+# 		if (!(all(x %in% pchs | x > 999))) stop("Unknown symbol values", call. = FALSE)
+# 		x
+# 	} else {
+# 		if (!all(x %in% names(pchs))) stop("Unknown symbol values", call. = FALSE)
+# 		unname(pchs[match(x, names(pchs))])
+# 	}
+# }

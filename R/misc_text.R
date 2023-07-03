@@ -92,3 +92,7 @@ expr_to_char <- function(txt) {
 		as.character(txt)
 	}
 }
+
+is_num_string <- function(x) {
+	suppressWarnings(!is.na(as.numeric(x)))
+}

@@ -1,14 +1,12 @@
-submit_symbols_Grid = function(x, just = c(0.5, 0.5), just.override = FALSE, grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256
-)) {
-	submit_symbols(x = x, gs = "Grid", just = just, just.override = just.override, grob.dim = grob.dim)}
+submit_symbols_Grid = function(x, args) {
+	submit_symbols(x = x, gs = "Grid", args)}
 
-submit_symbols_Leaflet = function(x, just = c(0.5, 0.5), just.override = FALSE, grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256
-)) {
-	submit_symbols(x = x, gs = "Leaflet", just = just, just.override = just.override, grob.dim = grob.dim)
+submit_symbols_Leaflet = function(x, args) {
+	submit_symbols(x = x, gs = "Leaflet", args)
 }
 
 
-submit_symbols = function(x, gs, just, just.override, grob.dim) {
+submit_symbols = function(x, gs, args) {
 	if (any(vapply(x, is.null, logical(1)))) stop("one of more shapes are NULL")
 	shapeLib = get("shapeLib", envir = .TMAP)
 	justLib = get("justLib", envir = .TMAP)
@@ -19,22 +17,22 @@ submit_symbols = function(x, gs, just, just.override, grob.dim) {
 			ic = if ("iconUrl" %in% names(xs)) {
 				split_icon(xs)[[1]]
 			} else if (is.grob(xs)) {
-				grob2icon(xs, grob.dim, just)
+				grob2icon(xs, args$grob.dim, args$just)
 			} else NA
 			
 			# add anchor based on just specs
 			if (all(c("iconWidth", "iconHeight") %in% names(ic)) && 
-				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || just.override)) {
-				ic$iconAnchorX = ic$iconWidth * (1-just[1])
-				ic$iconAnchorY = ic$iconHeight * just[2]
+				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || args$just.override)) {
+				ic$iconAnchorX = ic$iconWidth * (1-args$just[1])
+				ic$iconAnchorY = ic$iconHeight * args$just[2]
 			}
 			ic
 		})
 		just_items = as.list(rep(NA, n))
 	} else if (gs == "Grid") {
 		just_items = lapply(x, function(xs) {
-			if (just.override) {
-				just
+			if (args$just.override) {
+				args$just
 			} else if ("iconUrl" %in% names(xs)) {
 				if (all(c("iconWidth", "iconHeight", "iconAnchorX", "iconAnchorY") %in% names(xs))) {
 					c(1-(xs$iconAnchorX / xs$iconWidth), xs$iconAnchorY / xs$iconHeight)

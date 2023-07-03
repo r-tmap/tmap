@@ -318,24 +318,41 @@ tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, mid
 }
 
 # for symbols, which need to be 'submitted' (content replaced by an integer)
-tmapValuesSubmit_col = function(x) x
-tmapValuesSubmit_fill = function(x) x
-tmapValuesSubmit_size = function(x) x
-tmapValuesSubmit_lwd = function(x) x
-tmapValuesSubmit_lty = function(x) x
-tmapValuesSubmit_shape = function(x) {
+tmapValuesSubmit_col = function(x, args) x
+tmapValuesSubmit_fill = function(x, args) x
+tmapValuesSubmit_size = function(x, args) x
+tmapValuesSubmit_lwd = function(x, args) x
+tmapValuesSubmit_lty = function(x, args) x
+tmapValuesSubmit_shape = function(x, args) {
 	if (is.list(x)) {
 		gs = tmap_graphics_name()
 		fun = paste0("submit_symbols_", gs)
-		do.call(fun, args = list(x))
+		
+		# symbols just specification: 
+		# copy-pasted from v3, but not the best place
+		# improvement of just needed (-> trans?)
+		args = within(args, {
+			if (any(is.na(just))) {
+				just = c(.5, .5)
+				just.override = FALSE
+			} else {
+				just = c(ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))),
+						  ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))))
+				just.override = TRUE
+			}
+		})
+		
+		
+		
+		do.call(fun, args = list(x, args))
 	} else {
 		x
 	}
 }
-tmapValuesSubmit_col_alpha = function(x) x
-tmapValuesSubmit_fill_alpha = function(x) x
-tmapValuesSubmit_text = function(x) x
-tmapValuesSubmit_fontface = function(x) x
+tmapValuesSubmit_col_alpha = function(x, args) x
+tmapValuesSubmit_fill_alpha = function(x, args) x
+tmapValuesSubmit_text = function(x, args) x
+tmapValuesSubmit_fontface = function(x, args) x
 
 
 tmapValuesScale_col = function(x, scale) x

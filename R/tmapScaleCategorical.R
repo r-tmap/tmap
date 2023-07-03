@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	if (is.factor(x1) && grepl("=<>=", levels(x1)[1], fixed = TRUE)) {
@@ -109,9 +109,9 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypas
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
 		
 		mfun = paste0("tmapValuesSubmit_", aes)
-		values = do.call(mfun, list(values))
-		value.na = do.call(mfun, list(value.na))
-		value.neutral = do.call(mfun, list(value.neutral))
+		values = do.call(mfun, list(x = values, args = layer_args))
+		value.na = do.call(mfun, list(x = value.na, args = layer_args))
+		value.neutral = do.call(mfun, list(x = value.neutral, args = layer_args))
 		
 
 		# legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
