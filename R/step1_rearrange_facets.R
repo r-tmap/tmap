@@ -57,8 +57,7 @@ step1_rearrange_facets = function(tmo, o) {
 		
 		assign("used_vars", character(0), envir = .TMAP)
 		
-		precheck_aes = function(a, layer, shpvars) {
-			#browser()
+		precheck_aes = function(a, layer, shpvars, args) {
 			within(a, {
 				if (length(value) && is.na(value[[1]][1])) {
 					# NA -> value.blank
@@ -101,7 +100,14 @@ step1_rearrange_facets = function(tmo, o) {
 					update_grp_vars(lev = flvar)
 					add_used_vars(vars)
 				} else {
-					value = value_orig
+					mfun = paste0("tmapValuesSubmit_", aes)
+					value = do.call(mfun, list(x = list(value_orig), args = args))[[1]]
+					nvars = length(value)
+					nflvar = nvars
+					nvari = vapply(value, length, integer(1))
+					#value = 
+					
+					#value = value_orig
 					update_grp_vars(m = nflvar)
 				}
 			})
@@ -111,8 +117,8 @@ step1_rearrange_facets = function(tmo, o) {
 		# preprocess layers: check aes values
 		tmg$tmls = lapply(tmg$tmls, function(tml) {
 			within(tml, {
-				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars)
-				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars)
+				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = trans.args)
+				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = mapping.args)
 			})
 		})
 	

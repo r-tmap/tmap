@@ -76,6 +76,10 @@ gp_to_lpar = function(gp, mfun, pick_middle = TRUE) {
 
 
 
+make_equal_list = function(x) {
+	n = max(vapply(x, length, integer(1)))
+	lapply(x, rep, length.out = n)
+}
 
 
 tmapLeaflet_legend = function(cmp, lf, o, orientation) {
@@ -133,17 +137,54 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	} else {
 		vary = if ("fill" %in% cmp$varying) "fill" else if ("col" %in% cmp$varying) "col" else NA
 
-		symbols = do.call(Map, c(list(f = leaflegend::makeSymbol), cmp$gp2))
+		
+
+		gp2 = make_equal_list(cmp$gp2)
+		#gp2$baseSize = gp2$baseSize[1]
+		
+		sn = suppressWarnings(as.numeric(gp2$shape))
+		sid = which(!is.na(sn))
+
+		#symbols = do.call(Map, c(list(f = leaflegend::makeSymbol), cmp$gp2))
 		
 		# alternative:
-		# names(cmp$gp2)[names(cmp$gp2) == 'stroke-width'] = "strokeWidth"
-		# cmp$gp2$baseSize = 20
-		# symbols = do.call(leaflegend::makeSymbolIcons, cmp$gp2)$iconUrl
+		gp2$shape[sid] = "circle" # as dummy
 		
-		lf |> leaflegend::addLegendImage(symbols, 
+		names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
+		gp2$baseSize = 20
+		#symbols = do.call(leaflegend::makeSymbolIcons, gp2)#$iconUrl
+		
+		
+		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+		
+		symbols$iconWidth = rep(NA, length(symbols$iconUrl))
+		symbols$iconHeight = rep(NA, length(symbols$iconUrl))
+		
+		if (length(sid)) {
+			iconLib <- get("shapeLib", envir = .TMAP)[sn[sid]-999]
+			symbols_icons <- merge_icons(iconLib)
+			size = gp2$width[sid] / gp2$baseSize
+			
+			for (i in seq_along(sid)) {
+				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]
+				symbols$iconWidth[sid[i]] <- symbols_icons$iconWidth[i] * size[i]
+				symbols$iconHeight[sid[i]] <- symbols_icons$iconHeight[i] * size[i]
+				if (all(c("iconAnchorX", "iconAnchorY") %in% names(symbols_icons))) {
+					symbols$iconAnchorX[sid[i]] <- symbols_icons$iconAnchorX[i] * size[i]
+					symbols$iconAnchorY[sid[i]] <- symbols_icons$iconAnchorY[i] * size[i]
+					
+				}
+			}
+		}
+		
+		#symbols = symbols$iconUrl
+		
+		
+		
+		lf |> leaflegend::addLegendImage(symbols$iconUrl, 
 										 labels = lab,
-										 width = cmp$gp2$width,
-										 height = cmp$gp2$height, 
+										 width = symbols$iconWidth,
+										 height = symbols$iconHeight, 
 										 position = legpos,
 										 orientation = orientation,
 										 labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",

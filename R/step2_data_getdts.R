@@ -1,11 +1,8 @@
 getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
-	
-
 	nm = aes$aes
 	nm__ord = paste0(nm, "__ord")
-	
 	
 	# should the results of the data (needed for the plotting function)?
 	# sorting order will be plotting order
@@ -26,11 +23,11 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			k = as.integer(substr(bys, 3, 3))
 			o$fn[k]
 		}
-
+		
 		nvars = length(val) #m
 		nvari = vapply(val, length, integer(1))
 		
-		vars = unlist(val)
+		vars = unlist(val, recursive = FALSE)
 		
 		# active grouping variables (to keep)
 		grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
