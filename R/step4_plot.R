@@ -1,4 +1,16 @@
 process_components = function(cdt, o) {
+	gs = tmap_graphics_name()
+	
+	
+	# update added legends
+	is_added_leg = vapply(cdt$comp, inherits, logical(1), "tm_add_legend")
+	
+	if (any(is_added_leg)) {
+		funAL = paste0("tmap", gs, "AddedLegend")
+		cdt$comp[is_added_leg] = lapply(cdt$comp[is_added_leg], funAL, o = o)
+	}
+	
+	
 	cdt$class = sapply(cdt$comp, function(l) l$position$type)
 	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA else x})
 	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA else x})
@@ -12,7 +24,6 @@ process_components = function(cdt, o) {
 		cdt[, by1__ := NA]
 	}
 	
-	gs = tmap_graphics_name()
 	
 	if (gs == "Leaflet") {
 		cdt[class == "out", class := "in"]
@@ -240,7 +251,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	} else {
 		cdt_cmp
 	}
-	
+
 	if (nrow(cdt)) cdt = process_components(cdt, o)
 
 	# determine panel type, inner margins, and automatic comp placement

@@ -44,7 +44,7 @@ step1_rearrange = function(tmel) {
 	# 
 	
 	# update options with tm_option elements
-	sapply(oth, inherits, "tm_legend")
+	#sapply(oth, inherits, "tm_legend")
 	
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {

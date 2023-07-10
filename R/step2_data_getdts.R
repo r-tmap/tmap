@@ -1,3 +1,34 @@
+update_l = function(o, l, v, mfun) {
+	# update legend options
+	oltype = o[c("legend.design", "legend.orientation")]
+	names(oltype) = c("design", "orientation")
+	if (all(v %in% c("AREA", "MAP_COLORS")) && is.null(l$show)) {
+		l$show = FALSE
+	}
+	
+	call = names(l)
+	
+	l = complete_options(l, oltype)
+	oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
+	names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
+	settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
+	oleg = c(oleg, o[[settings_name]])
+	
+	
+	if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
+	
+	
+	
+	l = complete_options(l, oleg)
+	l$call = call
+	l$mfun = mfun
+	
+	# update legend class
+	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
+	l
+}
+
+
 getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
@@ -170,32 +201,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
-				# update legend options
-				oltype = o[c("legend.design", "legend.orientation")]
-				names(oltype) = c("design", "orientation")
-				if (all(v %in% c("AREA", "MAP_COLORS")) && is.null(l$show)) {
-					l$show = FALSE
-				}
-				
-				call = names(l)
-				
-				l = complete_options(l, oltype)
-				oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
-				names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
-				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
-				oleg = c(oleg, o[[settings_name]])
+				l = update_l(o = o, l = l, v = v, mfun = mfun)
+		
 				
 				
-				if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
-				
-				
-				
-				l = complete_options(l, oleg)
-				l$call = call
-				l$mfun = mfun
-				
-				# update legend class
-				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
