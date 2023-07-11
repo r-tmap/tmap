@@ -6,8 +6,7 @@ process_components = function(cdt, o) {
 	is_added_leg = vapply(cdt$comp, inherits, logical(1), "tm_add_legend")
 	
 	if (any(is_added_leg)) {
-		funAL = paste0("tmap", gs, "AddedLegend")
-		cdt$comp[is_added_leg] = lapply(cdt$comp[is_added_leg], funAL, o = o)
+		cdt$comp[is_added_leg] = lapply(cdt$comp[is_added_leg], tmapAddedLegend, o = o)
 	}
 	
 	

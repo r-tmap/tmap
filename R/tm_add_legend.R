@@ -2,8 +2,8 @@
 #' 
 #' Map component that adds a manual legend
 #' 
-#' @param ... visual variables and arguments passed on to `tm_legend`. By default, the argument `type` is set to `"symbols"`, which means that the supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`, `"fill_alpha"`, `"col_alpha"`, , `"lty"`, , `"lwd"`, `"linejoin"`, and `"lineend"`.
-#' @param type the layer type from which the visual variables (see ...) are taken. By default `"symbols"`, which means that the set of supported visual variables is taken from `tm_ symbols`.
+#' @param ... visual variables and arguments passed on to `tm_legend`. By default, the argument `type` is set to `"Symbols"`, which means that the supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`, `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.
+#' @param type the layer type from which the visual variables (see ...) are taken. Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.
 #' @param title text of the title
 #' @param design legend design
 #' @param orientation legend orientation
@@ -14,13 +14,13 @@
 #' @export
 tm_add_legend = function(...,
 						 labels,
-						 type = "symbols",
+						 type = "Symbols",
 						 title = "",
 						 design = NULL,
 						 orientation = NULL,
 						 group = NA,
 						 group.control = "check",
-						 resize.as.group = NA, 
+						 resize.as.group = FALSE, 
 						 z = as.integer(NA)) {
 	#args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (missing(labels)) stop("tm_add_legend: labels required", call. = FALSE)
@@ -29,11 +29,11 @@ tm_add_legend = function(...,
 }
 
 
-tmapGridAddedLegend = function(comp, o) {
+tmapAddedLegend = function(comp, o) {
 	#message("tm_mouse_coordinates ignored for 'plot' mode")
-	l = update_l(o = o, l = comp, v = "", mfun = "AddLegend")
+	l = update_l(o = o, l = comp, v = "", mfun = comp$type)
 
-	fun = paste0("tm_", comp$type)
+	fun = paste0("tm_", tolower(comp$type))
 	if (!exists(fun)) stop(paste0("type \"", comp$type, "\" not supported because tm_", comp$type,  " not found"), call. = FALSE)
 	res = do.call(fun, args = list())
 	gp = res[[1]]$gpar

@@ -134,7 +134,10 @@ step1_rearrange = function(tmel) {
 	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
 		crs = get_crs(tms)
 		crs_leaflet = leafletSimple
-	}  else {
+	} else if (is.na(crs_option[1])) {
+		crs = sf::st_crs(4326)
+		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
+	} else {
 		crs = crs_option
 		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
 	}

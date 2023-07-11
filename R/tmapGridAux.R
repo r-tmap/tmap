@@ -9,7 +9,7 @@ findZoom = function(b) {
 	zoom = as.integer(min(zoomlon, zoomlat))
 }
 
-tmapGridTilesPrep = function(a, bs, o) {
+tmapGridTilesPrep = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 	
 	if (!requireNamespace("maptiles")) stop("maptiles package is required", call. = FALSE)
