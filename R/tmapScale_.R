@@ -108,7 +108,7 @@ tmapScale = function(aes, value, scale, legend, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = c("tmapScale", "list"))
 }
 
-tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
 	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
@@ -140,6 +140,6 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) 
 	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
-	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, sortRev, bypass_ord))
+	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord))
 	
 }
