@@ -3,15 +3,23 @@ tm_mv = function(...) {
 	list(c(...))
 }
 
+# tm_mv_dim = function(x, values) {
+# 	structure(list(x = x, values = values), class = "tmapDimVars")
+# }
+
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
 	if (inherits(x, "tm_shape_vars")) return(structure(list(), class = "tmapShpVars"))
 	
 	cls = if (inherits(x, "AsIs")) "tmapAsIs" else "tmapVars"
-
+	
 	isL = is.list(x)
-	if (!isL) x = as.list(x)
-
+	if (!isL) {
+		x = as.list(x)
+	}# else {
+	#	x = list(x)
+	#}
+	
 	structure(x, class = cls)
 }
 format_aes_results = function(values, ord = NULL, legend) {
@@ -39,6 +47,7 @@ legends_init = function() {
 }
 
 legend_save = function(legend) {
+	if (!exists("legs", envir = .TMAP)) legends_init()
 	legs = get("legs", envir = .TMAP)
 	legs = c(legs, (list(legend)))
 	assign("legs", legs, envir = .TMAP)
@@ -78,8 +87,8 @@ data_class = function(x, check_for_color_class = FALSE) {
 	# if (all(is.na(x))) {
 	# 	"na"
 	# } else
-	 cls = if (is.numeric(x)) {
-	 	y = if (inherits(x, "units")) units::drop_units(x) else x
+	cls = if (is.numeric(x)) {
+		y = if (inherits(x, "units")) units::drop_units(x) else x
 		subclass1 = if (is.integer(x)) "int" else "real"
 		subclass2 = if (any(y < 0 & !is.na(y)) && any(y > 0 & !is.na(y))) {
 			"div"
@@ -95,7 +104,7 @@ data_class = function(x, check_for_color_class = FALSE) {
 			c("fact", subclass)
 		}
 	}
-	 
+	
 	attr(cls, "units") = if (inherits(x, "units")) {
 		paste0(" [", units(x), "]")
 	} else ""
@@ -108,7 +117,7 @@ tmapScale = function(aes, value, scale, legend, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = c("tmapScale", "list"))
 }
 
-tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
@@ -131,7 +140,7 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 		}
 	}
 	
-		
+	
 	tm_scalefun = paste0("tm_scale_", sc)
 	
 	scale = scale[names(scale) %in% names(formals(tm_scalefun))]
@@ -140,6 +149,6 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
-	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord))
+	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
 	
 }

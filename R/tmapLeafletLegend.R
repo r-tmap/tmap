@@ -103,7 +103,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	
 	legpos = leaflet_pos(cmp$position)
 
-	if (cmp$type == "gradient") {
+	lf2 = if (cmp$type == "gradient") {
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
 			
@@ -196,6 +196,8 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										 layerId = layerId,
 										 className = leg_className)
 	}
+	backg <- htmltools::tags$style(paste0("#", layerId, " { background: ", substr(cmp$bg.color,1,7), "; opacity: ", cmp$bg.alpha, "}")) 
+	lf2 |> htmlwidgets::prependContent(backg)
 
 }
 

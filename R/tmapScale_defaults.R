@@ -439,6 +439,8 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	
 }
 
+
+# categorical 
 tmapValuesCVV_col = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
 }
@@ -478,4 +480,42 @@ tmapValuesCVV_text = function(x, value.na, n, range, scale, rep, o) {
 
 tmapValuesCVV_fontface = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fontface(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+# bivariate visual variables 
+tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
+	#palid = tmapPalId(x[1])
+	
+	meta = getPalMeta(x[1])
+	
+	if (!is.null(meta)) {
+		values = getPalBiv(x, m = m, n = n)
+	} else if (!is.matrix(x)) {
+		values = matrix(grDevices::colorRampPalette(x)(m*n), nrow = m)
+	} else if (is.matrix(x)) {
+		if (ncol(x) != n) {
+			x = do.call(rbind, apply(x, function(xi) {
+				grDevices::colorRampPalette(xi)(n)
+			}, MARGIN = 1, simplify = FALSE))
+		}
+		
+		if (nrow(x) != m) {
+			x = do.call(cbind, apply(x, function(xi) {
+				grDevices::colorRampPalette(xi)(m)
+			}, MARGIN = 2, simplify = FALSE))
+		}
+		values = x
+	}
+	
+	values[] = do.call(process_color, c(list(col = values), o$pc))
+	value.neutral = do.call(process_color, c(list(col = values[1]), o$pc))
+	value.na = do.call(process_color, c(list(col = value.na), o$pc))
+	
+	
+	list(vvalues = values, value.neutral = value.neutral, value.na = value.na)
+	
+}
+
+tmapValuesBVV_col = function(x, value.na, m, n, scale, rep, o) {
+	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
 }

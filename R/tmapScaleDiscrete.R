@@ -166,6 +166,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, layer_args, sortR
 			vvalues = vvalues
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
+			scale = "discrete"
 		})
 		
 		if (bypass_ord) {

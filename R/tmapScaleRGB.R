@@ -31,6 +31,7 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, so
 				  vvalues = NA,
 				  vneutral = "grey50",
 				  na.show = NA,
+				  scale = "RGB",
 				  show = FALSE)
 	
 	if (bypass_ord) {
@@ -49,6 +50,7 @@ tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 				  vvalues = NA,
 				  vneutral = NA,
 				  na.show = NA,
+				  scale = "AsIs",
 				  show = FALSE)
 
 	sfun = paste0("tmapValuesScale_", aes)

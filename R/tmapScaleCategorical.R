@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	if (is.factor(x1) && grepl("=<>=", levels(x1)[1], fixed = TRUE)) {
@@ -162,12 +162,17 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, so
 			vvalues = values
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
+			scale = "categorical"
 		})
 		
-		if (bypass_ord) {
-			format_aes_results(vals, legend = legend)
+		if (submit_legend) {
+			if (bypass_ord) {
+				format_aes_results(vals, legend = legend)
+			} else {
+				format_aes_results(vals, ids, legend)			
+			}
 		} else {
-			format_aes_results(vals, ids, legend)			
+			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
 		}
 		
 	})	

@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -131,7 +131,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 		}
 		
 		# create legend values
-		values = breaks[-nbrks]
+		#values = breaks[-nbrks]
 		
 		if (is.null(labels)) {
 			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format)) 
@@ -175,12 +175,17 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 			vvalues = vvalues
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
+			scale = "intervals"
 		})
 		
-		if (bypass_ord) {
-			format_aes_results(vals, legend = legend)
+		if (submit_legend) {
+			if (bypass_ord) {
+				format_aes_results(vals, legend = legend)
+			} else {
+				format_aes_results(vals, ids, legend)			
+			}
 		} else {
-			format_aes_results(vals, ids, legend)			
+			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
 		}
 	})
 }

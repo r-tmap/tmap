@@ -19,7 +19,9 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
 		
-		type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
+		type = if ("biv" %in% names(attributes(gp$fill))) {
+			"bivariate"
+		} else if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
 			"symbols"
@@ -38,9 +40,15 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 #' @method tmapGridCompHeight tm_legend_standard_portrait
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
-	nlev = comp$nitems
+	
+	nlev = if (comp$type == "bivariate") attr(comp$gp$fill, "m") + 1L else comp$nitems
+	
+	main_title_id = if (comp$type == "bivariate") 3L else 1L
+	
+	
+	
 	textS = comp$text.size #* o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * number_text_lines(comp$title) # * o$scale
+	titleS = if (comp$title[main_title_id] == "") 0 else comp$title.size * number_text_lines(comp$title[main_title_id]) # * o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -54,7 +62,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	if (comp$type == "symbols") {
 		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev))
 		comp$stretch = if (!is.na(comp$height)) "padding" else "none"	
-	} else if (comp$type %in% c("rect", "lines")) {
+	} else if (comp$type %in% c("rect", "lines", "bivariate")) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "items" else "none"	
@@ -68,6 +76,9 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	}
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
+	
+	textH = textS * o$lin
+	
 	marH = comp$margins[c(3,1)] * textS * o$lin
 
 	if (nlev == 1) {
@@ -127,37 +138,81 @@ fontface2nr = function(face) {
 #' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
+
+	ni = if (comp$type == "bivariate") attr(comp$gp$fill, "n") else 1L
+	mi = if (comp$type == "bivariate") attr(comp$gp$fill, "m") else 1L
+	
+	main_title_id = if (comp$type == "bivariate") 3L else 1L
+	
 	textS = comp$text.size #* o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size #* o$scale
+	titleS = if (comp$title[main_title_id] == "") 0 else comp$title.size #* o$scale
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
 	width = get_legend_option(comp$item.width, comp$type)
 	
-	item_widths = if (comp$type == "symbols") pmax(width, rep(comp$gpar$size / textS, length.out = comp$nitems)) else rep(width, comp$nitems)
-	item_widths_max = max(item_widths)
+	item_widths = if (comp$type == "symbols") pmax(width, rep(comp$gpar$size / textS, length.out = comp$nitems)) else rep(width, length.out = ni)
 	
 	
-	tW = ifelse(comp$title == "", 0, strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface) + sum(comp$title.padding[c(2,4)]) * o$lin * titleS))
-	iW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
+	if (comp$type == "bivariate") {
+		item_widths_max = max(item_widths)
+	} else {
+		item_widths_max = max(item_widths)
+	}
+	
+	
+	
+	
+	tW = ifelse(comp$title[main_title_id] == "", 0, strwidth(comp$title[main_title_id], units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) + sum(comp$title.padding[c(2,4)]) * o$lin * titleS)
+	
+	if (comp$type == "bivariate") {
+		txtRowW = ifelse(comp$title[1] == "", 0, strwidth(comp$title[1], units = "inch", cex = comp$title.size, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)))
+		
+		margRowW = ifelse(txtRowW == 0, 0, comp$margin.item.text * textS * o$lin)
+	}
+	
+	if (comp$type == "bivariate") {
+		iW = strwidth(comp$labels[1:mi], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+	} else {
+		iW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
+	}
 
 	colW = max(tW, iW)
 	
-	txtW = colW - (item_widths_max + comp$margin.item.text) * textS * o$lin
+	if (comp$type == "bivariate") {
+		txtW = colW - (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+	} else {
+		txtW = colW - (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+	}
 	
 	n = switch(comp$position$align.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
 	
-	wsu = grid::unit(c(marW[1], 
-					   n[1], 
-					   item_widths_max * textS * o$lin, 
-					   comp$margin.item.text * textS * o$lin, 
-					   txtW, 
-					   n[2], 
-					   marW[2]), units = c("inch", "null", rep("inch", 3), "null", "inch"))
+	if (comp$type == "bivariate") {
+		wsu = grid::unit(c(marW[1], 
+						   n[1], 
+						   txtRowW,
+						   margRowW,
+						   txtW, 
+						   comp$margin.item.text * textS * o$lin, 
+						   rep(item_widths_max * textS * o$lin, ni), 
+						   n[2], 
+						   marW[2]), units = c("inch", "null", rep("inch", 4+ni), "null", "inch"))
+		comp$flexCol = 5 #column that will shrink if the null columns will otherwise be sizes < 0. (happens if legend.width < minimal width)
+		Win = if (is.na(comp$width)) sum(as.numeric(wsu)[c(1, 3:(6+ni), 8+ni)]) else comp$width * textS * o$lin
+		
+	} else {
+		wsu = grid::unit(c(marW[1], 
+						   n[1], 
+						   item_widths_max * textS * o$lin, 
+						   comp$margin.item.text * textS * o$lin, 
+						   txtW, 
+						   n[2], 
+						   marW[2]), units = c("inch", "null", rep("inch", 2+ni), "null", "inch"))
+		comp$flexCol = 5 #column that will shrink if the null columns will otherwise be sizes < 0. (happens if legend.width < minimal width)
+		Win = if (is.na(comp$width)) sum(as.numeric(wsu)[c(1, 3:5, 7)]) else comp$width * textS * o$lin
+	}
 	
-	Win = if (is.na(comp$width)) sum(as.numeric(wsu)[c(1, 3:5, 7)]) else comp$width * textS * o$lin
 	
-	comp$flexCol = 5 #column that will shrink if the null columns will otherwise be sizes < 0. (happens if legend.width < minimal width)
 	comp$Win = Win
 	comp$wsu = wsu
 
@@ -170,7 +225,26 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale #* o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale
+	
+	main_title_id = if (comp$type == "bivariate") 3L else 1L
+	
+	
+	titleS = if (comp$title[main_title_id] == "") 0 else comp$title.size * comp$scale #* o$scale
+	
+	
+	if (comp$type == "Bivariate") {
+		gp = comp$gp
+		
+		g = grid::rectGrob(gp=grid::gpar(fill = "pink"))
+		
+		#g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
+		
+		return(g)
+		
+	}
+	
+	n = if (comp$type == "bivariate") attr(comp$gp$fill, "n") else 1
+	m = if (comp$type == "bivariate") attr(comp$gp$fill, "m") else 1
 	
 	nlev = comp$nitems
 	
@@ -184,19 +258,44 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	
 	if (is.na(comp$title.just)) comp$title.just = comp$position$align.h
 	
+	shiftCol = if (comp$type == "bivariate") 2L else 0L
+	
+	
 	if (comp$title.just == "left") {
-		grTitle = gridCell(3, 2:(length(comp$wsu)-1), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = titleS)))
+		grTitle = gridCell(3, (2 + shiftCol):(length(comp$wsu)-1), grid::textGrob(comp$title[main_title_id], x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = titleS)))
 	} else if (comp$title.just == "right") {
-		grTitle = gridCell(3, 2:(length(comp$wsu)-1), grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(col = comp$title.color, cex = titleS)))
+		grTitle = gridCell(3, (2 + shiftCol):(length(comp$wsu)-1), grid::textGrob(comp$title[main_title_id], x = grid::unit(1, "npc") - grid::unit(comp$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(col = comp$title.color, cex = titleS)))
 	} else {
-		grTitle = gridCell(3, 2:(length(comp$wsu)-1), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(col = comp$title.color, cex = titleS)))
+		grTitle = gridCell(3, (2 + shiftCol):(length(comp$wsu)-1), grid::textGrob(comp$title[main_title_id], x = 0.5, just = "center", gp = grid::gpar(col = comp$title.color, cex = titleS)))
 	}
 	
-	textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
-	scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
+	
+	if (comp$type == "bivariate") {
+		# ignoring just for now, assuming "left"
+		grColTitle = gridCell(comp$item_ids[1:m], 3, grid::textGrob(comp$title[1], x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = titleS)))
+	} else {
+		grColTitle = NULL
+	}
 	
 	
-	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
+	if (comp$type == "bivariate") {
+		textW = strwidth(comp$labels[1:m], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
+		grText1 = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:m, comp$item_ids[1L:m], SIMPLIFY = FALSE)
+		
+		colLabs = comp$labels[(m+1L):(n+m)]
+		
+		# easy: take first letter. Alternatives: rotation, ...
+		colLabs = substr(colLabs, 1, 1)
+
+		grText2 = mapply(function(i, j, id) gridCell(comp$item_ids[m+1], j, grid::textGrob(colLabs[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:n, 7:(6+n), comp$item_ids[1L:n], SIMPLIFY = FALSE)
+		
+		grText = c(grText1, grText2)		
+	} else {
+		textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
+		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
+	}
 	
 	ticks = get_legend_option(comp$ticks, comp$type)
 	ticks.disable.na = get_legend_option(comp$ticks.disable.na, comp$type)
@@ -410,10 +509,17 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		#		sizes = 
 		grItems = mapply(function(id, gpari, txt) gridCell(id, 3, grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari)), comp$item_ids, gpars, gp$text, SIMPLIFY = FALSE)
 		
+	} else if (comp$type == "bivariate") {
+		gpars = gp_to_gpar(gp, sel = "all", split_to_n = n*m)#lapply(gps, gp_to_gpar)
+		#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+		
+		ind = expand.grid(row = comp$item_ids[1:m], col = 7:(6+n))
+		
+		grItems = mapply(function(i, j, gpari) gridCell(i, j, rndrectGrob(gp = gpari, r = comp$item.r)), ind$row, ind$col, gpars, SIMPLIFY = FALSE)
 	}
 	
 	
-	g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
+	g = do.call(grid::grobTree, c(list(grTitle, grColTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
 	
 	g
 		

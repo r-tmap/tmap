@@ -201,6 +201,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
+				#browser()
 				l = update_l(o = o, l = l, v = v, mfun = mfun)
 		
 				
@@ -211,11 +212,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				# update label.format
 				s$label.format = process_label_format(s$label.format, o$label.format)
 
-				
-				
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
-				if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units"))
+				if (is.ena(l$title[1])) l$title = paste0({if (length(v) >= 1L) v else names(v)}, attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					vn = getAesOption("value.null", o, unm, layer, cls = cls)

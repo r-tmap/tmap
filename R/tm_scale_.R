@@ -212,6 +212,8 @@ tm_scale_continuous = function(n = NULL,
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale", "list"))
 }
 
+
+
 #' #' @export
 #' tm_scale_rank = function(...) {
 #' 	tmc = tm_scale_continuous(...)

@@ -256,6 +256,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sor
 			vvalues = vvalues
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
+			scale = "continuous"
 		})
 		
 		if (bypass_ord) {
