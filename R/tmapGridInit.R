@@ -207,9 +207,9 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	
 	if (is.null(vp)) {
 		grid.newpage()
-	} else {
-		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
-	}
+	}# else {
+	#	if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+	#}
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)
 	
