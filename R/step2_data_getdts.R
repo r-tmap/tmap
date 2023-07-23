@@ -201,7 +201,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
-				#browser()
 				l = update_l(o = o, l = l, v = v, mfun = mfun)
 		
 				
@@ -214,7 +213,19 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
-				if (is.ena(l$title[1])) l$title = paste0({if (length(v) >= 1L) v else names(v)}, attr(cls, "units"))
+				
+				# for bivariate legends
+				if (length(v) > 1L) {
+					cls2 = data_class(dtl[[v[2]]])
+					if (is.ena(l$xlab)) l$xlab = paste0(v[2], attr(cls, "units"))
+					if (is.ena(l$ylab)) l$ylab = paste0(v[1], attr(cls2, "units"))
+					if (is.ena(l$title)) l$title = ""
+				} else {
+					if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units"))
+				}
+				
+				
+				
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					vn = getAesOption("value.null", o, unm, layer, cls = cls)
@@ -222,11 +233,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					do.call(cfun, list(x = vn, pc = o$pc))
 				}
 				
-
 				arglist = list(scale = s, legend = l, o = o, aes = unm, 
 							   layer = layer, 
 							   layer_args = args,
-							   sortRev = sortRev, bypass_ord = bypass_ord)
+							   sortRev = sortRev, 
+							   bypass_ord = bypass_ord,
+							   submit_legend = TRUE)
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
 						dtl[, c(varname, legname) := list(value.null, 0L)]

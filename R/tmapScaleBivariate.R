@@ -1,4 +1,4 @@
-tmapScaleBivariate = function(x1, x2, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleBivariate = function(x1, x2, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	
 	if (!(aes %in% c("fill", "color", "shape"))) stop("tm_scale_bivariate cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
@@ -58,7 +58,7 @@ tmapScaleBivariate = function(x1, x2, scale, legend, o, aes, layer, layer_args, 
 		#pal = as.vector(pal)
 		
 		
-		pal = as.vector(vvalues[n1:1,])
+		pal = as.vector(vvalues)#[n1:1,])
 		
 		attr(pal, "biv") = TRUE
 		attr(pal, "m") = n1
@@ -80,23 +80,19 @@ tmapScaleBivariate = function(x1, x2, scale, legend, o, aes, layer, layer_args, 
 		legend$vneutral = pal[4]
 		legend$na.show = na
 		
-		if (length(legend$title) == 2L) legend$title = c(legend$title, "")
-		#legend$title = "BIVARIATE"
-		# 
-		# legend = within(legend, {
-		# 	nitems = length(labs)
-		# 	labels = labs
-		# 	dvalues = vals
-		# 	vvalues = values
-		# 	vneutral = value.neutral
-		# 	na.show = get("na.show", envir = parent.env(environment()))
-		# })
-		
-		if (bypass_ord) {
-			format_aes_results(vals, legend = legend)
+		# for consistency with the other tmapScaleX
+		# not needed because submit_legend is only needed to supress legends of the two variables by which a bivariate legend is created.
+		if (submit_legend) {
+			if (bypass_ord) {
+				format_aes_results(vals, legend = legend)
+			} else {
+				format_aes_results(vals, ids, legend)			
+			}
 		} else {
-			format_aes_results(vals, ids, legend)			
+			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
 		}
+		
+		
 		
 	})
 	

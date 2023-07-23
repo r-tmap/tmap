@@ -46,7 +46,7 @@ tm_legend(
   ticks.disable.na,
   ticks.col,
   ticks.lwd,
-  title.just,
+  title.align,
   margins,
   margin.item.text,
   ...
@@ -131,13 +131,13 @@ tm_legend_combine(aes)
 
 \item{ticks.lwd}{PARAM_DESCRIPTION}
 
-\item{title.just}{PARAM_DESCRIPTION}
-
 \item{margins}{PARAM_DESCRIPTION}
 
 \item{margin.item.text}{PARAM_DESCRIPTION}
 
 \item{aes}{aes}
+
+\item{title.just}{PARAM_DESCRIPTION}
 }
 \value{
 OUTPUT_DESCRIPTION

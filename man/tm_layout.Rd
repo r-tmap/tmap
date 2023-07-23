@@ -56,7 +56,14 @@ tm_layout(
   legend.title.size,
   legend.title.fontface,
   legend.title.fontfamily,
-  legend.title.just,
+  legend.xlab.color,
+  legend.xlab.size,
+  legend.xlab.fontface,
+  legend.xlab.fontfamily,
+  legend.ylab.color,
+  legend.ylab.size,
+  legend.ylab.fontface,
+  legend.ylab.fontfamily,
   legend.text.color,
   legend.text.size,
   legend.text.fontface,
@@ -199,8 +206,6 @@ tm_format(format, ...)
 
 \item{legend.title.fontfamily}{TODO}
 
-\item{legend.title.just}{TODO}
-
 \item{legend.text.color}{TODO}
 
 \item{legend.text.size}{TODO}
@@ -276,6 +281,8 @@ tm_format(format, ...)
 \item{format}{name of the format}
 
 \item{grid.labels.pos}{TODO}
+
+\item{legend.title.just}{TODO}
 }
 \description{
 Set of tmap options that are directly related to the layout.

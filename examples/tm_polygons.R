@@ -27,6 +27,9 @@ tm_shape(Africa) +
 	tm_title("Inequality index", position = tm_pos_in("right", "TOP"), frame = FALSE) +
 	tm_layout(frame = FALSE)
 
+tm_shape(World) +
+	tm_polygons(tm_mv("inequality", "well_being"))
+
 ####################################
 ########## v3 ######################
 ####################################

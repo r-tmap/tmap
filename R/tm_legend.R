@@ -85,13 +85,15 @@ tm_legend = function(title,
 					 ticks.disable.na,
 					 ticks.col,
 					 ticks.lwd,
-					 title.just,
+					 title.align,
 					 margins,
 					 margin.item.text,
 					 ...) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 
 	if (!("title" %in% (names(args)))) args$title = NA
+	if (!("xlab" %in% (names(args)))) args$xlab = NA
+	if (!("ylab" %in% (names(args)))) args$ylab = NA
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
@@ -109,3 +111,28 @@ tm_legend_hide = function() {
 tm_legend_combine = function(aes) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "tm_component", "list"))
 }
+
+tm_legend_bivariate = function(xlab, 
+							   ylab,
+							   xlab.color,
+							   xlab.size,
+							   xlab.fontface,
+							   xlab.fontfamily,
+							   xlab.padding,
+							   xlab.align,
+							   ylab.color,
+							   ylab.size,
+							   ylab.fontface,
+							   ylab.fontfamily,
+							   ylab.padding,
+							   ylab.align,
+							   ...) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	if (!("title" %in% (names(args)))) args$title = NA
+	if (!("xlab" %in% (names(args)))) args$xlab = NA
+	if (!("ylab" %in% (names(args)))) args$ylab = NA
+	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	structure(args, class = c("tm_legend", "tm_component", "list"))
+}
+

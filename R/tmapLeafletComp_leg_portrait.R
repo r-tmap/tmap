@@ -23,6 +23,11 @@ tmapLeafletCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 
 tmapLeaflet_legend_comp = function(comp, o) {
 	within(comp, {
+		if ("biv" %in% names(attributes(gp$fill))) {
+			warning("Bivariate legend not implemented for view mode", call. = FALSE)
+			show = FALSE
+		}
+		
 		nuq = vapply(comp$gp, length, FUN.VALUE = integer(1))
 		varying = names(nuq)[which(nuq>1)]
 

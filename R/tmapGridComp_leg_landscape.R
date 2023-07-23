@@ -151,12 +151,12 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 	
-	if (is.na(comp$title.just)) comp$title.just = comp$position$align.h
+	if (is.na(comp$title.align)) comp$title.align = comp$position$align.h
 	
 	
-	if (comp$title.just == "left") {
+	if (comp$title.align == "left") {
 		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
-	} else if (comp$title.just == "right") {
+	} else if (comp$title.align == "right") {
 		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
 	} else {
 		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
