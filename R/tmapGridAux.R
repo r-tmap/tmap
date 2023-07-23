@@ -562,7 +562,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		if (a$labels.rot[1] %in% c(0, 180)) {
 			labelsXw <- if (selx) (max(text_height_inch(labelsx))  * cex + fh) / fH else 0
 		} else {
-			labelsXw <- if (selx) (max(text_width_inch(labelsx, space=FALSE, to_height = TRUE))  * cex + fh) / fH else 0
+			labelsXw <- if (selx) (max(text_width_inch(labelsx, space=FALSE))  * cex + fh) / fH else 0
 		}
 		spacerX <- convertHeight(unit(.5, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fH
 		marginX <- convertWidth(unit(a$labels.margin.x, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fW
