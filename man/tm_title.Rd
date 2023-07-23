@@ -3,6 +3,7 @@
 \name{tm_title}
 \alias{tm_title}
 \alias{tm_title_in}
+\alias{tm_title_out}
 \title{Map component: title}
 \usage{
 tm_title(
@@ -28,6 +29,8 @@ tm_title(
 )
 
 tm_title_in(text, ..., position = tm_pos_in("left", "top"))
+
+tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 }
 \arguments{
 \item{text}{text of the title}

@@ -4,7 +4,7 @@
 \alias{tm_facets}
 \alias{tm_facets_grid}
 \alias{tm_facets_wrap}
-\alias{tm_facets_page}
+\alias{tm_facets_pagewise}
 \alias{tm_facets_stack}
 \alias{tm_facets_hstack}
 \alias{tm_facets_vstack}
@@ -30,14 +30,15 @@ tm_facets(
   showNA = NA,
   textNA = "Mssing",
   scale.factor = 2,
-  type = NA
+  type = NA,
+  along = NULL
 )
 
 tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 
 tm_facets_wrap(by = "VARS__", nrows = NA, ncols = NA, byrow = TRUE, ...)
 
-tm_facets_page(by = "VARS__", nrows = 1, ncols = 1, byrow = TRUE, ...)
+tm_facets_pagewise(by = "VARS__", nrows = 1, ncols = 1, byrow = TRUE, ...)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 
@@ -81,6 +82,8 @@ tm_facets_flip()
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.}
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
+
+\item{along}{deceprated Please use \code{tm_facets_page}}
 }
 \description{
 Specify facets. \code{tm_facets} is the core function, but recommended is to use \code{tm_facets_wrap}, \code{tm_facets_stack} or \code{tm_facets_grid}. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas \code{tm_facets_stack} stacks the facets either horizontally or vertically. \code{tm_facets_grid} supports up to three faceting dimensions.

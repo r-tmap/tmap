@@ -7,11 +7,11 @@
 \title{Scales: continuous scale}
 \usage{
 tm_scale_continuous(
-  n = 5,
+  n = NULL,
   limits = NULL,
-  outliers.trunc = c(FALSE, FALSE),
+  outliers.trunc = NULL,
   ticks = NULL,
-  trans = "identity",
+  trans = NULL,
   midpoint = NULL,
   values = NA,
   values.repeat = FALSE,

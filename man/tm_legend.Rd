@@ -41,13 +41,15 @@ tm_legend(
   item.na.height,
   item.na.width,
   item.na.space,
+  item.shape,
   ticks,
   ticks.disable.na,
   ticks.col,
   ticks.lwd,
   title.just,
   margins,
-  margin.item.text
+  margin.item.text,
+  ...
 )
 
 tm_legend_hide()

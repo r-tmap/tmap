@@ -6,7 +6,7 @@
 \title{Scales: categorical and ordinal scale}
 \usage{
 tm_scale_ordinal(
-  n.max = 20,
+  n.max = 30,
   values = NA,
   values.repeat = FALSE,
   values.range = 1,
@@ -23,7 +23,7 @@ tm_scale_ordinal(
 )
 
 tm_scale_categorical(
-  n.max = 20,
+  n.max = 30,
   values = NA,
   values.repeat = TRUE,
   values.range = NA,
