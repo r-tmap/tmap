@@ -122,7 +122,7 @@ pretty30 = function(x, n, longlat) {
 }
 
 
-tmapGridGridPrep = function(a, bs, o) {
+tmapGridGridPrep = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 	
 	

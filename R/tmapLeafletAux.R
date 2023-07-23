@@ -18,7 +18,7 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	NULL	
 }
 
-tmapLeafletGridPrep = function(a, bs, o) {
+tmapLeafletGridPrep = function(a, bs, id, o) {
 	
 	grid_intervals = vapply(bs, function(b) {
 		# implementation similarish as plot mode but needs polishing

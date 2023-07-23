@@ -272,7 +272,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	
 	if (comp$type == "bivariate") {
 		# ignoring just for now, assuming "left"
-		grColTitle = gridCell(comp$item_ids[1:m], 3, grid::textGrob(comp$title[1], x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = titleS)))
+		grColTitle = gridCell(comp$item_ids[1:m], 3, grid::textGrob(comp$title[1], x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = comp$title.size * comp$scale)))
 	} else {
 		grColTitle = NULL
 	}
