@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	
 	cls1 = data_class(x1)
 	cls2 = data_class(x2)
@@ -34,15 +34,19 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, so
 				  scale = "RGB",
 				  show = FALSE)
 	
-	if (bypass_ord) {
-		format_aes_results(values, legend = legend)
+	if (submit_legend) {
+		if (bypass_ord) {
+			format_aes_results(values, legend = legend)
+		} else {
+			format_aes_results(values, ids, legend)			
+		}
 	} else {
-		format_aes_results(values, ord = 1L, legend = legend)
-	}	
+		list(vals = values, ids = ids, legend = legend, bypass_ord = bypass_ord)
+	}
 }
 
 
-tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	legend = list(title = NA, 
 				  nitems = 0,
 				  labels = NA, 
@@ -59,10 +63,13 @@ tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 	x2 = do.call(sfun, list(x = x1, scale = o$scale))
 	values = do.call(cfun, list(x = x2, pc = o$pc))
 	
-	
-	if (bypass_ord) {
-		format_aes_results(values, legend = legend)
+	if (submit_legend) {
+		if (bypass_ord) {
+			format_aes_results(values, legend = legend)
+		} else {
+			format_aes_results(values, ord = 1L, legend = legend)		
+		}
 	} else {
-		format_aes_results(values, ord = 1L, legend = legend)
+		list(vals = values, ids = 1L, legend = legend, bypass_ord = bypass_ord)
 	}
 }

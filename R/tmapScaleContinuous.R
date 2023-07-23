@@ -8,7 +8,7 @@ update_scale_args = function(scaleName, args, aes, o) {
 	args
 }
 
-tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord) {
+tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	# style = if (inherits(scale, "tm_scale_continuous")) {
 	# 	"cont"
 	# } else if (inherits(scale, "tm_scale_log10")) {
@@ -259,11 +259,15 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sor
 			scale = "continuous"
 		})
 		
-		if (bypass_ord) {
-			format_aes_results(vals, legend = legend)
+		if (submit_legend) {
+			if (bypass_ord) {
+				format_aes_results(vals, legend = legend)
+			} else {
+				format_aes_results(vals, ids, legend)			
+			}
 		} else {
-			format_aes_results(vals, ids, legend)			
+			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
 		}
-		
+
 	})
 }
