@@ -186,7 +186,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}, comp, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	
 	
-	legGrobs = lapply(comp, tmapGridLegPlot, o = o, fH = maxH, fW = maxW)
+	legGrobs = lapply(comp, tmapGridLegPlot, o = o, fH = fH, fW = fW)
 	
 	
 	#sq = function(x) do.call(seq, as.list(unname(range(x))))
@@ -241,7 +241,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	rowsIn = g$rowsIn[rows]
 	colsIn = g$colsIn[cols]
 	
-
 	if (any(pos.h %in% c("LEFT", "RIGHT"))) {
 		pos.h = tolower(pos.h)
 		CASE.h = toupper
@@ -271,8 +270,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	totH = sum(rowsIn) - offsetInTot.v
 	totW = sum(colsIn) - offsetInTot.h
-	
-
 	
 	w1 = which(pos.v=="bottom" & pos.h=="left")
 	w2 = which(pos.v=="top" & pos.h=="left")
@@ -379,8 +376,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				# get first stack argument
 				stck = stack[id[1]]
 			}
-			
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums, fH = sum(rowsIn), fW = sum(colsIn))
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
 		}
 	}))
 

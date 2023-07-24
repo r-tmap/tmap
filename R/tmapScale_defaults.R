@@ -81,6 +81,10 @@ tmapValuesIsDiv_lwd = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesIsDiv_lty = function(x) {
+	FALSE
+}
+
 tmapValuesIsDiv_col_alpha = function(x) {
 	tmapValuesIsDiv_size(x)
 }
