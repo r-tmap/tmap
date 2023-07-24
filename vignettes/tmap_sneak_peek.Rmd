@@ -170,7 +170,7 @@ tm_shape(World_carto) +
 # tmap v4
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
-				 size.scale = tm_scale_log10(),
+				 size.scale = tm_scale_continuous_log1p(),
 				 fill = "HPI", 
 				 fill.scale = tm_scale_intervals(values = "purple_green"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
@@ -273,42 +273,14 @@ It will be possible to assign multiple variables for one aesthetic.
 This can be done with the function `tm_mv` (which stands for multivariate).
 An example is the bivariate choropleth, which is not yet implemented, but will definitely be.
 
-```{r, eval = FALSE, class.source='bg-success'}
-# tmap v4 (not implemented yet)
+```{r, eval = TRUE, class.source='bg-success'}
+# tmap v4
 tm_shape(World) +
   tm_symbols(fill = tm_mv("well_being", "footprint"), 
-  		   fill.scale = tm_scale_bivariate(rows = tm_scale_intervals(breaks = c(2, 5, 6, 8)),
-  		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
+  		   fill.scale = tm_scale_bivariate(scale1 =  tm_scale_intervals(breaks = c(2, 5, 6, 8)),
+  		   								scale2 = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
   		   								values = "brewer.qualseq"))
 ```
-
-```{r, echo=FALSE}
-World$fp3 = cut(World$footprint, breaks = c(0, 3, 6, 20), labels = letters[1:3])
-World$wb3 = cut(World$well_being, breaks = c(2, 5, 6, 8), labels = LETTERS[1:3])
-
-World$fp3wb3 = paste0(World$fp3, World$wb3)
-World$fp3wb3[World$fp3wb3 == "NANA"] = NA
-
-World$fp3wb3 = factor(World$fp3wb3, levels = do.call(mapply, args = c(as.list(as.data.frame(expand.grid(letters[1:3], LETTERS[1:3]))), list(FUN = paste0))))
-
-cols = pals::brewer.qualseq()
-#plot(1:9, col = cols, pch = 16, cex = 10)
-
-
-#tm_shape(World, crs = "+proj=robin") +
-#	tm_polygons("footprint", fill.scale = tm_scale_intervals(breaks = c(0, 3, 6, 20), values = c("green", "blue", "red")))
-
-#tm_shape(World, crs = "+proj=robin") +
-#	tm_polygons("well_being", fill.scale = tm_scale_intervals(breaks = c(2, 5, 6, 8), values = "brewer.greys"))
-
-
-tm_shape(World, crs = "+proj=robin") +
-	tm_polygons("fp3wb3", fill.scale = tm_scale_categorical(values = cols), fill.legend = tm_legend_hide())
-```
-
-<img src="https://user-images.githubusercontent.com/2444081/131315258-737481f9-0978-45b5-8e9e-07b43828adfc.png"
-     alt="Bivarite choropleth legend"
-     style="width:40%; " />
 
 Another example of multivariate aesthetics are glpys, which are small charts used as symbols.
 

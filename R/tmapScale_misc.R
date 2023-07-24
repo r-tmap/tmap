@@ -76,7 +76,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, na.show
 			dvalues = NA
 			vvalues = value.na
 			vneutral = value.na
-			na.show = na.show
+			na.show = TRUE
 		})
 	}
 	

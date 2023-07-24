@@ -108,7 +108,6 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 		vals = vvalues[ids]
 		isna = is.na(vals)
 		anyNA = any(isna)
-		
 		na.show = update_na.show(label.show, legend$na.show, anyNA)
 		
 		if (is.null(sortRev)) {

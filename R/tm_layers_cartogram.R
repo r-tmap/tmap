@@ -4,14 +4,17 @@ tm_cartogram = function(size = 1,
 						size.legend = tm_legend_hide(),
 						size.free = NA,
 						plot.order = tm_plot_order("size", reverse = FALSE),
-						trans.args = list(type = c("cont", "ncont", "dorling"), itermax = 15),
+						trans.args = list(type = "cont", itermax = 15),
 						...) {
 	po = plot.order
-	type = match.arg(type)
+	#trans.args$type = match.arg(trans.args$type)
+	
+	# types: "cont", "ncont", "dorling"
+	
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
-		trans.args = trans.args
+		trans.args = get("trans.args", envir = parent.env(environment()))
 		trans.aes = list(size = tmapScale(aes = "area",
 										  value = size,
 										  scale = size.scale,
