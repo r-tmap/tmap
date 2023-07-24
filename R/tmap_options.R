@@ -260,7 +260,13 @@
 										 item.na.width = c(rect = NA, symbols = NA, gradient = 4, lines = NA, text = NA),
 										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3, lines = 0.2, text = 0.2),
 										 item.shape = 107,
+										 
 										 title.padding  = c(0, 0, 0.25, 0),
+										 xlab.padding = c(0, 0, 0.25, 0),
+										 ylab.padding = c(0, 0, 0.25, 0),
+										 title.align = c(bivariate = "right", "left"),
+										 xlab.align = "left",
+										 ylab.align = "center",
 										 ticks = list(rect = list(), symbols = list(), gradient = list(c(1, 1.2)), lines = list(), text = list()),
 										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE, text = FALSE),
 										 ticks.col = NA,
