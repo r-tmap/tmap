@@ -23,6 +23,9 @@ tmap_grid = function(x,
 #' @name tmap_leaflet
 #' @return `tmap_grid` returns a \code{\link[grid::grob]{grob}} object (\code{"plot\" mode}) and `tmap_leaflet` a \code{\link{leaflet::leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
 #' @export
+#' @examples
+#' map = tm_shape(World) + tm_polygons()
+#' tmap_leaflet(map, show = TRUE)
 tmap_leaflet = function(x,
 						#mode = "view",
 						show = FALSE,
