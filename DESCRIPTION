@@ -41,8 +41,8 @@ Imports:
     rlang,
     utils
 Suggests:
-	rmapshaper,
-	cartogram,
+    rmapshaper,
+    cartogram,
     rmarkdown,
     knitr,
     png,
@@ -55,7 +55,8 @@ Suggests:
     testthat,
     covr,
     av,
-    gifski
+    gifski,
+    learnr
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr
