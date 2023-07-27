@@ -14,7 +14,7 @@ get_legend_option = function(x, type) {
 }
 
 
-gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
+gp_to_gpar = function(gp, id = "", sel = "all", split_to_n = NULL, pick_middle = TRUE) {
 	if (sel == "all") {
 		if (is.na(gp$fill_alpha[1]) && !is.na(gp$col_alpha[1])) sel = "col"
 		if (!is.na(gp$fill_alpha[1]) && is.na(gp$col_alpha[1])) sel = "fill"
