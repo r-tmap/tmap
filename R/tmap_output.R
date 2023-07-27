@@ -12,7 +12,7 @@ tmap_grid = function(x,
 	print.tmap(x, show=show, ...)
 }
 
-#' Export tmap to the format of the used graphics mode.
+#' Export tmap to the format of the used graphics mode
 #' 
 #' Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid::grob]{grob}} object (\code{"plot\" mode}) and `tmap_leaflet` a \code{\link{leaflet::leaflet}} object (\code{"view"} mode).
 #' 
