@@ -7,5 +7,6 @@ tmapGridRun = function(o, show) {
 		}, gts, seq_along(gts), SIMPLIFY = FALSE)
 		if (!is.null(o$vp)) upViewport(1)
 	}
+	if (length(gts) == 1) gts = gts[[1]]
 	gts
 }
