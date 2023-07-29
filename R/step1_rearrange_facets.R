@@ -101,7 +101,11 @@ step1_rearrange_facets = function(tmo, o) {
 					add_used_vars(vars)
 				} else {
 					mfun = paste0("tmapValuesSubmit_", aes)
-					value = do.call(mfun, list(x = list(value_orig), args = args))[[1]]
+					if (exists(mfun)) {
+						value = do.call(mfun, list(x = list(value_orig), args = args))[[1]]
+					} else {
+						value = value_orig
+					}
 					nvars = length(value)
 					nflvar = nvars
 					nvari = vapply(value, length, integer(1))

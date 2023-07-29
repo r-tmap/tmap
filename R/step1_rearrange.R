@@ -126,13 +126,17 @@ step1_rearrange = function(tmel) {
 		
 	}
 	
+	# crs in options refers to which crs is used in the plot, not necessarily in the transformation (step 3) 
 	crs_option = o$crs
 	
+	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
+	crs_main = get_crs(tms)
+
 	if (inherits(crs_option, "leaflet_crs")) {
 		crs_leaflet = crs_option
 		crs = leaflet2crs(crs_leaflet)
 	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
-		crs = get_crs(tms)
+		crs = crs_main
 		crs_leaflet = leafletSimple
 	} else if (is.na(crs_option[1])) {
 		crs = sf::st_crs(4326)
@@ -190,6 +194,7 @@ step1_rearrange = function(tmel) {
 	o$main_class = main_class # inner.margins are class specific (preprecess_meta)
 	o$crs = crs # in step 3, when other shapes are transformed to this crs
 	o$crs_leaflet = crs_leaflet
+	o$crs_main = crs_main
 	
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 

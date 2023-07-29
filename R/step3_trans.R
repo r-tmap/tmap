@@ -25,46 +25,44 @@ step3_trans = function(tm) {
 			shpDT
 		}
 		
-		# first apply all global transformation functions
+		crs = o$crs
+		crs_main = o$crs_main
+		
+		#crs = if (is.na(o$crs[1])) get_crs(shpDT$shpTM[[o$main]]) else o$crs
+	
+		crs_reproject_shpTM = function(s, crs) {
+			# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
+			crs2 = get_option_class(crs, class = class(s$shp))
+			if (sf::st_crs(s$shp) != crs2) {
+				s = do.call(tmapReproject, c(s, list(crs = crs2)))
+			}
+			s
+		}
+		
+		# step 3.a : reproject crs to main_crs
+		shpDT$shpTM = lapply(shpDT$shpTM, crs_reproject_shpTM, crs = crs_main)
+
+		# step 3.b: apply all global transformation functions
 		for (al in adi$layers) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
-		crs = if (is.na(o$crs[1])) get_crs(shpDT$shpTM[[1]]) else o$crs
-		
-		#crs = o$crs
-		
-		
-		
-		
-		shpDT$shpTM = lapply(shpDT$shpTM, function(s) {
-			# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
-			crs = get_option_class(crs, class = class(s$shp))
-			# if (!inherits(crs, "crs")) {
-			# 	crsnms = names(crs)
-			# 	crsi = which(vapply(crsnms, function(crsnm) {
-			# 		if (crsnm == "") TRUE else inherits(s$shp, crsnm)
-			# 	}, logical(1)))[1]
-			# 	crs = crs[[crsi]]
-			# }
-
-			if (sf::st_crs(s$shp) != crs) {
-				s = do.call(tmapReproject, c(s, list(crs = crs)))
-			}
-			s
-		})
-		
-		
 		adi$layers = lapply(adi$layers, function(al) {
+			# step 3.c1: apply non global transformation function
 			if (al$trans_isglobal) {
 				al$shpDT = shpDT
 			} else {
 				al$shpDT = trans_shp(al, shpDT)
 			}
+			
+			# step 3.c2 : reproject crs to crs (for plotting)
+			al$shpDT$shpTM = lapply(al$shpDT$shpTM, crs_reproject_shpTM, crs = crs)
+			
 			al[c("trans_dt", "trans_args", "trans_isglobal", "tp")] = NULL
 			al
 		})
 	
+
 		adi$shpDT = NULL
 
 		adi	

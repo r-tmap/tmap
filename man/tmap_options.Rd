@@ -22,7 +22,7 @@ tmap options
 | option        | description |
 | ------------- |:-------------:|
 | modes		|  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
-| crs		|  Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}} |
+| crs		|  Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}}. The crs that is used by the transformation functions is defined in \code{\link{tm_shape}}.|
 | facet.max		| Maximum number of facets |
 | facet.flip		| Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link{tm_facets_flip}} |
 | raster.max.cells		| Maximum number of raster grid cells  |
