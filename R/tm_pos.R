@@ -102,3 +102,7 @@ str2pos = function(x) {
 	tm_pos_in(x[1], x[2])
 }
 
+
+num2pos = function(x) {
+	tm_pos_in(x[1], x[2])
+}

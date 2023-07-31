@@ -16,6 +16,7 @@ update_l = function(o, l, v, mfun) {
 	
 	
 	if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
+	if ("position" %in% names(l) && is.numeric(l$position)) l$position = num2pos(l$position)
 	
 	
 	

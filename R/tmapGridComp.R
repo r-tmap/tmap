@@ -1,4 +1,10 @@
 tmapGridCompPrepare_text = function(comp, o) {
+	if (is.null(comp$text)) {
+		cmp = within(comp, {
+			show = FALSE
+		})
+		return(cmp)
+	}
 	n = length(comp$text)
 	lst = lapply(seq_len(n), function(i){
 		within(comp, {

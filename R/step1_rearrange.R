@@ -238,6 +238,7 @@ impute_comp = function(a, o) {
 	
 	# special case: position, in case c("left", "top") is used
 	if (is.character(a$position)) a$position = str2pos(a$position)
+	if (is.numeric(a$position)) a$position = num2pos(a$position)
 	
 	a = complete_options(a, ot)
 	
