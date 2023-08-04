@@ -38,13 +38,16 @@ tmapTransCentroid = function(shpTM, ord__, plot.order, args) {
 		} else {
 			geom_types = sf::st_geometry_type(shp)
 			is_poly_or_line = geom_types %in% c("POLYGON", "MULTIPOLYGON", "LINESTRING", "MULTILINESTRING")
-			
-			if (any(is_poly_or_line)) {
+			is_point = geom_types %in% c("POINT", "MULTIPOINT")
+
+			if (any(is_point) && any(is_poly_or_line)) {
+				shp = shp[is_point]
+				tmapID = tmapID[is_point]
+			} else if (any(is_poly_or_line)) {
 				shp[is_poly_or_line] = suppressWarnings({
 					sf::st_centroid(shp[is_poly_or_line])
 				})
 			}
-			shp
 		}
 	})
 }
@@ -115,7 +118,10 @@ tmapTransLines = function(shpTM, ord__, plot.order, args) {
 					})
 				} else {
 					### sf geometry collection
-					stop("Other geometry types, or a collection of geometry types not implemented yet", call. = FALSE)	
+					ids = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
+					shp = shp[ids]
+					tmapID = tmapID[ids]
+					
 				}
 			}
 			rm(geom_types)

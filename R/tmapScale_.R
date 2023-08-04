@@ -97,8 +97,14 @@ data_class = function(x, check_for_color_class = FALSE) {
 		}
 		c("num", subclass1, subclass2)
 	} else {
-		if (check_for_color_class && (any(!is.na(x)) && all(valid_colors(na.omit(head(x, 100)))))) {
-			c("asis", "color")
+		if (check_for_color_class) {
+			w = which(!is.na(x))
+			if (length(w) && all(valid_colors(head(x[w], 100)))) {
+				c("asis", "color")	
+			} else {
+				subclass = if (is.ordered(x)) "ord" else "unord"
+				c("fact", subclass)	
+			}
 		} else {
 			subclass = if (is.ordered(x)) "ord" else "unord"
 			c("fact", subclass)
