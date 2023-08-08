@@ -25,6 +25,8 @@
 #' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @example ./examples/tm_symbols.R 
 #' @export
+#' @name tm_symbols
+#' @rdname tm_symbols
 tm_symbols = function(size = tm_const(),
 					  size.scale = tm_scale(),
 					  size.legend = tm_legend(),
@@ -441,6 +443,9 @@ tm_bubbles = function(size = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
+#' @export
+#' @name tm_dots
+#' @rdname tm_symbols
 tm_dots = function(fill = tm_const(),
 				   fill.scale = tm_scale(),
 				   fill.legend = tm_legend(),

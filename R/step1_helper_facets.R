@@ -72,7 +72,7 @@ step1_rearrange_facets = function(tmo, o) {
 					value = as.list(shpvars)
 				} else {
 					value_orig = value
-					value = lapply(value_orig, make.names)
+					#value = lapply(value_orig, make.names)
 					names(value) = value_orig
 					
 					if (inherits(value_orig, "tmapAsIs")) {
@@ -87,8 +87,8 @@ step1_rearrange_facets = function(tmo, o) {
 				nvari = vapply(value, length, integer(1))
 				
 				vars = unlist(value)
-				data_vars = all(make.names(vars) %in% shpvars)
-				geo_vars = all(make.names(vars) %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
+				data_vars = all(vars %in% shpvars)
+				geo_vars = all(vars %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 				
 				nflvar = nvars
 				if (data_vars) {

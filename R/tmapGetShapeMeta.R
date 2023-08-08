@@ -30,7 +30,7 @@ tmapGetShapeMeta1.stars = function(shp, o) {
 	names(dims_vals) = dims
 	
 	vars_orig = names(shp)
-	vars = make.names(vars_orig)
+	vars = vars_orig #make.names(vars_orig)
 	names(vars) = vars_orig
 	list(vars = vars,
 		 dims = dims, 

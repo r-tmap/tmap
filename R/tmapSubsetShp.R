@@ -6,7 +6,7 @@ tmapSubsetShp = function(...) {
 #' @export
 tmapSubsetShp.stars = function(shp, vars) {
 	ids = unique(c(which(names(shp) %in% vars),
-				   which(make.names(names(shp)) %in% vars)))
+				   which(names(shp) %in% vars)))
 	shp2 = shp[ids]
 	if (!length(vars)) {
 		shp2$dummy__ = TRUE

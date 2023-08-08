@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_layers_symbols.R
 \name{tm_symbols}
 \alias{tm_symbols}
+\alias{tm_dots}
 \title{Map layer: symbols}
 \usage{
 tm_symbols(
@@ -45,6 +46,43 @@ tm_symbols(
   group = NA,
   group.control = "check",
   ...
+)
+
+tm_dots(
+  fill = tm_const(),
+  fill.scale = tm_scale(),
+  fill.legend = tm_legend(),
+  fill.free = NA,
+  col = tm_const(),
+  col.scale = tm_scale(),
+  col.legend = tm_legend(),
+  col.free = NA,
+  size = tm_const(),
+  size.scale = tm_scale(),
+  size.legend = tm_legend(),
+  size.free = NA,
+  lwd = tm_const(),
+  lwd.scale = tm_scale(),
+  lwd.legend = tm_legend(),
+  lwd.free = NA,
+  lty = tm_const(),
+  lty.scale = tm_scale(),
+  lty.legend = tm_legend(),
+  lty.free = NA,
+  fill_alpha = tm_const(),
+  fill_alpha.scale = tm_scale(),
+  fill_alpha.legend = tm_legend(),
+  fill_alpha.free = NA,
+  col_alpha = tm_const(),
+  col_alpha.scale = tm_scale(),
+  col_alpha.legend = tm_legend(),
+  col_alpha.free = NA,
+  plot.order = tm_plot_order("size"),
+  trans.args = list(),
+  mapping.args = list(),
+  zindex = NA,
+  group = NA,
+  group.control = "check"
 )
 }
 \arguments{
