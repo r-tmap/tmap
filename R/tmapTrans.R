@@ -84,14 +84,16 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 					shp = sf::st_buffer(shp, dist = dist)
 				} else {
 					### sf geometry collection
-					stop("Other geometry types, or a collection of geometry types not implemented yet", call. = FALSE)	
+					ids = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
+					shp = shp[ids]
+					tmapID = tmapID[ids]
 				}
 			}
 			rm(geom_types)
 		}
 		
 		if (plot.order$aes == "AREA" && !is_stars) {
-			o = order(units::drop_units(st_area(shp)), decreasing = !plot.order$reverse)
+			o = order(without_units(st_area(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
 			tmapID = tmapID[o]
 		}

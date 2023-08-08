@@ -9,8 +9,8 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 	}
 	
 	
-	if (inherits(x1, "units")) x1 = units::drop_units(x1)
-
+	x1 = without_units(x1)
+	
 	if (aes %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	scale = get_scale_defaults(scale, o, aes, layer, cls)

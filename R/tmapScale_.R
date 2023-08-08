@@ -88,7 +88,7 @@ data_class = function(x, check_for_color_class = FALSE) {
 	# 	"na"
 	# } else
 	cls = if (is.numeric(x)) {
-		y = if (inherits(x, "units")) units::drop_units(x) else x
+		y = without_units(x)
 		subclass1 = if (is.integer(x)) "int" else "real"
 		subclass2 = if (any(y < 0 & !is.na(y)) && any(y > 0 & !is.na(y))) {
 			"div"

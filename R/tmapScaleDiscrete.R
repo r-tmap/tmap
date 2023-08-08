@@ -12,7 +12,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, layer_args, sortR
 		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
 	
-	if (inherits(x1, "units")) x1 = units::drop_units(x1)
+	x1 = without_units(x1)
 	
 	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_discrete cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	

@@ -215,3 +215,10 @@ nonempty_text = function(txt) {
 
 cont_split = function(x) strsplit(x, split = "_", fixed=TRUE)
 cont_collapse = function(x) sapply(x, paste, collapse="_")
+
+
+without_units = function(x) {
+	if (inherits(x, "units")) units::drop_units(x) else x
+}
+
+
