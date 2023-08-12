@@ -19,28 +19,29 @@ tm_options(...)
 tmap options
 }
 \details{
-| option        | description |
-| ------------- |:-------------:|
-| modes		|  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
-| crs		|  Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}}. The crs that is used by the transformation functions is defined in \code{\link{tm_shape}}.|
-| facet.max		| Maximum number of facets |
-| facet.flip		| Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link{tm_facets_flip}} |
-| raster.max.cells		| Maximum number of raster grid cells  |
-| show.messages		| Show messages? |
-| show.warnings		| Show warnings? |
-| output.format		| Output format |
-| output.size		| Output size |
-| output.dpi		| Output dpi |
-| output.dpi.animation		| Output dpi for animations |
-| value.const		| Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per visual variable a value. |
-| value.na		| Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.|
-| value.null		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
-| value.blank		| Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value. |
-| values.var		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
-| values.range		| Default range for values. See \code{values.range} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
-| value.neutral		| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
-| scales.var		| Default scales. |
-| label.format		| Format for the labels (was legend.format in tmap v3) |
-| label.na		| Default label for missing values |
-See \code{\link{tm_layout}} for layout specific options
+\tabular{ll}{
+   option \tab description \cr
+   modes \tab Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. \cr
+   crs \tab Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}}. The crs that is used by the transformation functions is defined in \code{\link{tm_shape}}. \cr
+   facet.max \tab Maximum number of facets \cr
+   facet.flip \tab Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link{tm_facets_flip}} \cr
+   raster.max.cells \tab Maximum number of raster grid cells \cr
+   show.messages \tab Show messages? \cr
+   show.warnings \tab Show warnings? \cr
+   output.format \tab Output format \cr
+   output.size \tab Output size \cr
+   output.dpi \tab Output dpi \cr
+   output.dpi.animation \tab Output dpi for animations \cr
+   value.const \tab Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per visual variable a value. \cr
+   value.na \tab Default visual values that are used to visualize NA data values. A list is required with per visual variable a value. \cr
+   value.null \tab Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value. \cr
+   value.blank \tab Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value. \cr
+   values.var \tab Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. \cr
+   values.range \tab Default range for values. See \code{values.range} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value. \cr
+   value.neutral \tab Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. \cr
+   scales.var \tab Default scales. \cr
+   label.format \tab Format for the labels (was legend.format in tmap v3) \cr
+   label.na \tab Default label for missing values \cr
+   See \code{\link{tm_layout}} for layout specific options \tab  \cr
+}
 }
