@@ -684,7 +684,7 @@ complete_options = function(x, o) {
 #' @param ... See details
 #' @details
 #' | option        | description |
-#' | ------------- |:-------------:|
+#' | ------        | ----------- |
 #' | modes		|  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
 #' | crs		|  Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}}. The crs that is used by the transformation functions is defined in \code{\link{tm_shape}}.|
 #' | facet.max		| Maximum number of facets |
@@ -710,6 +710,7 @@ complete_options = function(x, o) {
 #' @name tmap_options 
 #' @rdname tmap_options
 #' @export
+#' @md
 tmap_options = function(...) {
 	o = get("tmapOptions", envir = .TMAP)	
 	nms = names(o)
