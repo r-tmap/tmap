@@ -20,6 +20,7 @@
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
+#' @param trans.args,mapping.args lists that are passed on to internal transformation and mapping functions respectively
 #' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
 #' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).

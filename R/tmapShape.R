@@ -62,8 +62,14 @@ reproject_bbox = function(bbox, crs) {
 
 
 
-
+#' Internal method that processed shape objects
+#' 
+#' Internal method that processed shape objects
+#' 
+#' @param ... passed on. Arguments should be: `shp`, `is.main`, `crs`, `bbox`, `unit`, `filter`, `shp_name`, `o`
+#' @export
 #' @import data.table
+#' @keywords internal
 tmapShape = function(...) {
 	UseMethod("tmapShape")
 }
@@ -158,6 +164,15 @@ tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 
 
 
+#' Internal tmap function to create by variables (used for faceting)
+#' 
+#' Internal tmap function to create by variables (used for faceting)
+#'
+#' @param dt data.table
+#' @param tmf tmf object
+#' @param smeta smeta object
+#' @export
+#' @keywords internal
 make_by_vars = function(dt, tmf, smeta) {
 	by123 = paste0("by", 1L:3L) 
 	by123__ = paste0("by", 1L:3L, "__")

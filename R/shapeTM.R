@@ -1,3 +1,12 @@
+#' Internal tmap function to create a tmap shape
+#' 
+#' Internal tmap function to create a tmap shape
+#'
+#' @param shp shp
+#' @param tmapID tmapID
+#' @param bbox bbox
+#' @export
+#' @keywords internal
 shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 	if (!is.null(bbox) && (!inherits(bbox, "bbox"))) {
 		tryCatch({

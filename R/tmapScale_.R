@@ -1,3 +1,8 @@
+#' define multivariate variable
+#' 
+#' define multivariate variable
+#' 
+#' @param ... variable names
 #' @export
 tm_mv = function(...) {
 	list(c(...))

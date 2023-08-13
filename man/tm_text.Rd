@@ -43,6 +43,8 @@ tm_text(
 
 \item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.}
 
+\item{trans.args, mapping.args}{lists that are passed on to internal transformation and mapping functions respectively}
+
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.}
 
 \item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}

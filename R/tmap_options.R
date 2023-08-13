@@ -920,6 +920,8 @@ tm_options = function(...) {
 	
 }	
 
+#' @rdname tm_extra_innner_margin
+#' @name tm_place_legends_right
 #' @export
 tm_place_legends_right = function(width = NA) {
 	if (is.na(width)) {
@@ -929,6 +931,9 @@ tm_place_legends_right = function(width = NA) {
 	}
 }
 
+#' @rdname tm_extra_innner_margin
+#' @name tm_place_legends_left
+#' @param width width
 #' @export
 tm_place_legends_left = function(width = NA) {
 	if (is.na(width)) {
@@ -938,6 +943,9 @@ tm_place_legends_left = function(width = NA) {
 	}
 }
 
+#' @rdname tm_extra_innner_margin
+#' @name tm_place_legends_bottom
+#' @param height height
 #' @export
 tm_place_legends_bottom = function(height = NA) {
 	if (is.na(height)) {
@@ -947,6 +955,8 @@ tm_place_legends_bottom = function(height = NA) {
 	}
 }
 
+#' @rdname tm_extra_innner_margin
+#' @name tm_place_legends_top
 #' @export
 tm_place_legends_top = function(height = NA) {
 	if (is.na(height)) {
@@ -956,6 +966,9 @@ tm_place_legends_top = function(height = NA) {
 	}
 }
 
+#' @rdname tm_extra_innner_margin
+#' @name tm_place_legends_inside
+#' @param pos.h,pos.v position (horizontal and vertical)
 #' @export
 tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 	if (is.null(pos.h) || is.null(pos.v)) {
@@ -970,7 +983,12 @@ tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 	}
 }
 
+#' tmap layout: helper functions
+#' 
+#' @param left,right,top,bottom extra margins
 #' @export
+#' @rdname tm_extra_innner_margin
+#' @name tm_extra_innner_margin
 tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
@@ -1037,4 +1055,25 @@ get_vector_id = function(x, id) {
 		x[1]
 	}
 }
+
+
+#' Internal tmap function to add a default value for the layer functions
+#' 
+#' Internal tmap function to add a default value for the layer functions
+#' 
+#' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
+#' @param id name of the visual variable with layer, in the format `"x.y"`, where x is the visual variable and y is the layer. It is also possible to set x only; then it applies to all layer functions. 
+#' @param value value
+#' @keywords internal
+#' @export
+tmapAddLayerOptions = function(option, id, value) {
+	if (!(option %in% c("value.const", "value.na", "value.blank", "values.var", "values.range", "value.neutral", "scales.var"))) {
+		stop("Unknown option")
+	}
+	o = tmap_option(option)
+	o[[id]] = value
+	o2 = structure(list(o), names = option)
+	tmap_options(o2)
+}
+
 				 

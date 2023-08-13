@@ -1,8 +1,16 @@
+#' tmap function to define a constant visual value
+#' 
+#' tmap function to define a constant visual value
+#' 
 #' @export
 tm_const = function() {
 	tmapOption("value.const")
 }
 
+#' tmap function to specify all variables in the shape object
+#' 
+#' tmap function to specify all variables in the shape object
+#' 
 #' @export
 tm_shape_vars = function() {
 	structure(list(), class = c("tm_shape_vars", "list"))
@@ -243,6 +251,13 @@ tm_scale_continuous_log1p = function(...) {
 # 	tm_scale_continuous(trans = "logistic", ...)
 # }
 
+
+#' Scales: RGB
+#' 
+#' Scales: RGB
+#'
+#' @param value.na value for missing values
+#' @param maxValue maximum value
 #' @export
 tm_scale_rgb = function(value.na = NA,
 						maxValue = 255) {

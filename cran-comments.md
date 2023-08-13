@@ -1,11 +1,8 @@
 ## Test environments
-* ubuntu 14.04 (on travis-ci), R 3.5.1 and R devel
-* ubuntu 20.04, R 4.0.2
+* macOS Ventura 13.3.1, R 4.2.2
 * win-builder (devel and release)
 
 ## Submission note
-
-Fixed invalid URLs from pretest results
 
 ## R CMD check results
 

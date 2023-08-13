@@ -1,3 +1,10 @@
+#' Internal method that subsets data from shape objects
+#' 
+#' Internal method that subsets data from shape objects
+#' 
+#' @param ... passed on. First should be the shape, second a vector of variable names
+#' @export
+#' @keywords internal
 tmapSubsetShp = function(...) {
 	UseMethod("tmapSubsetShp")
 }

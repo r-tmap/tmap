@@ -1,7 +1,21 @@
+#' Internal method that extracts meta data from shape objects
+#' 
+#' Internal method that extracts meta data from shape objects
+#'
+#' @param ... passed on. First should be the shape, second the list of options
+#' @export
+#' @keywords internal
 tmapGetShapeMeta1 = function(...) {
 	UseMethod("tmapGetShapeMeta1")
 }
 
+#' Internal method that extracts more meta data from shape objects
+#' 
+#' Internal method that extracts meta data from shape objects
+#'
+#' @param ... passed on. First should be the shape, second shape meta (from tmapGetShapeMeta1), the first the list of options
+#' @export
+#' @keywords internal
 tmapGetShapeMeta2 = function(...) {
 	UseMethod("tmapGetShapeMeta2")
 }
@@ -162,6 +176,15 @@ tmapGetShapeMeta1.SpatVector = function(shp, o) {
 	
 }
 
+
+#' Internal tmap function that gets factor levels with NA's
+#' 
+#' Internal tmap function that gets factor levels with NA's
+#'
+#' @param x vector
+#' @param o options
+#' @export
+#' @keywords internal
 get_fact_levels_na = function(x, o) {
 	if (is.factor(x)) {
 		if (o$drop.empty.facets) {
