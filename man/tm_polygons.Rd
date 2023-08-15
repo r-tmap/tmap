@@ -34,7 +34,7 @@ tm_polygons(
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-  trans.args = list(),
+  trans.args = list(polygons.only = "ifany"),
   mapping.args = list(),
   zindex = NA,
   group = NA,

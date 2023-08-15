@@ -77,8 +77,9 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE) {
 
 
 make_equal_list = function(x) {
+	cls = class(x)
 	n = max(vapply(x, length, integer(1)))
-	lapply(x, rep, length.out = n)
+	structure(lapply(x, rep, length.out = n), class = cls)
 }
 
 

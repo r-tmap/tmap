@@ -14,6 +14,9 @@
 					 			control.collapse = FALSE,
 					 			panel.show = FALSE,
 					 			basemap.show = TRUE,
+					 			set.bounds = FALSE,
+					 			set.view = NA,
+					 			set.zoom.limits = NA,
 					 			leaflet.options = list())),
 		
 		crs = NA,
@@ -38,6 +41,7 @@
 		# default visual variable values
 		value.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
+						 fill.dots = "black",
 						 col.polygons = "grey40",
 						 col.symbols = "grey40",
 						 col.raster = "grey40",
@@ -49,7 +53,7 @@
 						 shape.symbols = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
-						 size.dots = .02,
+						 size.dots = .15,
 						 size.text = 1,
 						 fill_alpha = 1,
 						 col_alpha = 1),
@@ -1077,4 +1081,55 @@ tmapAddLayerOptions = function(option, id, value) {
 	tmap_options(o2)
 }
 
-				 
+
+
+
+
+#' @rdname tmap_options
+#' @export
+tmap_options_diff <- function() {
+	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
+	iden <- mapply(identical, .tmapOptions, .defaultTmapOptions)
+	
+	if (all(iden)) {
+		message("current tmap options are similar to the default tmap options (style \"white\")")
+	} else {
+		message("current tmap options (style \"", attr(.tmapOptions, "style"), "\") that are different from default tmap options (style \"white\"):")
+		.tmapOptions[!iden]
+	}
+}
+
+#' @rdname tmap_options
+#' @export
+tmap_options_reset <- function() {
+	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
+	options(tmap.style="white")
+	message("tmap options successfully reset")
+	invisible(NULL)
+}
+
+#' @export
+#' @rdname tmap_options
+tmap_options_save <- function(style) {
+	show.messages <- get("tmapOptions", envir = .TMAP)$show.messages
+	
+	stylediff <- suppressMessages(tmap_options_diff())
+	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
+	
+	if (is.null(stylediff)) {
+		if (show.messages) message("current style is the same as the default style, so nothing to save")
+		return(invisible(.tmapOptions))
+	}
+	
+	options(tmap.style=style)
+	attr(.tmapOptions, "style") <- style
+	assign("tmapOptions", .tmapOptions, envir = .TMAP)
+	
+	styles <- get("tmapStyles", envir = .TMAP)
+	styles[[style]] <- suppressMessages(tmap_options_diff())
+	assign("tmapStyles", styles, envir = .TMAP)
+	
+	if (show.messages) message("current tmap options saved as style \"", style, "\"")
+	invisible(.tmapOptions)
+}

@@ -13,7 +13,7 @@ tm_plot_order(
 )
 }
 \arguments{
-\item{aes}{Visual variable for which the values determine the plotting order. Example: bubble map where the \code{"size"} aesthetic is used. A data variable (say population) is mapped via a continuous scale (\code{\link{tm_scale_continuous}}) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. Use \code{"DATA"} to keep the same order as in the data. Another special value is \code{"AREA"} which is preserved for polygons: rather than a data variable the polygon area determines the plotting order.}
+\item{aes}{Visual variable for which the values determine the plotting order. Example: bubble map where the \code{"size"} aesthetic is used. A data variable (say population) is mapped via a continuous scale (\code{\link{tm_scale_continuous}}) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. Use \code{"DATA"} to keep the same order as in the data. Another special value are \code{"AREA"} and \code{"LENGTH"} which are preserved for polygons and lines respectively: rather than a data variable the polygon area / line lengths determines the plotting order.}
 
 \item{reverse}{Logical that determines whether the visual values are plotted in reversed order. The visual values (specified with tmap option \code{"values.var"}) are by default reversed, so plotted starting from the last value. In the bubble map example, this means that large bubbles are plotted first, hence at the bottom.}
 

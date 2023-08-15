@@ -20,7 +20,7 @@ step3_trans = function(tm) {
 				y = transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun, shpDT = shpDT, plot.order = plot.order, args = al$trans_args))), by = bycols, .SDcols = sdcols]	
 				shpDT = rbindlist(y$shp)
 			} else {
-				shpDT$shpTM = lapply(shpDT$shpTM, function(s) do.call(al$trans_fun, list(shpTM = s, plot.order = plot.order)))
+				shpDT$shpTM = lapply(shpDT$shpTM, function(s) do.call(al$trans_fun, list(shpTM = s, plot.order = plot.order, args = al$trans_args)))
 			}
 			shpDT
 		}

@@ -41,7 +41,7 @@ data(World)
 #qtm(World, fill="HPI", format="World_small")
 }
 \seealso{
-\code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catalogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+\code{\link{tm_layout}} for predefined styles, \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles, and \code{\link{tmap_options}} for tmap options.
 
 \code{\link{tmap_options}} for tmap options
 }

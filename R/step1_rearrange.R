@@ -130,7 +130,7 @@ step1_rearrange = function(tmel) {
 	crs_option = o$crs
 	
 	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
-	crs_main = get_crs(tms)
+	crs_main = if (any_data_layer) get_crs(tms) else NA
 
 	if (inherits(crs_option, "leaflet_crs")) {
 		crs_leaflet = crs_option

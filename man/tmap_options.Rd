@@ -4,6 +4,9 @@
 \alias{tmap_options}
 \alias{tmap_options_mode}
 \alias{tm_options}
+\alias{tmap_options_diff}
+\alias{tmap_options_reset}
+\alias{tmap_options_save}
 \title{tmap options}
 \usage{
 tmap_options(...)
@@ -11,6 +14,12 @@ tmap_options(...)
 tmap_options_mode(mode = NA, default.options = FALSE)
 
 tm_options(...)
+
+tmap_options_diff()
+
+tmap_options_reset()
+
+tmap_options_save(style)
 }
 \arguments{
 \item{...}{See details}

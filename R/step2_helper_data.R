@@ -2,7 +2,7 @@ update_l = function(o, l, v, mfun) {
 	# update legend options
 	oltype = o[c("legend.design", "legend.orientation")]
 	names(oltype) = c("design", "orientation")
-	if (all(v %in% c("AREA", "MAP_COLORS")) && is.null(l$show)) {
+	if (all(v %in% c("AREA", "LENGTH", "MAP_COLORS")) && is.null(l$show)) {
 		l$show = FALSE
 	}
 	

@@ -7,7 +7,7 @@
 tmap_style(style)
 }
 \arguments{
-\item{style}{Name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catalogue.}
+\item{style}{Name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{tmap_style_catalogue} (not migrated to v4 yet) for creating a catalogue.}
 }
 \value{
 The style before changing
@@ -42,5 +42,5 @@ tmap_style("cobalt_v3")
 tm_shape(World) + tm_polygons("HPI")
 }
 \seealso{
-\code{\link{tmap_options}} for tmap options, and \code{\link{tmap_style_catalogue}} to create a style catalogue of all available styles.
+\code{\link{tmap_options}} for tmap options, and \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles.
 }

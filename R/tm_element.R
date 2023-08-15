@@ -25,6 +25,7 @@ tm_element_list_sel = function(tml, subclass) {
 #' 
 #' @param e1 first tmap element
 #' @param e2 second tmap element
+#' @name tmap-element
 #' @export
 "+.tmap" = function(e1, e2) {
 	assign("last_map_new", match.call(), envir = .TMAP)

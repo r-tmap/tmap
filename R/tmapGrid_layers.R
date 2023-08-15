@@ -81,12 +81,9 @@ appendGlist = function(glist, x) {
 
 swap_pch_15_20 = function(gp) {
 	# swap fill and col for pch 15-20
-	pch15_20 = which(gp$shape %in% 15:20)
-	if (length(pch15_20)) {
-		if (length(gp$col) == 1) {
-			gp$col = rep(gp$col, length(gp$shape))
-			gp$fill = rep(gp$fill, length(gp$shape))
-		}
+	if (any(gp$shape %in% 15:20)) {
+		gp = make_equal_list(gp)
+		pch15_20 = which(gp$shape %in% 15:20)
 		fill = gp$col[pch15_20]
 		fill_alpha = gp$col_alpha[pch15_20]
 		gp$col[pch15_20] = gp$fill[pch15_20]

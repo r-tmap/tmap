@@ -218,6 +218,27 @@ step4_plot = function(tm, vp, return.asp, show) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
+	# remove empty data layers
+	tmx = lapply(tmx, function(tmxi) {
+		tmxi$layers = lapply(tmxi$layers, function(tml) {
+			empt = vapply(tml$shpDT$shpTM, function(sdt) {
+				length(sdt$shp) == 0L
+			}, FUN.VALUE = logical(1))
+			if (all(empt)) NULL else tml
+		})
+		empt = vapply(tmxi$layers, is.null, logical(1))
+		
+		if (all(empt)) {
+			NULL 
+		} else {
+			tmxi$layers = tmxi$layers[!empt]
+			tmxi
+		}
+	})
+	empt = vapply(tmx, is.null, logical(1))
+	tmx = tmx[!empt]
+	
+	
 	any_data_layer = (length(tmx) > 0L)
 	
 	# split tm in case of as.layers in tm_facets
@@ -492,10 +513,14 @@ step4_plot = function(tm, vp, return.asp, show) {
 	# find lid (layer plot id values) for aux layers
 	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
 	
+	if (!any_data_layer && !length(aux_lid)) {
+		message("Nothing to show")
+		return(invisible(NULL))
+	}
 	
 	
 	# data frame for layer ids
-	q = do.call(rbind, c(
+	q = do.call(rbind, c( 
 		{if (any_data_layer) {
 			lapply(1L:o$ng, function(ig) {
 				tmxi = tmx[[ig]]

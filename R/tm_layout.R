@@ -241,16 +241,37 @@ tm_layout = function(
 	}
 }
 
+#' View mode options
+#' 
+#' View mode options. These options are specific to the view mode.
+#' 
+#' @param use.WebGL use webGL layers with leafgl
+#' @param control.position position of the control attribute
+#' @param control.bases base layers
+#' @param control.overlays overlay layers
+#' @param set.bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
+#' @param set.view numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See \code{\link[leaflet:setView]{setView}}. Only applicable if \code{bbox} is not specified
+#' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).
+#' @param leaflet.options options passed on to \code{\link[leaflet:leafletOptions]{leafletOptions}}
+#' @export
 tm_view = function(use.WebGL,
-				   legend.position,
 				   control.position, 
 				   control.bases,
 				   control.overlays,
+				   set.bounds,
+				   set.view,
+				   set.zoom.limits,
 				   leaflet.options) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
 }
 
+#' Plot mode options
+#' 
+#' Plot mode options. This option is specific to the plot mode.
+#' 
+#' @param use.gradient Use gradient fill using \code{\link[grid:linearGradient]{linearGradient}}
+#' @export
 tm_plot = function(use.gradient) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)

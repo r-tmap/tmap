@@ -45,6 +45,9 @@ tmapSubsetShp.SpatVector = function(shp, vars) {
 	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
 		shp$AREA = terra::expanse(shp)
 	}
+	if ("LENGTH" %in% vars && !("LENGTH" %in% names(shp))) {
+		shp$LENGTH = terra::perim(shp)
+	}
 	tmapSubsetShp.sf(shp, vars)
 }
 
@@ -52,15 +55,19 @@ tmapSubsetShp.SpatVector = function(shp, vars) {
 #' @method tmapSubsetShp sf
 #' @export
 tmapSubsetShp.sf = function(shp, vars) {
+	
 	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
 		shp$AREA = sf::st_area(shp)
+	}
+	if ("LENGTH" %in% vars && !("LENGTH" %in% names(shp))) {
+		shp$LENGTH = sf::st_length(shp)
 	}
 	if ("MAP_COLORS" %in% vars) {
 		shp$MAP_COLORS = tmaptools::map_coloring(shp)
 	}
 	if (!length(vars)) {
 		vars = "dummy__"
-		shp$dummy__ = TRUE
+		shp$dummy__ = logical(nrow(shp))
 	}
 	shp[, vars]
 }
@@ -71,6 +78,9 @@ tmapSubsetShp.sfc = function(shp, vars) {
 	s = sf::st_sf(dummy__ = TRUE, geometry = shp)
 	if ("AREA" %in% vars) {
 		s$AREA = sf::st_area(shp)
+	}
+	if ("LENGTH" %in% vars) {
+		s$LENGTH = sf::st_length(shp)
 	}
 	if ("MAP_COLORS" %in% vars) {
 		s$MAP_COLORS = tmaptools::map_coloring(s)
