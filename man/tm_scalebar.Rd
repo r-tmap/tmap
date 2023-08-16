@@ -61,6 +61,8 @@ tm_scale_bar(...)
 \item{margins}{margins}
 
 \item{z}{z}
+
+\item{...}{passed on to `tm_scalebar`}
 }
 \description{
 Map component that adds a scale bar. As of version 4.0, `tm_scalebar` is used instead of `tm_scale_bar` (now deprecated), because of the potential confusion with the `tm_scale_x` scaling functions (like \code{\link{tm_scale_continuous}}).

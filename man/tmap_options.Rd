@@ -23,6 +23,12 @@ tmap_options_save(style)
 }
 \arguments{
 \item{...}{See details}
+
+\item{mode}{mode, e.g. \code{"plot"} or \code{"view"}}
+
+\item{default.options}{return the default options or the current options?}
+
+\item{style}{style, see `tmap_style()` for available styles}
 }
 \description{
 tmap options

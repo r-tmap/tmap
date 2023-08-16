@@ -52,6 +52,8 @@ tm_lines(
 \item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
+
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).

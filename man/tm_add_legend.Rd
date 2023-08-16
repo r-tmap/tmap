@@ -20,6 +20,8 @@ tm_add_legend(
 \arguments{
 \item{...}{visual variables and arguments passed on to `tm_legend`. By default, the argument `type` is set to `"Symbols"`, which means that the supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`, `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.}
 
+\item{labels}{labels}
+
 \item{type}{the layer type from which the visual variables (see ...) are taken. Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.}
 
 \item{title}{text of the title}

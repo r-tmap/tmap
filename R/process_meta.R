@@ -169,13 +169,13 @@ process_meta = function(o, d, cdt, aux) {
 			grid.margins = if (grid.show && !grid.labels.inside.frame) {
 
 				proj = sf::st_crs(bbx)
-				if (!is.na(o$grid.projection)) {
+				if (!is.na(o$grid.crs)) {
 					bbx_orig <- bbx
-					bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = o$grid.projection))
+					bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = o$grid.crs))
 				}
 
-				gridx = pretty30(bbx[c(1,3)], n=5, longlat = !is.na(o$grid.projection) && sf::st_is_longlat(proj))
-				gridy = pretty30(bbx[c(2,4)], n=5, longlat = !is.na(o$grid.projection) && sf::st_is_longlat(proj))
+				gridx = pretty30(bbx[c(1,3)], n=5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
+				gridy = pretty30(bbx[c(2,4)], n=5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
 				
 				xbbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridx, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
 				ybbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridy, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size

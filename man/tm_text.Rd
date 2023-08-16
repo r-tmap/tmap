@@ -47,6 +47,10 @@ tm_text(
 
 \item{fontface, fontface.scale, fontface.legend, fontface.free}{Visual variable that determines the font face. See details.}
 
+\item{fontfamily}{The font family. See \code{\link[grid:gpar]{gpar}} for details.}
+
+\item{shadow}{Shadow behind the text. Logical or color.}
+
 \item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.}
 
 \item{trans.args, mapping.args}{lists that are passed on to internal transformation and mapping functions respectively}
@@ -57,9 +61,7 @@ tm_text(
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 
-\item{fontfamility}{The font family. See \code{\link[grid:gpar]{gpar}} for details.}
-
-\item{shadow.}{Shadow behind the text. Logical or color.}
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{text} (the text itself) \code{col} (color), \code{size} (font size), and \code{fontface} (font face).

@@ -22,6 +22,7 @@
 #' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
 #' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R 
 #' @name tm_polygons
 #' @rdname tm_polygons

@@ -20,6 +20,9 @@
 #' @param bbox bounding box. Arugment passed on to \code{\link{tm_shape}}
 #' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.
 #' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.
+#' @param zindex zindex
+#' @param group group
+#' @param group.control group.control
 #' @param style Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.
 #' @param format Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.
 #' @param ... arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.
@@ -37,6 +40,11 @@ qtm <- function(shp,
 				lty = tm_const(),
 				fill_alpha = tm_const(),
 				col_alpha = tm_const(),
+				by = NULL,
+				scale = NULL,
+				title = NULL,
+				crs = NULL,
+				bbox = NULL,
 				basemaps = NULL,
 				overlays = NULL,
 				zindex = NA,

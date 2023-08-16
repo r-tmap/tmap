@@ -367,7 +367,7 @@
 		grid.y=NA,
 		grid.n.x=NA,
 		grid.n.y=NA,
-		grid.projection=NA,
+		grid.crs=NA,
 		grid.col=NA,
 		grid.lwd=1,
 		grid.alpha=NA,
@@ -789,6 +789,8 @@ tmap_options = function(...) {
 }
 
 #' @name tmap_options_mode
+#' @param mode mode, e.g. \code{"plot"} or \code{"view"}
+#' @param default.options return the default options or the current options?
 #' @rdname tmap_options
 #' @export
 tmap_options_mode = function(mode = NA, default.options = FALSE) {
@@ -1109,6 +1111,7 @@ tmap_options_reset <- function() {
 }
 
 #' @export
+#' @param style style, see `tmap_style()` for available styles
 #' @rdname tmap_options
 tmap_options_save <- function(style) {
 	show.messages <- get("tmapOptions", envir = .TMAP)$show.messages

@@ -6,7 +6,8 @@
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
-#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @export
 #' @rdname tm_basemap
 #' @name tm_basemap
@@ -45,11 +46,11 @@ tm_graticules = function(x = NA,
 						  y = NA,
 						  n.x = NA,
 						  n.y = NA,
-						  projection = 4326,
+						  crs = 4326,
 						  labels.format = list(suffix = intToUtf8(176)),
 						  labels.cardinal = TRUE,
 						  ...) {
-	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format, labels.cardinal = labels.cardinal), list(...)))
+	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, crs = crs, labels.format = labels.format, labels.cardinal = labels.cardinal), list(...)))
 }
 
 #' Coordinate grid / graticule lines
@@ -60,11 +61,12 @@ tm_graticules = function(x = NA,
 #' @param y Y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.
 #' @param n.x Preferred number of grid lines for the x axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.x}.
 #' @param n.y Preferred number of grid lines for the y axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.y}.
-#' @param projection Projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (EPSG 4326) grid lines.
+#' @param crs Projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (EPSG 4326) grid lines.
 #' @param col Color of the grid lines.
 #' @param lwd Line width of the grid lines
 #' @param alpha Alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken. 
 #' @param labels.show Show tick labels. Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.
+#' @param labels.pos position of the labels. Vector of two: the horizontal ("left" or "right") and the vertical ("top" or "bottom") position.
 #' @param labels.size Font size of the tick labels
 #' @param labels.col Font color of the tick labels
 #' @param labels.rot Rotation angles of the labels. Vector of two values: the first is the rotation angle (in degrees) of the tick labels on the x axis and the second is the rotation angle of the tick labels on the y axis. Only \code{0}, \code{90}, \code{180}, and \code{270} are valid values.
@@ -86,7 +88,8 @@ tm_graticules = function(x = NA,
 #' @param lines If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?
 #' @param ndiscr Number of points to discretize a parallel or meridian (only applicable for curved grid lines)
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
-#' @param group Not used
+#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
 #' @param ... Arguments passed on to \code{\link{tm_grid}}
 #' @export
 #' @example ./examples/tm_grid.R
@@ -94,7 +97,7 @@ tm_grid = function(x = NA,
 				   y = NA,
 				   n.x = NA,
 				   n.y = NA,
-				   projection = NA,
+				   crs = NA,
 				   col = NA,
 				   lwd = 1,
 				   alpha = NA,
@@ -115,7 +118,13 @@ tm_grid = function(x = NA,
 				   ndiscr = 100,
 				   zindex = NA,
 				   group = NA,
-				   group.control = "none") {
+				   group.control = "none",
+				   ...) {
+	args = list(...)
+	if ("projection" %in% names(args)) {
+		message("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		crs = args$projection
+	}
 	tm_element_list(tm_element(
 		args = c(list(show = TRUE), as.list(environment())),
 		mapping.fun = "Grid",

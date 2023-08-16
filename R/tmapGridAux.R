@@ -138,9 +138,9 @@ tmapGridGridPrep = function(a, bs, id, o) {
 		col <- do.call("process_color", c(list(col=col, alpha=alpha), o$pc))
 		labels.col <- do.call("process_color", c(list(col=labels.col), o$pc))
 		lwd <- lwd * o$scale
-		is.projected <- !(projection=="longlat" || tryCatch(sf::st_is_longlat(projection), error = function(e) TRUE))
+		is.projected <- !(crs=="longlat" || tryCatch(sf::st_is_longlat(crs), error = function(e) TRUE))
 		
-		projection <- sf::st_crs(projection)
+		crs <- sf::st_crs(crs)
 		
 		if (!labels.inside.frame && any(o$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
 		if (!"scientific" %in% names(labels.format)) labels.format$scientific <- FALSE
@@ -159,11 +159,11 @@ tmapGridGridPrep = function(a, bs, id, o) {
 	#grid.n.x <- grid.n.y <- projection <- grid.is.projected <- grid.ndiscr <- NULL
 	
 	a3s = lapply(bs, function(bbx) {
-		proj = sf::st_crs(bbx)
+		crs_bb = sf::st_crs(bbx)
 		within(a2, { 
-			if (!is.na(projection)) {
+			if (!is.na(crs)) {
 				bbx_orig <- bbx
-				bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = projection))
+				bbx <- suppressWarnings(bb(bbx, current.projection = crs_bb, projection = crs))
 			}
 			sasp = tmap:::get_asp_ratio(bbx)
 			
@@ -182,8 +182,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 			custom.x <- !is.na(x[1])
 			custom.y <- !is.na(y[1])
 			
-			if (!custom.x) x <- pretty30(bbx[c(1,3)], n=n.x, longlat = !is.na(projection) && sf::st_is_longlat(proj))
-			if (!custom.y) y <- pretty30(bbx[c(2,4)], n=n.y, longlat = !is.na(projection) && sf::st_is_longlat(proj))
+			if (!custom.x) x <- pretty30(bbx[c(1,3)], n=n.x, longlat = !is.na(crs) && sf::st_is_longlat(crs_bb))
+			if (!custom.y) y <- pretty30(bbx[c(2,4)], n=n.y, longlat = !is.na(crs) && sf::st_is_longlat(crs_bb))
 			
 			## copy x and y
 			x.orig <- x
@@ -194,7 +194,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 			y <- y[y>bbx[2] & y<bbx[4]]
 			
 			## project grid lines
-			if (!is.na(projection)) {
+			if (!is.na(crs)) {
 				## add extra grid lines to make sure the warped grid is full
 				if (custom.x) {
 					x2 <- x.orig
@@ -242,8 +242,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 				if (lnsSel[1]) {
 					lnsX = sf::st_sfc(lapply(x2, function(x) {
 						sf::st_linestring(matrix(c(rep(x,ndiscr), seq(y2.min, y2.max, length.out=ndiscr)), ncol=2))
-					}), crs = projection)
-					lnsX_proj <- sf::st_transform(lnsX, crs = proj)
+					}), crs = crs)
+					lnsX_proj <- sf::st_transform(lnsX, crs = crs_bb)
 					lnsX_emp <- sf::st_is_empty(lnsX_proj)
 					
 					x2 <- x2[!lnsX_emp]
@@ -267,8 +267,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 				if (lnsSel[2]) {
 					lnsY = sf::st_sfc(lapply(y2, function(y) {
 						st_linestring(matrix(c(seq(x2.min, x2.max, length.out=ndiscr), rep(y,ndiscr)), ncol=2))
-					}), crs = projection)
-					lnsY_proj <- sf::st_transform(lnsY, crs = proj)
+					}), crs = crs)
+					lnsY_proj <- sf::st_transform(lnsY, crs = crs_bb)
 					lnsY_emp <- sf::st_is_empty(lnsY_proj)
 					
 					y2 <- y2[!lnsY_emp]
@@ -378,7 +378,7 @@ tmapGridGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	labelsx <- a$labels.x
 
 	# find coordinates for projected grid labels
-	if (!is.na(a$projection)) {
+	if (!is.na(a$crs)) {
 		glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = as.integer(is_top))
 		cogridx <- glabelsx$cogrid
 		idsx <- glabelsx$ids
@@ -455,7 +455,7 @@ tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	labelsy <- a$labels.y
 	
 	# find coordinates for projected grid labels
-	if (!is.na(a$projection)) {
+	if (!is.na(a$crs)) {
 		glabelsy <- get_gridline_labels(lco=a$co.y.lns[a$sel.y], yax = 0)
 		cogridy <- glabelsy$cogrid
 		idsy <- glabelsy$ids
@@ -584,7 +584,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	}	
 	
 	# find coordinates for projected grid labels
-	if (!is.na(a$projection)) {
+	if (!is.na(a$crs)) {
 		if (selx) {
 			glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = labelsXw + spacerX+marginX)
 			cogridx <- glabelsx$cogrid
@@ -628,7 +628,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	sely <- if (sely) (cogridy_frst >= labelsXw + spacerX + marginX & cogridy_frst <= 1) else sely
 	
 	# crop projected grid lines, and extract polylineGrob ingredients
-	if (!is.na(a$projection)) {
+	if (!is.na(a$crs)) {
 		lnsList <- list(
 			if (any(selx)) st_multilinestring(a$co.x.lns) else NULL,
 			if (any(sely)) st_multilinestring(a$co.y.lns) else NULL
@@ -675,7 +675,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		
 		if (!a$lines) {
 			grobGridX <- NULL
-		} else if (is.na(a$projection)) {
+		} else if (is.na(a$crs)) {
 			grobGridX <- polylineGrob(x=rep(cogridx2, each=2), y=rep(c(labelsXw+spacerX+marginX,1), length(cogridx2)), 
 									  id=rep(1:length(cogridx2), each=2), gp=gpar(col=a$col, lwd=a$lwd))
 		} else {
@@ -701,7 +701,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		
 		if (!a$lines) {
 			grobGridY <- NULL
-		} else if (is.na(a$projection)) {
+		} else if (is.na(a$crs)) {
 			grobGridY <- polylineGrob(y=rep(cogridy2, each=2), x=rep(c(labelsYw+spacerY+marginY,1), length(cogridy2)), 
 									  id=rep(1:length(cogridy2), each=2), gp=gpar(col=a$col, lwd=a$lwd))
 		} else {

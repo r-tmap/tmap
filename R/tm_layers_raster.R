@@ -10,7 +10,8 @@
 #' 
 #' The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link{tm_facets}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link{tm_facets_grid}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link{tm_facets_wrap}} and \code{\link{tm_facets_stack}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 #' 
-#' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
+#' @param col,col.scale,col.legend,col.free Visual variable that determines the color. See details.
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the alpha transparency. See details.
 #' @param trans.args,mapping.args lists that are passed on to internal transformation and mapping functions respectively
 #' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
 #' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)

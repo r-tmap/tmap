@@ -6,6 +6,7 @@
 #' @param rows Variable that specifies the rows (only for a facet grid)
 #' @param columns Variable that specifies the columns (only for a facet grid)
 #' @param pages Variable that specifies the pages (only for a facet grid)
+#' @param as.layers show facets as layers?
 #' @param nrows Number of rows
 #' @param ncols Number of columns
 #' @param byrow Should facets be wrapped by row?
@@ -103,6 +104,7 @@ tm_facets_grid = function(rows = NULL,
 
 #' @export
 #' @rdname tm_facets
+#' @param ... paseed on to `tm_facets`
 #' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,

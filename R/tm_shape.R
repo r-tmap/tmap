@@ -9,6 +9,7 @@
 #' @param bbox Bounding box of he map (only used if \code{is.main = TRUE})
 #' @param unit Unit of the coordinates
 #' @param filter Filter features
+#' @param ... to catch deprecated arguments from version < 4.0
 #' @import tmaptools
 #' @import sf
 #' @import stars
@@ -34,11 +35,11 @@ tm_shape = function(shp,
 					bbox = NULL,
 					unit = NULL,
 					filter = NULL,
-					projection = NULL) {
-	if (!is.null(projection)) {
-		#warning("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
-		crs = projection
-		projection = NULL
+					...) {
+	args = list(...)
+	if ("projection" %in% names(args)) {
+		message("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		crs = args$projection
 	}
 	tm_element_list(tm_element(shp = shp,
 							   is.main = is.main,

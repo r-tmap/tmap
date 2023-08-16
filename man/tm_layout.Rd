@@ -32,7 +32,7 @@ tm_layout(
   xlab.pos,
   ylab.pos,
   grid.show,
-  grid.label.pos,
+  grid.labels.pos,
   panel.type,
   panel.wrap.pos,
   panel.xtab.pos,
@@ -160,6 +160,8 @@ tm_format(format, ...)
 
 \item{grid.show}{TODO}
 
+\item{grid.labels.pos}{TODO}
+
 \item{panel.type}{TODO}
 
 \item{panel.wrap.pos}{TODO}
@@ -279,8 +281,6 @@ tm_format(format, ...)
 \item{style}{name of the style}
 
 \item{format}{name of the format}
-
-\item{grid.labels.pos}{TODO}
 
 \item{legend.title.just}{TODO}
 }

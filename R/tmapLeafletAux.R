@@ -28,8 +28,8 @@ tmapLeafletGridPrep = function(a, bs, id, o) {
 		n.x = if (!is.na(a$n.x)) a$n.x else if (is.na(a$x)) 7.5 else length(a$x)
 		n.y = if (!is.na(a$n.y)) a$n.y else if (is.na(a$y)) 7.5 else length(a$x)
 		
-		x = pretty30(b[c(1,3)], n=n.x, longlat = !is.na(a$projection) && sf::st_is_longlat(a$projection))
-		y = pretty30(b[c(2,4)], n=n.y, longlat = !is.na(a$projection) && sf::st_is_longlat(a$projection))
+		x = pretty30(b[c(1,3)], n=n.x, longlat = !is.na(a$crs) && sf::st_is_longlat(a$crs))
+		y = pretty30(b[c(2,4)], n=n.y, longlat = !is.na(a$crs) && sf::st_is_longlat(a$crs))
 		
 		max((x[2] - x[1]), (y[2]-y[1]))
 	}, FUN.VALUE = numeric(1))

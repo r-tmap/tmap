@@ -32,7 +32,9 @@ tm_tiles(
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
-\item{group}{Name of the group to which this layer belongs. Not implemented yet.}
+\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
+
+\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 }
 \description{
 Map layer that draws tiles from a tile server. The function \code{tm_basemap} draws the tile layer as basemap, i.e. as bottom layer. In contrast,  \code{tm_tiles} draws the tile layer as overlay layer, where the stacking order corresponds with the order in which this layer is called, just like other map layers.

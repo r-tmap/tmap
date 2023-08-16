@@ -3,7 +3,10 @@
 #' Draw thematic map.
 #' 
 #' @param x tmap object. 
+#' @param return.asp should the aspect ratio be returned?
+#' @param show show the map
 #' @param vp viewport (for \code{"plot"} mode)
+#' @param ... not used
 #' @export
 #' @method print tmap
 print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, ...) {

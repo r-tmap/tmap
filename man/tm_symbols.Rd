@@ -104,7 +104,7 @@ tm_dots(
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 
-\item{linejoin, lineend}{line join and line end. See \code{\link[grid:gpar]{gpar}} for details.}
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{fill} (the fill color), \code{col} (the border color), \code{size} the symbol size, \code{shape} the symbol shape, \code{lwd} (line width), \code{lty} (line type), \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).

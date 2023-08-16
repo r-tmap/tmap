@@ -10,7 +10,7 @@ tm_graticules(
   y = NA,
   n.x = NA,
   n.y = NA,
-  projection = 4326,
+  crs = 4326,
   labels.format = list(suffix = intToUtf8(176)),
   labels.cardinal = TRUE,
   ...
@@ -21,7 +21,7 @@ tm_grid(
   y = NA,
   n.x = NA,
   n.y = NA,
-  projection = NA,
+  crs = NA,
   col = NA,
   lwd = 1,
   alpha = NA,
@@ -54,7 +54,7 @@ tm_grid(
 
 \item{n.y}{Preferred number of grid lines for the y axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.y}.}
 
-\item{projection}{Projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (EPSG 4326) grid lines.}
+\item{crs}{Projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (EPSG 4326) grid lines.}
 
 \item{labels.format}{List of formatting options for the grid labels. Parameters are:
 \describe{
@@ -76,6 +76,8 @@ tm_grid(
 \item{alpha}{Alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken.}
 
 \item{labels.show}{Show tick labels. Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.}
+
+\item{labels.pos}{position of the labels. Vector of two: the horizontal ("left" or "right") and the vertical ("top" or "bottom") position.}
 
 \item{labels.size}{Font size of the tick labels}
 
@@ -101,7 +103,9 @@ tm_grid(
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
-\item{group}{Not used}
+\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
+
+\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 }
 \description{
 Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
@@ -115,11 +119,11 @@ tm_shape(NLD_muni) +
 
 tm_shape(NLD_muni) + 
 	tm_polygons() +
-	tm_grid(projection = 4326)
+	tm_grid(crs = 4326)
 
 tm_shape(NLD_muni) + 
 	tm_polygons() +
-	tm_grid(projection = 3035, labels.inside.frame = TRUE)
+	tm_grid(crs = 3035, labels.inside.frame = TRUE)
 
 tm_shape(World) +
 	tm_polygons() +
@@ -134,7 +138,6 @@ tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_graticules(labels.pos = c("right", "top"))
 
-## not working yet
 
 data(NLD_muni, World)
 
@@ -143,7 +146,7 @@ tmap_arrange(
 	qtm(NLD_muni, borders = NULL) + tm_graticules()
 )
 
-qtm(World, shape.projection = "+proj=robin", style = "natural") +
+qtm(World, shape.crs = "+proj=robin", style = "natural") +
 	tm_graticules(ticks = FALSE) +
 	tm_layout(frame=FALSE)
 

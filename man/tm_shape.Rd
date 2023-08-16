@@ -12,7 +12,7 @@ tm_shape(
   bbox = NULL,
   unit = NULL,
   filter = NULL,
-  projection = NULL
+  ...
 )
 }
 \arguments{
@@ -29,6 +29,8 @@ tm_shape(
 \item{unit}{Unit of the coordinates}
 
 \item{filter}{Filter features}
+
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Specify a shape, which is a spatial object from one of these spatial object class packages: \code{sf}, \code{stars}, \code{terra}.

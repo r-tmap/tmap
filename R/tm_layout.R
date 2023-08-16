@@ -124,7 +124,7 @@ tm_layout = function(
 	xlab.pos,
 	ylab.pos,
 	grid.show,
-	grid.label.pos,
+	grid.labels.pos,
 	
 	# panel
 	panel.type,

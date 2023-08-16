@@ -65,11 +65,7 @@ tm_scale_continuous_log1p(...)
 
 \item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
 
-\item{as.count}{Should the data variable be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.}
-
-\item{levels}{Levels to show. Other values are treated as missing.}
-
-\item{levels.drop}{Should unused levels be dropped (and therefore are not assigned to a visual value and shown in the legend)?}
+\item{...}{passed on to `tm_scale_continuous`}
 }
 \description{
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \code{tm_scale_continuous_<x>} use transformation functions x.

@@ -57,6 +57,8 @@ tm_facets_flip()
 
 \item{pages}{Variable that specifies the pages (only for a facet grid)}
 
+\item{as.layers}{show facets as layers?}
+
 \item{nrows}{Number of rows}
 
 \item{ncols}{Number of columns}
@@ -84,6 +86,8 @@ tm_facets_flip()
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
 \item{along}{deceprated Please use \code{tm_facets_page}}
+
+\item{...}{paseed on to `tm_facets`}
 }
 \description{
 Specify facets. \code{tm_facets} is the core function, but recommended is to use \code{tm_facets_wrap}, \code{tm_facets_stack} or \code{tm_facets_grid}. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas \code{tm_facets_stack} stacks the facets either horizontally or vertically. \code{tm_facets_grid} supports up to three faceting dimensions.

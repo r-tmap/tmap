@@ -9,7 +9,13 @@
 \arguments{
 \item{x}{tmap object.}
 
+\item{return.asp}{should the aspect ratio be returned?}
+
+\item{show}{show the map}
+
 \item{vp}{viewport (for \code{"plot"} mode)}
+
+\item{...}{not used}
 }
 \description{
 Draw thematic map.

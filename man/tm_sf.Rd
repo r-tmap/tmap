@@ -73,13 +73,15 @@ tm_sf(
 
 \item{plot.order.list}{Specification in which order the spatial features are drawn. This consists of a list of three elementary geometry types: for polygons, lines and, points. For each of these types, which are drawn in that order, a \code{\link{tm_plot_order}} is required.}
 
+\item{trans.args.list, mapping.args.list}{lists that are passed on to internal transformation and mapping functions respectively. Each is a list of three items, named `polygons`, `lines`, and `points`. See \code{\link{tm_polygons}}, \code{\link{tm_lines}}, and \code{\link{tm_dots}}.}
+
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.}
 
 \item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 
-\item{trans.args, mapping.args}{lists that are passed on to internal transformation and mapping functions respectively}
+\item{...}{passed on to \code{\link{tm_polygons}}, \code{\link{tm_lines}}, and \code{\link{tm_dots}}}
 }
 \description{
 Map layer that draws simple features as they are. Supported visual variables are: \code{fill} (the fill color), \code{col} (the border color), \code{size} the point size, \code{shape} the symbol shape, \code{lwd} (line width), \code{lty} (line type), \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
