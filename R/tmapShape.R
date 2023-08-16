@@ -66,18 +66,27 @@ reproject_bbox = function(bbox, crs) {
 #' 
 #' Internal method that processed shape objects
 #' 
-#' @param ... passed on. Arguments should be: `shp`, `is.main`, `crs`, `bbox`, `unit`, `filter`, `shp_name`, `o`
+#' @param shp shp
+#' @param is.main is.main
+#' @param crs crs
+#' @param bbox bbox
+#' @param unit unit
+#' @param filter filter
+#' @param shp_name shp_name
+#' @param smeta smeta
+#' @param o o
+#' @param tmf tmf
 #' @export
 #' @import data.table
 #' @keywords internal
-tmapShape = function(...) {
+tmapShape = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	UseMethod("tmapShape")
 }
 
 
 
-tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
-	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name)
+tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
 

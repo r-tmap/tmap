@@ -1,16 +1,16 @@
-tmapLeafletCompPrepare = function(...) {
+tmapLeafletCompPrepare = function(comp, o) {
 	UseMethod("tmapLeafletCompPrepare")
 }
 
-tmapLeafletCompHeight = function(...) {
+tmapLeafletCompHeight = function(comp, o) {
 	UseMethod("tmapLeafletCompHeight")
 }
 
-tmapLeafletCompWidth = function(...) {
+tmapLeafletCompWidth = function(comp, o) {
 	UseMethod("tmapLeafletCompWidth")
 }
 
-tmapLeafletLegPlot = function(...) {
+tmapLeafletLegPlot = function(comp, lf, o) {
 	UseMethod("tmapLeafletLegPlot")
 }
 

@@ -4,10 +4,28 @@
 \alias{tmapShape}
 \title{Internal method that processed shape objects}
 \usage{
-tmapShape(...)
+tmapShape(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 \arguments{
-\item{...}{passed on. Arguments should be: `shp`, `is.main`, `crs`, `bbox`, `unit`, `filter`, `shp_name`, `o`}
+\item{shp}{shp}
+
+\item{is.main}{is.main}
+
+\item{crs}{crs}
+
+\item{bbox}{bbox}
+
+\item{unit}{unit}
+
+\item{filter}{filter}
+
+\item{shp_name}{shp_name}
+
+\item{smeta}{smeta}
+
+\item{o}{o}
+
+\item{tmf}{tmf}
 }
 \description{
 Internal method that processed shape objects

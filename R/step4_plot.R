@@ -337,7 +337,13 @@ step4_plot = function(tm, vp, return.asp, show) {
 		grps = c("by1", "by2", "by3")[o$free.coords]
 		d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	} else {
-		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(st_bbox()))
+		bbo = o$bbox
+		if (!is.null(bbo)) {
+			bbm = tmaptools::bb(bbo)
+		} else {
+			bbm = sf::st_bbox()
+		}
+		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(bbm))
 	}
 	
 	d[, asp:=get_asp(bbox)]

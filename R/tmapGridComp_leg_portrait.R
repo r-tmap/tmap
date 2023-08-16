@@ -1,16 +1,3 @@
-tmapGridCompHeight = function(...) {
-	UseMethod("tmapGridCompHeight")
-}
-
-tmapGridCompWidth = function(...) {
-	UseMethod("tmapGridCompWidth")
-}
-
-tmapGridLegPlot = function(...) {
-	UseMethod("tmapGridLegPlot")
-}
-
-
 #' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
 tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {

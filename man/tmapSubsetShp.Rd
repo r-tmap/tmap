@@ -4,10 +4,12 @@
 \alias{tmapSubsetShp}
 \title{Internal method that subsets data from shape objects}
 \usage{
-tmapSubsetShp(...)
+tmapSubsetShp(shp, vars)
 }
 \arguments{
-\item{...}{passed on. First should be the shape, second a vector of variable names}
+\item{shp}{shape}
+
+\item{vars}{a vector of variable names}
 }
 \description{
 Internal method that subsets data from shape objects

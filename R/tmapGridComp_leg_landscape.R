@@ -1,16 +1,16 @@
-tmapGridCompPrepare = function(...) {
+tmapGridCompPrepare = function(comp, o) {
 	UseMethod("tmapGridCompPrepare")
 }
 
-tmapGridCompHeight = function(...) {
+tmapGridCompHeight = function(comp, o) {
 	UseMethod("tmapGridCompHeight")
 }
 
-tmapGridCompWidth = function(...) {
+tmapGridCompWidth = function(comp, o) {
 	UseMethod("tmapGridCompWidth")
 }
 
-tmapGridLegPlot = function(...) {
+tmapGridLegPlot = function(comp, o, fH, fW) {
 	UseMethod("tmapGridLegPlot")
 }
 

@@ -70,6 +70,8 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 \item{resize.as.group}{resize.as.group}
 
 \item{z}{z}
+
+\item{...}{passed on to tm_title}
 }
 \description{
 Map component that adds a title

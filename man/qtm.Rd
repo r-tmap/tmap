@@ -6,9 +6,9 @@
 \usage{
 qtm(
   shp,
-  size = tm_const(),
   fill = tm_const(),
   col = tm_const(),
+  size = tm_const(),
   shape = tm_const(),
   lwd = tm_const(),
   lty = tm_const(),
@@ -32,7 +32,7 @@ qtm(
 \item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
 }}
 
-\item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} contains polygons.  Set \code{fill = NULL} to draw only polygon borders. See also argument \code{borders}.}
+\item{fill, col, size, shape, lwd, lty, fill_alpha, col_alpha}{Visual variables.}
 
 \item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.}
 
@@ -43,28 +43,6 @@ qtm(
 \item{format}{Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.}
-
-\item{symbols.size}{either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} argument of \code{\link{tm_symbols}}. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{symbols.col}{either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{symbols.shape}{either the shape of the symbols or a name of the data variable in \code{shp} that specifies the shapes of the symbols. See also the \code{shape} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{dots.col}{name of the data variable in \code{shp} for the dot map that specifies the colors of the dots. If \code{dots.col} is specified instead \code{symbols.col}, dots instead of bubbles are drawn (unless \code{symbols.shape} is specified).}
-
-\item{text}{Name of the data variable that contains the text labels. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{text.size}{Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{text.col}{name of the data variable in \code{shp} for the that specifies the colors of the text labels. Only applicable when \code{shp} contains spatial points, lines, or polygons.}
-
-\item{lines.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable when \code{shp} contains spatial lines.}
-
-\item{lines.col}{either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} contains spatial lines.}
-
-\item{raster}{either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is a spatial raster.}
-
-\item{borders}{color of the polygon borders. Use \code{NULL} to omit the borders.}
 
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also \code{\link{tm_facets}}}
 

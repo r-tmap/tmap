@@ -603,7 +603,7 @@ tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_mouse_coordinates
 #' @export
-tmapGridLegPlot.tm_mouse_coordinates = function(cmp, lf, o) {
+tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
 	NULL
 }
 

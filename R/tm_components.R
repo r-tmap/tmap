@@ -32,6 +32,7 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, stack, jus
 }
 
 #' @export
+#' @param ... passed on to tm_title
 #' @rdname tm_title
 #' @name tm_title_in
 tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {

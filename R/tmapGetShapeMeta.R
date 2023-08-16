@@ -2,10 +2,11 @@
 #' 
 #' Internal method that extracts meta data from shape objects
 #'
-#' @param ... passed on. First should be the shape, second the list of options
+#' @param shp the shape object
+#' @param o the list of options
 #' @export
 #' @keywords internal
-tmapGetShapeMeta1 = function(...) {
+tmapGetShapeMeta1 = function(shp, o) {
 	UseMethod("tmapGetShapeMeta1")
 }
 
@@ -13,10 +14,12 @@ tmapGetShapeMeta1 = function(...) {
 #' 
 #' Internal method that extracts meta data from shape objects
 #'
-#' @param ... passed on. First should be the shape, second shape meta (from tmapGetShapeMeta1), the first the list of options
+#' @param shp the shape
+#' @param shape meta (from tmapGetShapeMeta1)
+#' @param o the list of options
 #' @export
 #' @keywords internal
-tmapGetShapeMeta2 = function(...) {
+tmapGetShapeMeta2 = function(shp, smeta, o) {
 	UseMethod("tmapGetShapeMeta2")
 }
 

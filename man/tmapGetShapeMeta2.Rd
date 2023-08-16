@@ -4,10 +4,14 @@
 \alias{tmapGetShapeMeta2}
 \title{Internal method that extracts more meta data from shape objects}
 \usage{
-tmapGetShapeMeta2(...)
+tmapGetShapeMeta2(shp, smeta, o)
 }
 \arguments{
-\item{...}{passed on. First should be the shape, second shape meta (from tmapGetShapeMeta1), the first the list of options}
+\item{shp}{the shape}
+
+\item{o}{the list of options}
+
+\item{shape}{meta (from tmapGetShapeMeta1)}
 }
 \description{
 Internal method that extracts meta data from shape objects

@@ -37,9 +37,15 @@ tm_text(
 )
 }
 \arguments{
+\item{text, text.scale, text.legend, text.free}{Visual variable that determines the text. See details.}
+
+\item{size, size.scale, size.legend, size.free}{Visual variable that determines the font size. See details.}
+
 \item{col, col.scale, col.legend, col.free}{Visual variable that determines the col color. See details.}
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
+
+\item{fontface, fontface.scale, fontface.legend, fontface.free}{Visual variable that determines the font face. See details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.}
 
@@ -51,11 +57,9 @@ tm_text(
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.free}{Visual variable that determines the line width. See details.}
+\item{fontfamility}{The font family. See \code{\link[grid:gpar]{gpar}} for details.}
 
-\item{lty, lty.scale, lty.legend, lty.free}{Visual variable that determines the line type. See details.}
-
-\item{linejoin, lineend}{line join and line end. See \code{\link[grid:gpar]{gpar}} for details.}
+\item{shadow.}{Shadow behind the text. Logical or color.}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{text} (the text itself) \code{col} (color), \code{size} (font size), and \code{fontface} (font face).
