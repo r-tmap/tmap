@@ -7,6 +7,7 @@
 #' @param orientation PARAM_DESCRIPTION
 #' @param design PARAM_DESCRIPTION
 #' @param reverse PARAM_DESCRIPTION
+#' @param na.show PARAM_DESCRIPTION
 #' @param position PARAM_DESCRIPTION
 #' @param width PARAM_DESCRIPTION
 #' @param height PARAM_DESCRIPTION
@@ -35,14 +36,16 @@
 #' @param item.na.height PARAM_DESCRIPTION
 #' @param item.na.width PARAM_DESCRIPTION
 #' @param item.na.space PARAM_DESCRIPTION
+#' @param item.shape PARAM_DESCRIPTION
 #' @param ticks PARAM_DESCRIPTION
 #' @param ticks.disable.na PARAM_DESCRIPTION
 #' @param ticks.col PARAM_DESCRIPTION
 #' @param ticks.lwd PARAM_DESCRIPTION
-#' @param title.just PARAM_DESCRIPTION
+#' @param title.align PARAM_DESCRIPTION
 #' @param margins PARAM_DESCRIPTION
 #' @param margin.item.text PARAM_DESCRIPTION
-#' @param aes aes
+#' @param ... passed on (?)
+#' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return OUTPUT_DESCRIPTION
 #' @rdname tm_legend
 #' @export 
@@ -108,8 +111,8 @@ tm_legend_hide = function() {
 #' @name tm_legend_combine
 #' @rdname tm_legend
 #' @export 
-tm_legend_combine = function(aes) {
-	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "tm_component", "list"))
+tm_legend_combine = function(variable) {
+	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = variable), class = c("tm_legend", "tm_component", "list"))
 }
 
 tm_legend_bivariate = function(xlab, 

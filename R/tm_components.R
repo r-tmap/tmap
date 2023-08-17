@@ -22,7 +22,6 @@
 #' @param resize.as.group resize.as.group
 #' @param z z
 #' @export
-#' @export
 #' @rdname tm_title
 #' @name tm_title
 tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {

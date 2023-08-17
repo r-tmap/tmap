@@ -482,7 +482,11 @@ step4_plot = function(tm, vp, return.asp, show) {
 	FUNoverlay = paste0("tmap", gs, "Overlay")
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
+
+	FUNxlab = paste0("tmap", gs, "Xlab")
+	FUNylab = paste0("tmap", gs, "Ylab")
 	
+		
 	FUNgridxlab = paste0("tmap", gs, "GridXLab")
 	FUNgridylab = paste0("tmap", gs, "GridYLab")
 	
@@ -572,6 +576,18 @@ step4_plot = function(tm, vp, return.asp, show) {
 		}
 	}
 	
+	
+	# plot xlab and ylab
+	if (o$xlab.show) {
+		for (k in 1:o$npages) {
+			do.call(FUNxlab, list(facet_page = k, o = o))
+		}
+	}
+	if (o$ylab.show) {
+		for (k in 1:o$npages) {
+			do.call(FUNylab, list(facet_page = k, o = o))
+		}
+	}
 
 	
 	

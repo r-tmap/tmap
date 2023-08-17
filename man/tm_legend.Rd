@@ -54,7 +54,7 @@ tm_legend(
 
 tm_legend_hide()
 
-tm_legend_combine(aes)
+tm_legend_combine(variable)
 }
 \arguments{
 \item{title}{PARAM_DESCRIPTION}
@@ -66,6 +66,8 @@ tm_legend_combine(aes)
 \item{design}{PARAM_DESCRIPTION}
 
 \item{reverse}{PARAM_DESCRIPTION}
+
+\item{na.show}{PARAM_DESCRIPTION}
 
 \item{position}{PARAM_DESCRIPTION}
 
@@ -123,6 +125,8 @@ tm_legend_combine(aes)
 
 \item{item.na.space}{PARAM_DESCRIPTION}
 
+\item{item.shape}{PARAM_DESCRIPTION}
+
 \item{ticks}{PARAM_DESCRIPTION}
 
 \item{ticks.disable.na}{PARAM_DESCRIPTION}
@@ -131,13 +135,15 @@ tm_legend_combine(aes)
 
 \item{ticks.lwd}{PARAM_DESCRIPTION}
 
+\item{title.align}{PARAM_DESCRIPTION}
+
 \item{margins}{PARAM_DESCRIPTION}
 
 \item{margin.item.text}{PARAM_DESCRIPTION}
 
-\item{aes}{aes}
+\item{...}{passed on (?)}
 
-\item{title.just}{PARAM_DESCRIPTION}
+\item{variable}{visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`}
 }
 \value{
 OUTPUT_DESCRIPTION

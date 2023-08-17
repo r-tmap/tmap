@@ -81,6 +81,13 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	panel_rot = ifelse(o$panel.wrap.pos  == "left", 90, ifelse(o$panel.wrap.pos  == "right", 270, 0))
 	
 	#}
+	#####
+	### x and y lab
+	xlab_row_id = if (o$xlab.side == "top") 5 else nr - 4
+	xlab_col_ids = 6:(nc-5)
+	
+	ylab_col_id = if (o$ylab.side == "left") 5 else nc - 4
+	ylab_row_ids = 6:(nr-5)
 	
 	
 	prows = as.numeric(rows)
@@ -153,6 +160,12 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 		panel_row_rot = panel_row_rot,
 		panel_rot = panel_rot,
 		
+		xlab_row_id = xlab_row_id,
+		xlab_col_ids = xlab_col_ids,
+		
+		ylab_col_id = ylab_col_id,
+		ylab_row_ids = ylab_row_ids,
+
 		meta_rows = c(3, (nr-2)),
 		meta_cols = c(3, (nc-2)),
 		

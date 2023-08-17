@@ -178,10 +178,26 @@
 
 		# xlab, ylab
 		xlab.show = FALSE,
+		xlab.text = "",
+		xlab.size = 1,
+		xlab.color = "black",
+		xlab.rotation = 0,
+		xlab.space = 0,
+		xlab.fontface = "plain",
+		xlab.fontfamily = "",
+		xlab.side = "bottom",
+		
 		ylab.show = FALSE,
-		xlab.pos = "bottom",
-		ylab.pos = "right",
-				
+		ylab.text = "",
+		ylab.size = 1,
+		ylab.color = "black",
+		ylab.rotation = 0,
+		ylab.space = 0,
+		ylab.fontface = "plain",
+		ylab.fontfamily = "",
+		ylab.side = "left",
+		
+
 		# panel
 		panel.type = NA, # "wrap" or "xtab",
 		panel.wrap.pos = "top", # or "left", "right", "bottom"
@@ -431,12 +447,6 @@
 		legend.hist.height = 0.3,
 		legend.hist.width = 0.4,
 		#title.snap.to.legend = NA,
-		main.title = NA,
-		main.title.size = 1.5,
-		main.title.color = "black",
-		main.title.fontface = NULL,
-		main.title.fontfamily = NULL,
-		main.title.position = tm_pos_out("left", "top"),
 		attr.outside = FALSE,
 		attr.outside.position = "bottom",
 		attr.outside.size = NA,

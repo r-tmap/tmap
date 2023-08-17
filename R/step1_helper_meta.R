@@ -47,7 +47,7 @@ preprocess_meta_step1 = function(o) {
 		attr.color.light = is_light(attr.color)
 		
 		title.color = do.call("process_color", c(list(col=title.color), pc))
-		main.title.color = do.call("process_color", c(list(col=main.title.color), pc))
+		#main.title.color = do.call("process_color", c(list(col=main.title.color), pc))
 		legend.text.color = do.call("process_color", c(list(col=legend.text.color), pc))
 		legend.title.color = do.call("process_color", c(list(col=legend.title.color), pc))
 		if (!is.na(frame)) frame = do.call("process_color", c(list(col=frame), pc))

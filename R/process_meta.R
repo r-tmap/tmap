@@ -156,8 +156,20 @@ process_meta = function(o, d, cdt, aux) {
 			} else c(0, 0, 0, 0)
 			
 			xylab.margins = rep(0, 4)
-			if (xlab.show) xylab.margins[ifelse(xlab.pos == "bottom", 1, 3)] = xylab.height * lineH
-			if (ylab.show) xylab.margins[ifelse(xlab.pos == "left", 2, 4)] = xylab.height * lineW
+			if (xlab.show) {
+				xylab.margins[ifelse(xlab.side == "bottom", 1, 3)] = if (xlab.rotation %in% c(0, 180)) {
+					(number_text_lines(xlab.text) + xlab.space)  * lineH
+				} else {
+					(text_width_inch(xlab.text, space = FALSE) / lin) * lineH
+				}
+			}
+			if (ylab.show) {
+				xylab.margins[ifelse(ylab.side == "left", 2, 4)] = if (ylab.rotation %in% c(90, 270)) {
+					(number_text_lines(ylab.text) + ylab.space)  * lineW
+				} else {
+					(text_width_inch(ylab.text, space = FALSE) / lin) * lineW
+				}
+			}
 			
 			
 			grid.buffers = if (grid.show) {

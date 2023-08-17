@@ -1,217 +1,26 @@
+# NEED TO SYNC THIS WITH tmap_options
+# generate all options with: 
+# args = intersect(names(tmap_options_mode("view")),names(tmap_options_mode("plot")))
+# cat(paste(args, collapse = ", "))
+
+
 #' Layout options
 #' 
 #' Set of tmap options that are directly related to the layout.
 #' 
-#' @param scale TODO
-#' @param asp TODO
-#' @param bg.color TODO
-#' @param outer.bg.color TODO
-#' @param frame TODO
-#' @param frame.lwd TODO
-#' @param frame.r TODO
-#' @param frame.double.line TODO
-#' @param outer.margins TODO
-#' @param inner.margins TODO
-#' @param inner.margins.extra TODO
-#' @param meta.margins TODO
-#' @param meta.auto.margins TODO
-#' @param between.margin TODO
-#' @param component.offset TODO
-#' @param component.stack.margin TODO
-#' @param grid.mark.height TODO
-#' @param xylab.height TODO
-#' @param coords.height TODO
-#' @param xlab.show TODO
-#' @param ylab.show TODO
-#' @param xlab.pos TODO
-#' @param ylab.pos TODO
-#' @param grid.show TODO
-#' @param grid.labels.pos TODO
-#' @param panel.type TODO
-#' @param panel.wrap.pos TODO
-#' @param panel.xtab.pos TODO
-#' @param unit TODO
-#' @param color.sepia.intensity TODO
-#' @param color.saturation TODO
-#' @param color.vision.deficiency.sim TODO
-#' @param fontface TODO
-#' @param fontfamily TODO
-#' @param legend.show TODO
-#' @param legend.design TODO
-#' @param legend.orientation TODO
-#' @param legend.position TODO
-#' @param legend.width TODO
-#' @param legend.height TODO
-#' @param legend.stack TODO
-#' @param legend.group.frame TODO
-#' @param legend.resize.as.group TODO
-#' @param legend.reverse TODO
-#' @param legend.title.color TODO
-#' @param legend.title.size TODO
-#' @param legend.title.fontface TODO
-#' @param legend.title.fontfamily TODO
-#' @param legend.title.just TODO
-#' @param legend.text.color TODO
-#' @param legend.text.size TODO
-#' @param legend.text.fontface TODO
-#' @param legend.text.fontfamily TODO
-#' @param legend.frame TODO
-#' @param legend.frame.lwd TODO
-#' @param legend.frame.r TODO
-#' @param legend.bg.color TODO
-#' @param legend.bg.alpha TODO
-#' @param compass.type TODO
-#' @param title.size TODO
-#' @param title.color TODO
-#' @param title.fontface TODO
-#' @param title.fontfamily TODO
-#' @param title.bg.color TODO
-#' @param title.bg.alpha TODO
-#' @param title.padding TODO
-#' @param title.frame TODO
-#' @param title.frame.lwd TODO
-#' @param title.frame.r TODO
-#' @param title.stack TODO
-#' @param title.position TODO
-#' @param title.width TODO
-#' @param title.heigth TODO
-#' @param title.group.frame TODO
-#' @param title.resize.as.group TODO
-#' @param panel.show TODO
-#' @param panel.labels TODO
-#' @param panel.label.size TODO
-#' @param panel.label.color TODO
-#' @param panel.label.fontface TODO
-#' @param panel.label.fontfamily TODO
-#' @param panel.label.bg.color TODO
-#' @param panel.label.height TODO
-#' @param panel.label.rot TODO
+#' @param modes,crs,facet.max,facet.flip,raster.max.cells,show.messages,show.warnings,output.format,output.size,output.dpi,output.dpi.animation,value.const,value.na,value.null,value.blank,values.var,values.range,value.neutral,scales.var,scale.misc.args,label.format,label.na,scale,asp,bg.color,outer.bg.color,frame,frame.lwd,frame.r,frame.double.line,outer.margins,inner.margins,inner.margins.extra,meta.margins,meta.auto.margins,between.margin,component.offset,component.stack.margin,grid.mark.height,xylab.height,coords.height,xlab.show,xlab.text,xlab.size,xlab.color,xlab.rotation,xlab.space,xlab.fontface,xlab.fontfamily,xlab.side,ylab.show,ylab.text,ylab.size,ylab.color,ylab.rotation,ylab.space,ylab.fontface,ylab.fontfamily,ylab.side,panel.type,panel.wrap.pos,panel.xtab.pos,unit,color.sepia.intensity,color.saturation,color.vision.deficiency.sim,text.fontface,text.fontfamily,legend.show,legend.design,legend.orientation,legend.position,legend.width,legend.height,legend.stack,legend.group.frame,legend.resize.as.group,legend.reverse,legend.na.show,legend.title.color,legend.title.size,legend.title.fontface,legend.title.fontfamily,legend.xlab.color,legend.xlab.size,legend.xlab.fontface,legend.xlab.fontfamily,legend.ylab.color,legend.ylab.size,legend.ylab.fontface,legend.ylab.fontfamily,legend.text.color,legend.text.size,legend.text.fontface,legend.text.fontfamily,legend.frame,legend.frame.lwd,legend.frame.r,legend.bg.color,legend.bg.alpha,legend.settings.standard.portrait,legend.settings.standard.landscape,title.show,title.size,title.color,title.fontface,title.fontfamily,title.bg.color,title.bg.alpha,title.padding,title.frame,title.frame.lwd,title.frame.r,title.stack,title.position,title.group.frame,title.resize.as.group,credits.show,credits.size,credits.color,credits.fontface,credits.fontfamily,credits.bg.color,credits.bg.alpha,credits.padding,credits.frame,credits.frame.lwd,credits.frame.r,credits.stack,credits.position,credits.width,credits.heigth,credits.group.frame,credits.resize.as.group,compass.north,compass.type,compass.text.size,compass.size,compass.show.labels,compass.cardinal.directions,compass.text.color,compass.color.dark,compass.color.light,compass.lwd,compass.bg.color,compass.bg.alpha,compass.margins,compass.show,compass.stack,compass.position,compass.frame,compass.frame.lwd,compass.frame.r,compass.group.frame,compass.resize.as.group,scalebar.show,scalebar.breaks,scalebar.width,scalebar.text.size,scalebar.text.color,scalebar.color.dark,scalebar.color.light,scalebar.lwd,scalebar.position,scalebar.bg.color,scalebar.bg.alpha,scalebar.size,scalebar.margins,scalebar.stack,scalebar.frame,scalebar.frame.lwd,scalebar.frame.r,scalebar.group.frame,scalebar.resize.as.group,grid.show,grid.labels.pos,grid.x,grid.y,grid.n.x,grid.n.y,grid.crs,grid.col,grid.lwd,grid.alpha,grid.labels.show,grid.labels.size,grid.labels.col,grid.labels.rot,grid.labels.format,grid.labels.cardinal,grid.labels.margin.x,grid.labels.margin.y,grid.labels.space.x,grid.labels.space.y,grid.labels.inside.frame,grid.ticks,grid.lines,grid.ndiscr,mouse_coordinates.stack,mouse_coordinates.position,mouse_coordinates.show,panel.show,panel.labels,panel.label.size,panel.label.color,panel.label.fontface,panel.label.fontfamily,panel.label.bg.color,panel.label.height,panel.label.rot,qtm.scalebar,qtm.minimap,qtm.mouse.coordinates,earth.boundary,earth.boundary.color,earth.boundary.lwd,earth.datum,space.color,attr.color,max.categories,legend.hist.bg.color,legend.hist.bg.alpha,legend.hist.size,legend.hist.height,legend.hist.width,attr.outside,attr.outside.position,attr.outside.size,attr.position,attr.just,basemap.server,basemap.alpha,basemap.zoom,overlays,overlays.alpha,alpha,colorNA,symbol.size.fixed,dot.size.fixed,text.size.variable,bbox,check.and.fix,set.bounds,set.view,set.zoom.limits,name,basemap.show see\code{\link{tmap_options}}
+#' @param title,main.title deprecated
+#' @param ... used to catch other deprecated arguments
 #' @rdname tm_layout
 #' @example ./examples/tm_layout.R 
 #' @export 
 tm_layout = function(
+		modes, crs, facet.max, facet.flip, raster.max.cells, show.messages, show.warnings, output.format, output.size, output.dpi, output.dpi.animation, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, scales.var, scale.misc.args, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double.line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto.margins, between.margin, component.offset, component.stack.margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia.intensity, color.saturation, color.vision.deficiency.sim, text.fontface, text.fontfamily, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize.as.group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.settings.standard.portrait, legend.settings.standard.landscape, title.show, title.size, title.color, title.fontface, title.fontfamily, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.group.frame, title.resize.as.group, credits.show, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.heigth, credits.group.frame, credits.resize.as.group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.show, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize.as.group, scalebar.show, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.position, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize.as.group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside.frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.bg.color, panel.label.height, panel.label.rot, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, earth.boundary, earth.boundary.color, earth.boundary.lwd, earth.datum, space.color, attr.color, max.categories, legend.hist.bg.color, legend.hist.bg.alpha, legend.hist.size, legend.hist.height, legend.hist.width, attr.outside, attr.outside.position, attr.outside.size, attr.position, attr.just, basemap.server, basemap.alpha, basemap.zoom, overlays, overlays.alpha, alpha, colorNA, symbol.size.fixed, dot.size.fixed, text.size.variable, bbox, check.and.fix, set.bounds, set.view, set.zoom.limits, name, basemap.show,
 		title = NULL,
-	scale,
-	asp,
-	
-	# background
-	bg.color,
-	outer.bg.color,
-	
-	# frame
-	frame,
-	frame.lwd,
-	frame.r,
-	frame.double.line,
-	
-	
-	# margins	
-	outer.margins,
-	inner.margins,
-	inner.margins.extra,
-	meta.margins,
-	meta.auto.margins,
-	between.margin,
-	component.offset,
-	component.stack.margin,
-	grid.mark.height,
-	xylab.height,
-	coords.height,
-	
-	# xlab, ylab, grid
-	xlab.show,
-	ylab.show,
-	xlab.pos,
-	ylab.pos,
-	grid.show,
-	grid.labels.pos,
-	
-	# panel
-	panel.type,
-	panel.wrap.pos,
-	panel.xtab.pos,
-	
-	# data
-	unit,
-	
-	# colors
-	color.sepia.intensity,
-	color.saturation,
-	color.vision.deficiency.sim,
-	
-	# text
-	fontface,
-	fontfamily,
-	
-	# legend		
-	legend.show,
-	legend.design,
-	legend.orientation,
-	legend.position,
-	legend.width,
-	legend.height,
-	legend.stack,
-	legend.group.frame,
-	legend.resize.as.group,
-	legend.reverse,
-	legend.title.color,
-	legend.title.size,
-	legend.title.fontface,
-	legend.title.fontfamily,
-	legend.xlab.color,
-	legend.xlab.size,
-	legend.xlab.fontface,
-	legend.xlab.fontfamily,
-	legend.ylab.color,
-	legend.ylab.size,
-	legend.ylab.fontface,
-	legend.ylab.fontfamily,
-	legend.text.color,
-	legend.text.size,
-	legend.text.fontface,
-	legend.text.fontfamily,
-	legend.frame,
-	legend.frame.lwd,
-	legend.frame.r,
-	legend.bg.color,
-	legend.bg.alpha,
-
-	# components
-	compass.type,
-	title.size,
-	title.color,
-	title.fontface,
-	title.fontfamily,
-	title.bg.color,
-	title.bg.alpha,
-	title.padding,
-	title.frame,
-	title.frame.lwd,
-	title.frame.r,
-	title.stack,
-	title.position,
-	title.width,
-	title.heigth,
-	title.group.frame,
-	title.resize.as.group,
-	
-	# deprecated
-	main.title = NULL,
-	main.title.size,
-	main.title.color,
-	main.title.fontface,
-	main.title.fontfamily,
-	main.title.position,
-	
-	panel.show,
-	panel.labels,
-	panel.label.size,
-	panel.label.color,
-	panel.label.fontface,
-	panel.label.fontfamily,
-	panel.label.bg.color,
-	panel.label.height,
-	panel.label.rot) {
+		main.title = NULL,
+		...
+		
+	) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!is.null(title) || (!is.null(main.title))) {
 		title1 = if (!is.null(title)) {
@@ -276,6 +85,5 @@ tm_plot = function(use.gradient) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
 }
-
 
 

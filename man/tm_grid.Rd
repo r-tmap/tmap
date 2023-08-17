@@ -42,7 +42,8 @@ tm_grid(
   ndiscr = 100,
   zindex = NA,
   group = NA,
-  group.control = "none"
+  group.control = "none",
+  ...
 )
 }
 \arguments{

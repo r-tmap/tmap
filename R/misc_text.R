@@ -85,6 +85,12 @@ nonempty_text <- function(txt) {
 	} else rep(TRUE, length(txt))
 }
 
+number_text_lines <- function(txt) {
+	if (is.character(txt)) {
+		length(strsplit(txt, "\n")[[1]])
+	} else 1
+}
+
 expr_to_char <- function(txt) {
 	if (is.character(txt)) {
 		txt

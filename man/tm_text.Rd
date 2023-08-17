@@ -28,7 +28,7 @@ tm_text(
   fontfamily = "",
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-  trans.args = list(),
+  trans.args = list(points.only = "ifany"),
   mapping.args = list(clustering = FALSE),
   zindex = NA,
   group = NA,

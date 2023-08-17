@@ -7,7 +7,28 @@
 \title{Layout options}
 \usage{
 tm_layout(
-  title = NULL,
+  modes,
+  crs,
+  facet.max,
+  facet.flip,
+  raster.max.cells,
+  show.messages,
+  show.warnings,
+  output.format,
+  output.size,
+  output.dpi,
+  output.dpi.animation,
+  value.const,
+  value.na,
+  value.null,
+  value.blank,
+  values.var,
+  values.range,
+  value.neutral,
+  scales.var,
+  scale.misc.args,
+  label.format,
+  label.na,
   scale,
   asp,
   bg.color,
@@ -28,11 +49,23 @@ tm_layout(
   xylab.height,
   coords.height,
   xlab.show,
+  xlab.text,
+  xlab.size,
+  xlab.color,
+  xlab.rotation,
+  xlab.space,
+  xlab.fontface,
+  xlab.fontfamily,
+  xlab.side,
   ylab.show,
-  xlab.pos,
-  ylab.pos,
-  grid.show,
-  grid.labels.pos,
+  ylab.text,
+  ylab.size,
+  ylab.color,
+  ylab.rotation,
+  ylab.space,
+  ylab.fontface,
+  ylab.fontfamily,
+  ylab.side,
   panel.type,
   panel.wrap.pos,
   panel.xtab.pos,
@@ -40,8 +73,8 @@ tm_layout(
   color.sepia.intensity,
   color.saturation,
   color.vision.deficiency.sim,
-  fontface,
-  fontfamily,
+  text.fontface,
+  text.fontfamily,
   legend.show,
   legend.design,
   legend.orientation,
@@ -52,6 +85,7 @@ tm_layout(
   legend.group.frame,
   legend.resize.as.group,
   legend.reverse,
+  legend.na.show,
   legend.title.color,
   legend.title.size,
   legend.title.fontface,
@@ -73,7 +107,9 @@ tm_layout(
   legend.frame.r,
   legend.bg.color,
   legend.bg.alpha,
-  compass.type,
+  legend.settings.standard.portrait,
+  legend.settings.standard.landscape,
+  title.show,
   title.size,
   title.color,
   title.fontface,
@@ -86,16 +122,92 @@ tm_layout(
   title.frame.r,
   title.stack,
   title.position,
-  title.width,
-  title.heigth,
   title.group.frame,
   title.resize.as.group,
-  main.title = NULL,
-  main.title.size,
-  main.title.color,
-  main.title.fontface,
-  main.title.fontfamily,
-  main.title.position,
+  credits.show,
+  credits.size,
+  credits.color,
+  credits.fontface,
+  credits.fontfamily,
+  credits.bg.color,
+  credits.bg.alpha,
+  credits.padding,
+  credits.frame,
+  credits.frame.lwd,
+  credits.frame.r,
+  credits.stack,
+  credits.position,
+  credits.width,
+  credits.heigth,
+  credits.group.frame,
+  credits.resize.as.group,
+  compass.north,
+  compass.type,
+  compass.text.size,
+  compass.size,
+  compass.show.labels,
+  compass.cardinal.directions,
+  compass.text.color,
+  compass.color.dark,
+  compass.color.light,
+  compass.lwd,
+  compass.bg.color,
+  compass.bg.alpha,
+  compass.margins,
+  compass.show,
+  compass.stack,
+  compass.position,
+  compass.frame,
+  compass.frame.lwd,
+  compass.frame.r,
+  compass.group.frame,
+  compass.resize.as.group,
+  scalebar.show,
+  scalebar.breaks,
+  scalebar.width,
+  scalebar.text.size,
+  scalebar.text.color,
+  scalebar.color.dark,
+  scalebar.color.light,
+  scalebar.lwd,
+  scalebar.position,
+  scalebar.bg.color,
+  scalebar.bg.alpha,
+  scalebar.size,
+  scalebar.margins,
+  scalebar.stack,
+  scalebar.frame,
+  scalebar.frame.lwd,
+  scalebar.frame.r,
+  scalebar.group.frame,
+  scalebar.resize.as.group,
+  grid.show,
+  grid.labels.pos,
+  grid.x,
+  grid.y,
+  grid.n.x,
+  grid.n.y,
+  grid.crs,
+  grid.col,
+  grid.lwd,
+  grid.alpha,
+  grid.labels.show,
+  grid.labels.size,
+  grid.labels.col,
+  grid.labels.rot,
+  grid.labels.format,
+  grid.labels.cardinal,
+  grid.labels.margin.x,
+  grid.labels.margin.y,
+  grid.labels.space.x,
+  grid.labels.space.y,
+  grid.labels.inside.frame,
+  grid.ticks,
+  grid.lines,
+  grid.ndiscr,
+  mouse_coordinates.stack,
+  mouse_coordinates.position,
+  mouse_coordinates.show,
   panel.show,
   panel.labels,
   panel.label.size,
@@ -104,7 +216,47 @@ tm_layout(
   panel.label.fontfamily,
   panel.label.bg.color,
   panel.label.height,
-  panel.label.rot
+  panel.label.rot,
+  qtm.scalebar,
+  qtm.minimap,
+  qtm.mouse.coordinates,
+  earth.boundary,
+  earth.boundary.color,
+  earth.boundary.lwd,
+  earth.datum,
+  space.color,
+  attr.color,
+  max.categories,
+  legend.hist.bg.color,
+  legend.hist.bg.alpha,
+  legend.hist.size,
+  legend.hist.height,
+  legend.hist.width,
+  attr.outside,
+  attr.outside.position,
+  attr.outside.size,
+  attr.position,
+  attr.just,
+  basemap.server,
+  basemap.alpha,
+  basemap.zoom,
+  overlays,
+  overlays.alpha,
+  alpha,
+  colorNA,
+  symbol.size.fixed,
+  dot.size.fixed,
+  text.size.variable,
+  bbox,
+  check.and.fix,
+  set.bounds,
+  set.view,
+  set.zoom.limits,
+  name,
+  basemap.show,
+  title = NULL,
+  main.title = NULL,
+  ...
 )
 
 tm_style(style, ...)
@@ -112,177 +264,15 @@ tm_style(style, ...)
 tm_format(format, ...)
 }
 \arguments{
-\item{scale}{TODO}
+\item{modes, crs, facet.max, facet.flip, raster.max.cells, show.messages, show.warnings, output.format, output.size, output.dpi, output.dpi.animation, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, scales.var, scale.misc.args, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double.line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto.margins, between.margin, component.offset, component.stack.margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia.intensity, color.saturation, color.vision.deficiency.sim, text.fontface, text.fontfamily, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize.as.group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.settings.standard.portrait, legend.settings.standard.landscape, title.show, title.size, title.color, title.fontface, title.fontfamily, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.group.frame, title.resize.as.group, credits.show, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.heigth, credits.group.frame, credits.resize.as.group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.show, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize.as.group, scalebar.show, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.position, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize.as.group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside.frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.bg.color, panel.label.height, panel.label.rot, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, earth.boundary, earth.boundary.color, earth.boundary.lwd, earth.datum, space.color, attr.color, max.categories, legend.hist.bg.color, legend.hist.bg.alpha, legend.hist.size, legend.hist.height, legend.hist.width, attr.outside, attr.outside.position, attr.outside.size, attr.position, attr.just, basemap.server, basemap.alpha, basemap.zoom, overlays, overlays.alpha, alpha, colorNA, symbol.size.fixed, dot.size.fixed, text.size.variable, bbox, check.and.fix, set.bounds, set.view, set.zoom.limits, name, basemap.show}{see\code{\link{tmap_options}}}
 
-\item{asp}{TODO}
+\item{title, main.title}{deprecated}
 
-\item{bg.color}{TODO}
-
-\item{outer.bg.color}{TODO}
-
-\item{frame}{TODO}
-
-\item{frame.lwd}{TODO}
-
-\item{frame.r}{TODO}
-
-\item{frame.double.line}{TODO}
-
-\item{outer.margins}{TODO}
-
-\item{inner.margins}{TODO}
-
-\item{inner.margins.extra}{TODO}
-
-\item{meta.margins}{TODO}
-
-\item{meta.auto.margins}{TODO}
-
-\item{between.margin}{TODO}
-
-\item{component.offset}{TODO}
-
-\item{component.stack.margin}{TODO}
-
-\item{grid.mark.height}{TODO}
-
-\item{xylab.height}{TODO}
-
-\item{coords.height}{TODO}
-
-\item{xlab.show}{TODO}
-
-\item{ylab.show}{TODO}
-
-\item{xlab.pos}{TODO}
-
-\item{ylab.pos}{TODO}
-
-\item{grid.show}{TODO}
-
-\item{grid.labels.pos}{TODO}
-
-\item{panel.type}{TODO}
-
-\item{panel.wrap.pos}{TODO}
-
-\item{panel.xtab.pos}{TODO}
-
-\item{unit}{TODO}
-
-\item{color.sepia.intensity}{TODO}
-
-\item{color.saturation}{TODO}
-
-\item{color.vision.deficiency.sim}{TODO}
-
-\item{fontface}{TODO}
-
-\item{fontfamily}{TODO}
-
-\item{legend.show}{TODO}
-
-\item{legend.design}{TODO}
-
-\item{legend.orientation}{TODO}
-
-\item{legend.position}{TODO}
-
-\item{legend.width}{TODO}
-
-\item{legend.height}{TODO}
-
-\item{legend.stack}{TODO}
-
-\item{legend.group.frame}{TODO}
-
-\item{legend.resize.as.group}{TODO}
-
-\item{legend.reverse}{TODO}
-
-\item{legend.title.color}{TODO}
-
-\item{legend.title.size}{TODO}
-
-\item{legend.title.fontface}{TODO}
-
-\item{legend.title.fontfamily}{TODO}
-
-\item{legend.text.color}{TODO}
-
-\item{legend.text.size}{TODO}
-
-\item{legend.text.fontface}{TODO}
-
-\item{legend.text.fontfamily}{TODO}
-
-\item{legend.frame}{TODO}
-
-\item{legend.frame.lwd}{TODO}
-
-\item{legend.frame.r}{TODO}
-
-\item{legend.bg.color}{TODO}
-
-\item{legend.bg.alpha}{TODO}
-
-\item{compass.type}{TODO}
-
-\item{title.size}{TODO}
-
-\item{title.color}{TODO}
-
-\item{title.fontface}{TODO}
-
-\item{title.fontfamily}{TODO}
-
-\item{title.bg.color}{TODO}
-
-\item{title.bg.alpha}{TODO}
-
-\item{title.padding}{TODO}
-
-\item{title.frame}{TODO}
-
-\item{title.frame.lwd}{TODO}
-
-\item{title.frame.r}{TODO}
-
-\item{title.stack}{TODO}
-
-\item{title.position}{TODO}
-
-\item{title.width}{TODO}
-
-\item{title.heigth}{TODO}
-
-\item{title.group.frame}{TODO}
-
-\item{title.resize.as.group}{TODO}
-
-\item{panel.show}{TODO}
-
-\item{panel.labels}{TODO}
-
-\item{panel.label.size}{TODO}
-
-\item{panel.label.color}{TODO}
-
-\item{panel.label.fontface}{TODO}
-
-\item{panel.label.fontfamily}{TODO}
-
-\item{panel.label.bg.color}{TODO}
-
-\item{panel.label.height}{TODO}
-
-\item{panel.label.rot}{TODO}
+\item{...}{used to catch other deprecated arguments}
 
 \item{style}{name of the style}
 
 \item{format}{name of the format}
-
-\item{legend.title.just}{TODO}
 }
 \description{
 Set of tmap options that are directly related to the layout.
