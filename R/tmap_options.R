@@ -427,6 +427,12 @@
 		panel.label.height = 1,
 		panel.label.rot = c(90, 0),
 
+		# 
+		bbox = NULL,
+		set.bounds = FALSE,
+		set.view = NA,
+		set.zoom.limits = NA,
+		
 		# not implemented yet
 		qtm.scalebar = TRUE,
 		qtm.minimap = FALSE,
@@ -462,11 +468,7 @@
 		symbol.size.fixed = FALSE,
 		dot.size.fixed = TRUE,
 		text.size.variable = FALSE,
-		bbox = NULL,
-		check.and.fix = FALSE,
-		set.bounds = FALSE,
-		set.view = NA,
-		set.zoom.limits = NA
+		check.and.fix = FALSE
 	),
 	style = "white",
 	specified = character()

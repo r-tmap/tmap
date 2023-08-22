@@ -163,3 +163,50 @@ tmapLeafletAux = function(o, q) {
 	.TMAP_LEAFLET$lfs = lfs
 	NULL
 }
+
+
+
+
+view_set_bounds <- function(lf, bbx, o) {
+	if (!is.logical(o$set.bounds)) {
+		lims = unname(o$set.bounds)
+	} else {
+		lims = unname(bbx)
+	}
+	if (!(identical(o$set.bounds, FALSE))) {
+		lf = lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
+	}
+	
+	if (is.na(o$set.view[1])) {
+		
+		# check if zoom is used from tm_basemap, and if so, use that
+		zm = NA
+		for (x in .TMAP_LEAFLET$tiles) {
+			for (xi in x) {
+				if (!is.na(xi$zoom)) {
+					zm = xi$zoom
+				}	
+			}
+		}
+		
+		if (!is.na(zm)) {
+			set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), zm)
+		} else if (!is.na(o$set.zoom.limits[2])) { # 2nd is checked to bypass (-1000, NA) used for simple CRS
+			set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.zoom.limits[1])
+		} else {
+			set.view = NULL
+		}
+	} else if (length(o$set.view) == 1) {
+		set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.view)
+	} else {
+		set.view <- o$set.view
+	}
+	
+	if (!is.null(set.view)) {
+		lf = lf %>% setView(set.view[1], set.view[2], set.view[3])
+	}
+		
+	if (!is.null(o$center)) lf = lf %>% addMarkers(o$center$lon, o$center$lat, label = o$center$query)
+	
+	lf
+}

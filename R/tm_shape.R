@@ -29,24 +29,30 @@
 #' @import utils
 #' @export
 tm_shape = function(shp, 
-					name = NULL,
-					is.main = NA,
-					crs = NULL,
 					bbox = NULL,
+					crs = NULL,
+					is.main = NA,
+					name = NULL,
 					unit = NULL,
 					filter = NULL,
 					...) {
-	args = list(...)
+	args = as.list(match.call(expand.dots = TRUE)[-1])
+
 	if ("projection" %in% names(args)) {
 		message("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
 		crs = args$projection
 	}
-	tm_element_list(tm_element(shp = shp,
-							   is.main = is.main,
-							   crs = crs,
-							   bbox = bbox,
-							   unit = unit,
-							   filter = filter,
-							   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name), 
-							   subclass = "tm_shape"))
+	
+	if (missing(shp)) {
+		do.call(tm_options, args[intersect(names(args), c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
+	} else {
+		tm_element_list(tm_element(shp = shp,
+								   is.main = is.main,
+								   crs = crs,
+								   bbox = bbox,
+								   unit = unit,
+								   filter = filter,
+								   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name), 
+								   subclass = "tm_shape"))
+	}
 }

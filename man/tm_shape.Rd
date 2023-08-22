@@ -6,10 +6,10 @@
 \usage{
 tm_shape(
   shp,
-  name = NULL,
-  is.main = NA,
-  crs = NULL,
   bbox = NULL,
+  crs = NULL,
+  is.main = NA,
+  name = NULL,
   unit = NULL,
   filter = NULL,
   ...
@@ -18,13 +18,13 @@ tm_shape(
 \arguments{
 \item{shp}{Spatial object}
 
-\item{name}{Name of the shape}
-
-\item{is.main}{Is \code{shp} the main shape, which determines the crs and bounding box of the map?}
+\item{bbox}{Bounding box of he map (only used if \code{is.main = TRUE})}
 
 \item{crs}{CRS to which \code{shp} is reprojected (only used if \code{is.main = TRUE})}
 
-\item{bbox}{Bounding box of he map (only used if \code{is.main = TRUE})}
+\item{is.main}{Is \code{shp} the main shape, which determines the crs and bounding box of the map?}
+
+\item{name}{Name of the shape}
 
 \item{unit}{Unit of the coordinates}
 
