@@ -23,6 +23,7 @@
 #' @import leaflet
 #' @import leafsync
 #' @import leafem
+#' @import leaflegend
 #' @import stats
 #' @importFrom rlang missing_arg expr
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
