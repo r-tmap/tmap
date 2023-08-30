@@ -51,8 +51,10 @@
 						 text = "Abc",
 						 fontface = "plain",
 						 shape.symbols = 21,
+						 shape.bubbles = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
+						 size.bubbles = 1.3333,
 						 size.dots = .15,
 						 size.text = 1,
 						 fill_alpha = 1,
@@ -94,6 +96,7 @@
 		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  col = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
+						  size.bubbles = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
 						  text = LETTERS,
@@ -110,6 +113,12 @@
 							 col_alpha = 1,
 							 text = "Abc",
 							 fontface = "plain"),
+		values.scale = list(
+			1,
+			lwd.lines = 1,
+			size.symbols = 1,
+			size.bubbles = 1.3333
+		),
 		
 		# scales
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
@@ -511,7 +520,6 @@ styles = list(
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-
 		values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br"),
 						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
@@ -889,9 +897,16 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
 		z = y[[al[id]]]
 	} else if (aes %in% names(y)) {
+		# take matching visual variable (regardless what layer)
 		z = y[[aes]]
 	} else if (is.list(y)) {
-		return(NA)
+		# check if there are non-named list items, if so take the first one
+		eid = which(names(y) == "")[1]
+		if (!is.na(eid)) {
+			z = y[[eid]]
+		} else {
+			return(NA)
+		}
 	} else {
 		return(y)
 	}

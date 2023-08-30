@@ -469,60 +469,66 @@ tm_dots = function(fill = tm_const(),
 				   fill_alpha.free = NA,
 				   plot.order = tm_plot_order("size"),
 				   trans.args = list(points.only = "ifany"),
-				   mapping.args = list(),
+				   mapping.args = list(icon.scale = 3,
+				   					just = NA,
+				   					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 				   zindex = NA,
 				   group = NA,
-				   group.control = "check") {
+				   group.control = "check",
+				   ...) {
 	
-	tm_element_list(tm_element(
-		layer = c("dots", "symbols"),
-		trans.fun = tmapTransCentroid,
-		trans.args = trans.args,
-		trans.aes = list(),
-		trans.isglobal = FALSE,
-		mapping.aes = list(fill = tmapScale(aes = "fill",
-						   				 value = fill,
-						   				 scale = fill.scale,
-						   				 legend = fill.legend,
-						   				 free = fill.free),
-						   size = tmapScale(aes = "size",
-						   				 value = size,
-						   				 scale = size.scale,
-						   				 legend = size.legend,
-						   				 free = size.free),
-						   lwd = tmapScale(aes = "lwd",
-						   				value = lwd,
-						   				scale = lwd.scale,
-						   				legend = lwd.legend,
-						   				free = lwd.free),
-						   lty = tmapScale(aes = "lty",
-						   				value = lty,
-						   				scale = lty.scale,
-						   				legend = lty.legend,
-						   				free = lty.free),
-						   fill_alpha = tmapScale(aes = "fill_alpha",
-						   					   value = fill_alpha,
-						   					   scale = fill_alpha.scale,
-						   					   legend = fill_alpha.legend,
-						   					   free = fill_alpha.free)),
-		
-		gpar = tmapGpar(fill = "__fill",
-						col = "#000000", # not used
-						shape = 19,
-						size = "__size",
-						fill_alpha = "__fill_alpha",
-						col_alpha = 1, # not used
-						pattern = "fill",
-						lty = "__lty",
-						lwd = "__lwd",
-						linejoin = NA,
-						lineend = NA),
-		tpar = tmapTpar(),
-		plot.order = plot.order,
-		mapping.fun = "Symbols",
-		mapping.args = mapping.args,
-		zindex = zindex,
-		group = group,
-		group.control = group.control,
-		subclass = c("tm_aes_layer", "tm_layer")))
+		args = c(as.list(environment()), list(...))
+		tm = do.call(tm_symbols, args)
+		tm[[1]]$layer = c("dots", "symbols")
+		tm
+				
+
+}
+
+
+#' @export
+#' @name tm_bubbles
+#' @rdname tm_symbols
+tm_bubbles = function(size = tm_const(),
+					  size.scale = tm_scale(),
+					  size.legend = tm_legend(),
+					  size.free = NA,
+					  fill = tm_const(),
+					  fill.scale = tm_scale(),
+					  fill.legend = tm_legend(),
+					  fill.free = NA,
+					  col = tm_const(),
+					  col.scale = tm_scale(),
+					  col.legend = tm_legend(),
+					  col.free = NA,
+					  lwd = tm_const(),
+					  lwd.scale = tm_scale(),
+					  lwd.legend = tm_legend(),
+					  lwd.free = NA,
+					  lty = tm_const(),
+					  lty.scale = tm_scale(),
+					  lty.legend = tm_legend(),
+					  lty.free = NA,
+					  fill_alpha = tm_const(),
+					  fill_alpha.scale = tm_scale(),
+					  fill_alpha.legend = tm_legend(),
+					  fill_alpha.free = NA,
+					  col_alpha = tm_const(),
+					  col_alpha.scale = tm_scale(),
+					  col_alpha.legend = tm_legend(),
+					  col_alpha.free = NA,
+					  plot.order = tm_plot_order("size"),
+					  trans.args = list(points.only = "ifany"),
+					  mapping.args = list(icon.scale = 3,
+					  					just = NA,
+					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
+					  zindex = NA,
+					  group = NA,
+					  group.control = "check",
+					  ...) {
+	
+	args = c(as.list(environment()), list(...))
+	tm = do.call(tm_symbols, args)
+	tm[[1]]$layer = c("bubbles", "symbols")
+	tm
 }

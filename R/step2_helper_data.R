@@ -77,7 +77,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			check_fun = paste0("tmapValuesCheck_", unm)
 			if (!do.call(check_fun, list(x = val1))) {
 				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
-				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer, "\" are incorrect.", call. = FALSE)
+				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer[1], "\" are incorrect.", call. = FALSE)
 			}
 			
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))

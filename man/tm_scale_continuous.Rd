@@ -16,7 +16,7 @@ tm_scale_continuous(
   values = NA,
   values.repeat = FALSE,
   values.range = NA,
-  values.scale = 1,
+  values.scale = NA,
   value.na = NA,
   value.null = NA,
   value.neutral = NA,
