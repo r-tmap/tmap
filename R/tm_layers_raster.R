@@ -67,5 +67,9 @@ tm_raster = function(col = tm_shape_vars(),
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
+		popup.vars = FALSE,
+		popup.format = list(),
+		hover = "",
+		id = "",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

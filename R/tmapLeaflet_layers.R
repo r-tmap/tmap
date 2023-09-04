@@ -192,7 +192,7 @@ split_alpha_channel <- function(x, alpha) {
 }
 
 
-tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
