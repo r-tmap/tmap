@@ -77,6 +77,23 @@ step2_data = function(tm) {
 			group = if (is.na(tml$group)) tmg$tms$shp_name else as.character(tml$group)
 			group.control = as.character(tml$group.control)
 			
+			popup.data = if (!length(tml$popup.vars)) {
+				NULL
+			} else {
+				copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
+			}
+			hover.data = if (tml$hover == "") {
+				NULL
+			} else {
+				as.character(dt[[tml$hover]])
+			}
+			id.data = if (tml$id == "") {
+				NULL
+			} else {
+				as.character(dt[[tml$id]])
+			}
+			
+			
 			list(trans_dt = dts_trans, 
 				 trans_legend = trans_legend, 
 				 trans_fun = tml$trans.fun,
@@ -89,6 +106,10 @@ step2_data = function(tm) {
 				 lid = tml$lid,
 				 group = group,
 				 group.control = group.control,
+				 popup.data = popup.data,
+				 popup.format = tml$popup.format,
+				 hover.data = hover.data,
+				 id.data = id.data,
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation
 				 gp = gp,
 				 tp = tp)

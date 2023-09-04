@@ -39,7 +39,10 @@ tm_polygons(
   zindex = NA,
   group = NA,
   group.control = "check",
-  popup.vars = "",
+  popup.vars = NA,
+  popup.format = list(),
+  hover = "",
+  id = "",
   ...
 )
 
@@ -72,7 +75,13 @@ tm_borders(col = tm_const(), ...)
 
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
 
-\item{popup.vars}{popup variables}
+\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. Set popup.vars to \code{TRUE} to show all variables in the shape object. Set popup.vars to \code{FALSE} to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (\code{NA}) depends on whether visual variables (e.g.`col`) are used. If so, only those are shown. If not all variables in the shape object are shown.}
+
+\item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
+
+\item{hover}{name of the data variable that specifies the hover labels}
+
+\item{id}{name of the data variable that specifies the indices of the spatial features. Only used for \code{"view"} mode.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 }

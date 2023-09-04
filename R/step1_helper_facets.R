@@ -123,6 +123,25 @@ step1_rearrange_facets = function(tmo, o) {
 			within(tml, {
 				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = trans.args)
 				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = mapping.args)
+				if (identical(popup.vars, TRUE)) {
+					popup.vars = smeta$vars
+				} else if (identical(popup.vars, FALSE)) {
+					popup.vars = character(0)
+				} else if (is.na(popup.vars[1])) {
+					popup.vars = get("used_vars", envir = .TMAP)
+					if (!length(popup.vars)) popup.vars = smeta$vars
+				}
+				popup.format = process_label_format(popup.format, o$label.format)
+				
+				if (!all(popup.vars %in% smeta$vars)) {
+					stop("Incorrrect popup.vars specification", call. = FALSE)
+				}
+				if (length(popup.vars)) add_used_vars(popup.vars)
+
+				if (hover != "" && !hover %in% smeta$vars) stop("Incorrect hover label", call. = FALSE)
+				if (hover != "") add_used_vars(hover)
+				if (id != "" && !id %in% smeta$vars) stop("Incorrect id", call. = FALSE)
+				if (id != "") add_used_vars(id)
 			})
 		})
 	

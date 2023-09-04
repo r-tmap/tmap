@@ -1,5 +1,5 @@
 
-tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -7,6 +7,15 @@ tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_p
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
+	
+	if (is.null(pdt)) {
+		popups = NULL
+	} else {
+		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
+		
+		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+	}
+	
 	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
@@ -17,12 +26,13 @@ tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_p
 		shp2 = sf::st_sf(id = 1:length(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
+		popups2 = popups[shp3$id]
 		lf |> 
-			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane) |> 
+			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf |> 
-			leaflet::addPolygons(data = shp, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty)) |> 
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty), popup = popups) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	NULL	
@@ -48,7 +58,7 @@ lty2dash = function(lty) {
 	
 }
 
-tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -56,6 +66,13 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
+	
+	if (is.null(pdt)) {
+		popups = NULL
+	} else {
+		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
+		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+	}
 	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
@@ -71,13 +88,14 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf |> 
-			leaflet::addPolylines(data = shp, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty)) |> 
+			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) |> 
 			assign_lf(facet_row, facet_col, facet_page)
+		
 	}
 	NULL	
 }
 
-tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -85,6 +103,14 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 	res = select_sf(shpTM, dt[!is.na(dt$size), ])
 	shp = res$shp
 	dt = res$dt
+
+	if (is.null(pdt)) {
+		popups = NULL
+	} else {
+		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
+	
+		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+	}
 	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
@@ -135,7 +161,7 @@ tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pa
 		}
 
 		lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-								  icon = symbols, group = group) |> 
+								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 		
 	}

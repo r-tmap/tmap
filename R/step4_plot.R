@@ -626,7 +626,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 					
 					FUN = paste0("tmap", gs, bl$mapping_fun)
 					
-					do.call(FUN, c(list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
+					do.call(FUN, c(list(shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
 				}
 				
 			} else {

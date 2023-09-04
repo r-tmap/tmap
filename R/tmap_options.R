@@ -138,6 +138,8 @@
 												 trans = "identity",
 												 limits = list(fill = NA, col = NA, 0))), # NA means take data range, 0 means include 0
 		
+		
+		
 		# labels			  
 		label.format = list(
 			fun = NULL,
@@ -150,7 +152,8 @@
 			text.less.than = c("Less", "than"),
 			text.or.more = c("or", "more"),
 			text.align = NA,
-			text.to.columns = FALSE
+			text.to.columns = FALSE,
+			html.escape = TRUE
 		),
 		label.na = "Missing",
 
