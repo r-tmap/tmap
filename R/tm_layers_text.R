@@ -210,5 +210,9 @@ tm_text = function(text = tm_const(),
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
+		popup.vars = FALSE,
+		popup.format = list(),
+		hover = "",
+		id = "",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
