@@ -19,7 +19,7 @@ tm_scale_ordinal(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = NA
+  label.format = list()
 )
 
 tm_scale_categorical(
@@ -36,7 +36,7 @@ tm_scale_categorical(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = NA
+  label.format = list()
 )
 }
 \arguments{

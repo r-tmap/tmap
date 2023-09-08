@@ -22,7 +22,7 @@ tm_scale_intervals(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = NA
+  label.format = list()
 )
 }
 \arguments{

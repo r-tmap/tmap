@@ -189,6 +189,7 @@ tm_scalebar = function(breaks,
 #' @rdname tm_scalebar
 #' @param ... passed on to `tm_scalebar`
 #' @name tm_scale_bar
+#' @export
 tm_scale_bar = function(...) {
 	warning("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated", call. = FALSE)
 	tm_scalebar()

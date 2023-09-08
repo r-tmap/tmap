@@ -23,7 +23,7 @@ tm_scale_continuous(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = NA
+  label.format = list()
 )
 
 tm_scale_continuous_log(...)

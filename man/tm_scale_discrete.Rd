@@ -17,7 +17,7 @@ tm_scale_discrete(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = NA
+  label.format = list()
 )
 }
 \arguments{
