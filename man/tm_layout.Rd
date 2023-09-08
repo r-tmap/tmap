@@ -108,7 +108,7 @@ tm_format(format, ...)
 
 \item{aes.color}{Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{symbols}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.}
 
-\item{aes.palette}{Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see (see \code{tmaptools::palette_explorer()})) are used. It is also possible provide a vector of colors for any of these items.}
+\item{aes.palette}{Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see \code{tmaptools::palette_explorer()}) are used. It is also possible provide a vector of colors for any of these items.}
 
 \item{attr.color}{Default color value for map attributes}
 

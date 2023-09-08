@@ -16,6 +16,10 @@
 	
 } 
 
+.onAttach <- function(libname, pkgname) {
+	packageStartupMessage("Breaking News: tmap 3.x is retiring. Please test the upcoming tmap 4.x (on GitHub).")
+}
+
 .TMAP_CACHE <- new.env(FALSE, parent=globalenv())
 
 .crs_longlat <- sf::st_crs(4326)
