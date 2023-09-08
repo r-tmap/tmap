@@ -37,11 +37,22 @@ tm_shape(landsat_terra) +
 tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
+landsat_stars2 = landsat_stars |> split("band")
+
+tm_shape(landsat_stars2) +
+	tm_rgb(tm_mv("X4", "X3", "X2"), col.scale = tm_scale_rgb(maxValue = 31961))
+
+
 tm_shape(landsat_stars) +
 	tm_rgb(tm_mv_dim("band", c(3,2,1)), col.scale = tm_scale_rgb(maxValue = 31961))
 
+# approach: reshape landsat_stars (somewhere in the shape functions)
+# - step1_helper L75: create value
+# - subset: use this to reshape stars stars::split
+# - Meta2: redo smeta
+landsat_stars2
 
-
+# step2_helper L292 move ShapeMeta1 redo earlier, so that faceting will be succesfull
 
 multi_raster_file = system.file("raster/landsat.tif", package = "spDataLarge")
 multi_rast = rast(multi_raster_file)

@@ -17,10 +17,10 @@ tmap_grid(x, show = FALSE, ...)
 \item{...}{arguments passed on the \code{\link{print.tmap}}}
 }
 \value{
-`tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot\" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+`tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot"} mode) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
 }
 \description{
-Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot\" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
 }
 \examples{
 map = tm_shape(World) + tm_polygons()

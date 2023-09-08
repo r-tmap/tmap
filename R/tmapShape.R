@@ -269,7 +269,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		}
 		
 		dt = as.data.table(shp3, center = FALSE)
-
+		names(dt) = c(names(dim_xy), names(shp3)) # prevent "1" -> "X1" for split_stars_dim
 
 		
 		setnames(dt, names(dim_xy)[1], "X__")

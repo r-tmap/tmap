@@ -8,13 +8,21 @@ tm_mv = function(...) {
 	list(c(...))
 }
 
-# tm_mv_dim = function(x, values) {
-# 	structure(list(x = x, values = values), class = "tmapDimVars")
-# }
+#' define multivariate variable based on stars dimension 
+#' 
+#' define multivariate variable based on stars dimension 
+#' 
+#' @param x dimension name
+#' @param values values to be used
+#' @export
+tm_mv_dim = function(x, values) {
+	structure(list(x = x, values = values), class = "tmapDimVars")
+}
 
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
 	if (inherits(x, "tm_shape_vars")) return(structure(list(), class = "tmapShpVars"))
+	if (inherits(x, "tmapDimVars")) return(x)
 	
 	cls = if (inherits(x, "AsIs")) "tmapAsIs" else "tmapVars"
 	
