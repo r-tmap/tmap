@@ -7,7 +7,7 @@ examples
 demo
 test
 sandbox
-output
+^output$
 local
 LICENSE
 README
