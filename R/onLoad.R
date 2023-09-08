@@ -17,7 +17,7 @@
 } 
 
 .onAttach <- function(libname, pkgname) {
-	packageStartupMessage("Breaking News: tmap 3.x is retiring. Please test the upcoming tmap 4.x (on GitHub).")
+	packageStartupMessage("Breaking News: tmap 3.x is retiring. Please test v4, e.g. with\nremotes::install_github('r-tmap/tmap')")
 }
 
 .TMAP_CACHE <- new.env(FALSE, parent=globalenv())
