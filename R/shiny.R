@@ -30,7 +30,7 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
 #' @rdname renderTmap
 #' @export
 tmapOutput <- function(outputId, width = "100%", height = 400) {
-	htmlwidgets::shinyWidgetOutput(outputId, "leaflet", width, height, "leaflet")
+	leafletOutput(outputId, width = width, height = height)
 }
 
 #' @name tmapProxy

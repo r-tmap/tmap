@@ -1,5 +1,7 @@
 version 3.3-4
+- (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
 - fixed bug (some stars appeared upside down in plot mode)
+- fixed newly introduced shiny bug (#767)
 
 version 3.3-3
 - added device to tmap_save
