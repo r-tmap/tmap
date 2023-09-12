@@ -152,7 +152,7 @@ Please tag your questions with *tmap*.
   [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
   [18]:	http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html
   [19]: https://sesync-ci.github.io/maps-in-R-lesson/
-  [20]: http://geocompr.robinlovelace.net/adv-map.html
+  [20]: https://r.geocompx.org/adv-map
   [21]: https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf
   [22]: https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html
   [23]: https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf
