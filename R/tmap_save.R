@@ -193,7 +193,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 
 	if (!is.arrange && !missing(insets_tm) && !missing(insets_vp)) {
 	  args_inset = if (!is.na(scale)) list(scale = scale) else list()
-	  if (class(insets_tm)=="list" && class(insets_vp)=="list") {
+	  if (is(insets_tm, "list") && is(insets_vp, "list")) {
 	    if (length(insets_tm) != length(insets_vp)) stop("Number of insets unequal to number of viewports")
 	    mapply(function(tm_i, vp_i) {
 	      print(tm_i + do.call("tm_layout", args_inset), vp=vp_i)

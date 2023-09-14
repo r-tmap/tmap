@@ -165,7 +165,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 				bbx_orig <- bbx
 				bbx <- suppressWarnings(bb(bbx, current.projection = crs_bb, projection = crs))
 			}
-			sasp = tmap:::get_asp_ratio(bbx)
+			sasp = get_asp_ratio(bbx)
 			
 			## automatically determine number of grid lines
 			if (is.na(n.x) && !is.na(n.y)) {
