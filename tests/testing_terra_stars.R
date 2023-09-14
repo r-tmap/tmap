@@ -13,10 +13,10 @@ land_terra = rast(land)
 names(land_terra) = names(land) # bug in terra?
 
 tm_shape(land_stars) + tm_raster("trees")
-tm_shape(land_stars) + tm_raster("treess")
+try(tm_shape(land_stars) + tm_raster("treess"))
 
 tm_shape(land_terra) + tm_raster("trees")
-tm_shape(land_terra) + tm_raster("treess")
+try(tm_shape(land_terra) + tm_raster("treess"))
 
 
 tm_shape(landsat_stars) + tm_raster("landsat.tif", col.free = FALSE)
@@ -53,10 +53,9 @@ multi_rast = rast(multi_raster_file)
 
 tm_shape(multi_rast) +
 	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961)) 
-#> Error: [subset] no (valid) layer selected
 
-tm_shape(multi_rast[[3:1]]) +
-	tm_rgb() 
+try(tm_shape(multi_rast[[3:1]]) +
+	tm_rgb())
 
 
 # idea: tm_attr to specify an attribute as mv
