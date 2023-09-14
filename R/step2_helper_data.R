@@ -224,7 +224,14 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					if (is.ena(l$ylab)) l$ylab = paste0(v[1], attr(cls2, "units"))
 					if (is.ena(l$title)) l$title = ""
 				} else {
-					if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units"))
+					if (length(l$title) > 1) {
+						warning("This probably shouldn't happen. Please check code.")
+					}
+					# Error in if (is.ena(l$title)) l$title = paste0(names(v), attr(cls, "units")) : 
+					# the condition has length > 1
+					# Calls: <Anonymous> ... with -> with.default -> eval -> eval -> apply_scale
+					# Detected in types of titles. # Example to illustrate the type of titles
+					if (all(is.ena(l$title))) l$title = paste0(names(v), attr(cls, "units"))
 				}
 				
 				
