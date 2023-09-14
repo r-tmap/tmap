@@ -12,10 +12,7 @@ local
 LICENSE
 README
 .Rprofile
-.travis.yml
-appveyor.yml
 build/
-tic.R
 gdal-2.1.0
 gdal-2.1.0.tar.gz
 ubuntu_16_installation.sh

@@ -65,3 +65,4 @@ BugReports: https://github.com/r-tmap/tmap/issues
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 SystemRequirements: GDAL, sqlite3, v8, uduntis, GEOS, PROJ
+Config/Needs/check: Nowosad/spDataLarge
