@@ -59,9 +59,7 @@ Suggests:
     covr,
     av,
     gifski
-URL: https://github.com/r-tmap/tmap, https://olivroy.github.io/tmap/
-Remotes: r-tmap/tmaptools
+URL: https://github.com/r-tmap/tmap
 BugReports: https://github.com/r-tmap/tmap/issues
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
-SystemRequirements: GDAL, sqlite3, v8, uduntis
