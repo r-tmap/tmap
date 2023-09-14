@@ -3,7 +3,7 @@ prepreprocess_meta = function(o, vp) {
 	within(o, {
 		vp = vp
 		if (is.null(vp)) {
-			devsize = par("fin") #dev.size() MAY NOT BE EQUAL IN RSTUDIO: https://github.com/rstudio/rstudio/issues/10723
+			devsize = graphics::par("fin") #dev.size() MAY NOT BE EQUAL IN RSTUDIO: https://github.com/rstudio/rstudio/issues/10723
 		} else {
 			if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
 			devsize = c(grid::convertWidth(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE),
@@ -23,7 +23,7 @@ prepreprocess_meta = function(o, vp) {
 		}
 		
 		
-		lin = par("cin")[2]# * scale
+		lin = graphics::par("cin")[2]# * scale
 
 		lineH = lin / devsize[2] * scale
 		lineW = lin / devsize[1] * scale

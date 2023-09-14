@@ -70,7 +70,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		#tmp <- tempfile(fileext = ".png")
 		#png( tmp, width=700, height=700, res = 100)
 		
-		curdev <- dev.cur()
+		curdev <- grDevices::dev.cur()
 		rmc = tmap_options(raster.max.cells = 36)
 		tasps <- suppressMessages({
 			vapply(tms, function(tm) {
@@ -81,7 +81,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 			}, numeric(1))
 		})
 
-		dev.set(curdev)
+		grDevices::dev.set(curdev)
 		tmap_options(rmc)
 		
 		#dev.off()

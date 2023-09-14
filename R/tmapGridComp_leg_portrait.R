@@ -432,10 +432,10 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			
 			if (vary_fill) {
 				cols = unlist(fill_list)[id1:(10*(nlev2-1) + id2)]
-				cols_alph = paste0(cols, tmap::num_to_hex(gp$fill_alpha[1] * 255))
+				cols_alph = paste0(cols, num_to_hex(gp$fill_alpha[1] * 255))
 			} else {
 				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
-				cols_alph = paste0(col2hex(gp$fill[1]), tmap::num_to_hex(alph * 255))
+				cols_alph = paste0(col2hex(gp$fill[1]), num_to_hex(alph * 255))
 			}
 			grItems1 = list(gridCell(comp$item_ids[lvs], 3, grid::rectGrob(y = y2 + 0.5*h, height= h, gp=gpar(fill = grid::linearGradient(colours = rev(cols_alph)), col = NA))))
 		} else {

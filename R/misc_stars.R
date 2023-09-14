@@ -72,7 +72,7 @@ regular_intervals = function (x, epsilon = 1e-10) {
 	}
 }
 
-get_downsample = function(dims, px = round(dev.size("px") * (par("fin")[1] / dev.size()[1]))) { 
+get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin")[1] / dev.size()[1]))) { 
 	floor(sqrt(prod(dims) / prod(px)))
 }
 
