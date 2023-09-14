@@ -23,8 +23,8 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
 ```
 
 ```{r, echo = FALSE, message = FALSE}
-#library(tmap)
-devtools::load_all()
+library(tmap)
+#devtools::load_all()
 data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
