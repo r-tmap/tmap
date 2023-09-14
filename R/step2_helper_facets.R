@@ -79,8 +79,16 @@ cbind_dts = function(dts, plot.order) {
 	
 	bypass_ord = plot.order$aes == "DATA"
 	
-	
-	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1))) # data.table with the most group-by columns (others are joined)
+	max_values <- tryCatch(
+		vapply(dts, FUN =  ncol, FUN.VALUE = integer(1)),
+		error = function(e) {
+			warning("The data.table with the most group-by columns (others are joined). This is an internal error.")
+			NULL
+		})
+	if (is.null(max_values)) {
+		return(NULL)
+	}
+	id = which.max(max_values) # data.table with the most group-by columns (others are joined)
 	
 	dt = dts[[id]]
 	
