@@ -316,7 +316,8 @@ tm_shape(World) +
 
 \dontrun{
 	tm_shape(land) +
-		tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
+		tm_raster("elevation",
+				  breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 				  palette = terrain.colors(9), title="Elevation", midpoint = NA) +
 		tm_shape(World, is.master=TRUE, projection = "+proj=eck4") +
 		tm_borders("grey20") +
