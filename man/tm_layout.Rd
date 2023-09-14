@@ -279,7 +279,9 @@ Set of tmap options that are directly related to the layout.
 }
 \examples{
 data(land, World)
-tm_shape(land) +
+# Error unable to warp stars (argument not yet added to tm_shape)
+\dontrun{
+tm_shape(land, raster.wrap = FALSE) +
   tm_raster(
     "elevation",
     col.scale = tm_scale_intervals(
@@ -299,7 +301,7 @@ tm_shape(land) +
   # tm_credits("Eckert IV projection", position = c("right", "BOTTOM")) +
   tm_style("classic_v3") +
   tm_layout(bg.color = "lightblue", inner.margins = c(0, 0, .02, 0))
-
+}
 data(land, World)
 
 tm_shape(World) + 
