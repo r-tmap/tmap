@@ -188,7 +188,6 @@ tmapTransCartogram = function(shpTM, area, ord__, plot.order, args) {
 	message("Cartogram in progress...")
 		
 	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
-	require(cartogram)
 	
 	if (!requireNamespace("cartogram")) stop("cartogram pacakge needed", call. = FALSE)
 	

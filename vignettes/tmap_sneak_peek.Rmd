@@ -178,7 +178,7 @@ tm_shape(World, crs = "+proj=eck4") +
 ```
 
 (We haven't decided whether to include `tm_cartogram` in the **tmap** package or in an extension package, e.g., **tmapCartogram** or **tmapExtra**.
-Let us know your opinion at https://github.com/mtennekes/tmap/issues/565)
+Let us know your opinion at https://github.com/r-tmap/tmap/issues/565)
 
 ## Scales
 
@@ -504,7 +504,7 @@ This can be set with just one command: `tmap_style("tmap_v3")`
 
 There will be a huge number of directly available color palettes. 
 We have not settled on the exact details, e.g. which palettes to include, and how they can be obtained.
-Ideas are welcome (https://github.com/mtennekes/tmap/issues/566).
+Ideas are welcome (https://github.com/r-tmap/tmap/issues/566).
 
 In the current development version, there is a function similar to `tmaptools::palette_explorer`, which renders a long png in the viewer panel of RStudio or the browser:
 
