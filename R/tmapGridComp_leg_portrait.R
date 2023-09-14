@@ -165,18 +165,18 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	
 	
 	
-	tW = ifelse(comp$title == "", 0, strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) + sum(comp$title.padding[c(2,4)]) * o$lin * titleS)
+	tW = ifelse(comp$title == "", 0, graphics::strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) + sum(comp$title.padding[c(2,4)]) * o$lin * titleS)
 	
 	if (comp$type == "bivariate") {
-		txtRowW = ifelse(comp$ylab == "", 0, strwidth(comp$ylab, units = "inch", cex = comp$ylab.size, family = comp$ylab.fontfamily, font = fontface2nr(comp$ylab.fontface)))
+		txtRowW = ifelse(comp$ylab == "", 0, graphics::strwidth(comp$ylab, units = "inch", cex = comp$ylab.size, family = comp$ylab.fontfamily, font = fontface2nr(comp$ylab.fontface)))
 		
 		margRowW = ifelse(txtRowW == 0, 0, comp$margin.item.text * comp$ylab.size * o$lin)
 	}
 	
 	if (comp$type == "bivariate") {
-		iW = strwidth(comp$labels[1:mi], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+		iW = graphics::strwidth(comp$labels[1:mi], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
 	} else {
-		iW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
+		iW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
 	}
 
 	colW = max(tW, iW)
@@ -302,7 +302,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	
 	
 	if (comp$type == "bivariate") {
-		textW = strwidth(comp$labels[1:m], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		textW = graphics::strwidth(comp$labels[1:m], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
 		grText1 = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), m:1L, comp$item_ids[1L:m], SIMPLIFY = FALSE)
 		
@@ -327,7 +327,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		
 		grText = c(grText1, grText2)		
 	} else {
-		textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
 		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
 	}
