@@ -59,7 +59,11 @@ Suggests:
     covr,
     av,
     gifski
+Remotes:
+	r-tmap/tmaptools
 URL: https://github.com/r-tmap/tmap
 BugReports: https://github.com/r-tmap/tmap/issues
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
+SystemRequirements: GDAL (>= 2.0.1), GEOS (>= 3.4.0),
+    PROJ (>= 4.8.0), sqlite3

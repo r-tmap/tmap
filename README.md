@@ -1,13 +1,15 @@
-tmap: thematic maps in R
-===
+# tmap: thematic maps in R
 
-<!--[![Build Status](https://travis-ci.org/mtennekes/tmap.png?branch=master)](https://travis-ci.org/mtennekes/tmap)-->
-<!--[![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master)-->
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&svg=true)](https://ci.appveyor.com/project/mtennekes/tmap)
-[![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![cran checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
+[![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
+  <!-- badges: end -->
+
+
 
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps. The API is based on [*A Layered Grammar of Graphics*][4] and resembles the syntax of [`ggplot2`][3], a popular R-library for drawing charts.
 
@@ -25,7 +27,7 @@ tmap: thematic maps in R
 <img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/>
 </span>
 
-See [below](https://github.com/mtennekes/tmap/#reference) the source code for these images.
+See [below](https://github.com/r-tmap/tmap/#reference) the source code for these images.
 
 
 Installation
@@ -53,13 +55,13 @@ Development
 ------------
 
 
-The latest development version can be installed using `devtools`. 
+The latest development version can be installed using `remotes`. 
 In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](https://github.com/r-tmap/tmaptools) as well:
 
 ```r
 library(remotes)
-install_github("mtennekes/tmaptools")
-install_github("mtennekes/tmap")
+install_github("r-tmap/tmaptools")
+install_github("r-tmap/tmap")
 ```
 
 See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
