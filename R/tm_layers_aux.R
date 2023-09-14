@@ -122,7 +122,7 @@ tm_grid = function(x = NA,
 				   ...) {
 	args = list(...)
 	if ("projection" %in% names(args)) {
-		message("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		warning("The 'projection' argument of 'tm_grid()' is deprecated as of tmap 4.0. Pleaes use 'crs' instead.", call. = FALSE)
 		crs = args$projection
 	}
 	tm_element_list(tm_element(

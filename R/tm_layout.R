@@ -27,7 +27,7 @@ tm_layout = function(
 			title.args = args[substr(names(args), 1, 5) == "title"]
 			title.args$title = NULL
 			names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
-			warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+			warning("The 'title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.", call. = FALSE)
 			if (!("position" %in% names(title.args))) title.args$position = tm_pos_in("left", "top")
 			args$title = NULL
 			do.call(tm_title, c(list(text = title), title.args))
@@ -38,7 +38,7 @@ tm_layout = function(
 			main.title.args = args[substr(names(args), 1, 5) == "main.title"]
 			main.title.args$main.title = NULL
 			names(main.title.args) = substr(names(main.title.args), 7, nchar(names(main.title.args)))
-			warning("The 'main.title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+			warning("The 'main.title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.", call. = FALSE)
 			args$main.title = NULL
 			do.call(tm_title, c(list(text = main.title), main.title.args))
 		} else {

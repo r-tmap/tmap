@@ -48,7 +48,7 @@ tm_facets = function(by = NULL,
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	
 	if (!is.null(along)) {
-		warning("along argument is deprecated as of tmap 4.0. Please use the argument pages instead.", call. = FALSE)
+		warning("The 'along' argument of 'tm_facets()' is deprecated as of tmap 4.0. Please use 'pages' instead.", call. = FALSE)
 		pages = along
 	}
 	

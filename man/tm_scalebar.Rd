@@ -15,7 +15,7 @@ tm_scalebar(
   position,
   bg.color,
   bg.alpha,
-  size,
+  size = "deprecated",
   stack,
   frame,
   frame.lwd,
