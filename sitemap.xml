@@ -10,13 +10,10 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/tmap-JSS-code.html</loc>
+    <loc>/articles/tmap_sneak_peek.html</loc>
   </url>
   <url>
-    <loc>/articles/tmap-changes.html</loc>
-  </url>
-  <url>
-    <loc>/articles/tmap-getstarted.html</loc>
+    <loc>/articles/tmap_vv.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -25,13 +22,13 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
     <loc>/reference/Shapes.html</loc>
   </url>
   <url>
-    <loc>/reference/axis_labels.html</loc>
-  </url>
-  <url>
-    <loc>/reference/deprecated_functions.html</loc>
+    <loc>/reference/get_fact_levels_na.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -40,10 +37,13 @@
     <loc>/reference/land.html</loc>
   </url>
   <url>
+    <loc>/reference/make_by_vars.html</loc>
+  </url>
+  <url>
     <loc>/reference/metro.html</loc>
   </url>
   <url>
-    <loc>/reference/plus-.tmap.html</loc>
+    <loc>/reference/print.tm_element.html</loc>
   </url>
   <url>
     <loc>/reference/print.tmap.html</loc>
@@ -55,10 +55,10 @@
     <loc>/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>/reference/renderTmap.html</loc>
+    <loc>/reference/rivers.html</loc>
   </url>
   <url>
-    <loc>/reference/rivers.html</loc>
+    <loc>/reference/shapeTM.html</loc>
   </url>
   <url>
     <loc>/reference/theme_ps.html</loc>
@@ -67,10 +67,22 @@
     <loc>/reference/tm_add_legend.html</loc>
   </url>
   <url>
+    <loc>/reference/tm_basemap.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_cartogram.html</loc>
+  </url>
+  <url>
     <loc>/reference/tm_compass.html</loc>
   </url>
   <url>
+    <loc>/reference/tm_const.html</loc>
+  </url>
+  <url>
     <loc>/reference/tm_credits.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_extra_innner_margin.html</loc>
   </url>
   <url>
     <loc>/reference/tm_facets.html</loc>
@@ -79,31 +91,67 @@
     <loc>/reference/tm_grid.html</loc>
   </url>
   <url>
-    <loc>/reference/tm_iso.html</loc>
+    <loc>/reference/tm_layout.html</loc>
   </url>
   <url>
-    <loc>/reference/tm_layout.html</loc>
+    <loc>/reference/tm_legend.html</loc>
   </url>
   <url>
     <loc>/reference/tm_lines.html</loc>
   </url>
   <url>
-    <loc>/reference/tm_logo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tm_minimap.html</loc>
-  </url>
-  <url>
     <loc>/reference/tm_mouse_coordinates.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_mv.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_mv_dim.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_plot_order.html</loc>
   </url>
   <url>
     <loc>/reference/tm_polygons.html</loc>
   </url>
   <url>
+    <loc>/reference/tm_pos.html</loc>
+  </url>
+  <url>
     <loc>/reference/tm_raster.html</loc>
   </url>
   <url>
+    <loc>/reference/tm_rgb.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale.html</loc>
+  </url>
+  <url>
     <loc>/reference/tm_scale_bar.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_bivariate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_categorical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_continuous.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_discrete.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_intervals.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scale_rgb.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_scalebar.html</loc>
   </url>
   <url>
     <loc>/reference/tm_sf.html</loc>
@@ -112,22 +160,46 @@
     <loc>/reference/tm_shape.html</loc>
   </url>
   <url>
+    <loc>/reference/tm_shape_vars.html</loc>
+  </url>
+  <url>
     <loc>/reference/tm_symbols.html</loc>
   </url>
   <url>
     <loc>/reference/tm_text.html</loc>
   </url>
   <url>
-    <loc>/reference/tm_tiles.html</loc>
+    <loc>/reference/tm_title.html</loc>
   </url>
   <url>
     <loc>/reference/tm_view.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tm_xlab.html</loc>
   </url>
   <url>
     <loc>/reference/tmap-element.html</loc>
   </url>
   <url>
     <loc>/reference/tmap-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapAddLayerOptions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapGetShapeMeta1.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapGetShapeMeta2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapShape.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapSplitShp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tmapSubsetShp.html</loc>
   </url>
   <url>
     <loc>/reference/tmap_animation.html</loc>
@@ -139,10 +211,10 @@
     <loc>/reference/tmap_design_mode.html</loc>
   </url>
   <url>
-    <loc>/reference/tmap_format.html</loc>
+    <loc>/reference/tmap_devel_mode.html</loc>
   </url>
   <url>
-    <loc>/reference/tmap_grob.html</loc>
+    <loc>/reference/tmap_format.html</loc>
   </url>
   <url>
     <loc>/reference/tmap_icons.html</loc>
@@ -166,9 +238,6 @@
     <loc>/reference/tmap_style.html</loc>
   </url>
   <url>
-    <loc>/reference/tmap_style_catalogue.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tmap_tip.html</loc>
+    <loc>/reference/v4-not-yet.html</loc>
   </url>
 </urlset>
