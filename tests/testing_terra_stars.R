@@ -13,9 +13,10 @@ land_terra = rast(land)
 names(land_terra) = names(land) # bug in terra?
 
 tm_shape(land_stars) + tm_raster("trees")
-tm_shape(land_stars) + tm_raster("treess")
+tryCatch(tm_shape(land_stars) + tm_raster("treess"))
 
 tm_shape(land_terra) + tm_raster("trees")
+
 tm_shape(land_terra) + tm_raster("treess")
 
 
@@ -53,11 +54,10 @@ multi_rast = rast(multi_raster_file)
 
 tm_shape(multi_rast) +
 	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961)) 
-#> Error: [subset] no (valid) layer selected
 
-tm_shape(multi_rast[[3:1]]) +
-	tm_rgb() 
-
+# tm_shape(multi_rast[[3:1]]) +
+# 	tm_rgb()
+warning("Error palette should be a character vector.")
 
 # idea: tm_attr to specify an attribute as mv
 

@@ -40,7 +40,7 @@ tm_shape = function(shp,
 	args = as.list(match.call(expand.dots = TRUE)[-1])
 
 	if ("projection" %in% names(args)) {
-		message("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		warning("The 'projection' argument of 'tm_shape()' is deprecated as of tmap 4.0. Pleaes use 'crs' instead.", call. = FALSE)
 		crs = args$projection
 	}
 	

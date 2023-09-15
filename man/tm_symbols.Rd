@@ -214,9 +214,16 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 	
 	origin_data <- NLD_prov \%>\% 
 		st_set_geometry(NULL) \%>\% 
-		mutate(FID= factor(1:n())) \%>\% 
-		select(FID, origin_native, origin_west, origin_non_west) \%>\% 
-		gather(key=origin, value=perc, origin_native, origin_west, origin_non_west, factor_key=TRUE)
+		dplyr::mutate(FID= factor(1:dplyr::n())) \%>\% 
+		dplyr::select(FID, origin_native, origin_west, origin_non_west) \%>\% 
+		tidyr::pivot_longer(
+			cols = c(origin_native, origin_west, origin_non_west),
+			names_to = "origin",
+			values_to = "perc",
+			names_transform = as.factor
+		) \%>\%
+		dplyr::arrange(origin, FID) \%>\% 
+		as.data.frame()
 	
 	origin_cols <- get_brewer_pal("Dark2", 3)
 	
@@ -280,7 +287,8 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 		current.mode <- tmap_mode("view")
 		tm_shape(airports) +
 			tm_symbols(shape=airplane, size="natlscale",
-					   legend.size.show = FALSE, scale=1, border.col = NA, id="name", popup.vars = TRUE) 
+					   legend.size.show = FALSE, scale=1,
+					   border.col = NA, id="name", popup.vars = TRUE) 
 		#+	tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
 		tmap_mode(current.mode)
 	}

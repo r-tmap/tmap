@@ -174,25 +174,33 @@ tm_scalebar = function(breaks,
 						position,
 						bg.color,
 						bg.alpha,
-						size,
+						size = "deprecated",
 						stack, 
 						frame,
 						frame.lwd,
 						frame.r,
 						margins,
 						z) {
+	
+	if (!identical(size, "deprecated")) {
+		warning("The 'size' argument of 'tm_scalebar()' is deprecated as of tmap 4.0. Please use 'text.size' instead.", call. = FALSE)
+	}
+
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
 
-#' @rdname tm_scalebar
-#' @param ... passed on to `tm_scalebar`
-#' @name tm_scale_bar
+#' Map component: scale bar
+#' 
+#' This function was renamed to [tm_scalebar()] in tmap v4.0
+#' @inheritDotParams tm_scalebar
 #' @export
 tm_scale_bar = function(...) {
 	warning("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated", call. = FALSE)
-	tm_scalebar()
+	tm_scalebar(...)
+	# can also be
+	# stop("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated. tm_scalebar also has new argument names.", call. = FALSE)
 }
 
 #' Map component: mouse coordinates

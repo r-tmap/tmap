@@ -1,4 +1,26 @@
-version 3.2
+# tmap 3.3-4
+- (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
+- fixed bug (some stars appeared upside down in plot mode)
+- fixed newly introduced shiny bug (#767)
+
+# tmap 3.3-3
+- added device to tmap_save
+- fixed many small bugs (see github issue list)
+
+# tmap 3.3-2
+- World has been fixed (it is now 's2' proof, see github issue #564)
+
+# tmap 3.3-1
+- fixed view titles
+- added html.escape to popup.format to control whether html code is escaped in view popups
+- fixed many small bugs (see github issue list)
+
+# tmap 3.3
+- tmap_grob added, which exports tmap plots to grob objects (grid package)
+- SpatRaster objects (terra package) supported
+- fixed many small bugs (see github issue list)
+
+# tmap 3.2
 - tmap_animation improved: now using av and gifski under the hood; added progress bar; lists of tmap objects supported; improved default settings
 - improved tmapOutput; it now works with reactive shiny objects
 - improved internally used margins; also small exported maps look good (see example tmap_save)
@@ -8,7 +30,7 @@ version 3.2
 - added "width" argument to tm_credits
 - tm_text improved: added "id" argument, and tm_remove_layer can be applied to it
 
-version 3.1
+# tmap 3.1
 - interactive maps in origin CRS working: tmap_options(projection = 0, basemaps = NULL)
 - added tm_mouse_coordinates() to show mouse coordinates in view mode
 - added tmap_design_mode() to toggle the desgin mode.
@@ -18,7 +40,7 @@ version 3.1
 - added ttmp() which shows the last map in the other mode. 
 - fixed many small bugs (see github issue list)
 
-version 3.0
+# tmap 3.0
 - [!] spatial rasters/arrays now implemented using the stars package (instead of the raster package)
 - as.count argument added to layer functions; numeric variables can be treated as count variables (integers)
 - drop.levels argument added to layer functions which allows to drop unused levels
@@ -26,18 +48,18 @@ version 3.0
 - grid labels specification per axis
 - fixed bug with geometry collection
 
-version 2.3-2
+# tmap 2.3-2
 - probably last version before release of tmap 3.0
 - many small improvements and bug fixes (see github)
 - first stars supported (full support expected in tmap 3.0)
 - replaced projection shortcuts with epsg/proj4strings in examples
 
-version 2.3-1
+# tmap 2.3-1
 - improved popups in view mode
 - added validity checks for sf objects
 - minor bugs fixed: see github issue list
 
-version 2.3
+# tmap 2.3
 - [!] shiny integration: added tmapOutput, renderTmap, tmapProxy, and, tm_remove_layer
 - improved tmap_save (regarding default values)
 - improved tm_rgb (added r g b and max.value arguments)
@@ -47,24 +69,24 @@ version 2.3
 - replaced mapview by leafsync
 - minor bugs fixed: see github issue list
 
-version 2.2
+# tmap 2.2
 - improved tm_rgb
 - improved breaks in interactive maps
 - added bbox argument to qtm
 - improved projection shortcut codes (using EPSG database)
 - fixed several bugs (see github)
 
-version 2.1-1
+# tmap 2.1-1
 - fixed two small bugs
 
-version 2.1
+# tmap 2.1
 - added option max.raster (maximum raster size)
 - made rasters in view mode faster
 - bug fixed for geometry collection objects without data in view mode
 - improved handling of manual palettes
 - tmap_arrange can take a list of tmap objects
 
-version 2.0
+# tmap 2.0
 - [!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf
 - [!] added tm_sf which draws sf objects
 - [!] renamed all xxx_tmap functions (e.g. save_tmap) to tmap_xxx for consistency
@@ -79,16 +101,16 @@ version 2.0
 - all changes are backwards compatible with 1.11-2
 - vignettes rewritten, including a vignette that describes the changes of 2.0
 
-version 1.11-2
+# tmap 1.11-2
 - added references to JSS paper (including citation)
 
-version 1.11-1
+# tmap 1.11-1
 - fixed bug in labels argument of tm_fill
 - fixed bug regarding legend symbols in facets with free scales
 - fixed bug in rasters in view mode
 - improved popup width in view mode
 
-version 1.11
+# tmap 1.11
 - added text.align and text.to.columns to legend.format
 - legend.(aes).reverse added to the layer functions
 - symbol shapes can be put in a list for small multiples, and named according the values of the variable specified with the shape argument
@@ -99,7 +121,7 @@ version 1.11
 - fixed bug for ambiguous values for aesthetics (e.g. when "blue" is also a variable name)
 - NOTE: this will be the last version before the major update (in which sf fully replaces sp)
 
-version 1.10
+# tmap 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)
 - added along argument to tm_facets, which enables facetting along multiple pages (or animation frames)
 - added main.title argument to tm_layout
@@ -109,12 +131,12 @@ version 1.10
 - improved bubble scaling in view mode
 - fixed bug aspect ratio bug
 
-version 1.8-1
+# tmap 1.8-1
 - added tm_rgb (shortcut for rgb rasters)
 - fixed interactive maps in rmarkdown
 - fixed bug in qtm called without arguments
 
-version 1.8
+# tmap 1.8
 - [!] package split: non-plotting functions migrated to tmaptools
 - added tmap_arrange for arranging custom small multiples
 - added simplify argument to tm_shape
@@ -123,11 +145,11 @@ version 1.8
 - NA values allowed in direct color variables
 - sf (simple features) objects supported
 
-version 1.6-1
+# tmap 1.6-1
 - improved projections: code is more efficient now and shortcuts are renewed. Also, CRS objects are now supported for all project arguments (e.g. tm_shape, set_projection), and as.CRS is added to get_projection and get_proj4.
 - Rscript works: methods is moved from imports to depends
 
-version 1.6
+# tmap 1.6
 - [!] tm_symbols added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots
 - [!] imported cartogram function from cartogram package (tnx Sebastian!)
 - [!] reverse geocoding function rev_geocode_OSM added
@@ -147,7 +169,7 @@ version 1.6
 - fixed raster brick bug
 - fixed save_tmap/get_asp_ratio bug
 
-version 1.4-1
+# tmap 1.4-1
 - add just argument as anchor for text labels, legend and attributes position
 - map attributes (such as scale bar) can be placed outside the frame
 - added tm_xlab and tm_ylab
@@ -156,7 +178,7 @@ version 1.4-1
 - updated Europe shape: projection and boundig box are now consistent with Eurostat publications
 - added crop_shape, a convenient wrapper around raster::crop
 
-version 1.4
+# tmap 1.4
 - [!] interactive mapping added. Now, tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, which is a leaflet widget)
 - [!] facets (small multiples) improved: group by two variables possible, panel layout added, missing data can be shown separately
 - added geocode_OSM, a function to find coordinates
@@ -169,13 +191,13 @@ version 1.4
 - lwd parameter added to tm_scale_bar and tm_compass
 - fixed bb bug
 
-version 1.2-1
+# tmap 1.2-1
 - fixed bug with PROJ.4 version < 4.9.1
 - improved error messages
 - rd projection reset to +init=epsg:28992, since the latter now has a +towgs item
 - fixed bug of print.tmap returned object
 
-version 1.2
+# tmap 1.2
 - added read_osm, a function to read Open Street Map data
 - added bb, a handy bounding box function
 - added layout themes with tm_style and tm_format
@@ -198,23 +220,23 @@ version 1.2
 - fixed viewport bug
 - see ?tmap for a structured overview of all tmap functions
 
-version 1.0
+# tmap 1.0
 - added tm_credits and tm_scale_bar
 - added is.master argument to tm_shape, that determines which shape is the master
 - added unit and unit.size arguments to tm_shape that correlates the coordinates with the desired units
 - added tm_polygons, which is a combination of tm_fill and tm_borders
 - fixed several small bugs
 
-version 0.8
+# tmap 0.8
 - added tm_raster
 - improved legend behaviour: legend titles should be set in the layer functions (instead of in tm_layout)
 - removed crop_shape, since raster::crop does the same job, but, but faster
 - out-of-scope functions migrated to spatialToolbox package, available on github.com/mtennekes/spatialToolbox
 
-version 0.7.1
+# tmap 0.7.1
 - fixed big in scale parameter (global scale set in tm_layout)
 
-version 0.7
+# tmap 0.7
 - enhanced small multiples (tm_facets) with respect to scaling and free coordinate scales 
 - added alpha argument to tm layers for transparency
 - added text shadow argument
@@ -229,7 +251,7 @@ version 0.7
 - improved temp file handling in animation_tmap
 - added functions to get and set polygon directions, and to calculate the intersection ratios of polygons (intersection_shapes)
 
-version 0.6
+# tmap 0.6
 - this is the the first CRAN version
 - a newer version may be available on https://github.com/mtennekes/tmap
 - to get started, see the package vignette 'tmap in a nutshell' and the help files

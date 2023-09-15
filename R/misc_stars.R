@@ -72,7 +72,7 @@ regular_intervals = function (x, epsilon = 1e-10) {
 	}
 }
 
-get_downsample = function(dims, px = round(dev.size("px") * (par("fin")[1] / dev.size()[1]))) { 
+get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin")[1] / dev.size()[1]))) { 
 	floor(sqrt(prod(dims) / prod(px)))
 }
 
@@ -131,6 +131,7 @@ transwarp = function(x, crs, raster.warp) {
 		y = tryCatch({
 			stars::st_warp(x, crs = crs)
 		}, error = function(e) {
+			# tm_shape does not have a raster.warp argument.
 			stop("Unable to warp stars. You could try with raster.warp = FALSE (argument of tm_shape)", call. = FALSE)	
 		})
 	} else {

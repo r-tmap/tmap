@@ -573,7 +573,7 @@ tmapGridCompHeight_text = function(comp, o) {
 tmapGridCompWidth_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(2,4)] * textS * o$lin
-	textW = textS * strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
 	comp$Win = sum(textP[1], textW, textP[2])
 	comp
 }

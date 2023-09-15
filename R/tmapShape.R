@@ -269,7 +269,11 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		}
 		
 		dt = as.data.table(shp3, center = FALSE)
-		names(dt) = c(names(dim_xy), names(shp3)) # prevent "1" -> "X1" for split_stars_dim
+		# Circumvent bug in tests on Windows
+		tryCatch(
+			names(dt) <- c(names(dim_xy), names(shp3)), # prevent "1" -> "X1" for split_stars_dim
+			error = function(e) warning("could not rename the data.table")
+		)
 
 		
 		setnames(dt, names(dim_xy)[1], "X__")

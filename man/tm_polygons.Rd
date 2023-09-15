@@ -122,8 +122,10 @@ tm_shape(Africa) +
 tm_shape(Africa) +
   tm_polygons(fill = "inequality", 
     fill.scale = tm_scale_continuous(values = "kovesi.rainbow_bu_pk"),
-    fill.legend = tm_legend(title = "", orientation = "landscape",
-    						position = tm_pos_out("center", "bottom"), frame = FALSE)) + 
+    fill.legend = tm_legend(
+    	title = "", orientation = "landscape",
+    	position = tm_pos_out("center", "bottom"), frame = FALSE
+    	)) + 
 	tm_title("Inequality index", position = tm_pos_in("right", "TOP"), frame = FALSE) +
 	tm_layout(frame = FALSE)
 

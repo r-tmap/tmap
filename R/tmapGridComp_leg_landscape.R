@@ -94,7 +94,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	
 	
 	titleP = comp$title.padding[c(2,4)] * titleS * o$lin
-	titleW = if (titleS > 0) strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin else 0
+	titleW = if (titleS > 0) graphics::strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin else 0
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
@@ -162,7 +162,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
 	}
 	
-	textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+	textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 	scale_labels = max(textW / grid::convertUnit(wsu[comp$item_ids], unitTo = "inch", valueOnly = TRUE), 1)
 	
 	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(comp$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS/scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
@@ -262,10 +262,10 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 			
 			if (vary_fill) {
 				cols = unlist(fill_list)[id1:(10*(nlev2-1) + id2)]
-				cols_alph = paste0(cols, tmap::num_to_hex(gp$fill_alpha[1] * 255))
+				cols_alph = paste0(cols, num_to_hex(gp$fill_alpha[1] * 255))
 			} else {
 				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
-				cols_alph = paste0(col2hex(gp$fill[1]), tmap::num_to_hex(alph * 255))
+				cols_alph = paste0(col2hex(gp$fill[1]), num_to_hex(alph * 255))
 			}
 			grItems1 = list(gridCell(6, comp$item_ids[lvs], grid::rectGrob(x = x1 + 0.5*w, width= w, gp=gpar(fill = grid::linearGradient(colours = cols_alph), col = NA))))
 		} else {
