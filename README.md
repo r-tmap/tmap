@@ -1,13 +1,13 @@
 # tmap: thematic maps in R
 
-  <!-- badges: start -->
-  [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![cran checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
-  <!-- badges: end -->
+<!-- badges: end -->
 
 
 
@@ -59,9 +59,19 @@ The latest development version can be installed using `remotes`.
 In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](https://github.com/r-tmap/tmaptools) as well:
 
 ```r
-library(remotes)
+# install.packages("remotes")
 install_github("r-tmap/tmaptools")
 install_github("r-tmap/tmap")
+
+# On Linux, with pak
+# install.packages("pak")
+pak::pak("r-tmap/tmap")
+
+# Or from r-universe
+options(repos = c(
+  janmarvin = 'https://r-tmao.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+install.packages('tmap')
 ```
 
 See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
