@@ -280,6 +280,7 @@ Set of tmap options that are directly related to the layout.
 \examples{
 data(land, World)
 # Error unable to warp stars (argument not yet added to tm_shape)
+# On Windows
 \dontrun{
 tm_shape(land, raster.wrap = FALSE) +
   tm_raster(

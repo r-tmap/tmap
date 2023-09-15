@@ -107,9 +107,6 @@
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' @name tmap-package
-#' @aliases tmap
-#' @docType package
 #' @author Martijn Tennekes \email{mtennekes@@gmail.com}
 #' @concept GIS
 #' @concept thematic maps
@@ -118,4 +115,4 @@
 #' @concept bubble map
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
-NULL
+"_PACKAGE"
