@@ -69,7 +69,7 @@ pak::pak("r-tmap/tmap")
 
 # Or from r-universe
 options(repos = c(
-  janmarvin = 'https://r-tmao.r-universe.dev',
+  tmap = 'https://r-tmao.r-universe.dev',
   CRAN = 'https://cloud.r-project.org'))
 install.packages('tmap')
 ```
