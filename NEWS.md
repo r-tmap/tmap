@@ -1,5 +1,5 @@
 # tmap 3.3-4
-- (!) last # tmap of tmap 3.x. Next CRAN # tmap will be tmap 4.x (release planned at the end of 2023)
+- (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
 - fixed bug (some stars appeared upside down in plot mode)
 - fixed newly introduced shiny bug (#767)
 
@@ -49,7 +49,7 @@
 - fixed bug with geometry collection
 
 # tmap 2.3-2
-- probably last # tmap before release of tmap 3.0
+- probably last version before release of tmap 3.0
 - many small improvements and bug fixes (see github)
 - first stars supported (full support expected in tmap 3.0)
 - replaced projection shortcuts with epsg/proj4strings in examples
@@ -119,7 +119,7 @@
 - fixed bug with all NA's in view mode
 - fixed bug with dismo::gmap raster shapes
 - fixed bug for ambiguous values for aesthetics (e.g. when "blue" is also a variable name)
-- NOTE: this will be the last # tmap before the major update (in which sf fully replaces sp)
+- NOTE: this will be the last version before the major update (in which sf fully replaces sp)
 
 # tmap 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)
@@ -192,7 +192,7 @@
 - fixed bb bug
 
 # tmap 1.2-1
-- fixed bug with PROJ.4 # tmap < 4.9.1
+- fixed bug with PROJ.4 version < 4.9.1
 - improved error messages
 - rd projection reset to +init=epsg:28992, since the latter now has a +towgs item
 - fixed bug of print.tmap returned object
@@ -252,7 +252,7 @@
 - added functions to get and set polygon directions, and to calculate the intersection ratios of polygons (intersection_shapes)
 
 # tmap 0.6
-- this is the the first CRAN # tmap
-- a newer # tmap may be available on https://github.com/mtennekes/tmap
+- this is the the first CRAN version
+- a newer version may be available on https://github.com/mtennekes/tmap
 - to get started, see the package vignette 'tmap in a nutshell' and the help files
 - if you have any questions or suggestions, please contact me (mtennekes at gmail dot com)
