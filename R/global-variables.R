@@ -1,4 +1,6 @@
-# Will need investigating, maybe some are false positive
+# Will need investigating, maybe some are true flags
+# i.e. a function that needs to be prefixed, a variable that is unused, or misnamed
+# although most seem to come from data.table variables.
 # But this will reduce clutter in R CMD CHECK
 utils::globalVariables(c(
   ".", "..cols", "X__", "Y__", "asp", "attr.color", "bbox",
