@@ -1,5 +1,6 @@
 data(land, World)
 # Error unable to warp stars (argument not yet added to tm_shape)
+# On Windows
 \dontrun{
 tm_shape(land, raster.wrap = FALSE) +
   tm_raster(
