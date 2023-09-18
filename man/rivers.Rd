@@ -4,12 +4,16 @@
 \name{rivers}
 \alias{rivers}
 \title{Spatial data of rivers}
+\format{
+An object of class \code{sf} (inherits from \code{data.frame}) with 1616 rows and 5 columns.
+}
 \source{
 \url{https://www.naturalearthdata.com}
 }
 \usage{
-data(rivers)
+rivers
 }
 \description{
-Spatial data of rivers, of class \code{\link[sf:sf]{sf}}
+Spatial data of rivers
 }
+\keyword{datasets}

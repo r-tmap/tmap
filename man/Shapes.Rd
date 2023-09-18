@@ -14,11 +14,11 @@
 \url{https://www.cbs.nl/} for \code{NLD_prov} and \code{NLD_muni}.
 }
 \usage{
-data(World)
+World
 
-data(NLD_prov)
+NLD_prov
 
-data(NLD_muni)
+NLD_muni
 }
 \description{
 Maps of the world and the Netherlands (province and municipality level), class \code{\link[sf:sf]{sf}}
@@ -28,10 +28,13 @@ The default projections for these maps are Eckhart IV (World) and Rijksdriehoeks
 
 \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
 
-\code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. \strong{Important:} publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.
+\code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection.
+
+\strong{Important:} publication of these maps is only allowed when citing Statistics Netherlands (CBS) and Kadaster Nederland as source.
 }
 \references{
 Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{https://www.cbs.nl/}.
 
 Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{https://www.kadaster.nl/}.
 }
+\keyword{datasets}

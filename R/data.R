@@ -6,51 +6,40 @@
 #' 
 #' `World` World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
 #' 
-#' `NLD_prov` and `NLD_muni`, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. **Important:** publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.
+#' `NLD_prov` and `NLD_muni`, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection.
 #' 
-#' @usage data(World)
-#' @name World
+#'  **Important:** publication of these maps is only allowed when citing Statistics Netherlands (CBS) and Kadaster Nederland as source.
+#' 
 #' @rdname Shapes
-#' @docType data
+#' @format NULL
 #' @source <https://www.naturalearthdata.com/> for `World`
 #' @source <https://happyplanetindex.org/> for `World`
 #' @source <https://www.cbs.nl/> for `NLD_prov` and `NLD_muni`. 
 #' @references Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, <https://www.cbs.nl/>.
 #' @references Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, <https://www.kadaster.nl/>.
-NULL
+"World"
 
-#' @usage data(NLD_prov)
-#' @name NLD_prov
 #' @rdname Shapes
-#' @docType data
-NULL
+#' @format NULL
 
-#' @usage data(NLD_muni)
-#' @name NLD_muni
+"NLD_prov"
+
 #' @rdname Shapes
-#' @docType data
-NULL
+#' @format NULL
+"NLD_muni"
 
 #' Spatial data of rivers
 #' 
-#' Spatial data of rivers, of class [`sf`][`sf::sf`]
-#' 
-#' @usage data(rivers)
-#' @name rivers
-#' @docType data
 #' @source <https://www.naturalearthdata.com>
-NULL
+"rivers"
 
 #' Spatial data of metropolitan areas
 #' 
-#' Spatial data of metropolitan areas, of class [`sf`][`sf::sf`]. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' `metro` includes a population time series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
-#' @usage data(metro)
-#' @name metro
-#' @docType data
 #' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
 #' @source <https://population.un.org/wup/>
-NULL
+"metro"
 
 #' Spatial data of global land cover
 #' 
@@ -62,8 +51,5 @@ NULL
 #' 
 #' **Important:** publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown.
 #' 
-#' @usage data(land)
-#' @name land
-#' @docType data
 #' @references Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
-NULL
+"land"
