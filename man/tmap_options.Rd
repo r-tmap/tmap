@@ -28,7 +28,7 @@ tmap_options_save(style)
 
 \item{default.options}{return the default options or the current options?}
 
-\item{style}{style, see \code{tmap_style()} for available styles}
+\item{style}{style, see \code{\link[=tmap_style]{tmap_style()}} for available styles}
 }
 \description{
 tmap options
@@ -55,7 +55,7 @@ tmap options
    values.range \tab Default range for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per visual variable a value. \cr
    value.neutral \tab Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. \cr
    scales.var \tab Default scales. \cr
-   label.format \tab Format for the labels (was legend.format in tmap v3) \cr
+   label.format \tab Format for the labels (was \code{legend.format} in tmap v3) \cr
    label.na \tab Default label for missing values \cr
    See \code{\link[=tm_layout]{tm_layout()}} for layout specific options \tab  \cr
 }

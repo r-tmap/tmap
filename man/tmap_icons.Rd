@@ -36,7 +36,7 @@ marker_icon()
 icon data (see \code{\link[leaflet:icons]{leaflet::icons()}})
 }
 \description{
-Specifies icons from a png images, which can be used as markers in thematic maps. The function \code{marker_icon} is the specification of the default marker.
+Specifies icons from a png images, which can be used as markers in thematic maps. The function \code{marker_icon()} is the specification of the default marker.
 }
 \seealso{
 \code{\link[=tm_symbols]{tm_symbols()}}

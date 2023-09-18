@@ -63,7 +63,7 @@ tm_scale_continuous_log1p(...)
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 
 \item{...}{passed on to \code{tm_scale_continuous}}
 }

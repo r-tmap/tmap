@@ -42,7 +42,7 @@ tm_scale_categorical(
 \arguments{
 \item{n.max}{Maximum number of categories (factor levels). In case there are more, they are grouped into \code{n.max} groups.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons()}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols()}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
@@ -66,8 +66,8 @@ tm_scale_categorical(
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The functions \code{tm_scale_categorical} and \code{tm_scale_ordinal} are used for categorical data. The only difference between these functions is that the former assumes unordered categories whereas the latter assumes ordered categories. For colors (the visual variable \code{fill} or \code{col}), different default color palettes are used (see the tmap option \code{values.var}).
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The functions \code{tm_scale_categorical()} and \code{tm_scale_ordinal()} are used for categorical data. The only difference between these functions is that the former assumes unordered categories whereas the latter assumes ordered categories. For colors (the visual variable \code{fill} or \code{col}), different default color palettes are used (see the tmap option \code{values.var}).
 }

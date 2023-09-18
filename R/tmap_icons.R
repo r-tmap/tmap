@@ -1,6 +1,6 @@
 #' Specify icons
 #' 
-#' Specifies icons from a png images, which can be used as markers in thematic maps. The function `marker_icon` is the specification of the default marker.
+#' Specifies icons from a png images, which can be used as markers in thematic maps. The function `marker_icon()` is the specification of the default marker.
 #' 
 #' @param file character value/vector containing the file path(s) or url(s).
 #' @param width width of the icon. If `keep.asp`, this is interpreted as the maximum width.

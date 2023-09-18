@@ -63,7 +63,7 @@ tm_grid(
 \item{scientific}{Should the labels be formatted scientifically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
 \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientifically, i.e. \code{n.dddE+nn} if needed to save space.}
 \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
-\item{...}{Other arguments passed on to \code{\link[base:formatc]{base::formatC()}}}
+\item{...}{Other arguments passed on to \code{\link[=formatC]{formatC()}}}
 }}
 
 \item{labels.cardinal}{Add the four cardinal directions (N, E, S, W) to the labels, instead of using negative coordinates for west and south (so it assumes that the coordinates are positive in the north-east direction).}
@@ -109,7 +109,7 @@ tm_grid(
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown), and \code{"none"} for no control (the group cannot be (de)selected).}
 }
 \description{
-Creates a \code{\link[=tmap-element]{tmap-element()}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid()} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules()}.
 }
 \examples{
 current.mode <- tmap_mode("plot")

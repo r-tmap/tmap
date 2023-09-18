@@ -45,7 +45,7 @@ tm_lines(
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
 
-\item{linejoin, lineend}{line join and line end. See \code{\link[grid:gpar]{grid::gpar()}} for details.}
+\item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
 

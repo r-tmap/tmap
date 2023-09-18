@@ -43,11 +43,11 @@ tm_text(
 
 \item{col, col.scale, col.legend, col.free}{Visual variable that determines the col color. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See Details.}
 
-\item{fontface, fontface.scale, fontface.legend, fontface.free}{Visual variable that determines the font face. See details.}
+\item{fontface, fontface.scale, fontface.legend, fontface.free}{Visual variable that determines the font face. See Details.}
 
-\item{fontfamily}{The font family. See \code{\link[grid:gpar]{grid::gpar()}} for details.}
+\item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -73,7 +73,7 @@ The \code{.scale} arguments determine the used scale to map the data values to v
 
 The \code{.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}. The default legend and its settings are determined by the tmap options \code{legend.}.
 
-The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link[=tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
+The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link[=tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will has its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 }
 \examples{
 data(rivers)

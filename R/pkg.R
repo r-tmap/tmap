@@ -98,12 +98,12 @@
 #' 
 #' @section Spatial datasets: 
 #' \tabular{ll}{
-#' [World()]\tab World country data ([sf::sf()] object of polygons) \cr
-#' [NLD_prov()]\tab Netherlands province data ([sf::sf()] object of  polygons) \cr
-#' [NLD_muni()]\tab Netherlands municipal data ([sf::sf()] object of  polygons) \cr
-#' [metro()]\tab Metropolitan areas ([sf::sf()] object of points) \cr
-#' [rivers()]\tab Rivers ([sf::sf()] object of lines) \cr
-#' [land()]\tab Global land cover ([`stars()`][stars::st_as_stars] object)\cr
+#' [World()]\tab World country data ([`sf`][`sf::sf`] object of polygons) \cr
+#' [NLD_prov()]\tab Netherlands province data ([`sf`][`sf::sf`] object of  polygons) \cr
+#' [NLD_muni()]\tab Netherlands municipal data ([`sf`][`sf::sf`] object of  polygons) \cr
+#' [metro()]\tab Metropolitan areas ([`sf`][`sf::sf`] object of points) \cr
+#' [rivers()]\tab Rivers ([`sf`][`sf::sf`] object of lines) \cr
+#' [land()]\tab Global land cover ([`stars`][stars::st_as_stars()] object)\cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 

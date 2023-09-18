@@ -710,34 +710,33 @@ complete_options = function(x, o) {
 #' 
 #' @param ... See details
 #' @details
-#' | option        | description |
-#' | ------        | ----------- |
-#' | modes		|  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
-#' | crs		|  Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].|
+#' | option         | description |
+#' | ------         | ----------- |
+#' | modes		    |  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
+#' | crs		    |  Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].|
 #' | facet.max		| Maximum number of facets |
 #' | facet.flip		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
-#' | raster.max.cells		| Maximum number of raster grid cells  |
-#' | show.messages		| Show messages? |
-#' | show.warnings		| Show warnings? |
-#' | output.format		| Output format |
-#' | output.size		| Output size |
+#' | raster.max.cells	| Maximum number of raster grid cells  |
+#' | show.messages	| Show messages? |
+#' | show.warnings	| Show warnings? |
+#' | output.format	| Output format |
+#' | output.size	| Output size |
 #' | output.dpi		| Output dpi |
 #' | output.dpi.animation		| Output dpi for animations |
-#' | value.const		| Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per visual variable a value. |
+#' | value.const	| Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per visual variable a value. |
 #' | value.na		| Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.|
 #' | value.null		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
-#' | value.blank		| Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per visual variable a value. |
+#' | value.blank	| Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per visual variable a value. |
 #' | values.var		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
-#' | values.range		| Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
-#' | value.neutral		| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
+#' | values.range	| Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
+#' | value.neutral	| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
 #' | scales.var		| Default scales. |
-#' | label.format		| Format for the labels (was legend.format in tmap v3) |
+#' | label.format	| Format for the labels (was `legend.format` in tmap v3) |
 #' | label.na		| Default label for missing values |
 #' See [tm_layout()] for layout specific options
 #' @name tmap_options 
 #' @rdname tmap_options
 #' @export
-#' @md
 tmap_options = function(...) {
 	o = get("tmapOptions", envir = .TMAP)	
 	nms = names(o)
@@ -1099,7 +1098,7 @@ get_vector_id = function(x, id) {
 #' Internal tmap function to add a default value for the layer functions
 #' 
 #' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
-#' @param id name of the visual variable with layer, in the format `"x.y"`, where x is the visual variable and y is the layer. It is also possible to set x only; then it applies to all layer functions. 
+#' @param id name of the visual variable with layer, in the format `"x.y"`, where `x` is the visual variable and `y` is the layer. It is also possible to set `x` only; then it applies to all layer functions. 
 #' @param value value
 #' @keywords internal
 #' @export
@@ -1141,7 +1140,7 @@ tmap_options_reset <- function() {
 }
 
 #' @export
-#' @param style style, see `tmap_style()` for available styles
+#' @param style style, see [tmap_style()] for available styles
 #' @rdname tmap_options
 tmap_options_save <- function(style) {
 	show.messages <- get("tmapOptions", envir = .TMAP)$show.messages

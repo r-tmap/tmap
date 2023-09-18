@@ -8,14 +8,14 @@
 #' 
 #' The `.legend` arguments determine the used legend, specified with [tm_legend()]. The default legend and its settings are determined by the tmap options `legend.`.
 #' 
-#' The `.free` arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see [tm_facets()]). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the visual variable `col`, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires only one logical value.
+#' The `.free` arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see [tm_facets()]). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the visual variable `col`, each row of facets will has its own scale, and therefore its own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires only one logical value.
 #' 
 #' @param text,text.scale,text.legend,text.free Visual variable that determines the text. See details.
 #' @param size,size.scale,size.legend,size.free Visual variable that determines the font size. See details.
 #' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
-#' @param fontface,fontface.scale,fontface.legend,fontface.free Visual variable that determines the font face. See details.
-#' @param fontfamily The font family. See [grid::gpar()] for details.
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See Details.
+#' @param fontface,fontface.scale,fontface.legend,fontface.free Visual variable that determines the font face. See Details.
+#' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
 #' @param shadow Shadow behind the text. Logical or color.
 #' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
 #' @param trans.args,mapping.args lists that are passed on to internal transformation and mapping functions respectively

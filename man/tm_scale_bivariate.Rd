@@ -20,9 +20,9 @@ tm_scale_bivariate(
 )
 }
 \arguments{
-\item{scale1, scale2}{two \code{tm_scale} objects. Currently, all \code{tm_scale_} functions are supported except \code{tm_scale_continous}.}
+\item{scale1, scale2}{two \code{tm_scale} objects. Currently, all \code{tm_scale_} functions are supported except \code{tm_scale_continous()}.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons()}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols()}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
@@ -43,5 +43,5 @@ tm_scale_bivariate(
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_bivariat} is usedf or bivariate.scales
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_bivariate()} is used or \code{bivariate.scales}.
 }

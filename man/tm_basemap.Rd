@@ -24,7 +24,7 @@ tm_tiles(
 )
 }
 \arguments{
-\item{server}{Name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \verb{providers$} to see the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable basemaps.}
+\item{server}{Name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \verb{providers$} to see the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap()} to disable basemaps.}
 
 \item{alpha}{Transparency level}
 
@@ -37,7 +37,7 @@ tm_tiles(
 \item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown), and \code{"none"} for no control (the group cannot be (de)selected).}
 }
 \description{
-Map layer that draws tiles from a tile server. The function \code{tm_basemap} draws the tile layer as basemap, i.e. as bottom layer. In contrast,  \code{tm_tiles} draws the tile layer as overlay layer, where the stacking order corresponds with the order in which this layer is called, just like other map layers.
+Map layer that draws tiles from a tile server. \code{tm_basemap()} draws the tile layer as basemap, i.e. as bottom layer. In contrast,  \code{tm_tiles()} draws the tile layer as overlay layer, where the stacking order corresponds with the order in which this layer is called, just like other map layers.
 }
 \examples{
 tm_basemap() +

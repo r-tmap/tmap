@@ -1,6 +1,6 @@
 #' Facets
 #' 
-#' Specify facets. `tm_facets` is the core function, but recommended is to use `tm_facets_wrap`, `tm_facets_stack` or `tm_facets_grid`. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas `tm_facets_stack` stacks the facets either horizontally or vertically. `tm_facets_grid` supports up to three faceting dimensions.
+#' Specify facets. `tm_facets()` is the core function, but recommended is to use `tm_facets_wrap()`, `tm_facets_stack()` or `tm_facets_grid()`. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas `tm_facets_stack()` stacks the facets either horizontally or vertically. `tm_facets_grid()` supports up to three faceting dimensions.
 #'
 #' @param by Group by variable (only for a facet wrap or facet stack)
 #' @param rows Variable that specifies the rows (only for a facet grid)
@@ -16,11 +16,11 @@
 #' @param drop.empty.facets Logical. If the `by` argument is specified, should empty facets be dropped? Empty facets occur when the `by`-variable contains unused levels. When `TRUE` and two `by`-variables are specified, empty rows and columns are dropped.
 #' @param drop.NA.facets Logical. If the `by` argument is specified, and all data values for specific facets are missing, should these facets be dropped? `FALSE` by default.
 #' @param sync Logical. Should the navigation in view mode (zooming and panning) be synchronized? By default `TRUE` if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is `FALSE`.
-#' @param showNA If the `by` argument is specified, should missing values of the `by`-variable be shown in a facet? If two `by`-variables are specified, should missing values be shown in an additional row and column? If `NA`, missing values only are shown if they exist. Similar to the `useNA` argument of [base::table()], where `TRUE`, `FALSE`, and `NA` correspond to `"always"`, `"no"`, and `"ifany"` respectively.
+#' @param showNA If the `by` argument is specified, should missing values of the `by`-variable be shown in a facet? If two `by`-variables are specified, should missing values be shown in an additional row and column? If `NA`, missing values only are shown if they exist. Similar to the `useNA` argument of [table()][base::table()], where `TRUE`, `FALSE`, and `NA` correspond to `"always"`, `"no"`, and `"ifany"` respectively.
 #' @param textNA Text used for facets of missing values.
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the `scale.factor`th root of the scaling factor of the shapes. So, for `scale.factor=1`, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, `scale.factor=2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
-#' @param along deceprated Please use `tm_facets_page`
+#' @param along deceprated Please use `tm_facets_page()`
 #' @export
 #' @rdname tm_facets
 #' @name tm_facets
@@ -104,7 +104,7 @@ tm_facets_grid = function(rows = NULL,
 
 #' @export
 #' @rdname tm_facets
-#' @param ... paseed on to `tm_facets`
+#' @param ... paseed on to `tm_facets()`
 #' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,

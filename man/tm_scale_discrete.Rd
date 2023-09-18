@@ -45,8 +45,8 @@ tm_scale_discrete(
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_discrete} is used for discrete numerical data, such as integers.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_discrete()} is used for discrete numerical data, such as integers.
 }

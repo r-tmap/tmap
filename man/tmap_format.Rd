@@ -20,7 +20,7 @@ tmap_format_add(..., name)
 The function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.
 }
 \description{
-Format options are tmap options that are shape dependent. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add} is used to add a format.
+Format options are tmap options that are shape dependent. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add()} is used to add a format.
 }
 \examples{
 # available formats

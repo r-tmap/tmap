@@ -58,10 +58,10 @@ tm_layout = function(
 #' @param control.position position of the control attribute
 #' @param control.bases base layers
 #' @param control.overlays overlay layers
-#' @param set.bounds logical that determines whether maximum bounds are set, or a bounding box. Not applicable in plot mode. In view mode, this is passed on to [leaflet::setMaxBounds()]
-#' @param set.view numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See [leaflet::setView()]. Only applicable if `bbox` is not specified
-#' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see [leaflet::tileOptions()]).
-#' @param leaflet.options options passed on to [leaflet::leafletOptions()]
+#' @param set.bounds logical that determines whether maximum bounds are set, or a bounding box. Not applicable in plot mode. In view mode, this is passed on to [setMaxBounds()][leaflet::setMaxBounds()]
+#' @param set.view numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See [setView()][leaflet::setView()]. Only applicable if `bbox` is not specified
+#' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see [tileOptions()][leaflet::tileOptions()]).
+#' @param leaflet.options options passed on to [leafletOptions()][leaflet::leafletOptions()]
 #' @export
 tm_view = function(use.WebGL,
 				   control.position, 
@@ -79,7 +79,7 @@ tm_view = function(use.WebGL,
 #' 
 #' Plot mode options. This option is specific to the plot mode.
 #' 
-#' @param use.gradient Use gradient fill using [grid::linearGradient()]
+#' @param use.gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
 #' @export
 tm_plot = function(use.gradient) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())

@@ -11,5 +11,5 @@
 data(rivers)
 }
 \description{
-Spatial data of rivers, of class \code{\link[sf:sf]{sf::sf()}}
+Spatial data of rivers, of class \code{\link[sf:sf]{sf}}
 }

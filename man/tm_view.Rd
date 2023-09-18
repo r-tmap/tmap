@@ -24,13 +24,13 @@ tm_view(
 
 \item{control.overlays}{overlay layers}
 
-\item{set.bounds}{logical that determines whether maximum bounds are set, or a bounding box. Not applicable in plot mode. In view mode, this is passed on to \code{\link[leaflet:map-methods]{leaflet::setMaxBounds()}}}
+\item{set.bounds}{logical that determines whether maximum bounds are set, or a bounding box. Not applicable in plot mode. In view mode, this is passed on to \link[leaflet:map-methods]{setMaxBounds()}}
 
-\item{set.view}{numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See \code{\link[leaflet:map-methods]{leaflet::setView()}}. Only applicable if \code{bbox} is not specified}
+\item{set.view}{numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See \link[leaflet:map-methods]{setView()}. Only applicable if \code{bbox} is not specified}
 
-\item{set.zoom.limits}{numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:map-options]{leaflet::tileOptions()}}).}
+\item{set.zoom.limits}{numeric vector of two that set the minimum and maximum zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
-\item{leaflet.options}{options passed on to \code{\link[leaflet:leaflet]{leaflet::leafletOptions()}}}
+\item{leaflet.options}{options passed on to \link[leaflet:leaflet]{leafletOptions()}}
 }
 \description{
 View mode options. These options are specific to the view mode.

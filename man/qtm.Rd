@@ -32,7 +32,7 @@ qtm(
 \arguments{
 \item{shp}{One of
 \itemize{
-\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf::sf()}} or \code{\link[stars:st_as_stars]{stars()}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.
+\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}} or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.
 \item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive map is shown.
 \item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
 }}
@@ -45,7 +45,7 @@ qtm(
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).}
 
-\item{crs}{Either a \code{\link[sf:st_crs]{crs()}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
+\item{crs}{Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
 
 \item{bbox}{bounding box. Arugment passed on to \code{\link[=tm_shape]{tm_shape()}}}
 

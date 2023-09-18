@@ -1,6 +1,6 @@
 #' Shape (spatial object) specification
 #' 
-#' Specify a shape, which is a spatial object from one of these spatial object class packages: `sf`, `stars`, `terra`.
+#' Specify a shape, which is a spatial object from one of these spatial object class packages: [`sf`][`sf::sf`], [`stars`][stars::st_as_stars()], `terra`.
 #' 
 #' @param shp Spatial object
 #' @param name Name of the shape

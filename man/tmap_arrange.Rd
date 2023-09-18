@@ -22,7 +22,7 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 \method{print}{tmap_arrange}(x, knit = FALSE, ..., options = NULL)
 }
 \arguments{
-\item{...}{\code{\link[=tmap]{tmap()}} objects or one list of \code{\link[=tmap]{tmap()}} objects. The number of multiples that can be plot is limited (see details).}
+\item{...}{\code{\link{tmap}} objects or one list of \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).}
 
 \item{ncol}{number of columns}
 
@@ -38,9 +38,9 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 
 \item{outer.margins}{outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link[=tm_layout]{tm_layout()}}, unless set to \code{NULL}.}
 
-\item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange})}
+\item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange()})}
 
-\item{options}{options passed on to knitprint}
+\item{options}{options passed on to \code{\link[knitr:knit_print]{knitr::knit_print()}}}
 
 \item{knit}{should \code{\link[knitr:knit_print]{knitr::knit_print()}} be enabled, or the normal \code{\link[base:print]{base::print()}} function?}
 }
@@ -48,7 +48,7 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see \code{\link[=tm_facets]{tm_facets()}}). This function can be used to arrange custom small multiples in a grid layout.
 }
 \details{
-The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
+The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits = c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
 \examples{
 tm1 = tm_shape(World) + tm_polygons("HPI")

@@ -8,7 +8,7 @@
 #' 
 #' @param shp One of
 #' \itemize{
-#' \item shape object, which is an object from a class defined by the [sf::sf()] or [`stars()`][stars::st_as_stars] package. Objects from the packages `sp` and `raster` are also supported, but discouraged.
+#' \item shape object, which is an object from a class defined by the [`sf`][`sf::sf`] or [`stars`][stars::st_as_stars()] package. Objects from the packages `sp` and `raster` are also supported, but discouraged.
 #' \item Not specified, i.e. `qtm()` is executed. In this case a plain interactive map is shown.
 #' \item A OSM search string, e.g. `qtm("Amsterdam")`. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
 #' }
@@ -16,7 +16,7 @@
 #' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also [tm_facets()]
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. The parameters `symbols.size`, `text.size`, and `lines.lwd` can be scaled seperately with respectively `symbols.scale`, `text.scale`, and `lines.scale`. See also `...`.
 #' @param title main title. For legend titles, use `X.style`, where X is the layer name (see `...`).
-#' @param crs Either a [`crs()`][sf::st_crs] object or a character value (`PROJ.4` character string). By default, the projection is used that is defined in the `shp` object itself.
+#' @param crs Either a [`crs`][sf::st_crs()] object or a character value (`PROJ.4` character string). By default, the projection is used that is defined in the `shp` object itself.
 #' @param bbox bounding box. Arugment passed on to [tm_shape()]
 #' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to [tm_basemap()]. Set to `NULL` to disable basemaps. By default, it is set to the tmap option `basemaps`.
 #' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to [tm_tiles()].

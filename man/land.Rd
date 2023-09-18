@@ -8,7 +8,7 @@
 data(land)
 }
 \description{
-Spatial data of global land cover, percent tree cover, and elevation of class \code{\link[stars:st_as_stars]{stars()}}.
+Spatial data of global land cover, percent tree cover, and elevation of class \code{\link[stars:st_as_stars]{stars}}.
 Two attributes in this object relates to global land cover.
 The cover layer classifies the status of land cover of the whole globe into 20 categories, while
 the cover_cls layer uses 8 simplified categories.

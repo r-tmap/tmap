@@ -1,6 +1,6 @@
 #' World and Netherlands map
 #' 
-#' Maps of the world and the Netherlands (province and municipality level), class [sf::sf()]
+#' Maps of the world and the Netherlands (province and municipality level), class [`sf`][`sf::sf`]
 #' 
 #' The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of [tm_shape()].
 #' 
@@ -33,7 +33,7 @@ NULL
 
 #' Spatial data of rivers
 #' 
-#' Spatial data of rivers, of class [sf::sf()]
+#' Spatial data of rivers, of class [`sf`][`sf::sf`]
 #' 
 #' @usage data(rivers)
 #' @name rivers
@@ -43,7 +43,7 @@ NULL
 
 #' Spatial data of metropolitan areas
 #' 
-#' Spatial data of metropolitan areas, of class [sf::sf()]. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' Spatial data of metropolitan areas, of class [`sf`][`sf::sf`]. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
 #' @usage data(metro)
 #' @name metro
@@ -54,7 +54,7 @@ NULL
 
 #' Spatial data of global land cover
 #' 
-#' Spatial data of global land cover, percent tree cover, and elevation of class [`stars()`][stars::st_as_stars]. 
+#' Spatial data of global land cover, percent tree cover, and elevation of class [`stars`][stars::st_as_stars()]. 
 #' Two attributes in this object relates to global land cover.
 #' The cover layer classifies the status of land cover of the whole globe into 20 categories, while 
 #' the cover_cls layer uses 8 simplified categories.

@@ -9,7 +9,7 @@ tmapAddLayerOptions(option, id, value)
 \arguments{
 \item{option, }{one of: \code{"value.const"}, \code{"value.na"}, \code{"value.blank"}, \code{"values.var"}, \code{'values.range'}, \code{"value.neutral"}, \code{"scales.var"}}
 
-\item{id}{name of the visual variable with layer, in the format \code{"x.y"}, where x is the visual variable and y is the layer. It is also possible to set x only; then it applies to all layer functions.}
+\item{id}{name of the visual variable with layer, in the format \code{"x.y"}, where \code{x} is the visual variable and \code{y} is the layer. It is also possible to set \code{x} only; then it applies to all layer functions.}
 
 \item{value}{value}
 }

@@ -69,7 +69,7 @@ tm_sf(
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
 
-\item{linejoin, lineend}{line join and line end. See \code{\link[grid:gpar]{grid::gpar()}} for details.}
+\item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 
 \item{plot.order.list}{Specification in which order the spatial features are drawn. This consists of a list of three elementary geometry types: for polygons, lines and, points. For each of these types, which are drawn in that order, a \code{\link[=tm_plot_order]{tm_plot_order()}} is required.}
 

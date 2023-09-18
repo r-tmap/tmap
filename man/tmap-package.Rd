@@ -111,12 +111,12 @@ Create icons:
 \section{Spatial datasets}{
 
 \tabular{ll}{
-\code{\link[=World]{World()}}\tab World country data (\code{\link[sf:sf]{sf::sf()}} object of polygons) \cr
-\code{\link[=NLD_prov]{NLD_prov()}}\tab Netherlands province data (\code{\link[sf:sf]{sf::sf()}} object of  polygons) \cr
-\code{\link[=NLD_muni]{NLD_muni()}}\tab Netherlands municipal data (\code{\link[sf:sf]{sf::sf()}} object of  polygons) \cr
-\code{\link[=metro]{metro()}}\tab Metropolitan areas (\code{\link[sf:sf]{sf::sf()}} object of points) \cr
-\code{\link[=rivers]{rivers()}}\tab Rivers (\code{\link[sf:sf]{sf::sf()}} object of lines) \cr
-\code{\link[=land]{land()}}\tab Global land cover (\code{\link[stars:st_as_stars]{stars()}} object)\cr
+\code{\link[=World]{World()}}\tab World country data (\code{\link[sf:sf]{sf}} object of polygons) \cr
+\code{\link[=NLD_prov]{NLD_prov()}}\tab Netherlands province data (\code{\link[sf:sf]{sf}} object of  polygons) \cr
+\code{\link[=NLD_muni]{NLD_muni()}}\tab Netherlands municipal data (\code{\link[sf:sf]{sf}} object of  polygons) \cr
+\code{\link[=metro]{metro()}}\tab Metropolitan areas (\code{\link[sf:sf]{sf}} object of points) \cr
+\code{\link[=rivers]{rivers()}}\tab Rivers (\code{\link[sf:sf]{sf}} object of lines) \cr
+\code{\link[=land]{land()}}\tab Global land cover (\code{\link[stars:st_as_stars]{stars}} object)\cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
