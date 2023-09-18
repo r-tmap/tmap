@@ -90,3 +90,22 @@ test_that("v3 that doesn't work", {
 		tm_fill(I("isNLD")) +
 		tm_layout("Find the Netherlands!")})
 })
+
+test_that("title size works", {
+	
+	# Example to illustrate the type of titles
+	# Brought over to make examples work.
+	# The failing test can be resolved later.
+	expect_snapshot({
+		tm_shape(World) +
+		tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2")) +
+		tm_layout(main.title = "Main Title",
+				  main.title.position = "center",
+				  main.title.color = "blue",
+				  title = c("Title 1", "Title 2"),
+				  title.color = "red",
+				  panel.labels = c("Panel Label 1", "Panel Label 2"),
+				  panel.label.color = "purple",
+				  legend.text.color = "brown")
+	})
+})
