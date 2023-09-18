@@ -7,7 +7,7 @@
 tm_plot(use.gradient)
 }
 \arguments{
-\item{use.gradient}{Use gradient fill using \code{\link[grid:linearGradient]{linearGradient}}}
+\item{use.gradient}{Use gradient fill using \code{\link[grid:patterns]{grid::linearGradient()}}}
 }
 \description{
 Plot mode options. This option is specific to the plot mode.

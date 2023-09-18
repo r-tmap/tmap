@@ -15,22 +15,22 @@ ttmp()
 \arguments{
 \item{mode}{One of:
 \describe{
-       \item{\code{"plot"}}{Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see \code{\link{tm_facets}}) and extensive layout settings (see \code{\link{tm_layout}}). It is recommended for saving static maps (see \code{\link{tmap_save}}).} 
-       \item{\code{"view"}}{Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see \code{\link{tm_tiles}}). See also \code{\link{tm_view}} for options related to the \code{"view"} mode. This mode generates a \code{\link[leaflet:leaflet]{leaflet}} widget, which can also be directly obtained with \code{\link{tmap_leaflet}}. With RMarkdown, it is possible to publish it to an HTML page. 
-       There are a couple of constraints in comparison to \code{"plot"}:
-       \itemize{
-       \item The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from \code{\link{tm_shape}}).
-       \item Small multiples are not supported
-       \item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
-       \item Text labels are not supported (yet)
-       \item The layout options set with \code{\link{tm_layout}}) regarding map format are not used. However, the styling options still apply.}
-       }}}
+\item{\code{"plot"}}{Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see \code{\link[=tm_facets]{tm_facets()}}) and extensive layout settings (see \code{\link[=tm_layout]{tm_layout()}}). It is recommended for saving static maps (see \code{\link[=tmap_save]{tmap_save()}}).}
+\item{\code{"view"}}{Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see \code{\link[=tm_tiles]{tm_tiles()}}). See also \code{\link[=tm_view]{tm_view()}} for options related to the \code{"view"} mode. This mode generates a \code{\link[leaflet:leaflet]{leaflet::leaflet()}} widget, which can also be directly obtained with \code{\link[=tmap_leaflet]{tmap_leaflet()}}. With RMarkdown, it is possible to publish it to an HTML page.
+There are a couple of constraints in comparison to \code{"plot"}:
+\itemize{
+\item The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from \code{\link[=tm_shape]{tm_shape()}}).
+\item Small multiples are not supported
+\item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
+\item Text labels are not supported (yet)
+\item The layout options set with \code{\link[=tm_layout]{tm_layout()}}) regarding map format are not used. However, the styling options still apply.}
+}}}
 }
 \value{
 The mode before changing
 }
 \description{
-Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.
+Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link[=tmap_options]{tmap_options()}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.
 }
 \examples{
 tmap_mode()
@@ -51,5 +51,5 @@ tm_shape(World) + tm_polygons("HPI")
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}, \code{\link{tmap_last}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget, and \code{\link{tmap_options}} for tmap options.
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}, \code{\link[=tmap_last]{tmap_last()}} to show the last map, \code{\link[=tm_view]{tm_view()}} for viewing options, and \code{\link[=tmap_leaflet]{tmap_leaflet()}} for obtaining a leaflet widget, and \code{\link[=tmap_options]{tmap_options()}} for tmap options.
 }

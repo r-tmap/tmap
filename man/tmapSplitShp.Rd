@@ -9,7 +9,7 @@ tmapSplitShp(shp, split_stars_dim)
 \arguments{
 \item{shp}{shape}
 
-\item{split_stars_dim}{name of the dimension to split (`""` to skip)}
+\item{split_stars_dim}{name of the dimension to split (\code{""} to skip)}
 }
 \description{
 Internal method that split shape objects. So far, only used to split stars object (from dimension to attributes)

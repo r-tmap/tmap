@@ -12,7 +12,7 @@ tmap_format_add(..., name)
 \arguments{
 \item{format}{Name of the format. Run \code{tmap_format()} to see the choices.}
 
-\item{...}{Options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Can also be a list of those options.}
+\item{...}{Options from \code{\link[=tm_layout]{tm_layout()}} or \code{\link[=tm_view]{tm_view()}}. Can also be a list of those options.}
 
 \item{name}{Name of the new format.}
 }
@@ -41,7 +41,7 @@ data(World)
 #qtm(World, fill="HPI", format="World_small")
 }
 \seealso{
-\code{\link{tm_layout}} for predefined styles, \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+\code{\link[=tm_layout]{tm_layout()}} for predefined styles, \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles, and \code{\link[=tmap_options]{tmap_options()}} for tmap options.
 
-\code{\link{tmap_options}} for tmap options
+\code{\link[=tmap_options]{tmap_options()}} for tmap options
 }

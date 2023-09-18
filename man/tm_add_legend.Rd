@@ -18,11 +18,11 @@ tm_add_legend(
 )
 }
 \arguments{
-\item{...}{visual variables and arguments passed on to `tm_legend`. By default, the argument `type` is set to `"Symbols"`, which means that the supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`, `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.}
+\item{...}{visual variables and arguments passed on to \code{tm_legend}. By default, the argument \code{type} is set to \code{"Symbols"}, which means that the supported visual variables are: \code{"fill"}, \code{"col"}, \code{"shape"}, \code{"size"}, \code{"fill_alpha"}, \code{"col_alpha"}, \code{"lty"}, \code{"lwd"}, \code{"linejoin"}, and \code{"lineend"}.}
 
 \item{labels}{labels}
 
-\item{type}{the layer type from which the visual variables (see ...) are taken. Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.}
+\item{type}{the layer type from which the visual variables (see ...) are taken. Options: \code{"Symbols"} (default), \code{"Lines"}, \code{"Polygons"}, and \code{"Text"}.}
 
 \item{title}{text of the title}
 
@@ -30,9 +30,9 @@ tm_add_legend(
 
 \item{orientation}{legend orientation}
 
-\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
+\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see \code{group.control})}
 
-\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
+\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown), and \code{"none"} for no control (the group cannot be (de)selected).}
 
 \item{resize.as.group}{resize.as.group}
 

@@ -21,10 +21,10 @@ data(NLD_prov)
 data(NLD_muni)
 }
 \description{
-Maps of the world and the Netherlands (province and municipality level), class \code{\link[sf:sf]{sf}}
+Maps of the world and the Netherlands (province and municipality level), class \code{\link[sf:sf]{sf::sf()}}
 }
 \details{
-The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of \code{\link{tm_shape}}.
+The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of \code{\link[=tm_shape]{tm_shape()}}.
 
 \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
 

@@ -77,7 +77,7 @@ tm_facets_flip()
 
 \item{sync}{Logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is \code{FALSE}.}
 
-\item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
+\item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{base::table()}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
 
 \item{textNA}{Text used for facets of missing values.}
 
@@ -87,7 +87,7 @@ tm_facets_flip()
 
 \item{along}{deceprated Please use \code{tm_facets_page}}
 
-\item{...}{paseed on to `tm_facets`}
+\item{...}{paseed on to \code{tm_facets}}
 }
 \description{
 Specify facets. \code{tm_facets} is the core function, but recommended is to use \code{tm_facets_wrap}, \code{tm_facets_stack} or \code{tm_facets_grid}. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas \code{tm_facets_stack} stacks the facets either horizontally or vertically. \code{tm_facets_grid} supports up to three faceting dimensions.

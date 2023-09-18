@@ -14,13 +14,13 @@ tmap_grid(x, show = FALSE, ...)
 
 \item{show}{show the map?}
 
-\item{...}{arguments passed on the \code{\link{print.tmap}}}
+\item{...}{arguments passed on the \code{\link[=print.tmap]{print.tmap()}}}
 }
 \value{
-`tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot"} mode) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+\code{tmap_grid} returns a \code{\link[grid:grid.grob]{grid::grob()}} object (\code{"plot"} mode) and \code{tmap_leaflet} a \code{\link[leaflet:leaflet]{leaflet::leaflet()}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
 }
 \description{
-Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+Export tmap to the format of the used graphics mode. \code{tmap_grid} returns a \code{\link[grid:grid.grob]{grid::grob()}} object (\verb{"plot" mode}) and \code{tmap_leaflet} a \code{\link[leaflet:leaflet]{leaflet::leaflet()}} object (\code{"view"} mode).
 }
 \examples{
 map = tm_shape(World) + tm_polygons()

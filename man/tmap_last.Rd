@@ -10,8 +10,8 @@ tmap_last()
 call
 }
 \description{
-Retrieve the last map to be modified or created. Works in the same way as \code{ggplot2}'s \code{\link[ggplot2:last_plot]{last_plot}}, although there is a difference: \code{last_map} returns the last call instead of the stacked \code{\link{tmap-element}s}.
+Retrieve the last map to be modified or created. Works in the same way as \code{ggplot2}'s \code{\link[ggplot2:last_plot]{ggplot2::last_plot()}}, although there is a difference: \code{last_map} returns the last call instead of the stacked \verb{[tmap-element]s}.
 }
 \seealso{
-\code{\link{tmap_save}}
+\code{\link[=tmap_save]{tmap_save()}}
 }
