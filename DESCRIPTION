@@ -66,3 +66,4 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
+Roxygen: list(markdown = TRUE)
