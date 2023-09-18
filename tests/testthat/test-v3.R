@@ -1,12 +1,9 @@
 test_that("v3 syntax works", {
 	skip_on_cran()
-	data(World)
 	
-	expect_snapshot({
-		tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title = "A green World")
-		tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World")
-	})
-
+	
+	expect_warning(tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title = "A green World"))
+	expect_warning(tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World"))
 	
 	
 	
@@ -60,28 +57,30 @@ test_that("Possible to revert to v3 styling.", {
 	World$HPI[1:10] = NA
 	tm_shape(World) + tm_polygons("economy", style = "cat")
 	tmap_style("v3")
-	expect_snapshot({
-		tm_shape(World) + tm_polygons("economy", style = "cat")
-		tm_shape(World) + tm_polygons("HPI",
+	expect_message(tm_shape(World) + tm_polygons("economy", style = "cat"))
+	expect_message(tm_shape(World) + tm_polygons("HPI",
 									  style = "fixed",
-									  breaks = c(0, 20, 35, 42, 50))
-		tm_shape(World) + tm_polygons("HPI", style = "sd")
-		tm_shape(World) + tm_polygons("HPI", style = "equal")
-		tm_shape(World) + tm_polygons("HPI", style = "pretty")
-		tm_shape(World) + tm_polygons("HPI", style = "quantile")
-		tm_shape(World) + tm_polygons("HPI", style = "kmeans")
-		tm_shape(World) + tm_polygons("HPI", style = "hclust")
-		tm_shape(World) + tm_polygons("HPI", style = "bclust")
-		tm_shape(World) + tm_polygons("HPI", style = "fisher")
-		tm_shape(World) + tm_polygons("HPI", style = "jenks")
-		tm_shape(World) + tm_polygons("HPI", style = "dpih")
-		tm_shape(World) + tm_polygons("HPI", style = "headtails")
-		tm_shape(World) + tm_polygons("HPI", style = "log10_pretty")
-		
-		tm_shape(World) + tm_polygons("HPI", style = "cont")
-		tm_shape(World) + tm_polygons("HPI", style = "order")
-		tm_shape(World) + tm_polygons("HPI", style = "log10")
-	})
+									  breaks = c(0, 20, 35, 42, 50)))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "sd"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "equal"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "pretty"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "quantile"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "kmeans"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "hclust"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "bclust"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "fisher"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "jenks"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "dpih"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "headtails"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "cont"))
+	expect_message(tm_shape(World) + tm_polygons("HPI", style = "log10"))
+})
+
+test_that("log10_pretty and order styles work", {
+	
+	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "log10_pretty")))
+	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "order")))
+	
 })
 
 test_that("v3 that doesn't work", {

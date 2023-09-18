@@ -12,30 +12,9 @@ test_that("Aux layers work.", {
 	Africa = World[World$continent == "Africa", ]
 })
 
-
-
-
-txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
-v3 = function(e) {
-	if (tmapV == "3") {
-		print(e)
-	} else {
-		txt("Only for tmap 3")
-	}
-	invisible(NULL)
-}
-v4 = function(e) {
-	if (tmapV == "4") {
-		print(e)
-	} else {
-		txt("Only for tmap 4")
-	}
-	invisible(NULL)
-}
-txt(paste("Loaded tmap version", tmapV))
-```
-
 test_that("Base layer works at different positions", {
+	Africa = World[World$continent == "Africa", ]
+	
 	tm_basemap("OpenStreetMap")+
 		tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
