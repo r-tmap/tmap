@@ -9,7 +9,7 @@
 Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 }
 \details{
-This page provides a brief overview of all package functions. See \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} for a short introduction with examples.
+This page provides a brief overview of all package functions. See \code{vignette("tmap_sneek_peek")} for a short introduction with examples.
 }
 \section{Quick plotting method}{
 
@@ -125,7 +125,7 @@ Create icons:
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
+\code{vignette("tmap_sneek_peek")}
 }
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}

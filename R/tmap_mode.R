@@ -16,7 +16,7 @@
 #'    	}}
 #' @return The mode before changing
 #' @example ./examples/tmap_mode.R
-#' @seealso [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html), [tmap_last()] to show the last map, [tm_view()] for viewing options, and [tmap_leaflet()] for obtaining a leaflet widget, and [tmap_options()] for tmap options.
+#' @seealso `vignette("tmap_sneek_peek")`, [tmap_last()] to show the last map, [tm_view()] for viewing options, and [tmap_leaflet()] for obtaining a leaflet widget, and [tmap_options()] for tmap options.
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
 tmap_mode = function(mode=NULL) {

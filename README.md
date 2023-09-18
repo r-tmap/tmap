@@ -96,7 +96,7 @@ This paper has been written for `tmap` 1.11-2. See the [reproducible code](https
 Vignettes 
 -----
 
-[tmap: get started!](https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html)
+[tmap v3: get started!](https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html)
 
 [tmap: what is changed in recent versions?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html)
 

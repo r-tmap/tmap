@@ -51,5 +51,5 @@ tm_shape(World) + tm_polygons("HPI")
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}, \code{\link[=tmap_last]{tmap_last()}} to show the last map, \code{\link[=tm_view]{tm_view()}} for viewing options, and \code{\link[=tmap_leaflet]{tmap_leaflet()}} for obtaining a leaflet widget, and \code{\link[=tmap_options]{tmap_options()}} for tmap options.
+\code{vignette("tmap_sneek_peek")}, \code{\link[=tmap_last]{tmap_last()}} to show the last map, \code{\link[=tm_view]{tm_view()}} for viewing options, and \code{\link[=tmap_leaflet]{tmap_leaflet()}} for obtaining a leaflet widget, and \code{\link[=tmap_options]{tmap_options()}} for tmap options.
 }
