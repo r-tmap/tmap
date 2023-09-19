@@ -12,7 +12,6 @@ local
 LICENSE
 README
 .Rprofile
-build/
 gdal-2.1.0
 gdal-2.1.0.tar.gz
 ubuntu_16_installation.sh
@@ -23,3 +22,4 @@ ubuntu_17_installation.sh
 ^docs$
 ^pkgdown$
 ^\.github$
+^data-raw$

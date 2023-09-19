@@ -132,6 +132,6 @@ tmap_pals = local({
 	
 })
 
-usethis::use_data(tmap_pals, internal = FALSE)
+usethis::use_data(tmap.pal.info, internal = FALSE)
 
 
