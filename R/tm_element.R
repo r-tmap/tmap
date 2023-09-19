@@ -39,7 +39,7 @@ tm_element_list_sel = function(tml, subclass) {
 
 #' Retrieve the last map to be modified or created
 #' 
-#' Retrieve the last map to be modified or created. Works in the same way as [ggplot2::last_plot()], although there is a difference: `last_map()` returns the last call instead of the stacked [`tmap-element`]s.
+#' Retrieve the last map to be modified or created. Works in the same way as [ggplot2::last_plot()], although there is a difference: `tmap_last()` returns the last call instead of the stacked [`tmap-element`]s.
 #' 
 #' @return call
 #' @export

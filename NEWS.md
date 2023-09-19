@@ -157,7 +157,7 @@
 - added popup.vars to base layer functions 
 - bounding box (argument bbox in tm_shape) working in view mode
 - geocode_OSM improved: a SpatialPointsDataFrame can now be returned
-- last_map added, which retrieves the last produced map
+- `tmap_last()` added, which retrieves the last produced map
 - crop_shape can also handle polygons as cropping area
 - append_data improved; the under and over coverage information can be retrieved with under_coverage and over_coverage
 - interpolate parameter added to tm_rasters
