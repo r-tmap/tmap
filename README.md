@@ -68,13 +68,10 @@ install_github("r-tmap/tmap")
 pak::pak("r-tmap/tmap")
 
 # Or from r-universe
-options(repos = c(
-  tmap = 'https://r-tmao.r-universe.dev',
-  CRAN = 'https://cloud.r-project.org'))
-install.packages('tmap')
+install.packages('tmap', repos = c('https://r-tmap.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
+See [NEWS](https://github.com/r-tmap/tmap/blob/master/NEWS.md) for the latest features and improvements and the [issue list](https://github.com/r-tmap/tmap/issues) for discussions of enhancements and bugs.
 
 Do you want to help with the development of the package?
 Please let us know! 
@@ -104,7 +101,7 @@ Vignettes
 Tutorials
 -----
 
-[tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
+[tmap in RMarkdown](https://github.com/r-tmap/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
 
 
 Presentations
@@ -156,8 +153,8 @@ Please tag your questions with *tmap*.
   [10]: https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf
   [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
   [12]: http://cwrld.us/Rmaps10
-  [13]: https://github.com/mtennekes/tmap/blob/master/demo/US_choropleth.R
-  [14]: https://github.com/mtennekes/tmap/blob/master/demo/crimes_in_Greater_London.R
+  [13]: https://github.com/r-tmap/tmap/blob/master/demo/US_choropleth.R
+  [14]: https://github.com/r-tmap/tmap/blob/master/demo/crimes_in_Greater_London.R
   [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
   [16]: https://stackoverflow.com/questions/tagged/tmap
   [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html

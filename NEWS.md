@@ -1,48 +1,50 @@
+# tmap 4.0
+
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
 - fixed bug (some stars appeared upside down in plot mode)
 - fixed newly introduced shiny bug (#767)
 
 # tmap 3.3-3
-- added device to tmap_save
+- added device to `tmap_save()`
 - fixed many small bugs (see github issue list)
 
 # tmap 3.3-2
-- World has been fixed (it is now 's2' proof, see github issue #564)
+- `World`s has been fixed (it is now 's2' proof, see github issue #564)
 
 # tmap 3.3-1
 - fixed view titles
-- added html.escape to popup.format to control whether html code is escaped in view popups
+- added html.escape to `popup.format` to control whether html code is escaped in view popups
 - fixed many small bugs (see github issue list)
 
 # tmap 3.3
-- tmap_grob added, which exports tmap plots to grob objects (grid package)
-- SpatRaster objects (terra package) supported
+- `tmap_grob()` added, which exports tmap plots to grob objects (grid package)
+- `SpatRaster` objects (terra package) supported
 - fixed many small bugs (see github issue list)
 
 # tmap 3.2
-- tmap_animation improved: now using av and gifski under the hood; added progress bar; lists of tmap objects supported; improved default settings
-- improved tmapOutput; it now works with reactive shiny objects
-- improved internally used margins; also small exported maps look good (see example tmap_save)
-- improved tmap_design_mode; tmap.design.mode is now a global option (and not a tmap option anymore)
-- reexported providers from leafet
-- added show.warnings to tmap_options
-- added "width" argument to tm_credits
-- tm_text improved: added "id" argument, and tm_remove_layer can be applied to it
+- `tmap_animation()` improved: now using av and gifski under the hood; added progress bar; lists of tmap objects supported; improved default settings
+- improved `tmapOutput()`; it now works with reactive shiny objects
+- improved internally used margins; also small exported maps look good (see example `tmap_save()`)
+- improved `tmap_design_mode()`; tmap.design.mode is now a global option (and not a tmap option anymore)
+- reexported providers from `leafet`
+- added `show.warnings` to `tmap_options()`
+- added `width` argument to `tm_credits()`
+- `tm_text()` improved: added "id" argument, and `tm_remove_layer()` can be applied to it
 
 # tmap 3.1
-- interactive maps in origin CRS working: tmap_options(projection = 0, basemaps = NULL)
-- added tm_mouse_coordinates() to show mouse coordinates in view mode
-- added tmap_design_mode() to toggle the desgin mode.
+- interactive maps in origin CRS working: `tmap_options(projection = 0, basemaps = NULL)`
+- added `tm_mouse_coordinates()` to show mouse coordinates in view mode
+- added `tmap_design_mode()` to toggle the design mode.
 - made backgrond symbol grob shapes transparent
-- added in.iframe and selfcontained to tmap_save
-- improved tm_add_legend: added type = "title" for title only legend elements
-- added ttmp() which shows the last map in the other mode. 
+- added in.iframe and `selfcontained` to `tmap_save()`
+- improved `tm_add_legend()`: added `type = "title"` for title only legend elements
+- added `ttmp()` which shows the last map in the other mode. 
 - fixed many small bugs (see github issue list)
 
 # tmap 3.0
 - [!] spatial rasters/arrays now implemented using the stars package (instead of the raster package)
-- as.count argument added to layer functions; numeric variables can be treated as count variables (integers)
+- `as.count` argument added to layer functions; numeric variables can be treated as count variables (integers)
 - drop.levels argument added to layer functions which allows to drop unused levels
 - new style added for color classes: "dpih" and "headtails"; also added style.args to pass on arguments to classIntervals
 - grid labels specification per axis
@@ -56,23 +58,23 @@
 
 # tmap 2.3-1
 - improved popups in view mode
-- added validity checks for sf objects
+- added validity checks for `sf` objects
 - minor bugs fixed: see github issue list
 
 # tmap 2.3
-- [!] shiny integration: added tmapOutput, renderTmap, tmapProxy, and, tm_remove_layer
-- improved tmap_save (regarding default values)
-- improved tm_rgb (added r g b and max.value arguments)
-- added tm_graticules
+- [!] shiny integration: added `tmapOutput()`, `renderTmap()`, `tmapProxy()`, and, `tm_remove_layer()`
+- improved `tmap_save()` (regarding default values)
+- improved `tm_rgb()` (added r g b and max.value arguments)
+- added `tm_graticules()`
 - supported TMS servers
-- in view mode, layers can be hidden from the legend with group = NULL
-- replaced mapview by leafsync
+- in view mode, layers can be hidden from the legend with `group = NULL`
+- replaced `mapview` by `leafsync`
 - minor bugs fixed: see github issue list
 
 # tmap 2.2
-- improved tm_rgb
+- improved `tm_rgb()`
 - improved breaks in interactive maps
-- added bbox argument to qtm
+- added `bbox` argument to `qtm()`
 - improved projection shortcut codes (using EPSG database)
 - fixed several bugs (see github)
 
@@ -84,20 +86,20 @@
 - made rasters in view mode faster
 - bug fixed for geometry collection objects without data in view mode
 - improved handling of manual palettes
-- tmap_arrange can take a list of tmap objects
+- `tmap_arrange()` can take a list of tmap objects
 
 # tmap 2.0
 - [!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf
 - [!] added tm_sf which draws sf objects
 - [!] renamed all xxx_tmap functions (e.g. save_tmap) to tmap_xxx for consistency
-- [!] added tm_basemap and tm_tiles: now, multiple (overlay) tiled maps can be shown
-- [!] rearranged tmap options, styles and formats. See tmap_options, tmap_style, tmap_format, tm_style and tm_format
-- [!] added filter argument to tm_shape and added colorNULL to layer functions
-- added tm_minimap
+- [!] added `tm_basemap()` and `tm_tiles()`: now, multiple (overlay) tiled maps can be shown
+- [!] rearranged tmap options, styles and formats. See `tmap_options()`, `tmap_style()`, `tmap_format()`, `tm_style()` and `tm_format()`
+- [!] added `filter` argument to `tm_shape()` and added `colorNULL` to layer functions
+- added `tm_minimap()`
 - added remove.NA.facets to tm_facets
 - units data columns are supported
 - tmap_animation enhanced with loop options
-- added tmap_tips()
+- added `tmap_tips()`
 - all changes are backwards compatible with 1.11-2
 - vignettes rewritten, including a vignette that describes the changes of 2.0
 
@@ -105,7 +107,7 @@
 - added references to JSS paper (including citation)
 
 # tmap 1.11-1
-- fixed bug in labels argument of tm_fill
+- fixed bug in labels argument of `tm_fill()`
 - fixed bug regarding legend symbols in facets with free scales
 - fixed bug in rasters in view mode
 - improved popup width in view mode
@@ -153,11 +155,11 @@
 - [!] tm_symbols added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots
 - [!] imported cartogram function from cartogram package (tnx Sebastian!)
 - [!] reverse geocoding function rev_geocode_OSM added
-- [!] tm_logo added
+- [!] `tm_logo()` added
 - added popup.vars to base layer functions 
 - bounding box (argument bbox in tm_shape) working in view mode
 - geocode_OSM improved: a SpatialPointsDataFrame can now be returned
-- `tmap_last()` added, which retrieves the last produced map
+- `last_tmap()` added, which retrieves the last produced map
 - crop_shape can also handle polygons as cropping area
 - append_data improved; the under and over coverage information can be retrieved with under_coverage and over_coverage
 - interpolate parameter added to tm_rasters
@@ -253,6 +255,6 @@
 
 # tmap 0.6
 - this is the the first CRAN version
-- a newer version may be available on https://github.com/mtennekes/tmap
+- a newer version may be available on https://github.com/r-tmap/tmap
 - to get started, see the package vignette 'tmap in a nutshell' and the help files
 - if you have any questions or suggestions, please contact me (mtennekes at gmail dot com)
