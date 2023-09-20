@@ -1,25 +1,56 @@
 #' Set tmap mode to static plotting or interactive viewing
 #' 
-#' Set tmap mode to static plotting or interactive viewing. The global option `tmap.mode` determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also [tmap_options()]. The function `tmap_mode` is a wrapper to set this global option. The convenient function `ttm`, which stands for toggle thematic map, is a toggle switch between the two modes. The function `ttmp` stands for toggle thematic map and print last map: it does the same as `ttm` followed by [tmap_last()]; in order words, it shows the last map in the other mode. It is recommended to use `tmap_mode()` in scripts and `ttm`/`ttmp` in the console.
+#' Set tmap mode to static plotting or interactive viewing.
+#' The global option `tmap.mode` determines the whether thematic maps are plot
+#' in the graphics device, or shown as an interactive leaflet map (see also [tmap_options()].
+#' The function `tmap_mode()` is a wrapper to set this global option.
+#' The convenient function `ttm()`, which stands for toggle thematic map,
+#' is a toggle switch between the two modes. The function `ttmp()` stands for
+#' toggle thematic map and print last map: it does the same as `ttm()` followed
+#' by [tmap_last()]; in order words, it shows the last map in the other mode.
+#' It is recommended to use `tmap_mode()` in scripts and `ttm()`/`ttmp()` in the console.
 #' 
-#' @param mode One of:
-#' \describe{
-#'    	\item{`"plot"`}{Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see [tm_facets()]) and extensive layout settings (see [tm_layout()]). It is recommended for saving static maps (see [tmap_save()]).} 
-#'    	\item{`"view"`}{Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see [tm_tiles()]). See also [tm_view()] for options related to the `"view"` mode. This mode generates a [leaflet::leaflet()] widget, which can also be directly obtained with [tmap_leaflet()]. With R Markdown, it is possible to publish it to an HTML page. 
-#'    	There are a couple of constraints in comparison to `"plot"`:
-#'    	\itemize{
-#'    	\item The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from [tm_shape()]).
-#'    	\item Small multiples are not supported
-#'    	\item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
-#'    	\item Text labels are not supported (yet)
-#'    	\item The layout options set with [tm_layout()]) regarding map format are not used. However, the styling options still apply.}
-#'    	}}
-#' @return The mode before changing
+#' # mode = "plot"
+#' 
+#' Thematic maps are shown in the graphics device.
+#' This is the default mode, and supports all tmap's features,
+#' such as small multiples (see [tm_facets()]) and extensive layout settings (see [tm_layout()]).
+#' It is recommended to use [tmap_save()] for saving static maps.
+#' 
+#' # mode = "view"
+#' 
+#' Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
+#' Maps are fully interactive with tiles from OpenStreetMap or other map providers
+#' (see [tm_tiles()]). See also [tm_view()] for options related to the `"view"` mode.
+#' This mode generates a [leaflet::leaflet()] widget, which can also be directly
+#' obtained with [tmap_leaflet()].
+#' With R Markdown, it is possible to publish it to an HTML page. 
+#'  
+#' However, there are a couple of constraints in comparison to `"plot"`:
+#' 
+#' * The map is always projected according to the Web Mercator projection.
+#'   Although this projection is the de facto standard for interactive web-based mapping,
+#'   it lacks the equal-area property, which is important for many thematic maps,
+#'   especially choropleths (see examples from [tm_shape()]).
+#' * Small multiples are not supported
+#' * The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
+#' * Text labels are not supported (yet)
+#' * The layout options set with [tm_layout()]) regarding map format are not used.
+#'   However, the styling options still apply.
+#' 
+#' @param mode One of `"plot"` or `"view"`. See Details for more info. 
+#' @return The previous tmap mode before switching.
 #' @example ./examples/tmap_mode.R
-#' @seealso `vignette("tmap_sneak_peek")`, [tmap_last()] to show the last map, [tm_view()] for viewing options, and [tmap_leaflet()] for obtaining a leaflet widget, and [tmap_options()] for tmap options.
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
+#' @seealso 
+#' * `vignette("tmap_sneak_peek")`
+#' * [tmap_last()] to show the last map
+#' * [tm_view()] for viewing options
+#' * [tmap_leaflet()] for obtaining a leaflet widget
+#' * [tmap_options()] for tmap options
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
+#' Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
-tmap_mode = function(mode=NULL) {
+tmap_mode = function(mode = NULL) {
 	current.mode = getOption("tmap.mode")
 	
 	tOpt = get("tmapOptions", envir = .TMAP)
@@ -52,10 +83,15 @@ get_modes = function() {
 
 #' Set the design mode
 #' 
-#' When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function sets the global option `tmap.design.mode`. It can be used as toggle function without arguments.
+#' When the so-called "design mode" is enabled, inner and outer margins,
+#' legend position, and aspect ratio are shown explicitly in plot mode.
+#' Also, information about aspect ratios is printed in the console.
+#' This function sets the global option `tmap.design.mode`.
+#' It can be used as toggle function without arguments.
 #' 
 #' @seealso [tmap_options()]
-#' @param design.mode Logical value that determines the design mode. If omitted then the design mode is toggled.
+#' @param design.mode Logical value that determines the design mode.
+#'   If omitted then the design mode is toggled.
 #' @export
 tmap_design_mode = function(design.mode) {
 	dm = if (missing(design.mode)) {
@@ -66,14 +102,18 @@ tmap_design_mode = function(design.mode) {
 	}
 	
 	options(tmap.design.mode = dm)
-	message("design.mode: ", if (!dm) "OFF" else "ON", if (dm && getOption("tmap.mode") == "view") " (only effective in plot mode)" else "")
+	message(
+		"design.mode: ", if (!dm) "OFF" else "ON",
+		if (dm && getOption("tmap.mode") == "view") " (only effective in plot mode)" else "")
 }
 
 #' Set the development mode
 #' 
-#' When the so-called "development mode" is enabled, helpful messages and timings are printed in the console
+#' When the so-called "development mode" is enabled, helpful messages and timings
+#' are printed in the console
 #' 
-#' @param devel.mode logical value that determines the development mode. If omitted then the development mode is toggled.
+#' @param devel.mode logical value that determines the development mode.
+#'   If omitted then the development mode is toggled.
 #' @export
 tmap_devel_mode = function(devel.mode) {
 	dm = if (missing(devel.mode)) {
