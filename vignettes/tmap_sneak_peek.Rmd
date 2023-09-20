@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 data(World, metro)
-#tmap_design_mode()
+# tmap_design_mode()
 ```
 
 The next major update of **tmap** will be a massive one. 
@@ -37,9 +37,9 @@ It is still fully in the development, but now is a good time for a sneak peek.
 
 First and foremost, **tmap v4** will be fully extendable. More precisely, the following aspects can be extended:
 
-* Map layers: we are not limited anymore by the fixed set of `tm_polygons`, `tm_lines`, `tm_symbols`, and `tm_raster` (and their derivatives such as `tm_borders` and `tm_dots`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram`. Other layers that are worthwhile to implement are `tm_donuts`, `tm_hexagons`, `tm_network`, `tm_hillshade`, etc.
+* Map layers: we are not limited anymore by the fixed set of `tm_polygons()`, `tm_lines()`, `tm_symbols()`, and `tm_raster()` (and their derivatives such as `tm_borders()` and `tm_dots()`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram()`. Other layers that are worthwhile to implement are `tm_donuts()`, `tm_hexagons()`, `tm_network()`, `tm_hillshade()`, etc.
 
-* Aesthetics: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
+* Aesthetics: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons()`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
 
 * Graphics Engine: **tmap v3** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
 
@@ -51,7 +51,7 @@ First and foremost, **tmap v4** will be fully extendable. More precisely, the fo
 As mentioned before, we have added more aesthetics (visual variables), and it will be easier for developers to add new aesthetics. We have reordered the arguments that specify and configure the aesthetics which will be illustrated below.
 
 The arguments that specify aesthetics themselves will remain the same.
-E.g., the main aesthetic in `tm_polygons` is `fill`, which defines the fill color of the polygons.
+E.g., the main aesthetic in `tm_polygons()` is `fill`, which defines the fill color of the polygons.
 
 However, the other arguments of the layer functions are organized differently. 
 Thus, each aesthetic will only have four arguments: 
@@ -79,7 +79,7 @@ tm_shape(World) +
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
-In **tmap v4**, `tm_polygons` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional aesthetics.
+In **tmap v4**, `tm_polygons()` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional aesthetics.
 A data variable can be mapped to each of them, using different scales (see next section for an overview).
 The next example uses `fill`, `lwd` (line width), and `lty` (line type) as aesthetics:
 
@@ -118,7 +118,7 @@ The polygons are distorted such that the size will be (approximately) proportion
 
 ## Map layers (e.g. cartogram)
 
-It will be easy for developers to add new map layers as extension. We illustrate this by a new map layer, `tm_cartogram`.
+It will be easy for developers to add new map layers as extension. We illustrate this by a new map layer, `tm_cartogram()`.
 
 Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
@@ -135,9 +135,9 @@ tm_shape(World_carto, crs = "+proj=eck4") +
               title = "Happy Planet Index")
 ```
 
-In **tmap v4**, there will be a direct function `tm_cartogram` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual aesthetics from `tm_polygons`:
+In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual aesthetics from `tm_polygons()`:
 
-```{r, class.source='bg-success',message=FALSE}
+```{r, class.source='bg-success', message=FALSE}
 # tmap v4
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
@@ -177,9 +177,6 @@ tm_shape(World, crs = "+proj=eck4") +
 	tm_place_legends_right(width = 0.2)
 ```
 
-(We haven't decided whether to include `tm_cartogram` in the **tmap** package or in an extension package, e.g., **tmapCartogram** or **tmapExtra**.
-Let us know your opinion at https://github.com/r-tmap/tmap/issues/565)
-
 ## Scales
 
 Scales are used to map data variables to visual variables. 
@@ -187,19 +184,19 @@ Scales are not new in **map v4**, but they are used more explicitly.
 
 The following table shows the scales that are currently available:
 
-| Scale							| Main Data Type 						| Example  				|
-|---							|---									|---					|
-| `tm_scale_categorical`  		| categorical (`factor`)  				| Fruit type 			|
-| `tm_scale_ordinal`  			| categorical (`ordered`)  				| Education level  		|
-| `tm_scale_intervals`			| numerical (`integer` or `numeric`)  	| Age group  			|
-| `tm_scale_continuous`   		| numerical (`numeric`)  				| Height   				|
-| `tm_scale_log10`   			| numerical (`numeric`)   				| Income   				|
-| `tm_scale_discrete`   		| numerical (`integer`)  				| Number of children  	|
+| Scale					 	| Main Data Type 					| Example  			|
+|---					 	|---								|---				|
+| `tm_scale_categorical()`	| categorical (`factor`)  			| Fruit type 		|
+| `tm_scale_ordinal()`  	| categorical (`ordered`)  			| Education level  	|
+| `tm_scale_intervals()`	| numerical (`integer` or `numeric`) | Age group  		|
+| `tm_scale_continuous()`   | numerical (`numeric`)  			| Height   			|
+| `tm_scale_log10()`   		| numerical (`numeric`)   			| Income   			|
+| `tm_scale_discrete()`   	| numerical (`integer`)  			| Number of children |
 
 The main data type (second column) is the data type for which the scale is supposed to be applied.
 Any scale can be applied to any data type (even though it might not make sense), with one exception: continuous (and log10) scales cannot be applied to visual variables that can only take a finite set of values.
 Examples are symbol shape and line type.
-By default, `tm_scale_categorical`, `tm_scale_ordinal`, and `tm_scale_intervals` are used for data of class `factor`, `ordered` and `numeric` respectively.
+By default, `tm_scale_categorical()`, `tm_scale_ordinal()`, and `tm_scale_intervals()` are used for data of class `factor`, `ordered` and `numeric` respectively.
 Scales for date/time variables will be included as well.
 
 The main argument of each scale function is `values`, which are the values for the visual variables. 
@@ -215,7 +212,7 @@ The following table shows which type of values are required for which visual var
 | `fill_alpha` and `col_alpha`	| Value range					|
 
 The default values depend not only on the visual variable, but also on the scale and on whether data values are diverging.
-For instance, if `tm_scale_intervals` is applied to a numeric variable with both negative and positive values where the visual variable is `fill`, then a diverging color palette is used.
+For instance, if `tm_scale_intervals()` is applied to a numeric variable with both negative and positive values where the visual variable is `fill`, then a diverging color palette is used.
 
 The following map illustrates what happens when the six scale functions are applied to the same data variable.
 We use the variable *life expectancy* (which we round in order to make sure the number of unique values is limited):
@@ -267,19 +264,21 @@ tm_shape(Africa) +
 ```
 
 
-## Multivarite Scales
+## Multivariate Scales
 
 It will be possible to assign multiple variables for one aesthetic.
-This can be done with the function `tm_mv` (which stands for multivariate).
+This can be done with the function `tm_mv()` (which stands for multivariate).
 An example is the bivariate choropleth, which is not yet implemented, but will definitely be.
 
 ```{r, eval = TRUE, class.source='bg-success'}
 # tmap v4
 tm_shape(World) +
-  tm_symbols(fill = tm_mv("well_being", "footprint"), 
-  		   fill.scale = tm_scale_bivariate(scale1 =  tm_scale_intervals(breaks = c(2, 5, 6, 8)),
-  		   								scale2 = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
-  		   								values = "brewer.qualseq"))
+  tm_symbols(
+  	fill = tm_mv("well_being", "footprint"), 
+    fill.scale = tm_scale_bivariate(scale1 =  tm_scale_intervals(breaks = c(2, 5, 6, 8)),
+    								scale2 = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
+  		   							values = "brewer.qualseq")
+    )
 ```
 
 Another example of multivariate aesthetics are glpys, which are small charts used as symbols.
@@ -338,10 +337,10 @@ tm_shape(World) +
 ```
 
 **tmap v3** contains many (often complicated) options for rather simple things.
-These options are set globally via `tmap_options` or within a single plot with `tm_layout`.
+These options are set globally via `tmap_options()` or within a single plot with `tm_layout()`.
 
-In **tmap v4**, the directly related to the layout are accessible via `tm_layout`.
-However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left`:
+In **tmap v4**, the directly related to the layout are accessible via `tm_layout()`.
+However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left()`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
@@ -402,11 +401,11 @@ This is also useful to make continuous legends better.
 
 ## Facets
 
-In **tmap v4**, there will be convenient wrappers `tm_facet_wrap` and `tm_facet_grid`, where the former wraps the facets, and the latter places the facets in a grid layout.
+In **tmap v4**, there are convenient wrappers `tm_facet_wrap()` and `tm_facet_grid()`, where the former wraps the facets, and the latter places the facets in a grid layout.
 
-Furthermore, each visual variable will have a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
+Furthermore, each visual variable has a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
 
-In **tmap v3** this `free` argument could be set via `tm_facets`, whereas in **tmap v4** this argument has been moved to the layer functions:
+In **tmap v3** this `free` argument could be set via `tm_facets()`, whereas in **tmap v4** this argument has been moved to the layer functions:
 
 
 ```{r, eval=FALSE, class.source='bg-warning'}
@@ -471,7 +470,7 @@ tm_layout(meta.margins = c(.2, 0, 0,.1))
 What you see in the map is that life expectancy is shown as polygon fill in green, and GDP per capita as red bubbles.
 The maps are grouped by income group (rows) and economy (columns). 
 The scale for life expectancy is set to free for the columns.
-This means that the scale will be applied for each column separately, with a legend per colomn.
+This means that the scale will be applied for each column separately, with a legend per column.
 The scale for GDP per capita is applied separately for each row.
 
 
@@ -483,7 +482,7 @@ The scale for GDP per capita is applied separately for each row.
 Just like **tmap v3**, there will be a `"plot"` and a `"view"` mode.
 However, the framework used in **tmap v4** also facilitates developers to write plotting methods for other modes.
 
-For instance, **CesiumJS** is a great Javascript library for 3d globe visualizations.
+For instance, **CesiumJS** is a great JavaScript library for 3d globe visualizations.
 It would be awesome to include this in **R**.
 When there is a low-level interface between **CesiumJS** and **R** (similar to the R package **leaflet** being an interface between the JS library **leaflet** and **R**), it will be relatively easy for developers to add a new mode for these 3d visualizations in **tmap v4**.
 
@@ -506,7 +505,7 @@ There will be a huge number of directly available color palettes.
 We have not settled on the exact details, e.g. which palettes to include, and how they can be obtained.
 Ideas are welcome (https://github.com/r-tmap/tmap/issues/566).
 
-In the current development version, there is a function similar to `tmaptools::palette_explorer`, which renders a long png in the viewer panel of RStudio or the browser:
+In the current development version, there is a function similar to `tmaptools::palette_explorer()`, which renders a long png in the viewer pane of RStudio or the browser:
 
 ```{r, eval = FALSE, class.source='bg-success'}
 # tmap v4

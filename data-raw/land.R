@@ -3,7 +3,9 @@ library(raster)
 library(RColorBrewer)
 
 #http://www.iscgm.org/gm/glcnmo.html
-
+# archived in 2016
+# World maps now hosted by UN geospatial
+# https://www.un.org/geospatial/mapsgeo/generalmaps
 
 data(World)
 library(rgdal)

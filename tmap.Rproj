@@ -16,3 +16,5 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch
 PackageRoxygenize: rd,namespace
+
+SpellingDictionary: en_US

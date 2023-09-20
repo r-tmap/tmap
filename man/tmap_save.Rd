@@ -51,7 +51,7 @@ tmap_save(
 
 \item{in.iframe}{should an interactive map be saved as an iframe? If so, two HTML files will be saved; one small parent HTML file with the iframe container, and one large child HTML file with the actual widget. See \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}} for details. By default \code{FALSE} which means that one large HTML file is saved (see \link[htmlwidgets:saveWidget]{saveWidget()}).}
 
-\item{selfcontained}{when an interactive map is saved, should the resources (e.g. Javascript libraries) be contained in the HTML file? If \code{FALSE}, they are placed in an adjacent directory (see also \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}). Note that the HTML file will often still be large when \code{selfcontained = FALSE}, since the map data (polygons and popups), which are also contained in the HTML file, usually take more space then the map resources.}
+\item{selfcontained}{when an interactive map is saved, should the resources (e.g. JavaScript libraries) be contained in the HTML file? If \code{FALSE}, they are placed in an adjacent directory (see also \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}). Note that the HTML file will often still be large when \code{selfcontained = FALSE}, since the map data (polygons and popups), which are also contained in the HTML file, usually take more space then the map resources.}
 
 \item{verbose}{Deprecated. It is now controlled by the tmap option \code{show.messages} (see \code{\link[=tmap_options]{tmap_options()}})}
 

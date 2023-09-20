@@ -7,11 +7,11 @@
 shapeTM(shp, tmapID = NULL, bbox = NULL, ...)
 }
 \arguments{
-\item{shp}{shp}
+\item{shp}{Shape file}
 
-\item{tmapID}{tmapID}
+\item{tmapID}{tmap Identifier}
 
-\item{bbox}{bbox}
+\item{bbox}{bounding box}
 }
 \description{
 Internal tmap function to create a tmap shape

@@ -9,7 +9,7 @@ test_that("v3 syntax works", {
 	
 
 	
-	# Data variable containing colours values
+	# Data variable containing color values
 	World$isNLD <-
 		ifelse(World$name == "Netherlands",
 			   "darkorange",

@@ -55,7 +55,7 @@ tm_graticules = function(x = NA,
 
 #' Coordinate grid / graticule lines
 #' 
-#' Creates a [`tmap-element`] that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, `tm_grid()` draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with `tm_graticules()`.
+#' Creates a [`tmap-element`] that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, `tm_grid()` draws horizontal and vertical lines according to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with `tm_graticules()`.
 #' 
 #' @param x X coordinates for vertical grid lines. If `NA`, it is specified with a pretty scale and `n.x`.
 #' @param y Y coordinates for horizontal grid lines. If `NA`, it is specified with a pretty scale and `n.y`.

@@ -1,10 +1,10 @@
 # tmap: thematic maps in R
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
+[![R CMD CHECK](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
-[![cran checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+[![CRAN checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
 <!-- badges: end -->
@@ -121,12 +121,12 @@ Other resources
 * [Working with Spatial Data and using tmap, Samantha A. Alger][22]
 * [Computer World: Mapping in R just got a whole lot easier][18]
 * [National Socio-Environmental Synthesis Center: Maps in R][19]
-* [Introduction to visualising spatial data in R][9]
-* [Blog post StatialControl][7]
+* [Introduction to visualizing spatial data in R][9]
+* [Blog post SpatialControl][7]
 * [Blog post TWIAV][8]
 * [Computer World: Create maps in R in 10 (fairly) easy steps][12]
 * [Computer World: Great R packages for data import, wrangling and visualization][17]
-* [Tutorial Visualising spatial data: from base to shiny - workshop][15]
+* [Tutorial Visualizing spatial data: from base to shiny - workshop][15]
 * [Stack Overflow questions (#tmap)][16]
 
 

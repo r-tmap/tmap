@@ -20,7 +20,7 @@
 #' @param textNA Text used for facets of missing values.
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the `scale.factor`th root of the scaling factor of the shapes. So, for `scale.factor=1`, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, `scale.factor=2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
-#' @param along deceprated Please use `tm_facets_page()`
+#' @param along deprecated Please use `tm_facets_page()`
 #' @export
 #' @rdname tm_facets
 #' @name tm_facets
@@ -104,7 +104,7 @@ tm_facets_grid = function(rows = NULL,
 
 #' @export
 #' @rdname tm_facets
-#' @param ... paseed on to `tm_facets()`
+#' @param ... passed on to `tm_facets()`
 #' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,
