@@ -107,12 +107,12 @@ examples of these variables below.</p></li>
 <li><p>Map layer arguments (e.g. the arguments of
 <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>) are much better organized: for each
 visual/transformation variable, there are only four arguments. In case
-of the visual variable <code>"fill"</code> these are:
-<code>"fill"</code>, <code>"fill.scale"</code>,
-<code>"fill.legend"</code> and <code>"fill.free"</code>, which
-respectively specify the data variable or visual value that defines the
-polygon fill color, the used scaling function, the legend layout, and
-whether scales are applied freely across facets.</p></li>
+of the fill visual variable, these are: <code>fill</code>,
+<code>fill.scale</code>, <code>fill.legend</code> and
+<code>fill.free</code>, which respectively specify the data variable or
+visual value that defines the polygon fill color, the used scaling
+function, the legend layout, and whether scales are applied freely
+across facets.</p></li>
 <li><p>The input for each visual/transformation variable can be
 multivariate, in the sense that multiple data variables are scaled to
 one transformation of visual variable. An example is a bivariate
@@ -138,7 +138,7 @@ scaling function.</p></li>
 <h4 id="tmap-4---ggplot2">tmap 4 - ggplot2<a class="anchor" aria-label="anchor" href="#tmap-4---ggplot2"></a>
 </h4>
 <p>The <strong>tmap</strong> package is very similar to
-<strong>gplot2</strong> and its Grammar of Graphics, but tailored to
+<strong>ggplot2</strong> and its Grammar of Graphics, but tailored to
 spatial data visualization, whereas <strong>ggplot2</strong> is much
 more general. More specifically:</p>
 <ul>
@@ -156,9 +156,10 @@ In principle, any map layer function can be used with any spatial class.
 E.g. <code><a href="../reference/tm_symbols.html">tm_dots()</a></code> renders dots for <code>sf</code> points
 data, but it also works for other spatial classes: e.g. centroids for
 <code>sf</code> polygons/lines and raster data (<strong>stars</strong> /
-<strong>terra</strong> packages). However, in <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>,
-each spatial class requires a custom map layer function,
-e.g. <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code> for <code>sf</code> objects.</p></li>
+<strong>terra</strong> packages). However, in
+<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code>, each spatial class requires a custom map
+layer function, e.g. <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">ggplot2::geom_sf()</a></code> for <code>sf</code>
+objects.</p></li>
 <li><p><strong>tmap</strong> has a static plot mode and an interactive
 mode.</p></li>
 <li><p>…</p></li>
@@ -222,23 +223,23 @@ map layers.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code>tm_basemap</code></td>
+<td><code><a href="../reference/tm_basemap.html">tm_basemap()</a></code></td>
 <td>none</td>
 <td><code>alpha</code></td>
 </tr>
 <tr class="even">
-<td><code>tm_polygons</code></td>
+<td><code><a href="../reference/tm_polygons.html">tm_polygons()</a></code></td>
 <td>
 <code>fill</code> (fill color), <code>col</code> (border color),
 <code>lwd</code> (border line width) <code>lty</code> (border line
-type), <code>fill_alpha</code> fill transparency, <code>col_alpha</code>
-border color transparency</td>
+type), <code>fill_alpha</code> (fill transparency),
+<code>col_alpha</code> (border color transparency)</td>
 <td>
 <code>linejoin</code> (line join) and <code>lineend</code> (line
 end)</td>
 </tr>
 <tr class="odd">
-<td><code>tm_symbols</code></td>
+<td><code><a href="../reference/tm_symbols.html">tm_symbols()</a></code></td>
 <td>
 <code>fill</code> (fill color), <code>col</code> (border color),
 <code>size</code>, <code>shape</code>, <code>lwd</code> (border line
@@ -249,7 +250,7 @@ transparency, <code>col_alpha</code> border color transparency</td>
 end)</td>
 </tr>
 <tr class="even">
-<td><code>tm_lines</code></td>
+<td><code><a href="../reference/tm_lines.html">tm_lines()</a></code></td>
 <td>
 <code>col</code> (color), <code>lwd</code> (line width)
 <code>lty</code> (line type), <code>alpha</code> transparency</td>
@@ -258,13 +259,13 @@ end)</td>
 end)</td>
 </tr>
 <tr class="odd">
-<td><code>tm_raster</code></td>
+<td><code><a href="../reference/tm_raster.html">tm_raster()</a></code></td>
 <td>
 <code>col</code> (color), <code>alpha</code> (transparency)</td>
 <td></td>
 </tr>
 <tr class="even">
-<td><code>tm_text</code></td>
+<td><code><a href="../reference/tm_text.html">tm_text()</a></code></td>
 <td>
 <code>size</code>, <code>col</code>
 </td>
@@ -335,7 +336,7 @@ contains the visual values, in this case colors.</p>
 <p>Important to note is that there are many ways to scale data values to
 visual values. In this example data values are put into 5 year intervals
 and a sequential discrete blue scale is used to show these. With the
-<code>tm_scale_</code> family of functions, users are free to create
+<code>tm_scale_*()</code> family of functions, users are free to create
 other scales.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -427,11 +428,12 @@ range).</p>
 scale. Note that this is different than <code><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal()</a></code>,
 which does not use colors for values that are not present (as
 categories), for instance 53.</p>
-<p>Each <code>tm_scale_</code> functions can (in principle) be applied
-to any visual or transformation variable. Note that this is different
-from <strong>ggplot2</strong> where scales are organized by variable and
-by type (e.g. <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">ggplot2::scale_fill_continuous()</a></code>). This is
-related to another difference with <strong>ggplot2</strong>. In
+<p>Each <code>tm_scale_*()</code> functions can (in principle) be
+applied to any visual or transformation variable. Note that this is
+different from <strong>ggplot2</strong> where scales are organized by
+variable and by type
+(e.g. <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">ggplot2::scale_fill_continuous()</a></code>). This is related to
+another difference with <strong>ggplot2</strong>. In
 <strong>tmap</strong>, the scales are set directly in the map layer
 function to the target visual/transformation variable, for instance
 <code>tm_polygons(fill = "x", fill.scale = tm_scale_continuous())</code>.
@@ -455,7 +457,7 @@ widths.</p>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"scico.roma"</span>, value.na <span class="op">=</span> <span class="st">"grey95"</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">45</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"HPI"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>, value.na <span class="op">=</span> <span class="fl">0.1</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">45</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"grey30"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-11-1.png" width="864"></p>
-<p>The defaults for those <code>value*</code> arguments are stored in
+<p>The defaults for those <code>value.*</code> arguments are stored in
 the <strong>tmap</strong> options. For instance</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span><span class="st">"values.var"</span><span class="op">)</span><span class="op">$</span><span class="va">values.var</span><span class="op">$</span><span class="va">fill</span></span></code></pre></div>
@@ -478,9 +480,10 @@ the <strong>tmap</strong> options. For instance</p>
 <span><span class="co">## [1] "pu_gn_bivs"</span></span></code></pre>
 <p>contains the default color palettes for the visual variable
 <code>"fill"</code> for different types of data. For instance, when data
-values are all positive numbers, and <code>tm_scale_intervals</code> or
-<code>tm_scale_continuous</code> is applied, the default color palette
-is <code>hcl.blues3</code>, as can be seen in the examples above.</p>
+values are all positive numbers, and <code><a href="../reference/tm_scale_intervals.html">tm_scale_intervals()</a></code>
+or <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code> is applied, the default color
+palette is <code>"hcl.blues3"</code>, as can be seen in the examples
+above.</p>
 <p>Regarding the available color palettes: <strong>tmap</strong> uses
 the new R package <strong>cols4all</strong> which contains a large
 number of well-known color palettes. Please run

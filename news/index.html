@@ -64,26 +64,26 @@
 <h2 class="pkg-version" data-toc-text="3.3-3" id="tmap-33-3">tmap 3.3-3<a class="anchor" aria-label="anchor" href="#tmap-33-3"></a></h2><p class="text-muted">CRAN release: 2022-03-02</p>
 <ul><li>added device to <code><a href="../reference/tmap_save.html">tmap_save()</a></code>
 </li>
-<li>fixed many small bugs (see github issue list)</li>
+<li>fixed many small bugs (see GitHub issue list)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.3-2" id="tmap-33-2">tmap 3.3-2<a class="anchor" aria-label="anchor" href="#tmap-33-2"></a></h2><p class="text-muted">CRAN release: 2021-06-16</p>
 <ul><li>
-<code>World</code>s has been fixed (it is now ‘s2’ proof, see github issue <a href="https://github.com/r-tmap/tmap/issues/564" class="external-link">#564</a>)</li>
+<code>World</code>s has been fixed (it is now ‘s2’ proof, see GitHub issue <a href="https://github.com/r-tmap/tmap/issues/564" class="external-link">#564</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.3-1" id="tmap-33-1">tmap 3.3-1<a class="anchor" aria-label="anchor" href="#tmap-33-1"></a></h2><p class="text-muted">CRAN release: 2021-03-15</p>
 <ul><li>fixed view titles</li>
 <li>added html.escape to <code>popup.format</code> to control whether html code is escaped in view popups</li>
-<li>fixed many small bugs (see github issue list)</li>
+<li>fixed many small bugs (see GitHub issue list)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.3" id="tmap-33">tmap 3.3<a class="anchor" aria-label="anchor" href="#tmap-33"></a></h2><p class="text-muted">CRAN release: 2021-01-19</p>
 <ul><li>
-<code>tmap_grob()</code> added, which exports tmap plots to grob objects (grid package)</li>
+<code>tmap_grob()</code> added, which exports tmap plots to <code>grob</code> objects (grid package)</li>
 <li>
 <code>SpatRaster</code> objects (terra package) supported</li>
-<li>fixed many small bugs (see github issue list)</li>
+<li>fixed many small bugs (see GitHub issue list)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.2" id="tmap-32">tmap 3.2<a class="anchor" aria-label="anchor" href="#tmap-32"></a></h2><p class="text-muted">CRAN release: 2020-09-15</p>
@@ -91,7 +91,7 @@
 <code><a href="../reference/tmap_animation.html">tmap_animation()</a></code> improved: now using av and gifski under the hood; added progress bar; lists of tmap objects supported; improved default settings</li>
 <li>improved <code>tmapOutput()</code>; it now works with reactive shiny objects</li>
 <li>improved internally used margins; also small exported maps look good (see example <code><a href="../reference/tmap_save.html">tmap_save()</a></code>)</li>
-<li>improved <code><a href="../reference/tmap_design_mode.html">tmap_design_mode()</a></code>; tmap.design.mode is now a global option (and not a tmap option anymore)</li>
+<li>improved <code><a href="../reference/tmap_design_mode.html">tmap_design_mode()</a></code>; <code>tmap.design.mode</code> is now a global option (and not a tmap option anymore)</li>
 <li>reexported providers from <code>leafet</code>
 </li>
 <li>added <code>show.warnings</code> to <code><a href="../reference/tmap_options.html">tmap_options()</a></code>
@@ -112,7 +112,7 @@
 </li>
 <li>improved <code><a href="../reference/tm_add_legend.html">tm_add_legend()</a></code>: added <code>type = "title"</code> for title only legend elements</li>
 <li>added <code><a href="../reference/tmap_mode.html">ttmp()</a></code> which shows the last map in the other mode.</li>
-<li>fixed many small bugs (see github issue list)</li>
+<li>fixed many small bugs (see GitHub issue list)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.0" id="tmap-30">tmap 3.0<a class="anchor" aria-label="anchor" href="#tmap-30"></a></h2><p class="text-muted">CRAN release: 2020-04-09</p>
@@ -120,22 +120,23 @@
 <li>
 <code>as.count</code> argument added to layer functions; numeric variables can be treated as count variables (integers)</li>
 <li>drop.levels argument added to layer functions which allows to drop unused levels</li>
-<li>new style added for color classes: “dpih” and “headtails”; also added style.args to pass on arguments to classIntervals</li>
+<li>new style added for color classes: “dpih” and “headtails”; also added style.args to pass on arguments to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classInt::classIntervals()</a></code>
+</li>
 <li>grid labels specification per axis</li>
 <li>fixed bug with geometry collection</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.3-2" id="tmap-23-2">tmap 2.3-2<a class="anchor" aria-label="anchor" href="#tmap-23-2"></a></h2><p class="text-muted">CRAN release: 2020-01-19</p>
 <ul><li>probably last version before release of tmap 3.0</li>
-<li>many small improvements and bug fixes (see github)</li>
+<li>many small improvements and bug fixes (see GitHub)</li>
 <li>first stars supported (full support expected in tmap 3.0)</li>
-<li>replaced projection shortcuts with epsg/proj4strings in examples</li>
+<li>replaced projection shortcuts with <code>"epsg/proj4strings"</code> in examples</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.3-1" id="tmap-23-1">tmap 2.3-1<a class="anchor" aria-label="anchor" href="#tmap-23-1"></a></h2><p class="text-muted">CRAN release: 2019-09-17</p>
 <ul><li>improved popups in view mode</li>
 <li>added validity checks for <code>sf</code> objects</li>
-<li>minor bugs fixed: see github issue list</li>
+<li>minor bugs fixed: see GitHub issue list</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.3" id="tmap-23">tmap 2.3<a class="anchor" aria-label="anchor" href="#tmap-23"></a></h2><p class="text-muted">CRAN release: 2019-07-18</p>
@@ -150,7 +151,7 @@
 </li>
 <li>replaced <code>mapview</code> by <code>leafsync</code>
 </li>
-<li>minor bugs fixed: see github issue list</li>
+<li>minor bugs fixed: see GitHub issue list</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2" id="tmap-22">tmap 2.2<a class="anchor" aria-label="anchor" href="#tmap-22"></a></h2><p class="text-muted">CRAN release: 2019-01-05</p>
@@ -160,7 +161,7 @@
 <li>added <code>bbox</code> argument to <code><a href="../reference/qtm.html">qtm()</a></code>
 </li>
 <li>improved projection shortcut codes (using EPSG database)</li>
-<li>fixed several bugs (see github)</li>
+<li>fixed several bugs (see GitHub)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1-1" id="tmap-21-1">tmap 2.1-1<a class="anchor" aria-label="anchor" href="#tmap-21-1"></a></h2><p class="text-muted">CRAN release: 2018-08-09</p>
@@ -178,17 +179,19 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.0" id="tmap-20">tmap 2.0<a class="anchor" aria-label="anchor" href="#tmap-20"></a></h2><p class="text-muted">CRAN release: 2018-07-15</p>
 <ul><li>[!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf</li>
-<li>[!] added tm_sf which draws sf objects</li>
-<li>[!] renamed all xxx_tmap functions (e.g. save_tmap) to tmap_xxx for consistency</li>
+<li>[!] added <code><a href="../reference/tm_sf.html">tm_sf()</a></code> which draws sf objects</li>
+<li>[!] renamed all <code>*_tmap()</code> functions (e.g. <code>save_tmap()</code>) to <code>tmap_*()</code> for consistency</li>
 <li>[!] added <code><a href="../reference/tm_basemap.html">tm_basemap()</a></code> and <code><a href="../reference/tm_basemap.html">tm_tiles()</a></code>: now, multiple (overlay) tiled maps can be shown</li>
 <li>[!] rearranged tmap options, styles and formats. See <code><a href="../reference/tmap_options.html">tmap_options()</a></code>, <code><a href="../reference/tmap_style.html">tmap_style()</a></code>, <code><a href="../reference/tmap_format.html">tmap_format()</a></code>, <code><a href="../reference/tm_layout.html">tm_style()</a></code> and <code><a href="../reference/tm_layout.html">tm_format()</a></code>
 </li>
 <li>[!] added <code>filter</code> argument to <code><a href="../reference/tm_shape.html">tm_shape()</a></code> and added <code>colorNULL</code> to layer functions</li>
 <li>added <code><a href="../reference/v4-not-yet.html">tm_minimap()</a></code>
 </li>
-<li>added remove.NA.facets to tm_facets</li>
+<li>added <code>remove.NA.facets</code> to <code><a href="../reference/tm_facets.html">tm_facets()</a></code>
+</li>
 <li>units data columns are supported</li>
-<li>tmap_animation enhanced with loop options</li>
+<li>
+<code><a href="../reference/tmap_animation.html">tmap_animation()</a></code> enhanced with loop options</li>
 <li>added <code>tmap_tips()</code>
 </li>
 <li>all changes are backwards compatible with 1.11-2</li>
@@ -208,38 +211,42 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.11" id="tmap-111">tmap 1.11<a class="anchor" aria-label="anchor" href="#tmap-111"></a></h2><p class="text-muted">CRAN release: 2017-11-24</p>
-<ul><li>added text.align and text.to.columns to legend.format</li>
-<li>legend.(aes).reverse added to the layer functions</li>
+<ul><li>added <code>text.align</code> and <code>text.to.columns</code> to <code>legend.format</code>
+</li>
+<li>
+<code>legend.(aes).reverse</code> added to the layer functions</li>
 <li>symbol shapes can be put in a list for small multiples, and named according the values of the variable specified with the shape argument</li>
 <li>grid labels can now be rotated and formatted</li>
-<li>changed default values of free.coords and drop.units in tm_facets</li>
-<li>fixed bug with all NA’s in view mode</li>
-<li>fixed bug with dismo::gmap raster shapes</li>
+<li>changed default values of <code>free.coords</code> and <code>drop.units</code> in <code><a href="../reference/tm_facets.html">tm_facets()</a></code>
+</li>
+<li>fixed bug with all NAs in view mode</li>
+<li>fixed bug with <code>dismo::gmap()</code> raster shapes</li>
 <li>fixed bug for ambiguous values for aesthetics (e.g. when “blue” is also a variable name)</li>
 <li>NOTE: this will be the last version before the major update (in which sf fully replaces sp)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.10" id="tmap-110">tmap 1.10<a class="anchor" aria-label="anchor" href="#tmap-110"></a></h2><p class="text-muted">CRAN release: 2017-05-11</p>
-<ul><li>[!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)</li>
-<li>added along argument to tm_facets, which enables facetting along multiple pages (or animation frames)</li>
-<li>added main.title argument to tm_layout</li>
-<li>added tmap_options, including the new option tmap.unit (“metric” or “imperial”“)</li>
-<li>improved automatic labeling of breaks</li>
+<ul><li>[!] <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code>, <code><a href="../reference/tm_text.html">tm_text()</a></code>, and <code><a href="../reference/tm_grid.html">tm_grid()</a></code> now supported in view mode (requires leaflet 1.1.0)</li>
+<li>added <code>along</code> argument to <code><a href="../reference/tm_facets.html">tm_facets()</a></code>, which enables faceting along multiple pages (or animation frames)</li>
+<li>added <code>main.title</code> argument to tm_layout</li>
+<li>added <code><a href="../reference/tmap_options.html">tmap_options()</a></code>, including the new option <code>tmap.unit</code> (“metric” or “imperial”“)</li>
+<li>improved automatic labelling of breaks</li>
 <li>improved legend in view mode: missing values are shown by default (like in plot mode)</li>
 <li>improved bubble scaling in view mode</li>
 <li>fixed bug aspect ratio bug</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8-1" id="tmap-18-1">tmap 1.8-1<a class="anchor" aria-label="anchor" href="#tmap-18-1"></a></h2><p class="text-muted">CRAN release: 2017-01-29</p>
-<ul><li>added tm_rgb (shortcut for rgb rasters)</li>
-<li>fixed interactive maps in rmarkdown</li>
-<li>fixed bug in qtm called without arguments</li>
+<ul><li>added <code><a href="../reference/tm_rgb.html">tm_rgb()</a></code> (shortcut for rgb rasters)</li>
+<li>fixed interactive maps in R Markdown</li>
+<li>fixed bug in <code><a href="../reference/qtm.html">qtm()</a></code> called without arguments</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8" id="tmap-18">tmap 1.8<a class="anchor" aria-label="anchor" href="#tmap-18"></a></h2><p class="text-muted">CRAN release: 2017-01-03</p>
 <ul><li>[!] package split: non-plotting functions migrated to tmaptools</li>
-<li>added tmap_arrange for arranging custom small multiples</li>
-<li>added simplify argument to tm_shape</li>
+<li>added <code><a href="../reference/tmap_arrange.html">tmap_arrange()</a></code> for arranging custom small multiples</li>
+<li>added <code>simplify</code> argument to <code><a href="../reference/tm_shape.html">tm_shape()</a></code>
+</li>
 <li>added error message for NA-projected shapes in view mode</li>
 <li>improved unit handling, which now can be set to metric or imperial</li>
 <li>NA values allowed in direct color variables</li>
@@ -247,119 +254,138 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6-1" id="tmap-16-1">tmap 1.6-1<a class="anchor" aria-label="anchor" href="#tmap-16-1"></a></h2><p class="text-muted">CRAN release: 2016-10-29</p>
-<ul><li>improved projections: code is more efficient now and shortcuts are renewed. Also, CRS objects are now supported for all project arguments (e.g. tm_shape, set_projection), and as.CRS is added to get_projection and get_proj4.</li>
+<ul><li>improved projections: code is more efficient now and shortcuts are renewed. Also, CRS objects are now supported for all project arguments (e.g. <code><a href="../reference/tm_shape.html">tm_shape()</a></code>, set_projection), and as.CRS is added to get_projection and get_proj4.</li>
 <li>Rscript works: methods is moved from imports to depends</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6" id="tmap-16">tmap 1.6<a class="anchor" aria-label="anchor" href="#tmap-16"></a></h2><p class="text-muted">CRAN release: 2016-10-21</p>
-<ul><li>[!] tm_symbols added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots</li>
-<li>[!] imported cartogram function from cartogram package (tnx Sebastian!)</li>
-<li>[!] reverse geocoding function rev_geocode_OSM added</li>
+<ul><li>[!] <code><a href="../reference/tm_symbols.html">tm_symbols()</a></code> added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots</li>
+<li>[!] imported cartogram function from cartogram package (thanks Sebastian!)</li>
+<li>[!] reverse geocoding function <code><a href="https://rdrr.io/pkg/tmaptools/man/rev_geocode_OSM.html" class="external-link">tmaptools::rev_geocode_OSM()</a></code> added</li>
 <li>[!] <code><a href="../reference/v4-not-yet.html">tm_logo()</a></code> added</li>
-<li>added popup.vars to base layer functions</li>
-<li>bounding box (argument bbox in tm_shape) working in view mode</li>
-<li>geocode_OSM improved: a SpatialPointsDataFrame can now be returned</li>
+<li>added <code>popup.vars</code> to base layer functions</li>
+<li>bounding box (argument <code>bbox</code> in <code><a href="../reference/tm_shape.html">tm_shape()</a></code>) working in view mode</li>
+<li>
+<code><a href="https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html" class="external-link">tmaptools::geocode_OSM()</a></code> improved: a <code>SpatialPointsDataFrame</code> can now be returned</li>
 <li>
 <code>last_tmap()</code> added, which retrieves the last produced map</li>
 <li>crop_shape can also handle polygons as cropping area</li>
 <li>append_data improved; the under and over coverage information can be retrieved with under_coverage and over_coverage</li>
-<li>interpolate parameter added to tm_rasters</li>
-<li>added support for custom legend formating functions</li>
+<li>interpolate parameter added to <code><a href="../reference/tm_raster.html">tm_raster()</a></code>
+</li>
+<li>added support for custom legend formatting functions</li>
 <li>legend items can now be stacked horizontally</li>
-<li>legend width and height can be determined fully manually (with negative values for legend.height and legend.width)</li>
-<li>argument interval.closure added to layer functions to determine where intervals are closed</li>
+<li>legend width and height can be determined fully manually (with negative values for <code>legend.height</code> and <code>legend.width</code>)</li>
+<li>argument <code>interval.closure</code> added to layer functions to determine where intervals are closed</li>
 <li>added warnings for non-supported elements in view mode</li>
 <li>fixed raster brick bug</li>
-<li>fixed save_tmap/get_asp_ratio bug</li>
+<li>fixed save_tmap/get_asp_ratifo bug</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4-1" id="tmap-14-1">tmap 1.4-1<a class="anchor" aria-label="anchor" href="#tmap-14-1"></a></h2><p class="text-muted">CRAN release: 2016-05-07</p>
-<ul><li>add just argument as anchor for text labels, legend and attributes position</li>
+<ul><li>add <code>just</code> argument as anchor for text labels, legend and attributes position</li>
 <li>map attributes (such as scale bar) can be placed outside the frame</li>
-<li>added tm_xlab and tm_ylab</li>
+<li>added <code><a href="../reference/tm_xlab.html">tm_xlab()</a></code> and <code><a href="../reference/tm_xlab.html">tm_ylab()</a></code>
+</li>
 <li>RGB raster support, see tm_raster</li>
 <li>static text (i.e titles, credits, legend titles, labels) support expressions</li>
-<li>updated Europe shape: projection and boundig box are now consistent with Eurostat publications</li>
-<li>added crop_shape, a convenient wrapper around raster::crop</li>
+<li>updated Europe shape: projection and bounding box are now consistent with Eurostat publications</li>
+<li>added crop_shape, a convenient wrapper around <code><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">raster::crop()</a></code>
+</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4" id="tmap-14">tmap 1.4<a class="anchor" aria-label="anchor" href="#tmap-14"></a></h2><p class="text-muted">CRAN release: 2016-03-18</p>
 <ul><li>[!] interactive mapping added. Now, tmap has two modes: “plot” (graphics device) and “view” (interactive viewer, which is a leaflet widget)</li>
 <li>[!] facets (small multiples) improved: group by two variables possible, panel layout added, missing data can be shown separately</li>
-<li>added geocode_OSM, a function to find coordinates</li>
+<li>added <code><a href="https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html" class="external-link">geocode_OSM()</a></code>, a function to find coordinates (now <code><a href="https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html" class="external-link">tmaptools::geocode_OSM()</a></code>)</li>
 <li>improved set_projection for raster objects</li>
-<li>added double_line and offset_line</li>
-<li>added insets option in save_tmap</li>
-<li>improved default settings for contrast arugment regarding seq and div palettes</li>
-<li>improved automatic positions of legend and map attributes (more specifically, legend snaps to righthand-side without need to adjust legend.width, and legend and attributes position improved when double frame is enabled)</li>
-<li>improved tm_layouts’s design.mode output</li>
-<li>lwd parameter added to tm_scale_bar and tm_compass</li>
-<li>fixed bb bug</li>
+<li>added <code>double_line</code> and <code>offset_line</code>
+</li>
+<li>added insets option in <code>save_tmap</code>
+</li>
+<li>improved default settings for contrast argument regarding seq and div palettes</li>
+<li>improved automatic positions of legend and map attributes (more specifically, legend snaps to right-hand side without need to adjust legend.width, and legend and attributes position improved when double frame is enabled)</li>
+<li>improved <code>tm_layouts()</code>’s design.mode output</li>
+<li>
+<code>lwd</code> parameter added to <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> and <code><a href="../reference/tm_compass.html">tm_compass()</a></code>
+</li>
+<li>fixed <code>bb</code> bug</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2-1" id="tmap-12-1">tmap 1.2-1<a class="anchor" aria-label="anchor" href="#tmap-12-1"></a></h2>
 <ul><li>fixed bug with PROJ.4 version &lt; 4.9.1</li>
 <li>improved error messages</li>
-<li>rd projection reset to +init=epsg:28992, since the latter now has a +towgs item</li>
-<li>fixed bug of print.tmap returned object</li>
+<li>rd projection reset to <code>"+init=epsg:28992"</code>, since the latter now has a <code>"+towgs"</code> item</li>
+<li>fixed bug of <code><a href="../reference/print.tmap.html">print.tmap()</a></code> returned object</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2" id="tmap-12">tmap 1.2<a class="anchor" aria-label="anchor" href="#tmap-12"></a></h2><p class="text-muted">CRAN release: 2015-12-11</p>
-<ul><li>added read_osm, a function to read Open Street Map data</li>
-<li>added bb, a handy bounding box function</li>
+<ul><li>added <code><a href="https://rdrr.io/pkg/tmaptools/man/read_osm.html" class="external-link">read_osm()</a></code>, a function to read Open Street Map data (now <code><a href="https://rdrr.io/pkg/tmaptools/man/read_osm.html" class="external-link">tmaptools::read_osm()</a></code>)</li>
+<li>added <code>bb</code>, a handy bounding box function</li>
 <li>added layout themes with tm_style and tm_format</li>
 <li>added automatic text labeling</li>
-<li>added interactive SVG, that can be opend in RStudio (see itmap)</li>
-<li>added map compass (tm_compass)</li>
-<li>added text aesthetics size and col</li>
+<li>added interactive SVG, that can be opened in RStudio (see itmap)</li>
+<li>added map compass (<code><a href="../reference/tm_compass.html">tm_compass()</a></code>)</li>
+<li>added text aesthetics <code>size</code> and <code>col</code>
+</li>
 <li>added automatic map coloring</li>
-<li>added earth boundary, which is useful for projected world maps</li>
+<li>added earth boundary, which is useful for projected world maps <code>World</code>
+</li>
 <li>added warped grid lines (e.g. long-lat lines can be shown in projected maps)</li>
-<li>added new color scale modes (enabled with style=“cat”, “cont”, and “order”)</li>
-<li>added save_tmap</li>
+<li>added new color scale modes (enabled with <code>style="cat"</code>, “cont”, and “order”)</li>
+<li>added <code>save_tmap()</code>
+</li>
 <li>added smooth_map, smooth_raster_cover, sample_dots, points_to_raster and poly_to_raster</li>
 <li>added read_GPX</li>
 <li>improved automatic layout regarding title, legend, and map attributes</li>
 <li>layer arguments, e.g. palette, can take multiple values for small multiples</li>
 <li>improved grid lines (labels can also be placed outside frame)</li>
-<li>arguments free.coords and drop.shapes of tm_facets working</li>
+<li>arguments <code>free.coords</code> and <code>drop.shapes</code> of <code><a href="../reference/tm_facets.html">tm_facets()</a></code> working</li>
 <li>updated examples and vignette</li>
-<li>fixed viewport bug</li>
-<li>see ?tmap for a structured overview of all tmap functions</li>
+<li>fixed <code>viewport</code> bug</li>
+<li>see <code><a href="../reference/tmap-package.html">?tmap</a></code> for a structured overview of all tmap functions</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0" id="tmap-10">tmap 1.0<a class="anchor" aria-label="anchor" href="#tmap-10"></a></h2><p class="text-muted">CRAN release: 2015-05-28</p>
-<ul><li>added tm_credits and tm_scale_bar</li>
-<li>added is.master argument to tm_shape, that determines which shape is the master</li>
-<li>added unit and unit.size arguments to tm_shape that correlates the coordinates with the desired units</li>
-<li>added tm_polygons, which is a combination of tm_fill and tm_borders</li>
+<ul><li>added <code><a href="../reference/tm_credits.html">tm_credits()</a></code> and <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code>
+</li>
+<li>added <code>is.master</code> argument to <code><a href="../reference/tm_shape.html">tm_shape()</a></code>, that determines which shape is the master</li>
+<li>added <code>unit</code> and <code>unit.size</code> arguments to <code><a href="../reference/tm_shape.html">tm_shape()</a></code> that correlates the coordinates with the desired units</li>
+<li>added <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>, which is a combination of <code><a href="../reference/tm_polygons.html">tm_fill()</a></code> and <code><a href="../reference/tm_polygons.html">tm_borders()</a></code>
+</li>
 <li>fixed several small bugs</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8" id="tmap-08">tmap 0.8<a class="anchor" aria-label="anchor" href="#tmap-08"></a></h2>
-<ul><li>added tm_raster</li>
-<li>improved legend behaviour: legend titles should be set in the layer functions (instead of in tm_layout)</li>
-<li>removed crop_shape, since raster::crop does the same job, but, but faster</li>
-<li>out-of-scope functions migrated to spatialToolbox package, available on github.com/mtennekes/spatialToolbox</li>
+<ul><li>added <code><a href="../reference/tm_raster.html">tm_raster()</a></code>
+</li>
+<li>improved legend behavior: legend titles should be set in the layer functions (instead of in <code><a href="../reference/tm_layout.html">tm_layout()</a></code>)</li>
+<li>removed <code><a href="https://rdrr.io/pkg/tmaptools/man/crop_shape.html" class="external-link">crop_shape()</a></code>, since <code><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">raster::crop()</a></code> does the same job, but, but faster</li>
+<li>out-of-scope functions migrated to spatialToolbox package, available on <a href="https://github.com/mtennekes/spatialToolbox" class="external-link uri">https://github.com/mtennekes/spatialToolbox</a>
+</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.1" id="tmap-071">tmap 0.7.1<a class="anchor" aria-label="anchor" href="#tmap-071"></a></h2>
-<ul><li>fixed big in scale parameter (global scale set in tm_layout)</li>
+<ul><li>fixed bug in <code>scale</code> parameter (global scale set in <code><a href="../reference/tm_layout.html">tm_layout()</a></code>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7" id="tmap-07">tmap 0.7<a class="anchor" aria-label="anchor" href="#tmap-07"></a></h2><p class="text-muted">CRAN release: 2015-03-27</p>
-<ul><li>enhanced small multiples (tm_facets) with respect to scaling and free coordinate scales</li>
-<li>added alpha argument to tm layers for transparency</li>
+<ul><li>enhanced small multiples (<code><a href="../reference/tm_facets.html">tm_facets()</a></code>) with respect to scaling and free coordinate scales</li>
+<li>added <code>alpha</code> argument to <code>tm_layers()</code> for transparency</li>
 <li>added text shadow argument</li>
-<li>added function split to split a shape object and sbind to combine shape objects.</li>
-<li>added automatic legend positioning when legend.position=NULL</li>
+<li>added function <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code> to split a shape object and <code>sbind()</code> to combine shape objects.</li>
+<li>added automatic legend positioning when <code>legend.position = NULL</code>
+</li>
 <li>improved number formatting in legend</li>
-<li>improved inner.margins and outer.margins. Both can take one value (e.g. outer.margins=0 rather than outer.margins=c(0,0,0,0))</li>
-<li>improved qtm: tm_facets parameters working, and also fixed scale parameter bug</li>
-<li>improved all examples for approx_areas, calc_densities</li>
-<li>fixed bug regarding drawing a frame with outer.margins=0.</li>
-<li>fixed bug in plotting blubbles</li>
-<li>improved temp file handling in animation_tmap</li>
+<li>improved <code>inner.margins</code> and <code>outer.margins</code>. Both can take one value (e.g. <code>outer.margins=0</code> rather than <code>outer.margins=c(0,0,0,0))</code>
+</li>
+<li>improved <code><a href="../reference/qtm.html">qtm()</a></code>: <code><a href="../reference/tm_facets.html">tm_facets()</a></code> parameters working, and also fixed scale parameter bug</li>
+<li>improved all examples for <code>approx_areas</code>, <code>calc_densities</code>
+</li>
+<li>fixed bug regarding drawing a frame with <code>outer.margins=0</code>.</li>
+<li>fixed bug in plotting bubbles</li>
+<li>improved temp file handling in <code>animation_tmap()</code>
+</li>
 <li>added functions to get and set polygon directions, and to calculate the intersection ratios of polygons (intersection_shapes)</li>
 </ul></div>
     <div class="section level2">

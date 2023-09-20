@@ -98,18 +98,18 @@ time for a sneak peek.</p>
 extendable. More precisely, the following aspects can be extended:</p>
 <ul>
 <li><p>Map layers: we are not limited anymore by the fixed set of
-<code>tm_polygons</code>, <code>tm_lines</code>,
-<code>tm_symbols</code>, and <code>tm_raster</code> (and their
-derivatives such as <code>tm_borders</code> and <code>tm_dots</code>),
-but any layer of interest can be developed as an extension of
-<strong>tmap</strong>. We will illustrate this below with
-<code>tm_cartogram</code>. Other layers that are worthwhile to implement
-are <code>tm_donuts</code>, <code>tm_hexagons</code>,
-<code>tm_network</code>, <code>tm_hillshade</code>, etc.</p></li>
+<code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>, <code><a href="../reference/tm_lines.html">tm_lines()</a></code>,
+<code><a href="../reference/tm_symbols.html">tm_symbols()</a></code>, and <code><a href="../reference/tm_raster.html">tm_raster()</a></code> (and their
+derivatives such as <code><a href="../reference/tm_polygons.html">tm_borders()</a></code> and
+<code><a href="../reference/tm_symbols.html">tm_dots()</a></code>), but any layer of interest can be developed as
+an extension of <strong>tmap</strong>. We will illustrate this below
+with <code><a href="../reference/tm_cartogram.html">tm_cartogram()</a></code>. Other layers that are worthwhile to
+implement are <code>tm_donuts()</code>, <code>tm_hexagons()</code>,
+<code>tm_network()</code>, <code>tm_hillshade()</code>, etc.</p></li>
 <li><p>Aesthetics: there will be many more visual variables available.
 We will illustrate this in the next section, where we already
-implemented 5 new aesthetics for <code>tm_polygons</code>. Moreover, it
-will be much easier for developers to add new visual variables to map
+implemented 5 new aesthetics for <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>. Moreover,
+it will be much easier for developers to add new visual variables to map
 layer functions.</p></li>
 <li><p>Graphics Engine: <strong>tmap v3</strong> contains two modes:
 <code>plot</code> and <code>view</code> (which are based on
@@ -130,7 +130,7 @@ variables), and it will be easier for developers to add new aesthetics.
 We have reordered the arguments that specify and configure the
 aesthetics which will be illustrated below.</p>
 <p>The arguments that specify aesthetics themselves will remain the
-same. E.g., the main aesthetic in <code>tm_polygons</code> is
+same. E.g., the main aesthetic in <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code> is
 <code>fill</code>, which defines the fill color of the polygons.</p>
 <p>However, the other arguments of the layer functions are organized
 differently. Thus, each aesthetic will only have four arguments:</p>
@@ -155,7 +155,7 @@ version 3 and 4 syntax:</p>
 <span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"purple_green"</span><span class="op">)</span>, </span>
 <span>                fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-3-1.png" width="864"></p>
-<p>In <strong>tmap v4</strong>, <code>tm_polygons</code> will have the
+<p>In <strong>tmap v4</strong>, <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code> will have the
 aesthetics <code>fill</code>, <code>col</code>, <code>fill_alpha</code>,
 <code>col_alpha</code>, <code>lwd</code>, <code>lty</code>, and
 eventually also <code>pattern</code>. The other standard map layers will
@@ -200,7 +200,7 @@ next section. The polygons are distorted such that the size will be
 <h2 id="map-layers-e-g--cartogram">Map layers (e.g. cartogram)<a class="anchor" aria-label="anchor" href="#map-layers-e-g--cartogram"></a>
 </h2>
 <p>It will be easy for developers to add new map layers as extension. We
-illustrate this by a new map layer, <code>tm_cartogram</code>.</p>
+illustrate this by a new map layer, <code><a href="../reference/tm_cartogram.html">tm_cartogram()</a></code>.</p>
 <p>Cartograms could already be made with <strong>tmap v3</strong>, but
 it explicitly required transforming the data using the
 <strong>cartogram</strong> package before mapping.</p>
@@ -216,10 +216,10 @@ it explicitly required transforming the data using the
 <span>              palette <span class="op">=</span> <span class="st">"Earth"</span>, </span>
 <span>              title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></span></code></pre></div>
 <p>In <strong>tmap v4</strong>, there will be a direct function
-<code>tm_cartogram</code> (using the <strong>cartogram</strong> package
-under the hood), which uses the transformation aesthetic
+<code><a href="../reference/tm_cartogram.html">tm_cartogram()</a></code> (using the <strong>cartogram</strong>
+package under the hood), which uses the transformation aesthetic
 <code>size</code> and inherits all visual aesthetics from
-<code>tm_polygons</code>:</p>
+<code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -255,10 +255,6 @@ cartogram a bit more “balanced”:</p>
 <span>                 fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_right</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-9-1.png" width="864"></p>
-<p>(We haven’t decided whether to include <code>tm_cartogram</code> in
-the <strong>tmap</strong> package or in an extension package, e.g.,
-<strong>tmapCartogram</strong> or <strong>tmapExtra</strong>. Let us
-know your opinion at <a href="https://github.com/r-tmap/tmap/issues/565" class="external-link uri">https://github.com/r-tmap/tmap/issues/565</a>)</p>
 </div>
 <div class="section level2">
 <h2 id="scales">Scales<a class="anchor" aria-label="anchor" href="#scales"></a>
@@ -281,32 +277,32 @@ available:</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code>tm_scale_categorical</code></td>
+<td><code><a href="../reference/tm_scale_categorical.html">tm_scale_categorical()</a></code></td>
 <td>categorical (<code>factor</code>)</td>
 <td>Fruit type</td>
 </tr>
 <tr class="even">
-<td><code>tm_scale_ordinal</code></td>
+<td><code><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal()</a></code></td>
 <td>categorical (<code>ordered</code>)</td>
 <td>Education level</td>
 </tr>
 <tr class="odd">
-<td><code>tm_scale_intervals</code></td>
+<td><code><a href="../reference/tm_scale_intervals.html">tm_scale_intervals()</a></code></td>
 <td>numerical (<code>integer</code> or <code>numeric</code>)</td>
 <td>Age group</td>
 </tr>
 <tr class="even">
-<td><code>tm_scale_continuous</code></td>
+<td><code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code></td>
 <td>numerical (<code>numeric</code>)</td>
 <td>Height</td>
 </tr>
 <tr class="odd">
-<td><code>tm_scale_log10</code></td>
+<td><code>tm_scale_log10()</code></td>
 <td>numerical (<code>numeric</code>)</td>
 <td>Income</td>
 </tr>
 <tr class="even">
-<td><code>tm_scale_discrete</code></td>
+<td><code><a href="../reference/tm_scale_discrete.html">tm_scale_discrete()</a></code></td>
 <td>numerical (<code>integer</code>)</td>
 <td>Number of children</td>
 </tr>
@@ -317,9 +313,9 @@ scale is supposed to be applied. Any scale can be applied to any data
 type (even though it might not make sense), with one exception:
 continuous (and log10) scales cannot be applied to visual variables that
 can only take a finite set of values. Examples are symbol shape and line
-type. By default, <code>tm_scale_categorical</code>,
-<code>tm_scale_ordinal</code>, and <code>tm_scale_intervals</code> are
-used for data of class <code>factor</code>, <code>ordered</code> and
+type. By default, <code><a href="../reference/tm_scale_categorical.html">tm_scale_categorical()</a></code>,
+<code><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal()</a></code>, and <code><a href="../reference/tm_scale_intervals.html">tm_scale_intervals()</a></code>
+are used for data of class <code>factor</code>, <code>ordered</code> and
 <code>numeric</code> respectively. Scales for date/time variables will
 be included as well.</p>
 <p>The main argument of each scale function is <code>values</code>,
@@ -366,7 +362,7 @@ which type of values are required for which visual variable:</p>
 </table>
 <p>The default values depend not only on the visual variable, but also
 on the scale and on whether data values are diverging. For instance, if
-<code>tm_scale_intervals</code> is applied to a numeric variable with
+<code><a href="../reference/tm_scale_intervals.html">tm_scale_intervals()</a></code> is applied to a numeric variable with
 both negative and positive values where the visual variable is
 <code>fill</code>, then a diverging color palette is used.</p>
 <p>The following map illustrates what happens when the six scale
@@ -416,19 +412,21 @@ implicitly via several arguments:</p>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-12-1.png" width="864"></p>
 </div>
 <div class="section level2">
-<h2 id="multivarite-scales">Multivarite Scales<a class="anchor" aria-label="anchor" href="#multivarite-scales"></a>
+<h2 id="multivariate-scales">Multivariate Scales<a class="anchor" aria-label="anchor" href="#multivariate-scales"></a>
 </h2>
 <p>It will be possible to assign multiple variables for one aesthetic.
-This can be done with the function <code>tm_mv</code> (which stands for
-multivariate). An example is the bivariate choropleth, which is not yet
-implemented, but will definitely be.</p>
+This can be done with the function <code><a href="../reference/tm_mv.html">tm_mv()</a></code> (which stands
+for multivariate). An example is the bivariate choropleth, which is not
+yet implemented, but will definitely be.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_mv.html">tm_mv</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"footprint"</span><span class="op">)</span>, </span>
-<span>           fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_bivariate.html">tm_scale_bivariate</a></span><span class="op">(</span>scale1 <span class="op">=</span>  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                                        scale2 <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                                        values <span class="op">=</span> <span class="st">"brewer.qualseq"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_mv.html">tm_mv</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"footprint"</span><span class="op">)</span>, </span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_bivariate.html">tm_scale_bivariate</a></span><span class="op">(</span>scale1 <span class="op">=</span>  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                    scale2 <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                    values <span class="op">=</span> <span class="st">"brewer.qualseq"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Labels abbreviated by the first letters, e.g.: "0 to 3" =&gt; "0"</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-13-1.png" width="864"></p>
 <p>Another example of multivariate aesthetics are glpys, which are small
@@ -480,12 +478,12 @@ across the map:</p>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-16-1.png" width="864"></p>
 <p><strong>tmap v3</strong> contains many (often complicated) options
 for rather simple things. These options are set globally via
-<code>tmap_options</code> or within a single plot with
-<code>tm_layout</code>.</p>
+<code><a href="../reference/tmap_options.html">tmap_options()</a></code> or within a single plot with
+<code><a href="../reference/tm_layout.html">tm_layout()</a></code>.</p>
 <p>In <strong>tmap v4</strong>, the directly related to the layout are
-accessible via <code>tm_layout</code>. However, to ease its use, there
+accessible via <code><a href="../reference/tm_layout.html">tm_layout()</a></code>. However, to ease its use, there
 will be a bunch of handy shortcut functions, such as
-<code>tm_place_legends_left</code>:</p>
+<code><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -546,16 +544,16 @@ continuous legends better.</p>
 <div class="section level2">
 <h2 id="facets">Facets<a class="anchor" aria-label="anchor" href="#facets"></a>
 </h2>
-<p>In <strong>tmap v4</strong>, there will be convenient wrappers
-<code>tm_facet_wrap</code> and <code>tm_facet_grid</code>, where the
+<p>In <strong>tmap v4</strong>, there are convenient wrappers
+<code>tm_facet_wrap()</code> and <code>tm_facet_grid()</code>, where the
 former wraps the facets, and the latter places the facets in a grid
 layout.</p>
-<p>Furthermore, each visual variable will have a <code>free</code>
-argument, which determines whether scales are free (<code>TRUE</code>)
-or shared (<code>FALSE</code>) across facets.</p>
+<p>Furthermore, each visual variable has a <code>free</code> argument,
+which determines whether scales are free (<code>TRUE</code>) or shared
+(<code>FALSE</code>) across facets.</p>
 <p>In <strong>tmap v3</strong> this <code>free</code> argument could be
-set via <code>tm_facets</code>, whereas in <strong>tmap v4</strong> this
-argument has been moved to the layer functions:</p>
+set via <code><a href="../reference/tm_facets.html">tm_facets()</a></code>, whereas in <strong>tmap v4</strong>
+this argument has been moved to the layer functions:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -610,7 +608,7 @@ example:</p>
 fill in green, and GDP per capita as red bubbles. The maps are grouped
 by income group (rows) and economy (columns). The scale for life
 expectancy is set to free for the columns. This means that the scale
-will be applied for each column separately, with a legend per colomn.
+will be applied for each column separately, with a legend per column.
 The scale for GDP per capita is applied separately for each row.</p>
 </div>
 <div class="section level2">
@@ -620,7 +618,7 @@ The scale for GDP per capita is applied separately for each row.</p>
 <code>"plot"</code> and a <code>"view"</code> mode. However, the
 framework used in <strong>tmap v4</strong> also facilitates developers
 to write plotting methods for other modes.</p>
-<p>For instance, <strong>CesiumJS</strong> is a great Javascript library
+<p>For instance, <strong>CesiumJS</strong> is a great JavaScript library
 for 3d globe visualizations. It would be awesome to include this in
 <strong>R</strong>. When there is a low-level interface between
 <strong>CesiumJS</strong> and <strong>R</strong> (similar to the R
@@ -654,8 +652,8 @@ set with just one command: <code>tmap_style("tmap_v3")</code></p>
 have not settled on the exact details, e.g. which palettes to include,
 and how they can be obtained. Ideas are welcome (<a href="https://github.com/r-tmap/tmap/issues/566" class="external-link uri">https://github.com/r-tmap/tmap/issues/566</a>).</p>
 <p>In the current development version, there is a function similar to
-<code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer</a></code>, which renders a long png in
-the viewer panel of RStudio or the browser:</p>
+<code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code>, which renders a long png in
+the viewer pane of RStudio or the browser:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu">tmap_show_palettes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
