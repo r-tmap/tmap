@@ -2,14 +2,23 @@
 #' 
 #' Map component that adds a manual legend
 #' 
-#' @param ... visual variables and arguments passed on to `tm_legend`. By default, the argument `type` is set to `"Symbols"`, which means that the supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`, `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.
+#' @param ... visual variables and arguments passed on to `tm_legend()`.
+#'   By default, the argument `type` is set to `"Symbols"`, which means that the
+#'   supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`,
+#'   `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.
 #' @param labels labels
-#' @param type the layer type from which the visual variables (see ...) are taken. Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.
+#' @param type the layer type from which the visual variables (see `...`) are taken.
+#'   Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.
 #' @param title text of the title
 #' @param design legend design
 #' @param orientation legend orientation
-#' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
-#' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param group Name of the group to which this layer belongs. This is only
+#'   relevant in view mode, where layer groups can be switched (see `group.control`)
+#' @param group.control In view mode, the group control determines how
+#'   layer groups can be switched on and off. Options: `"radio"` for radio
+#'   buttons (meaning only one group can be shown), `"check"` for check boxes
+#'   (so multiple groups can be shown), and `"none"` for no control
+#'   (the group cannot be (de)selected).
 #' @param resize.as.group resize.as.group
 #' @param z z
 #' @export
@@ -35,7 +44,9 @@ tmapAddedLegend = function(comp, o) {
 	l = update_l(o = o, l = comp, v = "", mfun = comp$type)
 
 	fun = paste0("tm_", tolower(comp$type))
-	if (!exists(fun)) stop(paste0("type \"", comp$type, "\" not supported because tm_", comp$type,  " not found"), call. = FALSE)
+	if (!exists(fun)) {
+		stop(paste0("type \"", comp$type, "\" not supported because tm_", comp$type,  " not found"), call. = FALSE)
+	}
 	res = do.call(fun, args = list())
 	gp = res[[1]]$gpar
 	
