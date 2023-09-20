@@ -78,7 +78,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>tm</dt>
-<dd><p>tmap or a list of tmap objects. If <code>tm</code> is a tmap object, facets should be created, where nrow and ncol in <code><a href="tm_facets.html">tm_facets</a></code> have to be set to 1 in order to create one map per frame.</p></dd>
+<dd><p>tmap or a list of tmap objects. If <code>tm</code> is a tmap object, facets should be created, where nrow and ncol in <code><a href="tm_facets.html">tm_facets()</a></code> have to be set to 1 in order to create one map per frame.</p></dd>
 
 
 <dt>filename</dt>
@@ -90,7 +90,7 @@
 
 
 <dt>dpi</dt>
-<dd><p>dots per inch. By default 100, but this can be set with the option <code>output.dpi.animation</code> in <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+<dd><p>dots per inch. By default 100, but this can be set with the option <code>output.dpi.animation</code> in <code><a href="tmap_options.html">tmap_options()</a></code>.</p></dd>
 
 
 <dt>delay</dt>
@@ -106,15 +106,15 @@
 
 
 <dt>outer.margins</dt>
-<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) overrides the outer.margins argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save()</a></code>) overrides the outer.margins argument of <code><a href="tm_layout.html">tm_layout()</a></code> (unless set to <code>NA</code>)</p></dd>
 
 
 <dt>asp</dt>
-<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) if specified, it overrides the asp argument of <code><a href="tm_layout.html">tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></dd>
+<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save()</a></code>) if specified, it overrides the asp argument of <code><a href="tm_layout.html">tm_layout()</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></dd>
 
 
 <dt>scale</dt>
-<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) overrides the scale argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+<dd><p>(passed on to <code><a href="tmap_save.html">tmap_save()</a></code>) overrides the scale argument of <code><a href="tm_layout.html">tm_layout()</a></code> (unless set to <code>NA</code>)</p></dd>
 
 
 <dt>restart.delay</dt>
@@ -122,7 +122,7 @@
 
 
 <dt>...</dt>
-<dd><p>arguments passed on to <code><a href="https://docs.ropensci.org/av/reference/encoding.html" class="external-link">av_encode_video</a></code></p></dd>
+<dd><p>arguments passed on to <code><a href="https://docs.ropensci.org/av/reference/encoding.html" class="external-link">av::av_encode_video()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">

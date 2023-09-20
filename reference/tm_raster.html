@@ -94,19 +94,19 @@
 
 
 <dt>group</dt>
-<dd><p>Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)</p></dd>
+<dd><p>Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see <code>group.control</code>)</p></dd>
 
 
 <dt>group.control</dt>
-<dd><p>In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).</p></dd>
+<dd><p>In view mode, the group control determines how layer groups can be switched on and off. Options: <code>"radio"</code> for radio buttons (meaning only one group can be shown), <code>"check"</code> for check boxes (so multiple groups can be shown), and <code>"none"</code> for no control (the group cannot be (de)selected).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data variable name (of the object specified in <code><a href="tm_shape.html">tm_shape</a></code>), or with a visual value (for <code>col</code>, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets</a></code>.</p>
+    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data variable name (of the object specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p>
 <p>The <code>.scale</code> arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available <code>tm_scale_</code> functions. The default scale that is used is specified by the tmap option <code>scales.var</code>.</p>
-<p>The <code>.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend</a></code>. The default legend and its settings are determined by the tmap options <code>legend.</code>.</p>
-<p>The <code>.free</code> arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets</a></code>). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid</a></code>). For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code> means that for the visual variable <code>col</code>, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (<code><a href="tm_facets.html">tm_facets_wrap</a></code> and <code><a href="tm_facets.html">tm_facets_stack</a></code>) there is only one facet dimension, so the <code>.free</code> argument requires only one logical value.</p>
+<p>The <code>.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>. The default legend and its settings are determined by the tmap options <code>legend.</code>.</p>
+<p>The <code>.free</code> arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets()</a></code>). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid()</a></code>). For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code> means that for the visual variable <code>col</code>, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension, so the <code>.free</code> argument requires only one logical value.</p>
     </div>
 
     <div class="section level2">
