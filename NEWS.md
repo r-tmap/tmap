@@ -1,4 +1,6 @@
-# tmap 4.0
+# tmap 4.0 (development version)
+
+* For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`.
 
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)

@@ -1,71 +1,76 @@
-Package: tmap
-License: GPL-3
-Title: Thematic Maps
 Type: Package
-LazyData: true
+Package: tmap
+Title: Thematic Maps
+Version: 3.99.9000
 Authors@R: c(
-	person("Martijn", "Tennekes", email = "mtennekes@gmail.com", role = c("aut", "cre")),
-	person("Jakub", "Nowosad", email = "nowosad.jakub@gmail.com", role = "ctb"),
-	person("Joel", "Gombin", email = "joel.gombin@gmail.com", role = "ctb"),
-	person("Sebastian", "Jeworutzki", email = "Sebastian.Jeworutzki@rub.de", role = "ctb"),
-	person("Kent", "Russell", email = "kent.russell@timelyportfolio.com", role = "ctb"),
-	person("Richard", "Zijdeman", email = "richard.zijdeman@iisg.nl", role = "ctb"),
-	person("John", "Clouse", email = "johnaclouse@gmail.com", role = "ctb"),
-	person("Robin", "Lovelace", email = "rob00x@gmail.com", role = "ctb"),
-	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb"),
-        person("Olivier", "Roy", role = "ctb")
-	)
-Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
-Version: 4.0
-Date: 2023-08-14
-Encoding: UTF-8
+    person("Martijn", "Tennekes", , "mtennekes@gmail.com", role = c("aut", "cre")),
+    person("Jakub", "Nowosad", , "nowosad.jakub@gmail.com", role = "ctb"),
+    person("Joel", "Gombin", , "joel.gombin@gmail.com", role = "ctb"),
+    person("Sebastian", "Jeworutzki", , "Sebastian.Jeworutzki@rub.de", role = "ctb"),
+    person("Kent", "Russell", , "kent.russell@timelyportfolio.com", role = "ctb"),
+    person("Richard", "Zijdeman", , "richard.zijdeman@iisg.nl", role = "ctb"),
+    person("John", "Clouse", , "johnaclouse@gmail.com", role = "ctb"),
+    person("Robin", "Lovelace", , "rob00x@gmail.com", role = "ctb"),
+    person("Jannes", "Muenchow", , "jannes.muenchow@uni-jena.de", role = "ctb"),
+    person("Olivier", "Roy", role = "ctb")
+  )
+Description: Thematic maps are geographical maps in which spatial data
+    distributions are visualized. This package offers a flexible,
+    layer-based, and easy to use approach to create thematic maps, such as
+    choropleths and bubble maps.
+License: GPL-3
+URL: https://github.com/r-tmap/tmap, https://r-tmap.github.io/tmap/
+BugReports: https://github.com/r-tmap/tmap/issues
 Depends:
-    R (>= 3.5.0),
-    methods
+    methods,
+    R (>= 3.5.0)
 Imports:
-    data.table,
-    tmaptools (>= 3.1),
-    sf (>= 0.9-3),
-    stars (>= 0.4-2),
-    units (>= 0.6-1),
-    grid,
-    cols4all (>= 0.6-1),
     classInt (>= 0.4-3),
+    cols4all (>= 0.6-1),
+    data.table,
+    grid,
     htmltools,
     htmlwidgets,
-    widgetframe,
-    leaflet (>= 2.0.2),
-    leaflegend,
-    leafsync,
     leafem (>= 0.1),
     leafgl,
-    stats,
+    leaflegend,
+    leaflet (>= 2.0.2),
+    leafsync,
     rlang,
-    utils
+    sf (>= 0.9-3),
+    stars (>= 0.4-2),
+    stats,
+    tmaptools (>= 3.1),
+    units (>= 0.6-1),
+    utils,
+    widgetframe
 Suggests:
-    rmapshaper,
+    av,
     cartogram,
-    rmarkdown,
-    knitr,
-    png,
-    maptiles,
-    osmdata,
-    ggplot2,
-    dplyr,
-    tidyr,
-    shiny,
-    testthat (>= 3.0.0),
-    terra,
     colorspace,
     covr,
-    av,
-    gifski
-URL: https://github.com/r-tmap/tmap, https://r-tmap.github.io/tmap/
-Remotes: r-tmap/tmaptools, mtennekes/cols4all
-BugReports: https://github.com/r-tmap/tmap/issues
-VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+    dplyr,
+    ggplot2,
+    gifski,
+    knitr,
+    maptiles,
+    osmdata,
+    png,
+    rmapshaper,
+    rmarkdown,
+    shiny,
+    terra,
+    testthat (>= 3.0.0),
+    tidyr
+VignetteBuilder: 
+    knitr
+Remotes: 
+    mtennekes/cols4all,
+    r-tmap/tmaptools
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
-Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
