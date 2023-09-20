@@ -1,14 +1,20 @@
 #' World and Netherlands map
 #' 
-#' Maps of the world and the Netherlands (province and municipality level), class [`sf`][`sf::sf`]
+#' Maps of the world and the Netherlands (province and municipality level),
+#' class [`sf`][`sf::sf`]
 #' 
-#' The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of [tm_shape()].
+#' The default projections for these maps are Eckhart IV (World) and
+#' Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed
+#' temporarily for plotting purposes by using the projection argument of [tm_shape()].
 #' 
-#' `World` World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
+#' `World` World map. The default projection for this world map is Eckhart IV
+#' since area sizes are preserved, which is a very important property for choropleths.
 #' 
-#' `NLD_prov` and `NLD_muni`, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection.
+#' `NLD_prov` and `NLD_muni`, maps of the Netherlands at province and municipality
+#' level of 2013. The used projection is the Rijksdriehoekstelsel projection.
 #' 
-#'  **Important:** publication of these maps is only allowed when citing Statistics Netherlands (CBS) and Kadaster Nederland as source.
+#' **Important:** publication of these maps is only allowed when citing
+#' Statistics Netherlands (CBS) and Kadaster Nederland as source.
 #' 
 #' @rdname Shapes
 #' @format NULL
