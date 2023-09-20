@@ -344,7 +344,8 @@ tm_shape(World, projection="+proj=robin") +
 	tm_credits("Robinson projection", position = c("right", "BOTTOM")) +
 	tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 	tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
-
+# Not working yet
+\dontrun{
 # Example to illustrate the type of titles
 tm_shape(World) +
 	tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2")) +
@@ -357,6 +358,8 @@ tm_shape(World) +
 			  panel.label.color = "purple",
 			  legend.text.color = "brown")
 
+}
+	
 \dontrun{
 	# global option tmap.style demo
 	
