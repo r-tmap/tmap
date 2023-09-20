@@ -412,7 +412,8 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Deprecated tmap v3 code detected. Code translated to v4</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons</span>
 <span class="r-plt img"><img src="tm_layout-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Not working yet</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Example to illustrate the type of titles</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"income_grp"</span>, <span class="st">"economy"</span><span class="op">)</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Legend Title 1"</span>, <span class="st">"Legend Title 2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -424,13 +425,9 @@
 <span class="r-in"><span>        panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Panel Label 1"</span>, <span class="st">"Panel Label 2"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        panel.label.color <span class="op">=</span> <span class="st">"purple"</span>,</span></span>
 <span class="r-in"><span>        legend.text.color <span class="op">=</span> <span class="st">"brown"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The 'title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The 'main.title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>This probably shouldn't happen. Please check code.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>This probably shouldn't happen. Please check code.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (comp$title == "") 0 else comp$title.size:</span> the condition has length &gt; 1</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co"># global option tmap.style demo</span></span></span>
 <span class="r-in"><span>  </span></span>
