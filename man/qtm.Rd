@@ -127,5 +127,5 @@ qtm("Amsterdam")
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\code{vignette("tmap_sneek_peek")}
+\code{vignette("tmap_sneak_peek")}
 }

@@ -28,7 +28,7 @@
 #' @param ... arguments passed on to the `tm_*` functions. The prefix of these arguments should be with the layer function name without `"tm_"` and a period. For instance, the palette for polygon fill color is called `fill.palette`. The following prefixes are supported: `shape.`, `fill.`, `borders.`, `polygons.`, `symbols.`, `dots.`, `lines.`, `raster.`, `text.`, `layout.`, `grid.`, `facets.`, and `view.`. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. `convert2density`, can also be called without prefix.
 #' @return [tmap-element()]
 #' @example ./examples/qtm.R
-#' @seealso `vignette("tmap_sneek_peek")`
+#' @seealso `vignette("tmap_sneak_peek")`
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
 qtm <- function(shp, 
