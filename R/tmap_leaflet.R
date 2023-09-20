@@ -1,11 +1,14 @@
 #' Export tmap to the format of the used graphics mode
 #' 
-#' Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+#' * `tmap_grid()` returns a [`grob`][grid::grob()] object (`"plot" mode`)
+#' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).
 #' 
-#' @param x description
+#' @param x a tmap object.
 #' @param show show the map?
-#' @param ... arguments passed on the \code{\link{print.tmap}}
-#' @return `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot"} mode) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+#' @inheritDotParams print.tmap
+#' @return 
+#' * `tmap_grid()` returns a [`grob`][grid::grob()] object (`"plot"` mode)
+#' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode). In case small multiples are shown, a list is returned.
 #' @export
 #' @examples
 #' map = tm_shape(World) + tm_polygons()

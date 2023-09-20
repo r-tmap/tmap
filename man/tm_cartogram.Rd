@@ -17,11 +17,11 @@ tm_cartogram(
 \arguments{
 \item{size, size.scale, size.legend, size.free}{Transformation variable that determines the size of the polygons.}
 
-\item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.}
+\item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
 
 \item{trans.args}{lists that are passed on to internal transformation function}
 
-\item{...}{passd on to \code{\link{tm_polygons}}}
+\item{...}{passd on to \code{\link[=tm_polygons]{tm_polygons()}}}
 }
 \description{
 Map layer that draws a cartogram

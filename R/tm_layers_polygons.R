@@ -1,14 +1,14 @@
 #' Map layer: polygons
 #' 
-#' Map layer that draws polygons. Supported visual variables are: \code{fill} (the fill color), \code{col} (the border color), \code{lwd} (line width), \code{lty} (line type), \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
+#' Map layer that draws polygons. Supported visual variables are: `fill` (the fill color), `col` (the border color), `lwd` (line width), `lty` (line type), `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
 #' 
-#' The visual variable arguments (e.g. \code{col}) can be specified with either a data variable name (e.g., a spatial vector attribute or a raster layer of the object specified in \code{\link{tm_shape}}), or with a visual value (for \code{col}, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with \code{\link{tm_facets}}.
+#' The visual variable arguments (e.g. `col`) can be specified with either a data variable name (e.g., a spatial vector attribute or a raster layer of the object specified in [tm_shape()]), or with a visual value (for `col`, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with [tm_facets()].
 #' 
-#' The \code{.scale} arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available \code{tm_scale_} functions. The default is specified by the tmap option (\code{\link{tm_options}}) \code{scales.var}.
+#' The `.scale` arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available `tm_scale_` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #' 
-#' The \code{.legend} arguments determine the used legend, specified with \code{\link{tm_legend}}. The default legend and its settings are determined by the tmap options (\code{\link{tm_options}}) \code{legend.} .
+#' The `.legend` arguments determine the used legend, specified with [tm_legend()]. The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
 #' 
-#' The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link{tm_facets}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link{tm_facets_grid}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link{tm_facets_wrap}} and \code{\link{tm_facets_stack}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
+#' The `.free` arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see [tm_facets()]). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the visual variable `col`, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires only one logical value.
 #' 
 #' @param fill,fill.scale,fill.legend,fill.free Visual variable that determines the fill color. See details.
 #' @param col,col.scale,col.legend,col.free Visual variable that determines the border color. See details.
@@ -16,17 +16,17 @@
 #' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
 #' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free Visual variable that determines the fill color alpha transparency See details.
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
-#' @param linejoin,lineend Line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
-#' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
+#' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
+#' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
 #' @param trans.args,mapping.args lists that are passed on to internal transformation and mapping functions respectively
-#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
+#' @param zindex Map layers are drawn on top of each other. The `zindex` numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
 #' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
-#' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. Set popup.vars to \code{TRUE} to show all variables in the shape object. Set popup.vars to \code{FALSE} to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (\code{NA}) depends on whether visual variables (e.g.`col`) are used. If so, only those are shown. If not all variables in the shape object are shown.
-#' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
+#' @param popup.vars names of data variables that are shown in the popups in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the shape object. Set popup.vars to `FALSE` to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (`NA`) depends on whether visual variables (e.g.`col`) are used. If so, only those are shown. If not all variables in the shape object are shown.
+#' @param popup.format list of formatting options for the popup values. See the argument `legend.format` for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of `popup.vars`. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param hover name of the data variable that specifies the hover labels
 #' 
-#' @param id name of the data variable that specifies the indices of the spatial features. Only used for \code{"view"} mode.
+#' @param id name of the data variable that specifies the indices of the spatial features. Only used for `"view"` mode.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R 
 #' @name tm_polygons

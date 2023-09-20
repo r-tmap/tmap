@@ -21,7 +21,7 @@ tm_element_list_sel = function(tml, subclass) {
 
 #' Stacking of tmap elements
 #' 
-#' The plus operator allows you to stack tmap elements (functions with a prefix \code{tm_})
+#' The plus operator allows you to stack tmap elements (functions with a prefix `tm_`)
 #' 
 #' @param e1 first tmap element
 #' @param e2 second tmap element
@@ -39,11 +39,11 @@ tm_element_list_sel = function(tml, subclass) {
 
 #' Retrieve the last map to be modified or created
 #' 
-#' Retrieve the last map to be modified or created. Works in the same way as \code{ggplot2}'s \code{\link[ggplot2:last_plot]{last_plot}}, although there is a difference: \code{last_map} returns the last call instead of the stacked \code{\link{tmap-element}s}.
+#' Retrieve the last map to be modified or created. Works in the same way as [ggplot2::last_plot()], although there is a difference: `tmap_last()` returns the last call instead of the stacked [`tmap-element`]s.
 #' 
 #' @return call
 #' @export
-#' @seealso \code{\link{tmap_save}}
+#' @seealso [tmap_save()]
 tmap_last = function() {
 	.x = get("last_map", envir = .TMAP)
 	if (is.null(.x) && get("tmapOptions", envir = .TMAP)$show.warnings) warning("A map has not been created yet")

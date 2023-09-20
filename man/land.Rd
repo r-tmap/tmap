@@ -4,13 +4,16 @@
 \name{land}
 \alias{land}
 \title{Spatial data of global land cover}
+\format{
+An object of class \code{stars} with 1080 rows and 540 columns.
+}
 \usage{
-data(land)
+land
 }
 \description{
-Spatial data of global land cover, percent tree cover, and elevation of class \code{\link[stars:st_as_stars]{stars}}. 
+Spatial data of global land cover, percent tree cover, and elevation of class \code{\link[stars:st_as_stars]{stars}}.
 Two attributes in this object relates to global land cover.
-The cover layer classifies the status of land cover of the whole globe into 20 categories, while 
+The cover layer classifies the status of land cover of the whole globe into 20 categories, while
 the cover_cls layer uses 8 simplified categories.
 Percent Tree Cover (trees) represents the density of trees on the ground, and the last attribute represents elevation.
 }
@@ -20,3 +23,4 @@ Percent Tree Cover (trees) represents the density of trees on the ground, and th
 \references{
 Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
 }
+\keyword{datasets}

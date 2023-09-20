@@ -524,5 +524,5 @@ All default palettes that we use will be usable for color blind people.
 
 ## Suggestions
 
-Do you have any suggestions? Please let us know! Via https://github.com/mtennekes/tmap/issues, and please use the **tmap_v4** tag.
+Do you have any suggestions? Please let us know! Via https://github.com/r-tmap/tmap/issues, and please use the **tmap_v4** tag.
 

@@ -5,7 +5,7 @@
 #' @param x tmap object. 
 #' @param return.asp should the aspect ratio be returned?
 #' @param show show the map
-#' @param vp viewport (for \code{"plot"} mode)
+#' @param vp viewport (for `"plot"` mode)
 #' @param ... not used
 #' @export
 #' @method print tmap

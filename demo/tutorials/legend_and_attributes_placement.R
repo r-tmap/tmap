@@ -38,7 +38,7 @@ map + tm_layout(legend.position=c("center", "center"),
 # the normal position argument legend.position (together with legend.just) controls the position of the legend within the extra viewport
 
 # print this map in normal mode:
-last_map() + tm_layout(design.mode=FALSE)
+tmap_last() + tm_layout(design.mode=FALSE)
 
 
 # map attributes are controlled in a similar way

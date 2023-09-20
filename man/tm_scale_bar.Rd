@@ -30,5 +30,5 @@ tm_scale_bar(...)
   }}
 }
 \description{
-This function was renamed to [tm_scalebar()] in tmap v4.0
+This function was renamed to \code{\link[=tm_scalebar]{tm_scalebar()}} in tmap v4.0
 }

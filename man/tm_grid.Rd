@@ -51,9 +51,9 @@ tm_grid(
 
 \item{y}{Y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.}
 
-\item{n.x}{Preferred number of grid lines for the x axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.x}.}
+\item{n.x}{Preferred number of grid lines for the x axis. For the labels, a \code{\link[=pretty]{pretty()}} sequence is used, so the number of actual labels may be different than \code{n.x}.}
 
-\item{n.y}{Preferred number of grid lines for the y axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.y}.}
+\item{n.y}{Preferred number of grid lines for the y axis. For the labels, a \code{\link[=pretty]{pretty()}} sequence is used, so the number of actual labels may be different than \code{n.y}.}
 
 \item{crs}{Projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (EPSG 4326) grid lines.}
 
@@ -63,12 +63,12 @@ tm_grid(
 \item{scientific}{Should the labels be formatted scientifically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
 \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientifically, i.e. \code{n.dddE+nn} if needed to save space.}
 \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
-\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+\item{...}{Other arguments passed on to \code{\link[=formatC]{formatC()}}}
 }}
 
 \item{labels.cardinal}{Add the four cardinal directions (N, E, S, W) to the labels, instead of using negative coordinates for west and south (so it assumes that the coordinates are positive in the north-east direction).}
 
-\item{...}{Arguments passed on to \code{\link{tm_grid}}}
+\item{...}{Arguments passed on to \code{\link[=tm_grid]{tm_grid()}}}
 
 \item{col}{Color of the grid lines.}
 
@@ -104,12 +104,12 @@ tm_grid(
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
-\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)}
+\item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see \code{group.control})}
 
-\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).}
+\item{group.control}{In view mode, the group control determines how layer groups can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown), and \code{"none"} for no control (the group cannot be (de)selected).}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid()} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules()}.
 }
 \examples{
 current.mode <- tmap_mode("plot")

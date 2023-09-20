@@ -31,7 +31,7 @@ data(World, metro, rivers, land)
 
 ## Introduction
 
-**tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2022.
+**tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2023.
 
 #### tmap 4 - tmap 3.x
 
