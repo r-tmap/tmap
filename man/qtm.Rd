@@ -51,7 +51,8 @@ for the rows and the second for the columns). See also \code{\link[=tm_facets]{t
 \item{scale}{numeric value that serves as the global scale parameter. All font
 sizes, symbol sizes, border widths, and line widths are controlled by this value.
 The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled
-separately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.}
+separately with respectively \code{symbols.scale}, \code{text.scale}, and
+\code{lines.scale}. See also \code{...}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is the
 layer name (see \code{...}).}

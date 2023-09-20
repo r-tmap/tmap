@@ -144,7 +144,7 @@ tm_compass <- function(north,
 #' 
 #' Map component that adds a scale bar. As of version 4.0, `tm_scalebar()` is
 #' used instead of `tm_scale_bar()` (now deprecated), because of the potential
-#' confusion with the `tm_scale_x` scaling functions (like [tm_scale_continuous()]).
+#' confusion with the `tm_scale_*()` scaling functions (like [tm_scale_continuous()]).
 #' 
 #' @param breaks breaks
 #' @param width width

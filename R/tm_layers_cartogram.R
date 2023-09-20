@@ -2,8 +2,10 @@
 #' 
 #' Map layer that draws a cartogram
 #' 
-#' @param size,size.scale,size.legend,size.free Transformation variable that determines the size of the polygons.
-#' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
+#' @param size,size.scale,size.legend,size.free Transformation variable that
+#'   determines the size of the polygons.
+#' @param plot.order Specification in which order the spatial features are drawn.
+#'   See [tm_plot_order()] for details.
 #' @param trans.args lists that are passed on to internal transformation function
 #' @inheritDotParams tm_polygons
 #' @export

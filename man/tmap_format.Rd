@@ -17,10 +17,14 @@ tmap_format_add(..., name)
 \item{name}{Name of the new format.}
 }
 \value{
-The function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.
+The function \code{tmap_format()} returns the names of the available formats.
+When \code{format} is defined, it returns the option list corresponding the that format.
 }
 \description{
-Format options are tmap options that are shape dependent. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add()} is used to add a format.
+Format options are tmap options that are shape dependent.
+With \code{tmap_format()} the predefined formats can be retrieved.
+The values for a specific format can be retrieved with \code{tmap_format(format)},
+where format is the name of the format. The function \code{tmap_format_add()} is used to add a format.
 }
 \examples{
 # available formats
@@ -41,7 +45,9 @@ data(World)
 #qtm(World, fill="HPI", format="World_small")
 }
 \seealso{
-\code{\link[=tm_layout]{tm_layout()}} for predefined styles, \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles, and \code{\link[=tmap_options]{tmap_options()}} for tmap options.
-
-\code{\link[=tmap_options]{tmap_options()}} for tmap options
+\itemize{
+\item \code{\link[=tm_layout]{tm_layout()}} for predefined styles
+\item \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles
+\item \code{\link[=tmap_options]{tmap_options()}} for tmap options
+}
 }

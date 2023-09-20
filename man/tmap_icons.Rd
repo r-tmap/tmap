@@ -24,19 +24,27 @@ marker_icon()
 
 \item{height}{height of the icon. If \code{keep.asp}, this is interpreted as the maximum height.}
 
-\item{keep.asp}{keep the aspect ratio of the png image. If \code{TRUE} and the aspect ratio differs from \code{width/height} either \code{width} or \code{height} is adjusted accordingly.}
+\item{keep.asp}{keep the aspect ratio of the png image. If \code{TRUE} and the aspect
+ratio differs from \code{width/height}, either \code{width} or \code{height} is adjusted accordingly.}
 
-\item{just}{justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value of \code{just} is \code{c("center", "center")}.}
+\item{just}{justification of the icons relative to the point coordinates.
+The first value specifies horizontal and the second value vertical justification.
+Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}.
+Numeric values of 0 specify left alignment and 1 right alignment.
+The default value of \code{just} is \code{c("center", "center")}.}
 
 \item{as.local}{if the \code{file} is a url, should it be saved to local temporary file?}
 
-\item{...}{arguments passed on to \code{\link[leaflet:icons]{leaflet::icons()}}. When \code{iconWidth}, \code{iconHeight}, \code{iconAnchorX} and \code{iconAnchorY} are specified, they override \code{width} and \code{height}, and \code{just}.}
+\item{...}{arguments passed on to \code{\link[leaflet:icons]{leaflet::icons()}}.
+When \code{iconWidth}, \code{iconHeight}, \code{iconAnchorX}, and \code{iconAnchorY} are specified,
+they override \code{width} and \code{height}, and \code{just}.}
 }
 \value{
 icon data (see \code{\link[leaflet:icons]{leaflet::icons()}})
 }
 \description{
-Specifies icons from a png images, which can be used as markers in thematic maps. The function \code{marker_icon()} is the specification of the default marker.
+Specifies icons from a png images, which can be used as markers in thematic maps.
+The function \code{marker_icon()} is the specification of the default marker.
 }
 \seealso{
 \code{\link[=tm_symbols]{tm_symbols()}}

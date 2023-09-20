@@ -1,6 +1,7 @@
 #' Internal method that split shape objects
 #' 
-#' Internal method that split shape objects. So far, only used to split stars object (from dimension to attributes)
+#' Internal method that split shape objects. So far, only used to split stars object
+#' (from dimension to attributes)
 #' 
 #' @param shp shape
 #' @param split_stars_dim name of the dimension to split (`""` to skip)

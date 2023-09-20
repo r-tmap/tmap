@@ -1,12 +1,18 @@
 #' Get or add format options
 #' 
-#' Format options are tmap options that are shape dependent. With `tmap_format()` the predefined formats can be retrieved. The values for a specific format can be retrieved with `tmap_format(format)`, where format is the name of the format. The function `tmap_format_add()` is used to add a format.
+#' Format options are tmap options that are shape dependent.
+#' With `tmap_format()` the predefined formats can be retrieved.
+#' The values for a specific format can be retrieved with `tmap_format(format)`,
+#' where format is the name of the format. The function `tmap_format_add()` is used to add a format.
 #' 
 #' @param format Name of the format. Run `tmap_format()` to see the choices.
-#' @return The function `tmap_format()` returns the names of the available formats. When `format` is defined, it returns the option list corresponding the that format.
-#' @seealso [tm_layout()] for predefined styles, `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles, and [tmap_options()] for tmap options.
+#' @return The function `tmap_format()` returns the names of the available formats.
+#'   When `format` is defined, it returns the option list corresponding the that format.
+#' @seealso 
+#' * [tm_layout()] for predefined styles
+#' * `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles
+#' * [tmap_options()] for tmap options
 #' @example ./examples/tmap_format.R
-#' @seealso [tmap_options()] for tmap options
 #' @rdname tmap_format
 #' @export
 tmap_format = function(format) {

@@ -93,8 +93,10 @@
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
-						  col = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div",
+									  unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+						  col = list(seq = "hcl.blues3", div = "pu_gn_div",
+						  		   unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  size.bubbles = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
@@ -105,7 +107,9 @@
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1), lty = NA, text = NA, fontface = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1),
+							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
+							col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 lty = "solid",
@@ -235,7 +239,9 @@
 		legend.show = TRUE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
-		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
+		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
+										  pos.h = "left", pos.v = "top",
+										  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		legend.width = NA,
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
@@ -1098,7 +1104,9 @@ get_vector_id = function(x, id) {
 #' Internal tmap function to add a default value for the layer functions
 #' 
 #' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
-#' @param id name of the visual variable with layer, in the format `"x.y"`, where `x` is the visual variable and `y` is the layer. It is also possible to set `x` only; then it applies to all layer functions. 
+#' @param id name of the visual variable with layer, in the format `"x.y"`,
+#'   where `x` is the visual variable and `y` is the layer.
+#'   It is also possible to set `x` only; then it applies to all layer functions. 
 #' @param value value
 #' @keywords internal
 #' @export
