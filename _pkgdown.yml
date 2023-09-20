@@ -2,3 +2,5 @@ url: https://r-tmap.github.io/tmap/
 template:
   bootstrap: 5
 
+development:
+	mode: auto
