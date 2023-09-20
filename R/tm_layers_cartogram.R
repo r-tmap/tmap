@@ -3,9 +3,9 @@
 #' Map layer that draws a cartogram
 #' 
 #' @param size,size.scale,size.legend,size.free Transformation variable that determines the size of the polygons.
-#' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
+#' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
 #' @param trans.args lists that are passed on to internal transformation function
-#' @param ... passd on to \code{\link{tm_polygons}}
+#' @param ... passd on to [tm_polygons()]
 #' @export
 tm_cartogram = function(size = 1,
 						size.scale = tm_scale(),

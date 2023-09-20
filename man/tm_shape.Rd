@@ -33,5 +33,5 @@ tm_shape(
 \item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
-Specify a shape, which is a spatial object from one of these spatial object class packages: \code{sf}, \code{stars}, \code{terra}.
+Specify a shape, which is a spatial object from one of these spatial object class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, \code{terra}.
 }

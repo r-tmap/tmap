@@ -143,7 +143,7 @@ tm_legend_combine(variable)
 
 \item{...}{passed on (?)}
 
-\item{variable}{visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`}
+\item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
 }
 \value{
 OUTPUT_DESCRIPTION

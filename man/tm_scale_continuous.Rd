@@ -35,27 +35,27 @@ tm_scale_continuous_log1p(...)
 
 \item{limits}{Limits of the data values that are mapped to the continuous scale}
 
-\item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logical vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.}
+\item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logical vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If \code{FALSE} (default), they are considered as missing values.}
 
 \item{ticks}{Tick values. If not specified, it is determined automatically with \code{n}}
 
-\item{trans}{Transformation function. One of `"identity"` (default), `"log"`, and `"log1p"`. Note: the base of the log scale is irrelevant, since the log transformed values are normalized before mapping to visual values.}
+\item{trans}{Transformation function. One of \code{"identity"} (default), \code{"log"}, and \code{"log1p"}. Note: the base of the log scale is irrelevant, since the log transformed values are normalized before mapping to visual values.}
 
 \item{midpoint}{The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link{tm_polygons}}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{\link{tm_symbols}}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link{tm_symbols}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link[=tm_polygons]{tm_polygons()}}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
-\item{values.range}{(generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \code{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \code{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
+\item{values.range}{(generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \verb{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \verb{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
 
-\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link{tm_symbols}} and \code{lwd} of \code{\link{tm_lines}}.}
+\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link[=tm_symbols]{tm_symbols()}} and \code{lwd} of \code{\link[=tm_lines]{tm_lines()}}.}
 
 \item{value.na}{(generic scale argument) Value used for missing values. See tmap option \code{"value.na"} for defaults per visual variable.}
 
 \item{value.null}{(generic scale argument) Value used for NULL values. See tmap option \code{"value.null"} for defaults per visual variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).}
 
-\item{value.neutral}{(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both \code{fill} and \code{size} are used for \code{\link{tm_symbols}} (using filled circles), the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale, and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
+\item{value.neutral}{(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both \code{fill} and \code{size} are used for \code{\link[=tm_symbols]{tm_symbols()}} (using filled circles), the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale, and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
 
 \item{labels}{(generic scale argument) Labels}
 
@@ -63,10 +63,10 @@ tm_scale_continuous_log1p(...)
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 
-\item{...}{passed on to `tm_scale_continuous`}
+\item{...}{passed on to \code{tm_scale_continuous}}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \code{tm_scale_continuous_<x>} use transformation functions x.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \verb{tm_scale_continuous_<x>} use transformation functions x.
 }

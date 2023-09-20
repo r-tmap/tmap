@@ -10,17 +10,28 @@ tmap_leaflet(x, show = FALSE, ...)
 tmap_grid(x, show = FALSE, ...)
 }
 \arguments{
-\item{x}{description}
+\item{x}{a tmap object.}
 
 \item{show}{show the map?}
 
-\item{...}{arguments passed on the \code{\link{print.tmap}}}
+\item{...}{
+  Arguments passed on to \code{\link[=print.tmap]{print.tmap}}
+  \describe{
+    \item{\code{return.asp}}{should the aspect ratio be returned?}
+    \item{\code{vp}}{viewport (for \code{"plot"} mode)}
+  }}
 }
 \value{
-`tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot"} mode) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+\itemize{
+\item \code{tmap_grid()} returns a \code{\link[grid:grid.grob]{grob}} object (\code{"plot"} mode)
+\item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+}
 }
 \description{
-Export tmap to the format of the used graphics mode. `tmap_grid` returns a \code{\link[grid:grob]{grob}} object (\code{"plot" mode}) and `tmap_leaflet` a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+\itemize{
+\item \code{tmap_grid()} returns a \code{\link[grid:grid.grob]{grob}} object (\verb{"plot" mode})
+\item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+}
 }
 \examples{
 map = tm_shape(World) + tm_polygons()

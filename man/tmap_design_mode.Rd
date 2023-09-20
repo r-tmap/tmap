@@ -10,8 +10,8 @@ tmap_design_mode(design.mode)
 \item{design.mode}{Logical value that determines the design mode. If omitted then the design mode is toggled.}
 }
 \description{
-When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function sets the global option `tmap.design.mode`. It can be used as toggle function without arguments.
+When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function sets the global option \code{tmap.design.mode}. It can be used as toggle function without arguments.
 }
 \seealso{
-\code{\link{tmap_options}}
+\code{\link[=tmap_options]{tmap_options()}}
 }

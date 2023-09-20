@@ -12,7 +12,8 @@ Authors@R: c(
 	person("Richard", "Zijdeman", email = "richard.zijdeman@iisg.nl", role = "ctb"),
 	person("John", "Clouse", email = "johnaclouse@gmail.com", role = "ctb"),
 	person("Robin", "Lovelace", email = "rob00x@gmail.com", role = "ctb"),
-	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb")
+	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb"),
+        person("Olivier", "Roy", role = "ctb")
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
 Version: 4.0
@@ -22,8 +23,8 @@ Depends:
     R (>= 3.5.0),
     methods
 Imports:
-	data.table,
-	tmaptools (>= 3.1),
+    data.table,
+    tmaptools (>= 3.1),
     sf (>= 0.9-3),
     stars (>= 0.4-2),
     units (>= 0.6-1),
@@ -42,8 +43,8 @@ Imports:
     rlang,
     utils
 Suggests:
-	rmapshaper,
-	cartogram,
+    rmapshaper,
+    cartogram,
     rmarkdown,
     knitr,
     png,
@@ -53,7 +54,7 @@ Suggests:
     dplyr,
     tidyr,
     shiny,
-    testthat,
+    testthat (>= 3.0.0),
     terra,
     colorspace,
     covr,
@@ -66,3 +67,5 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
+Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

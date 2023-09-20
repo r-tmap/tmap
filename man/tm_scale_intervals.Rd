@@ -28,9 +28,9 @@ tm_scale_intervals(
 \arguments{
 \item{n}{Number of intervals. For some styles (see argument \code{style} below) it is the preferred number rather than the exact number.}
 
-\item{style}{Method to create intervals. Options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. See the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}).}
+\item{style}{Method to create intervals. Options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. See the details in \code{\link[classInt:classIntervals]{classInt::classIntervals()}} (extra arguments can be passed on via \code{style.args}).}
 
-\item{style.args}{List of extra arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}.}
+\item{style.args}{List of extra arguments passed on to \code{\link[classInt:classIntervals]{classInt::classIntervals()}}.}
 
 \item{breaks}{Interval breaks (only used and required when \code{style=="fixed"})}
 
@@ -40,19 +40,19 @@ tm_scale_intervals(
 
 \item{as.count}{Should the data variable be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link{tm_polygons}}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link[=tm_polygons]{tm_polygons()}}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
-\item{values.range}{(generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \code{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \code{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
+\item{values.range}{(generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \verb{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \verb{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
 
-\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link{tm_symbols}} and \code{lwd} of \code{\link{tm_lines}}.}
+\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link[=tm_symbols]{tm_symbols()}} and \code{lwd} of \code{\link[=tm_lines]{tm_lines()}}.}
 
 \item{value.na}{(generic scale argument) Value used for missing values. See tmap option \code{"value.na"} for defaults per visual variable.}
 
 \item{value.null}{(generic scale argument) Value used for NULL values. See tmap option \code{"value.null"} for defaults per visual variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).}
 
-\item{value.neutral}{(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both \code{fill} and \code{size} are used for \code{\link{tm_symbols}} (using filled circles), the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale, and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
+\item{value.neutral}{(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both \code{fill} and \code{size} are used for \code{\link[=tm_symbols]{tm_symbols()}} (using filled circles), the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale, and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
 
 \item{labels}{(generic scale argument) Labels}
 
@@ -63,5 +63,5 @@ tm_scale_intervals(
 \item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The function \code{tm_scale_interval} is used for numerical data.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_interval} is used for numerical data.
 }

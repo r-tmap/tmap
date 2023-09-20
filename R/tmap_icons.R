@@ -1,17 +1,17 @@
 #' Specify icons
 #' 
-#' Specifies icons from a png images, which can be used as markers in thematic maps. The function \code{marker_icon} is the specification of the default marker.
+#' Specifies icons from a png images, which can be used as markers in thematic maps. The function `marker_icon()` is the specification of the default marker.
 #' 
 #' @param file character value/vector containing the file path(s) or url(s).
-#' @param width width of the icon. If \code{keep.asp}, this is interpreted as the maximum width.
-#' @param height height of the icon. If \code{keep.asp}, this is interpreted as the maximum height.
-#' @param keep.asp keep the aspect ratio of the png image. If \code{TRUE} and the aspect ratio differs from \code{width/height} either \code{width} or \code{height} is adjusted accordingly.
-#' @param just justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value of \code{just} is \code{c("center", "center")}.
-#' @param as.local if the \code{file} is a url, should it be saved to local temporary file?
-#' @param ... arguments passed on to \code{\link[leaflet:icons]{icons}}. When \code{iconWidth}, \code{iconHeight}, \code{iconAnchorX} and \code{iconAnchorY} are specified, they override \code{width} and \code{height}, and \code{just}.
-#' @return icon data (see \code{\link[leaflet:icons]{icons}})
+#' @param width width of the icon. If `keep.asp`, this is interpreted as the maximum width.
+#' @param height height of the icon. If `keep.asp`, this is interpreted as the maximum height.
+#' @param keep.asp keep the aspect ratio of the png image. If `TRUE` and the aspect ratio differs from `width/height` either `width` or `height` is adjusted accordingly.
+#' @param just justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: `"left"` , `"right"`, `"center"`, `"bottom"`, and `"top"`. Numeric values of 0 specify left alignment and 1 right alignment. The default value of `just` is `c("center", "center")`.
+#' @param as.local if the `file` is a url, should it be saved to local temporary file?
+#' @param ... arguments passed on to [leaflet::icons()]. When `iconWidth`, `iconHeight`, `iconAnchorX` and `iconAnchorY` are specified, they override `width` and `height`, and `just`.
+#' @return icon data (see [leaflet::icons()])
 #' @export
-#' @seealso \code{\link{tm_symbols}}
+#' @seealso [tm_symbols()]
 #' @name tmap_icons
 #' @rdname tmap_icons
 tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), as.local=TRUE, ...) {

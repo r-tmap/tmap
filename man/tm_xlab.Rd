@@ -24,7 +24,7 @@ tm_ylab(text, size, color, rotation, space, fontface, fontfamily, side)
 
 \item{fontfamily}{font family}
 
-\item{side}{side: `"top"` or `"bottom"` for `tm_xlab` and `"left"` or `"right"` for `tm_ylab`}
+\item{side}{side: \code{"top"} or \code{"bottom"} for \code{tm_xlab} and \code{"left"} or \code{"right"} for \code{tm_ylab}}
 }
 \description{
 The x and y labels for maps
