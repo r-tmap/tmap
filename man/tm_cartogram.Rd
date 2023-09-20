@@ -21,7 +21,25 @@ tm_cartogram(
 
 \item{trans.args}{lists that are passed on to internal transformation function}
 
-\item{...}{passd on to \code{\link[=tm_polygons]{tm_polygons()}}}
+\item{...}{
+  Arguments passed on to \code{\link[=tm_polygons]{tm_polygons}}
+  \describe{
+    \item{\code{fill,fill.scale,fill.legend,fill.free}}{Visual variable that determines the fill color. See details.}
+    \item{\code{col,col.scale,col.legend,col.free}}{Visual variable that determines the border color. See details.}
+    \item{\code{lwd,lwd.scale,lwd.legend,lwd.free}}{Visual variable that determines the line width. See details.}
+    \item{\code{lty,lty.scale,lty.legend,lty.free}}{Visual variable that determines the line type. See details.}
+    \item{\code{fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free}}{Visual variable that determines the fill color alpha transparency See details.}
+    \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free}}{Visual variable that determines the border color alpha transparency. See details.}
+    \item{\code{linejoin,lineend}}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
+    \item{\code{trans.args,mapping.args}}{lists that are passed on to internal transformation and mapping functions respectively}
+    \item{\code{zindex}}{Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.}
+    \item{\code{group}}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see \code{group.control})}
+    \item{\code{group.control}}{In view mode, the group control determines how layer groups can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown), and \code{"none"} for no control (the group cannot be (de)selected).}
+    \item{\code{popup.vars}}{names of data variables that are shown in the popups in \code{"view"} mode. Set popup.vars to \code{TRUE} to show all variables in the shape object. Set popup.vars to \code{FALSE} to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (\code{NA}) depends on whether visual variables (e.g.\code{col}) are used. If so, only those are shown. If not all variables in the shape object are shown.}
+    \item{\code{popup.format}}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
+    \item{\code{hover}}{name of the data variable that specifies the hover labels}
+    \item{\code{id}}{name of the data variable that specifies the indices of the spatial features. Only used for \code{"view"} mode.}
+  }}
 }
 \description{
 Map layer that draws a cartogram

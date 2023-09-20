@@ -59,7 +59,7 @@ tm_layout = function(
 #' @param control.bases base layers
 #' @param control.overlays overlay layers
 #' @param set.bounds logical that determines whether maximum bounds are set, or a bounding box. Not applicable in plot mode. In view mode, this is passed on to [setMaxBounds()][leaflet::setMaxBounds()]
-#' @param set.view numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See [setView()][leaflet::setView()]. Only applicable if `bbox` is not specified
+#' @param set.view numeric vector that determines the view. Either a vector of three: `lng`, `lat`, and `zoom`, or a single value: `zoom`. See [setView()][leaflet::setView()]. Only applicable if `bbox` is not specified
 #' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see [tileOptions()][leaflet::tileOptions()]).
 #' @param leaflet.options options passed on to [leafletOptions()][leaflet::leafletOptions()]
 #' @export

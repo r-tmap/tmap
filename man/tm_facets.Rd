@@ -85,9 +85,9 @@ tm_facets_flip()
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
-\item{along}{deceprated Please use \code{tm_facets_page()}}
+\item{along}{deprecated Please use \code{tm_facets_page()}}
 
-\item{...}{paseed on to \code{tm_facets()}}
+\item{...}{passed on to \code{tm_facets()}}
 }
 \description{
 Specify facets. \code{tm_facets()} is the core function, but recommended is to use \code{tm_facets_wrap()}, \code{tm_facets_stack()} or \code{tm_facets_grid()}. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas \code{tm_facets_stack()} stacks the facets either horizontally or vertically. \code{tm_facets_grid()} supports up to three faceting dimensions.

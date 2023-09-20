@@ -2,9 +2,9 @@
 #' 
 #' Internal tmap function to create a tmap shape
 #'
-#' @param shp shp
-#' @param tmapID tmapID
-#' @param bbox bbox
+#' @param shp Shape file
+#' @param tmapID tmap Identifier
+#' @param bbox bounding box
 #' @export
 #' @keywords internal
 shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {

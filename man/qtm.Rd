@@ -34,20 +34,20 @@ qtm(
 \itemize{
 \item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}} or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.
 \item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive map is shown.
-\item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
+\item An OpenStreetMap search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
 }}
 
 \item{fill, col, size, shape, lwd, lty, fill_alpha, col_alpha}{Visual variables.}
 
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also \code{\link[=tm_facets]{tm_facets()}}}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled seperately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled separately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).}
 
 \item{crs}{Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
 
-\item{bbox}{bounding box. Arugment passed on to \code{\link[=tm_shape]{tm_shape()}}}
+\item{bbox}{bounding box. Argument passed on to \code{\link[=tm_shape]{tm_shape()}}}
 
 \item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link[=tm_basemap]{tm_basemap()}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.}
 
@@ -66,13 +66,13 @@ qtm(
 \item{...}{arguments passed on to the \verb{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.}
 }
 \value{
-\code{\link[=tmap-element]{tmap-element()}}
+A \code{\link{tmap-element}}
 }
 \description{
-Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking \code{\link[=tmap-element]{tmap-element()}}s. Without arguments or with a search term, this functions draws an interactive map.
+Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a search term, this functions draws an interactive map.
 }
 \details{
-The first argument is a shape object (normally specified by \code{\link[=tm_shape]{tm_shape()}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link[=tm_polygons]{tm_polygons()}}, can be specified (see \code{...}). It is also possible to stack \code{\link[=tmap-element]{tmap-element()}}s on a \code{qtm} plot. See examples.
+The first argument is a shape object (normally specified by \code{\link[=tm_shape]{tm_shape()}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link[=tm_polygons]{tm_polygons()}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
 
 By default, a scale bar is shown. This option can be set with \code{\link[=tmap_options]{tmap_options()}} (argument \code{qtm.scalebar}). A minimap is shown by default when \code{qtm} is called without arguments of with a search term. This option can be set with \code{\link[=tmap_options]{tmap_options()}} (argument \code{qtm.minimap}).
 }

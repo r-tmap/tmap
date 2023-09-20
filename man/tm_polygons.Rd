@@ -146,7 +146,7 @@ tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title="A green
 # Borders only
 tm_shape(World) + tm_borders()
 
-# Data variable containing colours values
+# Data variable containing color values
 World$isNLD = ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
 tm_shape(World) +
 	tm_fill("isNLD") +
