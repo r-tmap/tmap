@@ -42,8 +42,8 @@ Imports:
     rlang,
     utils
 Suggests:
-	rmapshaper,
-	cartogram,
+    rmapshaper,
+    cartogram,
     rmarkdown,
     knitr,
     png,
@@ -53,7 +53,7 @@ Suggests:
     dplyr,
     tidyr,
     shiny,
-    testthat,
+    testthat (>= 3.0.0),
     terra,
     colorspace,
     covr,
@@ -66,3 +66,4 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
+Config/testthat/edition: 3
