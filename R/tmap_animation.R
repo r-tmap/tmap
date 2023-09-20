@@ -40,9 +40,9 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 	
 	# check system requirements
 	if (gif) {
-		if (!requireNamespace("gifski", quietly = TRUE)) stop("Package gifski is required for gif animations but not installed.") 
+		rlang::check_installed("gifski", reason = "for creating gif animations.")
 	} else {
-		if (!requireNamespace("av", quietly = TRUE)) stop("Package av is required for ffmpeg animations but not installed.") 
+		rlang::check_installed("av", reason = "for ffmpeg animations")
 	}
 	
 	if (is.na(dpi)) dpi <- .tmapOptions$output.dpi.animation

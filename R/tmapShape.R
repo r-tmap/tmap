@@ -94,7 +94,7 @@ tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, sme
 #' @export
 tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
-	if (!requireNamespace("terra")) stop("terra package needed", call. = FALSE)
+	rlang::check_installed("terra")
 	
 	#if (!inherits(bbox, "bbox")) bbox = sf::st_bbox(bbox)
 	

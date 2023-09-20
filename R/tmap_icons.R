@@ -80,32 +80,28 @@ marker_icon <- function() {
 
 # fix.borders is needed to prevent that right-hand side and bottom edges disappear
 pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dpi=NULL) {
-	if (!requireNamespace("png", quietly = TRUE)) {
-		stop("png package needed for this function to work. Please install it.",
-			 call. = FALSE)
+	rlang::check_installed("png", reason = "for this function to work.")
+	pu <- is_path_or_url(file)
+	if (is.na(pu)) {
+		stop(file, " is neither a valid path nor url", call.=FALSE)
+	}
+		
+	if (!pu) {
+		tmpfile <- tempfile(fileext=".png")
+		download.file(file, destfile=tmpfile, mode="wb")
+		file <- tmpfile
+	}
+		
+	x <- png::readPNG(file)
+		
+	if (fix.borders) {
+		if (dim(x)[3]==3) {
+			x <- array(c(x, rep(1, dim(x)[1]*dim(x)[2])), dim = c(dim(x)[1], dim(x)[2], dim(x)[3]+1))
+		}
+		x2 <- add_zero_borders_to_3d_array(x, n=n, height.inch=height.inch,target.dpi=target.dpi)
+		rasterGrob(x2, interpolate=TRUE)
 	} else {
-		pu <- is_path_or_url(file)
-		if (is.na(pu)) {
-			stop(file, " is neither a valid path nor url", call.=FALSE)
-		}
-		
-		if (!pu) {
-			tmpfile <- tempfile(fileext=".png")
-			download.file(file, destfile=tmpfile, mode="wb")
-			file <- tmpfile
-		}
-		
-		x <- png::readPNG(file)
-		
-		if (fix.borders) {
-			if (dim(x)[3]==3) {
-				x <- array(c(x, rep(1, dim(x)[1]*dim(x)[2])), dim = c(dim(x)[1], dim(x)[2], dim(x)[3]+1))
-			}
-			x2 <- add_zero_borders_to_3d_array(x, n=n, height.inch=height.inch,target.dpi=target.dpi)
-			rasterGrob(x2, interpolate=TRUE)
-		} else {
-			rasterGrob(x, interpolate=TRUE)
-		}
+		rasterGrob(x, interpolate=TRUE)
 	}
 }
 
