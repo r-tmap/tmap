@@ -22,33 +22,49 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 \method{print}{tmap_arrange}(x, knit = FALSE, ..., options = NULL)
 }
 \arguments{
-\item{...}{\code{\link{tmap}} objects or one list of \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).}
+\item{...}{\code{\link{tmap}} objects or one list of \code{\link{tmap}} objects.
+The number of multiples that can be plot is limited (see details).}
 
 \item{ncol}{number of columns}
 
 \item{nrow}{number of rows}
 
-\item{widths}{vector of column widths. It should add up to 1 and the length should be equal to \code{ncol}}
+\item{widths}{vector of column widths. It should add up to 1 and the length
+should be equal to \code{ncol}.}
 
-\item{heights}{vector of row heights. It should add up to 1 and the length should be equal to \code{nrow}}
+\item{heights}{vector of row heights. It should add up to 1 and the length
+should be equal to \code{nrow}.}
 
-\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.}
+\item{sync}{logical. Should the navigation in view mode (zooming and panning)
+be synchronized? By default \code{FALSE}.}
 
-\item{asp}{aspect ratio. The aspect ratio of each map. Normally, this is controlled by the \code{asp} argument from \code{\link[=tm_layout]{tm_layout()}} (also a tmap option). This argument will overwrite it, unless set to \code{NULL}. The default value for \code{asp} is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When \code{asp} is set to \code{NA}, which is also the default value for \code{\link[=tm_layout]{tm_layout()}}, the aspect ratio will be adjusted to the used shapes.}
+\item{asp}{aspect ratio. The aspect ratio of each map. Normally, this is
+controlled by the \code{asp} argument from \code{\link[=tm_layout]{tm_layout()}} (also a tmap option).
+This argument will overwrite it, unless set to \code{NULL}.
+The default value for \code{asp} is 0, which means that the aspect ratio is
+adjusted to the size of the device divided by the number of columns and rows.
+When \code{asp} is set to \code{NA}, which is also the default value for \code{tm_layout()},
+the aspect ratio will be adjusted to the used shapes.}
 
-\item{outer.margins}{outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link[=tm_layout]{tm_layout()}}, unless set to \code{NULL}.}
+\item{outer.margins}{outer.margins, numeric vector four or a single value.
+If defines the outer margins for each multiple. If will overwrite the
+\code{outer.margins} argument from \code{\link[=tm_layout]{tm_layout()}}, unless set to \code{NULL}.}
 
-\item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange()})}
+\item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange()}).}
 
 \item{options}{options passed on to \code{\link[knitr:knit_print]{knitr::knit_print()}}}
 
 \item{knit}{should \code{\link[knitr:knit_print]{knitr::knit_print()}} be enabled, or the normal \code{\link[base:print]{base::print()}} function?}
 }
 \description{
-Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see \code{\link[=tm_facets]{tm_facets()}}). This function can be used to arrange custom small multiples in a grid layout.
+Arrange small multiples in a grid layout. Normally, small multiples are created
+by specifying multiple variables for one aesthetic or by specifying the by argument
+(see \code{\link[=tm_facets]{tm_facets()}}). This function can be used to arrange custom small multiples in a grid layout.
 }
 \details{
-The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits = c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
+The global option \code{tmap.limits} controls the limit of the number of facets that are plotted.
+By default, \code{tmap_options(tmap.limits = c(facets.view=4, facets.plot=64))}.
+The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
 \examples{
 tm1 = tm_shape(World) + tm_polygons("HPI")

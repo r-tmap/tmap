@@ -6,10 +6,14 @@
 \alias{tmap-package}
 \title{Thematic Map Visualization}
 \description{
-Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
+Thematic maps are geographical maps in which spatial data distributions are visualized.
+This package offers a flexible, layer-based, and easy to use approach to create
+thematic maps, such as choropleths and bubble maps. It is based on the grammar
+of graphics, and resembles the syntax of ggplot2.
 }
 \details{
-This page provides a brief overview of all package functions. See \code{vignette("tmap_sneak_peek")} for a short introduction with examples.
+This page provides a brief overview of all package functions.
+See \code{vignette("tmap_sneak_peek")} for a short introduction with examples.
 }
 \section{Quick plotting method}{
 

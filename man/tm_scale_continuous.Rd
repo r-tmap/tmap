@@ -68,5 +68,9 @@ tm_scale_continuous_log1p(...)
 \item{...}{passed on to \code{tm_scale_continuous}}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \verb{tm_scale_continuous_<x>} use transformation functions x.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
+Such function should be used for the input of the \code{.scale} arguments in the layer
+functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
+The function \code{tm_scale_continuous()} is used for continuous data.
+The functions \verb{tm_scale_continuous_<x>()} use transformation functions x.
 }

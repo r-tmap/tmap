@@ -1,10 +1,12 @@
 #' Shape (spatial object) specification
 #' 
-#' Specify a shape, which is a spatial object from one of these spatial object class packages: [`sf`][`sf::sf`], [`stars`][stars::st_as_stars()], `terra`.
+#' Specify a shape, which is a spatial object from one of these spatial object
+#' class packages: [`sf`][`sf::sf`], [`stars`][stars::st_as_stars()], or `terra`.
 #' 
 #' @param shp Spatial object
 #' @param name Name of the shape
-#' @param is.main Is `shp` the main shape, which determines the crs and bounding box of the map?
+#' @param is.main Is `shp` the main shape, which determines the crs and
+#'   bounding box of the map?
 #' @param crs CRS to which `shp` is reprojected (only used if `is.main = TRUE`)
 #' @param bbox Bounding box of he map (only used if `is.main = TRUE`)
 #' @param unit Unit of the coordinates

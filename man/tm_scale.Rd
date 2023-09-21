@@ -10,5 +10,10 @@ tm_scale(...)
 \item{...}{arguments passed on to the applied scale function \verb{tm_scale_*()}}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale()} is a scale that is set automatically given by the data type (factor, numeric, and integer) and the visual variable. The tmap option \code{scales.var} contains information which scale is applied when.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
+Such function should be used for the input of the \code{.scale} arguments in the
+layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale()}
+is a scale that is set automatically given by the data type (factor, numeric, and integer)
+and the visual variable. The tmap option \code{scales.var} contains information
+which scale is applied when.
 }

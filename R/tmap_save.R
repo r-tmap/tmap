@@ -3,27 +3,64 @@
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
 #' @param tm tmap object
-#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in `"plot"` mode and as an interactive map (html) in `"view"` mode (see details). The default format for static plots is png, but this can be changed using the option `"output.format"` in [tmap_options()]. If `NA` (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.
-#' @param device graphic device to use. Either a device function (e.g., [`png`][grDevices::png()] or [`cairo_pdf`][grDevices::cairo_pdf()]) or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff". If NULL, the graphic device is guessed based on the `filename` argument.
-#' @param height,width The width and height of the plot (not applicable for html files). Units are set with the argument `units`. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that `width * height` is equal to the option `"output.size"` in [tmap_options()]. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.
-#' @param units units for width and height (`"in"`, `"cm"`, or `"mm"`). By default, pixels (`"px"`) are used if either width or height is set to a value greater than 50. Else, the units are inches (`"in"`)
-#' @param dpi dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option `"output.dpi"` in [tmap_options()].
+# The docs for filename could be put in tmap_mode.
+#' @param filename filename including extension, and optionally the path.
+#'   The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported.
+#'   If the extension is missing, the file will be saved as a static plot in `"plot"`
+#'   mode and as an interactive map (html) in `"view"` mode (see details).
+#'   The default format for static plots is png, but this can be changed using
+#'   the option `"output.format"` in [tmap_options()]. If `NA` (the default),
+#'   the file is saved as "tmap01" in the default format, and the number incremented
+#'   if the file already exists.
+#' @param device graphic device to use. Either a device function 
+#'   (e.g., [`png`][grDevices::png()] or [`cairo_pdf`][grDevices::cairo_pdf()])
+#'   or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff".
+#'   If `NULL`, the graphic device is guessed based on the `filename` argument.
+#' @param height,width The dimensions of the plot (not applicable for html files).
+#'   Units are set with the argument `units`. If one of them is not specified,
+#'   this is calculated using the formula asp = width / height, where asp is the
+#'   estimated aspect ratio of the map. If both are missing, they are set such
+#'   that `width * height` is equal to the option `"output.size"` in [tmap_options()].
+#'   This is by default 49, meaning that is the map is a square (so aspect ratio of 1)
+#'   both width and height are set to 7.
+#' @param units units for width and height (`"in"`, `"cm"`, or `"mm"`).
+#'   By default, pixels (`"px"`) are used if either width or height is set to a
+#'   value greater than 50. Else, the units are inches (`"in"`).
+#' @param dpi dots per inch. Only applicable for raster graphics. By default it
+#'   is set to 300, but this can be changed using the option `"output.dpi"` in [tmap_options()].
 #' @param outer.margins overrides the outer.margins argument of [tm_layout()] (unless set to `NA`)
-#' @param asp if specified, it overrides the asp argument of [tm_layout()]. Tip: set to `0` if map frame should be placed on the edges of the image.
+#' @param asp if specified, it overrides the asp argument of [tm_layout()].
+#'   **Tip**: set to `0` if map frame should be placed on the edges of the image.
 #' @param scale overrides the scale argument of [tm_layout()] (unless set to `NA`)
-#' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with `insets_vp`.
-#' @param insets_vp [`viewport`][grid::viewport()] of an inset map, or a list of [`viewport`][grid::viewport()]s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with `insets_tm`.
+#' @param insets_tm tmap object of an inset map, or a list of tmap objects of
+#'   multiple inset maps. The number of tmap objects should be equal to the number
+#'   of viewports specified with `insets_vp`.
+#' @param insets_vp [`viewport`][grid::viewport()] of an inset map, or a list
+#'   of [`viewport`][grid::viewport()]s of multiple inset maps. The number of
+#'   viewports should be equal to the number of tmap objects specified with `insets_tm`.
 #' @param add.titles add titles to leaflet object.
-#' @param in.iframe should an interactive map be saved as an iframe? If so, two HTML files will be saved; one small parent HTML file with the iframe container, and one large child HTML file with the actual widget. See [widgetframe::saveWidgetframe()] for details. By default `FALSE` which means that one large HTML file is saved (see [saveWidget()][htmlwidgets::saveWidget()]).
-#' @param selfcontained when an interactive map is saved, should the resources (e.g. JavaScript libraries) be contained in the HTML file? If `FALSE`, they are placed in an adjacent directory (see also [htmlwidgets::saveWidget()]). Note that the HTML file will often still be large when `selfcontained = FALSE`, since the map data (polygons and popups), which are also contained in the HTML file, usually take more space then the map resources.
-#' @param verbose Deprecated. It is now controlled by the tmap option `show.messages` (see [tmap_options()])
-#' @param ... arguments passed on to device functions or to [`saveWidget()`][htmlwidgets::saveWidget()] or [`saveWidgetFrame()`][widgetframe::saveWidgetframe()]
+#' @param in.iframe should an interactive map be saved as an iframe? 
+#'   If so, two HTML files will be saved; one small parent HTML file with the
+#'   iframe container, and one large child HTML file with the actual widget.
+#'   See [widgetframe::saveWidgetframe()] for details. By default `FALSE`,
+#'   which means that one large HTML file is saved (see [saveWidget()][htmlwidgets::saveWidget()]).
+#' @param selfcontained when an interactive map is saved, should the resources
+#'   (e.g. JavaScript libraries) be contained in the HTML file? If `FALSE`, they
+#'   are placed in an adjacent directory (see also [htmlwidgets::saveWidget()]).
+#'   Note that the HTML file will often still be large when `selfcontained = FALSE`,
+#'   since the map data (polygons and popups), which are also contained in the HTML file,
+#'   usually take more space then the map resources.
+#' @param verbose Deprecated. It is now controlled by the tmap option `show.messages`
+#'    (see [tmap_options()])
+#' @param ... arguments passed on to device functions or to
+#'   [`saveWidget()`][htmlwidgets::saveWidget()] or [`saveWidgetFrame()`][widgetframe::saveWidgetframe()]
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
 #' @export
 tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, units = NA,
-					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
+					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL,
+					 insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
 	.tmapOptions = get("tmapOptions", envir = .TMAP)
 	show.warnings =.tmapOptions$show.warnings
 	if (!missing(verbose) && show.warnings) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
@@ -325,6 +362,10 @@ plot_device = function(device, ext, filename, dpi, units_target){
 
 choose_unit = function(x) {
 	units = ifelse(x > 50, "px", "in")
-	if (x > 15 && x < 100) message("The argument 'units' has been set to \"", units, "\" since the specified width or height is ", ifelse(units == "px", "greater than ", "less than or equal to "), 50, ". Specify units = \"", ifelse(units == "px", "in", "px"),"\" to change this.")
+	if (x > 15 && x < 100) {
+		message("The argument 'units' has been set to \"",
+				units, "\" since the specified width or height is ",
+				ifelse(units == "px", "greater than ", "less than or equal to "), 50, ". Specify units = \"", ifelse(units == "px", "in", "px"),"\" to change this.")
+	}
 	units
 }

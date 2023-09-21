@@ -67,21 +67,45 @@ tm_facets_flip()
 
 \item{orientation}{For facet stack: horizontal or vertical?}
 
-\item{free.coords}{Logical. If the \code{by} argument is specified, should each map has its own coordinate ranges? By default \code{TRUE}, unless facets are shown in as different layers (\code{as.layers = TRUE})}
+\item{free.coords}{Logical. If the \code{by} argument is specified, should each
+map has its own coordinate ranges? By default \code{TRUE}, unless facets are shown
+in as different layers (\code{as.layers = TRUE})}
 
-\item{drop.units}{Logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default \code{TRUE}.}
+\item{drop.units}{Logical. If the \code{by} argument is specified, should
+non-selected spatial units be dropped? If \code{FALSE}, they are plotted where
+mapped aesthetics are regarded as missing values. Not applicable for
+raster shapes. By default \code{TRUE}.}
 
-\item{drop.empty.facets}{Logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and columns are dropped.}
+\item{drop.empty.facets}{Logical. If the \code{by} argument is specified, should
+empty facets be dropped? Empty facets occur when the \code{by}-variable contains
+unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows
+and columns are dropped.}
 
-\item{drop.NA.facets}{Logical. If the \code{by} argument is specified, and all data values for specific facets are missing, should these facets be dropped? \code{FALSE} by default.}
+\item{drop.NA.facets}{Logical. If the \code{by} argument is specified, and all
+data values for specific facets are missing, should these facets be dropped?
+\code{FALSE} by default.}
 
-\item{sync}{Logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is \code{FALSE}.}
+\item{sync}{Logical. Should the navigation in view mode (zooming and panning)
+be synchronized? By default \code{TRUE} if the facets have the same bounding box.
+This is generally the case when rasters are plotted, or when \code{free.coords} is
+\code{FALSE}.}
 
-\item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \link[base:table]{table()}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
+\item{showNA}{If the \code{by} argument is specified, should missing values of the
+\code{by}-variable be shown in a facet? If two \code{by}-variables are specified,
+should missing values be shown in an additional row and column?
+If \code{NA}, missing values only are shown if they exist. Similar to the
+\code{useNA} argument of \link[base:table]{table()}, where \code{TRUE}, \code{FALSE},
+and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
 
 \item{textNA}{Text used for facets of missing values.}
 
-\item{scale.factor}{Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.}
+\item{scale.factor}{Number that determines how the elements (e.g. font sizes,
+symbol sizes, line widths) of the small multiples are scaled in relation to
+the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th
+root of the scaling factor of the shapes. So, for \code{scale.factor=1},
+they are scaled proportional to the scaling of the shapes. Since elements,
+especially text, are often too small to read, a higher value is recommended.
+By default, \code{scale.factor=2}.}
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
@@ -90,5 +114,10 @@ tm_facets_flip()
 \item{...}{passed on to \code{tm_facets()}}
 }
 \description{
-Specify facets. \code{tm_facets()} is the core function, but recommended is to use \code{tm_facets_wrap()}, \code{tm_facets_stack()} or \code{tm_facets_grid()}. The former two specify facets for one grouping variable (so one faceting dimension). The difference is that wrap may place facets in multiple rows and columns whereas \code{tm_facets_stack()} stacks the facets either horizontally or vertically. \code{tm_facets_grid()} supports up to three faceting dimensions.
+Specify facets. \code{tm_facets()} is the core function, but recommended is to use
+\code{tm_facets_wrap()}, \code{tm_facets_stack()} or \code{tm_facets_grid()}.
+The former two specify facets for one grouping variable (so one faceting dimension).
+The difference is that wrap may place facets in multiple rows and columns whereas
+\code{tm_facets_stack()} stacks the facets either horizontally or vertically.
+\code{tm_facets_grid()} supports up to three faceting dimensions.
 }

@@ -8,7 +8,8 @@
 #' @inheritDotParams print.tmap
 #' @return 
 #' * `tmap_grid()` returns a [`grob`][grid::grob()] object (`"plot"` mode)
-#' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode). In case small multiples are shown, a list is returned.
+#' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).
+#'   In case small multiples are shown, a list is returned.
 #' @export
 #' @examples
 #' map = tm_shape(World) + tm_polygons()
