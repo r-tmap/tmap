@@ -70,15 +70,29 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>aes</dt>
-<dd><p>Visual variable for which the values determine the plotting order. Example: bubble map where the <code>"size"</code> aesthetic is used. A data variable (say population) is mapped via a continuous scale (<code><a href="tm_scale_continuous.html">tm_scale_continuous()</a></code>) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. Use <code>"DATA"</code> to keep the same order as in the data. Another special value are <code>"AREA"</code> and <code>"LENGTH"</code> which are preserved for polygons and lines respectively: rather than a data variable the polygon area / line lengths determines the plotting order.</p></dd>
+<dd><p>Visual variable for which the values determine the plotting order.
+Example: bubble map where the <code>"size"</code> aesthetic is used.
+A data variable (say population) is mapped via a continuous scale (<code><a href="tm_scale_continuous.html">tm_scale_continuous()</a></code>)
+to bubble sizes. The bubbles are plotted in order of size.
+How is determined by the other arguments. Use <code>"DATA"</code> to keep the same
+order as in the data. Another special value are <code>"AREA"</code> and <code>"LENGTH"</code>
+which are preserved for polygons and lines respectively: rather than a data
+variable the polygon area / line lengths determines the plotting order.</p></dd>
 
 
 <dt>reverse</dt>
-<dd><p>Logical that determines whether the visual values are plotted in reversed order. The visual values (specified with tmap option <code>"values.var"</code>) are by default reversed, so plotted starting from the last value. In the bubble map example, this means that large bubbles are plotted first, hence at the bottom.</p></dd>
+<dd><p>Logical that determines whether the visual values are plotted
+in reversed order. The visual values (specified with tmap option <code>"values.var"</code>)
+are by default reversed, so plotted starting from the last value.
+In the bubble map example, this means that large bubbles are plotted first,
+hence at the bottom.</p></dd>
 
 
 <dt>na.order</dt>
-<dd><p>Where should features be plotted that have an <code>NA</code> value for (at least) one other aesthetic variable? In the (order) <code>"mix"</code>, at the <code>"bottom"</code>, or on <code>"top"</code>? In the bubble map example: if fill color is missing for some bubble, where should those bubbles be plotted?</p></dd>
+<dd><p>Where should features be plotted that have an <code>NA</code> value for
+(at least) one other aesthetic variable? In the (order) <code>"mix"</code>, at the <code>"bottom"</code>,
+or on <code>"top"</code>? In the bubble map example: if fill color is missing for some bubble,
+where should those bubbles be plotted?</p></dd>
 
 
 <dt>null.order</dt>

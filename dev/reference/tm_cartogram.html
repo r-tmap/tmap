@@ -72,11 +72,13 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>size, size.scale, size.legend, size.free</dt>
-<dd><p>Transformation variable that determines the size of the polygons.</p></dd>
+<dd><p>Transformation variable that
+determines the size of the polygons.</p></dd>
 
 
 <dt>plot.order</dt>
-<dd><p>Specification in which order the spatial features are drawn. See <code><a href="tm_plot_order.html">tm_plot_order()</a></code> for details.</p></dd>
+<dd><p>Specification in which order the spatial features are drawn.
+See <code><a href="tm_plot_order.html">tm_plot_order()</a></code> for details.</p></dd>
 
 
 <dt>trans.args</dt>
@@ -97,37 +99,58 @@
 <dd><p>Visual variable that determines the line type. See details.</p></dd>
 
     <dt><code>fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free</code></dt>
-<dd><p>Visual variable that determines the fill color alpha transparency See details.</p></dd>
+<dd><p>Visual
+variable that determines the fill color alpha transparency See details.</p></dd>
 
     <dt><code>col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free</code></dt>
-<dd><p>Visual variable that determines the border color alpha transparency. See details.</p></dd>
+<dd><p>Visual variable
+that determines the border color alpha transparency. See details.</p></dd>
 
     <dt><code>linejoin,lineend</code></dt>
 <dd><p>Line join and line end. See <a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar()</a> for details.</p></dd>
 
     <dt><code>trans.args,mapping.args</code></dt>
-<dd><p>lists that are passed on to internal transformation and mapping functions respectively</p></dd>
+<dd><p>lists that are passed on to internal transformation
+and mapping functions respectively.</p></dd>
 
     <dt><code>zindex</code></dt>
-<dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.</p></dd>
+<dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers
+(one for each map layer) determines the stacking order.
+By default the map layers are drawn in the order they are called.</p></dd>
 
     <dt><code>group</code></dt>
-<dd><p>Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see <code>group.control</code>)</p></dd>
+<dd><p>Name of the group to which this layer belongs. This is only
+relevant in view mode, where layer groups can be switched (see <code>group.control</code>)</p></dd>
 
     <dt><code>group.control</code></dt>
-<dd><p>In view mode, the group control determines how layer groups can be switched on and off. Options: <code>"radio"</code> for radio buttons (meaning only one group can be shown), <code>"check"</code> for check boxes (so multiple groups can be shown), and <code>"none"</code> for no control (the group cannot be (de)selected).</p></dd>
+<dd><p>In view mode, the group control determines how layer groups
+can be switched on and off. Options: <code>"radio"</code> for radio buttons
+(meaning only one group can be shown), <code>"check"</code> for check boxes
+(so multiple groups can be shown), and <code>"none"</code> for no control
+(the group cannot be (de)selected).</p></dd>
 
     <dt><code>popup.vars</code></dt>
-<dd><p>names of data variables that are shown in the popups in <code>"view"</code> mode. Set popup.vars to <code>TRUE</code> to show all variables in the shape object. Set popup.vars to <code>FALSE</code> to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (<code>NA</code>) depends on whether visual variables (e.g.<code>col</code>) are used. If so, only those are shown. If not all variables in the shape object are shown.</p></dd>
+<dd><p>names of data variables that are shown in the popups
+in <code>"view"</code> mode. Set popup.vars to <code>TRUE</code> to show all variables in the
+shape object. Set popup.vars to <code>FALSE</code> to disable popups. Set <code>popup.vars</code>
+to a character vector of variable names to those those variables in the popups.
+The default (<code>NA</code>) depends on whether visual variables (e.g.<code>fill</code>) are used.
+If so, only those are shown. If not all variables in the shape object are shown.</p></dd>
 
     <dt><code>popup.format</code></dt>
-<dd><p>list of formatting options for the popup values. See the argument <code>legend.format</code> for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.</p></dd>
+<dd><p>list of formatting options for the popup values.
+See the argument <code>legend.format</code> for options. Only applicable for
+numeric data variables. If one list of formatting options is provided,
+it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named)
+list of lists can be provided. In that case, each list of formatting options
+is applied to the named variable.</p></dd>
 
     <dt><code>hover</code></dt>
 <dd><p>name of the data variable that specifies the hover labels</p></dd>
 
     <dt><code>id</code></dt>
-<dd><p>name of the data variable that specifies the indices of the spatial features. Only used for <code>"view"</code> mode.</p></dd>
+<dd><p>name of the data variable that specifies the indices of the spatial
+features. Only used for <code>"view"</code> mode.</p></dd>
 
   
 </dl></dd>
