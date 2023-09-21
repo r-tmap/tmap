@@ -122,6 +122,16 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 						   domain = val, 
 						   na.color=colNA, 
 						   alpha = FALSE)
+		
+		brks = pretty(cmp$limits, 7)
+		
+		trns = function(x) {
+			f = (x-cmp$limits[1]) / diff(cmp$limits)
+			y = cmp$tr$fun(cmp$limits)
+			x2 = y[1] + diff(y) * f
+			cmp$tr$rev(x2)
+		}
+		
 		lf |> leaflegend::addLegendNumeric(position=legpos, 
 										   orientation = orientation,
 										   group = group,
@@ -129,6 +139,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   width = {if (orientation == "vertical") 20 else 200},
 										   pal=pal,
 										   values=val, 
+										   numberFormat = function(x) {
+										   	prettyNum(trns(x), format = "f", big.mark = ",", digits =
+										   			  	3, scientific = FALSE)
+										   },
 										   #na.label = textNA, 
 										   title=title, 
 										   fillOpacity=cmp$gp3$alpha, 

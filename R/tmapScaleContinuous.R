@@ -246,7 +246,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sor
 			labels = c(labels, label.na)
 			attr(labels, "align") = labels.align
 		}
-		#attr(vvalues, "style") = style
+
 		
 
 		legend = within(legend, {
@@ -257,7 +257,10 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, layer_args, sor
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
 			scale = "continuous"
+			tr = tr
+			limits = limits
 		})
+		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
 		
 		if (submit_legend) {
 			if (bypass_ord) {
