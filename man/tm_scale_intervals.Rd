@@ -63,5 +63,8 @@ tm_scale_intervals(
 \item{label.format}{(generic scale argument) Label formatting (similar to legend.format in tmap3)}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}). The function \code{tm_scale_interval} is used for numerical data.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
+Such function should be used for the input of the \code{.scale} arguments in the
+layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
+The function \code{tm_scale_interval()} is used for numerical data.
 }

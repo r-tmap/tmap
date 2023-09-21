@@ -1,16 +1,27 @@
 #' Set or get the default tmap style
 #' 
-#' Set or get the default tmap style. Without arguments, the current style is returned. Also the available styles are displayed. When a style is set, the corresponding tmap options (see [tmap_options()]) will be set accordingly. The default style (i.e. when loading the package) is `"white"`.
+#' Set or get the default tmap style. Without arguments, the current style is returned.
+#' Also the available styles are displayed. When a style is set, the corresponding tmap
+#' options (see [tmap_options()]) will be set accordingly.
+#' The default style (i.e. when loading the package) is `"white"`.
 #' 
-#' Note that [tm_style()] is used within a plot call (so it only affects that plot), whereas `tmap_style()` sets the style globally.
+#' Note that [tm_style()] is used within a plot call (so it only affects that plot),
+#' whereas `tmap_style()` sets the style globally.
 #' 
-#' After loading a style, the options that defined this style (i.e. the difference with the default `"white"` style) can be obtained by [tmap_options_diff()].
+#' After loading a style, the options that defined this style
+#' (i.e. the difference with the default `"white"` style) can be obtained by [tmap_options_diff()].
 #' 
-#' The documentation of [tmap_options()] (details and the examples) shows how a new style is created.
+#' The documentation of [tmap_options()] (details and the examples) shows how to create a new style.
 #' 
-#' @param style Name of the style. When omitted, `tmap_style()` returns the current style and also shows all available styles. When the style is specified, `tmap_style()` sets the style accordingly. Note that in that case, all tmap options (see [tmap_options()]) will be reset according to the style definition. See [tm_layout()] for predefined styles, and `tmap_style_catalogue` (not migrated to v4 yet) for creating a catalogue.
+#' @param style Name of the style. When omitted, `tmap_style()` returns the current style
+#'   and also shows all available styles. When the style is specified,`tmap_style()`
+#'   sets the style accordingly. Note that in that case, all tmap options (see [tmap_options()])
+#'   will be reset according to the style definition. 
+#'   See [tm_layout()] for predefined styles, and `tmap_style_catalogue` (not migrated to v4 yet) for creating a catalogue.
 #' @return The style before changing
-#' @seealso [tmap_options()] for tmap options, and `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles.
+#' @seealso
+#' * [tmap_options()] for tmap options
+#' * `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles.
 #' @example ./examples/tmap_style.R
 #' @export
 #' @rdname tmap_style
@@ -67,5 +78,8 @@ get_style_names = function(except_style = NULL, remove_grey = TRUE) {
 
 check_style = function(style) {
 	styles = get_style_names(remove_grey = FALSE)
-	if (!style %in% styles) stop("style \"" , style, "\" unknown. The available styles are: ", print_text_vector(get_style_names()), call. = FALSE)
+	if (!style %in% styles) {
+		stop("style \"" , style, "\" unknown. The available styles are: ",
+			 print_text_vector(get_style_names()), call. = FALSE)
+	}
 }

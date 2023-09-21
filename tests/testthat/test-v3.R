@@ -39,7 +39,7 @@ test_that("v3 syntax works", {
 	tm_shape(NLD_prov) +
 		tm_fill("name", legend.show = FALSE) +
 		tm_shape(NLD_muni) +
-		tm_polygons("MAP_COLORS", palette = "Greys", alpha = .25) +
+		tm_polygons("MAP_COLORS", palette = "Grays", alpha = .25) +
 		tm_shape(NLD_prov) +
 		tm_borders(lwd = 2) +
 		tm_text("name", shadow = TRUE) +

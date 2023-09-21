@@ -22,7 +22,8 @@ tm_shape(
 
 \item{crs}{CRS to which \code{shp} is reprojected (only used if \code{is.main = TRUE})}
 
-\item{is.main}{Is \code{shp} the main shape, which determines the crs and bounding box of the map?}
+\item{is.main}{Is \code{shp} the main shape, which determines the crs and
+bounding box of the map?}
 
 \item{name}{Name of the shape}
 
@@ -33,5 +34,6 @@ tm_shape(
 \item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
-Specify a shape, which is a spatial object from one of these spatial object class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, \code{terra}.
+Specify a shape, which is a spatial object from one of these spatial object
+class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, or \code{terra}.
 }

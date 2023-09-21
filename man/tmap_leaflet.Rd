@@ -24,7 +24,8 @@ tmap_grid(x, show = FALSE, ...)
 \value{
 \itemize{
 \item \code{tmap_grid()} returns a \code{\link[grid:grid.grob]{grob}} object (\code{"plot"} mode)
-\item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode). In case small multiples are shown, a list is returned.
+\item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
+In case small multiples are shown, a list is returned.
 }
 }
 \description{

@@ -1,18 +1,34 @@
 #' Arrange small multiples in grid layout
 #' 
-#' Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see [tm_facets()]). This function can be used to arrange custom small multiples in a grid layout.
+#' Arrange small multiples in a grid layout. Normally, small multiples are created
+#' by specifying multiple variables for one aesthetic or by specifying the by argument
+#' (see [tm_facets()]). This function can be used to arrange custom small multiples in a grid layout.
 #' 
-#' The global option `tmap.limits` controls the limit of the number of facets that are plotted. By default, `tmap_options(tmap.limits = c(facets.view=4, facets.plot=64))`. The maximum number of interactive facets is set to four since otherwise it may become very slow.
+#' The global option `tmap.limits` controls the limit of the number of facets that are plotted.
+#' By default, `tmap_options(tmap.limits = c(facets.view=4, facets.plot=64))`.
+#' The maximum number of interactive facets is set to four since otherwise it may become very slow.
 #' 
-#' @param ... [`tmap`] objects or one list of [`tmap`] objects. The number of multiples that can be plot is limited (see details).
+#' @param ... [`tmap`] objects or one list of [`tmap`] objects.
+#'   The number of multiples that can be plot is limited (see details).
 #' @param ncol number of columns
 #' @param nrow number of rows
-#' @param widths vector of column widths. It should add up to 1 and the length should be equal to `ncol`
-#' @param heights vector of row heights. It should add up to 1 and the length should be equal to `nrow`
-#' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default `FALSE`.
-#' @param asp aspect ratio. The aspect ratio of each map. Normally, this is controlled by the `asp` argument from [tm_layout()] (also a tmap option). This argument will overwrite it, unless set to `NULL`. The default value for `asp` is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When `asp` is set to `NA`, which is also the default value for [tm_layout()], the aspect ratio will be adjusted to the used shapes.
-#' @param outer.margins outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the `outer.margins` argument from [tm_layout()], unless set to `NULL`.
-#' @param x a `tmap_arrange` object (returned from `tmap_arrange()`)
+#' @param widths vector of column widths. It should add up to 1 and the length
+#'   should be equal to `ncol`.
+#' @param heights vector of row heights. It should add up to 1 and the length
+#'   should be equal to `nrow`.
+#' @param sync logical. Should the navigation in view mode (zooming and panning)
+#'   be synchronized? By default `FALSE`.
+#' @param asp aspect ratio. The aspect ratio of each map. Normally, this is
+#'   controlled by the `asp` argument from [tm_layout()] (also a tmap option).
+#'   This argument will overwrite it, unless set to `NULL`.
+#'   The default value for `asp` is 0, which means that the aspect ratio is
+#'   adjusted to the size of the device divided by the number of columns and rows.
+#'   When `asp` is set to `NA`, which is also the default value for `tm_layout()`,
+#'   the aspect ratio will be adjusted to the used shapes.
+#' @param outer.margins outer.margins, numeric vector four or a single value.
+#'   If defines the outer margins for each multiple. If will overwrite the
+#'   `outer.margins` argument from [tm_layout()], unless set to `NULL`.
+#' @param x a `tmap_arrange` object (returned from `tmap_arrange()`).
 #' @param knit should [knitr::knit_print()] be enabled, or the normal [base::print()] function?
 #' @param options options passed on to [knitr::knit_print()]
 #' @example ./examples/tmap_arrange.R

@@ -1,7 +1,8 @@
 #' ggplot2 theme for proportional symbols
-#'
-#' ggplot2 theme for proportional symbols. By default, this theme only shows the plotting area, so without titles, axes, and legend
-#'
+#' 
+#' ggplot2 theme for proportional symbols. By default, this theme only shows the
+#' plotting area, so without titles, axes, and legend.
+#' 
 #' @param base_size base size
 #' @param base_family base family
 #' @param plot.axes should the axes be shown?

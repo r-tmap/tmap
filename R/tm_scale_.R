@@ -18,11 +18,17 @@ tm_shape_vars = function() {
 
 #' Scales: automatic scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix `tm_scale`. Such function should be used for the input of the `.scale` arguments in the layer functions (e.g. `fill.scale` in [tm_polygons()]). The function `tm_scale()` is a scale that is set automatically given by the data type (factor, numeric, and integer) and the visual variable. The tmap option `scales.var` contains information which scale is applied when.
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the
+#' layer functions (e.g. `fill.scale` in [tm_polygons()]). The function `tm_scale()`
+#' is a scale that is set automatically given by the data type (factor, numeric, and integer)
+#' and the visual variable. The tmap option `scales.var` contains information
+#' which scale is applied when.
 #' 
 #' @param ... arguments passed on to the applied scale function `tm_scale_*()`
 #' @export
 tm_scale = function(...) {
+	# maybe add the generic scales parameters after ... here?
 	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale", "list"))
 }
 
@@ -52,7 +58,14 @@ tm_scale_ordinal = function(n.max = 30,
 
 #' Scales: categorical and ordinal scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix `tm_scale`. Such function should be used for the input of the `.scale` arguments in the layer functions (e.g. `fill.scale` in [tm_polygons()]). The functions `tm_scale_categorical()` and `tm_scale_ordinal()` are used for categorical data. The only difference between these functions is that the former assumes unordered categories whereas the latter assumes ordered categories. For colors (the visual variable `fill` or `col`), different default color palettes are used (see the tmap option `values.var`).
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the
+#' layer functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The functions `tm_scale_categorical()` and `tm_scale_ordinal()` are used
+#' for categorical data. The only difference between these functions is that the
+#' former assumes unordered categories whereas the latter assumes ordered categories.
+#' For colors (the visual variable `fill` or `col`), different default color
+#' palettes are used (see the tmap option `values.var`).
 #' 
 #' @param n.max Maximum number of categories (factor levels). In case there are more, they are grouped into `n.max` groups.
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for `tm_polygons()`) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for `tm_symbols()`) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. `shape` for [tm_symbols()]) these are a set of symbols, etc. The tmap option `values.var` contains the default values per visual variable and in some cases also per data type.
@@ -90,7 +103,10 @@ tm_scale_categorical = function(n.max = 30,
 
 #' Scales: interval scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix `tm_scale`. Such function should be used for the input of the `.scale` arguments in the layer functions (e.g. `fill.scale` in [tm_polygons()]). The function `tm_scale_interval` is used for numerical data.
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the
+#' layer functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The function `tm_scale_interval()` is used for numerical data.
 #' 
 #' @param n Number of intervals. For some styles (see argument `style` below) it is the preferred number rather than the exact number.
 #' @param style Method to create intervals. Options are `"cat"`, `"fixed"`, `"sd"`, `"equal"`, `"pretty"`, `"quantile"`, `"kmeans"`, `"hclust"`, `"bclust"`, `"fisher"`, `"jenks"`, `"dpih"`, `"headtails"`, and `"log10_pretty"`. See the details in [classInt::classIntervals()] (extra arguments can be passed on via `style.args`).
@@ -134,7 +150,10 @@ tm_scale_intervals = function(n = 5,
 
 #' Scales: discrete scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix `tm_scale`. Such function should be used for the input of the `.scale` arguments in the layer functions (e.g. `fill.scale` in [tm_polygons()]). The function `tm_scale_discrete()` is used for discrete numerical data, such as integers.
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the
+#' layer functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The function `tm_scale_discrete()` is used for discrete numerical data, such as integers.
 #' 
 #' @param ticks Discrete values. If not specified, it is determined automatically: unique values are put on a discrete scale.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
@@ -169,7 +188,11 @@ tm_scale_discrete = function(ticks = NA,
 
 #' Scales: continuous scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix `tm_scale`. Such function should be used for the input of the `.scale` arguments in the layer functions (e.g. `fill.scale` in [tm_polygons()]). The function `tm_scale_continuous` is used for continuous data. The functions `tm_scale_continuous_<x>` use transformation functions x.
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the layer
+#' functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The function `tm_scale_continuous()` is used for continuous data.
+#' The functions `tm_scale_continuous_<x>()` use transformation functions x.
 #' 
 #' @param n Preferred number of tick labels. Only used if `ticks` is not specified
 #' @param limits Limits of the data values that are mapped to the continuous scale
