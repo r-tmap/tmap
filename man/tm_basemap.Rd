@@ -40,11 +40,13 @@ tm_tiles(
 Map layer that draws tiles from a tile server. \code{tm_basemap()} draws the tile layer as basemap, i.e. as bottom layer. In contrast,  \code{tm_tiles()} draws the tile layer as overlay layer, where the stacking order corresponds with the order in which this layer is called, just like other map layers.
 }
 \examples{
-tm_basemap() +
-	tm_shape(World) +
-	tm_polygons("HPI")
-
-tm_basemap("OpenTopoMap") +
-	tm_shape(World) + 
-	tm_polygons(fill = NA, col = "black")
+if (requireNamespace("maptiles")) {
+	tm_basemap() +
+		tm_shape(World) +
+		tm_polygons("HPI")
+	
+	tm_basemap("OpenTopoMap") +
+		tm_shape(World) + 
+		tm_polygons(fill = NA, col = "black")
+}
 }

@@ -112,12 +112,14 @@ For those who are completely new to **tmap**: the function `tm_shape()` specifie
 In the next example we have three layers: a basemap from OpenTopoMap, country polygon boundaries, and dots for metropolitan areas:
 
 ```{r}
+if (requireNamespace("maptiles")) {
 tm_basemap(server = "OpenTopoMap", zoom = 2, alpha = 0.5) +
 tm_shape(World, bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -86, ymax = 86))) +
 	tm_polygons(fill = NA, col = "black") +
 tm_shape(metro) +
 	tm_symbols(size = 0.1, col = "red") +
 tm_layout(inner.margins = rep(0, 4))
+}
 ```
 
 Each visual variable argument can also be specified with a data variable (e.g., a column name). What happens in that case is that the values of data variable are mapped to values of the corresponding visual variable.
@@ -152,8 +154,10 @@ This map uses a continuous color scale with colors from CARTO. More on scales la
 Besides visual variables, map layer may use spatial transformation variables.
 
 ```{r}
+if (requireNamespace("cartogram")) {
 tm_shape(World, crs = 8857) +
 	tm_cartogram(size = "pop_est", fill = "income_grp")
+}
 ```
 
 We used two variables: `size` to deform the polygons using a continuous cartogram and `fill` to color the polygons.

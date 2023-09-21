@@ -139,12 +139,14 @@ In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **ca
 
 ```{r, class.source='bg-success', message=FALSE}
 # tmap v4
+if (requireNamespace("cartogram")) {
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 fill = "HPI", 
 				 fill.scale = tm_scale_intervals(values = "purple_green"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
+}
 ```
 
 
@@ -168,6 +170,7 @@ tm_shape(World_carto) +
 
 ```{r, class.source='bg-success',message=FALSE}
 # tmap v4
+if (requireNamespace("cartogram")) {
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 size.scale = tm_scale_continuous_log1p(),
@@ -175,6 +178,7 @@ tm_shape(World, crs = "+proj=eck4") +
 				 fill.scale = tm_scale_intervals(values = "purple_green"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
+}
 ```
 
 ## Scales
