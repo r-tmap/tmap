@@ -70,7 +70,7 @@ install_github("r-tmap/tmap")
 pak::pak("r-tmap/tmap")
 
 # Or from r-universe
-install.packages('tmap', repos = c('https://r-tmap.r-universe.dev', 'https://cloud.r-project.org'))
+install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 See [NEWS](https://github.com/r-tmap/tmap/blob/master/NEWS.md) for the latest features and improvements and the [issue list](https://github.com/r-tmap/tmap/issues) for discussions of enhancements and bugs.
