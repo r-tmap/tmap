@@ -1,6 +1,5 @@
 tmapGridInit = function(o, return.asp = FALSE, vp) {
-	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
-	
+	rlang::check_installed("grid")
 	
 	rows = with(o, {
 		x = c(outer.margins.top = outer.margins[3],

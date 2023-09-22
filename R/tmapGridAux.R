@@ -11,8 +11,7 @@ findZoom = function(b) {
 
 tmapGridTilesPrep = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
-	
-	if (!requireNamespace("maptiles")) stop("maptiles package is required", call. = FALSE)
+	rlang::check_installed("maptiles")
 	
 	
 	crs = sf::st_crs(bs[[1]])

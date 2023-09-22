@@ -189,7 +189,7 @@ tmapTransCartogram = function(shpTM, area, ord__, plot.order, args) {
 		
 	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
 	
-	if (!requireNamespace("cartogram")) stop("cartogram pacakge needed", call. = FALSE)
+	rlang::check_installed("cartogram")
 	
 	if (args$type == "cont") {
 		shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = args$itermax)}))
