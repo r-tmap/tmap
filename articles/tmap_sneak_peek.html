@@ -83,7 +83,7 @@
                         <h4 data-toc-skip class="author">Martijn
 Tennekes</h4>
             
-            <h4 data-toc-skip class="date">2023-09-20</h4>
+            <h4 data-toc-skip class="date">2023-09-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/vignettes/tmap_sneak_peek.Rmd" class="external-link"><code>vignettes/tmap_sneak_peek.Rmd</code></a></small>
       <div class="d-none name"><code>tmap_sneak_peek.Rmd</code></div>
@@ -229,12 +229,14 @@ package under the hood), which uses the transformation aesthetic
 <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>                 fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
 <span>                 fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"purple_green"</span><span class="op">)</span>,</span>
 <span>                 fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_right</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_right</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-7-1.png" width="864"></p>
 <p>A nice benefit of having cartograms directly in <strong>tmap</strong>
 is that it makes possible to use the available scaling functions. For
@@ -254,13 +256,15 @@ cartogram a bit more “balanced”:</p>
 <span>              title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>                 size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous_log1p</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                 fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
 <span>                 fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"purple_green"</span><span class="op">)</span>,</span>
 <span>                 fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_right</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_right</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-9-1.png" width="864"></p>
 </div>
 <div class="section level2">

@@ -83,7 +83,7 @@
                         <h4 data-toc-skip class="author">Martijn
 Tennekes</h4>
             
-            <h4 data-toc-skip class="date">2023-09-20</h4>
+            <h4 data-toc-skip class="date">2023-09-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/vignettes/tmap_vv.Rmd" class="external-link"><code>vignettes/tmap_vv.Rmd</code></a></small>
       <div class="d-none name"><code>tmap_vv.Rmd</code></div>
@@ -309,12 +309,14 @@ visualized.</p>
 <p>In the next example we have three layers: a basemap from OpenTopoMap,
 country polygon boundaries, and dots for metropolitan areas:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span>server <span class="op">=</span> <span class="st">"OpenTopoMap"</span>, zoom <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"maptiles"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span>server <span class="op">=</span> <span class="st">"OpenTopoMap"</span>, zoom <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, bbox <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">180</span>, xmax <span class="op">=</span> <span class="fl">180</span>, ymin <span class="op">=</span> <span class="op">-</span><span class="fl">86</span>, ymax <span class="op">=</span> <span class="fl">86</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.1</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required namespace: maptiles</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-3-1.png" width="864"></p>
 <p>Each visual variable argument can also be specified with a data
@@ -359,10 +361,12 @@ on scales later.</p>
 <p>Besides visual variables, map layer may use spatial transformation
 variables.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="fl">8857</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, fill <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Cartogram in progress...</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="fl">8857</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, fill <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required namespace: cartogram</span></span></code></pre>
+<pre><code><span><span class="co">## Cartogram in progress...</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-7-1.png" width="864"></p>
 <p>We used two variables: <code>size</code> to deform the polygons using
 a continuous cartogram and <code>fill</code> to color the polygons. The
