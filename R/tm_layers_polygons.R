@@ -164,6 +164,8 @@ tm_polygons = function(fill = tm_const(),
 			"continuous"
 		} else if (style == "log10") {
 			"continuous_log"
+		} else if (style == "order") {
+			"rank"
 		} else {
 			stop("unknown style")
 		}

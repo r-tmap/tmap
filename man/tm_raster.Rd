@@ -17,7 +17,8 @@ tm_raster(
   mapping.args = list(),
   zindex = NA,
   group = NA,
-  group.control = "check"
+  group.control = "check",
+  ...
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ relevant in view mode, where layer groups can be switched (see \code{group.contr
 can be switched on and off. Options: \code{"radio"} for radio buttons (meaning only
 one group can be shown), \code{"check"} for check boxes (so multiple groups can be
 shown), and \code{"none"} for no control (the group cannot be (de)selected).}
+
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Map layer that draws rasters. Supported visual variable is: \code{col} (the  color).

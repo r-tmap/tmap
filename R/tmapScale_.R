@@ -150,7 +150,7 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 		sc_pref = scale$fun_pref
 		
 		if (!is.null(sc_pref)) {
-			if (sc_pref %in% c("categorical", "continuous", "continuous_log")) {
+			if (sc_pref %in% c("categorical", "continuous", "continuous_log", "rank")) {
 				sc = sc_pref
 			} else {
 				sc = sc_opt

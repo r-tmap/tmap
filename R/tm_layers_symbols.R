@@ -272,6 +272,8 @@ v3_symbols = function(args, args_called) {
 			"continuous"
 		} else if (style == "log10") {
 			"continuous_log"
+		} else if (style == "order") {
+			"rank"
 		} else {
 			stop("unknown style")
 		}

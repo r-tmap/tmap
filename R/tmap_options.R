@@ -140,7 +140,8 @@
 		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5), 
 												 outliers.trunc = c(FALSE, FALSE), 
 												 trans = "identity",
-												 limits = list(fill = NA, col = NA, 0))), # NA means take data range, 0 means include 0
+												 limits = list(fill = NA, col = NA, 0)),
+							   rank = list(n = 5)), # NA means take data range, 0 means include 0
 		
 		
 		

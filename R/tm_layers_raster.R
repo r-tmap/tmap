@@ -42,6 +42,7 @@
 #'   can be switched on and off. Options: `"radio"` for radio buttons (meaning only
 #'   one group can be shown), `"check"` for check boxes (so multiple groups can be
 #'   shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_raster.R 
 #' @export
 tm_raster = function(col = tm_shape_vars(),
@@ -56,7 +57,89 @@ tm_raster = function(col = tm_shape_vars(),
 					 mapping.args = list(),
 					 zindex = NA,
 					 group = NA,
-					 group.control = "check") {
+					 group.control = "check",
+					 ...) {
+	
+	
+	args = list(...)
+	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	v3 = c("alpha", "palette", "n", "style", "style.args", "as.count", 
+		   "breaks", "interval.closure", "labels", "drop.levels", "midpoint", 
+		   "stretch.palette", "contrast", "saturation", "interpolate", "colorNA", 
+		   "textNA", "showNA", "colorNULL", "title", "legend.show", "legend.format", 
+		   "legend.is.portrait", "legend.reverse", "legend.hist", "legend.hist.title", 
+		   "legend.z", "legend.hist.z", "auto.palette.mapping", 
+		   "max.categories", "max.value")
+
+	if (any(v3 %in% names(args))) {
+		message("Deprecated tmap v3 code detected. Code translated to v4")
+		if (!("style" %in% names(args))) {
+			if (!"breaks" %in% names(args)) {
+				style = "pretty"
+			} else {
+				style = "fixed"
+			}
+		} else {
+			style = args$style
+		}
+		
+		imp = function(name, value) {
+			if (name %in% names(args)) args[[name]] else value
+		}
+		
+		col.scale.args = list(n = imp("n", 5), 
+							   style = style, 
+							   style.args = imp("style.args", list()), 
+							   breaks = imp("breaks", NULL), 
+							   interval.closure = imp("interval.closure", "left"), 
+							   drop.levels = imp("drop.levels", FALSE),
+							   midpoint = imp("midpoint", NULL), 
+							   as.count = imp("as.count", NA), 
+							   values = imp("palette", NA), 
+							   values.repeat = !imp("stretch.palette", TRUE), 
+							   values.range = imp("contrast", NA), 
+							   values.scale = 1, 
+							   value.na = imp("colorNA", NA), 
+							   value.null = imp("colorNULL", NA), 
+							   value.neutral = NA, 
+							   labels = imp("labels", NULL), 
+							   label.na = imp("textNA", NA), 
+							   label.null = NA, 
+							   label.format = imp("legend.format", list()))
+		col.scale.args$fun_pref = if (style == "cat") {
+			"categorical"
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
+			"intervals"
+		} else if (style == "cont") {
+			"continuous"
+		} else if (style == "log10") {
+			"continuous_log"
+		} else if (style == "order") {
+			"rank"
+		} else {
+			stop("unknown style")
+		}
+		
+		col.scale = do.call("tm_scale", args = col.scale.args)		
+		
+		if ("alpha" %in% names(args)) {
+			col_alpha = args$alpha
+		}
+		
+		col.legend.args = alist(title = imp("title", NA),
+								 show = imp("legend.show", NULL),
+								 na.show = imp("na.show", NA),
+								 format = imp("legend.format", list()),
+								 orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
+								 reverse = imp("legend.reverse", FALSE))
+		
+		col.legend = do.call("tm_legend", col.legend.args)
+	}
+	
+	
+	
+	
 	
 	tm_element_list(tm_element(
 		layer = "raster",
