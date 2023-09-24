@@ -127,7 +127,7 @@ step1_rearrange = function(tmel) {
 	}
 	
 	# crs in options refers to which crs is used in the plot, not necessarily in the transformation (step 3) 
-	crs_option = sf::st_crs(o$crs)
+	crs_option = o$crs
 	
 	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
 	crs_main = if (any_data_layer) get_crs(tms) else NA
