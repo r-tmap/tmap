@@ -89,6 +89,35 @@ preprocess_meta = function(o, cdt) {
 
 process_meta = function(o, d, cdt, aux) {
 
+	if (o$legend.only) {
+		return(within(o, {
+			meta.buffers = c(0, 0, 0, 0)
+			meta.margins = c(0, 0, 0, 0)
+			xylab.margins = rep(0, 4)
+			panel.xtab.size = c(0, 0, 0, 0)
+			grid.buffers = c(0, 0, 0, 0)
+			grid.margins = c(0, 0, 0, 0)
+			panel.wrap.size = c(0, 0, 0, 0)
+			fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins
+			nrows = 1L
+			ncols = 1L
+			
+			between.marginH = between.margin * lineH
+			between.marginW = between.margin * lineW
+			
+			
+			#overall scale down factor for facets
+			width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols)
+			width_for1 = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (sum(panel.wrap.size[c(2,4)]))))
+			
+			height_forn = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows)
+			height_for1 = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (sum(panel.wrap.size[c(1,3)]))))
+			
+			scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)
+			
+		}))
+	}
+
 	
 	gs = tmap_graphics_name()
 	

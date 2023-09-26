@@ -271,6 +271,7 @@
 		legend.frame.r = 2,
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
+		legend.only = FALSE,
 		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2, bivariate = 1.2),
 										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 1.2, bivariate = 1.2),
 										item.r = 2,

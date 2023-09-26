@@ -98,12 +98,13 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	fasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp / o$ncols * o$nrows # asp per facet (with original outer margins)
 	gasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp # asp total facets (with original outer margins)
 	
-	
-	if (!is.na(o$asp) && o$asp != 0) {
-		# follow device
-		fasp = o$asp
-	} else if (is.na(o$asp) && !is.na(o$sasp)) {
-		fasp = o$sasp
+	if (!o$legend.only) {
+		if (!is.na(o$asp) && o$asp != 0) {
+			# follow device
+			fasp = o$asp
+		} else if (is.na(o$asp) && !is.na(o$sasp)) {
+			fasp = o$sasp
+		}
 	}
 	
 	gasp2 = fasp * o$ncols / o$nrows # target gasp

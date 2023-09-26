@@ -251,7 +251,7 @@ step4_plot = function(tm, vp, return.asp, show) {
 	
 	# get legends from layer data and put them in "components data.table" (cdt)
 
-	cdt_cmp = if (length(cmp)) {
+	cdt_cmp = if (length(cmp) && !o$legend.only) {
 		 data.table::rbindlist(lapply(cmp, function(cp) {
 			data.table::data.table(by1__ = as.integer(NA),
 								   by2__ = as.integer(NA),
@@ -272,15 +272,29 @@ step4_plot = function(tm, vp, return.asp, show) {
 		cdt_cmp
 	}
 
+	
+	## place components top left
+	cdt$comp = lapply(cdt$comp, function(cc) {
+		cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
+		cc
+	})
+	
+	
+	
 	if (nrow(cdt)) cdt = process_components(cdt, o)
 
 	# determine panel type, inner margins, and automatic comp placement
-	o = preprocess_meta(o, cdt)
+	if (!o$legend.only) {
+		o = preprocess_meta(o, cdt)
+		
+		# add shape unit (needed for e.g. tm_scale_bar)
+		unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
+		crs = get_option_class(o$crs, "sf") #o$crs
+		longlat = sf::st_is_longlat(crs)
+	} else {
+		o$npages = 1L
+	}
 	
-	# add shape unit (needed for e.g. tm_scale_bar)
-	unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
-	crs = get_option_class(o$crs, "sf") #o$crs
-	longlat = sf::st_is_longlat(crs)
 	
 	
 	# function to get shape object
@@ -328,7 +342,9 @@ step4_plot = function(tm, vp, return.asp, show) {
 	# main group (that determines bounding box)
 	# TODO take into account multiple main groups (see step1_rearrange and get_main_ids)
 	
-	if (any_data_layer) {
+	if (o$legend.only) {
+		d = NULL
+	} else if (any_data_layer) {
 		tmain = tmx[[o$main]][[1]]
 		
 		# create table with meta data for the facets (row, col id, bbox, asp)
@@ -346,131 +362,134 @@ step4_plot = function(tm, vp, return.asp, show) {
 		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(bbm))
 	}
 	
-	d[, asp:=get_asp(bbox)]
-	
-	d = d[!is.na(asp)]
-	
-
-	if (!(o$type %in% c("grid", "page")) && !is.na(o$nrows) && !is.na(o$ncols)) {
-		# limit facets
-		n_lim = limit_nx(o$n)
-		if (n_lim != o$n) {
-			fn_lim = pmin(o$fn, n_lim)
-			while(prod(fn_lim) > n_lim) {
-				fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
-			}
-			d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
-			o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
-			o$fn = fn_lim
-			o$n = n_lim
-		}
-	}
-	
-	d[, bbox:=lapply(bbox, FUN = function(bbx) {
-		if (!is.na(bbx) && !is.na(longlat) && longlat && !st_is_longlat(bbx)) {
-			sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
-		} else {
-			bbx
-		}
-	})]
-	
-	d[, units:=lapply(bbox, FUN = function(bbx) {
-		if (is.na(bbx)) {
-			list()
-		} else {
-			if (!is.na(bbx) && !is.na(longlat) && longlat) {
-				latitude <- mean.default(bbx[c(2,4)])
-				bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
-				ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
-				to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
-			} else {
-				ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
-				
-				if (is.na(crs)) {
-					to <- ad$hdist
-				} else {
-					to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+	if (!o$legend.only) {
+		d[, asp:=get_asp(bbox)]
+		d = d[!is.na(asp)]
+		
+		
+		if (!(o$type %in% c("grid", "page")) && !is.na(o$nrows) && !is.na(o$ncols)) {
+			# limit facets
+			n_lim = limit_nx(o$n)
+			if (n_lim != o$n) {
+				fn_lim = pmin(o$fn, n_lim)
+				while(prod(fn_lim) > n_lim) {
+					fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
 				}
+				d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
+				o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
+				o$fn = fn_lim
+				o$n = n_lim
 			}
-			list(projection=crs, unit=unit, to=to, projected = !longlat)
 		}
-	})]
-	
-	# determine automatic position of inside comp
-	if (!any(o$free.coords) && any(cdt$class == "autoin")) {
-		shp = tmain[[1]]$shpDT$shpTM[[1]]$shp
-		# TODO take into account multiple main shapes
-		# TODO take use areas instead of coordinates for polygons
-		if (inherits(shp, c("sf", "sfc"))) {
-			bbx = d$bbox[[1]]
-			co = sf::st_coordinates(sf::st_centroid(shp))
-			
-			xn = (co[,1]-bbx[1])/(bbx[3]-bbx[1])
-			yn = (co[,2]-bbx[2])/(bbx[4]-bbx[2])
-			cornerID = which.max(c(
-				bl = min(sqrt((xn^2) + (yn^2)), na.rm = TRUE),
-				tl = min(sqrt((xn^2) + ((1-yn)^2)), na.rm = TRUE),
-				tr = min(sqrt(((1-xn)^2) + ((1-yn)^2)), na.rm = TRUE),
-				br = min(sqrt(((xn-1)^2) + (yn^2)), na.rm = TRUE)))
-			
-			o$legend.autoin.pos = switch(names(cornerID), tl = c("left", "top"), tr = c("right", "top"), bl = c("left", "bottom"), br = c("right", "bottom"))
+		
+		d[, bbox:=lapply(bbox, FUN = function(bbx) {
+			if (!is.na(bbx) && !is.na(longlat) && longlat && !st_is_longlat(bbx)) {
+				sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
+			} else {
+				bbx
+			}
+		})]
+		
+		d[, units:=lapply(bbox, FUN = function(bbx) {
+			if (is.na(bbx)) {
+				list()
+			} else {
+				if (!is.na(bbx) && !is.na(longlat) && longlat) {
+					latitude <- mean.default(bbx[c(2,4)])
+					bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
+					ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
+					to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
+				} else {
+					ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
+					
+					if (is.na(crs)) {
+						to <- ad$hdist
+					} else {
+						to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+					}
+				}
+				list(projection=crs, unit=unit, to=to, projected = !longlat)
+			}
+		})]
+		
+		# determine automatic position of inside comp
+		if (!any(o$free.coords) && any(cdt$class == "autoin")) {
+			shp = tmain[[1]]$shpDT$shpTM[[1]]$shp
+			# TODO take into account multiple main shapes
+			# TODO take use areas instead of coordinates for polygons
+			if (inherits(shp, c("sf", "sfc"))) {
+				bbx = d$bbox[[1]]
+				co = sf::st_coordinates(sf::st_centroid(shp))
+				
+				xn = (co[,1]-bbx[1])/(bbx[3]-bbx[1])
+				yn = (co[,2]-bbx[2])/(bbx[4]-bbx[2])
+				cornerID = which.max(c(
+					bl = min(sqrt((xn^2) + (yn^2)), na.rm = TRUE),
+					tl = min(sqrt((xn^2) + ((1-yn)^2)), na.rm = TRUE),
+					tr = min(sqrt(((1-xn)^2) + ((1-yn)^2)), na.rm = TRUE),
+					br = min(sqrt(((xn-1)^2) + (yn^2)), na.rm = TRUE)))
+				
+				o$legend.autoin.pos = switch(names(cornerID), tl = c("left", "top"), tr = c("right", "top"), bl = c("left", "bottom"), br = c("right", "bottom"))
+			} else {
+				o$legend.autoin.pos = c("left", "top")	
+			}
 		} else {
-			o$legend.autoin.pos = c("left", "top")	
+			o$legend.autoin.pos = c("left", "top")
 		}
-	} else {
-		o$legend.autoin.pos = c("left", "top")
 	}
+	
 	
 	# calculate margins, number of rows and colums, etc.
 	o = process_meta(o, d, cdt, aux)
 	
-
-	# workaround to move panels to titles in view mode
-	# TO DO: make this generic (e.g. component prep function?)
-	if (gs == "Leaflet") {
-		if (o$panel.type != "none") {
-			cdt = rbindlist(c(list(cdt), mapply(function(lab, i) {
-				data.table::data.table(by1__ = i, 
-									   by2__ = as.integer(NA), 
-									   by3__ = as.integer(NA), 
-									   comp = list(impute_comp(tm_title(lab)[[1]], o)),
-									   class=  "in",
-									   cell.h = NA,
-									   cell.v = NA,
-									   pos.h = "left",
-									   pos.v = "top",
-									   z = 1,
-									   facet_row = as.character(NA),
-									   facet_col = as.character(NA),
-									   stack_auto = TRUE,
-									   stack = "vertical",
-									   legW = 0,
-									   legH = 0)	
-			}, o$panel.labels[[1]], seq_len(o$fn[1]), SIMPLIFY = FALSE)))
+	if (!o$legend.only) {
+		# workaround to move panels to titles in view mode
+		# TO DO: make this generic (e.g. component prep function?)
+		if (gs == "Leaflet") {
+			if (o$panel.type != "none") {
+				cdt = rbindlist(c(list(cdt), mapply(function(lab, i) {
+					data.table::data.table(by1__ = i, 
+										   by2__ = as.integer(NA), 
+										   by3__ = as.integer(NA), 
+										   comp = list(impute_comp(tm_title(lab)[[1]], o)),
+										   class=  "in",
+										   cell.h = NA,
+										   cell.v = NA,
+										   pos.h = "left",
+										   pos.v = "top",
+										   z = 1,
+										   facet_row = as.character(NA),
+										   facet_col = as.character(NA),
+										   stack_auto = TRUE,
+										   stack = "vertical",
+										   legW = 0,
+										   legH = 0)	
+				}, o$panel.labels[[1]], seq_len(o$fn[1]), SIMPLIFY = FALSE)))
+			}
+			o$panel.type = "none"
 		}
-		o$panel.type = "none"
-	}
-	
-	
-	o$ng = length(tmx)
-	
-	
-	# determine row and col ids	
-	if (o$panel.type == "xtab") {
-		d[, row := as.integer((i - 1) %% o$nrows + 1)]
-		d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
-	} else {
-		# wrap
-		if (o$facet.flip) {
+		
+		o$ng = length(tmx)
+		
+		# determine row and col ids	
+		if (o$panel.type == "xtab") {
 			d[, row := as.integer((i - 1) %% o$nrows + 1)]
 			d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 		} else {
-			d[, col := as.integer((i - 1) %% o$ncols + 1)]
-			d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+			# wrap
+			if (o$facet.flip) {
+				d[, row := as.integer((i - 1) %% o$nrows + 1)]
+				d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+			} else {
+				d[, col := as.integer((i - 1) %% o$ncols + 1)]
+				d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+			}
+			
 		}
-		
+		d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 	}
-	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
+	
+	
 		
 	#####o$legend.autoin.pos = c("left", "top")
 
@@ -490,219 +509,214 @@ step4_plot = function(tm, vp, return.asp, show) {
 	FUNgridxlab = paste0("tmap", gs, "GridXLab")
 	FUNgridylab = paste0("tmap", gs, "GridYLab")
 	
-	
-	# create table with bounding boxes (the only important property, apart from settings)
-	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
-	db[, i:=1L:nrow(db)]
-	d[, bi:=db$i[match(d$bbox, db$bbox)]]
-	
-	## process components
-	if (nrow(cdt)) cdt = process_components2(cdt, o)
-	
-	# init
-	asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
-	if (return.asp) return(asp)
-
-	
-	
-	## prepare aux layers
-	
-	# prepare aux layers and return group label (in case it is not user specified)
-	aux_group_def = mapply(function(a, id) {
-		FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
-		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, id = id, o = o))
-	}, aux, 1:length(aux))
-	aux_group = mapply(function(a, agd) {
-		if (is.na(a$group)) agd else as.character(a$group)
-	}, aux, aux_group_def, USE.NAMES = FALSE)
-	
-	aux_group.control = vapply(aux, function(a) {
-		a$group.control
-	}, FUN.VALUE = character(1))
-	
-	# find lid (layer plot id values) for aux layers
-	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
-	
-	if (!any_data_layer && !length(aux_lid)) {
-		message("Nothing to show")
-		return(invisible(NULL))
-	}
-	
-	
-	# data frame for layer ids
-	q = do.call(rbind, c( 
-		{if (any_data_layer) {
-			lapply(1L:o$ng, function(ig) {
-				tmxi = tmx[[ig]]
-				nl = length(tmxi$layers)
-				lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
-				group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
-				group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
-				data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
-			})			
-		} else {
-			NULL
-		}}, 
-		{if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL}))
-	
-	q$lid2 = 0
-	qnotnull = (q$lid != 0)
-	if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
-	
-	q = q[order(q$lid2), ]
-	q$pane = "tilePane"
-	q$pane[q$lid2 > 0] = paste0("tmap", 400 + q$lid2[q$lid2 > 0])
-	
-	# q data frame:
-	# gid = tmap-group counter
-	# glid = layer counter inside tmap-group
-	# lid = possibly-user-defined layer order number
-	# lid2 = same as lid, but 1,2,3,...
-	# pane = pane name (for view mode)
-	# group = group name (for selecting layers in view mode)
-	
-	
-	do.call(FUNaux, list(o = o, q = q))
-	
-	
-	# plot xtab headers
-	if (o$panel.type == "xtab") {
-		for (k in 1:o$npages) {
-			labrows = o$panel.labels[[1]]
-			labcols = o$panel.labels[[2]]
-			if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(FUNxtab, list(label = labrows[i], facet_row = i, facet_page = k, o = o)) 
-			if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(FUNxtab, list(label = labcols[j], facet_col = j, facet_page = k, o = o)) 
-
-		}
-	}
-	
-	
-	# plot xlab and ylab
-	if (o$xlab.show) {
-		for (k in 1:o$npages) {
-			do.call(FUNxlab, list(facet_page = k, o = o))
-		}
-	}
-	if (o$ylab.show) {
-		for (k in 1:o$npages) {
-			do.call(FUNylab, list(facet_page = k, o = o))
-		}
-	}
-
-	
-	
-	for (i in seq_len(nrow(d))) {
-		bbx = d$bbox[[i]]
- 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
- 		if (is.na(d$asp[i])) next 
-		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+	if (!o$legend.only) {
+		# create table with bounding boxes (the only important property, apart from settings)
+		db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
+		db[, i:=1L:nrow(db)]
+		d[, bi:=db$i[match(d$bbox, db$bbox)]]
 		
+		## process components
+		if (nrow(cdt)) cdt = process_components2(cdt, o)
 		
-		# plot grid labels
-		if (o$grid.show && !o$grid.labels.inside.frame) {
-			if ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols)) {
-				do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-			}
-			if ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows)) {
-				do.call(FUNgridxlab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-			}
+		# init
+		asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
+		if (return.asp) return(asp)
+	
+		## prepare aux layers
+		
+		# prepare aux layers and return group label (in case it is not user specified)
+		aux_group_def = mapply(function(a, id) {
+			FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
+			do.call(FUNaux_prep, list(a = a$args, b = db$bbox, id = id, o = o))
+		}, aux, 1:length(aux))
+		aux_group = mapply(function(a, agd) {
+			if (is.na(a$group)) agd else as.character(a$group)
+		}, aux, aux_group_def, USE.NAMES = FALSE)
+		
+		aux_group.control = vapply(aux, function(a) {
+			a$group.control
+		}, FUN.VALUE = character(1))
+		
+		# find lid (layer plot id values) for aux layers
+		aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
+		
+		if (!any_data_layer && !length(aux_lid)) {
+			message("Nothing to show")
+			return(invisible(NULL))
 		}
-
-		for (qi in 1L:nrow(q)) {
-			gid = q$gid[qi]
-			glid = q$glid[qi]
-			pane = q$pane[qi]
-			group = q$group[qi]
-			if (gid > 0) {
-				# data layer
-				bl = tmx[[gid]]$layers[[glid]]
-				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
-				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
-				
-				id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", gid), "l", sprintf("%02d", glid))
-				
-				if (nrow(mdt) != 0) {
-					gp = bl$gp
-					
-					FUN = paste0("tmap", gs, bl$mapping_fun)
-					
-					do.call(FUN, c(list(shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
-				}
-				
+		
+		# data frame for layer ids
+		q = do.call(rbind, c( 
+			{if (any_data_layer) {
+				lapply(1L:o$ng, function(ig) {
+					tmxi = tmx[[ig]]
+					nl = length(tmxi$layers)
+					lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
+					group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
+					group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
+					data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
+				})			
 			} else {
-				glid = q$glid[qi]
-				
-				
-				# aux layer
-				a = aux[[glid]]							
-				FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
-				
-				id = glid # to do: test!
-				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
+				NULL
+			}}, 
+			{if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL}))
+		
+		q$lid2 = 0
+		qnotnull = (q$lid != 0)
+		if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
+		
+		q = q[order(q$lid2), ]
+		q$pane = "tilePane"
+		q$pane[q$lid2 > 0] = paste0("tmap", 400 + q$lid2[q$lid2 > 0])
+		
+		# q data frame:
+		# gid = tmap-group counter
+		# glid = layer counter inside tmap-group
+		# lid = possibly-user-defined layer order number
+		# lid2 = same as lid, but 1,2,3,...
+		# pane = pane name (for view mode)
+		# group = group name (for selecting layers in view mode)
+		
+		
+		do.call(FUNaux, list(o = o, q = q))
+		
+		
+		# plot xtab headers
+		if (o$panel.type == "xtab") {
+			for (k in 1:o$npages) {
+				labrows = o$panel.labels[[1]]
+				labcols = o$panel.labels[[2]]
+				if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(FUNxtab, list(label = labrows[i], facet_row = i, facet_page = k, o = o)) 
+				if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(FUNxtab, list(label = labcols[j], facet_col = j, facet_page = k, o = o)) 
 				
 			}
 		}
-		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-	}
-
-
-	is_in = cdt$class == "in"
-	#is_in = rep(TRUE, nrow(cdt))
-	if (any(is_in)) {
-		legs_in = lapply(which(is_in), function(i) {
-			d2 = data.table::copy(d)
-			legsi = cdt[i, ]
-			if (o$type != "grid" && o$nrows == 1) {
-				# reverse above
-				d2[, by2 := by1]
-				d2[, by1 := 1]
+		
+		
+		# plot xlab and ylab
+		if (o$xlab.show) {
+			for (k in 1:o$npages) {
+				do.call(FUNxlab, list(facet_page = k, o = o))
+			}
+		}
+		if (o$ylab.show) {
+			for (k in 1:o$npages) {
+				do.call(FUNylab, list(facet_page = k, o = o))
+			}
+		}
+		
+		
+		
+		for (i in seq_len(nrow(d))) {
+			bbx = d$bbox[[i]]
+			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
+			if (is.na(d$asp[i])) next 
+			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			
+			
+			# plot grid labels
+			if (o$grid.show && !o$grid.labels.inside.frame) {
+				if ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols)) {
+					do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+				}
+				if ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows)) {
+					do.call(FUNgridxlab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+				}
 			}
 			
-			if (is.na(legsi$by1__)) d2[, by1:= NA]
-			if (is.na(legsi$by2__)) d2[, by2:= NA]
-			if (is.na(legsi$by3__)) d2[, by3:= NA]
-			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "page", "bbox", "units"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
-			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
-			legsi
-		})
+			for (qi in 1L:nrow(q)) {
+				gid = q$gid[qi]
+				glid = q$glid[qi]
+				pane = q$pane[qi]
+				group = q$group[qi]
+				if (gid > 0) {
+					# data layer
+					bl = tmx[[gid]]$layers[[glid]]
+					shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
+					mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
+					
+					id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", gid), "l", sprintf("%02d", glid))
+					
+					if (nrow(mdt) != 0) {
+						gp = bl$gp
+						
+						FUN = paste0("tmap", gs, bl$mapping_fun)
+						
+						do.call(FUN, c(list(shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
+					}
+					
+				} else {
+					glid = q$glid[qi]
+					
+					
+					# aux layer
+					a = aux[[glid]]							
+					FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
+					
+					id = glid # to do: test!
+					do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
+					
+				}
+			}
+			do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+		}
+		
 	} else {
-		legs_in = NULL
+		# init
+		asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
 	}
 	
-	legs_out = copy(cdt[!is_in])
-	legs_out[, page:=as.integer(NA)]
-	legs_out[, bbox:=list()]
-	legs_out[, units:=list()]
-	# if (any(!is_in)) {
-	# 	legs_out = lapply(which(!is_in), function(i) {
-	# 		d2 = data.table::copy(d)
-	# 		legsi = cdt[i, ]
-	# 		if (o$type != "grid" && o$nrows == 1) {
-	# 			# reverse above
-	# 			d2[, by2 := by1]
-	# 			d2[, by1 := 1]
-	# 		}
-	# 		if (is.na(legsi$by1__)) d2[, by1:= NA]
-	# 		if (is.na(legsi$by2__)) d2[, by2:= NA]
-	# 		if (is.na(legsi$by3__)) d2[, by3:= NA]
-	# 		legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "bbox"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
-	# 		legsi[, ':='(row = NULL, col = NULL)]
-	# 		legsi
-	# 	})		
-	# } else {
-	# 	legs_out = NULL
-	# }
+	
+	if (o$legend.only) {
+		cdt[, facet_row := "1"]
+		cdt[, facet_col := "1"]
+		cdt[, page := 1L]
+		cdt[, bbox := list()]
+	} else {
+		is_in = cdt$class == "in"
+		#is_in = rep(TRUE, nrow(cdt))
+		if (any(is_in)) {
+			legs_in = lapply(which(is_in), function(i) {
+				d2 = data.table::copy(d)
+				legsi = cdt[i, ]
+				if (o$type != "grid" && o$nrows == 1) {
+					# reverse above
+					d2[, by2 := by1]
+					d2[, by1 := 1]
+				}
+				
+				if (is.na(legsi$by1__)) d2[, by1:= NA]
+				if (is.na(legsi$by2__)) d2[, by2:= NA]
+				if (is.na(legsi$by3__)) d2[, by3:= NA]
+				legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "page", "bbox", "units"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
+				legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
+				legsi
+			})
+		} else {
+			legs_in = NULL
+		}
+		
+		legs_out = copy(cdt[!is_in])
+		legs_out[, page:=as.integer(NA)]
+		legs_out[, bbox:=list()]
+		legs_out[, units:=list()]
+		
+		cdt = data.table::rbindlist(c(list(legs_out), legs_in))
 
-	cdt = data.table::rbindlist(c(list(legs_out), legs_in))
-	
-	
-	cdt$comp = mapply(function(cmp, bbx, u) {
-		cmp$bbox = bbx
-		cmp$units = u
-		cmp
-	}, cdt$comp, cdt$bbox, cdt$units, SIMPLIFY = FALSE)
+		cdt$comp = mapply(function(cmp, bbx, u) {
+			cmp$bbox = bbx
+			cmp$units = u
+			cmp
+		}, cdt$comp, cdt$bbox, cdt$units, SIMPLIFY = FALSE)
+		
+	}
 	
 
+
+	
+	
+	
+	
 	legfun = paste0("tmap", gs, "Legend")
 	
 	toI = function(x) {
@@ -722,7 +736,9 @@ step4_plot = function(tm, vp, return.asp, show) {
 		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}
 	
-	if (show) save_last_map()
+	if (show) save_last_map()		
+
+
 	
 	
 	do.call(FUNrun, list(o = o, show = show))
