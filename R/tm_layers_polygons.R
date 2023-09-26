@@ -158,7 +158,7 @@ tm_polygons = function(fill = tm_const(),
 							   label.format = imp("legend.format", list()))
 		fill.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
-		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
 			"intervals"
 		} else if (style == "cont") {
 			"continuous"

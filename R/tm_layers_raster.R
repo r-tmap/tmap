@@ -109,7 +109,7 @@ tm_raster = function(col = tm_shape_vars(),
 							   label.format = imp("legend.format", list()))
 		col.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
-		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
 			"intervals"
 		} else if (style == "cont") {
 			"continuous"
