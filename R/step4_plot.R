@@ -274,11 +274,12 @@ step4_plot = function(tm, vp, return.asp, show) {
 
 	
 	## place components top left
-	cdt$comp = lapply(cdt$comp, function(cc) {
-		cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
-		cc
-	})
-	
+	if (o$legend.only) {
+		cdt$comp = lapply(cdt$comp, function(cc) {
+			cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
+			cc
+		})
+	}
 	
 	
 	if (nrow(cdt)) cdt = process_components(cdt, o)
