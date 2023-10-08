@@ -52,7 +52,7 @@ update_na.show = function(label.show, na.show, anyNA) {
 
 
 
-tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, na.show, sortRev, bypass_ord) {
+tmapScale_returnNA = function(n, legend, chart, value.na, label.na, label.show, na.show, sortRev, bypass_ord) {
 	
 	ids = if (is.null(sortRev)) {
 		NULL
@@ -86,9 +86,9 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, na.show
 	vals = rep(value.na, n)
 	
 	if (bypass_ord) {
-		format_aes_results(vals, legend = legend)
+		format_aes_results(vals, legend = legend, chart = chart)
 	} else {
-		format_aes_results(vals, ids, legend)			
+		format_aes_results(vals, ids, legend, chart = chart)			
 	}
 	
 }

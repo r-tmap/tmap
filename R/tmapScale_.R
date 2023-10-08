@@ -35,16 +35,22 @@ tmapVars = function(x) {
 	
 	structure(x, class = cls)
 }
-format_aes_results = function(values, ord = NULL, legend) {
+format_aes_results = function(values, ord = NULL, legend, chart) {
 	legnr = vector(mode = "integer", length = length(values))
 	legnr[1] = legend_save(legend)
+	
+	crtnr = vector(mode = "integer", length = length(values))
+	crtnr[1] = chart_save(chart)
+	
 	if (is.null(ord)) {
 		list(values = values,
-			 legnr = legnr)	
+			 legnr = legnr,
+			 crtnr = crtnr)	
 	} else {
 		list(values = values,
 			 ord = ord,
-			 legnr = legnr)
+			 legnr = legnr,
+			 crtnr = crtnr)
 	}
 }
 
@@ -59,6 +65,10 @@ legends_init = function() {
 	assign("legs", list(), envir = .TMAP)
 }
 
+charts_init = function() {
+	assign("charts", list(), envir = .TMAP)
+}
+
 legend_save = function(legend) {
 	if (!exists("legs", envir = .TMAP)) legends_init()
 	legs = get("legs", envir = .TMAP)
@@ -67,7 +77,13 @@ legend_save = function(legend) {
 	length(legs)
 }
 
-
+chart_save = function(legend) {
+	if (!exists("charts", envir = .TMAP)) charts_init()
+	charts = get("charts", envir = .TMAP)
+	charts = c(charts, (list(legend)))
+	assign("charts", charts, envir = .TMAP)
+	length(charts)
+}
 
 data_type = function(x) {
 	if (all(is.na(x))) {
@@ -132,11 +148,11 @@ data_class = function(x, check_for_color_class = FALSE) {
 }
 
 
-tmapScale = function(aes, value, scale, legend, free) {
-	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = c("tmapScale", "list"))
+tmapScale = function(aes, value, scale, legend, chart, free) {
+	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
 }
 
-tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, x2 = NULL) {
+tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, x2 = NULL) {
 	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
@@ -171,9 +187,9 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 	scale_new$FUN = NULL
 	
 	if (sc == "bivariate") {
-		do.call(FUN, list(x1 = x1, x2 = x2, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
+		do.call(FUN, list(x1 = x1, x2 = x2, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
 	} else {
-		do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
+		do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
 	}
 	
 }

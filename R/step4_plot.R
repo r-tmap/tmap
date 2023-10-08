@@ -267,7 +267,8 @@ step4_plot = function(tm, vp, return.asp, show) {
 	
 	cdt = if (any_data_layer) {
 		cdt_legs = step4_plot_collect_legends(tmx)
-		data.table::rbindlist(list(cdt_legs, cdt_cmp))
+		cdt_crts = step4_plot_collect_charts(tmx)
+		data.table::rbindlist(list(cdt_legs, cdt_crts, cdt_cmp))
 	} else {
 		cdt_cmp
 	}

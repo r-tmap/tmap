@@ -1,4 +1,4 @@
-tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -21,7 +21,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, layer_args, sortR
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
 	
-	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 
 	with(scale, {
 

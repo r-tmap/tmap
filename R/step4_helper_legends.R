@@ -1,3 +1,28 @@
+step4_plot_collect_charts = function(tmx) {
+	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), comp = list())
+	if (!length(tmx)) {
+		crts = dt_template
+	} else {
+		crts = data.table::rbindlist(c(list(dt_template), lapply(tmx, function(tmxi) {
+			data.table::rbindlist(lapply(tmxi$layers, function(tml) {
+				
+				crts_cached = get("charts", .TMAP)
+				
+				legs = c(tml$trans_legend, tml$mapping_legend)
+				
+				legs = lapply(legs, function(l) {
+					l[, comp:=list(crts_cached[l$crtnr])]
+					l[, intersect(names(l), names(dt_template)), with = FALSE]
+				})
+				data.table::rbindlist(legs, fill = TRUE)
+			}), fill = TRUE)
+		})), fill = TRUE)
+		# remove empty legends
+		crts = crts[vapply(crts$comp, length, FUN.VALUE = integer(1)) > 1, ]
+	}
+	crts
+}
+
 step4_plot_collect_legends = function(tmx) {
 	# collect legends
 	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), legend = list())
@@ -125,6 +150,7 @@ step4_plot_collect_legends = function(tmx) {
 				data.table::rbindlist(legs3, fill = TRUE)
 			}), fill = TRUE)
 		})), fill = TRUE)
+		
 		# remove empty legends
 		legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
 	}

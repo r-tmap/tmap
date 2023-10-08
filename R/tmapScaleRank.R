@@ -1,5 +1,5 @@
 
-tmapScaleRank = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	# update misc argument from tmap option scale.misc.args
 	scale = update_scale_args("rank", scale, aes, o)
 	
@@ -22,7 +22,7 @@ tmapScaleRank = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 	show.warnings <- o$show.warnings
 	
 	with(scale, {
-		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 		
 
 		ticks.specified = !is.null(ticks)

@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -22,7 +22,16 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
 		
-		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+		if (all(is.na(x1))) {
+			chart = within(chart, {
+				labels = label.na
+				vvalues = c(value.na, value.na)
+				breaks = c(0, 1)
+				na.show = TRUE
+				x1 = x1[1]
+			})
+			return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+		}
 
 		if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
 			if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
@@ -177,14 +186,23 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 			scale = "intervals"
 		})
 		
+		chart = within(chart, {
+			labels = labels
+			vvalues = vvalues
+			breaks = breaks
+			na.show = get("na.show", envir = parent.env(environment()))
+			x1 = x1
+		})
+		
+		
 		if (submit_legend) {
 			if (bypass_ord) {
-				format_aes_results(vals, legend = legend)
+				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend)			
+				format_aes_results(vals, ids, legend, chart = chart)			
 			}
 		} else {
-			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
+			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 	})
 }

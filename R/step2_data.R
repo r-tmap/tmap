@@ -16,6 +16,7 @@ step2_data = function(tm) {
 	
 	# to reset the legends (which are  temporarily stored in .TMAP environment)
 	legends_init()
+	charts_init()
 	
 	grps = lapply(tmo, function(tmg) {
 		tmf = tmg$tmf
