@@ -8,7 +8,7 @@
 #'   `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.
 #' @param labels labels
 #' @param type the layer type from which the visual variables (see `...`) are taken.
-#'   Options: `"Symbols"` (default), `"Lines"`, `"Polygons"`, and `"Text"`.
+#'   Options: `"symbols"` (default), `"lines"`, `"polygons"`, and `"text"`.
 #' @param title text of the title
 #' @param design legend design
 #' @param orientation legend orientation
@@ -24,7 +24,7 @@
 #' @export
 tm_add_legend = function(...,
 						 labels,
-						 type = "Symbols",
+						 type = "symbols",
 						 title = "",
 						 design = NULL,
 						 orientation = NULL,
@@ -38,12 +38,16 @@ tm_add_legend = function(...,
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_add_legend", "tm_component")))))
 }
 
+toTitleCase = function(x) {
+	paste0(toupper(substr(x,1,1)), tolower(substr(x,2, nchar(x))))
+}
+
 
 tmapAddedLegend = function(comp, o) {
 	#message("tm_mouse_coordinates ignored for 'plot' mode")
-	l = update_l(o = o, l = comp, v = "", mfun = comp$type)
+	l = update_l(o = o, l = comp, v = "", mfun = toTitleCase(comp$type))
 
-	fun = paste0("tm_", tolower(comp$type))
+	fun = paste0("tm_", comp$type)
 	if (!exists(fun)) {
 		stop(paste0("type \"", comp$type, "\" not supported because tm_", comp$type,  " not found"), call. = FALSE)
 	}
