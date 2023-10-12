@@ -144,9 +144,9 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 			ct = ctabs[[nm]]
 			lt = cats[[nm]]
 			if (is.factor(dt[[nm]])) {
-				levels(dt[[nm]])
+				#levels(dt[[nm]])
 				
-				ids = match(lt$value, ct$value)
+				ids = match(lt$value[match(levels(dt[[nm]]), lt$levels)], ct$value)
 				cti = ct[ids,]
 				
 				cls = rgb(cti$red, cti$green, cti$blue, cti$alpha, maxColorValue = 255)
