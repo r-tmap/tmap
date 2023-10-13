@@ -566,15 +566,46 @@ tmapGridCompHeight_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(3,1)] * textS * o$lin
 	textH = textS * o$lin
-	comp$Hin = sum(textP[1], textH, textP[2])
+	
+	nlines = number_text_lines(comp$text)
+	
+	comp$Hin = sum(textP[1], textH * nlines, textP[2])
 	comp
 }
+
+# borrowed from treemap (wraps text to 1-5 lines)
+wrapText = function(txt, nlines) {
+	if (nlines == 1) {
+		txt
+	} else {
+		# create some wrappings, with slightly different widths:
+		results <- lapply(1:5, FUN=function(pos, nlines, txt) {
+			strwrap(txt, width = pos+(nchar(txt)/nlines))}, nlines, txt)
+		lengths = sapply(results, length)
+
+		# find the best match
+		diff = nlines - lengths
+		diff[diff < 0] = 1000
+		id = which.min(diff)[1]
+		
+		paste(results[[id]], collapse = "\n")
+	}
+}
+
 
 tmapGridCompWidth_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(2,4)] * textS * o$lin
 	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-	comp$Win = sum(textP[1], textW, textP[2])
+	
+	w = sum(textP[1], textW, textP[2])
+	if (!is.na(comp$width)) {
+		approxNumL = min(20, round(w / (comp$width * textS * o$lin)))
+		comp$text = wrapText(comp$text, approxNumL)
+		comp$Win = comp$width * textS * o$lin
+	} else {
+		comp$Win = w
+	}
 	comp
 }
 
