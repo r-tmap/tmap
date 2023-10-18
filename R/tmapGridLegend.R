@@ -50,7 +50,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	scaleH = legHin / maxH
 	
 	# because of legend frames (for which margins are added in tmapGridLegend), the scale may be a bit above 1, even though automatic layout is applied and there is enough space
-	if (any(scaleW > 1.05) || any(scaleH > 1.05)) warning("Some legend items or map compoments do not fit well (e.g. due to the specified font size).", call. = FALSE)
+	if (any(scaleW > 1.1) || any(scaleH > 1.1)) warning("Some legend items or map compoments do not fit well (e.g. due to the specified font size).", call. = FALSE)
 	
 	clipW = pmax(1, scaleW) 
 	clipH = pmax(1, scaleH) 
