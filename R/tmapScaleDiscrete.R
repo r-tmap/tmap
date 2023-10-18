@@ -48,10 +48,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, layer_args, sortR
 	
 		d_isdiv = rng[1] < 0 && rng[2] > 0	
 		
-		fun_check = paste0("tmapValuesCheck_", aes)
-		
-		are_valid = do.call(fun_check, args = list(x = values))
-		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform aes ", aes, call. = FALSE)
+		check_values(layer, aes, values)
 		
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 		
