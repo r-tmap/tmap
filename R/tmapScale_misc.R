@@ -1,3 +1,10 @@
+check_values = function(layer, aes, values) {
+	fun_check = paste0("tmapValuesCheck_", aes)
+	
+	are_valid = do.call(fun_check, args = list(x = values))
+	if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform visual variable \"", aes, "\"", call. = FALSE)
+}
+
 get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 	within(scale, {
 		values = if (is.na(values[1])) {

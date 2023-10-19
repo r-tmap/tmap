@@ -76,10 +76,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 		
-		fun_check = paste0("tmapValuesCheck_", aes)
-		
-		are_valid = do.call(fun_check, args = list(x = values))
-		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform aes ", aes, call. = FALSE)
+		check_values(layer, aes, values)
 		
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 		

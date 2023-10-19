@@ -363,6 +363,7 @@
 		title.frame.r = 2,
 		title.stack = "vertical",
 		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		title.width = NA,
 		title.group.frame = TRUE,
 		title.resize.as.group = FALSE,
 

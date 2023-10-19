@@ -40,10 +40,7 @@ tmapScaleBivariate = function(x1, x2, scale, legend, o, aes, layer, layer_args, 
 	vals = res[[1]]$vid + (res[[2]]$vid - 1L) * n1
 
 	with(scale, {
-		fun_check = paste0("tmapValuesCheck_", aes)
-		
-		are_valid = do.call(fun_check, args = list(x = values))
-		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform aes ", aes, call. = FALSE)
+		check_values(layer, aes, values)
 		
 		fun_getBVV = paste0("tmapValuesBVV_", aes)
 		VV = do.call(fun_getBVV, list(x = values, value.na = value.na, m = n1, n = n2, scale = values.scale * o$scale, rep = values.repeat, o = o))

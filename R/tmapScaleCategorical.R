@@ -15,7 +15,8 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, so
 	show.warnings <- o$show.warnings
 	
 	with(scale, {
-
+		check_values(layer, aes, values)
+		
 		nms = names(values) #color_names
 		
 		# cast to factor if needed
