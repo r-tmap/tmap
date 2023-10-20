@@ -316,6 +316,8 @@
 		
 		# charts
 		chart.show = TRUE,
+		chart.plot.axis.x = FALSE,
+		chart.plot.axis.y = TRUE,
 		chart.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
 										  pos.h = "left", pos.v = "top",
 										  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),

@@ -75,7 +75,10 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 	#grobRect = rectGrob(gp=gpar(fill="purple"))
 	
 	df = data.frame(x = comp$x1)
-	df$xcat = cut(df$x, breaks = comp$breaks, include.lowest = TRUE, right = FALSE)
+	
+	breaks = if (is.null(comp$breaks)) comp$breaks_def else comp$breaks
+	
+	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
 	
 	if (comp$na.show) {
 		na.value = tail(comp$vvalues, 1)
@@ -86,7 +89,9 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 		na.value = "#000000"
 	}
 	
-	g = ggplot2::ggplot(df, ggplot2::aes(x = xcat, fill = xcat)) + ggplot2::geom_bar(stat = "count", na.rm = TRUE) + ggplot2::scale_fill_manual(values = vvalues, na.value = na.value) + theme_chart(plot.axis.y = TRUE)
+	g = ggplot2::ggplot(df, ggplot2::aes(x = xcat, fill = xcat)) + ggplot2::geom_bar(stat = "count", na.rm = TRUE) + ggplot2::scale_fill_manual(values = vvalues, na.value = na.value) + theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y)
+	
+	g = g + comp$extra.ggplot2
 	
 	g2 = ggplot2::ggplotGrob(g)
 	

@@ -40,6 +40,10 @@ update_crt = function(o, crt, v, mfun) {
 	names(ocrt) = substr(names(ocrt), 7, nchar(names(ocrt)))
 	
 	
+	if ("position" %in% names(crt) && is.character(crt$position)) crt$position = str2pos(crt$position)
+	if ("position" %in% names(crt) && is.numeric(crt$position)) crt$position = num2pos(crt$position)
+	
+	
 	crt = complete_options(crt, ocrt)
 	crt$call = call
 	crt$mfun = mfun
@@ -227,7 +231,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				l = update_l(o = o, l = l, v = v, mfun = mfun)
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun)
 
-				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
