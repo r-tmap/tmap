@@ -39,7 +39,7 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 	
 	origin_data <- NLD_prov %>% 
 		st_set_geometry(NULL) %>% 
-		dplyr::mutate(FID= factor(1:dplyr::n())) %>% 
+		dplyr::mutate(FID = factor(dplyr::row_number())) %>% 
 		dplyr::select(FID, origin_native, origin_west, origin_non_west) %>% 
 		tidyr::pivot_longer(
 			cols = c(origin_native, origin_west, origin_non_west),
@@ -64,10 +64,10 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 	
 	tm_shape(NLD_prov) +
 		tm_polygons(group = "Provinces") +
-		tm_symbols(size="population", shape="name", 
-				   shapes=grobs, 
-				   sizes.legend=c(.5, 1,3)*1e6, 
-				   scale=1, 
+		tm_symbols(size = "population", shape="name", 
+				   shapes = grobs, 
+				   sizes.legend = c(.5, 1,3)*1e6, 
+				   scale = 1, 
 				   legend.shape.show = FALSE, 
 				   legend.size.is.portrait = TRUE, 
 				   shapes.legend = 22, 
@@ -76,11 +76,11 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 				   id = "name",
 				   popup.vars = c("population", "origin_native",
 				   			   "origin_west", "origin_non_west")) +
-		tm_add_legend(type="fill", 
+		tm_add_legend(type = "fill", 
 					  group = "Charts",
-					  col=origin_cols, 
-					  labels=c("Native", "Western", "Non-western"), 
-					  title="Origin") +
+					  col = origin_cols, 
+					  labels = c("Native", "Western", "Non-western"), 
+					  title = "Origin") +
 		tm_format("NLD")
 	
 	grobs2 = grobs
