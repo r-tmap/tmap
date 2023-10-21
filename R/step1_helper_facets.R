@@ -169,6 +169,7 @@ step1_rearrange_facets = function(tmo, o) {
 				popup.format = process_label_format(popup.format, o$label.format)
 				
 				if (!all(popup.vars %in% smeta$vars)) {
+					# TODO add a more informative message that says which variables are incorrect.
 					stop("Incorrrect popup.vars specification", call. = FALSE)
 				}
 				if (length(popup.vars)) add_used_vars(popup.vars)

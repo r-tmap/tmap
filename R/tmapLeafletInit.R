@@ -173,7 +173,7 @@ view_set_bounds <- function(lf, bbx, o) {
 		lims = unname(bbx)
 	}
 	if (!(identical(o$set.bounds, FALSE))) {
-		lf = lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
+		lf = lf %>% leaflet::setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
 	
 	if (is.na(o$set.view[1])) {

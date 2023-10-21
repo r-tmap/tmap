@@ -10,7 +10,7 @@
 #'   When `format` is defined, it returns the option list corresponding the that format.
 #' @seealso 
 #' * [tm_layout()] for predefined styles
-#' * `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles
+#' * `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles.
 #' * [tmap_options()] for tmap options
 #' @example ./examples/tmap_format.R
 #' @rdname tmap_format

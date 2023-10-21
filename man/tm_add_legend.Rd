@@ -7,7 +7,7 @@
 tm_add_legend(
   ...,
   labels,
-  type = "Symbols",
+  type = "symbols",
   title = "",
   design = NULL,
   orientation = NULL,
@@ -26,7 +26,7 @@ supported visual variables are: \code{"fill"}, \code{"col"}, \code{"shape"}, \co
 \item{labels}{labels}
 
 \item{type}{the layer type from which the visual variables (see \code{...}) are taken.
-Options: \code{"Symbols"} (default), \code{"Lines"}, \code{"Polygons"}, and \code{"Text"}.}
+Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \code{"text"}.}
 
 \item{title}{text of the title}
 

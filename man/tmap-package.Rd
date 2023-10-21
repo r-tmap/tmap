@@ -19,16 +19,16 @@ See \code{vignette("tmap_sneak_peek")} for a short introduction with examples.
 
 \tabular{ll}{
 \code{\link[=qtm]{qtm()}}\tab Plot a thematic map \cr
+--------------------------- \tab ------------------------------------------- \cr
 }
 }
 
 \section{Main plotting method}{
 
-Shape specification:\tabular{ll}{
-    \tab  \cr
-   \code{\link[=tm_shape]{tm_shape()}} \tab Specify a shape object \cr
+Shape specification:
+\tabular{ll}{
+\code{\link[=tm_shape]{tm_shape()}}\tab Specify a shape object \cr
 }
-
 
 Aesthetics base layers:
 \tabular{ll}{
