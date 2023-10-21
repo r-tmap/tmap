@@ -35,7 +35,7 @@ has_rotate_or_shear = function (x) {
 	dimensions = stars::st_dimensions(x)
 	if (has_raster(x)) {
 		r = attr(dimensions, "raster")
-		!any(is.na(r$affine)) && any(r$affine != 0)
+		!anyNA(r$affine) && any(r$affine != 0)
 	}
 	else FALSE
 }
@@ -58,9 +58,9 @@ is_rectilinear = function (x) {
 }
 
 regular_intervals = function (x, epsilon = 1e-10) {
-	if (length(x) <= 1) 
+	if (length(x) <= 1) {
 		FALSE
-	else {
+	} else {
 		ud = if (is.atomic(x)) 
 			unique(diff(x))
 		else {

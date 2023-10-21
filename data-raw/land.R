@@ -98,13 +98,20 @@ bbx <- st_bbox(land)
 crs <- st_crs(land)
 
 dimensions <- structure(list(
-	x = structure(list(from = 1, to = ncols, offset = bbx["xmin"],
-				  delta = (bbx["xmax"] - bbx["xmin"]) / ncols, refsys = crs$proj4string, point = NULL, values = NULL),
-				  class = "dimension"),
-	y = structure(list(from = 1, to = nrows, offset = bbx["ymax"],
-					   delta = (bbx["ymin"] - bbx["ymax"]) / nrows, refsys = crs$proj4string, point = NULL, values = NULL),
-				  class = "dimension")),
-	raster = stars:::get_raster(), class = "dimensions")
+	x = structure(list(
+		from = 1, to = ncols, offset = bbx["xmin"],
+		delta = (bbx["xmax"] - bbx["xmin"]) / ncols,
+		refsys = crs$proj4string, point = NULL, values = NULL
+		), class = "dimension"),
+	y = structure(list(
+		from = 1, to = nrows, offset = bbx["ymax"],
+		delta = (bbx["ymin"] - bbx["ymax"]) / nrows,
+		refsys = crs$proj4string, point = NULL, values = NULL
+		), class = "dimension")
+	),
+	raster = stars:::get_raster(),
+	class = "dimensions"
+	)
 	
 s1 <- stars::st_as_stars(ms)
 attr(s1, "dimensions") <- dimensions

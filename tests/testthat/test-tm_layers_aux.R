@@ -20,7 +20,11 @@ test_that("Base layer works at different positions", {
 		tm_shape(metro) +
 		tm_symbols(fill = "pop2020") +
 		tm_layout(bg.color = "grey95")
-	expect_warning(print(t), "legends is too high")
+	expect_s3_class(t, "tmap")
+	expect_equal(
+		attr(t[[1]], "class"),
+		c("tm_basemap", "tm_aux_layer", "tm_element", "list")
+	)
 	tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
 		tm_basemap("OpenStreetMap")+
@@ -60,9 +64,10 @@ test_that("Base layer works at different positions", {
 })
 
 test_that("Projected CRS warp work", {
-	tm_shape(NLD_prov) +
+	t <- tm_shape(NLD_prov) +
 		tm_basemap("OpenStreetMap") +
 		tm_borders()
+	expect_s3_class(t, "tmap")
 })
 
 

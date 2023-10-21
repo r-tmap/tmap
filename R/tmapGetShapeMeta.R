@@ -195,7 +195,7 @@ get_fact_levels_na = function(x, o) {
 			anyna = (sum(tab) != length(x)) # note that NA can already be included in the levels (in that case anyna = FALSE)
 			levs = levels(x)[tab != 0]
 		} else {
-			anyna = any(is.na(x))
+			anyna = anyNA(x)
 			levs = levels(x)
 		}
 

@@ -158,9 +158,9 @@ step1_rearrange_facets = function(tmo, o) {
 				
 
 				
-				if (identical(popup.vars, TRUE)) {
+				if (isTRUE(popup.vars)) {
 					popup.vars = smeta$vars
-				} else if (identical(popup.vars, FALSE)) {
+				} else if (isFALSE(popup.vars)) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
 					popup.vars = setdiff(get("used_vars", envir = .TMAP), c("AREA", "LENGTH", "MAP_COLORS"))
@@ -362,6 +362,5 @@ step1_rearrange_facets = function(tmo, o) {
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	tmo$tmf_global = tmf
 	tmo
-	
 }
 
