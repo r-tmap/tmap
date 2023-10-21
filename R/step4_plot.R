@@ -274,11 +274,12 @@ step4_plot = function(tm, vp, return.asp, show) {
 
 	
 	## place components top left
-	cdt$comp = lapply(cdt$comp, function(cc) {
-		cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
-		cc
-	})
-	
+	if (o$legend.only) {
+		cdt$comp = lapply(cdt$comp, function(cc) {
+			cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
+			cc
+		})
+	}
 	
 	
 	if (nrow(cdt)) cdt = process_components(cdt, o)
@@ -616,10 +617,10 @@ step4_plot = function(tm, vp, return.asp, show) {
 			
 			# plot grid labels
 			if (o$grid.show && !o$grid.labels.inside.frame) {
-				if ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols)) {
+				if (o$grid.labels.show[2] && ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols))) {
 					do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 				}
-				if ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows)) {
+				if (o$grid.labels.show[1] && ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows))) {
 					do.call(FUNgridxlab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 				}
 			}

@@ -1,11 +1,10 @@
-tmapValuesCheck_fill = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
-}
-
 tmapValuesCheck_col = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
+	((!is.null(getPalMeta(x[1])) && length(x) == 1L)  || all(valid_colors(x))) && !is.numeric(x)
 }
 
+tmapValuesCheck_fill = function(x) {
+	tmapValuesCheck_col(x)
+}
 
 tmapValuesCheck_shape = function(x) {
 	isSymbol = function(s) {
@@ -411,10 +410,10 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	# process values
 	#palid = tmapPalId(x[1])
 	
+	arecolors = valid_colors(x[1])
 	m = getPalMeta(x[1])
 	
-	ispalette = !is.null(m) && (length(x) == 1) # the latter in case of ambiguity (e.g. "blue")
-	arecolors = valid_colors(x[1])
+	ispalette = !is.null(m) && !arecolors # the latter in case of ambiguity (e.g. "blue")
 	
 	values = if (!ispalette && !arecolors) {
 		rep(x, length.out = n) 

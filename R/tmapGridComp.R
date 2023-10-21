@@ -562,19 +562,83 @@ tmapGridLegPlot_text = function(comp, o, fH, fW) {
 	
 }
 
+
+correct_nlines = function(n) {
+	# Linear model applied based on this empirical data:
+	# (results may depend on device)
+	#
+	# y = sapply(1:50, function(i) {
+	# 	s = paste(rep("text", i), collapse = "\n")
+	# 	convertHeight(stringHeight(s), "inch", valueOnly = TRUE)
+	# })
+	# df = data.frame(x = 1:50, y = y / 0.2) #0.2 is the lineheight (par "cin")
+	# lm(y~x, df)
+	# 
+	-.6035 + n * 1.2
+}
+
+
 tmapGridCompHeight_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(3,1)] * textS * o$lin
 	textH = textS * o$lin
-	comp$Hin = sum(textP[1], textH, textP[2])
+	
+	nlines = number_text_lines(comp$text)
+	
+	nlines2 = correct_nlines(nlines)
+	
+	comp$Hin = sum(textP[1], textH * nlines2, textP[2])
 	comp
 }
+
+# borrowed from treemap (wraps text to 1-5 lines)
+wrapText = function(txt, nlines) {
+	if (nlines == 1) {
+		txt
+	} else {
+		# create some wrappings, with slightly different widths:
+		results <- lapply(1:5, FUN=function(pos, nlines, txt) {
+			strwrap(txt, width = pos+(nchar(txt)/nlines))}, nlines, txt)
+		lengths = sapply(results, length)
+
+		# find the best match
+		diff = nlines - lengths
+		diff[diff < 0] = 1000
+		id = which.min(diff)[1]
+		
+		paste(results[[id]], collapse = "\n")
+	}
+}
+
+
+
 
 tmapGridCompWidth_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(2,4)] * textS * o$lin
 	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-	comp$Win = sum(textP[1], textW, textP[2])
+	
+	w = sum(textP[1], textW, textP[2])
+	
+	if (!is.na(comp$width)) {
+		textPgs = strsplit(comp$text, "\n")[[1]]
+		text2 = do.call(paste, c(lapply(textPgs, function(p) {
+			textW = textS * graphics::strwidth(p, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+			w = sum(textP[1], textW, textP[2])
+			nlines = round(w / (comp$width * textS * o$lin))
+			wrapText(p, nlines)
+		}), list(sep = "\n")))
+		
+		textW2 = textS * graphics::strwidth(text2, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+		w2 = sum(textP[1], textW2, textP[2])
+		
+		#approxNumL = min(20, round(w / (comp$width * textS * o$lin)))
+		comp$text = text2
+		comp$Win = w2
+	} else {
+		#comp$nlines = length(comp$textPgs)
+		comp$Win = w
+	}
 	comp
 }
 

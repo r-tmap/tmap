@@ -163,7 +163,7 @@ step1_rearrange_facets = function(tmo, o) {
 				} else if (identical(popup.vars, FALSE)) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
-					popup.vars = get("used_vars", envir = .TMAP)
+					popup.vars = setdiff(get("used_vars", envir = .TMAP), c("AREA", "LENGTH", "MAP_COLORS"))
 					if (!length(popup.vars)) popup.vars = smeta$vars
 				}
 				popup.format = process_label_format(popup.format, o$label.format)
