@@ -65,8 +65,8 @@ step3_trans = function(tm) {
 
 		adi$shpDT = NULL
 
-		adi	
-	})	
+		adi
+	})
 	
 
 	list(tmo = bd, aux = aux, cmp = cmp, o = o)

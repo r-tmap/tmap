@@ -221,8 +221,8 @@ process_meta = function(o, d, cdt, aux) {
 				lineHin <- convertHeight(unit(grid.labels.size, "lines"), "inch", valueOnly=TRUE)
 				
 				if (grid.labels.show[1]) {
-					gridx = pretty30(bbx[c(1,3)], n=5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
-					xbbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridx, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
+					gridx = pretty30(bbx[c(1,3)], n = 5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
+					xbbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridx, intervals = FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
 					xgridHin <- ifelse(!is.na(grid.labels.space.x), grid.labels.space.x * lineHin, ifelse(grid.labels.rot[1] %in% c(0, 180), 1.375 * lineHin, xbbstringWin + lineHin * .75) + grid.labels.margin.x * lineHin)
 					
 				} else {
@@ -230,9 +230,15 @@ process_meta = function(o, d, cdt, aux) {
 				}
 				
 				if (grid.labels.show[2]) {
-					gridy = pretty30(bbx[c(2,4)], n=5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
-					ybbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridy, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
-					ygridWin <- ifelse(!is.na(grid.labels.space.y), grid.labels.space.y * lineHin, ifelse(grid.labels.rot[2] %in% c(0, 180), ybbstringWin + lineHin * .75, 1.375 * lineHin) + grid.labels.margin.y * lineHin)
+					gridy = pretty30(bbx[c(2,4)], n = 5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
+					ybbstringWin <- max(
+						convertWidth(
+							stringWidth(do.call("fancy_breaks", c(
+								list(vec=gridy, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)
+						)
+					
+					ybbstringWin = ybbstringWin * grid.labels.size
+					ygridWin = ifelse(!is.na(grid.labels.space.y), grid.labels.space.y * lineHin, ifelse(grid.labels.rot[2] %in% c(0, 180), ybbstringWin + lineHin * .75, 1.375 * lineHin) + grid.labels.margin.y * lineHin)
 				} else {
 					ygridWin = 0
 				}

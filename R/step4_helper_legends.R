@@ -1,7 +1,7 @@
 step4_plot_collect_legends = function(tmx) {
 	# collect legends
 	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), legend = list())
-	
+
 	if (!length(tmx)) {
 		legs = dt_template
 	} else {
@@ -54,7 +54,6 @@ step4_plot_collect_legends = function(tmx) {
 					}
 					l
 				}, legs2, names(legs2), SIMPLIFY = FALSE)
-				
 				
 				copy_neutral = (length(legs) > 1)
 				

@@ -158,9 +158,9 @@ step1_rearrange_facets = function(tmo, o) {
 				
 
 				
-				if (identical(popup.vars, TRUE)) {
+				if (isTRUE(popup.vars)) {
 					popup.vars = smeta$vars
-				} else if (identical(popup.vars, FALSE)) {
+				} else if (isFALSE(popup.vars)) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
 					popup.vars = setdiff(get("used_vars", envir = .TMAP), c("AREA", "LENGTH", "MAP_COLORS"))
@@ -169,6 +169,7 @@ step1_rearrange_facets = function(tmo, o) {
 				popup.format = process_label_format(popup.format, o$label.format)
 				
 				if (!all(popup.vars %in% smeta$vars)) {
+					# TODO add a more informative message that says which variables are incorrect.
 					stop("Incorrrect popup.vars specification", call. = FALSE)
 				}
 				if (length(popup.vars)) add_used_vars(popup.vars)
@@ -361,6 +362,5 @@ step1_rearrange_facets = function(tmo, o) {
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	tmo$tmf_global = tmf
 	tmo
-	
 }
 

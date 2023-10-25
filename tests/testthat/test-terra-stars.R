@@ -2,6 +2,7 @@
 test_that("terra works", {
 	
 	skip_on_cran()
+	skip_if_not_installed("spDataLarge")
 	landsat = terra::rast(system.file("raster/landsat.tif", package = "spDataLarge"))
 	# Probably a bug in terra?
 	# names become cover_cover, cover_cls_cover_cls
@@ -35,9 +36,15 @@ test_that("stars works", {
 	land_stars = tmap::land
 	
 	tm_shape(land_stars) + tm_raster("trees")
-		tm_shape(land_stars) + tm_raster("treess")
 	
-	expect_warning(tm_shape(landsat) + tm_raster("landsat.tif", col.free = FALSE))
+	tm_shape(land_stars) + tm_raster("treess")
+		
+	# Fixed (issue #789)
+	# Removed the argument raster.warp from v4, because it is not useful. 
+	# Now the first strategy is warp (st_warp) and if unsuccessful,
+	# then throw a warning and try a (slow) transformation (st_transform).
+	# Somehow, the warp won't work with "robin". However, with crs = "+proj=eck4" is does work.
+	expect_no_warning(tm_shape(landsat) + tm_raster("landsat.tif", col.free = FALSE))
 	
 	p <- tm_shape(landsat) + tm_raster(col.free = FALSE)
 	tm_shape(landsat) +
@@ -64,11 +71,13 @@ test_that("multi rast works.", {
 
 test_that("Both approaches work for stars.", {
 	skip_on_cran()
+	skip_if_not_installed("spDataLarge")
 	# idea: tm_attr to specify an attribute as mv
 	# direct approach
 	landsat_stars = stars::read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
-	tm_shape(landsat_stars) +
+	expect_no_condition(tm_shape(landsat_stars) +
 		tm_rgb(tm_mv_dim("band", c(4,3,2)), col.scale = tm_scale_rgb(maxValue = 31961))
+	)
 	
 	# indirect approach
 	landsat_stars2 = split(landsat_stars, "band")

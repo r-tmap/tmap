@@ -335,7 +335,7 @@ tmapValuesSubmit_shape = function(x, args) {
 		# copy-pasted from v3, but not the best place
 		# improvement of just needed (-> trans?)
 		args = within(args, {
-			if (any(is.na(just))) {
+			if (anyNA(just)) {
 				just = c(.5, .5)
 				just.override = FALSE
 			} else {

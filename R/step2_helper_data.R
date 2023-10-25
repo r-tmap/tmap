@@ -140,7 +140,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			
 			# edit free argument. If NA, it is set to FALSE, and for the vars dimension to TRUE.
 			fr = rep(aes$free, length.out = 3)
-			if (any(is.na(fr))) {
+			if (anyNA(fr)) {
 				fr = rep(FALSE, 3)
 				if (length(v)) fr[v] = TRUE
 			}

@@ -62,13 +62,13 @@ leaflet::providers
 #' @rdname tm_grid
 #' @export
 tm_graticules = function(x = NA,
-						  y = NA,
-						  n.x = NA,
-						  n.y = NA,
-						  crs = 4326,
-						  labels.format = list(suffix = intToUtf8(176)),
-						  labels.cardinal = TRUE,
-						  ...) {
+						 y = NA,
+						 n.x = NA,
+						 n.y = NA,
+						 crs = 4326,
+						 labels.format = list(suffix = intToUtf8(176)),
+						 labels.cardinal = TRUE,
+						 ...) {
 	do.call(
 		tm_grid,
 		c(list(x = x, y = y, n.x = n.x, n.y = n.y, crs = crs, labels.format = labels.format, labels.cardinal = labels.cardinal), list(...))

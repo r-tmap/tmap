@@ -15,7 +15,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 			}
 		} else values
 		
-		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
+		value.na = if (is.na(value.na) || isTRUE(value.na)) {
 			m = getPalMeta(as.character(values[1]))
 			ona = getAesOption("value.na", o, aes, layer, cls = cls)	
 			
@@ -43,7 +43,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 		# label.na NA: show NA is there are any
 		# label.na "qwerty" always snow NA's
 		
-		label.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
+		label.show = !isFALSE(label.na) && (isTRUE(label.na) || (!is.na(label.na) && label.na != ""))
 		if (is.na(label.na)) label.show = NA # will be TRUE if there are NAs
 		if (is.logical(label.na)) label.na = getAesOption("label.na", o, aes, layer, cls = cls)
 	})
@@ -67,8 +67,8 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, na.show
 		rep(0L, n)
 	}
 	
-	if (identical(label.show, FALSE)) {
-		legend = within(legend,{
+	if (isFALSE(label.show)) {
+		legend = within(legend, {
 			title = NA
 			nitems = 0
 			labels = NA 

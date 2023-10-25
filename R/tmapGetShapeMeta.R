@@ -15,7 +15,7 @@ tmapGetShapeMeta1 = function(shp, o) {
 #' Internal method that extracts meta data from shape objects
 #'
 #' @param shp the shape
-#' @param shape meta (from tmapGetShapeMeta1)
+#' @param smeta meta (from tmapGetShapeMeta1)
 #' @param o the list of options
 #' @export
 #' @keywords internal
@@ -195,7 +195,7 @@ get_fact_levels_na = function(x, o) {
 			anyna = (sum(tab) != length(x)) # note that NA can already be included in the levels (in that case anyna = FALSE)
 			levs = levels(x)[tab != 0]
 		} else {
-			anyna = any(is.na(x))
+			anyna = anyNA(x)
 			levs = levels(x)
 		}
 

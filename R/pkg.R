@@ -18,7 +18,6 @@
 #' Shape specification:
 #' \tabular{ll}{
 #' [tm_shape()]\tab Specify a shape object \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Aesthetics base layers:
@@ -42,13 +41,11 @@
 #' [tm_markers()]\tab Create a layer of markers \cr
 #' [tm_iso()]\tab Create a layer of iso/contour lines \cr
 #' [tm_rgb()]\tab Create a raster layer of an image \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Faceting (small multiples)
 #' \tabular{ll}{
 #' [tm_facets()]\tab Define facets \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Attributes:
@@ -60,7 +57,6 @@
 #' [tm_logo()]\tab Create a logo \cr
 #' [tm_xlab()] and [tm_ylab()]\tab Create axis labels \cr
 #' [tm_minimap()]\tab Create a minimap (view mode only) \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Layout element:
@@ -70,7 +66,6 @@
 #' [tm_view()]\tab Configure the interactive view mode \cr
 #' [tm_style()]\tab Apply a predefined style \cr
 #' [tm_format()]\tab Apply a predefined format \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Change options:
@@ -79,13 +74,11 @@
 #' [ttm()]\tab Toggle between the modes \cr
 #' [tmap_options()]\tab Set global tmap options (from [tm_layout()], [tm_view()], and a couple of others) \cr
 #' [tmap_style()]\tab Set the default style \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' Create icons:
 #' \tabular{ll}{
 #' [tmap_icons()]\tab Specify icons for markers or proportional symbols \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' 
@@ -97,7 +90,6 @@
 #' [tmap_animation()]\tab Create an animation \cr
 #' [tmap_arrange()]\tab Create small multiples of separate maps \cr
 #' [tmap_save()]\tab Save thematic maps (either as image or HTML file) \cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' @section Spatial datasets: 
@@ -108,7 +100,6 @@
 #' [`metro`]\tab Metropolitan areas ([`sf`][`sf::sf`] object of points) \cr
 #' [`rivers`]\tab Rivers ([`sf`][`sf::sf`] object of lines) \cr
 #' [`land`]\tab Global land cover ([`stars`][stars::st_as_stars()] object)\cr
-#' --------------------------- \tab ------------------------------------------- \cr
 #' }
 #' 
 #' @author Martijn Tennekes \email{mtennekes@@gmail.com}
