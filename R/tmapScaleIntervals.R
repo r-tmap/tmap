@@ -186,7 +186,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		chart = within(chart, {
 			labels = labels
 			vvalues = vvalues
-			breaks_def = breaks
+			breaks_def = get("breaks", envir = parent.env(environment()))
 			na.show = get("na.show", envir = parent.env(environment()))
 			x1 = x1
 		})

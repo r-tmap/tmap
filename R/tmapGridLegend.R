@@ -366,7 +366,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 
 	
-	grbsQ = do.call(grid::gList, lapply(1:5, function(i) {
+	grbs = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
 			if (any(!stack_auto[id])) {
@@ -382,7 +382,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 
 	
 	
-	gt = add_to_gt(gt, grbsQ, row = rows, col = cols)
+	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 	
 	gts[[facet_page]] = gt
 	

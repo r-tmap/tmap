@@ -59,6 +59,7 @@ theme_chart <- function(base_size = 12, base_family = "", plot.axes = FALSE, plo
 			panel.background = ggplot2::element_blank(),
 			panel.border = ggplot2::element_blank(),
 			panel.grid = ggplot2::element_blank(),
+			panel.grid.major.y = ggplot2::element_line(colour = "#888888", linewidth = .3),
 			strip.background = ggplot2::element_blank(),
 			plot.background = ggplot2::element_blank(),
 			plot.title = ggplot2::element_blank(),

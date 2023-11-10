@@ -13,11 +13,17 @@ tmapGridCompWidth.tm_chart = function(comp, o) {
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
 	comp$margins = c(0.02, 0.02, 0.02, 0.02)
-	comp$nlines = 10
-	
 	marW = comp$margins[c(2,4)] * textS * o$lin
-	ws = c(marW[1], comp$nlines * textS * o$lin, marW[2])
 	
+	if (is.na(comp$width)) {
+		comp$nlines = 10
+	} else {
+		comp$nlines = comp$width
+		
+	}
+	body = comp$nlines * textS * o$lin
+	ws = c(marW[1], body, marW[2])
+
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
 	
@@ -75,21 +81,34 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 	#grobRect = rectGrob(gp=gpar(fill="purple"))
 	
 	df = data.frame(x = comp$x1)
-	
-	breaks = if (is.null(comp$breaks)) comp$breaks_def else comp$breaks
+	if (is.null(comp$breaks)) {
+		breaks = comp$breaks_def
+		ids = 1L:(length(breaks) - 1L)
+	} else {
+		breaks = comp$breaks
+		subbreaks = (all(comp$breaks_def %in% breaks))
+		
+		break_mids = (breaks[-1] + head(breaks, -1)) / 2
+		
+		ids = as.integer(cut(break_mids, comp$breaks_def, include.lowest = TRUE, right = FALSE))
+	}
 	
 	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
 	
-	if (comp$na.show) {
-		na.value = tail(comp$vvalues, 1)
-		vvalues = head(comp$vvalues, -1)
-	} else {
-		vvalues = comp$vvalues
-		df = df[!is.na(df$xcat), ]
-		na.value = "#000000"
-	}
+	vvalues = comp$vvalues
 	
-	g = ggplot2::ggplot(df, ggplot2::aes(x = xcat, fill = xcat)) + ggplot2::geom_bar(stat = "count", na.rm = TRUE) + ggplot2::scale_fill_manual(values = vvalues, na.value = na.value) + theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y)
+	if (comp$na.show) {
+		tab = as.data.frame(table(df$xcat, useNA = "always"))
+		tab$color = factor(c(ids, length(vvalues)), levels = seq_along(vvalues))
+		pal = structure(vvalues, names = levels(tab$color))
+	} else {
+		tab = as.data.frame(table(df$xcat, useNA = "no"))
+		tab$color = factor(ids, levels = seq_along(vvalues))
+		pal = structure(vvalues, names = levels(tab$color))
+	}
+
+	
+	g = ggplot2::ggplot(tab, ggplot2::aes(x = Var1, y = Freq, fill = color)) + ggplot2::geom_bar(width = 1, lwd = .3,color = "#000000", stat = "identity", na.rm = TRUE) + ggplot2::scale_fill_manual(values = pal) + theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y)
 	
 	g = g + comp$extra.ggplot2
 	
