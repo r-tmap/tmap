@@ -313,6 +313,10 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	NULL
 } 
 
+npc_to_native = function(x, scale) {
+	x * (scale[2] - scale[1])# + scale[1]
+}
+
 tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
@@ -321,7 +325,9 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	shp = res$shp
 	dt = res$dt
 	
+	# specials non-vv (later on lost after gp_to_gpar)
 	shadow = gp$shadow
+	
 	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
@@ -330,9 +336,44 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	
 	g = get("g", .TMAP_GRID)
 	
+	# specials vv (later on lost after gp_to_gpar)
+	bgcol = gp$bgcol
+	bgcol_alpha = gp$bgcol_alpha
+	
 	
 	gp = gp_to_gpar(gp, sel = "col")
 	grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
+	
+	
+	nlines <- rep(1, length(dt$text))
+	
+	
+	lineH <- convertHeight(unit(gp$cex, "lines"), "native", valueOnly=TRUE)
+	lineW <- convertWidth(unit(gp$cex, "lines"), "native", valueOnly=TRUE)
+	# lineH <- npc_to_native(convertHeight(unit(gp$cex, "lines"), "native", valueOnly=TRUE), scale = bbx[c(2,4)])
+	# lineW <- npc_to_native(convertWidth(unit(gp$cex, "lines"), "native", valueOnly=TRUE), scale = bbx[c(1,3)])
+	
+	tGH <- mapply(dt$text, gp$cex, nlines, FUN=function(x,y,z){
+		convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=gp$fontface, fontfamily=gp$fontfamily))),"native", valueOnly=TRUE)}, USE.NAMES=FALSE)
+	
+	tGW <- mapply(dt$text, gp$cex, FUN=function(x,y){
+		convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=gp$fontface, fontfamily=gp$fontfamily))),"native", valueOnly=TRUE)}, USE.NAMES=FALSE)
+	
+	just = c(0.5, 0.5)
+	bg.margin=0
+	
+	justx <- .5 - just[1]
+	justy <- .6 - just[2]
+	
+	
+	
+	tGX <- grobText$x + unit(tGW * justx, "native")
+	tGY <- grobText$y + unit(tGH * justy, "native")
+	
+	tGH <- unit(tGH + lineH * bg.margin, "native")
+	tGW <- unit(tGW + lineW * bg.margin, "native")
+	grobTextBG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=bgcol, alpha = bgcol_alpha))
+	
 	
 	if (shadow) {
 		gp_sh = gp
@@ -342,8 +383,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		grobTextSh <- NULL
 	}
 	
-	grobTextBG = NULL
-	
+
 	grb = grid::grobTree(gList(grobTextBG, grobTextSh, grobText))
 	
 	gts = get("gts", .TMAP_GRID)

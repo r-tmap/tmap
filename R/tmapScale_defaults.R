@@ -6,6 +6,10 @@ tmapValuesCheck_fill = function(x) {
 	tmapValuesCheck_col(x)
 }
 
+tmapValuesCheck_bgcol = function(x) {
+	tmapValuesCheck_col(x)
+}
+
 tmapValuesCheck_shape = function(x) {
 	isSymbol = function(s) {
 		inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
@@ -45,6 +49,10 @@ tmapValuesCheck_fill_alpha = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+tmapValuesCheck_bgcol_alpha= function(x) {
+	tmapValuesCheck_size(x)
+}
+
 tmapValuesCheck_area = function(x) {
 	tmapValuesCheck_size(x)
 }
@@ -72,6 +80,10 @@ tmapValuesIsDiv_col = function(x) {
 	tmapValuesIsDiv_fill(x)
 }
 
+tmapValuesIsDiv_bgcol = function(x) {
+	tmapValuesIsDiv_fill(x)
+}
+
 tmapValuesIsDiv_size = function(x) {
 	inherits(x, "tmapSeq") && (x$from < 0) && (x$to > 1) || (is.numeric(x) && (any(x < 0) && any(x> 0)))
 }
@@ -89,6 +101,10 @@ tmapValuesIsDiv_col_alpha = function(x) {
 }
 
 tmapValuesIsDiv_fill_alpha = function(x) {
+	tmapValuesIsDiv_size(x)
+}
+
+tmapValuesIsDiv_bgcol_alpha = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
@@ -121,6 +137,10 @@ tmapValuesRange_col = function(x, n, isdiv) {
 	tmapValuesRange_fill(x, n, isdiv)
 }
 
+tmapValuesRange_bgcol = function(x, n, isdiv) {
+	tmapValuesRange_fill(x, n, isdiv)
+}
+
 tmapValuesRange_shape = function(x, n, isdiv) {
 	c(0, 1)
 }
@@ -149,6 +169,9 @@ tmapValuesRange_fill_alpha = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+tmapValuesRange_bgcol_alpha = function(x, n, isdiv) {
+	tmapValuesRange_size(x, n, isdiv)
+}
 
 tmapValuesRange_area = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
@@ -239,7 +262,10 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 tmapValuesVV_col = function(...) {
 	tmapValuesVV_fill(...)
-	#do.call(tmapValuesVV_fill, args = list(...))
+}
+
+tmapValuesVV_bgcol = function(...) {
+	tmapValuesVV_fill(...)
 }
 
 tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
@@ -308,6 +334,10 @@ tmapValuesVV_fill_alpha = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+tmapValuesVV_bgcol_alpha = function(...) {
+	do.call(tmapValuesVV_size, args = list(...))
+}
+
 tmapValuesVV_area = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
@@ -323,6 +353,7 @@ tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, mid
 # for symbols, which need to be 'submitted' (content replaced by an integer)
 tmapValuesSubmit_col = function(x, args) x
 tmapValuesSubmit_fill = function(x, args) x
+tmapValuesSubmit_bgcol = function(x, args) x
 tmapValuesSubmit_size = function(x, args) x
 tmapValuesSubmit_lwd = function(x, args) x
 tmapValuesSubmit_lty = function(x, args) x
@@ -354,30 +385,35 @@ tmapValuesSubmit_shape = function(x, args) {
 }
 tmapValuesSubmit_col_alpha = function(x, args) x
 tmapValuesSubmit_fill_alpha = function(x, args) x
+tmapValuesSubmit_bgcol_alpha = function(x, args) x
 tmapValuesSubmit_text = function(x, args) x
 tmapValuesSubmit_fontface = function(x, args) x
 
 
 tmapValuesScale_col = function(x, scale) x
 tmapValuesScale_fill = function(x, scale) x
+tmapValuesScale_bgcol = function(x, scale) x
 tmapValuesScale_size = function(x, scale) x * scale
 tmapValuesScale_lwd = function(x, scale) x * scale
 tmapValuesScale_lty = function(x, scale) x
 tmapValuesScale_shape = function(x, scale) x
 tmapValuesScale_col_alpha = function(x, scale) x
 tmapValuesScale_fill_alpha = function(x, scale) x
+tmapValuesScale_bgcol_alpha = function(x, scale) x
 tmapValuesScale_text = function(x, scale) x
 tmapValuesScale_fontface = function(x, scale) x
 
 
 tmapValuesColorize_col = function(x, pc) do.call(process_color, c(list(col = x), pc))
 tmapValuesColorize_fill = function(x, pc) do.call(process_color, c(list(col = x), pc))
+tmapValuesColorize_bgcol = function(x, pc) do.call(process_color, c(list(col = x), pc))
 tmapValuesColorize_size = function(x, pc) x
 tmapValuesColorize_lwd = function(x, pc) x
 tmapValuesColorize_lty = function(x, pc) x
 tmapValuesColorize_shape = function(x, pc) x
 tmapValuesColorize_col_alpha = function(x, pc) x
 tmapValuesColorize_fill_alpha = function(x, pc) x
+tmapValuesColorize_bgcol_alpha = function(x, pc) x
 tmapValuesColorize_text = function(x, pc) x
 tmapValuesColorize_fontface = function(x, pc) x
 
@@ -448,6 +484,10 @@ tmapValuesCVV_col = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
 }
 
+tmapValuesCVV_bgcol = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
+}
+
 tmapValuesCVV_size = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_size(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
@@ -464,6 +504,9 @@ tmapValuesCVV_fill_alpha = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fill_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+tmapValuesCVV_bgcol_alpha = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_bgcol_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
 tmapValuesCVV_area = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_area(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
@@ -520,5 +563,9 @@ tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 }
 
 tmapValuesBVV_col = function(x, value.na, m, n, scale, rep, o) {
+	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
+}
+
+tmapValuesBVV_bgcol = function(x, value.na, m, n, scale, rep, o) {
 	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
 }

@@ -39,6 +39,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			   size = {if (!all(is.na(gp$size))) gp$size else 1},
 			   cex = {if (!all(is.na(gp$cex))) gp$cex else 1},
 			   fontface = {if (!all(is.na(gp$cex))) gp$fontface else "plain"},
+			   fontfamily = {if (!all(is.na(gp$fontfamily))) gp$fontfamily else ""},
 			   shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
 	
 	# 
@@ -56,6 +57,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 				  size = TRUE, 
 				  cex = TRUE, 
 				  fontface = FALSE,
+				  fontfamily = FALSE,
 				  shape = TRUE)
 	
 	lst = mapply(function(lsti, isnum) {
