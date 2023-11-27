@@ -213,7 +213,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	
 	if (comp$type == "gradient") {
 		# for borders
-		gpars = gp_to_gpar(gp, id = 1L, sel = "col")
+		gpars = gp_to_gpar(gp, id = 1L, sel = "col", o = o, type = comp$type)
 		
 		# for gradient fill
 		nlev2 = (nlev-comp$na.show) # nlev without na
@@ -306,8 +306,8 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		
 		
 		if (diffAlpha) {
-			gpars1 = gp_to_gpar(gp, sel = "fill", split_to_n = nlev) #lapply(gps, gp_to_gpar_fill)
-			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
+			gpars1 = gp_to_gpar(gp, sel = "fill", split_to_n = nlev, o = o, type = comp$type) #lapply(gps, gp_to_gpar_fill)
+			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev, o = o, type = comp$type) #lapply(gps, gp_to_gpar_borders)
 			
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(6, id, {
@@ -317,19 +317,19 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 			}), comp$item_ids, gpars1, gpars2, SIMPLIFY = FALSE)
 			
 		} else {
-			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
+			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, rndrectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(id, gpari) gridCell(6, id, rndrectGrob(gp = gpari, r = comp$item.r)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 		}
 		
 	} else if (comp$type == "lines") {
-		gpars = gp_to_gpar(gp, sel = "col", split_to_n = nlev)#lapply(gps, gp_to_gpar)
+		gpars = gp_to_gpar(gp, sel = "col", split_to_n = nlev, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
 		#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		grItems = mapply(function(id, gpari) gridCell(6, id, grid::linesGrob(x = grid::unit(c(0.5,0.5), "npc"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 	} else if (comp$type == "symbols") {
 		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
-		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
@@ -360,7 +360,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	} else if (comp$type == "text") {
 		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
-		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
