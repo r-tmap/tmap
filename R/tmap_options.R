@@ -287,7 +287,7 @@
 		legend.bg.alpha = 1,
 		legend.only = FALSE,
 		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2, bivariate = 1.2),
-										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 1.2, bivariate = 1.2),
+										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 3, bivariate = 1.2),
 										item.r = 2,
 										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0, lines = 0.2, text = 0.2, bivariate = 0),
 										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA, bivariate = NA),

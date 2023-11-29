@@ -538,13 +538,24 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		if (length(gp$cex) == 1) gp$cex = min(gp$cex, min(get_legend_option(comp$item.height, "text"),
 															 get_legend_option(comp$item.width, "text")) * comp$textS)
 		
+		bgcols = rep(gp$bgcol, length.out = nlev)
+		bgcols_alpha = rep(gp$bgcol_alpha, length.out = nlev)
+		
 		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
 		#		sizes = 
-		grItems = mapply(function(id, gpari, txt) gridCell(id, 3, grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari)), comp$item_ids, gpars, gp$text, SIMPLIFY = FALSE)
+	
+		
+		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha, size) {
+			gridCell(id, 3, {
+				grid::gList(
+					rndrectGrob(width = grid::unit(grid::convertWidth(grid::stringWidth(txt), "inches")* size, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = grid::gpar(fill = bgcol, alpha = bgcol_alpha, col = NA), r = comp$item.r),
+					grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari))
+			})
+		}, comp$item_ids, gpars, gp$text, bgcols, bgcols_alpha, gp$cex, SIMPLIFY = FALSE)
 		
 	} else if (comp$type == "bivariate") {
 		gpars = gp_to_gpar(gp, sel = "all", split_to_n = n*m, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
