@@ -424,14 +424,19 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 	
-	#fW_fact = 1
+	
 	
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
 	#xrange = (comp$bbox[3] - comp$bbox[1]) * fW_fact
 	
 	xrange = fW * comp$cpi
-	
+
+	# xrange is the range of the viewport in terms of coordinates
+	# xrange2 is the same but with units (e.g. km instead of m)
+	# W is the targeted space for the scalebar
+
+		
 	W = as.numeric(wsu[3])
 	
 	crop_factor = W / fW 
@@ -445,23 +450,15 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	
 	xrange2 = xrange/unit.size
 	
-	# to find the label width of first and last item, only used as proxy
 	
-
 	if (is.null(comp$breaks)) {
-		
-		# determine resolution
+		# determine resolution only (unselect steps that do not fit later (with 'sel'))
 		for (i in 10:1) {
 			tcks = pretty(c(0, xrange2*crop_factor), i)
-			
 			tcks3 = (tcks / xrange2) * fW
-			
 			tcksL = format(tcks, trim=TRUE)
-			
 			labW = text_width_inch(tcksL) * comp$text.size
-			
 			tickW = tcks3[-1] - head(tcks3, -1)
-			
 			if (all(tickW > labW[-1])) {
 				sbW = W - labW
 				break
@@ -470,9 +467,13 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 		ticks2 = tcks
 	} else {
 		ticks2 = comp$breaks
+		tcksL = format(ticks2, trim=TRUE)
+		
+		labW = text_width_inch(tcksL) * comp$text.size
+		sbW = W - labW
 	}
 
-	ticks3 = ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
+	ticks3 = ticks2 / xrange2 * fW
 	sel = which(ticks3 <= sbW)
 	
 	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
