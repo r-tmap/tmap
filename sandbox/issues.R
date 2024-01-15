@@ -156,6 +156,10 @@ plot(r)
 tm_shape(r) +
 	tm_raster()
 
+tm_shape(r) +
+	tm_raster(col.legend = tm_legend_hide())
+
+
 str(r)
 
 
@@ -164,3 +168,37 @@ cat_raster = rast(system.file("raster/nlcd.tif", package = "spDataLarge"))
 tm_shape(cat_raster) +
 	tm_raster(col.scale = tm_scale_categorical(levels.drop = TRUE),
 			  col.legend = tm_legend("Land cover"))
+
+
+# 819
+L7file = system.file("tif/L7_ETMs.tif", package = "stars")
+L7 = read_stars(L7file)
+
+### working but gives warning
+tm_shape(L7) + 
+	tm_rgb()
+	
+	tm_raster(c(3, 2, 1))
+
+tm_shape(L7) + 
+	tm_raster(col = tm_mv_dim("band", c(3, 2, 1)), col.scale = tm_scale_rgb())
+
+tm_shape(L7) + 
+	tm_rgb(tm_mv_dim("band", c(3, 2, 1)))
+
+L7split = split(L7)
+tm_shape(L7split) + 
+	tm_rgb(tm_mv("X3", "X2", "X1"))
+
+
+
+# Warning message:
+# In value[[3L]](cond) : could not rename the data.table
+
+### not working gives error
+tm_shape(L7) + 
+	tm_rgb(3, 2, 1)
+
+# Error: palette should be a character value
+# In addition: Warning message:
+# In value[[3L]](cond) : could not rename the data.table

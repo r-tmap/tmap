@@ -486,6 +486,8 @@
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,
+		tiles.alpha = 1,
+		tiles.zoom = NA,
 		overlays = NULL,
 		overlays.alpha = 1,
 		alpha = NA,

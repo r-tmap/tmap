@@ -146,7 +146,7 @@ tmapLeafletAux = function(o, q) {
 	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
 
 	# remove radio button when there is only one
-	if (length(groups_radio) == 1) groups_radio = character(0)
+	if (is.null(groups_radio) || length(groups_radio) == 1) groups_radio = character(0)
 	if (is.null(groups_check)) groups_check = character(0)
 	
 	lfs = lapply(lfs, function(lfp) {

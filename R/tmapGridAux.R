@@ -37,9 +37,8 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	}
 
 	xs = mapply(function(b, z) {
-
 		m = tryCatch({
-			maptiles::get_tiles(x = b, provider = a$server[1], zoom = z, crop = FALSE, )	
+			maptiles::get_tiles(x = b, provider = a$server[1], zoom = z, crop = FALSE)	
 		}, error = function(e) {
 			tryCatch({
 				maptiles::get_tiles(x = b, provider = a$server[1], zoom = z - 1, crop = FALSE)	
@@ -47,24 +46,36 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 				NULL
 			})
 		})
-		names(m)[1:3] = c("red", "green", "blue")
+		if (!is.null(m)) {
+			names(m)[1:3] = c("red", "green", "blue")
+			if (terra::nlyr(m) == 4) names(m)[4] = "alpha"
+			
+		} else {
+			message("Tiles from ", a$server[1], " at zoom level ", z, " couldn't be loaded")
+		}
 		m
 	}, bs, zs, SIMPLIFY = FALSE)
 
-	if (isproj) xs = mapply(function(x,b) {
-		ex = terra::ext(as.vector(b[c(1,3,2,4)]))
-		asp = (ex[2] - ex[1]) / (ex[4] - ex[3])
-		
-		tot = terra::ncell(x) * 2
-		
-		nc = round(sqrt(tot * asp))
-		nr = round(tot / nc)
+	if (isproj) {
+		if (!all(vapply(xs, is.null, FUN.VALUE = logical(1)))) {
+			message("Tiles from ", a$server[1], " will be projected so details (e.g. text) could appear blurry")
+			xs = mapply(function(x,b) {
+				if (is.null(x)) return(NULL)
+				
+				ex = terra::ext(as.vector(b[c(1,3,2,4)]))
+				asp = (ex[2] - ex[1]) / (ex[4] - ex[3])
+				
+				tot = terra::ncell(x) * 2
+				
+				nc = round(sqrt(tot * asp))
+				nr = round(tot / nc)
+				
+				r = terra::rast(ex, nrows = nr, ncols = nc, crs = crs$wkt)
+				terra::project(x, r, method = "near")
+			}, xs, bs_orig, SIMPLIFY = FALSE)
+		}
+	}
 
-		r = terra::rast(ex, nrows = nr, ncols = nc, crs = crs$wkt)
-		terra::project(x, r, method = "near")
-	}, xs, bs_orig, SIMPLIFY = FALSE)
-	
-	
 	ss = lapply(xs, function(x) {
 		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", smeta = list(), o = o))
 	})
@@ -76,7 +87,12 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
 		d[, c("col", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", sortRev = NA, bypass_ord = TRUE))]
-		d[, col_alpha:=1L]
+		if ("alpha" %in% names(d)) {
+			d[, col_alpha:=alpha/255]
+			d[is.na(col_alpha), col_alpha:=0]
+		} else {
+			d[, col_alpha:=1L]
+		}
 		d
 	})
 
@@ -85,9 +101,11 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	})
 
 
+	bmaps_shpTHs = structure(list(shpTMs), names = id)
+	bmaps_dts = structure(list(ds), names = id)
 	
-	g$bmaps_shpTHs = shpTMs
-	g$bmaps_dts = ds
+	g$bmaps_shpTHs = c(g$bmaps_shpTHs, bmaps_shpTHs)
+	g$bmaps_dts = c(g$bmaps_dts, bmaps_dts)
 
 	assign("g", g, envir = .TMAP_GRID)
 	paste0(a$server, collapse = "__")
@@ -345,8 +363,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	g = get("g", envir = .TMAP_GRID)
 
-	dt = g$bmaps_dts[[bi]]
-	shpTM = g$bmaps_shpTHs[[bi]]
+	dt = g$bmaps_dts[[id]][[bi]]
+	shpTM = g$bmaps_shpTHs[[id]][[bi]]
 	gp = list()
 	
 	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)	
