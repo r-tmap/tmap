@@ -266,13 +266,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 			attr(shp3, "dimensions")[[rst$dimensions[2]]]$values = 1L:ncol(shp)
 			attr(attr(shp3, "dimensions"), "raster")$curvilinear = FALSE
 		} else {
-			#shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
-			#shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp2) else ncol(shp2):1L})
-			
 			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
 			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
-			
-			#shp3 = shp
 		}
 		
 		

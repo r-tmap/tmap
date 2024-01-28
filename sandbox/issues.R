@@ -292,6 +292,7 @@ reprex::reprex({
 
 # 818
 
+reprex::reprex({
 library(stars)
 library(mapview)
 m = matrix(1:20, 4)
@@ -299,8 +300,26 @@ s0 = st_as_stars(m)
 s = s0
 st_crs(s) <- 4326
 st_crs(s0) <- 4326
-
 st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
+
+s0_4326 = st_transform(s0, crs = 4326)
+
+stars:::is_curvilinear(s0)
+stars:::is_curvilinear(s0_4326)
+
+s0
+s0_4326
+})
+
+
+
+
+d = st_dimensions(s0)
+has_raster(s0) && isTRUE(attr(s0, "raster")$curvilinear)
+
+
+
+
 
 library(tmap)
 tmap_mode("plot")
