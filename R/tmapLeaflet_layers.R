@@ -234,18 +234,38 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 		
 		m <- matrix(col_ids, ncol = ncol(shp))
 		
+		#matrix(color, ncol = ncol(shp))
+		
+		#m <- matrix(tmapID, ncol = ncol(shp))
+		
+		
+		#m = tmapID
+		
+		#m[1,5] = 4
+		
 		shp2 = st_as_stars(m, dimensions = shp)
 
 		lf = get_lf(facet_row, facet_col, facet_page)
-		
-		#shp2 = transwarp(shp, crs = st_crs(3857), raster.warp = TRUE)
 		
 		lf |> 
 			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
-		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)
-		tmapLeafletPolygons(shpTM, dt, facet_row, facet_col, facet_page, id, pane, group, o)
+		#shp2 = st_as_stars(list(values = tmapID), dimensions = shp)
+		#shpTM <- shapeTM(sf::st_geometry(sf::st_as_sf(shp2)), as.vector(tmapID))
+		
+		m = matrix(tmapID, nrow = nrow(shp), ncol = ncol(shp))
+		shp2 = structure(list(tmapID = m), class = "stars", dimensions = shp)
+		
+		shp3 = sf::st_geometry(sf::st_as_sf(shp2))
+		
+		crs = get_option_class(tmap_options_mode("view")$crs, "sf")
+		
+		shpTM = shapeTM(sf::st_transform(shp3, crs), tmapID)
+		
+		
+		gp$lty = "solid"
+		tmapLeafletPolygons(shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
 		#grid.shape(s, gp=gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL

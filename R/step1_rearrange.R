@@ -131,7 +131,7 @@ step1_rearrange = function(tmel) {
 	
 	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
 	crs_main = if (any_data_layer) get_crs(tms) else NA
-
+	
 	if (inherits(crs_option, "leaflet_crs")) {
 		crs_leaflet = crs_option
 		crs = leaflet2crs(crs_leaflet)
@@ -152,7 +152,6 @@ step1_rearrange = function(tmel) {
 		main_class = "stars" # basemaps
 	}
 	
-
 	if (dev) timing_add(s2 = "facet meta")
 	
 	
@@ -195,6 +194,7 @@ step1_rearrange = function(tmel) {
 	o$crs = crs # in step 3, when other shapes are transformed to this crs
 	o$crs_leaflet = crs_leaflet
 	o$crs_main = crs_main
+	
 	
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 

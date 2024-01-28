@@ -5,7 +5,6 @@ tmapReproject = function(...) {
 #' @method tmapReproject stars
 #' @export
 tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
-	
 	shp[[1]] = tmapID
 	
 	shp2 = transwarp(shp, crs, raster.warp = TRUE)
@@ -249,8 +248,12 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		
 		
 		shpclass = "sfc"
-	} else {
+	} else { 
+		shp0 = shp
+		dt0 = as.data.table(shp0, center = FALSE)
+		
 		shp = downsample_stars(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
+		
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
@@ -267,9 +270,17 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 			attr(shp3, "dimensions")[[rst$dimensions[2]]]$values = 1L:ncol(shp)
 			attr(attr(shp3, "dimensions"), "raster")$curvilinear = FALSE
 		} else {
-			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
-			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp) else ncol(shp):1L})
+			#shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
+			#shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp2) else ncol(shp2):1L})
+			
+			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
+			
+			#shp3 = shp
 		}
+		
+		shp0b = shp3
+		
 		
 		dt = as.data.table(shp3, center = FALSE)
 		# Circumvent bug in tests on Windows
@@ -290,6 +301,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 		shp = dimsxy
 		shpclass = "stars"
+		
+	
 		shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
 		
 	}

@@ -287,8 +287,19 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		
 		m <- matrix(color, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE)
 		
-		y_is_neg <- all(diff(stars::st_get_dimension_values(shp, "y")) < 0)
-		if (!y_is_neg) {
+		y_is_pos <- local({
+			vals = stars::st_get_dimension_values(shp, "y")
+			if (!is.null(vals)) {
+				!all(diff(vals) < 0)
+			} else {
+				rst = attr(shp, "raster")
+				name_y = names(get_xy_dim(shp))[2]
+				delta = shp[[name_y]]$delta
+				delta > 0
+			}
+		})
+			
+		if (y_is_pos) {
 			m <- m[nrow(m):1L, ]
 		}
 		m[is.na(m)] = NA #"#0000FF"

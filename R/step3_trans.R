@@ -47,6 +47,7 @@ step3_trans = function(tm) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
+	
 		adi$layers = lapply(adi$layers, function(al) {
 			# step 3.c1: apply non global transformation function
 			if (al$trans_isglobal) {
@@ -68,7 +69,6 @@ step3_trans = function(tm) {
 		adi
 	})
 	
-
 	list(tmo = bd, aux = aux, cmp = cmp, o = o)
 }
 

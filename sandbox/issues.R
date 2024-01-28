@@ -170,6 +170,36 @@ tm_shape(cat_raster) +
 			  col.legend = tm_legend("Land cover"))
 
 
+# issue 2
+library(osfr)
+library(rnaturalearth)
+#> Support for Spatial objects (`sp`) will be deprecated in {rnaturalearth} and will be removed in a future release of the package. Please use `sf` objects with {rnaturalearth}. For example: `ne_download(returnclass = 'sf')`
+
+dir.create("testdata")
+osf_retrieve_node("xykzv") |>
+	osf_ls_files(n_max = Inf) |>
+	osf_download(path = "testdata",
+				 conflicts = "overwrite")
+
+
+lc = rast("testdata/land_cover.tif")
+cameroon = ne_countries(country = "Cameroon", returnclass = "sf") |>
+	st_transform(crs = st_crs(lc))
+
+lc_cameroon = crop(lc, cameroon, mask = TRUE)
+
+lc_palette_df = read.csv("testdata/lc_palette.csv")
+coltb = lc_palette_df[c("value", "color")]
+coltab(lc_cameroon) = coltb
+plot(lc_cameroon)  # raster with color table
+
+tm_shape(lc_cameroon) +
+	tm_raster()
+
+tm_shape(lc) +
+	tm_raster()
+
+
 # 819
 L7file = system.file("tif/L7_ETMs.tif", package = "stars")
 L7 = read_stars(L7file)
@@ -202,3 +232,171 @@ tm_shape(L7) +
 # Error: palette should be a character value
 # In addition: Warning message:
 # In value[[3L]](cond) : could not rename the data.table
+
+
+
+
+
+
+
+
+
+
+
+
+
+# in #733
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2"))
+
+
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), fill.legend = tm_legend(title = c("Legend Title 1", "Legend Title 2")))
+
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), fill.legend = list(tm_legend(title = "Legend Title 1"), 
+															   tm_legend(title = "Legend Title 2")))
+
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), fill.legend = list(tm_legend(title = "Legend Title 1"), 
+															   tm_legend(title = "Legend Title 2")))+
+tm_layout(main.title = "Main Title",
+		  main.title.position = "center",
+		  main.title.color = "blue",
+		  title = c("Title 1", "Title 2"),
+		  title.color = "red",
+		  panel.labels = c("Panel Label 1", "Panel Label 2"),
+		  panel.label.color = "purple",
+		  legend.text.color = "brown")
+
+
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), fill.legend = list(tm_legend(title = "Legend Title 1"), 
+															   tm_legend(title = "Legend Title 2")))+
+	tm_title("Main", position = tm_pos_out("center", "top"))
+
+
+
+
+#810
+tm_shape(World, bbox = as.vector(sf::st_bbox(World))) + 
+	tm_polygons()
+
+
+reprex::reprex({
+	sf::st_bbox(c(-180, -89, 180, 83))
+	sf::st_bbox(c(xmin = -180, ymin = -89, xmax = 180, ymax = 83))
+})
+
+
+
+# 818
+
+library(stars)
+library(mapview)
+m = matrix(1:20, 4)
+s0 = st_as_stars(m)
+s = s0
+st_crs(s) <- 4326
+st_crs(s0) <- 4326
+
+st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
+
+library(tmap)
+tmap_mode("plot")
+tmap_mode("view")
+tm_shape(World) + 
+	tm_borders() +
+tm_shape(s) +
+	tm_raster(col_alpha=0.5) +
+	tm_shape(s0,raster.warp = FALSE) + tm_raster()
+
+tm_shape(s, crs = 3857)  + tm_raster()
+tm_shape(s0, crs = 3857)  + tm_raster()
+
+tm_shape(s0)  + tm_raster()
+
+tm_shape(World) + tm_polygons()
+
+
+s
+(s2 = stars::st_warp(s, crs = 3857))
+
+tm_shape(s) + tm_raster("A1", col.scale = tm_scale_discrete())
+tm_shape(s2) + tm_raster("A1", col.scale = tm_scale_discrete())
+tm_shape(s, crs = 3857) + tm_raster("A1", col.scale = tm_scale_discrete())
+
+mapview(s)
+mapview(s2)
+s$A1[]
+s2$A1[]
+
+
+st_crs(s)
+s$A1
+
+s2 = transwarp(s, crs = 3857)
+
+plot(s)
+plot(s2)
+
+s$A1[]
+s2$A1[]
+
+c("#FF0000", "#FF4D00", "#FF9900", "#FFE500", 
+  "#CCFF00", "#80FF00", "#33FF00", "#00FF19", 
+  "#00FF66", "#00FFB2", "#00FFFF", "#00B3FF",
+  "#0066FF", "#001AFF", "#3300FF", "#7F00FF",
+  "#CC00FF", "#FF00E6",  "#FF0099", "#FF004D")
+
+
+######
+
+# original matrix is m:
+m
+s$A1
+
+# adding rainbow colors:
+leaflet() |> addTiles() |> leafem::addStarsImage(s, colors = rainbow(20))
+
+
+
+
+mtch = match(1:20, s2$A1)
+
+leaflet() |> addTiles() |> leafem::addStarsImage(s2, colors = rainbow(20))
+
+
+leaflet() |> addTiles() |> leafem::addStarsImage(s2, colors = rainbow(20)[mtch])
+mapview(s2)
+
+# tmapShape L 23
+tmapReproject.dimensions
+
+
+
+
+#######################
+
+library(stars)
+library(mapview)
+#m = matrix(1:4, 2)
+m = matrix(c(3,4,1,2), 2)
+
+s0 = st_as_stars(m)
+s = s0
+st_crs(s) <- 4326
+st_crs(s0) <- 4326
+
+st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
+
+
+tm_shape(s, crs = 3857)  + tm_raster()
+#tm_shape(s0, crs = 3857)  + tm_raster()
+
+tm_shape(s)  + tm_raster()
+#tm_shape(s0)  + tm_raster()
+
+mapview::mapview(s)
+plot(s)
+plot(s)
