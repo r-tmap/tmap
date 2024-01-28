@@ -249,11 +249,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		
 		shpclass = "sfc"
 	} else { 
-		shp0 = shp
-		dt0 = as.data.table(shp0, center = FALSE)
-		
 		shp = downsample_stars(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
-		
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
@@ -278,8 +274,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 			
 			#shp3 = shp
 		}
-		
-		shp0b = shp3
 		
 		
 		dt = as.data.table(shp3, center = FALSE)

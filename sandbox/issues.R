@@ -392,7 +392,7 @@ st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
 
 
 tm_shape(s, crs = 3857)  + tm_raster()
-#tm_shape(s0, crs = 3857)  + tm_raster()
+tm_shape(s0, crs = 3857)  + tm_raster()
 
 tm_shape(s)  + tm_raster()
 #tm_shape(s0)  + tm_raster()
