@@ -200,6 +200,14 @@ tm_shape(lc) +
 	tm_raster()
 
 
+## issue Rapsodia86
+
+library(terra)
+rast_in <- rast("sandbox/Raster_test_tmap.tif")
+rast_in[rast_in==0] <- NA
+plot(rast_in)
+tm_shape(rast_in) +tm_raster()
+
 # 819
 L7file = system.file("tif/L7_ETMs.tif", package = "stars")
 L7 = read_stars(L7file)
@@ -419,3 +427,22 @@ tm_shape(s)  + tm_raster()
 mapview::mapview(s)
 plot(s)
 plot(s)
+
+
+## 820
+library(sf)
+#> Linking to GEOS 3.11.2, GDAL 3.7.2, PROJ 9.3.0; sf_use_s2() is TRUE
+system.file("gpkg/nc.gpkg", package = "sf") |>
+	read_sf() |>
+	st_transform('EPSG:32119') -> nc.32119
+tm_shape(nc.32119) + tm_polygons(c("SID74", "SID79"), title="SIDS") + 
+	tm_layout(legend.outside=TRUE, panel.labels=c("1974-78", "1979-84")) + 
+	tm_facets(free.scales=FALSE)
+
+
+tm_shape(nc.32119) + tm_polygons(c("SID74", "SID79"), fill.free = FALSE, fill.legend = tm_legend(title = "SIDS")) + 
+	tm_layout(legend.outside=TRUE, panel.labels=c("1974-78", "1979-84")) + 
+	tm_facets()
+
+
+## 

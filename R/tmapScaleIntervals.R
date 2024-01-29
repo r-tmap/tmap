@@ -2,12 +2,14 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
+	if (attr(cls, "unique") && is.null(scale$breaks)) stop("Unique value, so cannot determine intervals scale range. Please specify breaks.", call. = FALSE)
+	
+	
 	if (cls[1] != "num") {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
 		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
-	
 	
 	x1 = without_units(x1)
 	
@@ -21,7 +23,6 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 	with(scale, {
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
-		
 		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 
 		if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
@@ -52,7 +53,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 			breaks[length(breaks)] = breaks[length(breaks)] + 1L
 		}	
 		
-		q <- num2breaks(x=x1, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = style.args)
+		q = num2breaks(x=x1, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = style.args)
 		
 		breaks = q$brks
 		nbrks = length(breaks)
