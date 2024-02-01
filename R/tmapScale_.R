@@ -127,7 +127,7 @@ data_class = function(x, check_for_color_class = FALSE) {
 	attr(cls, "units") = if (inherits(x, "units")) {
 		paste0(" [", units(x), "]")
 	} else ""
-	attr(cls, "unique") = (length(unique(x)) == 1)
+	attr(cls, "unique") = (length(na.omit(unique(x)))==1)
 	cls
 }
 
@@ -145,6 +145,16 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 		sc = "bivariate"
 	} else if (cls[1] == "asis") {
 		sc = "asis"	
+	} else if (attr(cls, "unique")) {
+		if ("num" %in% cls) {
+			sc = "ordinal"
+			message("The visual variable \"", aes, "\" of the layer, \", layer", "\" contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")	
+		} else {
+			sc = "categorical"	
+			message("The visual variable \"", aes, "\" of the layer, \", layer", "\" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).")
+		}
+		
+		
 	} else {
 		sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
 		sc_pref = scale$fun_pref

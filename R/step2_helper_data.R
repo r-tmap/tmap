@@ -17,8 +17,7 @@ update_l = function(o, l, v, mfun) {
 	
 	if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
 	if ("position" %in% names(l) && is.numeric(l$position)) l$position = num2pos(l$position)
-	
-	
+	if ("position" %in% names(l) && inherits(l$position, "tm_pos")) l$position = complete_options(l$position, o$component.position[[l$position$type]])
 	
 	l = complete_options(l, oleg)
 	l$call = call
@@ -204,7 +203,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
 				l = update_l(o = o, l = l, v = v, mfun = mfun)
 		
-				
 				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN

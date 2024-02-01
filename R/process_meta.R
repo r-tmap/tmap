@@ -67,10 +67,10 @@ preprocess_meta = function(o, cdt) {
 										per_col = any(is.na(cdt$by1__) & !is.na(cdt$by2__) & cdt$class == "autoout"),
 										per_facet = any(!is.na(cdt$by1__) & !is.na(cdt$by2__) & cdt$class == "autoout"))
 			}
-			legend.present.fix = c(any(cdt$class == "out" & cdt$cell.v == "bottom"), 
-								   any(cdt$class == "out" & cdt$cell.h == "left"),
-								   any(cdt$class == "out" & cdt$cell.v == "top"),
-								   any(cdt$class == "out" & cdt$cell.h == "right"))
+			legend.present.fix = c(any(cdt$class == "out" & identical(cdt$cell.v, "bottom")), 
+								   any(cdt$class == "out" & identical(cdt$cell.h, "left")),
+								   any(cdt$class == "out" & identical(cdt$cell.v, "top")),
+								   any(cdt$class == "out" & identical(cdt$cell.h, "right")))
 		}
 		
 		

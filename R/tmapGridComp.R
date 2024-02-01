@@ -388,6 +388,9 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
+	
+	
+
 	ws = c(marW[1], 0, marW[2])
 	
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
@@ -396,7 +399,7 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	
 	comp$Win = sum(ws)
 	comp$wsu = wsu
-	
+
 	# in case breaks are used: adjust the legend width later (in tmapGridLegend)
 	comp$WnativeID = 3
 	if (!is.null(comp$breaks)) {
@@ -422,10 +425,21 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 												   heights = hsu))
 	
 	
+	
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
-	xrange = comp$bbox[3] - comp$bbox[1]
-	crop_factor = as.numeric(wsu[3]) / fW 
+	#xrange = (comp$bbox[3] - comp$bbox[1]) * fW_fact
+	
+	xrange = fW * comp$cpi
+
+	# xrange is the range of the viewport in terms of coordinates
+	# xrange2 is the same but with units (e.g. km instead of m)
+	# W is the targeted space for the scalebar
+
+		
+	W = as.numeric(wsu[3])
+	
+	crop_factor = W / fW 
 	just = 0
 	
 	if (is.na(unit.size)) {
@@ -436,24 +450,30 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	
 	xrange2 = xrange/unit.size
 	
-	# to find the label width of first and last item, only used as proxy
-	tcks = pretty(c(0, xrange2*crop_factor), 4)
-	tcksL = format(tcks, trim=TRUE)
-	rngL = c(tcksL[1], paste(unit, tail(tcksL, 1), unit))
-	rngW = ((text_width_inch(rngL) / 2) + o$lin * 0.5) * comp$text.size
-	
-	# available width for scale bar
-	sbW = as.numeric(wsu[3]) - sum(rngW)
-	
-	crop_factor2 = sbW / fW 
 	
 	if (is.null(comp$breaks)) {
-		ticks2 = pretty(c(0, xrange2*crop_factor2), round(comp$width * 8))
+		# determine resolution only (unselect steps that do not fit later (with 'sel'))
+		for (i in 10:1) {
+			tcks = pretty(c(0, xrange2*crop_factor), i)
+			tcks3 = (tcks / xrange2) * fW
+			tcksL = format(tcks, trim=TRUE)
+			labW = text_width_inch(tcksL) * comp$text.size
+			tickW = tcks3[-1] - head(tcks3, -1)
+			if (all(tickW > labW[-1])) {
+				sbW = W - labW
+				break
+			}
+		}
+		ticks2 = tcks
 	} else {
 		ticks2 = comp$breaks
+		tcksL = format(ticks2, trim=TRUE)
+		
+		labW = text_width_inch(tcksL) * comp$text.size
+		sbW = W - labW
 	}
 
-	ticks3 = ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
+	ticks3 = ticks2 / xrange2 * fW
 	sel = which(ticks3 <= sbW)
 	
 	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {

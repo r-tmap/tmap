@@ -46,6 +46,7 @@ get_split_stars_dim = function(lst) {
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo, o) {
 	#o = tmap_options_mode()
+	dev = getOption("tmap.devel.mode")
 	
 	
 	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
@@ -61,6 +62,9 @@ step1_rearrange_facets = function(tmo, o) {
 		shp = tmg$tms$shp
 		smeta = tmapGetShapeMeta1(shp, c(o, tmg$tmf))
 
+		if (dev) timing_add(s3 = "get_shape_meta1")
+		
+		
 		assign("vl", NULL, envir = .TMAP)
 		assign("vn", 1L, envir = .TMAP)
 		
@@ -169,8 +173,7 @@ step1_rearrange_facets = function(tmo, o) {
 				popup.format = process_label_format(popup.format, o$label.format)
 				
 				if (!all(popup.vars %in% smeta$vars)) {
-					# TODO add a more informative message that says which variables are incorrect.
-					stop("Incorrrect popup.vars specification", call. = FALSE)
+					rlang::arg_match(popup.vars, values = smeta$vars, multiple = TRUE)
 				}
 				if (length(popup.vars)) add_used_vars(popup.vars)
 
@@ -189,6 +192,8 @@ step1_rearrange_facets = function(tmo, o) {
 		shp = tmapSplitShp(shp, split_stars_dim)
 		if (split_stars_dim != "") {
 			smeta = tmapGetShapeMeta1(shp, o)
+			if (dev) timing_add(s3 = "get_shape_meta1_2")
+			
 		}	
 		
 		
@@ -295,8 +300,10 @@ step1_rearrange_facets = function(tmo, o) {
 
 		smeta$vars = get("used_vars", envir = .TMAP)
 		shp = tmapSubsetShp(shp, smeta$vars)
-
+		if (dev) timing_add(s3 = "subset_shp")
+		
 		smeta = tmapGetShapeMeta2(shp, smeta, c(o, tmg$tmf))
+		if (dev) timing_add(s3 = "get_shape_meta2")
 		
 		
 		

@@ -249,6 +249,11 @@
 		text.fontfamily = "",
 		
 
+		component.position = list('in' = list(pos.h = "left", pos.v = "top",
+												align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
+								  out = list(cell.h = "right", cell.v = "center",
+								  			   pos.h = "left", pos.v = "top",
+								  			   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
 		
 		# legend		
 		legend.show = TRUE,
@@ -391,13 +396,12 @@
 		
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
-		scalebar.width=.3, 
+		scalebar.width=0.3, 
 		scalebar.text.size = .5,
 		scalebar.text.color=NA,
 		scalebar.color.dark="black", 
 		scalebar.color.light="white",
 		scalebar.lwd=1,
-		scalebar.position=NA,
 		scalebar.bg.color=NA,
 		scalebar.bg.alpha=NA,
 		scalebar.size = NULL,
@@ -496,6 +500,8 @@
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,
+		tiles.alpha = 1,
+		tiles.zoom = NA,
 		overlays = NULL,
 		overlays.alpha = 1,
 		alpha = NA,

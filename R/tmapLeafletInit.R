@@ -68,69 +68,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 			lf
 		})
 	})
-	
-	
 
-	
-	# bases = if ("bases" %in% ls(envir = .TMAP_LEAFLET)) get("bases", envir = .TMAP_LEAFLET) else NA
-	# overlays = if ("overlays" %in% ls(envir = .TMAP_LEAFLET)) get("overlays", envir = .TMAP_LEAFLET) else NA
-	# overlays_tiles = if ("overlays_tiles" %in% ls(envir = .TMAP_LEAFLET)) get("overlays_tiles", envir = .TMAP_LEAFLET) else character(0)
-	# 
-	# layerIds = list()
-	# start_pane_id = 401
-	# 
-	# # should the layer control include base layers? TRUE if |basemaps| > 1 || names/groups are specified
-	# basename.specified = FALSE
-	# 
-	# 
-	# 
-	# ### find z indeces and create tmapXXX panes
-	# zids <- lapply(gp, function(gpl) {
-	# 	po <- gpl$plot.order
-	# 	
-	# 	po2 <- substr(po, 4, nchar(po))
-	# 	po2[po2 == "symbols"] <- "symbol"
-	# 	po2[po2 == "tiles"] <- "tile"
-	# 	po2[po2 == "lines"] <- "line"
-	# 	
-	# 	zi <- sapply(po2, function(p) {
-	# 		if (p == "grid") gt$grid.zindex else gpl[[paste0(p, ".zindex")]]
-	# 	})
-	# 	
-	# 	if (!is.null(gpl$tile.gtype) && gpl$tile.gtype == "base") {
-	# 		zi[names(zi) == "tile"] <- 0
-	# 	}
-	# 	zi
-	# })
-	# zids_vec <- unlist(zids, use.names = FALSE)
-	# 
-	# # For tmapProxy: only use pane with a higher z number than existing ones
-	# # Only use free panes: every layer must be in a different pane
-	# z_free <- setdiff(start_pane_id:(start_pane_id+length(zids_vec)*2-1), na.omit(zids_vec))
-	# zids_vec[is.na(zids_vec)] <- rep(z_free, length.out = sum(is.na(zids_vec)))
-	# zids_len <- sapply(zids, length)
-	# zindices <- split(zids_vec, unlist(mapply(rep, 1:length(zids), each = zids_len, SIMPLIFY = FALSE), use.names = FALSE))
-	# tmap_zindices <- sort(unique(unname(setdiff(zids_vec, 0))))
-	# 
-	# ## get/set existing panes
-	# if (!proxy) {
-	# 	assign("pane_ids", tmap_zindices, envir = .TMAP_CACHE)
-	# 	z_panes <- integer()
-	# } else {
-	# 	z_panes <- get("pane_ids", envir = .TMAP_CACHE)
-	# 	assign("pane_ids", union(tmap_zindices, z_panes), envir = .TMAP_CACHE)
-	# }
-	# 
-	# # add new panes
-	# for (z in setdiff(tmap_zindices, z_panes)) {
-	# 	lf <- addMapPane(lf, paneName(z), zIndex = z)
-	# }
-	# 
-	# 
-	# 
-	# 
-	# 
-	# 
 	.TMAP_LEAFLET$lfs = lfs
 	.TMAP_LEAFLET$nrow = o$nrows
 	.TMAP_LEAFLET$ncol = o$ncols
@@ -146,7 +84,7 @@ tmapLeafletAux = function(o, q) {
 	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
 
 	# remove radio button when there is only one
-	if (length(groups_radio) == 1) groups_radio = character(0)
+	if (is.null(groups_radio) || length(groups_radio) == 1) groups_radio = character(0)
 	if (is.null(groups_check)) groups_check = character(0)
 	
 	lfs = lapply(lfs, function(lfp) {

@@ -699,9 +699,17 @@ step4_plot = function(tm, vp, return.asp, show) {
 		
 		legs_out = copy(cdt[!is_in])
 		legs_out[, page:=as.integer(NA)]
-		legs_out[, bbox:=list()]
-		legs_out[, units:=list()]
 		
+		# legs_out[, bbox:=list()]
+		# legs_out[, units:=list()]
+		
+		# ad-hoc method: take first bbox and units
+		bbox_nb = d$bbox[1]
+		attr(bbox_nb, "borrow") = list(col = d$col[1], row = d$row[1])
+		legs_out[, bbox:=bbox_nb]
+		legs_out[, units:=d$units[1]]
+		
+				
 		cdt = data.table::rbindlist(c(list(legs_out), legs_in))
 
 		cdt$comp = mapply(function(cmp, bbx, u) {
