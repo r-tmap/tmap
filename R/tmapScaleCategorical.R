@@ -22,8 +22,12 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, so
 		# cast to factor if needed
 		if (!is.factor(x1)) {
 			su = sort(unique(x1))
+			x1 = tryCatch({
+				factor(x1, levels=su)
+			}, error = function(e) {
+				stop("tm_scale_categorical in layer \"tm_", layer, "\", visual variable \"", aes, "\" cannot be applied due to an error categorization of the data", call. = FALSE)
+			})
 			
-			x1 = factor(x1, levels=su)
 			if (is.numeric(su)) levels(x1) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE, as.count = FALSE), label.format)) 	
 		}
 		
