@@ -446,3 +446,42 @@ tm_shape(nc.32119) + tm_polygons(c("SID74", "SID79"), fill.free = FALSE, fill.le
 
 
 ## 
+
+library(terra)
+library(tmap)
+lc = rast("https://osf.io/download/m92d7")
+
+system.time({plot(lc)})
+
+summaryRprof()
+Rprof(tmp <- tempfile())
+print(tm_shape(lc) +
+	  	tm_raster())
+Rprof()
+summaryRprof(tmp)
+unlink(tmp)
+
+World$well_being_rounded = round(World$well_being)
+tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "well_being_rounded")
+
+## maptiles leaflet inconsistancy (will be solved in maptiles)
+
+reprex::reprex({
+	library(maptiles)
+	library(leaflet)
+	a = names(maptiles:::maptiles_providers)
+	b = names(leaflet::providers)
+	
+	a
+	b
+	setdiff(a, b)
+})
+
+
+ttm()
+tm_basemap(c("Esri.WorldShadedRelief", "Stadia.StamenTerrain")) +
+	tm_tiles("Stadia.StamenTerrainLines") +
+	tm_tiles("Stadia.StamenTerrainLabels")
+
+
+
