@@ -40,6 +40,8 @@ tmapLeaflet_legend_comp = function(comp, o) {
 		type = if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
 				   (!is.na(gp$col[1]) && any(nchar(gp$col) > 50)) || (!is.na(gp$col_alpha[1]) && any(nchar(gp$col_alpha) > 50))) {
 			"gradient"
+		} else if (any(c("bgcol", "bgcol_alpha") %in% varying)) {
+			"none"
 		} else {
 			"symbols"
 		}

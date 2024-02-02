@@ -54,7 +54,7 @@
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
 #' @param ... to catch deprecated arguments from version < 4.0
-#' @example ./examples/tm_lines.R 
+#' @example ./examples/tm_text.R 
 #' @export
 tm_text = function(text = tm_const(),
 				   text.scale = tm_scale(),

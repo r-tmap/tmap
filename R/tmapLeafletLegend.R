@@ -104,7 +104,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	
 	legpos = leaflet_pos(cmp$position)
 
-	lf2 = if (cmp$type == "gradient") {
+	lf2 = if (cmp$typ == "none") {
+		#message("Text based legends not supported in view mode")
+		lf
+	} else if (cmp$type == "gradient") {
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
 			

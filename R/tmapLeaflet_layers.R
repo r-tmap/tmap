@@ -298,7 +298,14 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	face_set = unique(gp$fontface)
 	col_set = unique(gp$col)
 	
-	if (length(face_set) != 1) warning("Variable fontfaces not supported by view mode")
+	bgcol_set = unique(gp$bgcol)
+	
+	if (any(bgcol_set != "#00000000")) {
+		message("Variable bgcol and bgcol_alpha not supported by view mode")
+	}
+	
+	
+	if (length(face_set) != 1) message("Variable fontfaces not supported by view mode")
 	
 	vary = (length(cex_set) != 1) || (length(alpha_set) != 1) || (length(face_set) != 1) || (length(col_set) != 1)
 	
@@ -353,15 +360,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	}
 	assign_lf(lf, facet_row, facet_col, facet_page)
 	
-	# if (o$use.WebGL) {
-	# 	lf |> 
-	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) |> 
-	# 		assign_lf(facet_row, facet_col, facet_page)
-	# } else {
-	# 	lf |> 
-	# 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) |> 
-	# 		assign_lf(facet_row, facet_col, facet_page)
-	# }
+
 	
 	NULL	
 }
