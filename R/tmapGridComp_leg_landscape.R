@@ -334,10 +334,20 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
+		diffAlpha = !anyNA(c(gp$fill_alpha, gp$col_alpha)) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+		if (diffAlpha) {
+			gpars1 = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type, sel = "fill")
+			gpars2 = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type, sel = "col")
+		} else {
+			gpars1 = vector(mode = "list", length = nlev)
+			gpars2 = vector(mode = "list", length = nlev)
+		}
+		
+		
 		shapeLib = get("shapeLib", envir = .TMAP)
 		justLib = get("justLib", envir = .TMAP)
 		
-		grItems = mapply(function(id, gpari) {
+		grItems = mapply(function(id, gpari, gpari1, gpari2) {
 			grobs = if (gpari$shape > 999) {
 				grbs = if (gpari$lwd == 0) {
 					gList(shapeLib[[gpari$shape-999]])	
@@ -349,11 +359,18 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 													   width=unit(gpari$size*2/3, "lines"),
 													   height=unit(gpari$size*2/3, "lines")))
 			} else {
-				grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)
+				if (diffAlpha) {
+					grid::grobTree(
+						grid::pointsGrob(x=0.5, y=0.5, pch = gpari1$shape, size = grid::unit(gpari1$size, "lines"), gp = gpari1),
+						grid::pointsGrob(x=0.5, y=0.5, pch = gpari2$shape, size = grid::unit(gpari2$size, "lines"), gp = gpari2)
+					)
+				} else {
+					grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)
+				}
 			}
 			#grb = gTree(children=do.call(gList, grobs), name=paste0("symbols_", id))
 			gridCell(6, id, grobs)	
-		}, comp$item_ids, gpars, SIMPLIFY = FALSE)
+		}, comp$item_ids, gpars, gpars1, gpars2, SIMPLIFY = FALSE)
 		
 		
 		
