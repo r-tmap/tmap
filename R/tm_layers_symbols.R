@@ -229,7 +229,7 @@ v3_symbols = function(args, args_called) {
 		   "auto.palette.mapping", "max.categories")
 	
 	if (any(v3 %in% names(args))) {
-		message("Deprecated tmap v3 code detected. Code translated to v4")
+		message("tm_symbols: Deprecated tmap v3 code detected. Code translated to v4")
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"

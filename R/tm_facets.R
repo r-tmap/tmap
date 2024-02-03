@@ -50,6 +50,7 @@
 #'   By default, `scale.factor=2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
 #' @param along deprecated Please use `tm_facets_page()`
+#' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
 #' @export
 #' @rdname tm_facets
 #' @name tm_facets
@@ -71,8 +72,8 @@ tm_facets = function(by = NULL,
 					 textNA = "Mssing",
 					 scale.factor=2,
 					 type = NA, # grid, wrap or stack
-					 along = NULL
-					 ) {
+					 along = NULL,
+					 free.scales = NULL) {
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	
@@ -94,7 +95,7 @@ tm_facets = function(by = NULL,
 	
 
 
-	tm_element_list(tm_element(
+	x = tm_element_list(tm_element(
 		type = type,
 		by = by,
 		rows = rows,
@@ -114,6 +115,13 @@ tm_facets = function(by = NULL,
 		scale.factor = scale.factor,
 		calls = calls,
 		subclass = "tm_facets"))
+	
+	if (!is.null(free.scales)) {
+		message("tm_facets: the argument free.scales is deprecated. Specify this via the layer functions (e.g. fill.free in tm_polygons)")
+		x + tm_options(free.scales = free.scales)
+	} else {
+		x
+	}
 }
 
 #' @export

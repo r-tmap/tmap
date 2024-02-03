@@ -137,11 +137,17 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			relevant_vars = c("tmapID__", "sel__" , vars, by123__[b])
 			dtl = copy(dt[, relevant_vars, with = FALSE])
 			
-			# edit free argument. If NA, it is set to FALSE, and for the vars dimension to TRUE.
+			# impute free argument. 
 			fr = rep(aes$free, length.out = 3)
 			if (anyNA(fr)) {
-				fr = rep(FALSE, 3)
-				if (length(v)) fr[v] = TRUE
+				if (is.null(o$free.scales)) {
+					# set to FALSE by default, and for the vars dimension to TRUE.
+					fr = rep(FALSE, 3)
+					if (length(v)) fr[v] = TRUE
+				} else {
+					# v3 backward compatibility: free.scales is set via tm_facets
+					fr = rep(o$free.scales, length.out = 3)
+				}
 			}
 			
 			# group by variables with free scales

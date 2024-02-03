@@ -24,6 +24,7 @@
 		# facets
 		facet.max = 64, # was max.facets
 		facet.flip = FALSE,
+		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
 		
 		# spatial object class specific options
 		raster.max.cells = 1e6, # was max.raster
@@ -745,7 +746,8 @@ complete_options = function(x, o) {
 #' | `crs`		    	|  Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].|
 #' | `facet.max`		| Maximum number of facets |
 #' | `facet.flip`		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
-#' | `raster.max.cells`	| Maximum number of raster grid cells  |
+#' | `free.scales`		| For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions |
+#' | `raster.max.cells`	| Maximum number of raster grid cells  | 
 #' | `show.messages`	| Show messages? |
 #' | `show.warnings`	| Show warnings? |
 #' | `output.format`	| Output format |
