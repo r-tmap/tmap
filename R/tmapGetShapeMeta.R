@@ -75,11 +75,15 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 #' @method tmapGetShapeMeta2 SpatRaster
 #' @export
 tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
-	
-	# slow, needs to be improved with terra functions, e.g. unique and levels
+	if (terra::ncell(shp) > o$raster.max.cells) {
+		# NOTE: this option is not ideal, because categories may be undiscovered
+		# NOTE2: maybe the same should be done with large stars?
+		shp = terra::spatSample(shp, 1e5, method = "regular", as.raster = TRUE)
+	}
 	smeta$vars_levs = lapply(terra::values(shp, dataframe=TRUE), function(dat) {
 		get_fact_levels_na(dat, o)
-	})
+	})		
+
 	names(smeta$vars_levs) = names(shp)
 	smeta
 }

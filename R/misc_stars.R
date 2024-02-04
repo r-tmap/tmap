@@ -141,3 +141,13 @@ transwarp = function(x, crs, raster.warp) {
 	if (!is.null(shpcolors)) attr(y[[1]], "colors") = shpcolors
 	y
 }
+
+has_rotate_or_shear = function (x) 
+{
+	dimensions = st_dimensions(x)
+	if (has_raster(x)) {
+		r = attr(dimensions, "raster")
+		!any(is.na(r$affine)) && any(r$affine != 0)
+	}
+	else FALSE
+}

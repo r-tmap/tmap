@@ -304,28 +304,20 @@ step1_rearrange_facets = function(tmo, o) {
 		
 		smeta = tmapGetShapeMeta2(shp, smeta, c(o, tmg$tmf))
 		if (dev) timing_add(s3 = "get_shape_meta2")
-		
-		
-		
+
 		tmg$tmf = within(tmg$tmf, {
-			
-			
 			
 			gl = list(NULL, NULL, NULL)
 			gn = c(1L, 1L, 1L)
 
-			# assign("gl", gl, envir = .TMAP)
-			# assign("gn", gn, envir = .TMAP)
-			# assign("gisf", is.wrap, envir = .TMAP)
-			
 			for (i in 1L:3L) {
 				byi = get(paste0("by", i))
 				if (!is.null(byi)) {
 					if (byi == "VARS__") {
-						if (!is.null(vl)) gl[[i]] = vl
+						gl[i] = list(vl)
 						gn[i] = vn
 					} else if (byi %in% smeta$vars) {
-						gl[[i]] = smeta$vars_levs[[byi]]
+						gl[i] = list(smeta$vars_levs[[byi]])
 						gn[i] = length(gl[[i]])
 					} else if (byi %in% smeta$dims) {
 						gl[[i]] = smeta$dims_val[[match(byi, smeta$dims)]]	

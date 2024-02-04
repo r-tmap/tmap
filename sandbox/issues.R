@@ -310,6 +310,8 @@ st_crs(s) <- 4326
 st_crs(s0) <- 4326
 st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
 
+
+
 s0_4326 = st_transform(s0, crs = 4326)
 
 stars:::is_curvilinear(s0)
@@ -449,7 +451,54 @@ tm_shape(nc.32119) + tm_polygons(c("SID74", "SID79"), fill.free = FALSE, fill.le
 
 library(terra)
 library(tmap)
-lc = rast("https://osf.io/download/m92d7")
+lc = rast("sandbox/land_cover.tif") # https://osf.io/download/m92d7")
+
+?terra
+
+levels(lc)
+
+unique(landr)
+
+tm_shape(lc) + tm_raster()
+
+landr = rast(land)
+
+class(landr)
+str(landr)
+terra::lapp(landr, class)
+
+levels(landr)
+
+terra::levels(land)
+
+
+lc2 = terra::spatSample(lc, 1e5, method = "regular", as.raster = T)
+
+tm_shape(lc2) + tm_raster("land_cover") + tm_facets("land_cover")
+tm_shape(lc) + tm_raster("land_cover") + tm_facets("land_cover")
+
+tm_shape(land) + tm_raster("trees") + tm_facets("cover_cls")
+tm_shape(land) + tm_raster("cover_cls") + tm_facets("cover_cls")
+
+
+# to do: 
+
+
+
+
+unique(lc)
+
+x = terra::head(lc, 10)
+
+x = terra::unique(lc)
+
+o = list(drop.NA.facets = TRUE, facet.max = 9)
+
+a = bench::mark(
+	a1 <- get_fact_levels_na(terra::values(lc, dataframe=TRUE)[[1]], o),
+	a2 <- freq(lc),
+	a3 <- unique(lc), check = FALSE
+)
 
 system.time({plot(lc)})
 
