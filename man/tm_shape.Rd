@@ -35,5 +35,5 @@ bounding box of the map?}
 }
 \description{
 Specify a shape, which is a spatial object from one of these spatial object
-class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, or \code{terra}.
+class packages: \code{\link[sf:sf-package]{sf}}, \code{\link[stars:st_as_stars]{stars}}, or \code{terra}.
 }

@@ -32,7 +32,7 @@ qtm(
 \arguments{
 \item{shp}{One of:
 \itemize{
-\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}
+\item shape object, which is an object from a class defined by the \code{\link[sf:sf-package]{sf}}
 or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp}
 and \code{raster} are also supported, but discouraged.
 \item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive

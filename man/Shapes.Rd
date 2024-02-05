@@ -22,7 +22,7 @@ NLD_muni
 }
 \description{
 Maps of the world and the Netherlands (province and municipality level),
-class \code{\link[sf:sf]{sf}}
+class \code{\link[sf:sf-package]{sf}}
 }
 \details{
 The default projections for these maps are Eckhart IV (World) and
