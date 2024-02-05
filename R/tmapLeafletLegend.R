@@ -219,12 +219,12 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 }
 
-#' @exportS3Method NULL
+#' @export
 tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
 	tmapLeaflet_legend(cmp, lf, o, orientation = "vertical")
 }
 
-#' @exportS3Method NULL
+#' @export
 tmapLeafletLegPlot.tm_legend_standard_landscape = function(cmp, lf, o) {
 	tmapLeaflet_legend(cmp, lf, o, orientation = "horizontal")
 }
