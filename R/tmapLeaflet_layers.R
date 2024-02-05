@@ -27,12 +27,12 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
-		lf |> 
-			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) |> 
+		lf %>% 
+			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
-		lf |> 
-			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty), popup = popups) |> 
+		lf %>% 
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty), popup = popups) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	NULL	
@@ -83,12 +83,12 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 		shp2 = sf::st_sf(id = 1:length(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
-		lf |> 
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group) |> 
+		lf %>% 
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
-		lf |> 
-			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) |> 
+		lf %>% 
+			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 		
 	}
@@ -129,7 +129,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	if (o$use.WebGL) {
 		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))[c("col", "shape", "lwd", "lty", "fill_alpha", "col_alpha")]
 		if (any(vary)) warning("WegGL enabled: the only supported visual variables are: fill and size. The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
-		lf |> leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) |>  
+		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%  
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		
@@ -160,20 +160,20 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 			}
 		}
 
-		lf |> leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups) |> 
+		lf %>% leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
+								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 		
 	}
 	
 	
 	# if (o$use.WebGL) {
-	# 	lf |> 
-	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) |> 
+	# 	lf %>% 
+	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) %>% 
 	# 		assign_lf(facet_row, facet_col, facet_page)
 	# } else {
-	# 	lf |> 
-	# 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) |> 
+	# 	lf %>% 
+	# 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) %>% 
 	# 		assign_lf(facet_row, facet_col, facet_page)
 	# }
 	
@@ -247,8 +247,8 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 
 		lf = get_lf(facet_row, facet_col, facet_page)
 		
-		lf |> 
-			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group) |> 
+		lf %>% 
+			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		#shp2 = st_as_stars(list(values = tmapID), dimensions = shp)
@@ -330,7 +330,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	
 	if (!vary) {
-		lf = lf |> addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
+		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
 										 label=text,
 										 group=group, 
 										 #layerId = ids, 
@@ -344,7 +344,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 										 options = markerOptions(pane = pane))
 	} else {
 		for (i in 1:length(text)) {
-			lf = lf |> addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
+			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
 											 label=text[i],
 											 group=group, 
 											 #layerId = ids[i], 
