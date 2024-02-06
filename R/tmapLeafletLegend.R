@@ -220,13 +220,13 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 }
 
 #' @export
-tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
-	tmapLeaflet_legend(cmp, lf, o, orientation = "vertical")
+tmapLeafletLegPlot.tm_legend_standard_portrait = function(comp, lf, o) {
+	tmapLeaflet_legend(comp, lf, o, orientation = "vertical")
 }
 
 #' @export
-tmapLeafletLegPlot.tm_legend_standard_landscape = function(cmp, lf, o) {
-	tmapLeaflet_legend(cmp, lf, o, orientation = "horizontal")
+tmapLeafletLegPlot.tm_legend_standard_landscape = function(comp, lf, o) {
+	tmapLeaflet_legend(comp, lf, o, orientation = "horizontal")
 }
 
 
