@@ -84,7 +84,7 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_compass
 #' @export
 tmapLeafletLegPlot.tm_compass = function(comp, lf, o) {
-	lf |> leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), src = "local", position = leaflet_pos(comp$position), width = 120, height = 120)
+	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), src = "local", position = leaflet_pos(comp$position), width = 120, height = 120)
 }
 
 
@@ -113,7 +113,7 @@ tmapLeafletCompWidth.tm_scalebar = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_scalebar
 #' @export
 tmapLeafletLegPlot.tm_scalebar = function(comp, lf, o) {
-	lf |> leaflet::addScaleBar(position = leaflet_pos(comp$position))
+	lf %>% leaflet::addScaleBar(position = leaflet_pos(comp$position))
 }
 
 
@@ -142,7 +142,7 @@ tmapLeafletCompWidth.tm_credits = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_credits
 #' @export
 tmapLeafletLegPlot.tm_credits = function(comp, lf, o) {
-	#lf |> leafem::addLogo(system.file(paste0("img/credits_", comp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(comp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
+	#lf %>% leafem::addLogo(system.file(paste0("img/credits_", comp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(comp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
 	message("tm_credits not implemented yet for view mode")
 	lf
 }
@@ -172,7 +172,7 @@ tmapLeafletCompWidth.tm_mouse_coordinates = function(comp, o) {
 #' @method tmapLeafletLegPlot tm_mouse_coordinates
 #' @export
 tmapLeafletLegPlot.tm_mouse_coordinates = function(comp, lf, o) {
-	lf |> leafem::addMouseCoordinates()
+	lf %>% leafem::addMouseCoordinates()
 }
 
 

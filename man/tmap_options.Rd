@@ -40,6 +40,7 @@ tmap options
    \code{crs} \tab Map crs (see \code{\link[=tm_shape]{tm_shape()}}). \code{NA} means the crs is specified in \code{\link[=tm_shape]{tm_shape()}}. The crs that is used by the transformation functions is defined in \code{\link[=tm_shape]{tm_shape()}}. \cr
    \code{facet.max} \tab Maximum number of facets \cr
    \code{facet.flip} \tab Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link[=tm_facets_flip]{tm_facets_flip()}} \cr
+   \code{free.scales} \tab For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions \cr
    \code{raster.max.cells} \tab Maximum number of raster grid cells \cr
    \code{show.messages} \tab Show messages? \cr
    \code{show.warnings} \tab Show warnings? \cr

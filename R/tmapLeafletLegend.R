@@ -135,7 +135,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			cmp$tr$rev(x2)
 		}
 		
-		lf |> leaflegend::addLegendNumeric(position=legpos, 
+		lf %>% leaflegend::addLegendNumeric(position=legpos, 
 										   orientation = orientation,
 										   group = group,
 										   height = {if (orientation == "horizontal") 20 else 200},
@@ -201,7 +201,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		
 		
 		
-		lf |> leaflegend::addLegendImage(symbols$iconUrl, 
+		lf %>% leaflegend::addLegendImage(symbols$iconUrl, 
 										 labels = lab,
 										 width = symbols$iconWidth,
 										 height = symbols$iconHeight, 
@@ -215,15 +215,16 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										 className = leg_className)
 	}
 	backg <- htmltools::tags$style(paste0("#", layerId, " { background: ", substr(cmp$bg.color,1,7), "; opacity: ", cmp$bg.alpha, "}")) 
-	lf2 |> htmlwidgets::prependContent(backg)
+	lf2 %>% htmlwidgets::prependContent(backg)
 
 }
 
-
+#' @export
 tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
 	tmapLeaflet_legend(cmp, lf, o, orientation = "vertical")
 }
 
+#' @export
 tmapLeafletLegPlot.tm_legend_standard_landscape = function(cmp, lf, o) {
 	tmapLeaflet_legend(cmp, lf, o, orientation = "horizontal")
 }

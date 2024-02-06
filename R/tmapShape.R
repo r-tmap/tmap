@@ -83,7 +83,7 @@ tmapShape = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, 
 }
 
 
-
+#' @export
 tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
@@ -133,8 +133,10 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	names(ctabs) = dtcols
 	names(cats) = dtcols
+
 	
 	if (!is.null(tmf)) make_by_vars(dt, tmf, smeta)
+
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 

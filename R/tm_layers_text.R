@@ -53,6 +53,10 @@
 #'   groups can be switched on and off. Options: `"radio"` for radio buttons
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
+#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.free Visual variable that determines
+#'   the background color. See Details.
+#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.free Visual variable that determines
+#'   the background color transparency. See Details.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R 
 #' @export
