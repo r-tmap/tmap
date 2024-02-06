@@ -134,7 +134,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	names(ctabs) = dtcols
 	names(cats) = dtcols
 	
-	make_by_vars(dt, tmf, smeta)
+	if (!is.null(tmf)) make_by_vars(dt, tmf, smeta)
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
