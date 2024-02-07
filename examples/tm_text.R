@@ -1,3 +1,7 @@
+# Need to be updated. The following is just to illustrate bgcol(_alpha)
+tm_shape(World) + tm_polygons() +
+	tm_text("name", bgcol = "economy", bgcol_alpha = .5, shadow = TRUE)
+
 tm_shape(World) +
   tm_text(text = "name", 
     size = .4, 

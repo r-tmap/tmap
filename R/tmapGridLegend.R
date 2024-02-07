@@ -287,7 +287,10 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	## update scale_bar width: identified by the WnativeID = 3 item (null for other components)
 	comp = mapply(function(cmp, bb) {
 		bbw = bb[3] - bb[1]
+		
+		# TRUE if component is scalebar
 		if (!is.null(cmp$WnativeID)) {
+			# find out whether the bounding of borrowed from the map (yes if scale bar is drawn in another facet)
 			bbox_nb = attr(bbox, "borrow")
 			if (is.null(bbox_nb)) {
 				bb_facet = sum(colsIn)
@@ -298,24 +301,17 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
 			
 			if (is.null(cmp$WnativeRange)) {
-				newIn = min(totW, bb_facet * cmp$width)
+				# in case breaks not defined: allow the width to be maximal fraction of facet width
+				#newIn = min(totW, bb_facet * cmp$width)
+				newIn = min(totW, cmp$Win)
 			} else {
+				# in case breaks are defined: allow the total width to be used (as upper bound)
 				newIn = totW
 			}
-			#if (is.null(cmp$WnativeRange)) {
-				# no specified scare bar width range
-				# newIn = min(totW, cmp$width * sum(colsIn))
-			#} else {
-				#bbw2 = bbw / sum(colsIn) * totW
-			#	newIn = min(totW, sum(colsIn))
-				#newIn = (min(1, ((cmp$WnativeRange / bbw2) / cmp$units$to)) * totW) + (o$lin * cmp$text.size * 3.5)
-			#}
 			cmp$wsu[cmp$WnativeID] = unit(newIn, "inch")
 			cmp$Win = cmp$Win + (newIn - oldIn)
 			
-			
 			# get cpi: coordinates per inch
-			
 
 			cmp$cpi = unname(bbw / bb_facet)
 		}

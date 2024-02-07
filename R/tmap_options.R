@@ -397,7 +397,7 @@
 		
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
-		scalebar.width=0.3, 
+		scalebar.width=20, 
 		scalebar.text.size = .5,
 		scalebar.text.color=NA,
 		scalebar.color.dark="black", 
