@@ -526,3 +526,92 @@ tm_shape(World) +
 			bgcol.scale = tm_scale_categorical(values = cols4all::.P$hcl$cat$set2),
 			bgcol_alpha = "pop_est", 
 			bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
+
+
+###########################################################
+#
+# https://github.com/r-tmap/tmap/issues/828
+#
+###########################################################
+
+pkg <- c("tmap", "tmaptools", "dplyr", "terra", "geobr", "sf",
+		 "RColorBrewer", "grDevices", "stringr")
+
+
+sapply(pkg, require, character.only = T)
+
+rm(list = ls())
+
+
+setwd("C:/R/clara_mestrado")
+
+
+lr <- list.files(path = "laser_drone_rema/predict_nee_er_ensemble",
+				 pattern = ".tif$", recursive = T, full.names = T) %>% 
+	grep(pattern = "summary", value = T) %>% 
+	rast()
+
+
+
+# without using breaks
+tm_shape(lr[["er_mean"]], raster.downsample = T) +
+	tm_raster(
+		
+		col.scale = tm_scale(
+			midpoint = NA,
+			
+			n = 11,
+			values = rev(colorRampPalette(brewer.pal(11, "Spectral"))(11)))) 
+
+
+###########################################################
+#
+# https://github.com/r-tmap/tmap/issues/821
+#
+###########################################################
+
+
+###########################################################
+#
+# https://github.com/r-tmap/tmap/issues/828
+#
+###########################################################
+pkg = c("tmap", "tmaptools", "dplyr", "terra", "geobr", "sf",
+		"RColorBrewer", "grDevices", "stringr")
+sapply(pkg, require, character.only = T)
+
+library(terra)
+
+lr <- rast("sandbox/er_mean.tif")
+
+
+
+# without using breaks
+tm_shape(lr[["er_mean"]], raster.downsample = T) +
+	tm_raster(
+		
+		col.scale = tm_scale(
+			midpoint = NA,
+			
+			n = 11,
+			values = rev(colorRampPalette(brewer.pal(11, "Spectral"))(11)))) 
+
+
+tm_shape(lr, raster.downsample = T) +
+	tm_raster(
+		col.scale = tm_scale(
+			midpoint = NA,
+			n = 11,
+			values = "-brewer.spectral",
+			values.range = c(0,1))) 
+
+
+tm_shape(lr[["er_mean"]], raster.downsample = T) +
+	tm_raster(
+		col.scale = tm_scale(
+			style = "fixed",
+			midpoint = NA,
+			breaks = c(-Inf, seq(-0.05, 0, length.out = 5),
+					   seq(0, 1.9, length.out = 5)[-1], +Inf),
+			values = "-brewer.spectral",
+			values.range = c(0,1))) 

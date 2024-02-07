@@ -21,6 +21,8 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, layer_args, sort
 	show.warnings <- o$show.warnings
 	
 	with(scale, {
+		if (anyDuplicated(breaks)) stop("breaks specified in the ", aes,  ".scale scaling function contains duplicates.", call. = FALSE)
+		
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
 		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
