@@ -6,36 +6,12 @@ data(World)
 tm_shape(World) + tm_polygons("HPI", fill.chart = tm_chart_histogram(position = c("left", "bottom")))
 
 
-# issue?
-lines <- st_read("example.json")
-
-tm_shape(lines) +
-	tm_lines(
-		col = "Mode",
-		col.scale = tm_scale(
-			values = "-Set1"),
-		lty = "Mode",
-		lty.scale = tm_scale(
-			values = c("dotted", "solid")),
-		lty.legend = tm_legend_combine("col"),
-		lwd = 2) +
-	tm_add_legend(
-		type = "lines",
-		labels = c("Boat", "Road"),
-		col.values = "-Set1",
-		lty.values = c("dotted", "solid"),
-		title = "Wrong way")
-
-# bgcol(alpha)
-
-tm_shape(World) +
-	tm_text("name", bgcol = "HPI")
-
-tm_shape(World) + tm_polygons() +
-	tm_text("name", bgcol = "economy", bgcol_alpha = 1, shadow = TRUE)
-
-
+###########################################################
+# https://github.com/r-tmap/tmap/issues/806
+#
 # credits view mode
+###########################################################
+
 library(tmap) # tmap v3.3.4
 data(World, package = "tmap")
 tmap_mode("view")
@@ -45,29 +21,26 @@ my_map <- tm_shape(World) +
 
 my_map
 
+my_map + tm_credits("Last update in October 2023")
+
 my_map |> 
 	tmap_leaflet() |> 
 	leaflet::addTiles(attributions = "Last update in October 2023")
 
-
-# pos_out
-tm_shape(World) +
-	tm_fill() +
-	tm_scalebar(
-		position = tm_pos_out())
-
+###########################################################
+# was not working when asp = portrait
+# https://github.com/r-tmap/tmap/issues/809
+# changed width back to number of lines
+###########################################################
 
 tm_shape(World) +
-	tm_fill() +
-	tm_compass(
-		position = tm_pos_out())
+	 	tm_fill() +
+	 	tm_scalebar(position = tm_pos_out())
 
 
-tm_shape(World) +
-	tm_fill("HPI", fill.legend=tm_legend(
-		position = tm_pos_out()))
 
-
+###########################################################
+###########################################################
 
 
 # scale bar outside

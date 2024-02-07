@@ -342,12 +342,12 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 			}
 		}
 		
-		if (is.na(width))
-			width = .25
-		else if (width > 1) {
-			if (show.messages) message("Scale bar width set to 0.25 of the map width")
-			width = .25
-		}
+		# if (is.na(width))
+		# 	width = .25
+		# else if (width > 1) {
+		# 	if (show.messages) message("Scale bar width set to 0.25 of the map width")
+		# 	width = .25
+		# }
 		
 		if (is.na(text.color)) text.color = o$attr.color
 		text.size = text.size * o$scale
@@ -389,9 +389,9 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
-	
+	W = comp$width * textS * o$lin
 
-	ws = c(marW[1], 0, marW[2])
+	ws = c(marW[1], W, marW[2])
 	
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
