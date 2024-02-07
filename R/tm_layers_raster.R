@@ -137,8 +137,8 @@ tm_raster = function(col = tm_shape_vars(),
 		col.legend = do.call("tm_legend", col.legend.args)
 	}
 	
-	
-	
+	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
+	col.legend$called = "col.legend" %in% names(args_called)
 	
 	
 	tm_element_list(tm_element(

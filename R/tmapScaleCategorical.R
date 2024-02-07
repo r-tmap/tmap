@@ -1,13 +1,25 @@
 tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
-	if (is.factor(x1) && grepl("=<>=", levels(x1)[1], fixed = TRUE)) {
-		res = strsplit(levels(x1), "=<>=", fixed = TRUE)
-		levels(x1) = vapply(res, "[", 1, FUN.VALUE = character(1))
-		ct = vapply(res, "[", 2, FUN.VALUE = character(1))
+	if (is.factor(x1)) {
+		defcols_cats = grepl("=<>=", levels(x1)[1], fixed = TRUE)
+		defcols_nocats = grepl("=><=", levels(x1)[1], fixed = TRUE)
+		
+		if (defcols_cats || defcols_nocats) {		
+			res = strsplit(levels(x1), {if (defcols_cats) "=<>=" else "=><="}, fixed = TRUE)
+			levels(x1) = vapply(res, "[", 1, FUN.VALUE = character(1))
+			ct = vapply(res, "[", 2, FUN.VALUE = character(1))
+			
+			if (defcols_nocats && !legend$called) {
+				legend$show = FALSE
+			}
+		} else {
+			ct = NULL
+		}
 	} else {
 		ct = NULL
 	}
+		
 	
 	scale = get_scale_defaults(scale, o, aes, layer, cls, ct)
 	

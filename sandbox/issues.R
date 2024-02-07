@@ -28,7 +28,7 @@ my_map |>
 	leaflet::addTiles(attributions = "Last update in October 2023")
 
 ###########################################################
-# was not working when asp = portrait
+# scalebar 
 # https://github.com/r-tmap/tmap/issues/809
 # changed width back to number of lines
 ###########################################################
@@ -37,13 +37,6 @@ tm_shape(World) +
 	 	tm_fill() +
 	 	tm_scalebar(position = tm_pos_out())
 
-
-
-###########################################################
-###########################################################
-
-
-# scale bar outside
 
 tm_shape(NLD_prov) +
 	tm_fill() +
@@ -61,7 +54,7 @@ tm_shape(NLD_prov) +
 	tm_fill() +
 	tm_grid(labels.inside.frame = F) +
 	tm_layout(meta.margins = c(0, 0, 0, .6)) +
-	tm_scalebar(width = 1,
+	tm_scalebar(width = 10,
 		position = tm_pos_out())
 
 tm_shape(NLD_prov) +
@@ -111,7 +104,10 @@ tm_shape(tanzania) +
 	tm_polygons(lwd = 2) +
 	tm_scalebar(c(0, 200, 400), position = c("left", "bottom"))
 
-# 811
+
+###########################################################
+# https://github.com/r-tmap/tmap/issues/811
+###########################################################
 
 library(terra)
 
@@ -132,11 +128,13 @@ tm_shape(r) +
 tm_shape(r) +
 	tm_raster(col.legend = tm_legend_hide())
 
-
-str(r)
+# not working
+tm_shape(r) +
+	tm_rgb()
 
 
 cat_raster = rast(system.file("raster/nlcd.tif", package = "spDataLarge"))
+
 
 tm_shape(cat_raster) +
 	tm_raster(col.scale = tm_scale_categorical(levels.drop = TRUE),
@@ -168,6 +166,14 @@ plot(lc_cameroon)  # raster with color table
 
 tm_shape(lc_cameroon) +
 	tm_raster()
+
+tm_shape(lc_cameroon) +
+	tm_raster("land_cover")
+
+
+tm_shape(lc_cameroon) +
+	tm_raster("land_cover", col.legend = tm_legend())
+
 
 tm_shape(lc) +
 	tm_raster()

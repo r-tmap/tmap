@@ -145,6 +145,8 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	for (nm in dtcols) {
 		if (!is.null(ctabs[[nm]])) {
+			# in case of predefined colors: if categories are associated (cats), use tm_scale_categorical, otherwise tm_
+			
 			ct = ctabs[[nm]]
 			lt = cats[[nm]]
 			if (is.factor(dt[[nm]])) {
@@ -158,7 +160,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 				levels(dt[[nm]]) = paste(levels(dt[[nm]]), cls, sep = "=<>=")
 			} else if ("values" %in% names(ct)) {
 				cls = rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)
-				dt[[nm]] = factor(dt[[nm]], levels = ct$values, labels = paste(ct$values, cls, sep = "=<>="))
+				dt[[nm]] = factor(dt[[nm]], levels = ct$values, labels = paste(ct$values, cls, sep = "=><="))
 			}
 				
 		}
