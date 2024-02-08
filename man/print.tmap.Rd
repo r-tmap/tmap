@@ -18,5 +18,5 @@
 \item{...}{not used}
 }
 \description{
-Draw thematic map.
+Draw thematic map
 }
