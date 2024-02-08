@@ -24,7 +24,6 @@ tmapGetShapeMeta2 = function(shp, smeta, o) {
 }
 
 
-#' @method tmapGetShapeMeta1 stars
 #' @export
 tmapGetShapeMeta1.stars = function(shp, o) {
 	d = stars::st_dimensions(shp)
@@ -54,14 +53,12 @@ tmapGetShapeMeta1.stars = function(shp, o) {
 		 dims_vals = dims_vals)
 }
 
-#' @method tmapGetShapeMeta1 Raster
 #' @export
 tmapGetShapeMeta1.Raster = function(shp, o) {
 	tmapGetShapeMeta1.SpatRaster(terra::rast(shp), o)
 }
 
 
-#' @method tmapGetShapeMeta2 stars
 #' @export
 tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 	smeta$vars_levs = lapply(seq_len(length(shp)), function(i) {
@@ -72,7 +69,6 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 }
 
 
-#' @method tmapGetShapeMeta2 SpatRaster
 #' @export
 tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 	if (terra::ncell(shp) > o$raster.max.cells) {
@@ -88,7 +84,6 @@ tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 	smeta
 }
 
-#' @method tmapGetShapeMeta2 SpatVector
 #' @export
 tmapGetShapeMeta2.SpatVector = function(shp, smeta, o) {
 	
@@ -101,7 +96,6 @@ tmapGetShapeMeta2.SpatVector = function(shp, smeta, o) {
 }
 
 
-#' @method tmapGetShapeMeta2 sf
 #' @export
 tmapGetShapeMeta2.sf = function(shp, smeta, o) {
 	vars = setdiff(names(shp), attr(shp, "sf_column"))
@@ -113,7 +107,6 @@ tmapGetShapeMeta2.sf = function(shp, smeta, o) {
 }
 
 
-#' @method tmapGetShapeMeta1 sf
 #' @export
 tmapGetShapeMeta1.sf = function(shp, o) {
 	vars = setdiff(names(shp), attr(shp, "sf_column"))
@@ -128,7 +121,6 @@ tmapGetShapeMeta1.sf = function(shp, o) {
 }
 
 
-#' @method tmapGetShapeMeta2 sfc
 #' @export
 tmapGetShapeMeta2.sfc = function(shp, smeta, o) {
 	vars = character(0)
@@ -137,7 +129,6 @@ tmapGetShapeMeta2.sfc = function(shp, smeta, o) {
 }
 
 
-#' @method tmapGetShapeMeta1 sfc
 #' @export
 tmapGetShapeMeta1.sfc = function(shp, o) {
 	vars = character(0)
@@ -153,7 +144,6 @@ tmapGetShapeMeta1.sfc = function(shp, o) {
 
 
 
-#' @method tmapGetShapeMeta1 SpatRaster
 #' @export
 tmapGetShapeMeta1.SpatRaster = function(shp, o) {
 	vars = names(shp)
@@ -168,7 +158,6 @@ tmapGetShapeMeta1.SpatRaster = function(shp, o) {
 	
 }
 
-#' @method tmapGetShapeMeta1 SpatVector
 #' @export
 tmapGetShapeMeta1.SpatVector = function(shp, o) {
 	vars = names(shp)

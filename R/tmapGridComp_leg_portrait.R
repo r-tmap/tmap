@@ -1,4 +1,3 @@
-#' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
 tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
@@ -29,7 +28,6 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 }
 
 
-#' @method tmapGridCompHeight tm_legend_standard_portrait
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	
@@ -138,7 +136,6 @@ fontface2nr = function(face) {
 }
 
 
-#' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
@@ -223,7 +220,6 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 }
 
 
-#' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale #* o$scale

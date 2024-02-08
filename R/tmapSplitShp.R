@@ -11,7 +11,6 @@ tmapSplitShp = function(shp, split_stars_dim) {
 	UseMethod("tmapSplitShp")
 }
 
-#' @method tmapSplitShp stars
 #' @export
 tmapSplitShp.stars = function(shp, split_stars_dim) {
 	if (split_stars_dim != "") {
@@ -22,7 +21,6 @@ tmapSplitShp.stars = function(shp, split_stars_dim) {
 	shp
 }
 
-#' @method tmapSplitShp default
 #' @export
 tmapSplitShp.default = function(shp, split_stars_dim) {
 	shp

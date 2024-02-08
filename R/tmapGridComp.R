@@ -24,55 +24,46 @@ tmapGridCompPrepare_text = function(comp, o) {
 }
 
 
-#' @method tmapGridCompPrepare tm_title
 #' @export
 tmapGridCompPrepare.tm_title = function(comp, o) {
 	tmapGridCompPrepare_text(comp, o)
 }
 
-#' @method tmapGridCompHeight tm_title
 #' @export
 tmapGridCompHeight.tm_title = function(comp, o) {
 	tmapGridCompHeight_text(comp, o)
 }
 
-#' @method tmapGridCompWidth tm_title
 #' @export
 tmapGridCompWidth.tm_title = function(comp, o) {
 	tmapGridCompWidth_text(comp, o)
 }
 
-#' @method tmapGridLegPlot tm_title
 #' @export
 tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
 	tmapGridLegPlot_text(comp, o)
 }
 
-#' @method tmapGridCompPrepare tm_credits
 #' @export
 tmapGridCompPrepare.tm_credits = function(comp, o) {
 	tmapGridCompPrepare_text(comp, o)
 }
 
-#' @method tmapGridCompHeight tm_credits
 #' @export
 tmapGridCompHeight.tm_credits = function(comp, o) {
 	tmapGridCompHeight_text(comp, o)
 }
 
-#' @method tmapGridCompWidth tm_credits
 #' @export
 tmapGridCompWidth.tm_credits = function(comp, o) {
 	tmapGridCompWidth_text(comp, o)
 }
 
-#' @method tmapGridLegPlot tm_credits
 #' @export
 tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
 	tmapGridLegPlot_text(comp, o, fH, fW)
 }
 
-#' @method tmapGridCompPrepare tm_compass
 #' @export
 tmapGridCompPrepare.tm_compass = function(comp, o) {
 	o$attr.color.light = is_light(o$attr.color)
@@ -95,7 +86,6 @@ tmapGridCompPrepare.tm_compass = function(comp, o) {
 	})
 }
 
-#' @method tmapGridCompHeight tm_compass
 #' @export
 tmapGridCompHeight.tm_compass = function(comp, o) {
 
@@ -118,7 +108,6 @@ tmapGridCompHeight.tm_compass = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_compass
 #' @export
 tmapGridCompWidth.tm_compass = function(comp, o) {
 	
@@ -138,7 +127,6 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridLegPlot tm_compass
 #' @export
 tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
@@ -325,7 +313,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 
 
 
-#' @method tmapGridCompPrepare tm_scalebar
 #' @export
 tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	show.messages = o$show.messages
@@ -333,7 +320,7 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	within(comp, {
 		if (is.function(call)) call = ""
 		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			warning("For tm_scalebar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
+			warning("For 'tm_scalebar()', 'breaks' and 'width' cannot be used together. The width is being ignored.", call. = FALSE)	
 		}
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
@@ -356,7 +343,6 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	})
 }
 
-#' @method tmapGridCompHeight tm_scalebar
 #' @export
 tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	h = 2.75 * o$lin * comp$text.size
@@ -379,7 +365,6 @@ tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_scalebar
 #' @export
 tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	#w = comp$width * o$lin * comp$text.size
@@ -409,7 +394,6 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridLegPlot tm_scalebar
 #' @export
 tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
@@ -663,7 +647,6 @@ tmapGridCompWidth_text = function(comp, o) {
 }
 
 
-#' @method tmapGridCompPrepare tm_mouse_coordinates
 #' @export
 tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
 	message("tm_mouse_coordinates ignored for 'plot' mode")
@@ -672,20 +655,16 @@ tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
 }
 
 
-#' @method tmapGridCompHeight tm_mouse_coordinates
 #' @export
 tmapGridCompHeight.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_mouse_coordinates
 #' @export
 tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
-
-#' @method tmapGridLegPlot tm_mouse_coordinates
 #' @export
 tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
 	NULL
