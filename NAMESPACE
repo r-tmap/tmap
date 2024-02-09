@@ -2,6 +2,12 @@
 
 
 if(getRversion() >= "3.6.0") {
+  S3method(knitr::knit_print, tmap)
+} else {
+  export(knit_print.tmap)
+}
+
+if(getRversion() >= "3.6.0") {
   S3method(knitr::knit_print, tmap_arrange)
 } else {
   export(knit_print.tmap_arrange)

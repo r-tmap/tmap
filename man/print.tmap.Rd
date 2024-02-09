@@ -2,9 +2,20 @@
 % Please edit documentation in R/print.R
 \name{print.tmap}
 \alias{print.tmap}
+\alias{knit_print.tmap}
 \title{Draw thematic map}
 \usage{
-\method{print}{tmap}(x, return.asp = FALSE, show = TRUE, vp = NULL, ...)
+\method{print}{tmap}(
+  x,
+  return.asp = FALSE,
+  show = TRUE,
+  vp = NULL,
+  knit = FALSE,
+  options = NULL,
+  ...
+)
+
+knit_print.tmap(x, ..., options = NULL)
 }
 \arguments{
 \item{x}{tmap object.}

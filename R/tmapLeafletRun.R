@@ -1,4 +1,4 @@
-tmapLeafletRun = function(o, show) {
+tmapLeafletRun = function(o, show, knit, args) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	
 	lfs2 = lapply(lfs, function(lfsi) {
@@ -23,6 +23,8 @@ tmapLeafletRun = function(o, show) {
 	})
 	
 	if (length(lfs2) == 1) lfs2 = lfs2[[1]]
-	if (show) print(lfs2)
+	if (show && !knit) {
+		print(lfs2)
+	}
 	lfs2
 }

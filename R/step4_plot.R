@@ -212,7 +212,7 @@ process_components2 = function(cdt, o) {
 	cdt
 }
 
-step4_plot = function(tm, vp, return.asp, show) {
+step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
@@ -750,5 +750,5 @@ step4_plot = function(tm, vp, return.asp, show) {
 
 	
 	
-	do.call(FUNrun, list(o = o, show = show))
+	do.call(FUNrun, list(o = o, show = show, knit = knit, args))
 }
