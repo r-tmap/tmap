@@ -148,10 +148,10 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, 
 	} else if (attr(cls, "unique")) {
 		if ("num" %in% cls) {
 			sc = "ordinal"
-			message("The visual variable \"", aes, "\" of the layer, \", layer", "\" contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")	
+			message("The visual variable \"", aes, "\" of the layer \"", layer, "\" contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")	
 		} else {
 			sc = "categorical"	
-			message("The visual variable \"", aes, "\" of the layer, \", layer", "\" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).")
+			message("The visual variable \"", aes, "\" of the layer \"", layer, "\" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).")
 		}
 		
 		

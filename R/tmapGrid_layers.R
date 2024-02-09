@@ -267,8 +267,8 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 			
 			sel = which(tmapID %in% tid)
 			tid2 = tmapID[sel]
-			
-			color[sel] = dt$col[match(tid2, dt$tmapID__)]
+			dt = merge_alpha(dt, name = "col")
+			color[sel] = dt$ca[match(tid2, dt$tmapID__)]
 		}
 		
 		
