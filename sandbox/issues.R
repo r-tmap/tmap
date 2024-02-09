@@ -440,7 +440,7 @@ unique(landr)
 
 tm_shape(lc) + tm_raster()
 
-landr = rast(land)
+
 
 class(landr)
 str(landr)
@@ -560,6 +560,14 @@ library(spData)
 packageVersion("tmap")
 #> [1] '3.99.9000'
 
+tm_shape(nz)+
+	tm_fill(fill = "Island", 
+			fill.scale = tm_scale_categorical(values=c("red", "#FFEBBE")),
+			fill.legend = tm_legend(position = tm_pos_out("right", "top")))+
+	tm_title("a)")+
+	tm_layout(legend.position = tm_pos_out("left", "top"), 
+			  title.position = tm_pos_out("center", "top"))
+
 # Left/Top and Center/Top overlap
 # Legend/Title are inside rather than outside even though tm_pos_out is used
 tm_shape(nz)+
@@ -570,7 +578,7 @@ tm_shape(nz)+
 
 tm_shape(nz)+
 	tm_fill(fill = "Island", fill.scale = tm_scale_categorical(values=c("red", "#FFEBBE")),
-			fill.legend = tm_legend(position = tm_pos_out("left", "top")))+
+			fill.legend = tm_legend(position = tm_pos_out("left", "center")))+
 	tm_title("a)", position = tm_pos_out("center", "top"))
 
 tm_shape(nz)+
@@ -587,3 +595,29 @@ tm_shape(World) +
 
 tm_shape(World) +
 	tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_out("left", "top")))
+
+
+### 822
+
+library(motif)
+landcover = rast(system.file("raster/landcover2015.tif", package = "motif"))
+
+cats(landcover)
+terra::coltab(landcover)
+
+paleta = c("darkgreen", "orange", "yellow", "magenta", "red", "grey", "blue", "#0096A0",  "#00CF75")
+tm_shape(landcover) +
+	tm_raster(style = "cat",
+			  palette = paleta)
+
+tm_shape(landcover) +
+	tm_raster("category")
+
+set.seed(0)
+r <- rast(nrows=10, ncols=10)
+values(r) <- sample(3, ncell(r), replace=TRUE)
+is.factor(r)
+
+cls <- data.frame(id=1:3, cover=c("forest", "water", "urban"))
+levels(r) <- cls
+is.factor(r)

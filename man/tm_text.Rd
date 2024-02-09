@@ -121,6 +121,10 @@ own legend. For facet wraps and stacks (\code{\link[=tm_facets_wrap]{tm_facets_w
 there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 }
 \examples{
+# Need to be updated. The following is just to illustrate bgcol(_alpha)
+tm_shape(World) + tm_polygons() +
+	tm_text("name", bgcol = "economy", bgcol_alpha = .5, shadow = TRUE)
+
 tm_shape(World) +
   tm_text(text = "name", 
     size = .4, 

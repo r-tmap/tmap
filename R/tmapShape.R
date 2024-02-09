@@ -98,7 +98,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	
 	ctabs = terra::coltab(shp)
-	cats = terra::cats(shp)
+	cats = terra::levels(shp)
 	
 	
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
@@ -148,7 +148,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 			if (is.factor(dt[[nm]])) {
 				#levels(dt[[nm]])
 				
-				ids = match(lt$value[match(levels(dt[[nm]]), lt$levels)], ct$value)
+				ids = match(lt[match(levels(dt[[nm]]), lt[,2]), 1], ct$value)
 				cti = ct[ids,]
 				
 				cls = rgb(cti$red, cti$green, cti$blue, cti$alpha, maxColorValue = 255)
