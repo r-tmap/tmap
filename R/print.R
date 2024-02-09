@@ -4,9 +4,10 @@
 #' @param return.asp should the aspect ratio be returned?
 #' @param show show the map
 #' @param vp viewport (for `"plot"` mode)
+#' @param knit A logical, should knit?
+#' @param options A vector of options
 #' @param ... not used
 #' @export
-#' @method print tmap
 print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, ...) {
 	args = list(...)
 	dev = getOption("tmap.devel.mode")

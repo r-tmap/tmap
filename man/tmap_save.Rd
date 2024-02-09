@@ -89,8 +89,21 @@ usually take more space then the map resources.}
 \item{verbose}{Deprecated. It is now controlled by the tmap option \code{show.messages}
 (see \code{\link[=tmap_options]{tmap_options()}})}
 
-\item{...}{arguments passed on to device functions or to
-\code{\link[htmlwidgets:saveWidget]{saveWidget()}} or \code{\link[widgetframe:saveWidgetframe]{saveWidgetFrame()}}}
+\item{...}{
+  Arguments passed on to \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget}}, \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe}}
+  \describe{
+    \item{\code{widget}}{Widget to save}
+    \item{\code{file}}{File to save HTML into}
+    \item{\code{libdir}}{Directory to copy HTML dependencies into (defaults to
+filename_files).}
+    \item{\code{background}}{Text string giving the html background color of the widget.
+Defaults to white.}
+    \item{\code{title}}{Text to use as the title of the generated page.}
+    \item{\code{knitrOptions}}{A list of \pkg{knitr} chunk options.}
+  }}
+}
+\value{
+the filename, invisibly, if export is successful.
 }
 \description{
 Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).

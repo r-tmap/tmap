@@ -52,8 +52,9 @@
 #'   usually take more space then the map resources.
 #' @param verbose Deprecated. It is now controlled by the tmap option `show.messages`
 #'    (see [tmap_options()])
-#' @param ... arguments passed on to device functions or to
-#'   [`saveWidget()`][htmlwidgets::saveWidget()] or [`saveWidgetFrame()`][widgetframe::saveWidgetframe()]
+#' @inheritDotParams htmlwidgets::saveWidget
+#' @inheritDotParams widgetframe::saveWidgetframe
+#' @returns the filename, invisibly, if export is successful.
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
@@ -151,7 +152,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		if (verbose) {
 			message("Interactive map saved to ", suppressWarnings(normalizePath(filename)))
 		}
-		return(invisible())
+		return(invisible(filename))
 	}
 	
 	if (is.na(width) || is.na(height)) {
@@ -265,7 +266,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		}
 	}
 	options(tmap.mode=tmap.mode)
-	invisible()
+	invisible(filename)
 }
 
 plot_device = function(device, ext, filename, dpi, units_target){
