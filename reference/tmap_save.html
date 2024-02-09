@@ -176,10 +176,36 @@ usually take more space then the map resources.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>arguments passed on to device functions or to
-<code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget()</a></code> or <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">saveWidgetFrame()</a></code></p></dd>
+<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget</a></code>, <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe</a></code></p><dl><dt><code>widget</code></dt>
+<dd><p>Widget to save</p></dd>
+
+    <dt><code>file</code></dt>
+<dd><p>File to save HTML into</p></dd>
+
+    <dt><code>libdir</code></dt>
+<dd><p>Directory to copy HTML dependencies into (defaults to
+filename_files).</p></dd>
+
+    <dt><code>background</code></dt>
+<dd><p>Text string giving the html background color of the widget.
+Defaults to white.</p></dd>
+
+    <dt><code>title</code></dt>
+<dd><p>Text to use as the title of the generated page.</p></dd>
+
+    <dt><code>knitrOptions</code></dt>
+<dd><p>A list of <span class="pkg">knitr</span> chunk options.</p></dd>
+
+  
+</dl></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>the filename, invisibly, if export is successful.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
