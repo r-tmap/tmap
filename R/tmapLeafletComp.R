@@ -109,6 +109,7 @@ tmapLeafletLegPlot.tm_scalebar = function(comp, lf, o) {
 
 #' @export
 tmapLeafletCompPrepare.tm_credits = function(comp, o) {
+	comp$show = TRUE
 	comp
 }
 
@@ -126,9 +127,9 @@ tmapLeafletCompWidth.tm_credits = function(comp, o) {
 
 #' @export
 tmapLeafletLegPlot.tm_credits = function(comp, lf, o) {
-	#lf %>% leafem::addLogo(system.file(paste0("img/credits_", comp$type, ".png"), package = "tmap"), src = "local", position = paste(unlist(comp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
-	message("tm_credits not implemented yet for view mode")
-	lf
+	#lf %>% leafem::addLogo(system.file(paste0("img/credits_", comp$type, ".png"), package = "tmsap"), src = "local", position = paste(unlist(comp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
+	#message("tm_credits not implemented yet for view mode")
+	lf %>% leaflet::addTiles(urlTemplate = "", attribution = comp$text)
 }
 
 
