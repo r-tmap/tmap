@@ -37,11 +37,11 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{size}{font size of the title}
 
-\item{color}{color}
+\item{color}{font color of the title}
 
 \item{padding}{padding}
 
-\item{fontface}{font face}
+\item{fontface}{font face, bold, italic}
 
 \item{fontfamily}{font family}
 
@@ -51,19 +51,17 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{frame}{frame}
 
-\item{frame.lwd}{frame.lwd}
+\item{frame.lwd}{frame line width}
 
 \item{frame.r}{frame.r}
 
-\item{bg.color}{bg.color}
+\item{bg.color}{Background color}
 
-\item{bg.alpha}{bg.alpha}
+\item{bg.alpha}{Background transparency}
 
 \item{position}{position}
 
-\item{width}{width}
-
-\item{height}{height}
+\item{width, height}{width and height of the title box.}
 
 \item{group.frame}{group.frame}
 
@@ -71,7 +69,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{z}{z}
 
-\item{...}{passed on to tm_title}
+\item{...}{passed on to \code{tm_title()}}
 }
 \description{
 Map component that adds a title

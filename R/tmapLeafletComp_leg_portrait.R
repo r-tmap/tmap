@@ -15,7 +15,6 @@ tmapLeafletLegPlot = function(comp, lf, o) {
 }
 
 
-#' @method tmapLeafletCompPrepare tm_legend_standard_portrait
 #' @export
 tmapLeafletCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	tmapLeaflet_legend_comp(comp, o)
@@ -55,7 +54,6 @@ tmapLeaflet_legend_comp = function(comp, o) {
 }
 
 
-#' @method tmapLeafletCompHeight tm_legend_standard_portrait
 #' @export
 tmapLeafletCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	comp
@@ -63,7 +61,6 @@ tmapLeafletCompHeight.tm_legend_standard_portrait = function(comp, o) {
 
 
 
-#' @method tmapLeafletCompWidth tm_legend_standard_portrait
 #' @export
 tmapLeafletCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	comp
@@ -73,13 +70,11 @@ tmapLeafletCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 
 
-#' @method tmapLeafletCompPrepare tm_legend_standard_landscape
 #' @export
 tmapLeafletCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 	tmapLeaflet_legend_comp(comp, o)
 }
 
-#' @method tmapLeafletCompHeight tm_legend_standard_landscape
 #' @export
 tmapLeafletCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	comp
@@ -87,7 +82,6 @@ tmapLeafletCompHeight.tm_legend_standard_landscape = function(comp, o) {
 
 
 
-#' @method tmapLeafletCompWidth tm_legend_standard_landscape
 #' @export
 tmapLeafletCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	comp

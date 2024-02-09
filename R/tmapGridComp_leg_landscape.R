@@ -14,7 +14,6 @@ tmapGridLegPlot = function(comp, o, fH, fW) {
 	UseMethod("tmapGridLegPlot")
 }
 
-#' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
 tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 	tmapGridCompPrepare.tm_legend_standard_portrait(comp, o)
@@ -23,7 +22,6 @@ tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 
 
 
-#' @method tmapGridCompHeight tm_legend_standard_landscape
 #' @export
 tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
@@ -60,7 +58,6 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 }
 
 
-#' @method tmapGridCompWidth tm_legend_standard_landscape
 #' @export
 tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
@@ -135,7 +132,6 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 }
 
 
-#' @method tmapGridLegPlot tm_legend_standard_landscape
 #' @export
 tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale

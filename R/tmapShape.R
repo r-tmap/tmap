@@ -2,7 +2,6 @@ tmapReproject = function(...) {
 	UseMethod("tmapReproject")
 }
 
-#' @method tmapReproject stars
 #' @export
 tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 	shp[[1]] = tmapID
@@ -17,7 +16,6 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 }
 
 
-#' @method tmapReproject dimensions
 #' @export
 tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
@@ -37,7 +35,6 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 }
 
 
-#' @method tmapReproject sfc
 #' @export
 tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 	if (is.na(sf::st_crs(shp))) {
@@ -89,7 +86,6 @@ tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, sme
 }
 
 
-#' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
@@ -172,7 +168,6 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 
 
 
-#' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
@@ -216,7 +211,6 @@ make_by_vars = function(dt, tmf, smeta) {
 
 
 
-#' @method tmapShape stars
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	dev = getOption("tmap.devel.mode")
@@ -332,7 +326,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 }
 
 
-#' @method tmapShape sf
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	if (!is.null(crs) && sf::st_crs(shp) != crs) {

@@ -58,9 +58,18 @@ tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group
 #' @export
 leaflet::providers
 
-#' @name tm_graticules
-#' @rdname tm_grid
+
+#' Coordinate grid / graticule lines
+#' 
+#' Draw latitude and longitude graticules. It creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
+#' layer that can be drawn anywhere between other layers. See [tm_grid()] for 
+#' drawing horizontal lines.
+#' 
+#' @inheritParams tm_grid
+#' @inheritDotParams tm_grid
 #' @export
+#' @example ./examples/tm_grid.R
+
 tm_graticules = function(x = NA,
 						 y = NA,
 						 n.x = NA,
@@ -77,11 +86,13 @@ tm_graticules = function(x = NA,
 
 #' Coordinate grid / graticule lines
 #' 
+#' @description
+#' * `tm_grid()` draws horizontal and vertical lines according to the
+#'   coordinate system of the (master) shape object.
+#' 
 #' Creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
-#' layer that can be drawn anywhere between other layers.
-#' By default, `tm_grid()` draws horizontal and vertical lines according to the
-#' coordinate system of the (master) shape object. Latitude and longitude
-#' graticules are drawn with `tm_graticules()`.
+#' layer that can be drawn anywhere between other layers. See [tm_graticules()]
+#' to draw latitude and longitude graticules.
 #' 
 #' @param x X coordinates for vertical grid lines. If `NA`, it is specified
 #'   with a pretty scale and `n.x`.
@@ -130,16 +141,16 @@ tm_graticules = function(x = NA,
 #'   instead of using negative coordinates for west and south (so it assumes that
 #'   the coordinates are positive in the north-east direction).
 #' @param labels.margin.x Margin between tick labels of x axis and the frame.
-#'   Note that when `labels.inside.frame == FALSE` and `ticks == TRUE`,
+#'   Note that when `labels.inside.frame = FALSE` and `ticks = TRUE`,
 #'   the ticks will be adjusted accordingly.
 #' @param labels.margin.y Margin between tick labels of y axis and the frame.
-#'   Note that when `labels.inside.frame == FALSE` and `ticks == TRUE`,
+#'   Note that when `labels.inside.frame = FALSE` and `ticks = TRUE`,
 #'   the ticks will be adjusted accordingly.
 #' @param labels.space.x Space that is used for the labels and ticks for the x-axis
-#'   when `labels.inside.frame == FALSE`. By default, it is determined automatically
+#'   when `labels.inside.frame = FALSE`. By default, it is determined automatically
 #'   using the widths and heights of the tick labels. The unit of this parameter is text line height.
 #' @param labels.space.y Space that is used for the labels and ticks for the y-axis
-#'   when `labels.inside.frame == FALSE`. By default, it is determined automatically
+#'   when `labels.inside.frame = FALSE`. By default, it is determined automatically
 #'   using the widths and heights of the tick labels. The unit of this parameter is text line height.
 #' @param labels.inside.frame Show labels inside the frame? By default `FALSE`.
 #' @param ticks If `labels.inside.frame = FALSE`, should ticks can be drawn between the labels and the frame?
@@ -161,7 +172,7 @@ tm_graticules = function(x = NA,
 #'   can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown),
 #'   `"check"` for check boxes (so multiple groups can be shown), and `"none"`
 #'   for no control (the group cannot be (de)selected).
-#' @param ... Arguments passed on to [tm_grid()]
+#' @param ... Used to catch deprecated arguments from tmap v3.
 #' @export
 #' @example ./examples/tm_grid.R
 tm_grid = function(x = NA,
