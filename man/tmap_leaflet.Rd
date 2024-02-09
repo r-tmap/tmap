@@ -19,6 +19,8 @@ tmap_grid(x, show = FALSE, ...)
   \describe{
     \item{\code{return.asp}}{should the aspect ratio be returned?}
     \item{\code{vp}}{viewport (for \code{"plot"} mode)}
+    \item{\code{knit}}{A logical, should knit?}
+    \item{\code{options}}{A vector of options}
   }}
 }
 \value{

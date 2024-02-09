@@ -26,6 +26,10 @@ knit_print.tmap(x, ..., options = NULL)
 
 \item{vp}{viewport (for \code{"plot"} mode)}
 
+\item{knit}{A logical, should knit?}
+
+\item{options}{A vector of options}
+
 \item{...}{not used}
 }
 \description{
