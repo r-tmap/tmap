@@ -52,7 +52,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 	if (!is.na(o$set.zoom.limits[1])) leaflet_opts$minZoom = o$set.zoom.limits[1]
 	if (!is.na(o$set.zoom.limits[2])) leaflet_opts$maxZoom = o$set.zoom.limits[2]
 
-	leaflet_opts$attributionControl = FALSE
+	leaflet_opts$attributionControl = TRUE
 	
 	
 	

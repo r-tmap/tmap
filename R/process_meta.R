@@ -130,10 +130,11 @@ process_meta = function(o, d, cdt, aux) {
 		o[paste0("grid.", names(a))] = a
 	}
 	
+	# add credits into to o (for view mode in order to reset default attribution text)
+	cid = which(vapply(cdt$comp, FUN = inherits, "tm_credits", FUN.VALUE = logical(1)))[1]
+	o$credits.defined = (!is.na(cid))
+	
 	bbx = d$bbox[[1]]
-	
-	
-
 	
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)

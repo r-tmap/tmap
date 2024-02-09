@@ -13,7 +13,14 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	
 	tiles = .TMAP_LEAFLET$tiles[[id]][[bi]]
 	
-	for (s in tiles$server) lf = leaflet::addProviderTiles(lf, provider = s, group = s)
+	if (o$credits.defined) {
+		opt = list(attribution = "")
+	} else {
+		opt = list()
+	}
+	
+	for (s in tiles$server) lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
+	
 	assign_lf(lf, facet_row, facet_col, facet_page)
 	NULL	
 }
