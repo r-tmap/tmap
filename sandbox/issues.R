@@ -530,88 +530,60 @@ tm_shape(World) +
 
 ###########################################################
 #
-# https://github.com/r-tmap/tmap/issues/828
+# https://github.com/r-tmap/tmap/issues/832 (solved)
 #
 ###########################################################
-
-pkg <- c("tmap", "tmaptools", "dplyr", "terra", "geobr", "sf",
-		 "RColorBrewer", "grDevices", "stringr")
-
-
-sapply(pkg, require, character.only = T)
-
-rm(list = ls())
-
-
-setwd("C:/R/clara_mestrado")
-
-
-lr <- list.files(path = "laser_drone_rema/predict_nee_er_ensemble",
-				 pattern = ".tif$", recursive = T, full.names = T) %>% 
-	grep(pattern = "summary", value = T) %>% 
-	rast()
-
-
-
-# without using breaks
-tm_shape(lr[["er_mean"]], raster.downsample = T) +
-	tm_raster(
-		
-		col.scale = tm_scale(
-			midpoint = NA,
-			
-			n = 11,
-			values = rev(colorRampPalette(brewer.pal(11, "Spectral"))(11)))) 
-
-
-###########################################################
-#
-# https://github.com/r-tmap/tmap/issues/821
-#
-###########################################################
-
-
-###########################################################
-#
-# https://github.com/r-tmap/tmap/issues/828
-#
-###########################################################
-pkg = c("tmap", "tmaptools", "dplyr", "terra", "geobr", "sf",
-		"RColorBrewer", "grDevices", "stringr")
-sapply(pkg, require, character.only = T)
-
 library(terra)
 
-lr <- rast("sandbox/er_mean.tif")
+tm_shape(vect(cbind(0:1, 0:1), type = "l")) + 
+	tm_lines() + 
+	tm_shape(rast(matrix(1))) + 
+	tm_raster(col_alpha = 0.2)
+
+tm_shape(vect(cbind(c(0, 1852 * 60), c(0, 1852 * 60)), type = "l", crs = "+proj=laea")) + 
+	tm_lines() + 
+	tm_shape(rast(matrix(1), crs = "EPSG:4326")) +
+	tm_raster(col_alpha = 1)
 
 
-
-# without using breaks
-tm_shape(lr[["er_mean"]], raster.downsample = T) +
-	tm_raster(
-		
-		col.scale = tm_scale(
-			midpoint = NA,
-			
-			n = 11,
-			values = rev(colorRampPalette(brewer.pal(11, "Spectral"))(11)))) 
+###########################################################
+#
+# https://github.com/r-tmap/tmap/issues/827
+#
+###########################################################
 
 
-tm_shape(lr, raster.downsample = T) +
-	tm_raster(
-		col.scale = tm_scale(
-			midpoint = NA,
-			n = 11,
-			values = "-brewer.spectral",
-			values.range = c(0,1))) 
+library(sf)
+library(tmap)
+library(spData)
 
+packageVersion("tmap")
+#> [1] '3.99.9000'
 
-tm_shape(lr[["er_mean"]], raster.downsample = T) +
-	tm_raster(
-		col.scale = tm_scale(
-			style = "fixed",
-			midpoint = NA,
-			breaks = c(-Inf, seq(-0.05, 0, length.out = 5),
-					   seq(0, 1.9, length.out = 5)[-1], +Inf),
-			values = "-brewer.spectral",
-			values.range = c(0,1))) 
+# Left/Top and Center/Top overlap
+# Legend/Title are inside rather than outside even though tm_pos_out is used
+tm_shape(nz)+
+	tm_fill(fill = "Island", fill.scale = tm_scale_categorical(values=c("red", "#FFEBBE")))+
+	tm_title("a)")#+
+	#tm_layout(legend.position = tm_pos_out("left", "top"), 
+	#		  title.position = tm_pos_out("center", "top"))
+
+tm_shape(nz)+
+	tm_fill(fill = "Island", fill.scale = tm_scale_categorical(values=c("red", "#FFEBBE")),
+			fill.legend = tm_legend(position = tm_pos_out("left", "top")))+
+	tm_title("a)", position = tm_pos_out("center", "top"))
+
+tm_shape(nz)+
+	tm_fill(fill = "Island", fill.scale = tm_scale_categorical(values=c("red", "#FFEBBE")),
+			fill.legend = tm_legend(position = tm_pos_out("left", "top")))
+
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_place_legends_right()
+
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_place_legends_inside()
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_out("left", "top")))
