@@ -4,26 +4,23 @@
 #' 
 #' @param text text of the title
 #' @param size font size of the title
-#' @param color color
+#' @param color font color of the title
 #' @param padding padding
-#' @param fontface font face 
+#' @param fontface font face, bold, italic
 #' @param fontfamily font family
 #' @param stack stack
 #' @param just just
 #' @param frame frame
-#' @param frame.lwd frame.lwd
+#' @param frame.lwd frame line width
 #' @param frame.r frame.r
-#' @param bg.color bg.color
-#' @param bg.alpha bg.alpha
+#' @param bg.color Background color
+#' @param bg.alpha Background transparency
 #' @param position position
-#' @param width width
-#' @param height height
+#' @param width,height width and height of the title box.
 #' @param group.frame group.frame
 #' @param resize.as.group resize.as.group
 #' @param z z
 #' @export
-#' @rdname tm_title
-#' @name tm_title
 tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
@@ -31,9 +28,8 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, stack, jus
 }
 
 #' @export
-#' @param ... passed on to tm_title
+#' @param ... passed on to `tm_title()`
 #' @rdname tm_title
-#' @name tm_title_in
 tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
@@ -199,7 +195,7 @@ tm_scalebar = function(breaks,
 #' @inheritDotParams tm_scalebar
 #' @export
 tm_scale_bar = function(...) {
-	warning("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated", call. = FALSE)
+	warning("As of version 4.0, 'tm_scale_bar()' is deprecated. Please use 'tm_scalebar()' instead.", call. = FALSE)
 	tm_scalebar(...)
 	# can also be
 	# stop("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated. tm_scalebar also has new argument names.", call. = FALSE)

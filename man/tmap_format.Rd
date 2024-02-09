@@ -47,7 +47,7 @@ data(World)
 \seealso{
 \itemize{
 \item \code{\link[=tm_layout]{tm_layout()}} for predefined styles
-\item \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles
+\item \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles.
 \item \code{\link[=tmap_options]{tmap_options()}} for tmap options
 }
 }

@@ -2,10 +2,8 @@ tmapReproject = function(...) {
 	UseMethod("tmapReproject")
 }
 
-#' @method tmapReproject stars
 #' @export
 tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
-	
 	shp[[1]] = tmapID
 	
 	shp2 = transwarp(shp, crs, raster.warp = TRUE)
@@ -18,7 +16,6 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 }
 
 
-#' @method tmapReproject dimensions
 #' @export
 tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
@@ -38,7 +35,6 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 }
 
 
-#' @method tmapReproject sfc
 #' @export
 tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 	if (is.na(sf::st_crs(shp))) {
@@ -84,13 +80,12 @@ tmapShape = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, 
 }
 
 
-
+#' @export
 tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
 
-#' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
@@ -103,7 +98,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	
 	ctabs = terra::coltab(shp)
-	cats = terra::cats(shp)
+	cats = terra::levels(shp)
 	
 	
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
@@ -129,10 +124,15 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	#if (is.null(bbox)) bbox = st_bbox(shp)
 	
+	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
 	names(ctabs) = dtcols
 	names(cats) = dtcols
+
+	
+	if (!is.null(tmf)) make_by_vars(dt, tmf, smeta)
+
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
@@ -141,17 +141,22 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	for (nm in dtcols) {
 		if (!is.null(ctabs[[nm]])) {
+			# in case of predefined colors: if categories are associated (cats), use tm_scale_categorical, otherwise tm_
+			
 			ct = ctabs[[nm]]
 			lt = cats[[nm]]
 			if (is.factor(dt[[nm]])) {
 				#levels(dt[[nm]])
 				
-				ids = match(lt$value[match(levels(dt[[nm]]), lt$levels)], ct$value)
+				ids = match(lt[match(levels(dt[[nm]]), lt[,2]), 1], ct$value)
 				cti = ct[ids,]
 				
 				cls = rgb(cti$red, cti$green, cti$blue, cti$alpha, maxColorValue = 255)
 				
 				levels(dt[[nm]]) = paste(levels(dt[[nm]]), cls, sep = "=<>=")
+			} else if ("values" %in% names(ct)) {
+				cls = rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)
+				dt[[nm]] = factor(dt[[nm]], levels = ct$values, labels = paste(ct$values, cls, sep = "=><="))
 			}
 				
 		}
@@ -163,7 +168,6 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 
 
 
-#' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
@@ -207,7 +211,6 @@ make_by_vars = function(dt, tmf, smeta) {
 
 
 
-#' @method tmapShape stars
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	dev = getOption("tmap.devel.mode")
@@ -246,7 +249,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		
 		
 		shpclass = "sfc"
-	} else {
+	} else { 
 		shp = downsample_stars(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
@@ -264,9 +267,10 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 			attr(shp3, "dimensions")[[rst$dimensions[2]]]$values = 1L:ncol(shp)
 			attr(attr(shp3, "dimensions"), "raster")$curvilinear = FALSE
 		} else {
-			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
-			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp) else ncol(shp):1L})
+			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
 		}
+		
 		
 		dt = as.data.table(shp3, center = FALSE)
 		# Circumvent bug in tests on Windows
@@ -287,6 +291,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 		shp = dimsxy
 		shpclass = "stars"
+		
+	
 		shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
 		
 	}
@@ -320,7 +326,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 }
 
 
-#' @method tmapShape sf
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
 	if (!is.null(crs) && sf::st_crs(shp) != crs) {

@@ -229,7 +229,7 @@ v3_symbols = function(args, args_called) {
 		   "auto.palette.mapping", "max.categories")
 	
 	if (any(v3 %in% names(args))) {
-		message("Deprecated tmap v3 code detected. Code translated to v4")
+		message("tm_symbols: Deprecated tmap v3 code detected. Code translated to v4")
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -266,7 +266,9 @@ v3_symbols = function(args, args_called) {
 							   label.format = imp("legend.format", list()))
 		fill.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
-		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile",
+								"kmeans", "hclust", "bclust", "fisher", "jenks",
+								"dpih", "headtails", "log10_pretty")) {
 			"intervals"
 		} else if (style == "cont") {
 			"continuous"

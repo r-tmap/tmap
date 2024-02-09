@@ -46,6 +46,7 @@ get_split_stars_dim = function(lst) {
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo, o) {
 	#o = tmap_options_mode()
+	dev = getOption("tmap.devel.mode")
 	
 	
 	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
@@ -61,6 +62,9 @@ step1_rearrange_facets = function(tmo, o) {
 		shp = tmg$tms$shp
 		smeta = tmapGetShapeMeta1(shp, c(o, tmg$tmf))
 
+		if (dev) timing_add(s3 = "get_shape_meta1")
+		
+		
 		assign("vl", NULL, envir = .TMAP)
 		assign("vn", 1L, envir = .TMAP)
 		
@@ -158,9 +162,9 @@ step1_rearrange_facets = function(tmo, o) {
 				
 
 				
-				if (identical(popup.vars, TRUE)) {
+				if (isTRUE(popup.vars)) {
 					popup.vars = smeta$vars
-				} else if (identical(popup.vars, FALSE)) {
+				} else if (isFALSE(popup.vars)) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
 					popup.vars = setdiff(get("used_vars", envir = .TMAP), c("AREA", "LENGTH", "MAP_COLORS"))
@@ -169,7 +173,7 @@ step1_rearrange_facets = function(tmo, o) {
 				popup.format = process_label_format(popup.format, o$label.format)
 				
 				if (!all(popup.vars %in% smeta$vars)) {
-					stop("Incorrrect popup.vars specification", call. = FALSE)
+					rlang::arg_match(popup.vars, values = smeta$vars, multiple = TRUE)
 				}
 				if (length(popup.vars)) add_used_vars(popup.vars)
 
@@ -188,6 +192,8 @@ step1_rearrange_facets = function(tmo, o) {
 		shp = tmapSplitShp(shp, split_stars_dim)
 		if (split_stars_dim != "") {
 			smeta = tmapGetShapeMeta1(shp, o)
+			if (dev) timing_add(s3 = "get_shape_meta1_2")
+			
 		}	
 		
 		
@@ -294,30 +300,24 @@ step1_rearrange_facets = function(tmo, o) {
 
 		smeta$vars = get("used_vars", envir = .TMAP)
 		shp = tmapSubsetShp(shp, smeta$vars)
-
+		if (dev) timing_add(s3 = "subset_shp")
+		
 		smeta = tmapGetShapeMeta2(shp, smeta, c(o, tmg$tmf))
-		
-		
-		
+		if (dev) timing_add(s3 = "get_shape_meta2")
+
 		tmg$tmf = within(tmg$tmf, {
-			
-			
 			
 			gl = list(NULL, NULL, NULL)
 			gn = c(1L, 1L, 1L)
 
-			# assign("gl", gl, envir = .TMAP)
-			# assign("gn", gn, envir = .TMAP)
-			# assign("gisf", is.wrap, envir = .TMAP)
-			
 			for (i in 1L:3L) {
 				byi = get(paste0("by", i))
 				if (!is.null(byi)) {
 					if (byi == "VARS__") {
-						if (!is.null(vl)) gl[[i]] = vl
+						gl[i] = list(vl)
 						gn[i] = vn
 					} else if (byi %in% smeta$vars) {
-						gl[[i]] = smeta$vars_levs[[byi]]
+						gl[i] = list(smeta$vars_levs[[byi]])
 						gn[i] = length(gl[[i]])
 					} else if (byi %in% smeta$dims) {
 						gl[[i]] = smeta$dims_val[[match(byi, smeta$dims)]]	
@@ -361,6 +361,5 @@ step1_rearrange_facets = function(tmo, o) {
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	tmo$tmf_global = tmf
 	tmo
-	
 }
 

@@ -1,4 +1,3 @@
-#' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
 tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
@@ -24,12 +23,11 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 		xlab.align = get_vector_id(xlab.align, type)
 		ylab.align = get_vector_id(ylab.align, type)
 		
-		gpar = gp_to_gpar(gp)
+		gpar = gp_to_gpar(gp, o = o, type = comp$type)
 	})
 }
 
 
-#' @method tmapGridCompHeight tm_legend_standard_portrait
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	
@@ -138,7 +136,6 @@ fontface2nr = function(face) {
 }
 
 
-#' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
@@ -223,7 +220,6 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 }
 
 
-#' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale #* o$scale
@@ -381,7 +377,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	
 	if (comp$type == "gradient") {
 		# for borders
-		gpars = gp_to_gpar(gp, id = 1L, sel = "col")
+		gpars = gp_to_gpar(gp, id = 1L, sel = "col", o = o, type = comp$type)
 		
 		# for gradient fill
 		nlev2 = (nlev-comp$na.show) # nlev without na
@@ -473,12 +469,12 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	} else if (comp$type == "rect") {
 		#gps = split_gp(gp, n = nlev)
 		
-		diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+		diffAlpha = !anyNA(c(gp$fill_alpha, gp$col_alpha)) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 		
 		
 		if (diffAlpha) {
-			gpars1 = gp_to_gpar(gp, sel = "fill", split_to_n = nlev) #lapply(gps, gp_to_gpar_fill)
-			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
+			gpars1 = gp_to_gpar(gp, sel = "fill", split_to_n = nlev, o = o, type = comp$type) #lapply(gps, gp_to_gpar_fill)
+			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev, o = o, type = comp$type) #lapply(gps, gp_to_gpar_borders)
 			
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, rndrectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(id, gpar1i, gpar2i) gridCell(id, 3, {
@@ -488,14 +484,14 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			}), comp$item_ids, gpars1, gpars2, SIMPLIFY = FALSE)
 			
 		} else {
-			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
+			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(id, gpari) gridCell(id, 3, rndrectGrob(gp = gpari, r = comp$item.r)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 		}
 	} else if (comp$type == "lines") {
 		#gps = split_gp(gp, n = nlev)
 		
-		gpars = gp_to_gpar(gp, sel = "col", split_to_n = nlev)#lapply(gps, gp_to_gpar)
+		gpars = gp_to_gpar(gp, sel = "col", split_to_n = nlev, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::linesGrob(y = grid::unit(c(0.5,0.5), "npc"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 
@@ -505,7 +501,18 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
 		
 		gp = swap_pch_15_20(gp)
-		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		
+		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
+		
+		diffAlpha = !anyNA(c(gp$fill_alpha, gp$col_alpha)) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+		if (diffAlpha) {
+			gpars1 = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type, sel = "fill")
+			gpars2 = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type, sel = "col")
+		} else {
+			gpars1 = vector(mode = "list", length = nlev)
+			gpars2 = vector(mode = "list", length = nlev)
+		}
+		
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
@@ -515,7 +522,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		shapeLib = get("shapeLib", envir = .TMAP)
 		justLib = get("justLib", envir = .TMAP)
 		
-		grItems = mapply(function(id, gpari) {
+		grItems = mapply(function(id, gpari, gpari1, gpari2) {
 			grobs = if (gpari$shape > 999) {
 				grbs = if (gpari$lwd == 0) {
 					gList(shapeLib[[gpari$shape-999]])	
@@ -527,25 +534,45 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 												 width=unit(gpari$size*2/3, "lines"),
 												 height=unit(gpari$size*2/3, "lines")))
 			} else {
-				grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)
+				if (diffAlpha) {
+					grid::grobTree(
+						grid::pointsGrob(x=0.5, y=0.5, pch = gpari1$shape, size = grid::unit(gpari1$size, "lines"), gp = gpari1),
+						grid::pointsGrob(x=0.5, y=0.5, pch = gpari2$shape, size = grid::unit(gpari2$size, "lines"), gp = gpari2)
+					)
+				} else {
+					grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)
+				}
 			}
 			#grb = gTree(children=do.call(gList, grobs), name=paste0("symbols_", id))
 			gridCell(id, 3, grobs)	
-		}, comp$item_ids, gpars, SIMPLIFY = FALSE)
+		}, comp$item_ids, gpars, gpars1, gpars2, SIMPLIFY = FALSE)
 	} else if (comp$type == "text") {
-		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
-															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		gp$text[is.na(gp$text)] = getAesOption("value.const", o, aes = "text", layer = "text")
 		
-		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		if (length(gp$cex) == 1) gp$cex = min(gp$cex, min(get_legend_option(comp$item.height, "text"),
+															 get_legend_option(comp$item.width, "text")) * comp$textS)
+		
+		bgcols = rep(gp$bgcol, length.out = nlev)
+		bgcols_alpha = rep(gp$bgcol_alpha, length.out = nlev)
+		
+		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
 		#		sizes = 
-		grItems = mapply(function(id, gpari, txt) gridCell(id, 3, grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari)), comp$item_ids, gpars, gp$text, SIMPLIFY = FALSE)
+	
+		
+		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha, size) {
+			gridCell(id, 3, {
+				grid::gList(
+					rndrectGrob(width = grid::unit(grid::convertWidth(grid::stringWidth(txt), "inches")* size, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = grid::gpar(fill = bgcol, alpha = bgcol_alpha, col = NA), r = comp$item.r),
+					grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari))
+			})
+		}, comp$item_ids, gpars, gp$text, bgcols, bgcols_alpha, gp$cex, SIMPLIFY = FALSE)
 		
 	} else if (comp$type == "bivariate") {
-		gpars = gp_to_gpar(gp, sel = "all", split_to_n = n*m)#lapply(gps, gp_to_gpar)
+		gpars = gp_to_gpar(gp, sel = "all", split_to_n = n*m, o = o, type = comp$type)#lapply(gps, gp_to_gpar)
 		#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		
 		ind = expand.grid(row = comp$item_ids[m:1], col = 7:(6+n))

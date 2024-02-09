@@ -26,6 +26,14 @@ tm_text(
   fontface.legend = tm_legend(),
   fontface.free = NA,
   fontfamily = "",
+  bgcol = tm_const(),
+  bgcol.scale = tm_scale(),
+  bgcol.legend = tm_legend(),
+  bgcol.free = NA,
+  bgcol_alpha = tm_const(),
+  bgcol_alpha.scale = tm_scale(),
+  bgcol_alpha.legend = tm_legend(),
+  bgcol_alpha.free = NA,
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   trans.args = list(points.only = "ifany"),
@@ -53,6 +61,12 @@ the border color alpha transparency. See Details.}
 the font face. See Details.}
 
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
+
+\item{bgcol, bgcol.scale, bgcol.legend, bgcol.free}{Visual variable that determines
+the background color. See Details.}
+
+\item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.free}{Visual variable that determines
+the background color transparency. See Details.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -107,37 +121,20 @@ own legend. For facet wraps and stacks (\code{\link[=tm_facets_wrap]{tm_facets_w
 there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 }
 \examples{
-data(rivers)
-
-tm_shape(rivers) +
-	tm_lines()
-
-tm_shape(rivers) +
-	tm_lines(lwd = "scalerank")
-
-tm_shape(rivers) +
-	tm_lines(lwd = "scalerank", 
-			 lwd.scale = tm_scale_continuous(values.scale = 2, n = 20), 
-			 lwd.legend = tm_legend(orientation = "landscape", item.width = 2),
-			 col = "type", 
-			 col.scale = tm_scale(values = c("darkblue", "darkred")))
-
-tm_shape(rivers) +
-	tm_lines(lwd = "scalerank",
-			 lty = "scalerank",
-			 col = "scalerank",
-			 col.scale = tm_scale_categorical(),
-			 lty.legend = tm_legend_combine("lwd"),
-			 col.legend = tm_legend_combine("lwd"))
-
-
-### tmap3
+# Need to be updated. The following is just to illustrate bgcol(_alpha)
+tm_shape(World) + tm_polygons() +
+	tm_text("name", bgcol = "economy", bgcol_alpha = .5, shadow = TRUE)
 
 tm_shape(World) +
-	tm_fill() +
-	tm_shape(rivers) +
-	tm_lines(col="black", lwd="scalerank", scale=2, legend.lwd.show = FALSE) +
-	tm_style("cobalt", title = "Rivers of the World") +
-	tm_format("World")
+  tm_text(text = "name", 
+    size = .4, 
+    bgcol = "economy")
 
+tm_shape(World) +
+  tm_text(text = "name", 
+    size = .4, 
+    bgcol = "economy", 
+    bgcol.scale = tm_scale_categorical(values = cols4all::.P$hcl$cat$set2),
+    bgcol_alpha = "pop_est",
+    bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
 }

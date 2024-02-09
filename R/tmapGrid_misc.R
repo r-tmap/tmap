@@ -14,7 +14,8 @@ get_legend_option = function(x, type) {
 }
 
 
-gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
+gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE, o, type) {
+	type = tolower(type)
 	if (sel == "all") {
 		if (is.na(gp$fill_alpha[1]) && !is.na(gp$col_alpha[1])) sel = "col"
 		if (!is.na(gp$fill_alpha[1]) && is.na(gp$col_alpha[1])) sel = "fill"
@@ -32,14 +33,15 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 	lst = c(list(fill = {if (sel == "col") NA else gp$fill},
 			   col = {if (sel == "fill") NA else gp$col},
 			   alpha = alpha,
-			   lty = if (sel == "fill") "blank" else if (!is.na(gp$lty[1])) gp$lty else "solid",
-			   lwd = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
+			   lty = if (sel == "fill") getAesOption("value.blank", o, aes = "lty", layer = type) else if (!is.na(gp$lty[1])) gp$lty else getAesOption("value.const", o, aes = "lty", layer = type) ,
+			   lwd = {if (!all(is.na(gp$lwd))) gp$lwd else getAesOption("value.blank", o, aes = "lwd", layer = type)},
 			   lineend = {if (!all(is.na(gp$lineend))) gp$lineend else "round"},
 			   linejoin = {if (!all(is.na(gp$linejoin))) gp$linejoin else "round"},
 			   size = {if (!all(is.na(gp$size))) gp$size else 1},
 			   cex = {if (!all(is.na(gp$cex))) gp$cex else 1},
-			   fontface = {if (!all(is.na(gp$cex))) gp$fontface else "plain"},
-			   shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
+			   fontface = {if (!all(is.na(gp$cex))) gp$fontface else getAesOption("value.blank", o, aes = "fontface", layer = type)},
+			   fontfamily = {if (!all(is.na(gp$fontfamily))) gp$fontfamily else ""},
+			   shape = {if (!all(is.na(gp$shape))) gp$shape else getAesOption("value.const", o, aes = "shape", layer = type)}))
 	
 	# 
 	if (!is.null(id)) {
@@ -56,6 +58,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 				  size = TRUE, 
 				  cex = TRUE, 
 				  fontface = FALSE,
+				  fontfamily = FALSE,
 				  shape = TRUE)
 	
 	lst = mapply(function(lsti, isnum) {
@@ -84,18 +87,22 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 	}, lst, lst_isnum[names(lst)], SIMPLIFY = FALSE)
 	
 	if (!is.null(split_to_n)) {
-		lst = lapply(1L:split_to_n, function(i) {
-			lapply(lst, function(lsti) {
-				if (length(lsti) == split_to_n) lsti[i] else lsti[1]
-			})
-		})
-		lapply(lst, function(lsti) {
-			do.call(grid::gpar, lsti)
-		})
+		split_gp(lst, split_to_n)
 	} else {
 		do.call(grid::gpar, lst)
 	}
 }
+
+split_gp = function(gp, n) {
+	lst = lapply(1L:n, function(i) {
+		lapply(gp, function(gpi) {
+			if (length(gpi) == n) gpi[i] else gpi[1]
+		})
+	})
+	lapply(lst, function(lsti) {
+		do.call(grid::gpar, lsti)
+	})	
+} 
 
 
 determine_scale = function(label, rot, row, col, g, scale = 1) {

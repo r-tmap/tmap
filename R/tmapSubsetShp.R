@@ -10,7 +10,6 @@ tmapSubsetShp = function(shp, vars) {
 	UseMethod("tmapSubsetShp")
 }
 
-#' @method tmapSubsetShp stars
 #' @export
 tmapSubsetShp.stars = function(shp, vars) {
 	ids = unique(c(which(names(shp) %in% vars),
@@ -22,7 +21,6 @@ tmapSubsetShp.stars = function(shp, vars) {
 	shp2
 }
 
-#' @method tmapSubsetShp SpatRaster
 #' @export
 tmapSubsetShp.SpatRaster = function(shp, vars) {
 	#v = setdiff(vars, names(shp))
@@ -34,13 +32,11 @@ tmapSubsetShp.SpatRaster = function(shp, vars) {
 	}
 }
 
-#' @method tmapSubsetShp SpatRaster
 #' @export
 tmapSubsetShp.Raster = function(shp, vars) {
 	tmapSubsetShp.SpatRaster(terra::rast(shp), vars)
 }
 
-#' @method tmapSubsetShp SpatVector
 #' @export
 tmapSubsetShp.SpatVector = function(shp, vars) {
 	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
@@ -53,7 +49,6 @@ tmapSubsetShp.SpatVector = function(shp, vars) {
 }
 
 
-#' @method tmapSubsetShp sf
 #' @export
 tmapSubsetShp.sf = function(shp, vars) {
 	
@@ -73,7 +68,6 @@ tmapSubsetShp.sf = function(shp, vars) {
 	shp[, vars]
 }
 
-#' @method tmapSubsetShp sfc
 #' @export
 tmapSubsetShp.sfc = function(shp, vars) {
 	s = sf::st_sf(dummy__ = TRUE, geometry = shp)

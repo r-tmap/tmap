@@ -23,3 +23,12 @@ utils::globalVariables(c(
   "t2", "t3", "t4", "text.fontface", "text.fontfamily", "title.bg.alpha",
   "tmapID__", "vneutral"
 ))
+
+# Add more to silence R CMD CHECK (see if some are false positive)
+utils::globalVariables(c(
+	"aes", "alpha", "col_alpha", "frame", "grid.show", "label.na", "legend",
+	"legend.bg.alpha", "lin", "m", "n", "overlays_tiles", "show", "show.labels",
+	"show.warnings", "total", "trans.args", "type", "values", "xlab.rotation",
+	"xlab.show", "xlab.side", "xlab.space", "xlab.text", "ylab.rotation",
+	"ylab.show", "ylab.side", "ylab.space", "ylab.text", "z"
+))

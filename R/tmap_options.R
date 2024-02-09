@@ -24,6 +24,7 @@
 		# facets
 		facet.max = 64, # was max.facets
 		facet.flip = FALSE,
+		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
 		
 		# spatial object class specific options
 		raster.max.cells = 1e6, # was max.raster
@@ -46,6 +47,7 @@
 						 col.symbols = "grey40",
 						 col.raster = "grey40",
 						 col = "black",
+						 bgcol = "#00000000",
 						 lwd = 1,
 						 lty = "solid",
 						 text = "Abc",
@@ -58,44 +60,53 @@
 						 size.dots = .15,
 						 size.text = 1,
 						 fill_alpha = 1,
-						 col_alpha = 1),
+						 col_alpha = 1,
+						 bgcol_alpha = 1),
 		value.na = list(
 			fill = "grey75",
 			col = "grey75",
 			col.raster = "#00000000",
+			bgcol = "grey75",
 			lty = "solid",
 			lwd = NA,
 			text = "Unknown",
 			fontface = "plain",
 			fill_alpha = 1,
 			col_alpha = 1,
+			bgcol_alpha = 1,
 			col_alpha.raster = 0
 		),
 		value.null = list(
 			fill = "grey95",
 			col = "grey95",
 			col.polygons = "grey40",
+			bgcol = "grey95",
 			lty = "solid",
 			lwd = 0.2,
 			text = "",
 			fontface = "plain",
 			fill_alpha = 1,
 			col_alpha = 1,
+			bgcol_alpha = 1,
 			size = 0.2
 		),
 		value.blank = list(
 			fill = "#00000000",
 			col = "#00000000",
+			bgcol = "#00000000",
 			lty = "blank",
 			lwd = 0,
 			text = "",
 			fontface = "plain",
 			fill_alpha = 0,
-			col_alpha = 0
+			col_alpha = 0,
+			bgcol_alpha = 0
 		),
 		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div",
 									  unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  col = list(seq = "hcl.blues3", div = "pu_gn_div",
+						  		   unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+						  bgcol = list(seq = "hcl.blues3", div = "pu_gn_div",
 						  		   unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  size.bubbles = tmap_seq(0, 1, power = "sqrt"),
@@ -105,6 +116,7 @@
 						  fontface = c("plain", "italic", "bold"),
 						  fill_alpha = c(0.25, 1),
 						  col_alpha = c(0.25, 1),
+						  bgcol_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
 		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1),
@@ -115,6 +127,7 @@
 							 lty = "solid",
 							 fill_alpha = 1,
 							 col_alpha = 1,
+							 bgcol_alpha = 1,
 							 text = "Abc",
 							 fontface = "plain"),
 		values.scale = list(
@@ -127,12 +140,14 @@
 		# scales
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  bgcol = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
 						  lty = list(fact = "categorical", num = "intervals"),
 						  shape = list(fact = "categorical", num = "intervals"),
 						  size = list(fact = "categorical", num = "continuous"),
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
+						  bgcol_alpha = list(fact = "categorical", num = "intervals"),
 						  area = list(fact = "categorical", num = "continuous"),
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
@@ -235,6 +250,11 @@
 		text.fontfamily = "",
 		
 
+		component.position = list('in' = list(pos.h = "left", pos.v = "top",
+												align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
+								  out = list(cell.h = "right", cell.v = "center",
+								  			   pos.h = "left", pos.v = "top",
+								  			   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
 		
 		# legend		
 		legend.show = TRUE,
@@ -273,7 +293,7 @@
 		legend.bg.alpha = 1,
 		legend.only = FALSE,
 		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2, bivariate = 1.2),
-										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 1.2, bivariate = 1.2),
+										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 3, bivariate = 1.2),
 										item.r = 2,
 										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0, lines = 0.2, text = 0.2, bivariate = 0),
 										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA, bivariate = NA),
@@ -413,13 +433,12 @@
 		
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
-		scalebar.width=.3, 
+		scalebar.width=20, 
 		scalebar.text.size = .5,
 		scalebar.text.color=NA,
 		scalebar.color.dark="black", 
 		scalebar.color.light="white",
 		scalebar.lwd=1,
-		scalebar.position=NA,
 		scalebar.bg.color=NA,
 		scalebar.bg.alpha=NA,
 		scalebar.size = NULL,
@@ -518,6 +537,8 @@
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,
+		tiles.alpha = 1,
+		tiles.zoom = NA,
 		overlays = NULL,
 		overlays.alpha = 1,
 		alpha = NA,
@@ -761,7 +782,8 @@ complete_options = function(x, o) {
 #' | `crs`		    	|  Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].|
 #' | `facet.max`		| Maximum number of facets |
 #' | `facet.flip`		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
-#' | `raster.max.cells`	| Maximum number of raster grid cells  |
+#' | `free.scales`		| For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions |
+#' | `raster.max.cells`	| Maximum number of raster grid cells  | 
 #' | `show.messages`	| Show messages? |
 #' | `show.warnings`	| Show warnings? |
 #' | `output.format`	| Output format |

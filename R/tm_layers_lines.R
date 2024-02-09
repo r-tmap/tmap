@@ -72,7 +72,7 @@ tm_lines = function(col = tm_const(),
 		   "popup.format", "auto.palette.mapping", "max.categories")
 	
 	if (any(v3 %in% names(args))) {
-		message("Deprecated tmap v3 code detected. Code translated to v4")
+		message("tm_lines: Deprecated tmap v3 code detected. Code translated to v4")
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"

@@ -53,8 +53,12 @@
 #'   groups can be switched on and off. Options: `"radio"` for radio buttons
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
+#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.free Visual variable that determines
+#'   the background color. See Details.
+#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.free Visual variable that determines
+#'   the background color transparency. See Details.
 #' @param ... to catch deprecated arguments from version < 4.0
-#' @example ./examples/tm_lines.R 
+#' @example ./examples/tm_text.R 
 #' @export
 tm_text = function(text = tm_const(),
 				   text.scale = tm_scale(),
@@ -77,6 +81,14 @@ tm_text = function(text = tm_const(),
 				   fontface.legend = tm_legend(),
 				   fontface.free = NA,
 				   fontfamily = "",
+				   bgcol = tm_const(),
+				   bgcol.scale = tm_scale(),
+				   bgcol.legend = tm_legend(),
+				   bgcol.free = NA,
+				   bgcol_alpha = tm_const(),
+				   bgcol_alpha.scale = tm_scale(),
+				   bgcol_alpha.legend = tm_legend(),
+				   bgcol_alpha.free = NA,
 				   shadow = FALSE,
 				   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
 				   trans.args = list(points.only = "ifany"),
@@ -95,7 +107,7 @@ tm_text = function(text = tm_const(),
 		   "as.count", "breaks", "interval.closure", "palette", "labels", 
 		   "drop.levels", "labels.text", "midpoint", "stretch.palette", 
 		   "contrast", "colorNA", "textNA", "showNA", "colorNULL", "fontface", 
-		   "fontfamily", "alpha", "case", "shadow", "bg.color", "bg.alpha", 
+		   "fontfamily", "alpha", "case", "bg.alpha", 
 		   "size.lowerbound", "print.tiny", "scale", "auto.placement", "remove.overlap", 
 		   "along.lines", "overwrite.lines", "just", "xmod", "ymod", "title.size", 
 		   "title.col", "legend.size.show", "legend.col.show", "legend.format", 
@@ -106,7 +118,7 @@ tm_text = function(text = tm_const(),
 	
 	
 	if (any(v3 %in% names(args))) {
-		message("Deprecated tmap v3 code detected. Code translated to v4")
+		message("tm_text: Deprecated tmap v3 code detected. Code translated to v4")
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -212,6 +224,16 @@ tm_text = function(text = tm_const(),
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
 						   					  free = col_alpha.free),
+						   bgcol = tmapScale(aes = "bgcol",
+						   				value = bgcol,
+						   				scale = bgcol.scale,
+						   				legend = bgcol.legend,
+						   				free = bgcol.free),
+						   bgcol_alpha = tmapScale(aes = "bgcol_alpha",
+						   					  value = bgcol_alpha,
+						   					  scale = bgcol_alpha.scale,
+						   					  legend = bgcol_alpha.legend,
+						   					  free = bgcol_alpha.free),
 						   fontface = tmapScale(aes = "fontface",
 						   				value = fontface,
 						   				scale = fontface.scale,
@@ -233,6 +255,8 @@ tm_text = function(text = tm_const(),
 						lwd = NA,
 						linejoin = NA,
 						lineend = NA,
+						bgcol = "__bgcol",
+						bgcol_alpha = "__bgcol_alpha",
 						shadow = shadow),
 		tpar = tmapTpar(),
 		plot.order = plot.order,

@@ -24,55 +24,46 @@ tmapGridCompPrepare_text = function(comp, o) {
 }
 
 
-#' @method tmapGridCompPrepare tm_title
 #' @export
 tmapGridCompPrepare.tm_title = function(comp, o) {
 	tmapGridCompPrepare_text(comp, o)
 }
 
-#' @method tmapGridCompHeight tm_title
 #' @export
 tmapGridCompHeight.tm_title = function(comp, o) {
 	tmapGridCompHeight_text(comp, o)
 }
 
-#' @method tmapGridCompWidth tm_title
 #' @export
 tmapGridCompWidth.tm_title = function(comp, o) {
 	tmapGridCompWidth_text(comp, o)
 }
 
-#' @method tmapGridLegPlot tm_title
 #' @export
 tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
 	tmapGridLegPlot_text(comp, o)
 }
 
-#' @method tmapGridCompPrepare tm_credits
 #' @export
 tmapGridCompPrepare.tm_credits = function(comp, o) {
 	tmapGridCompPrepare_text(comp, o)
 }
 
-#' @method tmapGridCompHeight tm_credits
 #' @export
 tmapGridCompHeight.tm_credits = function(comp, o) {
 	tmapGridCompHeight_text(comp, o)
 }
 
-#' @method tmapGridCompWidth tm_credits
 #' @export
 tmapGridCompWidth.tm_credits = function(comp, o) {
 	tmapGridCompWidth_text(comp, o)
 }
 
-#' @method tmapGridLegPlot tm_credits
 #' @export
 tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
 	tmapGridLegPlot_text(comp, o, fH, fW)
 }
 
-#' @method tmapGridCompPrepare tm_compass
 #' @export
 tmapGridCompPrepare.tm_compass = function(comp, o) {
 	o$attr.color.light = is_light(o$attr.color)
@@ -95,7 +86,6 @@ tmapGridCompPrepare.tm_compass = function(comp, o) {
 	})
 }
 
-#' @method tmapGridCompHeight tm_compass
 #' @export
 tmapGridCompHeight.tm_compass = function(comp, o) {
 
@@ -118,7 +108,6 @@ tmapGridCompHeight.tm_compass = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_compass
 #' @export
 tmapGridCompWidth.tm_compass = function(comp, o) {
 	
@@ -138,7 +127,6 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridLegPlot tm_compass
 #' @export
 tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
@@ -325,7 +313,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 
 
 
-#' @method tmapGridCompPrepare tm_scalebar
 #' @export
 tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	show.messages = o$show.messages
@@ -333,7 +320,7 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	within(comp, {
 		if (is.function(call)) call = ""
 		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			warning("For tm_scalebar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
+			warning("For 'tm_scalebar()', 'breaks' and 'width' cannot be used together. The width is being ignored.", call. = FALSE)	
 		}
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
@@ -342,12 +329,12 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 			}
 		}
 		
-		if (is.na(width))
-			width = .25
-		else if (width > 1) {
-			if (show.messages) message("Scale bar width set to 0.25 of the map width")
-			width = .25
-		}
+		# if (is.na(width))
+		# 	width = .25
+		# else if (width > 1) {
+		# 	if (show.messages) message("Scale bar width set to 0.25 of the map width")
+		# 	width = .25
+		# }
 		
 		if (is.na(text.color)) text.color = o$attr.color
 		text.size = text.size * o$scale
@@ -356,7 +343,6 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	})
 }
 
-#' @method tmapGridCompHeight tm_scalebar
 #' @export
 tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	h = 2.75 * o$lin * comp$text.size
@@ -379,7 +365,6 @@ tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_scalebar
 #' @export
 tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	#w = comp$width * o$lin * comp$text.size
@@ -388,7 +373,10 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
-	ws = c(marW[1], 0, marW[2])
+	
+	W = comp$width * textS * o$lin
+
+	ws = c(marW[1], W, marW[2])
 	
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
@@ -396,7 +384,7 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	
 	comp$Win = sum(ws)
 	comp$wsu = wsu
-	
+
 	# in case breaks are used: adjust the legend width later (in tmapGridLegend)
 	comp$WnativeID = 3
 	if (!is.null(comp$breaks)) {
@@ -406,7 +394,6 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridLegPlot tm_scalebar
 #' @export
 tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
@@ -422,10 +409,21 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 												   heights = hsu))
 	
 	
+	
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
-	xrange = comp$bbox[3] - comp$bbox[1]
-	crop_factor = as.numeric(wsu[3]) / fW 
+	#xrange = (comp$bbox[3] - comp$bbox[1]) * fW_fact
+	
+	xrange = fW * comp$cpi
+
+	# xrange is the range of the viewport in terms of coordinates
+	# xrange2 is the same but with units (e.g. km instead of m)
+	# W is the targeted space for the scalebar
+
+		
+	W = as.numeric(wsu[3])
+	
+	crop_factor = W / fW 
 	just = 0
 	
 	if (is.na(unit.size)) {
@@ -436,24 +434,30 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	
 	xrange2 = xrange/unit.size
 	
-	# to find the label width of first and last item, only used as proxy
-	tcks = pretty(c(0, xrange2*crop_factor), 4)
-	tcksL = format(tcks, trim=TRUE)
-	rngL = c(tcksL[1], paste(unit, tail(tcksL, 1), unit))
-	rngW = ((text_width_inch(rngL) / 2) + o$lin * 0.5) * comp$text.size
-	
-	# available width for scale bar
-	sbW = as.numeric(wsu[3]) - sum(rngW)
-	
-	crop_factor2 = sbW / fW 
 	
 	if (is.null(comp$breaks)) {
-		ticks2 = pretty(c(0, xrange2*crop_factor2), round(comp$width * 8))
+		# determine resolution only (unselect steps that do not fit later (with 'sel'))
+		for (i in 10:1) {
+			tcks = pretty(c(0, xrange2*crop_factor), i)
+			tcks3 = (tcks / xrange2) * fW
+			tcksL = format(tcks, trim=TRUE)
+			labW = text_width_inch(tcksL) * comp$text.size
+			tickW = tcks3[-1] - head(tcks3, -1)
+			if (all(tickW > labW[-1])) {
+				sbW = W - labW
+				break
+			}
+		}
+		ticks2 = tcks
 	} else {
 		ticks2 = comp$breaks
+		tcksL = format(ticks2, trim=TRUE)
+		
+		labW = text_width_inch(tcksL) * comp$text.size
+		sbW = W - labW
 	}
 
-	ticks3 = ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
+	ticks3 = ticks2 / xrange2 * fW
 	sel = which(ticks3 <= sbW)
 	
 	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
@@ -643,7 +647,6 @@ tmapGridCompWidth_text = function(comp, o) {
 }
 
 
-#' @method tmapGridCompPrepare tm_mouse_coordinates
 #' @export
 tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
 	message("tm_mouse_coordinates ignored for 'plot' mode")
@@ -652,20 +655,16 @@ tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
 }
 
 
-#' @method tmapGridCompHeight tm_mouse_coordinates
 #' @export
 tmapGridCompHeight.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
-#' @method tmapGridCompWidth tm_mouse_coordinates
 #' @export
 tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
-
-#' @method tmapGridLegPlot tm_mouse_coordinates
 #' @export
 tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
 	NULL

@@ -1,14 +1,13 @@
 # tmap: thematic maps in R <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
-[![R CMD CHECK](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
+[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![CRAN checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
-
 <!-- badges: end -->
 
 
@@ -35,7 +34,7 @@ See [below](https://github.com/r-tmap/tmap/#reference) the source code for these
 Installation
 ------------
 
-`tmap` is available on [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap). Installation is straightforward:
+`tmap` is available on [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap). Installation is straightforward:
 
 ```r
 install.packages("tmap")
@@ -50,7 +49,7 @@ No additional installation required.
 See https://geocompx.org/post/2020/installing-r-spatial-packages-linux/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
+See https://www.kyngchaos.com/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 
 
 Development
@@ -146,7 +145,7 @@ Please tag your questions with *tmap*.
   [1]: https://cran.r-project.org/package=tmap
   [2]: https://stackoverflow.com/tags/r/info
   [3]: https://cran.r-project.org/package=ggplot2
-  [4]: http://vita.had.co.nz/papers/layered-grammar.pdf
+  [4]: https://vita.had.co.nz/papers/layered-grammar.pdf
   [5]: https://github.com/r-tmap/tmap
   [6]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html
   [7]: http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/
@@ -154,13 +153,13 @@ Please tag your questions with *tmap*.
   [9]: https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
   [10]: https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf
   [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
-  [12]: http://cwrld.us/Rmaps10
+  [12]: https://www.computerworld.com/article/3038270/create-maps-in-r-in-10-fairly-easy-steps.html
   [13]: https://github.com/r-tmap/tmap/blob/master/demo/US_choropleth.R
   [14]: https://github.com/r-tmap/tmap/blob/master/demo/crimes_in_Greater_London.R
   [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
   [16]: https://stackoverflow.com/questions/tagged/tmap
-  [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
-  [18]:	http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html
+  [17]: https://www.computerworld.com/article/2921176/great-r-packages-for-data-import-wrangling-visualization.html
+  [18]:	https://www.computerworld.com/article/3175623/mapping-in-r-just-got-a-whole-lot-easier.html
   [19]: https://sesync-ci.github.io/maps-in-R-lesson/
   [20]: https://r.geocompx.org/adv-map.html
   [21]: https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf

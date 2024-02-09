@@ -40,7 +40,7 @@ ct$Country.Code[ct$Country.Code==729] <- 736 # all Sudan cities are in Sudan (no
 
 ct$iso_a3 <- ccodes$iso_a3[match(ct$Country.Code, ccodes$ccode)]
 
-!any(is.na(ct$iso_a3))
+!anyNA(ct$iso_a3)
 
 ct$name <- gsub("Basilan City (including City of Isabela)", "Basilan City", ct$name,fixed=TRUE)
 ct$name <- gsub("Gaza (incl. Ash Shati Camp)", "Gaza", ct$name,fixed=TRUE)

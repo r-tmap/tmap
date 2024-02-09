@@ -18,12 +18,29 @@ preprocess_meta_step1 = function(o) {
 		legend.title.color = ifelse(is.null(legend.title.color), attr.color, legend.title.color[1])
 		title.color = ifelse(is.null(title.color), attr.color, title.color[1])
 		
-		legend.inside.box = if (!is.logical(legend.frame)) TRUE else legend.frame
-		if (identical(title.bg.color, TRUE)) title.bg.color = bg.color
+		legend.inside.box = if (!is.logical(legend.frame)) {
+			TRUE
+		} else {
+			legend.frame
+		}
 		
-		if (identical(frame, TRUE)) frame = attr.color else if (identical(frame, FALSE)) frame = NA 
+		if (isTRUE(title.bg.color)) {
+			title.bg.color = bg.color
+		}
 		
-		if (is.logical(legend.frame)) if (identical(legend.frame, TRUE)) legend.frame = attr.color else legend.frame = NA 
+		if (isTRUE(frame)) {
+			frame = attr.color 
+		} else if (isFALSE(frame)) {
+			frame = NA
+		}
+		
+		if (is.logical(legend.frame)) {
+			if (isTRUE(legend.frame)) {
+				legend.frame = attr.color
+			}  else {
+				legend.frame = NA 
+			} 
+		}
 		# 		
 		# 		between.margin.in <- convertHeight(unit(between.margin, "lines") * scale, "inch", valueOnly=TRUE)
 		# 		
@@ -64,9 +81,9 @@ preprocess_meta_step1 = function(o) {
 		
 		if (is.na(legend.bg.color)) legend.bg.color = !is.na(legend.frame)
 		if (!is.na(legend.bg.color)) {
-			legend.bg.color = if (identical(legend.bg.color, FALSE)) {
+			legend.bg.color = if (isFALSE(legend.bg.color)) {
 				NA
-			} else if (identical(legend.bg.color, TRUE)) {
+			} else if (isTRUE(legend.bg.color)) {
 				bg.color
 			} else {
 				do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))				}
@@ -80,7 +97,7 @@ preprocess_meta_step1 = function(o) {
 		} else {
 			as.vector(bb(earth.boundary))
 		}
-		earth.boundary = !identical(earth.boundary, FALSE)
+		earth.boundary = !isFALSE(earth.boundary)
 		
 		#earth.boundary.lwd = earth.boundary.lwd * scale
 		#frame.lwd = frame.lwd * scale

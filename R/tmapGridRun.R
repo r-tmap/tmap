@@ -1,4 +1,4 @@
-tmapGridRun = function(o, show) {
+tmapGridRun = function(o, show, knit, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
 		mapply(function(gt,i) {

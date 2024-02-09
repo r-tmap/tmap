@@ -1,7 +1,5 @@
 #' Draw thematic map
 #' 
-#' Draw thematic map.
-#' 
 #' @param x tmap object. 
 #' @param return.asp should the aspect ratio be returned?
 #' @param show show the map
@@ -9,7 +7,8 @@
 #' @param ... not used
 #' @export
 #' @method print tmap
-print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, ...) {
+print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, ...) {
+	args = list(...)
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
 	x2 = step1_rearrange(x)
@@ -18,12 +17,29 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, ...) {
 	if (dev) timing_add("step 2")
 	x4 = step3_trans(x3)
 	if (dev) timing_add("step 3")
-	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show)
+	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, knit = knit, args)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
 	#if (return.asp) return(asp) else invisible(NULL)
-	invisible(res)
+	if (knit && tmap_graphics_name() == "Leaflet") {
+		kp = get("knit_print", asNamespace("knitr"))
+		return(do.call(kp, c(list(x=res), args, list(options=options))))
+	} else {
+		invisible(res)
+	}
 }
+
+#' @rdname print.tmap
+#' @rawNamespace
+#' if(getRversion() >= "3.6.0") {
+#'   S3method(knitr::knit_print, tmap)
+#' } else {
+#'   export(knit_print.tmap)
+#' }
+knit_print.tmap <- function(x, ..., options=NULL) {
+	print.tmap(x, knit=TRUE, options=options, ...)
+}
+
 
 timing_init = function() {
 	ts = data.table(s1 = "---------", s2 = "---------", s3 = "---------", s4 = "---------", t = Sys.time())

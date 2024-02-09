@@ -31,7 +31,8 @@ tm_facets(
   textNA = "Mssing",
   scale.factor = 2,
   type = NA,
-  along = NULL
+  along = NULL,
+  free.scales = NULL
 )
 
 tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
@@ -110,6 +111,8 @@ By default, \code{scale.factor=2}.}
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
 \item{along}{deprecated Please use \code{tm_facets_page()}}
+
+\item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
 
 \item{...}{passed on to \code{tm_facets()}}
 }

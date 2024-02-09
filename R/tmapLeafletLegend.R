@@ -104,7 +104,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	
 	legpos = leaflet_pos(cmp$position)
 
-	lf2 = if (cmp$type == "gradient") {
+	lf2 = if (cmp$typ == "none") {
+		#message("Text based legends not supported in view mode")
+		lf
+	} else if (cmp$type == "gradient") {
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
 			
@@ -132,7 +135,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			cmp$tr$rev(x2)
 		}
 		
-		lf |> leaflegend::addLegendNumeric(position=legpos, 
+		lf %>% leaflegend::addLegendNumeric(position=legpos, 
 										   orientation = orientation,
 										   group = group,
 										   height = {if (orientation == "horizontal") 20 else 200},
@@ -198,7 +201,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		
 		
 		
-		lf |> leaflegend::addLegendImage(symbols$iconUrl, 
+		lf %>% leaflegend::addLegendImage(symbols$iconUrl, 
 										 labels = lab,
 										 width = symbols$iconWidth,
 										 height = symbols$iconHeight, 
@@ -212,17 +215,18 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										 className = leg_className)
 	}
 	backg <- htmltools::tags$style(paste0("#", layerId, " { background: ", substr(cmp$bg.color,1,7), "; opacity: ", cmp$bg.alpha, "}")) 
-	lf2 |> htmlwidgets::prependContent(backg)
+	lf2 %>% htmlwidgets::prependContent(backg)
 
 }
 
-
-tmapLeafletLegPlot.tm_legend_standard_portrait = function(cmp, lf, o) {
-	tmapLeaflet_legend(cmp, lf, o, orientation = "vertical")
+#' @export
+tmapLeafletLegPlot.tm_legend_standard_portrait = function(comp, lf, o) {
+	tmapLeaflet_legend(comp, lf, o, orientation = "vertical")
 }
 
-tmapLeafletLegPlot.tm_legend_standard_landscape = function(cmp, lf, o) {
-	tmapLeaflet_legend(cmp, lf, o, orientation = "horizontal")
+#' @export
+tmapLeafletLegPlot.tm_legend_standard_landscape = function(comp, lf, o) {
+	tmapLeaflet_legend(comp, lf, o, orientation = "horizontal")
 }
 
 

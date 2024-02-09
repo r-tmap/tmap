@@ -84,22 +84,17 @@ replace_last_tmap_by_correct_call = function(mc, lt) {
 
 #' Print tm_element
 #' 
-#' Print tm_element
-#' 
 #' @param x x
 #' @param ... passed on 
 #' @export
-#' @method print tm_element
-#' @rdname print.tm_element
 #' @name print.tm_element
+#' @keywords internal
 print.tm_element = function(x, ...) {
 	cat("tm_element object\n")
 	str(x, 2)
 }
 
 #' @rdname print.tm_element
-#' @name print.tm_shape
-#' @method print tm_shape
 #' @export
 print.tm_shape = function(x, ...) {
 	NextMethod()

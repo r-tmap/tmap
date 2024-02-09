@@ -98,7 +98,9 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 		
 		na.show = update_na.show(label.show, legend$na.show, anyNA)
 		
-		if (is.na(sortRev)) {
+		if (is.null(sortRev)) {
+			ids = NULL
+		} else if (is.na(sortRev)) {
 			ids[] = 1L
 		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids

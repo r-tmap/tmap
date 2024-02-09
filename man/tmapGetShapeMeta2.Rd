@@ -9,9 +9,9 @@ tmapGetShapeMeta2(shp, smeta, o)
 \arguments{
 \item{shp}{the shape}
 
-\item{o}{the list of options}
+\item{smeta}{meta (from tmapGetShapeMeta1)}
 
-\item{shape}{meta (from tmapGetShapeMeta1)}
+\item{o}{the list of options}
 }
 \description{
 Internal method that extracts meta data from shape objects

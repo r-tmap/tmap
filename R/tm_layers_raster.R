@@ -73,7 +73,7 @@ tm_raster = function(col = tm_shape_vars(),
 		   "max.categories", "max.value")
 
 	if (any(v3 %in% names(args))) {
-		message("Deprecated tmap v3 code detected. Code translated to v4")
+		message("tm_raster: Deprecated tmap v3 code detected. Code translated to v4")
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -137,8 +137,8 @@ tm_raster = function(col = tm_shape_vars(),
 		col.legend = do.call("tm_legend", col.legend.args)
 	}
 	
-	
-	
+	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
+	col.legend$called = "col.legend" %in% names(args_called)
 	
 	
 	tm_element_list(tm_element(

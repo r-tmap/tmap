@@ -24,6 +24,7 @@ process_comp_box = function(comp, sc, o) {
 
 tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
 	
+
 	n = length(comp)
 	# if (stack == "vertical") {
 	# 	maxH = totH - marginInTot 
@@ -35,7 +36,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 	
-	
+
 	group.just = c(pos.h, pos.v)
 	group.frame = comp[[1]]$group.frame
 	
@@ -283,33 +284,48 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	#########
 	# 5 is rect category consisting of "center"s or numbers
 	
-	## update scale_bar width
+	## update scale_bar width: identified by the WnativeID = 3 item (null for other components)
 	comp = mapply(function(cmp, bb) {
 		bbw = bb[3] - bb[1]
+		
+		# TRUE if component is scalebar
 		if (!is.null(cmp$WnativeID)) {
-			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
-			if (is.null(cmp$WnativeRange)) {
-				newIn = min(totW, cmp$width * sum(colsIn))
-				
-				#cmp$WnativeRange = bbw * cmp$units$to
-				#newIn = totW - cmp$Win + oldIn
+			# find out whether the bounding of borrowed from the map (yes if scale bar is drawn in another facet)
+			bbox_nb = attr(bbox, "borrow")
+			if (is.null(bbox_nb)) {
+				bb_facet = sum(colsIn)
 			} else {
-				bbw2 = bbw / sum(colsIn) * totW
-				newIn = (min(1, ((cmp$WnativeRange / bbw2) / cmp$units$to)) * totW) + (o$lin * cmp$text.size * 3.5)
+				bb_facet = sum(g$colsIn[g$cols_facet_ids[bbox_nb$col]])
+			}
+			
+			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
+			
+			if (is.null(cmp$WnativeRange)) {
+				# in case breaks not defined: allow the width to be maximal fraction of facet width
+				#newIn = min(totW, bb_facet * cmp$width)
+				newIn = min(totW, cmp$Win)
+			} else {
+				# in case breaks are defined: allow the total width to be used (as upper bound)
+				newIn = totW
 			}
 			cmp$wsu[cmp$WnativeID] = unit(newIn, "inch")
 			cmp$Win = cmp$Win + (newIn - oldIn)
+			
+			# get cpi: coordinates per inch
+
+			cmp$cpi = unname(bbw / bb_facet)
 		}
 		cmp
 	}, comp, bbox, SIMPLIFY = FALSE)
 	
+
 	qH = rep(totH, 5)
 	qW = rep(totW, 5)
 	
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 	
-	
+
 	# get total value (width or height)
 	getH = function(s, lH) {
 		if (!length(s)) return(NULL)

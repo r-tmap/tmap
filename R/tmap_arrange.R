@@ -60,7 +60,6 @@ knit_print.tmap_arrange <- function(x, ..., options = NULL) {
 
 #' @export
 #' @rdname tmap_arrange
-#' @method print tmap_arrange
 print.tmap_arrange <- function(x, knit = FALSE, ..., options = NULL) {
 	print_tmap_arrange(x, knit=knit, ..., options = options)
 }	
