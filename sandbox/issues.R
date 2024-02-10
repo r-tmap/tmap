@@ -621,3 +621,27 @@ is.factor(r)
 cls <- data.frame(id=1:3, cover=c("forest", "water", "urban"))
 levels(r) <- cls
 is.factor(r)
+
+
+
+
+
+###### component size
+
+# set device asp to ~3
+
+#process_meta L406
+
+tm_shape(World) +
+	tm_polygons("HPI")
+
+# why is the fW larger?:
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_compass(size = .1,position = tm_pos_out("right", "center"))
+
+# should be rescaled:
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_compass(size = 16,position = tm_pos_out("right", "center"))
+

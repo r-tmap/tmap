@@ -26,7 +26,7 @@ tmapGridCompWidth.tm_chart = function(comp, o) {
 
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
-	
+	comp$flexCol = NA
 	comp$Win = sum(ws)
 	comp$wsu = wsu
 	comp
@@ -53,7 +53,7 @@ tmapGridCompHeight.tm_chart = function(comp, o) {
 	hsu = set_unit_with_stretch(hs, sides = sides)
 	
 	Hin = sum(hs)
-	
+	comp$flexRow = NA
 	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
 	comp$hsu = hsu
 	

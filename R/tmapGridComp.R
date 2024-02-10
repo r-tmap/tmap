@@ -102,7 +102,7 @@ tmapGridCompHeight.tm_compass = function(comp, o) {
 	hsu = set_unit_with_stretch(hs, sides = sides)
 	
 	Hin = sum(hs)
-
+	comp$flexRow = NA
 	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
 	comp$hsu = hsu
 	comp
@@ -122,6 +122,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
 
+	comp$flexCol = NA
 	comp$Win = sum(ws)
 	comp$wsu = wsu
 	comp
@@ -129,6 +130,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 
 #' @export
 tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
+
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
@@ -359,7 +361,7 @@ tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	hsu = set_unit_with_stretch(hs, sides = sides)
 	
 	Hin = sum(hs)
-	
+	comp$flexRow = NA
 	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
 	comp$hsu = hsu
 	comp
@@ -590,7 +592,7 @@ tmapGridCompHeight_text = function(comp, o) {
 	nlines = number_text_lines(comp$text)
 	
 	nlines2 = correct_nlines(nlines)
-	
+	comp$flexRow = NA
 	comp$Hin = sum(textP[1], textH * nlines2, textP[2])
 	comp
 }
@@ -643,6 +645,7 @@ tmapGridCompWidth_text = function(comp, o) {
 		#comp$nlines = length(comp$textPgs)
 		comp$Win = w
 	}
+	comp$flexCol = NA
 	comp
 }
 

@@ -89,13 +89,6 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	legW = grid::unit(legWin, "inches")
 	legH = grid::unit(legHin, "inches")
 	
-	
-	
-	#Ws = as.vector(rbind(legW, rep(grid::unit(marginIn, "inch"), n)))
-	#Ws[length(Ws)] = grid::unit(offsetIn, "inch")
-	#Ws = c(grid::unit(offsetIn, "inch"), Ws)
-	
-	
 	if (stack == "vertical") {
 		W = max(legWin)
 		H = sum(legHin)
@@ -271,7 +264,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	totH = sum(rowsIn) - offsetInTot.v
 	totW = sum(colsIn) - offsetInTot.h
-	
 	w1 = which(pos.v=="bottom" & pos.h=="left")
 	w2 = which(pos.v=="top" & pos.h=="left")
 	w3 = which(pos.v=="top" & pos.h=="right")

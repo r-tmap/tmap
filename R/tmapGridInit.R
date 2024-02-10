@@ -1,6 +1,5 @@
 tmapGridInit = function(o, return.asp = FALSE, vp) {
 	rlang::check_installed("grid")
-	
 	rows = with(o, {
 		x = c(outer.margins.top = outer.margins[3],
 			  meta.buffers.top.out = meta.buffers[3],

@@ -365,11 +365,11 @@ process_meta = function(o, d, cdt, aux) {
 					meta.auto.margins = c(0, 0, 0, 0)
 				} else {
 					if (type == "stack") {
-						# workaround: stacking mode is determined later, because it requires ncols and nrows
+						# workaround: stacking mode is determined later (step4 L156), because it requires ncols and nrows
 						# for stack, this is already known, so therefore we can better estimate the meta width and height
 						
 						cdt2[is.na(by1__), by1__:=1]
-						cdt2[stack_auto == TRUE, stack:= ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"])]
+						cdt2[stack_auto == TRUE, stack:= ifelse(n==1, o$legend.stack["all"], ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 						
 						
 
@@ -486,6 +486,7 @@ process_meta = function(o, d, cdt, aux) {
 		height_for1 = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (sum(panel.wrap.size[c(1,3)]))))
 		
 		scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)
+		
 		# 
 		# title.size = title.size * scale
 		# legend.title.size = legend.title.size * scale
