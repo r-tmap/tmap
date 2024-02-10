@@ -8,18 +8,22 @@ tm_lines(
   col = tm_const(),
   col.scale = tm_scale(),
   col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
   col.free = NA,
   lwd = tm_const(),
   lwd.scale = tm_scale(),
   lwd.legend = tm_legend(),
+  lwd.chart = tm_chart_none(),
   lwd.free = NA,
   lty = tm_const(),
   lty.scale = tm_scale(),
   lty.legend = tm_legend(),
+  lty.chart = tm_chart_none(),
   lty.free = NA,
   col_alpha = tm_const(),
   col_alpha.scale = tm_scale(),
   col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
   linejoin = "round",
   lineend = "round",
@@ -37,13 +41,13 @@ tm_lines(
 )
 }
 \arguments{
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines the col color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the col color. See details.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.free}{Visual variable that determines the line width. See details.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details.}
 
-\item{lty, lty.scale, lty.legend, lty.free}{Visual variable that determines the line type. See details.}
+\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
 
 \item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 

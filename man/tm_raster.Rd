@@ -8,10 +8,12 @@ tm_raster(
   col = tm_shape_vars(),
   col.scale = tm_scale(value.na = "#00000000"),
   col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
   col.free = NA,
   col_alpha = tm_const(),
   col_alpha.scale = tm_scale(),
   col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
   trans.args = list(),
   mapping.args = list(),
@@ -22,10 +24,10 @@ tm_raster(
 )
 }
 \arguments{
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines the color.
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color.
 See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable
 that determines the alpha transparency. See details.}
 
 \item{trans.args, mapping.args}{lists that are passed on to internal transformation
@@ -55,13 +57,14 @@ variable name (of the object specified in \code{\link[=tm_shape]{tm_shape()}}), 
 case facets are created. These facets can be combined with other faceting data
 variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
 \itemize{
-\item The \code{.scale} arguments determine the used scale to map the data values to
+\item The \verb{*.scale} arguments determine the used scale to map the data values to
 visual variable values. These can be specified with one of the available
 \code{tm_scale_()} functions. The default scale that is used is specified by the
 tmap option \code{scales.var}.
-\item The \code{.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
+\item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
 The default legend and its settings are determined by the tmap options \code{legend.}.
-\item The \code{.free} arguments determine whether scales are applied freely across
+\item The \verb{*.chart} arguments specify additional charts, specified with \code{tm_chart_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}
+\item The \verb{*.free} arguments determine whether scales are applied freely across
 facets, or shared. A logical value is required. They can also be specified
 with a vector of three logical values; these determine whether scales are applied
 freely per facet dimension. This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}).

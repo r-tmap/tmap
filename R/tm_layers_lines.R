@@ -2,18 +2,36 @@
 #' 
 #' Map layer that draws symbols Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
 #' 
-#' The visual variable arguments (e.g. `col`) can be specified with either a data variable name (of the object specified in [tm_shape()]), or with a visual value (for `col`, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with [tm_facets()].
+#' The visual variable arguments (e.g. `col`) can be specified with either a data
+#' variable name (e.g., a spatial vector attribute or a raster layer of the object
+#' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
+#' Multiple values can be specified: in that case facets are created.
+#' These facets can be combined with other faceting data variables, specified with [tm_facets()].
 #' 
-#' The `.scale` arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available `tm_scale_` functions. The default scale that is used is specified by the tmap option `scales.var`.
+#' * The `*.scale` arguments determine the used scale to map the data values to
+#' visual variable values. These can be specified with one of the available
+#' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #' 
-#' The `.legend` arguments determine the used legend, specified with [tm_legend()]. The default legend and its settings are determined by the tmap options `legend.`.
+#' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
+#' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
 #' 
-#' The `.free` arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see [tm_facets()]). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the visual variable `col`, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires only one logical value.
+#' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
 #' 
-#' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
+#' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
+#' A logical value is required. They can also be specified with a vector of three
+#' logical values; these determine whether scales are applied freely per facet dimension.
+#' This is only useful when facets are applied (see [tm_facets()]).
+#' There are maximally three facet dimensions: rows, columns, and pages. This only
+#' applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)`
+#' means that for the visual variable `col`, each row of facets will have its own
+#' scale, and therefore its own legend. For facet wraps and stacks
+#' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
+#' so the `*.free` argument requires only one logical value.
+#' 
+#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the col color. See details.
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
 #' @param trans.args,mapping.args lists that are passed on to internal transformation and mapping functions respectively
@@ -31,18 +49,22 @@
 tm_lines = function(col = tm_const(),
 					col.scale = tm_scale(),
 					col.legend = tm_legend(),
+					col.chart = tm_chart_none(),
 					col.free = NA,
 					lwd = tm_const(),
 					lwd.scale = tm_scale(),
 					lwd.legend = tm_legend(),
+					lwd.chart = tm_chart_none(),
 					lwd.free = NA,
 					lty = tm_const(),
 					lty.scale = tm_scale(),
 					lty.legend = tm_legend(),
+					lty.chart = tm_chart_none(),
 					lty.free = NA,
 					col_alpha = tm_const(),
 					col_alpha.scale = tm_scale(),
 					col_alpha.legend = tm_legend(),
+					col_alpha.chart = tm_chart_none(),
 					col_alpha.free = NA,
 					linejoin = "round",
 					lineend = "round",
@@ -168,21 +190,25 @@ tm_lines = function(col = tm_const(),
 										   value = col,
 										   scale = col.scale,
 										   legend = col.legend,
+										   chart = col.chart,
 										   free = col.free),
 						   lwd = tmapScale(aes = "lwd",
 						   				value = lwd,
 						   				scale = lwd.scale,
 						   				legend = lwd.legend,
+						   				chart = lwd.chart,
 						   				free = lwd.free),
 						   lty = tmapScale(aes = "lty",
 						   				value = lty,
 						   				scale = lty.scale,
 						   				legend = lty.legend,
+						   				chart = lty.chart,
 						   				free = lty.free),
 						   col_alpha = tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
+						   					  chart = col.chart,
 						   					  free = col_alpha.free)),
 		
 		gpar = tmapGpar(fill = NA,

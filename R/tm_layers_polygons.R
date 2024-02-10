@@ -10,14 +10,16 @@
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
 #' 
-#' The `*.scale` arguments determine the used scale to map the data values to
+#' * The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #' 
-#' The `*.legend` arguments determine the used legend, specified with [tm_legend()].
+#' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
 #' 
-#' The `*.free` arguments determine whether scales are applied freely across facets, or shared.
+#' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
+#' 
+#' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
 #' logical values; these determine whether scales are applied freely per facet dimension.
 #' This is only useful when facets are applied (see [tm_facets()]).
@@ -28,13 +30,13 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #' 
-#' @param fill,fill.scale,fill.legend,fill.free Visual variable that determines the fill color. See details.
-#' @param col,col.scale,col.legend,col.free Visual variable that determines the border color. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free Visual
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
+#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the border color. See details.
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free Visual
 #'   variable that determines the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
 #'   that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.

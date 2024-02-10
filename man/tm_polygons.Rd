@@ -57,18 +57,18 @@ tm_fill(...)
 tm_borders(col = tm_const(), ...)
 }
 \arguments{
-\item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines the fill color. See details.}
+\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details.}
 
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines the border color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the border color. See details.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.free}{Visual variable that determines the line width. See details.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details.}
 
-\item{lty, lty.scale, lty.legend, lty.free}{Visual variable that determines the line type. See details.}
+\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.free}{Visual
+\item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{Visual
 variable that determines the fill color alpha transparency See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable
 that determines the border color alpha transparency. See details.}
 
 \item{linejoin, lineend}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
@@ -124,15 +124,14 @@ variable name (e.g., a spatial vector attribute or a raster layer of the object
 specified in \code{\link[=tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected).
 Multiple values can be specified: in that case facets are created.
 These facets can be combined with other faceting data variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
-
-The \verb{*.scale} arguments determine the used scale to map the data values to
+\itemize{
+\item The \verb{*.scale} arguments determine the used scale to map the data values to
 visual variable values. These can be specified with one of the available
 \verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[=tm_options]{tm_options()}}) \code{scales.var}.
-
-The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
+\item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
 The default legend and its settings are determined by the tmap options (\code{\link[=tm_options]{tm_options()}}) \code{legend.} .
-
-The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
+\item The \verb{*.chart} arguments specify additional charts, specified with \verb{tm_cha	rt_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}
+\item The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
 A logical value is required. They can also be specified with a vector of three
 logical values; these determine whether scales are applied freely per facet dimension.
 This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}).
@@ -142,6 +141,7 @@ means that for the visual variable \code{col}, each row of facets will have its 
 scale, and therefore its own legend. For facet wraps and stacks
 (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
 so the \verb{*.free} argument requires only one logical value.
+}
 }
 \examples{
 # load Africa country data
