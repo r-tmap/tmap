@@ -80,7 +80,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}
 	
 	if (scaleS > 1.01) {
-		warning("(Set of) legends is too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled.", call. = FALSE)
+		message("(Some) components or legends are too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled.")
 		legWin = legWin / scaleS
 		legHin = legHin / scaleS
 		clipT = clipT * scaleS

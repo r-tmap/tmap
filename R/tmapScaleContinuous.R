@@ -46,7 +46,16 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 	show.warnings <- o$show.warnings
 	
 	with(scale, {
-		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+		if (all(is.na(x1))) {
+			chart = within(chart, {
+				labels = label.na
+				vvalues = c(value.na, value.na)
+				breaks = c(0, 1)
+				na.show = TRUE
+				x1 = x1[1]
+			})
+			return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+		}
 		
 
 		tr = get(paste0("trans_", trans))
@@ -259,14 +268,27 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		})
 		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
 		
+		vvalues_mids = sapply(cont_split(vvalues), "[", 5)
+		vvalues_mids[vvalues_mids == "NA"] = NA
+		
+		chart = within(chart, {
+			labels = labels
+			vvalues = sapply(cont_split(vvalues), "[", 5)
+			breaks_def = legend$dvalues
+			na.show = get("na.show", envir = parent.env(environment()))
+			x1 = x1
+		})
+		
+		
+		
 		if (submit_legend) {
 			if (bypass_ord) {
-				format_aes_results(vals, legend = legend)
+				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend)			
+				format_aes_results(vals, ids, legend, chart = chart)			
 			}
 		} else {
-			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
+			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 
 	})

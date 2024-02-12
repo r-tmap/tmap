@@ -47,19 +47,21 @@ theme_ps <- function(base_size = 12, base_family = "", plot.axes = FALSE, plot.l
 }
 
 
-theme_chart <- function(base_size = 12, base_family = "", plot.axes = FALSE, plot.axis.x = FALSE, plot.axis.y = FALSE, plot.legend = FALSE) {
+theme_chart <- function(base_size = 12 * scale, base_family = "", plot.axes = FALSE, plot.axis.x = FALSE, plot.axis.y = FALSE, plot.grid.x = FALSE, plot.grid.y = TRUE, plot.legend = FALSE, scale = 1, text.color = "#000000", text.size = 1) {
 	rlang::check_installed("ggplot2", reason = "to create plot themes.")
 	replace <- function(e1, e2) {
 		e1[names(e2)] <- e2
 		e1
 	}
+	
 	tps <- replace(
 		ggplot2::theme_minimal(base_size = base_size, base_family = base_family),
 		ggplot2::theme(
+			text = ggplot2::element_text(color = text.color, size = base_size * text.size),
+			axis.text = ggplot2::element_text(color = text.color, size = base_size * text.size),
 			panel.background = ggplot2::element_blank(),
 			panel.border = ggplot2::element_blank(),
 			panel.grid = ggplot2::element_blank(),
-			panel.grid.major.y = ggplot2::element_line(colour = "#888888", linewidth = .3),
 			strip.background = ggplot2::element_blank(),
 			plot.background = ggplot2::element_blank(),
 			plot.title = ggplot2::element_blank(),
@@ -75,6 +77,24 @@ theme_chart <- function(base_size = 12, base_family = "", plot.axes = FALSE, plo
 	if (plot.axes) {
 		plot.axis.x = TRUE
 		plot.axis.y = TRUE
+	}
+	
+	
+	if (plot.grid.x) {
+		tps = replace(
+			tps,
+			ggplot2::theme(
+				panel.grid.major.x = ggplot2::element_line(colour = "#888888", linewidth = lwd_to_mm(scale))	
+			)
+		)
+	}
+	if (plot.grid.y) {
+		tps = replace(
+			tps,
+			ggplot2::theme(
+				panel.grid.major.y = ggplot2::element_line(colour = "#888888", linewidth = lwd_to_mm(scale))	
+			)
+		)
 	}
 	
 	if (plot.axis.x) {

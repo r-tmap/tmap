@@ -67,6 +67,9 @@ tmapGridCompHeight.tm_chart = function(comp, o) {
 tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
+	scale = o$scale * comp$scale
+	
+	textsize = o$chart.text.size * scale
 	
 	wsu = comp$wsu
 	hsu = comp$hsu
@@ -108,7 +111,10 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 	}
 
 	
-	g = ggplot2::ggplot(tab, ggplot2::aes(x = Var1, y = Freq, fill = color)) + ggplot2::geom_bar(width = 1, lwd = .3,color = "#000000", stat = "identity", na.rm = TRUE) + ggplot2::scale_fill_manual(values = pal) + theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y)
+	g = ggplot2::ggplot(tab, ggplot2::aes(x = Var1, y = Freq, fill = color)) +
+		ggplot2::geom_bar(width = 1, lwd = lwd_to_mm(scale),color = "#000000", stat = "identity", na.rm = TRUE) + 
+		ggplot2::scale_fill_manual(values = pal) + 
+		theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y, scale = scale, text.color = o$chart.text.color, text.size = textsize)
 	
 	g = g + comp$extra.ggplot2
 	
@@ -124,6 +130,23 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 	grid::grobTree(histogram, vp = vp)
 }
 
+## borrowed from https://github.com/CMAP-REPOS/cmapplot
+# .lwd <- ggplot2::.pt / ggplot2::.stroke
+
+lwd_to_mm = function(value, unit = "bigpts") {
+	grid::convertUnit(grid::unit(value, unit), "mm", valueOnly = TRUE)
+}
+
+
+# if (FALSE) {
+# 	library(ggplot2)
+# 	ggplot(mpg, aes(class)) +
+# 		geom_bar(fill = NA, color = "black", linewidth = gg_lwd_convert(12))
+# 	grid.lines(y = c(0.5, 0.5), gp=gpar(lwd = 12))
+# 		
+# }
+
+
 
 
 #' @method tmapGridLegPlot tm_chart_donut
@@ -131,6 +154,8 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
+	scale = o$scale * comp$scale
+	textsize = o$chart.text.size * scale
 	
 	wsu = comp$wsu
 	hsu = comp$hsu
@@ -165,12 +190,12 @@ tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
 	hsize = 2
 	
 	g = ggplot2::ggplot(a, ggplot2::aes(x = hsize, y = Freq, fill = Var1)) +
-		ggplot2::geom_bar(stat = "identity", width = 1, color = "#000000") +
+		ggplot2::geom_bar(stat = "identity", width = 1, color = "#000000", linewidth = lwd_to_mm(scale)) +
 		ggplot2::coord_polar(theta = "y", start = 0) +
 		#ggplot2::theme_void() +
 		#ggplot2::geom_text(ggplot2::aes(label = scales::percent(Percent), y = Count/2), position = ggplot2::position_stack(vjust = 0.5)) +
 		ggplot2::scale_fill_manual(values = vvalues, na.value = na.value) + 
-		theme_chart() +
+		theme_chart(plot.grid.y = FALSE, scale = scale, text.color = o$chart.text.color, text.size = textsize) +
 		ggplot2::xlim(c(0, hsize + 0.5))
 		#ggplot2::theme(
 	#		legend.position = "right",
