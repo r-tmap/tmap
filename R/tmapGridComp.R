@@ -593,7 +593,15 @@ tmapGridCompHeight_text = function(comp, o) {
 	
 	nlines2 = correct_nlines(nlines)
 	comp$flexRow = NA
-	comp$Hin = sum(textP[1], textH * nlines2, textP[2])
+	
+	hs = c(textP[1], textH * nlines2, textP[2])
+	h = sum(hs)
+
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+	
+	comp$Hin = h
+	comp$hsu = hsu
 	comp
 }
 
@@ -624,8 +632,7 @@ tmapGridCompWidth_text = function(comp, o) {
 	textP = comp$padding[c(2,4)] * textS * o$lin
 	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
 	
-	w = sum(textP[1], textW, textP[2])
-	
+
 	if (!is.na(comp$width)) {
 		textPgs = strsplit(comp$text, "\n")[[1]]
 		text2 = do.call(paste, c(lapply(textPgs, function(p) {
@@ -636,15 +643,21 @@ tmapGridCompWidth_text = function(comp, o) {
 		}), list(sep = "\n")))
 		
 		textW2 = textS * graphics::strwidth(text2, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-		w2 = sum(textP[1], textW2, textP[2])
-		
-		#approxNumL = min(20, round(w / (comp$width * textS * o$lin)))
+		wsu2 = c(textP[1], textW2, textP[2])
+		ws = sum(textP[1], textW2, textP[2])
 		comp$text = text2
-		comp$Win = w2
 	} else {
-		#comp$nlines = length(comp$textPgs)
-		comp$Win = w
+		ws = c(textP[1], textW, textP[2])
 	}
+	
+
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+	
+	comp$Win = sum(ws)
+	comp$wsu = wsu
+	
+	
 	comp$flexCol = NA
 	comp
 }
