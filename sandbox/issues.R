@@ -105,6 +105,27 @@ tm_shape(tanzania) +
 	tm_scalebar(c(0, 200, 400), position = c("left", "bottom"))
 
 
+
+library(sf)
+#> Linking to GEOS 3.12.1, GDAL 3.7.3, PROJ 9.2.1; sf_use_s2() is TRUE
+f = system.file("shapes/world.gpkg", package = "spData")
+world = read_sf(f)
+tanzania = read_sf(f, query = 'SELECT * FROM world WHERE name_long = "Tanzania"')
+
+tmap_design_mode()
+tm_shape(tanzania) +
+	tm_polygons(lwd = 2) +
+	tm_scalebar(c(0, 200, 400), position = tm_pos_out("left", "bottom"))
+
+tm_shape(tanzania) +
+	tm_polygons(lwd = 2) +
+	tm_scalebar(c(0, 200, 400), position = tm_pos_out("center", "bottom"))
+
+tm_shape(tanzania) +
+	tm_polygons(lwd = 2) +
+	tm_title("c(0, 200, 400)", position = tm_pos_out("center", "bottom"))
+
+
 ###########################################################
 # https://github.com/r-tmap/tmap/issues/811
 ###########################################################
@@ -621,3 +642,31 @@ is.factor(r)
 cls <- data.frame(id=1:3, cover=c("forest", "water", "urban"))
 levels(r) <- cls
 is.factor(r)
+
+
+
+
+
+###### component size
+
+# set device asp to ~3
+
+#process_meta L406
+
+tm_shape(World) +
+	tm_polygons("HPI")
+
+# why is the fW larger?:
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_compass(size = .1,position = tm_pos_out("right", "center"))
+
+# should be rescaled:
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_compass(size = 16,position = tm_pos_out("right", "center"))
+
+
+## 835
+tm_shape(rivers)+
+	tm_lines(col = "scalerank", lwd = 5, lineend = "butt")
