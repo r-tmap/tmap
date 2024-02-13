@@ -326,19 +326,26 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					stop("incorrect legend specification")
 				}
 				
+				if (inherits(aes$chart, "tm_chart")) {
+					crt = rep(list(aes$chart), length.out = nvars)
+				} else if (islistof(aes$chart, "tm_chart")) {
+					crt = rep(aes$chart, length.out = nvars)
+				} else {
+					stop("incorrect chart specification")
+				}
+				
+				
 				varnames = paste(nm, 1L:nvars, sep = "_")
 				ordnames = paste(nm__ord, 1L:nvars, sep = "_")
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 				crtnames = paste("crtnr", 1L:nvars, sep = "_")
 				
 				for (i in 1L:nvars) {
-					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], crtnames[[i]], sortRev = sortRev, bypass_ord = bypass_ord)
+					dtl = apply_scale(scale[[i]], legend[[i]], crt[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], crtnames[[i]], sortRev = sortRev, bypass_ord = bypass_ord)
 				}
-				
-				
-				
+
 				dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legnr")
-				dtl_crt = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = crtnames, variable.name = var__, value.name = "legnr")
+				dtl_crt = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = crtnames, variable.name = var__, value.name = "crtnr")
 				if (!bypass_ord) dtl_ord = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = ordnames, variable.name = var__, value.name = nm__ord)
 				dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
 				if (!bypass_ord) dtl[, (nm__ord) := dtl_ord[[nm__ord]]]
@@ -377,12 +384,13 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					crt = aes$chart
 				} else if (islistof(aes$chart, "tm_chart")) {
 					warning("multiple charts are specified, while only one is required; the first will be used")
-					l = aes$chart[[1]]
+					crt = aes$chart[[1]]
 				} else {
 					stop("incorrect chart specification")
 				}
 				
 				dtl = apply_scale(s, l, crt, val, nm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)
+
 				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr", "crtnr"), with = FALSE]
 			}
