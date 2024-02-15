@@ -23,6 +23,7 @@ process_comp_box = function(comp, sc, o) {
 }
 
 tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
+	#return(grid::rectGrob(gp=gpar(fill = "gold")))
 	
 
 	n = length(comp)
@@ -36,12 +37,16 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 	
+	#legWin = 10
 
 	group.just = c(pos.h, pos.v)
 	group.frame = comp[[1]]$group.frame
 	
 	#comp = lapply(comp, leg_standard$fun_add_leg_type)
 	
+	pm("tmapGridCompCorner - tmapGridLegend.r L47")
+	po(fW, maxW, legWin)
+	po(fH, maxH, legHin)
 	
 	
 	legWin[is.infinite(legWin)] = maxW
@@ -290,6 +295,9 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				bb_facet = sum(g$colsIn[g$cols_facet_ids[bbox_nb$col]])
 			}
 			
+			pm("tmapGridLegend(.r) L297 - update scale ")
+			po(bb_facet, totW,g$colsIn)
+			
 			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
 			
 			if (is.null(cmp$WnativeRange)) {
@@ -300,8 +308,13 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				# in case breaks are defined: allow the total width to be used (as upper bound)
 				newIn = totW
 			}
-			cmp$wsu[cmp$WnativeID] = unit(newIn, "inch")
-			cmp$Win = cmp$Win + (newIn - oldIn)
+			
+			margins = sum(head(as.numeric(cmp$wsu[-cmp$WnativeID]), -1))
+			
+			newIn_without_margins = newIn - margins
+			
+			cmp$wsu[cmp$WnativeID] = unit(newIn_without_margins, "inch")
+			cmp$Win = newIn_without_margins + margins
 			
 			# get cpi: coordinates per inch
 
@@ -388,7 +401,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}
 	}))
 
-	
+	#grbs = grid::rectGrob(gp=gpar(fill = "gold"))
 	
 	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 	

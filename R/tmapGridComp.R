@@ -306,7 +306,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 						 grobLabels), 
 		  name="compass")
 	})
-	
 	grid::grobTree(compass, vp = vp)
 }
 
@@ -393,6 +392,8 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
 	}
 	
+	po(comp$Win)
+	
 	comp
 }
 
@@ -401,16 +402,29 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
-	
+
 	wsu = comp$wsu
 	hsu = comp$hsu
 	
+	wsu[1] = unit(0, "inch")
+	wsu[5] = unit(0, "inch")
 	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
 												   nrow = length(hsu), 
 												   widths = wsu,
 												   heights = hsu))
 	
 	
+	# g = grid::grobTree(grid::rectGrob(gp=gpar(fill = "pink")), vp = vp)
+	# g = gridCell(3,3, {
+	# 	gTree(children=gList(
+	# 		g
+	# 	), name="scalebar")
+	# })
+	# 
+	# g = grid::grobTree(g, vp = vp)
+	# 
+	# 
+	# return(g)
 	
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
@@ -495,6 +509,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
 	scalebar = gridCell(3,3, {
 		gTree(children=gList(
+			
 			grobBG,
 			# if (!is.na(comp$bg.color)) {
 			# 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
@@ -502,13 +517,14 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 			# } else {
 			# 	NULL
 			# }, 
-			#rectGrob(gp=gpar(col = "green", fill= NA)),
+			#rectGrob(gp=gpar(col = "green", fill= NA))
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
 			), name="scalebar")
 	})
 	
 	grid::grobTree(scalebar, vp = vp)
+	#scalebar
 }
 
 
@@ -521,6 +537,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 
 
 tmapGridLegPlot_text = function(comp, o, fH, fW) {
+
 	textS = if (comp$text == "") 0 else comp$size * comp$scale #* o$scale
 	
 	padding = grid::unit(comp$padding[c(3,4,1,2)] * textS * o$lin, units = "inch")
@@ -561,6 +578,9 @@ tmapGridLegPlot_text = function(comp, o, fH, fW) {
 	} else {
 		grDesign = NULL
 	}
+	
+	#grtext = rectGrob(gp=gpar(col = "green", fill= NA))
+
 	
 	g = do.call(grid::grobTree, c(list(grtext), list(grDesign))) #, list(vp = vp)
 	
@@ -657,7 +677,7 @@ tmapGridCompWidth_text = function(comp, o) {
 	comp$Win = sum(ws)
 	comp$wsu = wsu
 	
-	
+	po(comp$Win)
 	comp$flexCol = NA
 	comp
 }

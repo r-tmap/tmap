@@ -371,7 +371,7 @@ process_meta = function(o, d, cdt, aux) {
 						cdt2[is.na(by1__), by1__:=1]
 						cdt2[stack_auto == TRUE, stack:= ifelse(n==1, o$legend.stack["all"], ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 						
-						
+						po(meta.auto.margins)
 
 						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]	
@@ -396,8 +396,13 @@ process_meta = function(o, d, cdt, aux) {
 												   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
 					}
 					
-					#meta.auto.margins = c(0.13,0,0,0)
-					
+					# add margins (compensate for legend frames)
+					# the final calculations of these margins are computed in tmapGridLegend (this is just to compute the meta.auto.margins)
+					# those calculations are take the component.offset into account
+					sel_tb = c(3,1)[meta.auto.margins[c(3,1)]!=0]
+					sel_lr = c(2,4)[meta.auto.margins[c(2,4)]!=0]
+					if (length(sel_tb)) meta.auto.margins[sel_tb] = meta.auto.margins[sel_tb] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[2]
+					if (length(sel_lr)) meta.auto.margins[sel_lr] = meta.auto.margins[sel_lr] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[1]
 				}
 			}
 	
