@@ -42,13 +42,6 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	group.just = c(pos.h, pos.v)
 	group.frame = comp[[1]]$group.frame
 	
-	#comp = lapply(comp, leg_standard$fun_add_leg_type)
-	
-	pm("tmapGridCompCorner - tmapGridLegend.r L47")
-	po(fW, maxW, legWin)
-	po(fH, maxH, legHin)
-	
-	
 	legWin[is.infinite(legWin)] = maxW
 	legHin[is.infinite(legHin)] = maxH
 	
@@ -294,9 +287,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 			} else {
 				bb_facet = sum(g$colsIn[g$cols_facet_ids[bbox_nb$col]])
 			}
-			
-			pm("tmapGridLegend(.r) L297 - update scale ")
-			po(bb_facet, totW,g$colsIn)
 			
 			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
 			

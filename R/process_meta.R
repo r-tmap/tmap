@@ -361,6 +361,23 @@ process_meta = function(o, d, cdt, aux) {
 			if (nrow(cdt)) {
 				cdt2 = data.table::copy(cdt[cdt$class %in% c("autoout", "out"),])
 				
+				# CODE COPIED FROM STEP4_plot L157
+				# TO DO: fix this
+				stacks = o$legend.stack
+				
+				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.all$cell.h, cell.v = legend.position.all$cell.v)]
+				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.sides$cell.h, cell.v = "by")]
+				cdt2[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = legend.position.sides$cell.v)]
+				
+				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
+				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+				cdt2[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+				
+				
+				cdt2[class == "autoout", class := "out"]
+				
+				
+				
 				if (nrow(cdt2) == 0) {
 					meta.auto.margins = c(0, 0, 0, 0)
 				} else {
@@ -369,24 +386,20 @@ process_meta = function(o, d, cdt, aux) {
 						# for stack, this is already known, so therefore we can better estimate the meta width and height
 						
 						cdt2[is.na(by1__), by1__:=1]
-						cdt2[stack_auto == TRUE, stack:= ifelse(n==1, o$legend.stack["all"], ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 						
-						po(meta.auto.margins)
-
+						
 						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]	
-							s = cdt2b$stack[1]
-							if (s == "horizontal") {
-								c(max(cdt2b$legH[cdt2b$cell.v == "bottom"], 0) / o$devsize[2],
-								  sum(cdt2b$legW[cdt2b$cell.h == "left"], 0) / o$devsize[1],
-								  max(cdt2b$legH[cdt2b$cell.v == "top"], 0) / o$devsize[2],
-								  sum(cdt2b$legW[cdt2b$cell.h == "right"], 0) / o$devsize[1])
-							} else {
-								c(sum(cdt2b$legH[cdt2b$cell.v == "bottom"], 0) / o$devsize[2],
-								  max(cdt2b$legW[cdt2b$cell.h == "left"], 0) / o$devsize[1],
-								  sum(cdt2b$legH[cdt2b$cell.v == "top"], 0) / o$devsize[2],
-								  max(cdt2b$legW[cdt2b$cell.h == "right"], 0) / o$devsize[1])
-							}
+							
+							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]		
+							c(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
+								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
+							  sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
+							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
+							  sum(c(0,cdt2b[cell.h == "left" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
+							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1],
+							  sum(c(0,cdt2b[cell.h == "right" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
+							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1])
 						})))
 					} else {
 						meta.auto.margins = pmin(meta.auto.margins, 

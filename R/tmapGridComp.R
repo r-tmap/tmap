@@ -392,8 +392,6 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
 	}
 	
-	po(comp$Win)
-	
 	comp
 }
 
@@ -677,7 +675,6 @@ tmapGridCompWidth_text = function(comp, o) {
 	comp$Win = sum(ws)
 	comp$wsu = wsu
 	
-	po(comp$Win)
 	comp$flexCol = NA
 	comp
 }
