@@ -61,7 +61,7 @@ weather2 = split(weather1, 'time')
 
 
 
-tmapV = substr(packageVersion("tmap"), 1, 1)
+tmapV =  ifelse(packageVersion("tmap") >= "3.4", "4", "3")
 txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
 v3 = function(e) {
 	if (tmapV == "3") {
