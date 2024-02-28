@@ -24,3 +24,18 @@ tm_logo <- function() {
 tm_minimap <- function() {
   stop("Not yet implemented in v4")
 }
+#' @export
+#' @rdname v4-not-yet
+tmap_grob <- function() {
+	stop("Not yet implemented in v4")
+}
+#' @export
+#' @rdname v4-not-yet
+tmapOutput <- function() {
+	stop("Not yet implemented in v4")
+}
+#' @export
+#' @rdname v4-not-yet
+renderTmap <- function() {
+	stop("Not yet implemented in v4")
+}

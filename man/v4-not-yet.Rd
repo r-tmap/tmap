@@ -7,6 +7,9 @@
 \alias{tm_markers}
 \alias{tm_logo}
 \alias{tm_minimap}
+\alias{tmap_grob}
+\alias{tmapOutput}
+\alias{renderTmap}
 \title{These functions will be implemented soon}
 \usage{
 tm_squares()
@@ -18,6 +21,12 @@ tm_markers()
 tm_logo()
 
 tm_minimap()
+
+tmap_grob()
+
+tmapOutput()
+
+renderTmap()
 }
 \description{
 These functions will be implemented soon
