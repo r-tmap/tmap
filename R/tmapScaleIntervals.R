@@ -189,8 +189,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		})
 		
 		chart = tmapChartBinned(chart, 
-								   labels = labels, 
-								   vvalues = vvalues,
+								   bin_colors = vvalues,
 								   breaks_def = breaks,
 								   na.show = na.show,
 								   x1 = x1)
@@ -208,33 +207,54 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 }
 
 
-tmapChartBinned = function(chart, labels, vvalues, breaks_def, na.show, x1) {
+tmapChartBinned = function(chart, bin_colors, breaks_def, na.show, x1) {
+	# are breaks (and bin_colors)
+	predefined = !is.null(breaks_def)
+	
+	if (!predefined) {
+		bin_colors = chart$object.color
+	}
 	df = data.frame(x = x1)
+	
+
+	
 	if (is.null(chart$breaks)) {
-		breaks = breaks_def
-		ids = 1L:(length(breaks) - 1L)
+		if (!predefined) {
+			breaks = pretty(x1)
+			ids = 1L
+			
+		} else {
+			breaks = breaks_def
+			ids = 1L:(length(breaks) - 1L)
+		}
 	} else {
 		breaks = chart$breaks
 		subbreaks = (all(breaks_def %in% breaks))
 		
 		break_mids = (breaks[-1] + head(breaks, -1)) / 2
 		
-		ids = as.integer(cut(break_mids, breaks_def, include.lowest = TRUE, right = FALSE))
+		if (!is.null(breaks_def)) {
+			ids = as.integer(cut(break_mids, breaks_def, include.lowest = TRUE, right = FALSE))
+		} else {
+			ids = 1
+		}
+
 	}
 	
 	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
 	
 	if (na.show) {
 		tab = as.data.frame(table(bin=df$xcat, useNA = "always"), responseName = "freq")
-		tab$color = factor(c(ids, length(vvalues)), levels = seq_along(vvalues))
-		pal = structure(vvalues, names = levels(tab$color))
+		tab$color = factor(c(ids, length(bin_colors)), levels = seq_along(bin_colors))
+		pal = structure(bin_colors, names = levels(tab$color))
 	} else {
 		tab = as.data.frame(table(bin=df$xcat, useNA = "no"), responseName = "freq")
-		tab$color = factor(ids, levels = seq_along(vvalues))
-		pal = structure(vvalues, names = levels(tab$color))
+		tab$color = factor(ids, levels = seq_along(bin_colors))
+		pal = structure(bin_colors, names = levels(tab$color))
 	}
 	chart$tab = tab
 	chart$pal = pal
 	chart$datatype = "binned"
+	chart$predefined = predefined
 	chart
 }

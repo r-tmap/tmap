@@ -4,6 +4,21 @@ tmapGridCompPrepare.tm_chart = function(comp, o) {
 	comp
 }
 
+#' @method tmapGridCompPrepare tm_chart_bar
+#' @export
+tmapGridCompPrepare.tm_chart_bar = function(comp, o) {
+	if (nlevels(comp$tab$color) == 1) comp$plot.axis.x = TRUE
+	comp
+}
+
+#' @method tmapGridCompPrepare tm_chart_histogram
+#' @export
+tmapGridCompPrepare.tm_chart_histogram = function(comp, o) {
+	if (nlevels(comp$tab$color) == 1) comp$plot.axis.x = TRUE
+	comp
+}
+
+
 
 #' @method tmapGridCompWidth tm_chart
 #' @export
@@ -15,12 +30,8 @@ tmapGridCompWidth.tm_chart = function(comp, o) {
 	comp$margins = c(0.02, 0.02, 0.02, 0.02)
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
-	if (is.na(comp$width)) {
-		comp$nlines = 10
-	} else {
-		comp$nlines = comp$width
-		
-	}
+	comp$nlines = get_vector_id(comp$width, paste(comp$type, {if (comp$predefined) "min" else "max"}, sep = "."))
+
 	body = comp$nlines * textS * o$lin
 	ws = c(marW[1], body, marW[2])
 
@@ -42,7 +53,7 @@ tmapGridCompHeight.tm_chart = function(comp, o) {
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
 	comp$margins = c(0.02, 0.02, 0.02, 0.02)
-	comp$nlines = 10
+	comp$nlines = get_vector_id(comp$height, paste(comp$type, {if (comp$predefined) "min" else "max"}, sep = "."))
 	
 	
 	marH = comp$margins[c(3,1)] * textS * o$lin

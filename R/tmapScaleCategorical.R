@@ -183,7 +183,6 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 		})
 		
 		chart = tmapChartFreq(chart, 
-								labels = labels, 
 								vvalues = values,
 								na.show = na.show,
 								x1 = x1)
@@ -204,7 +203,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 }
 
 
-tmapChartFreq = function(chart, labels, vvalues, breaks_def, na.show, x1) {
+tmapChartFreq = function(chart, vvalues, breaks_def, na.show, x1) {
 	# chart = within(chart, {
 	# 	labels = labels
 	# 	vvalues = values
@@ -229,5 +228,6 @@ tmapChartFreq = function(chart, labels, vvalues, breaks_def, na.show, x1) {
 	chart$tab = tab
 	chart$pal = pal
 	chart$datatype = "categorized"
+	chart$predefined = TRUE
 	chart
 }

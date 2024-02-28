@@ -271,13 +271,21 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		vvalues_mids = sapply(cont_split(vvalues), "[", 5)
 		vvalues_mids[vvalues_mids == "NA"] = NA
 		
-		chart = within(chart, {
-			labels = labels
-			vvalues = sapply(cont_split(vvalues), "[", 5)
-			breaks_def = legend$dvalues
-			na.show = get("na.show", envir = parent.env(environment()))
-			x1 = x1
-		})
+		
+		chart = tmapChartBinned(chart, 
+								bin_colors = NULL,
+								breaks_def = NULL,
+								na.show = na.show,
+								x1 = x1)
+		
+		
+		# chart = within(chart, {
+		# 	labels = labels
+		# 	vvalues = sapply(cont_split(vvalues), "[", 5)
+		# 	breaks_def = legend$dvalues
+		# 	na.show = get("na.show", envir = parent.env(environment()))
+		# 	x1 = x1
+		# })
 		
 		
 		

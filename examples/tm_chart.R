@@ -4,9 +4,20 @@ tm_shape(World) +
     fill.chart = tm_chart_histogram())
 
 tm_shape(World) + 
+	tm_polygons ("HPI", 
+				 fill.scale = tm_scale_intervals(), 
+				 fill.chart = tm_chart_bar())
+
+
+tm_shape(World) + 
 	tm_polygons ("economy", 
 				 fill.scale = tm_scale_categorical(), 
 				 fill.chart = tm_chart_histogram())
+
+tm_shape(World) + 
+	tm_polygons ("economy", 
+				 fill.scale = tm_scale_categorical(), 
+				 fill.chart = tm_chart_bar())
 
 
 
