@@ -61,10 +61,15 @@ tmapGridCompHeight.tm_chart = function(comp, o) {
 	
 }
 
-
 #' @method tmapGridLegPlot tm_chart_histogram
 #' @export
 tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
+	tmapGridLegPlot.tm_chart_bar(comp, o, fH, fW)
+}
+
+#' @method tmapGridLegPlot tm_chart_bar
+#' @export
+tmapGridLegPlot.tm_chart_bar = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	scale = o$scale * comp$scale
@@ -80,13 +85,8 @@ tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
 												   heights = hsu))
 	
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
-	
-	#grobRect = rectGrob(gp=gpar(fill="purple"))
-	
 
-
-	
-	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = Var1, y = Freq, fill = color)) +
+	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = bin, y = freq, fill = color)) +
 		ggplot2::geom_bar(width = 1, lwd = lwd_to_mm(scale),color = "#000000", stat = "identity", na.rm = TRUE) + 
 		ggplot2::scale_fill_manual(values = comp$pal) + 
 		theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y, scale = scale, text.color = o$chart.text.color, text.size = textsize)
@@ -142,34 +142,14 @@ tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
 	
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
-	#grobRect = rectGrob(gp=gpar(fill="purple"))
-	
-	df = data.frame(x = comp$x1)
-	
-	if (length(comp$breaks) == 0) browser()
-	
-	df$xcat = cut(df$x, breaks = comp$breaks, include.lowest = TRUE, right = FALSE)
-	
-	if (comp$na.show) {
-		na.value = tail(comp$vvalues, 1)
-		vvalues = head(comp$vvalues, -1)
-	} else {
-		vvalues = comp$vvalues
-		df = df[!is.na(df$xcat), ]
-		na.value = "#000000"
-	}
-	
-	
-	a = as.data.frame(table(df$xcat, useNA = {if (comp$na.show) "always" else "no"}))
-	
 	hsize = 2
 	
-	g = ggplot2::ggplot(a, ggplot2::aes(x = hsize, y = Freq, fill = Var1)) +
+	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = hsize, y = freq, fill = color)) +
 		ggplot2::geom_bar(stat = "identity", width = 1, color = "#000000", linewidth = lwd_to_mm(scale)) +
 		ggplot2::coord_polar(theta = "y", start = 0) +
 		#ggplot2::theme_void() +
 		#ggplot2::geom_text(ggplot2::aes(label = scales::percent(Percent), y = Count/2), position = ggplot2::position_stack(vjust = 0.5)) +
-		ggplot2::scale_fill_manual(values = vvalues, na.value = na.value) + 
+		ggplot2::scale_fill_manual(values = comp$pal) + 
 		theme_chart(plot.grid.y = FALSE, scale = scale, text.color = o$chart.text.color, text.size = textsize) +
 		ggplot2::xlim(c(0, hsize + 0.5))
 		#ggplot2::theme(

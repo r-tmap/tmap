@@ -188,7 +188,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			scale = "intervals"
 		})
 		
-		chart = tmapChartHistogram(chart, 
+		chart = tmapChartBinned(chart, 
 								   labels = labels, 
 								   vvalues = vvalues,
 								   breaks_def = breaks,
@@ -208,7 +208,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 }
 
 
-tmapChartHistogram = function(chart, labels, vvalues, breaks_def, na.show, x1) {
+tmapChartBinned = function(chart, labels, vvalues, breaks_def, na.show, x1) {
 	df = data.frame(x = x1)
 	if (is.null(chart$breaks)) {
 		breaks = breaks_def
@@ -225,15 +225,16 @@ tmapChartHistogram = function(chart, labels, vvalues, breaks_def, na.show, x1) {
 	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
 	
 	if (na.show) {
-		tab = as.data.frame(table(df$xcat, useNA = "always"))
+		tab = as.data.frame(table(bin=df$xcat, useNA = "always"), responseName = "freq")
 		tab$color = factor(c(ids, length(vvalues)), levels = seq_along(vvalues))
 		pal = structure(vvalues, names = levels(tab$color))
 	} else {
-		tab = as.data.frame(table(df$xcat, useNA = "no"))
+		tab = as.data.frame(table(bin=df$xcat, useNA = "no"), responseName = "freq")
 		tab$color = factor(ids, levels = seq_along(vvalues))
 		pal = structure(vvalues, names = levels(tab$color))
 	}
 	chart$tab = tab
 	chart$pal = pal
+	chart$datatype = "binned"
 	chart
 }

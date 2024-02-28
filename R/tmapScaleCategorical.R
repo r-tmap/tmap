@@ -182,14 +182,14 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			scale = "categorical"
 		})
 		
-		chart = within(chart, {
-			labels = labels
-			vvalues = values
-			#breaks_def = get("breaks", envir = parent.env(environment()))
-			na.show = get("na.show", envir = parent.env(environment()))
-			x1 = x1
-		})
+		chart = tmapChartFreq(chart, 
+								labels = labels, 
+								vvalues = values,
+								na.show = na.show,
+								x1 = x1)
 		
+		
+
 		if (submit_legend) {
 			if (bypass_ord) {
 				format_aes_results(vals, legend = legend, chart = chart)
@@ -204,4 +204,30 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 }
 
 
-#tmapChartHistogram = function(x1)
+tmapChartFreq = function(chart, labels, vvalues, breaks_def, na.show, x1) {
+	# chart = within(chart, {
+	# 	labels = labels
+	# 	vvalues = values
+	# 	#breaks_def = get("breaks", envir = parent.env(environment()))
+	# 	na.show = get("na.show", envir = parent.env(environment()))
+	# 	x1 = x1
+	# })
+	
+	if (chart$type == "histogram") {
+		message("histograms are supposed to be used for numerical data, a bar chart will be shown instead (tm_chart_bar)")
+	}
+
+	if (na.show) {
+		tab = as.data.frame(table(bin = x1, useNA = "always"), responseName = "freq")
+		tab$color = factor(1L:nrow(tab))
+		pal = structure(vvalues, names = levels(tab$color))
+	} else {
+		tab = as.data.frame(table(bin = x1, useNA = "no"), responseName = "freq")
+		tab$color = factor(1L:nrow(tab))
+		pal = structure(vvalues, names = levels(tab$color))
+	}
+	chart$tab = tab
+	chart$pal = pal
+	chart$datatype = "categorized"
+	chart
+}
