@@ -188,15 +188,13 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			scale = "intervals"
 		})
 		
-		chart = within(chart, {
-			labels = labels
-			vvalues = vvalues
-			breaks_def = get("breaks", envir = parent.env(environment()))
-			na.show = get("na.show", envir = parent.env(environment()))
-			x1 = x1
-		})
-		
-		
+		chart = tmapChartHistogram(chart, 
+								   labels = labels, 
+								   vvalues = vvalues,
+								   breaks_def = breaks,
+								   na.show = na.show,
+								   x1 = x1)
+
 		if (submit_legend) {
 			if (bypass_ord) {
 				format_aes_results(vals, legend = legend, chart = chart)
@@ -207,4 +205,35 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 	})
+}
+
+
+tmapChartHistogram = function(chart, labels, vvalues, breaks_def, na.show, x1) {
+	df = data.frame(x = x1)
+	if (is.null(chart$breaks)) {
+		breaks = breaks_def
+		ids = 1L:(length(breaks) - 1L)
+	} else {
+		breaks = chart$breaks
+		subbreaks = (all(breaks_def %in% breaks))
+		
+		break_mids = (breaks[-1] + head(breaks, -1)) / 2
+		
+		ids = as.integer(cut(break_mids, breaks_def, include.lowest = TRUE, right = FALSE))
+	}
+	
+	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
+	
+	if (na.show) {
+		tab = as.data.frame(table(df$xcat, useNA = "always"))
+		tab$color = factor(c(ids, length(vvalues)), levels = seq_along(vvalues))
+		pal = structure(vvalues, names = levels(tab$color))
+	} else {
+		tab = as.data.frame(table(df$xcat, useNA = "no"))
+		tab$color = factor(ids, levels = seq_along(vvalues))
+		pal = structure(vvalues, names = levels(tab$color))
+	}
+	chart$tab = tab
+	chart$pal = pal
+	chart
 }

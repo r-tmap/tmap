@@ -75,13 +75,29 @@ tm_lines(
 Map layer that draws symbols Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
 }
 \details{
-The visual variable arguments (e.g. \code{col}) can be specified with either a data variable name (of the object specified in \code{\link[=tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
-
-The \code{.scale} arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available \code{tm_scale_} functions. The default scale that is used is specified by the tmap option \code{scales.var}.
-
-The \code{.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}. The default legend and its settings are determined by the tmap options \code{legend.}.
-
-The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link[=tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
+The visual variable arguments (e.g. \code{col}) can be specified with either a data
+variable name (e.g., a spatial vector attribute or a raster layer of the object
+specified in \code{\link[=tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected).
+Multiple values can be specified: in that case facets are created.
+These facets can be combined with other faceting data variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
+\itemize{
+\item The \verb{*.scale} arguments determine the used scale to map the data values to
+visual variable values. These can be specified with one of the available
+\verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[=tm_options]{tm_options()}}) \code{scales.var}.
+\item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
+The default legend and its settings are determined by the tmap options (\code{\link[=tm_options]{tm_options()}}) \code{legend.} .
+\item The \verb{*.chart} arguments specify additional charts, specified with \code{tm_chart_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}
+\item The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
+A logical value is required. They can also be specified with a vector of three
+logical values; these determine whether scales are applied freely per facet dimension.
+This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}).
+There are maximally three facet dimensions: rows, columns, and pages. This only
+applies for a facet grid (\code{\link[=tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)}
+means that for the visual variable \code{col}, each row of facets will have its own
+scale, and therefore its own legend. For facet wraps and stacks
+(\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
+so the \verb{*.free} argument requires only one logical value.
+}
 }
 \examples{
 data(rivers)

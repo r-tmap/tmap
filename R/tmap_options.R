@@ -340,7 +340,7 @@
 		chart.plot.axis.y = TRUE,
 		chart.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
 										  pos.h = "left", pos.v = "top",
-										  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
+										  align.h = "left", align.v = "bottom", just.h = "left", just.v = "top"),
 		chart.width = NA,
 		chart.height = NA,
 		chart.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),

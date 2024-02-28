@@ -8,6 +8,7 @@ tm_rgb(
   col = tm_mv(1:3),
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
   col.free = NA
 )
 }

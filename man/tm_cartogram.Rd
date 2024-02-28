@@ -8,6 +8,7 @@ tm_cartogram(
   size = 1,
   size.scale = tm_scale(),
   size.legend = tm_legend_hide(),
+  size.chart = tm_chart_none(),
   size.free = NA,
   plot.order = tm_plot_order("size", reverse = FALSE),
   trans.args = list(type = "cont", itermax = 15),

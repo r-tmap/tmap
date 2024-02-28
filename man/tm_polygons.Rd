@@ -130,7 +130,7 @@ visual variable values. These can be specified with one of the available
 \verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[=tm_options]{tm_options()}}) \code{scales.var}.
 \item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
 The default legend and its settings are determined by the tmap options (\code{\link[=tm_options]{tm_options()}}) \code{legend.} .
-\item The \verb{*.chart} arguments specify additional charts, specified with \verb{tm_cha	rt_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}
+\item The \verb{*.chart} arguments specify additional charts, specified with \code{tm_chart_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}
 \item The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
 A logical value is required. They can also be specified with a vector of three
 logical values; these determine whether scales are applied freely per facet dimension.

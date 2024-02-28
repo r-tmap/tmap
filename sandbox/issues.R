@@ -193,7 +193,7 @@ L7 = read_stars(L7file)
 
 ### working but gives warning
 tm_shape(L7) + 
-	tm_rgb()
+	#tm_rgb()
 	
 	tm_raster(c(3, 2, 1))
 

@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	if (is.factor(x1)) {
@@ -182,15 +182,26 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, so
 			scale = "categorical"
 		})
 		
+		chart = within(chart, {
+			labels = labels
+			vvalues = values
+			#breaks_def = get("breaks", envir = parent.env(environment()))
+			na.show = get("na.show", envir = parent.env(environment()))
+			x1 = x1
+		})
+		
 		if (submit_legend) {
 			if (bypass_ord) {
-				format_aes_results(vals, legend = legend)
+				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend)			
+				format_aes_results(vals, ids, legend, chart = chart)			
 			}
 		} else {
-			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
+			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 		
 	})	
 }
+
+
+#tmapChartHistogram = function(x1)

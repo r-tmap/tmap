@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	
 	cls1 = data_class(x1)
 	cls2 = data_class(x2)
@@ -34,14 +34,16 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, layer_args, so
 				  scale = "RGB",
 				  show = FALSE)
 	
+	chart = list(show = FALSE)
+	
 	if (submit_legend) {
 		if (bypass_ord) {
-			format_aes_results(values, legend = legend)
+			format_aes_results(values, legend = legend, chart = chart)
 		} else {
-			format_aes_results(values, ids, legend)			
+			format_aes_results(values, ids, legend, chart = chart)			
 		}
 	} else {
-		list(vals = values, ids = ids, legend = legend, bypass_ord = bypass_ord)
+		list(vals = values, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 	}
 }
 
