@@ -62,8 +62,6 @@ Suggests:
     tidyr
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-tmap/tmaptools
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
 Config/testthat/edition: 3
