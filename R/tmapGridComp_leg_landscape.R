@@ -70,14 +70,16 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	widthNA = get_legend_option(comp$item.na.width, comp$type)
 	if (is.na(widthNA)) widthNA = width
 	
+	labelW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) / o$lin
+	
 	# legend width can be 3: NA (components determine width), finite number (number of text lines), or Inf (whole width)
 	# for the latter two, there are 3 ways of stretching the legend: padding (space between items), items (widths of all items), or itemsNNA (widths of non-NA items)
 	
 	if (comp$type == "symbols") {
-		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev))
+		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev), labelW)
 		comp$stretch = if (!is.na(comp$width)) "padding" else "none"	
 	} else if (comp$type %in% c("rect", "lines")) {
-		item_widths = rep(width, nlev)
+		item_widths = pmax(rep(width, nlev), labelW)
 		if (comp$na.show) item_widths[nlev] = widthNA
 		comp$stretch = if (!is.na(comp$width)) "items" else "none"	
 	} else if (comp$type == "gradient") {
@@ -85,7 +87,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 		if (comp$na.show) item_widths[nlev] = widthNA
 		comp$stretch = if (!is.na(comp$width)) "itemsNNA" else "none"	
 	} else if (comp$type == "text") {
-		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev))
+		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev), labelW)
 		comp$stretch = if (!is.na(comp$width)) "padding" else "none"	
 	}
 	
@@ -94,6 +96,8 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	titleW = if (titleS > 0) graphics::strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin else 0
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
+	
+	
 	
 	item_space = c(rep(space, nlev - 1 - comp$na.show), {if (comp$na.show) spaceNA else NULL}) 
 	items_all = c(rbind(item_widths[-nlev], item_space), item_widths[nlev])
