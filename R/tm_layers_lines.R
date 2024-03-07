@@ -208,7 +208,7 @@ tm_lines = function(col = tm_const(),
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
-						   					  chart = col.chart,
+						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
 		
 		gpar = tmapGpar(fill = NA,

@@ -182,3 +182,73 @@ tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
 }
 
 
+
+
+#' @method tmapGridLegPlot tm_chart_violin
+#' @export
+tmapGridLegPlot.tm_chart_violin = function(comp, o, fH, fW) {
+	scale = o$scale * comp$scale
+	textsize = o$chart.text.size * scale
+	
+	wsu = comp$wsu
+	hsu = comp$hsu
+	
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu), 
+												   widths = wsu,
+												   heights = hsu))
+	
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	
+	hsize = 2
+	
+	g = ggplot2::ggplot(comp$df, ggplot2::aes(x = x, y = y)) +
+		ggplot2::geom_violin(fill = comp$object.color) + 
+		theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y, scale = scale, text.color = o$chart.text.color, text.size = textsize)
+
+	g2 = ggplot2::ggplotGrob(g)
+	
+	# other grid cells are aligns (1 and 5) and margins (2 and 4)
+	chart = gridCell(3,3, {
+		gTree(children=gList(grobBG, 
+							 g2), 
+			  name="compass")
+	})
+	
+	grid::grobTree(chart, vp = vp)
+}
+
+
+#' @method tmapGridLegPlot tm_chart_box
+#' @export
+tmapGridLegPlot.tm_chart_box = function(comp, o, fH, fW) {
+	scale = o$scale * comp$scale
+	textsize = o$chart.text.size * scale
+	
+	wsu = comp$wsu
+	hsu = comp$hsu
+	
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu), 
+												   widths = wsu,
+												   heights = hsu))
+	
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	
+	hsize = 2
+	
+	g = ggplot2::ggplot(comp$df, ggplot2::aes(x = x, y = y)) +
+		ggplot2::geom_boxplot(fill = comp$object.color) + 
+		theme_chart(plot.axis.x = comp$plot.axis.x, plot.axis.y = comp$plot.axis.y, scale = scale, text.color = o$chart.text.color, text.size = textsize)
+	
+	g2 = ggplot2::ggplotGrob(g)
+	
+	# other grid cells are aligns (1 and 5) and margins (2 and 4)
+	chart = gridCell(3,3, {
+		gTree(children=gList(grobBG, 
+							 g2), 
+			  name="compass")
+	})
+	
+	grid::grobTree(chart, vp = vp)
+}

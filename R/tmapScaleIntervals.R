@@ -188,11 +188,13 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			scale = "intervals"
 		})
 		
-		chart = tmapChartBinned(chart, 
-								   bin_colors = vvalues,
-								   breaks_def = breaks,
-								   na.show = na.show,
-								   x1 = x1)
+		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
+		
+		chart = do.call(chartFun, list(chart,
+									   bin_colors = vvalues,
+									   breaks_def = breaks,
+									   na.show = na.show,
+									   x1 = x1))
 
 		if (submit_legend) {
 			if (bypass_ord) {
@@ -204,57 +206,4 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 	})
-}
-
-
-tmapChartBinned = function(chart, bin_colors, breaks_def, na.show, x1) {
-	# are breaks (and bin_colors)
-	predefined = !is.null(breaks_def)
-	
-	if (!predefined) {
-		bin_colors = chart$object.color
-	}
-	df = data.frame(x = x1)
-	
-
-	
-	if (is.null(chart$breaks)) {
-		if (!predefined) {
-			breaks = pretty(x1)
-			ids = 1L
-			
-		} else {
-			breaks = breaks_def
-			ids = 1L:(length(breaks) - 1L)
-		}
-	} else {
-		breaks = chart$breaks
-		subbreaks = (all(breaks_def %in% breaks))
-		
-		break_mids = (breaks[-1] + head(breaks, -1)) / 2
-		
-		if (!is.null(breaks_def)) {
-			ids = as.integer(cut(break_mids, breaks_def, include.lowest = TRUE, right = FALSE))
-		} else {
-			ids = 1
-		}
-
-	}
-	
-	df$xcat = cut(df$x, breaks = breaks, include.lowest = TRUE, right = FALSE)
-	
-	if (na.show) {
-		tab = as.data.frame(table(bin=df$xcat, useNA = "always"), responseName = "freq")
-		tab$color = factor(c(ids, length(bin_colors)), levels = seq_along(bin_colors))
-		pal = structure(bin_colors, names = levels(tab$color))
-	} else {
-		tab = as.data.frame(table(bin=df$xcat, useNA = "no"), responseName = "freq")
-		tab$color = factor(ids, levels = seq_along(bin_colors))
-		pal = structure(bin_colors, names = levels(tab$color))
-	}
-	chart$tab = tab
-	chart$pal = pal
-	chart$datatype = "binned"
-	chart$predefined = predefined
-	chart
 }

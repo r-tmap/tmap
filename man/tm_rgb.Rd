@@ -13,7 +13,7 @@ tm_rgb(
 )
 }
 \arguments{
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the col color.}
 }
 \description{

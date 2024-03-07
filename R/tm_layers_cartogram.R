@@ -2,7 +2,7 @@
 #' 
 #' Map layer that draws a cartogram
 #' 
-#' @param size,size.scale,size.legend,size.free Transformation variable that
+#' @param size,size.scale,size.legend,size.chart,size.free Transformation variable that
 #'   determines the size of the polygons.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.

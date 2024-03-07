@@ -16,7 +16,7 @@ tm_cartogram(
 )
 }
 \arguments{
-\item{size, size.scale, size.legend, size.free}{Transformation variable that
+\item{size, size.scale, size.legend, size.chart, size.free}{Transformation variable that
 determines the size of the polygons.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.

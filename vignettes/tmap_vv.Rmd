@@ -1,5 +1,5 @@
 ---
-title: "tmap: visual variables"
+title: "tmap: charts"
 author: "Martijn Tennekes"
 date: "`r Sys.Date()`"
 output: 

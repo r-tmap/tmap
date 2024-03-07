@@ -1,3 +1,5 @@
+## numerical variable
+
 tm_shape(World) + 
   tm_polygons ("HPI", 
     fill.scale = tm_scale_intervals(), 
@@ -5,44 +7,42 @@ tm_shape(World) +
 
 tm_shape(World) + 
 	tm_polygons ("HPI", 
-				 fill.scale = tm_scale_intervals(), 
-				 fill.chart = tm_chart_bar())
-
-
-tm_shape(World) + 
-	tm_polygons ("economy", 
-				 fill.scale = tm_scale_categorical(), 
-				 fill.chart = tm_chart_histogram())
-
-tm_shape(World) + 
-	tm_polygons ("economy", 
-				 fill.scale = tm_scale_categorical(), 
-				 fill.chart = tm_chart_bar())
-
-
+				 fill.scale = tm_scale_continuous(), 
+				 fill.chart = tm_chart_histogram(position = tm_pos_out("center", "bottom"), width = 30))
 
 tm_shape(World) + 
 	tm_polygons ("HPI", 
-	fill.scale = tm_scale_intervals(), 
-	fill.chart = tm_chart_histogram(position = tm_pos_out("center", "bottom", align.v = "bottom")))
-
-tm_shape(land) +
-	tm_raster("trees",
-			  col.chart = tm_chart_histogram())
-
-
-tm_shape(land) +
-	tm_raster("trees",
-			  col.scale = tm_scale_continuous(),
-			  col.chart = tm_chart_histogram())
-
-
+				 fill.scale = tm_scale_intervals(), 
+				 fill.chart = tm_chart_donut())
 
 tm_shape(World) + 
-  tm_polygons ("HPI", 
-    fill.scale = tm_scale_intervals(), 
-    fill.chart = tm_chart_donut())
+	tm_polygons ("HPI", 
+				 fill.scale = tm_scale_intervals(), 
+				 fill.chart = tm_chart_box())
 
-tm_shape(World) +
-	tm_polygons("HPI") +
-	tm_compass(size = 6,position = tm_pos_out("right", "center"))
+tm_shape(World) + 
+	tm_polygons ("HPI", 
+				 fill.scale = tm_scale_intervals(), 
+				 fill.chart = tm_chart_violin())
+
+# with additional ggplot2 code
+require(ggplot2)
+tm_shape(World) + 
+	tm_polygons ("HPI", 
+				 fill.scale = tm_scale_intervals(), 
+				 fill.chart = tm_chart_bar(extra.ggplot2 = theme(panel.grid.major.y = element_line(colour = "red"))))
+
+tm_shape(land) +
+	tm_raster("trees",
+			  col.chart = tm_chart_histogram())
+
+## categorical variable
+tm_shape(World) + 
+	tm_polygons ("economy", 
+				 fill.scale = tm_scale_categorical(), 
+				 fill.chart = tm_chart_bar())
+
+tm_shape(World) + 
+	tm_polygons ("economy", 
+				 fill.scale = tm_scale_categorical(), 
+				 fill.chart = tm_chart_donut())

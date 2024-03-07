@@ -31,15 +31,15 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #' 
-#' @param fill,fill.scale,fill.legend,fill.free Visual variable that determines the fill color. See details.
-#' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
-#' @param size,size.scale,size.legend,size.free Visual variable that determines the size. See details.
-#' @param shape,shape.scale,shape.legend,shape.free Visual variable that determines the shape. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free Visual variable that determines
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
+#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the col color. See details.
+#' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines the size. See details.
+#' @param shape,shape.scale,shape.legend,shape.chart,shape.free Visual variable that determines the shape. See details.
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.chart,fill_alpha.free Visual variable that determines
 #'   the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable that determines
 #'   the border color alpha transparency. See details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
@@ -156,42 +156,50 @@ tm_symbols = function(size = tm_const(),
 											value = size,
 											scale = size.scale,
 											legend = size.legend,
+											chart = size.chart,
 											free = size.free),
 						   
 						   fill = tmapScale(aes = "fill",
 						   				 value = fill,
 						   				 scale = fill.scale,
 						   				 legend = fill.legend,
+						   				 chart = fill.chart,
 						   				 free = fill.free),
 						   col = tmapScale(aes = "col",
 						   				value = col,
 						   				scale = col.scale,
 						   				legend = col.legend,
+						   				chart = col.chart,
 						   				free = col.free),
 						   shape = tmapScale(aes = "shape",
 						   				  value = shape,
 						   				  scale = shape.scale,
 						   				  legend = shape.legend,
+						   				  chart = shape.chart,
 						   				  free = shape.free),
 						   lwd = tmapScale(aes = "lwd",
 						   				value = lwd,
 						   				scale = lwd.scale,
 						   				legend = lwd.legend,
+						   				chart = lwd.chart,
 						   				free = lwd.free),
 						   lty = tmapScale(aes = "lty",
 						   				value = lty,
 						   				scale = lty.scale,
 						   				legend = lty.legend,
+						   				chart = lty.chart,
 						   				free = lty.free),
 						   fill_alpha = tmapScale(aes = "fill_alpha",
 						   					   value = fill_alpha,
 						   					   scale = fill_alpha.scale,
 						   					   legend = fill_alpha.legend,
+						   					   chart = fill_alpha.chart,
 						   					   free = fill_alpha.free),
 						   col_alpha = tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
+						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
 		
 		gpar = tmapGpar(fill = "__fill",

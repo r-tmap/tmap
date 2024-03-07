@@ -272,11 +272,14 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		vvalues_mids[vvalues_mids == "NA"] = NA
 		
 		
-		chart = tmapChartBinned(chart, 
-								bin_colors = NULL,
-								breaks_def = NULL,
-								na.show = na.show,
-								x1 = x1)
+		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
+		
+		chart = do.call(chartFun, list(chart,
+									   bin_colors = NULL,
+									   breaks_def = NULL,
+									   na.show = na.show,
+									   x1 = x1))
+		
 		
 		
 		# chart = within(chart, {
