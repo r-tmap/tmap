@@ -7,17 +7,47 @@
 \alias{tm_markers}
 \alias{tm_logo}
 \alias{tm_minimap}
+\alias{tmap_grob}
+\alias{tmapOutput}
+\alias{tmapProxy}
+\alias{renderTmap}
+\alias{tm_remove_layer}
+\alias{tm_rgba}
+\alias{tmap_tip}
+\alias{tmap_style_catalog}
+\alias{tmap_style_catalogue}
 \title{These functions will be implemented soon}
 \usage{
-tm_squares()
+tm_squares(...)
 
 tm_iso()
 
 tm_markers()
 
-tm_logo()
+tm_logo(...)
 
 tm_minimap()
+
+tmap_grob(...)
+
+tmapOutput(...)
+
+tmapProxy(...)
+
+renderTmap(...)
+
+tm_remove_layer(...)
+
+tm_rgba(...)
+
+tmap_tip(...)
+
+tmap_style_catalog(...)
+
+tmap_style_catalogue(...)
+}
+\arguments{
+\item{...}{Arguments}
 }
 \description{
 These functions will be implemented soon

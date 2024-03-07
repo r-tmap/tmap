@@ -31,7 +31,7 @@ metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1
 
 
 Africa = World[World$continent == "Africa", ]
-tmapV = substr(packageVersion("tmap"), 1, 1)
+tmapV =  ifelse(packageVersion("tmap") >= "3.4", "4", "3")
 txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
 v3 = function(e) {
 	if (tmapV == "3") {
