@@ -8,11 +8,12 @@ tm_rgb(
   col = tm_mv(1:3),
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
   col.free = NA
 )
 }
 \arguments{
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the col color.}
 }
 \description{

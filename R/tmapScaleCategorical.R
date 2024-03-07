@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
+tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	if (is.factor(x1)) {
@@ -182,15 +182,26 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, layer_args, so
 			scale = "categorical"
 		})
 		
+
+		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
+		chart = do.call(chartFun, list(chart,
+									   bin_colors = values,
+									   breaks_def = NULL,
+									   na.show = na.show,
+									   x1 = x1))
+		
+		
+
 		if (submit_legend) {
 			if (bypass_ord) {
-				format_aes_results(vals, legend = legend)
+				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend)			
+				format_aes_results(vals, ids, legend, chart = chart)			
 			}
 		} else {
-			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
+			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 		
 	})	
 }
+

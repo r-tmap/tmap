@@ -23,6 +23,7 @@ process_comp_box = function(comp, sc, o) {
 }
 
 tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
+	#return(grid::rectGrob(gp=gpar(fill = "gold")))
 	
 
 	n = length(comp)
@@ -36,13 +37,10 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 	
+	#legWin = 10
 
 	group.just = c(pos.h, pos.v)
 	group.frame = comp[[1]]$group.frame
-	
-	#comp = lapply(comp, leg_standard$fun_add_leg_type)
-	
-	
 	
 	legWin[is.infinite(legWin)] = maxW
 	legHin[is.infinite(legHin)] = maxH
@@ -80,7 +78,9 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}
 	
 	if (scaleS > 1.01) {
-		warning("(Set of) legends is too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled.", call. = FALSE)
+		if (scaleS > 1.05) {
+			message("(Some) components or legends are too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled.")
+		}
 		legWin = legWin / scaleS
 		legHin = legHin / scaleS
 		clipT = clipT * scaleS
@@ -88,13 +88,6 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	
 	legW = grid::unit(legWin, "inches")
 	legH = grid::unit(legHin, "inches")
-	
-	
-	
-	#Ws = as.vector(rbind(legW, rep(grid::unit(marginIn, "inch"), n)))
-	#Ws[length(Ws)] = grid::unit(offsetIn, "inch")
-	#Ws = c(grid::unit(offsetIn, "inch"), Ws)
-	
 	
 	if (stack == "vertical") {
 		W = max(legWin)
@@ -271,7 +264,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	totH = sum(rowsIn) - offsetInTot.v
 	totW = sum(colsIn) - offsetInTot.h
-	
 	w1 = which(pos.v=="bottom" & pos.h=="left")
 	w2 = which(pos.v=="top" & pos.h=="left")
 	w3 = which(pos.v=="top" & pos.h=="right")
@@ -308,8 +300,13 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				# in case breaks are defined: allow the total width to be used (as upper bound)
 				newIn = totW
 			}
-			cmp$wsu[cmp$WnativeID] = unit(newIn, "inch")
-			cmp$Win = cmp$Win + (newIn - oldIn)
+			
+			margins = sum(head(as.numeric(cmp$wsu[-cmp$WnativeID]), -1))
+			
+			newIn_without_margins = newIn - margins
+			
+			cmp$wsu[cmp$WnativeID] = unit(newIn_without_margins, "inch")
+			cmp$Win = newIn_without_margins + margins
 			
 			# get cpi: coordinates per inch
 
@@ -382,7 +379,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 
 	
-	grbsQ = do.call(grid::gList, lapply(1:5, function(i) {
+	grbs = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
 			if (any(!stack_auto[id])) {
@@ -396,9 +393,9 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}
 	}))
 
+	#grbs = grid::rectGrob(gp=gpar(fill = "gold"))
 	
-	
-	gt = add_to_gt(gt, grbsQ, row = rows, col = cols)
+	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 	
 	gts[[facet_page]] = gt
 	

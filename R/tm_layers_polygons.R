@@ -10,14 +10,16 @@
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
 #' 
-#' The `*.scale` arguments determine the used scale to map the data values to
+#' * The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #' 
-#' The `*.legend` arguments determine the used legend, specified with [tm_legend()].
+#' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
 #' 
-#' The `*.free` arguments determine whether scales are applied freely across facets, or shared.
+#' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
+#' 
+#' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
 #' logical values; these determine whether scales are applied freely per facet dimension.
 #' This is only useful when facets are applied (see [tm_facets()]).
@@ -28,13 +30,13 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #' 
-#' @param fill,fill.scale,fill.legend,fill.free Visual variable that determines the fill color. See details.
-#' @param col,col.scale,col.legend,col.free Visual variable that determines the border color. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free Visual
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
+#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the border color. See details.
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free Visual
 #'   variable that determines the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
 #'   that determines the border color alpha transparency. See details.
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
@@ -74,27 +76,33 @@
 tm_polygons = function(fill = tm_const(), 
 					   fill.scale = tm_scale(),
 					   fill.legend = tm_legend(),
+					   fill.chart = tm_chart_none(),
 					   fill.free = NA,
-					   #fill.chart = NULL,
+					   #fill.chart = tm_chart_none(),
 					   col = tm_const(),
 					   col.scale = tm_scale(),
 					   col.legend = tm_legend(),
+					   col.chart = tm_chart_none(),
 					   col.free = NA,
 					   lwd = tm_const(),
 					   lwd.scale = tm_scale(),
 					   lwd.legend = tm_legend(),
+					   lwd.chart = tm_chart_none(),
 					   lwd.free = NA,
 					   lty = tm_const(),
 					   lty.scale = tm_scale(),
 					   lty.legend = tm_legend(),
+					   lty.chart = tm_chart_none(),
 					   lty.free = NA,
 					   fill_alpha = tm_const(),
 					   fill_alpha.scale = tm_scale(),
 					   fill_alpha.legend = tm_legend(),
+					   fill_alpha.chart = tm_chart_none(),
 					   fill_alpha.free = NA,
 					   col_alpha = tm_const(),
 					   col_alpha.scale = tm_scale(),
 					   col_alpha.legend = tm_legend(),
+					   col_alpha.chart = tm_chart_none(),
 					   col_alpha.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
@@ -208,31 +216,37 @@ tm_polygons = function(fill = tm_const(),
 											value = fill,
 											scale = fill.scale,
 											legend = fill.legend,
+											chart = fill.chart,
 											free = fill.free),
 						   col = tmapScale(aes = "col",
 						   				value = col,
 						   				scale = col.scale,
 						   				legend = col.legend,
+						   				chart = col.chart,
 						   				free = col.free),
 						   lwd = tmapScale(aes = "lwd",
 						   				value = lwd,
 						   				scale = lwd.scale,
 						   				legend = lwd.legend,
+						   				chart = lwd.chart,
 						   				free = lwd.free),
 						   lty = tmapScale(aes = "lty",
 						   				value = lty,
 						   				scale = lty.scale,
 						   				legend = lty.legend,
+						   				chart = lty.chart,
 						   				free = lty.free),
 						   fill_alpha = tmapScale(aes = "fill_alpha",
 						   					   value = fill_alpha,
 						   					   scale = fill_alpha.scale,
 						   					   legend = fill_alpha.legend,
+						   					   chart = fill_alpha.chart,
 						   					   free = fill_alpha.free),
 						   col_alpha = tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
+						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
 		
 		gpar = tmapGpar(fill = "__fill",

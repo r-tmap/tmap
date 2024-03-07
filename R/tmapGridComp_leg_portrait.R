@@ -222,6 +222,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
+
 	textS = comp$text.size * comp$scale #* o$scale
 	
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale

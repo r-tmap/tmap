@@ -1,6 +1,5 @@
 tmapGridInit = function(o, return.asp = FALSE, vp) {
 	rlang::check_installed("grid")
-	
 	rows = with(o, {
 		x = c(outer.margins.top = outer.margins[3],
 			  meta.buffers.top.out = meta.buffers[3],
@@ -94,7 +93,6 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	
 	if (sum(prows) >= 1 || sum(pcols) >= 1) stop("Margins are too large, or too many facets.", call. = FALSE)
 	
-	
 	fasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp / o$ncols * o$nrows # asp per facet (with original outer margins)
 	gasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp # asp total facets (with original outer margins)
 	
@@ -119,6 +117,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 		extra.width =   (1 - ((1 - sum(prows)) * (gasp2/o$dasp))) - sum(pcols)
 		cols[c(1, length(cols))] = cols[c(1, length(cols))] + grid::unit(extra.width / 2, "npc")
 	}
+
 	cols[cols_facet_ids] = (grid::unit(1, "npc") - sum(cols)) / o$ncols
 	rows[rows_facet_ids] = (grid::unit(1, "npc") - sum(rows)) / o$nrows
 	

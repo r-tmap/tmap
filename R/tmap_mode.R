@@ -127,6 +127,11 @@ tmap_devel_mode = function(devel.mode) {
 	message("devel.mode: ", if (!dm) "OFF" else "ON")
 }
 
+pm = function(message) {
+	cat("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n")
+	cat(message, "\n")
+}
+
 po = function(...) {
 	e = substitute(list(...))
 	nms = sapply(e, deparse)[-1]  

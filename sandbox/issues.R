@@ -214,7 +214,7 @@ L7 = read_stars(L7file)
 
 ### working but gives warning
 tm_shape(L7) + 
-	tm_rgb()
+	#tm_rgb()
 	
 	tm_raster(c(3, 2, 1))
 
@@ -665,7 +665,6 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons("HPI") +
 	tm_compass(size = 16,position = tm_pos_out("right", "center"))
-
 
 ## 835
 tm_shape(rivers)+

@@ -8,6 +8,7 @@ tm_cartogram(
   size = 1,
   size.scale = tm_scale(),
   size.legend = tm_legend_hide(),
+  size.chart = tm_chart_none(),
   size.free = NA,
   plot.order = tm_plot_order("size", reverse = FALSE),
   trans.args = list(type = "cont", itermax = 15),
@@ -15,7 +16,7 @@ tm_cartogram(
 )
 }
 \arguments{
-\item{size, size.scale, size.legend, size.free}{Transformation variable that
+\item{size, size.scale, size.legend, size.chart, size.free}{Transformation variable that
 determines the size of the polygons.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
@@ -26,13 +27,13 @@ See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
 \item{...}{
   Arguments passed on to \code{\link[=tm_polygons]{tm_polygons}}
   \describe{
-    \item{\code{fill,fill.scale,fill.legend,fill.free}}{Visual variable that determines the fill color. See details.}
-    \item{\code{col,col.scale,col.legend,col.free}}{Visual variable that determines the border color. See details.}
-    \item{\code{lwd,lwd.scale,lwd.legend,lwd.free}}{Visual variable that determines the line width. See details.}
-    \item{\code{lty,lty.scale,lty.legend,lty.free}}{Visual variable that determines the line type. See details.}
-    \item{\code{fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free}}{Visual
+    \item{\code{fill,fill.scale,fill.legend,fill.chart,fill.free}}{Visual variable that determines the fill color. See details.}
+    \item{\code{col,col.scale,col.legend,col.chart,col.free}}{Visual variable that determines the border color. See details.}
+    \item{\code{lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free}}{Visual variable that determines the line width. See details.}
+    \item{\code{lty,lty.scale,lty.legend,lty.chart,lty.free}}{Visual variable that determines the line type. See details.}
+    \item{\code{fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free}}{Visual
 variable that determines the fill color alpha transparency See details.}
-    \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free}}{Visual variable
+    \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free}}{Visual variable
 that determines the border color alpha transparency. See details.}
     \item{\code{linejoin,lineend}}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
     \item{\code{trans.args,mapping.args}}{lists that are passed on to internal transformation

@@ -102,7 +102,7 @@ tmapGridCompHeight.tm_compass = function(comp, o) {
 	hsu = set_unit_with_stretch(hs, sides = sides)
 	
 	Hin = sum(hs)
-
+	comp$flexRow = NA
 	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
 	comp$hsu = hsu
 	comp
@@ -122,6 +122,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
 
+	comp$flexCol = NA
 	comp$Win = sum(ws)
 	comp$wsu = wsu
 	comp
@@ -129,6 +130,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 
 #' @export
 tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
+
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
@@ -304,7 +306,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 						 grobLabels), 
 		  name="compass")
 	})
-	
 	grid::grobTree(compass, vp = vp)
 }
 
@@ -359,7 +360,7 @@ tmapGridCompHeight.tm_scalebar = function(comp, o) {
 	hsu = set_unit_with_stretch(hs, sides = sides)
 	
 	Hin = sum(hs)
-	
+	comp$flexRow = NA
 	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
 	comp$hsu = hsu
 	comp
@@ -399,16 +400,29 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
-	
+
 	wsu = comp$wsu
 	hsu = comp$hsu
 	
+	wsu[1] = unit(0, "inch")
+	wsu[5] = unit(0, "inch")
 	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
 												   nrow = length(hsu), 
 												   widths = wsu,
 												   heights = hsu))
 	
 	
+	# g = grid::grobTree(grid::rectGrob(gp=gpar(fill = "pink")), vp = vp)
+	# g = gridCell(3,3, {
+	# 	gTree(children=gList(
+	# 		g
+	# 	), name="scalebar")
+	# })
+	# 
+	# g = grid::grobTree(g, vp = vp)
+	# 
+	# 
+	# return(g)
 	
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
@@ -493,6 +507,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
 	scalebar = gridCell(3,3, {
 		gTree(children=gList(
+			
 			grobBG,
 			# if (!is.na(comp$bg.color)) {
 			# 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
@@ -500,13 +515,14 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 			# } else {
 			# 	NULL
 			# }, 
-			#rectGrob(gp=gpar(col = "green", fill= NA)),
+			#rectGrob(gp=gpar(col = "green", fill= NA))
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
 			), name="scalebar")
 	})
 	
 	grid::grobTree(scalebar, vp = vp)
+	#scalebar
 }
 
 
@@ -519,6 +535,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 
 
 tmapGridLegPlot_text = function(comp, o, fH, fW) {
+
 	textS = if (comp$text == "") 0 else comp$size * comp$scale #* o$scale
 	
 	padding = grid::unit(comp$padding[c(3,4,1,2)] * textS * o$lin, units = "inch")
@@ -560,6 +577,9 @@ tmapGridLegPlot_text = function(comp, o, fH, fW) {
 		grDesign = NULL
 	}
 	
+	#grtext = rectGrob(gp=gpar(col = "green", fill= NA))
+
+	
 	g = do.call(grid::grobTree, c(list(grtext), list(grDesign))) #, list(vp = vp)
 	
 	g
@@ -590,8 +610,16 @@ tmapGridCompHeight_text = function(comp, o) {
 	nlines = number_text_lines(comp$text)
 	
 	nlines2 = correct_nlines(nlines)
+	comp$flexRow = NA
 	
-	comp$Hin = sum(textP[1], textH * nlines2, textP[2])
+	hs = c(textP[1], textH * nlines2, textP[2])
+	h = sum(hs)
+
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+	
+	comp$Hin = h
+	comp$hsu = hsu
 	comp
 }
 
@@ -622,8 +650,7 @@ tmapGridCompWidth_text = function(comp, o) {
 	textP = comp$padding[c(2,4)] * textS * o$lin
 	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
 	
-	w = sum(textP[1], textW, textP[2])
-	
+
 	if (!is.na(comp$width)) {
 		textPgs = strsplit(comp$text, "\n")[[1]]
 		text2 = do.call(paste, c(lapply(textPgs, function(p) {
@@ -634,15 +661,21 @@ tmapGridCompWidth_text = function(comp, o) {
 		}), list(sep = "\n")))
 		
 		textW2 = textS * graphics::strwidth(text2, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-		w2 = sum(textP[1], textW2, textP[2])
-		
-		#approxNumL = min(20, round(w / (comp$width * textS * o$lin)))
+		wsu2 = c(textP[1], textW2, textP[2])
+		ws = sum(textP[1], textW2, textP[2])
 		comp$text = text2
-		comp$Win = w2
 	} else {
-		#comp$nlines = length(comp$textPgs)
-		comp$Win = w
+		ws = c(textP[1], textW, textP[2])
 	}
+	
+
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+	
+	comp$Win = sum(ws)
+	comp$wsu = wsu
+	
+	comp$flexCol = NA
 	comp
 }
 
