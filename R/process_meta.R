@@ -394,10 +394,10 @@ process_meta = function(o, d, cdt, aux) {
 							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]		
 							c(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
 								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
-							  sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
-							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
 							  sum(c(0,cdt2b[cell.h == "left" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
 							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1],
+							  sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
+							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
 							  sum(c(0,cdt2b[cell.h == "right" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
 							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1])
 						})))
@@ -419,8 +419,6 @@ process_meta = function(o, d, cdt, aux) {
 				}
 			}
 	
-	
-			
 			if (meta.automatic && any(margins.used)) {
 				meta.auto.margins = rep(meta.auto.margins, length.out = 4)
 				if (all(!margins.used[c(1,3)]) && n == 1) {
