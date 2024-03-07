@@ -143,6 +143,7 @@ tm_symbols = function(size = tm_const(),
 		size.legend = res$size.legend
 		shape.scale = res$shape.scale
 		shape.legend = res$shape.legend
+		fill.chart = res$fill.chart
 	}
 	
 
@@ -388,6 +389,10 @@ v3_symbols = function(args, args_called) {
 		
 		shape.legend = do.call("tm_legend", shape.legend.args)
 		
+		if ("legend.hist" %in% names(args) && args$legend.hist) {
+			fill.chart = tm_chart_histogram()
+			# to do: histogram title
+		}
 		
 		list(fill = fill,
 			 col = col,
@@ -397,7 +402,8 @@ v3_symbols = function(args, args_called) {
 			 size.scale = size.scale,
 			 size.legend = size.legend,
 			 shape.scale = shape.scale,
-			 shape.legend = shape.legend)
+			 shape.legend = shape.legend,
+			 fill.chart = fill.chart)
 	} else {
 		NULL
 	}
@@ -454,6 +460,7 @@ tm_bubbles = function(size = tm_const(),
 		size.legend = res$size.legend
 		shape.scale = res$shape.scale
 		shape.legend = res$shape.legend
+		fill.chart = res$fill.chart
 	}
 	
 	tm_element_list(tm_element(

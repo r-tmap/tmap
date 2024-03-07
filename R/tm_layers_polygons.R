@@ -78,7 +78,6 @@ tm_polygons = function(fill = tm_const(),
 					   fill.legend = tm_legend(),
 					   fill.chart = tm_chart_none(),
 					   fill.free = NA,
-					   #fill.chart = tm_chart_none(),
 					   col = tm_const(),
 					   col.scale = tm_scale(),
 					   col.legend = tm_legend(),
@@ -180,7 +179,7 @@ tm_polygons = function(fill = tm_const(),
 		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
-		if ("col" %in% names(args_called) && (args_called$called_from != "fill")) {
+		if ("col" %in% names(args_called) &&  (is.null(args_called$called_from) || (args_called$called_from != "fill"))) {
 			fill = col
 			col = tm_const()
 		}
@@ -203,6 +202,12 @@ tm_polygons = function(fill = tm_const(),
 								 reverse = imp("legend.reverse", FALSE))
 		
 		fill.legend = do.call("tm_legend", fill.legend.args)
+		
+		if ("legend.hist" %in% names(args) && args$legend.hist) {
+			fill.chart = tm_chart_histogram()
+			# to do: histogram title
+		}
+		
 	}
 	
 	

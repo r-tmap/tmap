@@ -176,6 +176,10 @@ tm_lines = function(col = tm_const(),
 		
 		lwd.legend = do.call("tm_legend", lwd.legend.args)
 		
+		if ("legend.hist" %in% names(args) && args$legend.hist) {
+			col.chart = tm_chart_histogram()
+			# to do: histogram title
+		}
 	}
 	
 	

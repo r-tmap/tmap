@@ -8,31 +8,38 @@ tm_text(
   text = tm_const(),
   text.scale = tm_scale(),
   text.legend = tm_legend(),
+  text.chart = tm_chart_none(),
   text.free = NA,
   size = tm_const(),
   size.scale = tm_scale(),
   size.legend = tm_legend(),
+  size.chart = tm_chart_none(),
   size.free = NA,
   col = tm_const(),
   col.scale = tm_scale(),
   col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
   col.free = NA,
   col_alpha = tm_const(),
   col_alpha.scale = tm_scale(),
   col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
   fontface = tm_const(),
   fontface.scale = tm_scale(),
   fontface.legend = tm_legend(),
+  fontface.chart = tm_chart_none(),
   fontface.free = NA,
   fontfamily = "",
   bgcol = tm_const(),
   bgcol.scale = tm_scale(),
   bgcol.legend = tm_legend(),
+  bgcol.chart = tm_chart_none(),
   bgcol.free = NA,
   bgcol_alpha = tm_const(),
   bgcol_alpha.scale = tm_scale(),
   bgcol_alpha.legend = tm_legend(),
+  bgcol_alpha.chart = tm_chart_none(),
   bgcol_alpha.free = NA,
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
@@ -45,27 +52,27 @@ tm_text(
 )
 }
 \arguments{
-\item{text, text.scale, text.legend, text.free}{Visual variable that determines
+\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines
 the text. See details.}
 
-\item{size, size.scale, size.legend, size.free}{Visual variable that determines
+\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines
 the font size. See details.}
 
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the col color. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines
 the border color alpha transparency. See Details.}
 
-\item{fontface, fontface.scale, fontface.legend, fontface.free}{Visual variable that determines
+\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines
 the font face. See Details.}
 
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 
-\item{bgcol, bgcol.scale, bgcol.legend, bgcol.free}{Visual variable that determines
+\item{bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free}{Visual variable that determines
 the background color. See Details.}
 
-\item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.free}{Visual variable that determines
+\item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free}{Visual variable that determines
 the background color transparency. See Details.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}

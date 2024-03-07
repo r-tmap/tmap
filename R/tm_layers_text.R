@@ -28,15 +28,15 @@
 #' own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()])
 #' there is only one facet dimension, so the `.free` argument requires only one logical value.
 #' 
-#' @param text,text.scale,text.legend,text.free Visual variable that determines
+#' @param text,text.scale,text.legend,text.chart,text.free Visual variable that determines
 #'   the text. See details.
-#' @param size,size.scale,size.legend,size.free Visual variable that determines
+#' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines
 #'   the font size. See details.
-#' @param col,col.scale,col.legend,col.free Visual variable that determines
+#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
 #'   the col color. See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable that determines
 #'   the border color alpha transparency. See Details.
-#' @param fontface,fontface.scale,fontface.legend,fontface.free Visual variable that determines
+#' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free Visual variable that determines
 #'   the font face. See Details.
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
 #' @param shadow Shadow behind the text. Logical or color.
@@ -53,9 +53,9 @@
 #'   groups can be switched on and off. Options: `"radio"` for radio buttons
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
-#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.free Visual variable that determines
+#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
 #'   the background color. See Details.
-#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.free Visual variable that determines
+#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
 #'   the background color transparency. See Details.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R 
@@ -63,31 +63,38 @@
 tm_text = function(text = tm_const(),
 				   text.scale = tm_scale(),
 				   text.legend = tm_legend(),
+				   text.chart = tm_chart_none(),
 				   text.free = NA,
 				   size = tm_const(),
 				   size.scale = tm_scale(),
 				   size.legend = tm_legend(),
+				   size.chart = tm_chart_none(),
 				   size.free = NA,
 				   col = tm_const(),
 				   col.scale = tm_scale(),
 				   col.legend = tm_legend(),
+				   col.chart = tm_chart_none(),
 				   col.free = NA,
 				   col_alpha = tm_const(),
 				   col_alpha.scale = tm_scale(),
 				   col_alpha.legend = tm_legend(),
+				   col_alpha.chart = tm_chart_none(),
 				   col_alpha.free = NA,
 				   fontface = tm_const(),
 				   fontface.scale = tm_scale(),
 				   fontface.legend = tm_legend(),
+				   fontface.chart = tm_chart_none(),
 				   fontface.free = NA,
 				   fontfamily = "",
 				   bgcol = tm_const(),
 				   bgcol.scale = tm_scale(),
 				   bgcol.legend = tm_legend(),
+				   bgcol.chart = tm_chart_none(),
 				   bgcol.free = NA,
 				   bgcol_alpha = tm_const(),
 				   bgcol_alpha.scale = tm_scale(),
 				   bgcol_alpha.legend = tm_legend(),
+				   bgcol_alpha.chart = tm_chart_none(),
 				   bgcol_alpha.free = NA,
 				   shadow = FALSE,
 				   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
@@ -192,7 +199,10 @@ tm_text = function(text = tm_const(),
 							   orientation = ifelse(imp("legend.size.is.portrait", TRUE), "portrait", "landscape"),
 							   reverse = imp("legend.size.reverse", FALSE))
 							   
-							   
+		if ("legend.hist" %in% names(args) && args$legend.hist) {
+			col.chart = tm_chart_histogram()
+			# to do: histogram title
+		}				   
 
 	#}
 	}
@@ -208,36 +218,43 @@ tm_text = function(text = tm_const(),
 						   				value = text,
 						   				scale = text.scale,
 						   				legend = text.legend,
+						   				chart = text.chart,
 						   				free = text.free),
 						   size = tmapScale(aes = "size",
 						   				value = size,
 						   				scale = size.scale,
 						   				legend = size.legend,
+						   				chart = size.chart,
 						   				free = size.free),
 						   col = tmapScale(aes = "col",
 						   				value = col,
 						   				scale = col.scale,
 						   				legend = col.legend,
+						   				chart = col.chart,
 						   				free = col.free),
 						   col_alpha = tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
+						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free),
 						   bgcol = tmapScale(aes = "bgcol",
 						   				value = bgcol,
 						   				scale = bgcol.scale,
 						   				legend = bgcol.legend,
+						   				chart = bgcol.chart,
 						   				free = bgcol.free),
 						   bgcol_alpha = tmapScale(aes = "bgcol_alpha",
 						   					  value = bgcol_alpha,
 						   					  scale = bgcol_alpha.scale,
 						   					  legend = bgcol_alpha.legend,
+						   					  chart = bgcol_alpha.chart,
 						   					  free = bgcol_alpha.free),
 						   fontface = tmapScale(aes = "fontface",
 						   				value = fontface,
 						   				scale = fontface.scale,
 						   				legend = fontface.legend,
+						   				chart = fontface.chart,
 						   				free = fontface.free)),
 		
 		gpar = tmapGpar(fill = NA,

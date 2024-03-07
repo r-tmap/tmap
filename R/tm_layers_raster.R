@@ -138,6 +138,11 @@ tm_raster = function(col = tm_shape_vars(),
 								 reverse = imp("legend.reverse", FALSE))
 		
 		col.legend = do.call("tm_legend", col.legend.args)
+		
+		if ("legend.hist" %in% names(args) && args$legend.hist) {
+			col.chart = tm_chart_histogram()
+			# to do: histogram title
+		}
 	}
 	
 	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
