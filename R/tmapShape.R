@@ -334,6 +334,11 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 	}
 	
 	sfc = sf::st_geometry(shp)
+	
+	if (inherits(sfc[[1]], c("XYZ", "XYM", "XYZM"))) {
+		sfc = sf::st_zm(sfc)
+	}
+	
 	dt = as.data.table(sf::st_drop_geometry(shp))
 	
 	dtcols = copy(names(dt))
