@@ -61,7 +61,6 @@ In order to use the development version of `tmap`, it is recommended to use the 
 
 ```r
 # install.packages("remotes")
-install_github("r-tmap/tmaptools")
 install_github("r-tmap/tmap")
 
 # On Linux, with pak

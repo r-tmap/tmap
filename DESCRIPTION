@@ -25,7 +25,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     classInt (>= 0.4-3),
-    cols4all (>= 0.6-1),
+    cols4all (>= 0.7),
     data.table,
     grid,
     htmltools,
@@ -62,9 +62,6 @@ Suggests:
     tidyr
 VignetteBuilder: 
     knitr
-Remotes: 
-    mtennekes/cols4all,
-    r-tmap/tmaptools
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
 Config/testthat/edition: 3
