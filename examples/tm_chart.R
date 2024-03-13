@@ -46,3 +46,7 @@ tm_shape(World) +
 	tm_polygons ("economy", 
 				 fill.scale = tm_scale_categorical(), 
 				 fill.chart = tm_chart_donut())
+
+# bivariate (in development)
+tm_shape(World) +
+	tm_polygons(tm_mv("HPI", "well_being"), fill.chart = tm_chart_heatmap())
