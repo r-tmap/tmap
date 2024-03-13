@@ -98,6 +98,16 @@
 <span>  bgcol_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  bgcol_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  bgcol_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  xmod <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  xmod.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xmod.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xmod.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xmod.free <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  ymod <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  ymod.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ymod.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ymod.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ymod.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  shadow <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"AREA"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, na.order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>,</span>
 <span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
@@ -148,6 +158,15 @@ the background color. See Details.</p></dd>
 <dt>bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free</dt>
 <dd><p>Visual variable that determines
 the background color transparency. See Details.</p></dd>
+
+
+<dt>xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free</dt>
+<dd><p>Transformation variable that determines the x offset. See details.</p></dd>
+
+
+<dt>ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free</dt>
+<dd><p>Transformation variable that determines the y offset. See details.
+the text. See details.</p></dd>
 
 
 <dt>shadow</dt>
@@ -232,6 +251,16 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>    bgcol_alpha <span class="op">=</span> <span class="st">"pop_est"</span>,</span></span>
 <span class="r-in"><span>    bgcol_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_text-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## xymod</span></span></span>
+<span class="r-in"><span><span class="va">metro</span><span class="op">$</span><span class="va">initial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">metro</span><span class="op">$</span><span class="va">name</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">metro</span><span class="op">$</span><span class="va">az</span> <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">metro</span><span class="op">$</span><span class="va">initial</span>, <span class="va">LETTERS</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">/</span><span class="fl">25</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"initial"</span>, ymod <span class="op">=</span> <span class="st">"az"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="tm_text-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
