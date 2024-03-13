@@ -259,7 +259,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					# the condition has length > 1
 					# Calls: <Anonymous> ... with -> with.default -> eval -> eval -> apply_scale
 					# Detected in types of titles. # Example to illustrate the type of titles
-					if (all(is.ena(l$title))) l$title = paste0(names(v), attr(cls, "units"))
+					unit = if (!is.null(s$unit)) s$unit else ""
+					if (unit != "") unit = paste0(" (", unit, ")")
+					
+					if (all(is.ena(l$title))) l$title = paste0(names(v), attr(cls, "units"), unit)
 				}
 				
 				

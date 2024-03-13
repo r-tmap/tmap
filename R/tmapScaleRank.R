@@ -165,15 +165,23 @@ tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 			limits = limits
 		})
 		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
+		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
+		
+		chart = do.call(chartFun, list(chart,
+									   bin_colors = NULL,
+									   breaks_def = NULL,
+									   na.show = na.show,
+									   x1 = x1))
+		
 		
 		if (submit_legend) {
 			if (bypass_ord) {
-				format_aes_results(vals, legend = legend)
+				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend)			
+				format_aes_results(vals, ids, legend, chart = chart)			
 			}
 		} else {
-			list(vals = vals, ids = ids, legend = legend, bypass_ord = bypass_ord)
+			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 		
 	})

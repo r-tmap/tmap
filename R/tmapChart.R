@@ -105,7 +105,7 @@ bin_num = function(x1, breaks_def, chart) {
 	if (is.null(chart$breaks)) {
 		if (!predefined) {
 			breaks = pretty(x1)
-			ids = 1L
+			ids = rep(1L, length(breaks) - 1)
 			
 		} else {
 			breaks = breaks_def
@@ -117,10 +117,10 @@ bin_num = function(x1, breaks_def, chart) {
 		
 		break_mids = (breaks[-1] + head(breaks, -1)) / 2
 		
-		if (!is.null(breaks_def)) {
+		if (predefined) {
 			ids = as.integer(cut(break_mids, breaks_def, include.lowest = TRUE, right = FALSE))
 		} else {
-			ids = 1
+			ids = rep(1L, length(breaks) - 1)
 		}
 		
 	}

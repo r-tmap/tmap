@@ -156,7 +156,8 @@
 												 outliers.trunc = c(FALSE, FALSE), 
 												 trans = "identity",
 												 limits = list(fill = NA, col = NA, 0)),
-							   rank = list(n = 5)), # NA means take data range, 0 means include 0
+							   rank = list(n = 5,
+							   			unit = "rank")), # NA means take data range, 0 means include 0
 		
 		
 		

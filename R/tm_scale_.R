@@ -269,7 +269,8 @@ tm_scale_rank = function(n = NULL,
 						 labels = NULL,
 						 label.na = NA,
 						 label.null = NA,
-						 label.format = list()) {
+						 label.format = list(),
+						 unit = "rank") {
 	structure(c(list(FUN = "tmapScaleRank"), as.list(environment())), class = c("tm_scale_rank", "tm_scale", "list"))
 }
 
