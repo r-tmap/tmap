@@ -49,7 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a>
-    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: visual variables</a>
+    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a>
   </div>
 </li>
 <li class="nav-item">
@@ -83,7 +83,7 @@
                         <h4 data-toc-skip class="author">Martijn
 Tennekes</h4>
             
-            <h4 data-toc-skip class="date">2024-03-07</h4>
+            <h4 data-toc-skip class="date">2024-03-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/vignettes/tmap_sneak_peek.Rmd" class="external-link"><code>vignettes/tmap_sneak_peek.Rmd</code></a></small>
       <div class="d-none name"><code>tmap_sneak_peek.Rmd</code></div>
@@ -193,6 +193,7 @@ next example uses <code>fill</code>, <code>lwd</code> (line width), and
 <span>                                             label.na <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>                lty.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Life Expectancy"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## (Some) components or legends are too high and are therefore rescaled.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-5-1.png" width="864"></p>
 <p>Besides these <strong>visual mapping aesthetics</strong>, which map
 data variables to visual variables, there is also another group of
@@ -211,7 +212,7 @@ illustrate this by a new map layer, <code><a href="../reference/tm_cartogram.htm
 <p>Cartograms could already be made with <strong>tmap v3</strong>, but
 it explicitly required transforming the data using the
 <strong>cartogram</strong> package before mapping.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sjewo/cartogram" class="external-link">cartogram</a></span><span class="op">)</span></span>
 <span><span class="va">World_carto</span> <span class="op">=</span> <span class="va">World</span> <span class="op">|&gt;</span></span>
@@ -227,7 +228,7 @@ it explicitly required transforming the data using the
 package under the hood), which uses the transformation aesthetic
 <code>size</code> and inherits all visual aesthetics from
 <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -242,7 +243,7 @@ package under the hood), which uses the transformation aesthetic
 is that it makes possible to use the available scaling functions. For
 example, suppose we want to apply a log 10 scale in order to make the
 cartogram a bit more “balanced”:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sjewo/cartogram" class="external-link">cartogram</a></span><span class="op">)</span></span>
 <span><span class="va">World_carto</span> <span class="op">=</span> <span class="va">World</span> <span class="op">|&gt;</span></span>
@@ -254,7 +255,7 @@ cartogram a bit more “balanced”:</p>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">fill</span>, </span>
 <span>              palette <span class="op">=</span> <span class="st">"Earth"</span>, </span>
 <span>              title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -380,13 +381,13 @@ both negative and positive values where the visual variable is
 functions are applied to the same data variable. We use the variable
 <em>life expectancy</em> (which we round in order to make sure the
 number of unique values is limited):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span><span class="va">Africa</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">Africa</span><span class="op">$</span><span class="va">life_exp</span><span class="op">)</span></span></code></pre></div>
 <p>Scales existed in <strong>tmap v3</strong>, but they were applied
 implicitly via several arguments:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"life_exp"</span>, <span class="fl">5</span><span class="op">)</span>, style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"cat"</span>, <span class="st">"pretty"</span>, <span class="st">"cont"</span>, <span class="st">"log10"</span><span class="op">)</span>,</span>
@@ -406,7 +407,7 @@ implicitly via several arguments:</p>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels <span class="op">=</span> <span class="st">"discrete scale"</span>, </span>
 <span>              inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
 <span>              legend.text.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"life_exp"</span>, <span class="fl">6</span><span class="op">)</span>, </span>
@@ -429,7 +430,7 @@ implicitly via several arguments:</p>
 This can be done with the function <code><a href="../reference/tm_mv.html">tm_mv()</a></code> (which stands
 for multivariate). An example is the bivariate choropleth, which is not
 yet implemented, but will definitely be.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
@@ -445,7 +446,7 @@ charts used as symbols.</p>
 <p>The following example is the donut map. The current implementation is
 ‘one-trick-pony’ (see <a href="https://github.com/mtennekes/donutmaps" class="external-link uri">https://github.com/mtennekes/donutmaps</a>)</p>
 <p>In <strong>tmap v4</strong> it will be much easier:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4 (not implemented yet)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tmapGlyps</span><span class="op">)</span>   <span class="co"># which include tm_donuts</span></span>
@@ -473,10 +474,10 @@ bit differently by default.</p>
 than inside the map.</p>
 <p>Furthermore, it is possible to place legends on different locations
 across the map:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="co"># ... not possible :(</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -495,14 +496,14 @@ for rather simple things. These options are set globally via
 accessible via <code><a href="../reference/tm_layout.html">tm_layout()</a></code>. However, to ease its use, there
 will be a bunch of handy shortcut functions, such as
 <code><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>             size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>             shape <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside.position <span class="op">=</span> <span class="st">"left"</span>, legend.outside.size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -510,6 +511,7 @@ will be a bunch of handy shortcut functions, such as
 <span>             shape <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
 <span>             size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>value.neutral <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## (Some) components or legends are too high and are therefore rescaled.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-18-1.png" width="864"></p>
 </div>
 <div class="section level3">
@@ -517,7 +519,7 @@ will be a bunch of handy shortcut functions, such as
 </h3>
 <p>Another new feature is possibility to combine legends directly, which
 was quite a hassle in <strong>tmap v3</strong>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"pop2020"</span>, </span>
@@ -532,7 +534,7 @@ was quite a hassle in <strong>tmap v3</strong>.</p>
 <span>              labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0 mln to 10 mln"</span>, <span class="st">"10 mln to 20 mln"</span>, <span class="st">"20 mln to 30 mln"</span>, <span class="st">"30 mln to 40 mln"</span><span class="op">)</span>,</span>
 <span>              title <span class="op">=</span> <span class="st">"Population in 2020"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside <span class="op">=</span> <span class="cn">TRUE</span>, legend.outside.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"pop2020"</span>,</span>
@@ -565,14 +567,14 @@ which determines whether scales are free (<code>TRUE</code>) or shared
 <p>In <strong>tmap v3</strong> this <code>free</code> argument could be
 set via <code><a href="../reference/tm_facets.html">tm_facets()</a></code>, whereas in <strong>tmap v4</strong>
 this argument has been moved to the layer functions:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span><span class="st">"continent"</span>, nrow <span class="op">=</span> <span class="fl">1</span>, free.scales.fill <span class="op">=</span> <span class="cn">FALSE</span>, free.coords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -580,14 +582,14 @@ this argument has been moved to the layer functions:</p>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_wrap</a></span><span class="op">(</span><span class="st">"continent"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-22-1.png" width="864"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span><span class="st">"continent"</span>, nrow <span class="op">=</span> <span class="fl">1</span>, free.scales.fill <span class="op">=</span> <span class="cn">TRUE</span>, free.coords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -598,10 +600,10 @@ this argument has been moved to the layer functions:</p>
 <code>free</code> argument can be specified differently for rows and
 columns, as we will show in the next complex (sorry for that)
 example:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
 <span><span class="co"># ... not possible :(</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -665,7 +667,7 @@ and how they can be obtained. Ideas are welcome (<a href="https://github.com/r-t
 <p>In the current development version, there is a function similar to
 <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code>, which renders a long png in
 the viewer pane of RStudio or the browser:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v4</span></span>
 <span><span class="fu">tmap_show_palettes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><a href="https://user-images.githubusercontent.com/2444081/122725374-352bc680-d275-11eb-9a1c-0a88e4a97848.png" class="external-link"><img src="https://user-images.githubusercontent.com/2444081/122732106-3ad8da80-d27c-11eb-98fd-1aafd6d7a52b.png"></a></p>

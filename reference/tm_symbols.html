@@ -31,7 +31,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a>
-    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: visual variables</a>
+    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a>
   </div>
 </li>
 <li class="nav-item">
@@ -71,34 +71,42 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  size <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  size.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  fill <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fill.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  col <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  shape <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  shape.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  shape.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  shape.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  shape.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  lwd <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  lwd.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  lty <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  lty.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  fill_alpha <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fill_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  col_alpha <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
 <span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
@@ -187,36 +195,36 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>size, size.scale, size.legend, size.free</dt>
+    <dl><dt>size, size.scale, size.legend, size.chart, size.free</dt>
 <dd><p>Visual variable that determines the size. See details.</p></dd>
 
 
-<dt>fill, fill.scale, fill.legend, fill.free</dt>
+<dt>fill, fill.scale, fill.legend, fill.chart, fill.free</dt>
 <dd><p>Visual variable that determines the fill color. See details.</p></dd>
 
 
-<dt>col, col.scale, col.legend, col.free</dt>
+<dt>col, col.scale, col.legend, col.chart, col.free</dt>
 <dd><p>Visual variable that determines the col color. See details.</p></dd>
 
 
-<dt>shape, shape.scale, shape.legend, shape.free</dt>
+<dt>shape, shape.scale, shape.legend, shape.chart, shape.free</dt>
 <dd><p>Visual variable that determines the shape. See details.</p></dd>
 
 
-<dt>lwd, lwd.scale, lwd.legend, lwd.free</dt>
+<dt>lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free</dt>
 <dd><p>Visual variable that determines the line width. See details.</p></dd>
 
 
-<dt>lty, lty.scale, lty.legend, lty.free</dt>
+<dt>lty, lty.scale, lty.legend, lty.chart, lty.free</dt>
 <dd><p>Visual variable that determines the line type. See details.</p></dd>
 
 
-<dt>fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.free</dt>
+<dt>fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free</dt>
 <dd><p>Visual variable that determines
 the fill color alpha transparency See details.</p></dd>
 
 
-<dt>col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free</dt>
+<dt>col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free</dt>
 <dd><p>Visual variable that determines
 the border color alpha transparency. See details.</p></dd>
 
@@ -283,26 +291,26 @@ Only used for <code>"view"</code> mode.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data
-variable name (of the object specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value
-(for <code>col</code>, a color is expected). Multiple values can be specified: in that case
-facets are created. These facets can be combined with other faceting data variables,
-specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p>
-<p>The <code>.scale</code> arguments determine the used scale to map the data values to visual
-variable values. These can be specified with one of the available <code>tm_scale_</code> functions.
-The default scale that is used is specified by the tmap option <code>scales.var</code>.</p>
-<p>The <code>.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>.
-The default legend and its settings are determined by the tmap options <code>legend.</code>.</p>
-<p>The <code>.free</code> arguments determine whether scales are applied freely across facets,
-or shared. A logical value is required. They can also be specified with a vector
-of three logical values; these determine whether scales are applied freely per
-facet dimension. This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets()</a></code>).
-There are maximally three facet dimensions: rows, columns, and pages.
-This only applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid()</a></code>).
-For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code> means that for the visual variable
-<code>col</code>, each row of facets will have its own scale, and therefore its own legend.
-For facet wraps and stacks (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>),
-there is only one facet dimension, so the <code>.free</code> argument requires only one logical value.</p>
-    </div>
+variable name (e.g., a spatial vector attribute or a raster layer of the object
+specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected).
+Multiple values can be specified: in that case facets are created.
+These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p><ul><li><p>The <code>*.scale</code> arguments determine the used scale to map the data values to
+visual variable values. These can be specified with one of the available
+<code>tm_scale_*()</code> functions. The default is specified by the tmap option (<code><a href="tmap_options.html">tm_options()</a></code>) <code>scales.var</code>.</p></li>
+<li><p>The <code>*.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>.
+The default legend and its settings are determined by the tmap options (<code><a href="tmap_options.html">tm_options()</a></code>) <code>legend.</code> .</p></li>
+<li><p>The <code>*.chart</code> arguments specify additional charts, specified with <code>tm_chart_</code>, e.g. <code><a href="tm_chart.html">tm_chart_histogram()</a></code></p></li>
+<li><p>The <code>*.free</code> arguments determine whether scales are applied freely across facets, or shared.
+A logical value is required. They can also be specified with a vector of three
+logical values; these determine whether scales are applied freely per facet dimension.
+This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets()</a></code>).
+There are maximally three facet dimensions: rows, columns, and pages. This only
+applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid()</a></code>). For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code>
+means that for the visual variable <code>col</code>, each row of facets will have its own
+scale, and therefore its own legend. For facet wraps and stacks
+(<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension,
+so the <code>*.free</code> argument requires only one logical value.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -339,16 +347,14 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>         title.col<span class="op">=</span><span class="st">"Growth rate (%)"</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable(s) "fill" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
-<span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2010"</span>, col<span class="op">=</span><span class="st">"pop2010"</span>, shape<span class="op">=</span><span class="st">"pop2010"</span>,</span></span>
 <span class="r-in"><span>         legend.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>text.align<span class="op">=</span><span class="st">"right"</span>, text.to.columns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="cn">TRUE</span>, outside.position <span class="op">=</span> <span class="st">"bottom"</span>, stack <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons</span>
-<span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmaptools" class="external-link">tmaptools</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -415,7 +421,6 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>           shape.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ggplot2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: dplyr</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
@@ -430,8 +435,8 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-plt img"><img src="tm_symbols-5.png" alt="" width="700" height="433"></span>
-<span class="r-plt img"><img src="tm_symbols-6.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
+<span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -473,7 +478,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span><span class="st">"pop2010"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span>, values.scale <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">22</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some legend items or map compoments do not fit well (e.g. due to the specified font size).</span>
-<span class="r-plt img"><img src="tm_symbols-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -483,13 +488,13 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"x"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span><span class="st">"pop2010"</span>, fill <span class="op">=</span> <span class="st">"pop2020"</span>, </span></span>
 <span class="r-in"><span>         fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>         size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">22</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-9.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

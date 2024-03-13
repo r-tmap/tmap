@@ -25,7 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a>
-    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: visual variables</a>
+    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a>
   </div>
 </li>
 <li class="nav-item">
@@ -62,18 +62,22 @@
 <span>  col <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  lwd <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  lwd.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lwd.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  lty <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  lty.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lty.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  col_alpha <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  linejoin <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  lineend <span class="op">=</span> <span class="st">"round"</span>,</span>
@@ -93,19 +97,19 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>col, col.scale, col.legend, col.free</dt>
+    <dl><dt>col, col.scale, col.legend, col.chart, col.free</dt>
 <dd><p>Visual variable that determines the col color. See details.</p></dd>
 
 
-<dt>lwd, lwd.scale, lwd.legend, lwd.free</dt>
+<dt>lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free</dt>
 <dd><p>Visual variable that determines the line width. See details.</p></dd>
 
 
-<dt>lty, lty.scale, lty.legend, lty.free</dt>
+<dt>lty, lty.scale, lty.legend, lty.chart, lty.free</dt>
 <dd><p>Visual variable that determines the line type. See details.</p></dd>
 
 
-<dt>col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free</dt>
+<dt>col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free</dt>
 <dd><p>Visual variable that determines the border color alpha transparency. See details.</p></dd>
 
 
@@ -155,11 +159,27 @@
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data variable name (of the object specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p>
-<p>The <code>.scale</code> arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available <code>tm_scale_</code> functions. The default scale that is used is specified by the tmap option <code>scales.var</code>.</p>
-<p>The <code>.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>. The default legend and its settings are determined by the tmap options <code>legend.</code>.</p>
-<p>The <code>.free</code> arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets()</a></code>). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid()</a></code>). For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code> means that for the visual variable <code>col</code>, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension, so the <code>.free</code> argument requires only one logical value.</p>
-    </div>
+    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data
+variable name (e.g., a spatial vector attribute or a raster layer of the object
+specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected).
+Multiple values can be specified: in that case facets are created.
+These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p><ul><li><p>The <code>*.scale</code> arguments determine the used scale to map the data values to
+visual variable values. These can be specified with one of the available
+<code>tm_scale_*()</code> functions. The default is specified by the tmap option (<code><a href="tmap_options.html">tm_options()</a></code>) <code>scales.var</code>.</p></li>
+<li><p>The <code>*.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>.
+The default legend and its settings are determined by the tmap options (<code><a href="tmap_options.html">tm_options()</a></code>) <code>legend.</code> .</p></li>
+<li><p>The <code>*.chart</code> arguments specify additional charts, specified with <code>tm_chart_</code>, e.g. <code><a href="tm_chart.html">tm_chart_histogram()</a></code></p></li>
+<li><p>The <code>*.free</code> arguments determine whether scales are applied freely across facets, or shared.
+A logical value is required. They can also be specified with a vector of three
+logical values; these determine whether scales are applied freely per facet dimension.
+This is only useful when facets are applied (see <code><a href="tm_facets.html">tm_facets()</a></code>).
+There are maximally three facet dimensions: rows, columns, and pages. This only
+applies for a facet grid (<code><a href="tm_facets.html">tm_facets_grid()</a></code>). For instance, <code>col.free = c(TRUE, FALSE, FALSE)</code>
+means that for the visual variable <code>col</code>, each row of facets will have its own
+scale, and therefore its own legend. For facet wraps and stacks
+(<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension,
+so the <code>*.free</code> argument requires only one logical value.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
