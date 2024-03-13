@@ -347,14 +347,16 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span>         title.col<span class="op">=</span><span class="st">"Growth rate (%)"</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable(s) "fill" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
+<span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2010"</span>, col<span class="op">=</span><span class="st">"pop2010"</span>, shape<span class="op">=</span><span class="st">"pop2010"</span>,</span></span>
 <span class="r-in"><span>         legend.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>text.align<span class="op">=</span><span class="st">"right"</span>, text.to.columns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="cn">TRUE</span>, outside.position <span class="op">=</span> <span class="st">"bottom"</span>, stack <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons</span>
+<span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmaptools" class="external-link">tmaptools</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -435,8 +437,8 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in v3_symbols(args, args_called):</span> object 'fill.chart' not found</span>
-<span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -478,7 +480,7 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span><span class="st">"pop2010"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span>, values.scale <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">22</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some legend items or map compoments do not fit well (e.g. due to the specified font size).</span>
-<span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -488,13 +490,13 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"x"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-8.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span><span class="st">"pop2010"</span>, fill <span class="op">=</span> <span class="st">"pop2020"</span>, </span></span>
 <span class="r-in"><span>         fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>         size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">22</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
