@@ -392,6 +392,8 @@ v3_symbols = function(args, args_called) {
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
 			# to do: histogram title
+		} else {
+			fill.chart = tm_chart_none()
 		}
 		
 		list(fill = fill,
