@@ -5,6 +5,13 @@ tmapLeafletCompPrepare.tm_chart = function(comp, o) {
 	comp
 }
 
+#' @method tmapLeafletCompPrepare tm_chart_none
+#' @export
+tmapLeafletCompPrepare.tm_chart_none = function(comp, o) {
+	comp
+}
+
+
 #' @method tmapLeafletCompWidth tm_chart
 #' @export
 tmapLeafletCompWidth.tm_chart = function(comp, o) {

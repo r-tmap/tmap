@@ -41,6 +41,16 @@ tm_text(
   bgcol_alpha.legend = tm_legend(),
   bgcol_alpha.chart = tm_chart_none(),
   bgcol_alpha.free = NA,
+  xmod = 0,
+  xmod.scale = tm_scale(),
+  xmod.legend = tm_legend_hide(),
+  xmod.chart = tm_chart_none(),
+  xmod.free = NA,
+  ymod = 0,
+  ymod.scale = tm_scale(),
+  ymod.legend = tm_legend_hide(),
+  ymod.chart = tm_chart_none(),
+  ymod.free = NA,
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   trans.args = list(points.only = "ifany"),
@@ -74,6 +84,11 @@ the background color. See Details.}
 
 \item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free}{Visual variable that determines
 the background color transparency. See Details.}
+
+\item{xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free}{Transformation variable that determines the x offset. See details.}
+
+\item{ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free}{Transformation variable that determines the y offset. See details.
+the text. See details.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -144,4 +159,13 @@ tm_shape(World) +
     bgcol.scale = tm_scale_categorical(values = cols4all::.P$hcl$cat$set2),
     bgcol_alpha = "pop_est",
     bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
+
+## xymod
+metro$initial = substr(metro$name,1,1)
+metro$az = (match(metro$initial, LETTERS)-1) /25
+
+tm_shape(metro) +
+	tm_dots("red") +
+	tm_text("initial", ymod = "az")
+
 }

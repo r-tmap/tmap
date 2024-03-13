@@ -118,7 +118,9 @@
 						  col_alpha = c(0.25, 1),
 						  bgcol_alpha = c(0.25, 1),
 						  shape = 21:25,
-						  area = c(0, 1)),
+						  area = c(0, 1),
+						  xmod = c(0, 1),
+						  ymod = c(0, 1)),
 		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1),
 							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
 							col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
@@ -149,6 +151,8 @@
 						  col_alpha = list(fact = "categorical", num = "intervals"),
 						  bgcol_alpha = list(fact = "categorical", num = "intervals"),
 						  area = list(fact = "categorical", num = "continuous"),
+						  xmod = list(fact = "asis", num = "asis"),
+						  ymod = list(fact = "asis", num = "asis"),
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
 		

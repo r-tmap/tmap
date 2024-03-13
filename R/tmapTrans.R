@@ -1,4 +1,4 @@
-do_trans = function(tdt, FUN, shpDT, plot.order, args) {
+do_trans = function(tdt, FUN, shpDT, plot.order, args, scale) {
 	#browser()
 	
 	shpDT = copy(shpDT)
@@ -23,15 +23,21 @@ do_trans = function(tdt, FUN, shpDT, plot.order, args) {
 		
 		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
 		
-		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args)))
+		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args, scale = scale)))
 	}
 	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
 	list(shpDT)
 }
 
+delta_per_lineheight = function(x, n = 20, scale = 1) {
+	b = unname(sf::st_bbox(x))
+	(b[4] - b[2]) / n * scale
+}
+
+
 # args:
 # - points.only: "yes", "no", "ifany"
-tmapTransCentroid = function(shpTM, ord__, plot.order, args) {
+tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
 		if (is_stars && args$points.only == "no") {
@@ -67,6 +73,18 @@ tmapTransCentroid = function(shpTM, ord__, plot.order, args) {
 					})
 				}
 			}
+			
+			if (!is.null(xmod) || !is.null(ymod)) {
+				shp = local({
+					d = delta_per_lineheight(shp, scale = scale)
+					
+					if (is.null(xmod)) xmod = rep(0, length(shp))
+					if (is.null(ymod)) ymod = rep(0, length(shp))
+					mod = mapply(c, xmod * d, ymod * d, SIMPLIFY = FALSE)
+					shp + mod
+				})
+			}
+			
 			rm(geom_types)
 		}
 	})
@@ -81,7 +99,7 @@ tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 
 # args:
 # - polygons.only: "yes", "no", "ifany"
-tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
+tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
 		if (is_stars && args$polygons.only == "no") {
@@ -132,7 +150,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 
 # args:
 # - lines.only: "yes", "no", "ifany"
-tmapTransLines = function(shpTM, ord__, plot.order, args) {
+tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
 		if (is_stars) {
@@ -178,7 +196,7 @@ tmapTransLines = function(shpTM, ord__, plot.order, args) {
 	})
 }
 
-tmapTransCartogram = function(shpTM, area, ord__, plot.order, args) {
+tmapTransCartogram = function(shpTM, area, ord__, plot.order, args, scale) {
 	s = shpTM$shp
 	
 	if (sf::st_is_longlat(s)) {

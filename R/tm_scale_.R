@@ -256,6 +256,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param unit unit the unit name of the values. By default `"rank"`.
 #' @export
 tm_scale_rank = function(n = NULL,
 						 ticks = NULL,

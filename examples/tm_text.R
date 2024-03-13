@@ -14,3 +14,12 @@ tm_shape(World) +
     bgcol.scale = tm_scale_categorical(values = cols4all::.P$hcl$cat$set2),
     bgcol_alpha = "pop_est",
     bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
+
+## xymod
+metro$initial = substr(metro$name,1,1)
+metro$az = (match(metro$initial, LETTERS)-1) /25
+
+tm_shape(metro) +
+	tm_dots("red") +
+	tm_text("initial", ymod = "az")
+

@@ -156,12 +156,13 @@ tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
+	sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
 	
 	if (!is.null(x2)) {
 		sc = "bivariate"
 	} else if (cls[1] == "asis") {
 		sc = "asis"	
-	} else if (attr(cls, "unique")) {
+	} else if (attr(cls, "unique") && !(sc_opt == "asis")) {
 		if ("num" %in% cls) {
 			sc = "ordinal"
 			message("The visual variable \"", aes, "\" of the layer \"", layer, "\" contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")	
@@ -169,10 +170,8 @@ tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 			sc = "categorical"	
 			message("The visual variable \"", aes, "\" of the layer \"", layer, "\" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).")
 		}
-		
-		
 	} else {
-		sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
+		
 		sc_pref = scale$fun_pref
 		
 		if (!is.null(sc_pref)) {

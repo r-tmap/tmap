@@ -57,6 +57,9 @@
 #'   the background color. See Details.
 #' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
 #'   the background color transparency. See Details.
+#' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details.
+#' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
+#'   the text. See details.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R 
 #' @export
@@ -96,6 +99,16 @@ tm_text = function(text = tm_const(),
 				   bgcol_alpha.legend = tm_legend(),
 				   bgcol_alpha.chart = tm_chart_none(),
 				   bgcol_alpha.free = NA,
+				   xmod = 0,
+				   xmod.scale = tm_scale(),
+				   xmod.legend = tm_legend_hide(),
+				   xmod.chart = tm_chart_none(),
+				   xmod.free = NA,
+				   ymod = 0,
+				   ymod.scale = tm_scale(),
+				   ymod.legend = tm_legend_hide(),
+				   ymod.chart = tm_chart_none(),
+				   ymod.free = NA,
 				   shadow = FALSE,
 				   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
 				   trans.args = list(points.only = "ifany"),
@@ -210,7 +223,18 @@ tm_text = function(text = tm_const(),
 	tm_element_list(tm_element(
 		layer = "text",
 		trans.fun = tmapTransCentroid,
-		trans.aes = list(),
+		trans.aes = list(xmod = tmapScale(aes = "xmod",
+											  value = xmod,
+											  scale = xmod.scale,
+											  legend = xmod.legend,
+											  chart = xmod.chart,
+											  free = xmod.free),
+						 ymod = tmapScale(aes = "ymod",
+						 				 value = ymod,
+						 				 scale = ymod.scale,
+						 				 legend = ymod.legend,
+						 				 chart = ymod.chart,
+						 				 free = ymod.free)),
 		trans.args = trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(
