@@ -122,5 +122,26 @@ tm_chart_box = function(position,
 #' @name tm_chart_none
 #' @export
 tm_chart_none = function() {
-	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_histogram", "tm_chart", "tm_component", "list"))	
+	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))	
+}
+
+
+
+#' @rdname tm_chart
+#' @name tm_chart_heatmap
+#' @export
+tm_chart_heatmap = function(position,
+						width,
+						height,
+						stack,
+						z,
+						group.frame,
+						resize.as.group) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	args$show = TRUE
+	args$type = "heatmap"
+	args$summary = "binned2D"
+	structure(args, class = c("tm_chart_heatmap", "tm_chart", "tm_component", "list"))
 }

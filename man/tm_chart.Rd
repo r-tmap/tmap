@@ -7,6 +7,7 @@
 \alias{tm_chart_violin}
 \alias{tm_chart_box}
 \alias{tm_chart_none}
+\alias{tm_chart_heatmap}
 \title{Legend charts}
 \usage{
 tm_chart_histogram(
@@ -51,6 +52,16 @@ tm_chart_violin(
 tm_chart_box(position, width, height, stack, z, group.frame, resize.as.group)
 
 tm_chart_none()
+
+tm_chart_heatmap(
+  position,
+  width,
+  height,
+  stack,
+  z,
+  group.frame,
+  resize.as.group
+)
 }
 \arguments{
 \item{breaks}{The breaks of the bins (for histograms)}

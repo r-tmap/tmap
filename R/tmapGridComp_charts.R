@@ -252,3 +252,44 @@ tmapGridLegPlot.tm_chart_box = function(comp, o, fH, fW) {
 	
 	grid::grobTree(chart, vp = vp)
 }
+
+
+#' @method tmapGridLegPlot tm_chart_heatmap
+#' @export
+tmapGridLegPlot.tm_chart_heatmap = function(comp, o, fH, fW) {
+	u = 1/(comp$nlines)
+	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
+	scale = o$scale * comp$scale
+	
+	textsize = o$chart.text.size * scale
+	
+	wsu = comp$wsu
+	hsu = comp$hsu
+	
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu), 
+												   widths = wsu,
+												   heights = hsu))
+	
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	
+	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = bin2, y = bin1, fill = freq)) +
+		ggplot2::geom_tile() + 
+		ggplot2::scale_fill_distiller(type = "seq",
+							  direction = 1,
+							  palette = "Greys") +
+		theme_chart(plot.axis.x = TRUE, plot.axis.y = TRUE, scale = scale, text.color = o$chart.text.color, text.size = textsize, plot.grid.x = FALSE, plot.grid.y = FALSE) #comp$plot.axis.x
+	
+	g = g + comp$extra.ggplot2
+	
+	g2 = ggplot2::ggplotGrob(g)
+	
+	# other grid cells are aligns (1 and 5) and margins (2 and 4)
+	histogram = gridCell(3,3, {
+		gTree(children=gList(grobBG, 
+							 g2), 
+			  name="compass")
+	})
+	
+	grid::grobTree(histogram, vp = vp)
+}
