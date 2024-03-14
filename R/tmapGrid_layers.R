@@ -351,6 +351,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	bgcol = gp$bgcol
 	bgcol_alpha = gp$bgcol_alpha
 	
+	angle = gp$angle
 	
 	gp = gp_to_gpar(gp, sel = "col", o = o, type = "text")
 
@@ -365,9 +366,9 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		n = nrow(dt)
 		gps = split_gp(gp, n)
 		
-		grobTextList = mapply(function(txt, x , y, gp) {
-			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp) #, name = paste0("text_", id))
-		}, dt$text, coords[,1], coords[, 2], gps, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+		grobTextList = mapply(function(txt, x , y, gp, a) {
+			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a) #, name = paste0("text_", id))
+		}, dt$text, coords[,1], coords[, 2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		
 		
 		if (with_bg) {
@@ -403,9 +404,10 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		if (with_shadow) {
 			gp_sh = gp
 			gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
-			grobTextShList = mapply(function(x, y, txt) {
-				grid::textGrob(x = grid::unit(x, "native") + grid::unit(0.05, "lines"), y = grid::unit(y, "native") - grid::unit(0.05, "lines"), label = txt, gp = gp_sh)
-			}, coords[,1], coords[,2], dt$text, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			gps_sh = split_gp(gp_sh, n)
+			grobTextShList = mapply(function(x, y, txt, g, a) {
+				grid::textGrob(x = grid::unit(x, "native") + grid::unit(0.05, "lines"), y = grid::unit(y, "native") - grid::unit(0.05, "lines"), label = txt, gp = g, rot = a)
+			}, coords[,1], coords[,2], dt$text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
 		}
@@ -416,7 +418,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		grb = grid::grobTree(do.call(grid::gList, do.call(c, do.call(mapply, c(list(FUN = list, SIMPLIFY = FALSE, USE.NAMES = FALSE), grobTextAll2)))))
 		
 	} else {
-		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
+		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id), rot = angle)
 		grb = grid::grobTree(gList(grobText))
 	}
 

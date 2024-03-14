@@ -63,7 +63,8 @@
 						 size.text = 1,
 						 fill_alpha = 1,
 						 col_alpha = 1,
-						 bgcol_alpha = 1),
+						 bgcol_alpha = 1,
+						 angle = 0),
 		value.na = list(
 			fill = "grey75",
 			col = "grey75",
@@ -76,7 +77,8 @@
 			fill_alpha = 1,
 			col_alpha = 1,
 			bgcol_alpha = 1,
-			col_alpha.raster = 0
+			col_alpha.raster = 0,
+			angle = 0
 		),
 		value.null = list(
 			fill = "grey95",
@@ -90,7 +92,8 @@
 			fill_alpha = 1,
 			col_alpha = 1,
 			bgcol_alpha = 1,
-			size = 0.2
+			size = 0.2,
+			angle = 0
 		),
 		value.blank = list(
 			fill = "#00000000",
@@ -102,7 +105,8 @@
 			fontface = "plain",
 			fill_alpha = 0,
 			col_alpha = 0,
-			bgcol_alpha = 0
+			bgcol_alpha = 0,
+			angle = 0
 		),
 		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div",
 									  unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
@@ -122,10 +126,11 @@
 						  shape = 21:25,
 						  area = c(0, 1),
 						  xmod = c(0, 1),
-						  ymod = c(0, 1)),
+						  ymod = c(0, 1),
+						  angle = c(0, 360)),
 		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1),
 							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
-							col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+							col_alpha = NA, shape = NA, angle = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 lty = "solid",
@@ -133,7 +138,8 @@
 							 col_alpha = 1,
 							 bgcol_alpha = 1,
 							 text = "Abc",
-							 fontface = "plain"),
+							 fontface = "plain",
+							 angle = 0),
 		values.scale = list(
 			1,
 			lwd.lines = 1,
@@ -156,6 +162,7 @@
 						  area = list(fact = "categorical", num = "continuous"),
 						  xmod = list(fact = "asis", num = "asis"),
 						  ymod = list(fact = "asis", num = "asis"),
+						  angle = list(fact = "asis", num = "asis"),
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
 		

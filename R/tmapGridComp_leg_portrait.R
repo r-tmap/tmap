@@ -556,12 +556,17 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		bgcols = rep(gp$bgcol, length.out = nlev)
 		bgcols_alpha = rep(gp$bgcol_alpha, length.out = nlev)
 		
+		# in case size is a continuous scale
+		if (is.character(gp$cex)) gp$cex = vapply(cont_split(gp$cex), FUN = function(x) {
+			as.numeric(x[round(length(x)/2)])
+		}, FUN.VALUE = numeric(1))
+			
+		
 		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
-		#		sizes = 
 	
 		
 		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha, size) {

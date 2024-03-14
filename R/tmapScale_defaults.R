@@ -45,6 +45,11 @@ tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x) {
 	TRUE
 }
 
+tmapValuesCheck_angle = tmapValuesCheck_ymod = function(x) {
+	# to do
+	is.numeric(x)
+}
+
 tmapValuesCheck_col_alpha= function(x) {
 	tmapValuesCheck_size(x)
 }
@@ -120,6 +125,9 @@ tmapValuesIsDiv_xmod = tmapValuesIsDiv_ymod = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesIsDiv_angle = function(x) {
+	FALSE
+}
 
 tmapValuesIsDiv_shape = function(x) {
 	FALSE
@@ -190,6 +198,9 @@ tmapValuesRange_xmod = tmapValuesRange_ymod = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+tmapValuesRange_angle = function(x, n, isdiv) {
+	c(0, 1)
+}
 
 tmapValuesRange_text = function(x, n, isdiv) {
 	c(0, 1)
@@ -360,6 +371,10 @@ tmapValuesVV_xmod = tmapValuesVV_ymod = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+tmapValuesVV_angle = function(...) {
+	do.call(tmapValuesVV_size, args = list(...))
+}
+
 tmapValuesVV_text = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
@@ -375,6 +390,7 @@ tmapValuesSubmit_bgcol = function(x, args) x
 tmapValuesSubmit_size = function(x, args) x
 tmapValuesSubmit_xmod = function(x, args) x
 tmapValuesSubmit_ymod = function(x, args) x
+tmapValuesSubmit_angle = function(x, args) x
 tmapValuesSubmit_lwd = function(x, args) x
 tmapValuesSubmit_lty = function(x, args) x
 tmapValuesSubmit_shape = function(x, args) {
@@ -423,6 +439,7 @@ tmapValuesScale_bgcol_alpha = function(x, scale) x
 tmapValuesScale_text = function(x, scale) x
 tmapValuesScale_fontface = function(x, scale) x
 tmapValuesScale_xmod = tmapValuesScale_ymod = function(x, scale) x
+tmapValuesScale_angle = function(x, scale) x
 
 tmapValuesColorize_col = function(x, pc) do.call(process_color, c(list(col = x), pc))
 tmapValuesColorize_fill = function(x, pc) do.call(process_color, c(list(col = x), pc))
@@ -437,7 +454,7 @@ tmapValuesColorize_bgcol_alpha = function(x, pc) x
 tmapValuesColorize_text = function(x, pc) x
 tmapValuesColorize_fontface = function(x, pc) x
 tmapValuesColorize_xmod = tmapValuesColorize_ymod = function(x, pc) x
-
+tmapValuesColorize_angle = function(x, pc) x
 
 
 tmap_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
@@ -538,6 +555,10 @@ tmapValuesCVV_xmod = function(x, value.na, n, range, scale, rep, o) {
 
 tmapValuesCVV_ymod = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_ymod(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+tmapValuesCVV_angle = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_angle(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 tmapValuesCVV_shape = function(x, value.na, n, range, scale, rep, o) {
