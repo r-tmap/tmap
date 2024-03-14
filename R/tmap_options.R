@@ -54,9 +54,11 @@
 						 fontface = "plain",
 						 shape.symbols = 21,
 						 shape.bubbles = 21,
+						 shape.squares = 22,
 						 shape.dots = 19,
 						 size.symbols = 1,
 						 size.bubbles = 1.3333,
+						 size.squares = 1.3333,
 						 size.dots = .15,
 						 size.text = 1,
 						 fill_alpha = 1,
@@ -136,7 +138,8 @@
 			1,
 			lwd.lines = 1,
 			size.symbols = 1,
-			size.bubbles = 1.3333
+			size.bubbles = 1.3333,
+			size.squares = 1.3333
 		),
 		
 		# scales

@@ -616,3 +616,52 @@ tm_bubbles = function(size = tm_const(),
 	tm[[1]]$layer = c("bubbles", "symbols")
 	tm
 }
+
+
+#' @export
+#' @name tm_squares
+#' @rdname tm_symbols
+tm_squares = function(size = tm_const(),
+					  size.scale = tm_scale(),
+					  size.legend = tm_legend(),
+					  size.free = NA,
+					  fill = tm_const(),
+					  fill.scale = tm_scale(),
+					  fill.legend = tm_legend(),
+					  fill.free = NA,
+					  col = tm_const(),
+					  col.scale = tm_scale(),
+					  col.legend = tm_legend(),
+					  col.free = NA,
+					  lwd = tm_const(),
+					  lwd.scale = tm_scale(),
+					  lwd.legend = tm_legend(),
+					  lwd.free = NA,
+					  lty = tm_const(),
+					  lty.scale = tm_scale(),
+					  lty.legend = tm_legend(),
+					  lty.free = NA,
+					  fill_alpha = tm_const(),
+					  fill_alpha.scale = tm_scale(),
+					  fill_alpha.legend = tm_legend(),
+					  fill_alpha.free = NA,
+					  col_alpha = tm_const(),
+					  col_alpha.scale = tm_scale(),
+					  col_alpha.legend = tm_legend(),
+					  col_alpha.free = NA,
+					  plot.order = tm_plot_order("size"),
+					  trans.args = list(points.only = "ifany"),
+					  mapping.args = list(icon.scale = 3,
+					  					just = NA,
+					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
+					  zindex = NA,
+					  group = NA,
+					  group.control = "check",
+					  ...) {
+	
+	args = c(as.list(environment()), list(...))
+	tm = do.call(tm_symbols, args)
+	tm[[1]]$layer = c("squares", "symbols")
+	tm
+}
+

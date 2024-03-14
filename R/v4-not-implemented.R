@@ -1,10 +1,3 @@
-#' These functions will be implemented soon
-#' @export
-#' @param ... Arguments
-#' @name v4-not-yet
-tm_squares <- function(...) {
-	stop("Not yet implemented in v4")
-}
 #' @export
 #' @rdname v4-not-yet
 tm_iso <- function() {
