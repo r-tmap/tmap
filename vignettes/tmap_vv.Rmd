@@ -12,7 +12,7 @@ output:
 link-citations: yes
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{tmap: visual variables}
+  %\VignetteIndexEntry{tmap: charts}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -31,9 +31,9 @@ data(World, metro, rivers, land)
 
 ## Introduction
 
-**tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2023.
+**tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2024.
 
-#### tmap 4 - tmap 3.x
+### tmap 4 - tmap 3.x
 
 * **tmap 3.x** supports several map layer variables, for example `"col"`, `"size"`, and `"shape"` for the  `tm_symbols()` map layer function. There will be many more of those variables in **tmap 4**. Besides the visual variables, so-called transformation variables also will be available. A *transformation variable* role is to change the spatial coordinates (for instance, to create a cartogram). A *visual variable* only changes the appearance of a spatial object, e.g. fill color or line width. You can find some examples of these variables below.
 
@@ -51,7 +51,7 @@ data(World, metro, rivers, land)
 
 * It is possible to combine legends, which is useful if the same data variable is applied for multiple visual variables using the same scaling function.
 
-#### tmap 4 - ggplot2
+### tmap 4 - ggplot2
 
 The **tmap** package is very similar to **ggplot2** and its Grammar of Graphics, but tailored to spatial data visualization, whereas **ggplot2** is much more general. More specifically:
 
@@ -65,7 +65,7 @@ The **tmap** package is very similar to **ggplot2** and its Grammar of Graphics,
 
 * ...
 
-#### tmap 4 - other R packages
+### tmap 4 - other R packages
 
 There are several great R packages for spatial data visualization, including: **ggplot2**, **mapview**, **leaflet**, **mapsf**, and the generic plot function.
 

@@ -30,5 +30,6 @@ utils::globalVariables(c(
 	"legend.bg.alpha", "lin", "m", "n", "overlays_tiles", "show", "show.labels",
 	"show.warnings", "total", "trans.args", "type", "values", "xlab.rotation",
 	"xlab.show", "xlab.side", "xlab.space", "xlab.text", "ylab.rotation",
-	"ylab.show", "ylab.side", "ylab.space", "ylab.text", "z"
+	"ylab.show", "ylab.side", "ylab.space", "ylab.text", "z",
+	"x", "y", "color", "freq", "bin", "bin1", "bin2"
 ))

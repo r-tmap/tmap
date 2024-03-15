@@ -51,6 +51,11 @@ tm_text(
   ymod.legend = tm_legend_hide(),
   ymod.chart = tm_chart_none(),
   ymod.free = NA,
+  angle = 0,
+  angle.scale = tm_scale(),
+  angle.legend = tm_legend_hide(),
+  angle.chart = tm_chart_none(),
+  angle.free = NA,
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   trans.args = list(points.only = "ifany"),
@@ -89,6 +94,9 @@ the background color transparency. See Details.}
 
 \item{ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free}{Transformation variable that determines the y offset. See details.
 the text. See details.}
+
+\item{angle, angle.scale, angle.legend, angle.chart, angle.free}{Transformations
+variables that determine the angle of the text}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -160,6 +168,9 @@ tm_shape(World) +
     bgcol_alpha = "pop_est",
     bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
 
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020", size.legend = tm_legend_hide())
+
 ## xymod
 metro$initial = substr(metro$name,1,1)
 metro$az = (match(metro$initial, LETTERS)-1) /25
@@ -167,5 +178,17 @@ metro$az = (match(metro$initial, LETTERS)-1) /25
 tm_shape(metro) +
 	tm_dots("red") +
 	tm_text("initial", ymod = "az")
+
+# angle
+tm_shape(World) +
+	tm_polygons() +
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020",
+			angle = -30, shadow = TRUE)
+
+metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020",
+			angle = "upside_down", size.legend = tm_legend_hide())
 
 }

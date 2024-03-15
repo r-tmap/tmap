@@ -1,11 +1,17 @@
+#' Features not yet implemented in tmap4
+#' 
+#' @param ... Arguments
+#' @name v4-not-yet
+NULL
+
 #' @export
 #' @rdname v4-not-yet
-tm_iso <- function() {
+tm_iso <- function(...) {
 	stop("Not yet implemented in v4")
 }
 #' @export
 #' @rdname v4-not-yet
-tm_markers <- function() {
+tm_markers <- function(...) {
 	stop("Not yet implemented in v4")
 }
 #' @export
@@ -15,7 +21,7 @@ tm_logo <- function(...) {
 }
 #' @export
 #' @rdname v4-not-yet
-tm_minimap <- function() {
+tm_minimap <- function(...) {
   stop("Not yet implemented in v4")
 }
 #' @export
