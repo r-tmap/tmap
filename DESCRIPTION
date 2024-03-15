@@ -1,6 +1,6 @@
 Package: tmap
 Title: Thematic Maps
-Version: 3.99.9000
+Version: 3.99.9001
 Authors@R: c(
     person("Martijn", "Tennekes", , "mtennekes@gmail.com", role = c("aut", "cre")),
     person("Jakub", "Nowosad", , "nowosad.jakub@gmail.com", role = "ctb"),
@@ -25,7 +25,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     classInt (>= 0.4-3),
-    cols4all (>= 0.7),
+    cols4all (>= 0.7-1),
     data.table,
     grid,
     htmltools,
