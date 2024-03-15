@@ -29,3 +29,8 @@ tmapLeafletCompHeight.tm_chart = function(comp, o) {
 tmapLeafletLegPlot.tm_chart_histogram = function(comp, lf, o) {
 	lf
 }
+#' @method tmapLeafletLegPlot tm_chart
+#' @export
+tmapLeafletLegPlot.tm_chart = function(comp, lf, o) {
+	lf
+}
