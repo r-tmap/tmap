@@ -30,9 +30,11 @@ tm_shape(metro) +
 tm_shape(World) +
 	tm_polygons() +
 tm_shape(metro) +
-	tm_text(text = "name", size = "pop2020", angle = -30, shadow = TRUE)
+	tm_text(text = "name", size = "pop2020",
+			angle = -30, shadow = TRUE)
 
 metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
 tm_shape(metro) +
-	tm_text(text = "name", size = "pop2020", angle = "upside_down", size.legend = tm_legend_hide())
+	tm_text(text = "name", size = "pop2020",
+			angle = "upside_down", size.legend = tm_legend_hide())
 

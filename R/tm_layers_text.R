@@ -60,6 +60,8 @@
 #' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details.
 #' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
 #'   the text. See details.
+#' @param angle,angle.scale,angle.legend,angle.chart,angle.free Transformations
+#'   variables that determine the angle of the text
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R 
 #' @export
