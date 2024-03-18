@@ -34,9 +34,43 @@ delta_per_lineheight = function(x, n = 20, scale = 1) {
 	(b[4] - b[2]) / n * scale
 }
 
+get_midpoint_angle = function(shp) {
+	lShp = sf::st_cast(shp, "MULTILINESTRING")
+	
+	coor <- st_coordinates(lShp)
+	coors <- split.data.frame(coor[,1:2], f = coor[,ncol(coor)], drop=FALSE)
+	co <- do.call(rbind, lapply(coors, get_midpoint))
+	pShp = sf::st_as_sf(as.data.frame(co), coords = c("X", "Y"), crs = sf::st_crs(shp))
+	
+	bbx = sf::st_bbox(shp)
+	deltax <- bbx[3] - bbx[1]
+	deltay <- bbx[4] - bbx[2]
+	delta <- max(deltax, deltay)
+	
+	pbShp <- st_cast(st_geometry(st_buffer(pShp, dist = delta / 100)), "MULTILINESTRING")
+	
+	iShps <- mapply(function(x,y,z) {
+		res = st_intersection(x,y)
+		if (!st_is_empty(res)) {
+			st_cast(res, "MULTIPOINT")
+		} else {
+			z
+		}
+	}, lShp, pbShp,pShp)
+	
+	angles = vapply(iShps, function(x) {
+		if (length(x) == 0) 0 else .get_direction_angle(st_coordinates(x)[,1:2, drop = FALSE])
+	}, numeric(1))
+	
+	angles[angles>90 & angles < 270] = angles[angles>90 & angles < 270] - 180
+	
+	list(shp = sf::st_geometry(pShp), angles = angles)
+}
 
 # args:
 # - points.only: "yes", "no", "ifany"
+# 
+# prop_ vectors, e.g. prop_angle can be added to shpTM. These are later put into dt (and used in step 4 (plotting))
 tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -62,9 +96,17 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 				tmapID = tmapID[ids_point]
 			} else {
 				if (length(ids_line)) {
-					shp[ids_line] = suppressWarnings({
-						sf::st_centroid(shp[ids_line])
-					})
+					if (args$along.lines) {
+						res = get_midpoint_angle(shp[ids_line])
+						shp[ids_line] = res$shp
+						prop_angle = rep(0, length(shp))
+						prop_angle[ids_line] = res$angles
+						rm(res)
+					} else {
+						shp[ids_line] = suppressWarnings({
+							sf::st_centroid(shp[ids_line])
+						})	
+					}
 				}
 				
 				if (length(ids_poly)) {

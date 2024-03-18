@@ -15,8 +15,6 @@ tm_raster(
   col_alpha.legend = tm_legend(),
   col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
-  trans.args = list(),
-  mapping.args = list(),
   zindex = NA,
   group = NA,
   group.control = "check",
@@ -29,9 +27,6 @@ See details.}
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable
 that determines the alpha transparency. See details.}
-
-\item{trans.args, mapping.args}{lists that are passed on to internal transformation
-and mapping functions respectively.}
 
 \item{zindex}{Map layers are drawn on top of each other.
 The \code{zindex} numbers (one for each map layer) determines the stacking order.

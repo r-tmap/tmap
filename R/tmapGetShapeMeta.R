@@ -182,7 +182,9 @@ tmapGetShapeMeta1.SpatVector = function(shp, o) {
 #' @export
 #' @keywords internal
 get_fact_levels_na = function(x, o) {
-	if (is.factor(x)) {
+	if (inherits(x, "sfc")) {
+		levs = NULL
+	} else if (is.factor(x)) {
 		if (o$drop.empty.facets) {
 			tab = tabulate(x, nbins = nlevels(x))
 			anyna = (sum(tab) != length(x)) # note that NA can already be included in the levels (in that case anyna = FALSE)

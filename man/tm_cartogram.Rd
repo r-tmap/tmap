@@ -36,8 +36,6 @@ variable that determines the fill color alpha transparency See details.}
     \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free}}{Visual variable
 that determines the border color alpha transparency. See details.}
     \item{\code{linejoin,lineend}}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
-    \item{\code{trans.args,mapping.args}}{lists that are passed on to internal transformation
-and mapping functions respectively.}
     \item{\code{zindex}}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order.
 By default the map layers are drawn in the order they are called.}
@@ -63,6 +61,7 @@ is applied to the named variable.}
     \item{\code{hover}}{name of the data variable that specifies the hover labels}
     \item{\code{id}}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
+    \item{\code{polygons.only}}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
   }}
 }
 \description{

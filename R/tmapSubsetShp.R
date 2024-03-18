@@ -61,6 +61,7 @@ tmapSubsetShp.sf = function(shp, vars) {
 	if ("MAP_COLORS" %in% vars) {
 		shp$MAP_COLORS = as.factor(tmaptools::map_coloring(shp))
 	}
+
 	if (!length(vars)) {
 		vars = "dummy__"
 		shp$dummy__ = logical(nrow(shp))

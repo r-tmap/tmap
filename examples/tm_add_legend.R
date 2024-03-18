@@ -5,6 +5,6 @@ tm_shape(NLD_muni) +
 				  col = c("#E892A1", "#FCD6A4", "#F8FABF", "#707070"),
 				  lty = c("solid", "solid", "solid", "dotted"),
 				  lwd = 3,
-				  type = "Lines",
+				  type = "lines",
 				  bg.color = "grey92",
 				  bg.alpha = 1)

@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_layers_text.R
 \name{tm_text}
 \alias{tm_text}
+\alias{tm_labels}
 \title{Map layer: text}
 \usage{
 tm_text(
@@ -51,13 +52,88 @@ tm_text(
   ymod.legend = tm_legend_hide(),
   ymod.chart = tm_chart_none(),
   ymod.free = NA,
+  angle = 0,
+  angle.scale = tm_scale(),
+  angle.legend = tm_legend_hide(),
+  angle.chart = tm_chart_none(),
+  angle.free = NA,
   shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-  trans.args = list(points.only = "ifany"),
-  mapping.args = list(clustering = FALSE),
   zindex = NA,
   group = NA,
   group.control = "check",
+  points.only = "ifany",
+  along.lines = FALSE,
+  clustering = FALSE,
+  point.label = FALSE,
+  point.label.gap = 0,
+  remove.overlap = FALSE,
+  ...
+)
+
+tm_labels(
+  text = tm_const(),
+  text.scale = tm_scale(),
+  text.legend = tm_legend(),
+  text.chart = tm_chart_none(),
+  text.free = NA,
+  size = tm_const(),
+  size.scale = tm_scale(),
+  size.legend = tm_legend(),
+  size.chart = tm_chart_none(),
+  size.free = NA,
+  col = tm_const(),
+  col.scale = tm_scale(),
+  col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
+  col.free = NA,
+  col_alpha = tm_const(),
+  col_alpha.scale = tm_scale(),
+  col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
+  col_alpha.free = NA,
+  fontface = tm_const(),
+  fontface.scale = tm_scale(),
+  fontface.legend = tm_legend(),
+  fontface.chart = tm_chart_none(),
+  fontface.free = NA,
+  fontfamily = "",
+  bgcol = tm_const(),
+  bgcol.scale = tm_scale(),
+  bgcol.legend = tm_legend(),
+  bgcol.chart = tm_chart_none(),
+  bgcol.free = NA,
+  bgcol_alpha = tm_const(),
+  bgcol_alpha.scale = tm_scale(),
+  bgcol_alpha.legend = tm_legend(),
+  bgcol_alpha.chart = tm_chart_none(),
+  bgcol_alpha.free = NA,
+  xmod = 0,
+  xmod.scale = tm_scale(),
+  xmod.legend = tm_legend_hide(),
+  xmod.chart = tm_chart_none(),
+  xmod.free = NA,
+  ymod = 0,
+  ymod.scale = tm_scale(),
+  ymod.legend = tm_legend_hide(),
+  ymod.chart = tm_chart_none(),
+  ymod.free = NA,
+  angle = 0,
+  angle.scale = tm_scale(),
+  angle.legend = tm_legend_hide(),
+  angle.chart = tm_chart_none(),
+  angle.free = NA,
+  shadow = FALSE,
+  plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  zindex = NA,
+  group = NA,
+  group.control = "check",
+  points.only = "ifany",
+  along.lines = FALSE,
+  clustering = FALSE,
+  point.label = TRUE,
+  point.label.gap = 0.3,
+  remove.overlap = FALSE,
   ...
 )
 }
@@ -90,13 +166,13 @@ the background color transparency. See Details.}
 \item{ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free}{Transformation variable that determines the y offset. See details.
 the text. See details.}
 
+\item{angle, angle.scale, angle.legend, angle.chart, angle.free}{Rotation angle
+the background color. See Details.}
+
 \item{shadow}{Shadow behind the text. Logical or color.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
-
-\item{trans.args, mapping.args}{lists that are passed on to internal transformation
-and mapping functions respectively.}
 
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order.
@@ -109,6 +185,18 @@ relevant in view mode, where layer groups can be switched (see \code{group.contr
 groups can be switched on and off. Options: \code{"radio"} for radio buttons
 (meaning only one group can be shown), \code{"check"} for check boxes (so multiple groups can be shown),
 and \code{"none"} for no control (the group cannot be (de)selected).}
+
+\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+
+\item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
+
+\item{point.label}{logical that determines whether the labels are placed automatically.}
+
+\item{point.label.gap}{numeric that determines the gap between the point and label}
+
+\item{remove.overlap}{logical that determines whether the overlapping labels are removed}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 }
@@ -160,6 +248,9 @@ tm_shape(World) +
     bgcol_alpha = "pop_est",
     bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
 
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020", size.legend = tm_legend_hide())
+
 ## xymod
 metro$initial = substr(metro$name,1,1)
 metro$az = (match(metro$initial, LETTERS)-1) /25
@@ -168,4 +259,38 @@ tm_shape(metro) +
 	tm_dots("red") +
 	tm_text("initial", ymod = "az")
 
+# angle
+tm_shape(World) +
+	tm_polygons() +
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020", angle = -30, shadow = TRUE)
+
+metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
+tm_shape(metro) +
+	tm_text(text = "name", size = "pop2020", angle = "upside_down", size.legend = tm_legend_hide())
+
+DE = World[World$name == "Germany",]
+rivers_DE = st_intersection(rivers, DE)
+
+tm_shape(DE) +
+	tm_polygons() +
+tm_shape(rivers_DE) +
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
+	tm_text("name", along.lines = TRUE)
+
+metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
+
+# remove.overlap
+tm_shape(metroAfrica) +
+	tm_text("name", bgcol = "yellow") +
+	tm_dots("red")
+	
+tm_shape(metroAfrica) +
+	tm_text("name", bgcol = "yellow", remove.overlap = TRUE) +
+	tm_dots("red")
+
+# tm_labels uses a labeling algorithm that uses randomization (so rerunning this code may give different outcomes, unless set.seed is used)
+tm_shape(metroAfrica) +
+	tm_labels("name", bgcol = "yellow") +
+	tm_dots("red")
 }

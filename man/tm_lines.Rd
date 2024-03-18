@@ -28,8 +28,6 @@ tm_lines(
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("LENGTH", reverse = FALSE, na.order = "bottom"),
-  trans.args = list(lines.only = "ifany"),
-  mapping.args = list(),
   zindex = NA,
   group = NA,
   group.control = "check",
@@ -37,6 +35,7 @@ tm_lines(
   popup.format = list(),
   hover = "",
   id = "",
+  lines.only = "ifany",
   ...
 )
 }
@@ -53,8 +52,6 @@ tm_lines(
 
 \item{plot.order}{Specification in which order the spatial features are drawn. See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
 
-\item{trans.args, mapping.args}{lists that are passed on to internal transformation and mapping functions respectively}
-
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.}
 
 \item{group}{Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see \code{group.control})}
@@ -68,6 +65,8 @@ tm_lines(
 \item{hover}{name of the data variable that specifies the hover labels}
 
 \item{id}{name of the data variable that specifies the indices of the spatial features. Only used for \code{"view"} mode.}
+
+\item{lines.only}{should only line geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted, or also other geometry types (like polygons)? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 }

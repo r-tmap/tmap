@@ -329,6 +329,7 @@ npc_to_native = function(x, scale) {
 }
 
 tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	args = list(...)
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -347,6 +348,24 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	
 	g = get("g", .TMAP_GRID)
 	
+	
+	# calculate native per line
+		wIn = g$colsIn[g$cols_facet_ids[facet_col]]
+		hIn = g$rowsIn[g$rows_facet_ids[facet_row]]
+		
+		wNative = bbx[3] - bbx[1]
+		hNative = bbx[4] - bbx[2]
+		
+		xIn = wNative / wIn
+		yIn = hNative / hIn
+		
+		
+		lineIn = convertHeight(unit(1, "lines"), "inch", valueOnly = TRUE)
+		#xnpl = (wNative / wIn) / lineIn
+		#ynpl = (hNative / hIn) / lineIn
+	#}
+	
+	
 	# specials vv (later on lost after gp_to_gpar)
 	bgcol = gp$bgcol
 	bgcol_alpha = gp$bgcol_alpha
@@ -359,7 +378,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	with_shadow = (!identical(shadow, FALSE))
 	
 	
-	if (with_bg || with_shadow) {
+	if (with_bg || with_shadow || args$remove.overlap || args$point.label) {
 		# grobs are processed seperately because of the order: backgrond1, shadow1, text1, background2, shadow2, text2, etc.
 		# becaues it is less efficient when there is no background/shadow (majority of use cases), this is a seperate routine
 		
@@ -371,27 +390,21 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		}, dt$text, coords[,1], coords[, 2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		
 		
-		if (with_bg) {
+		if (with_bg || args$remove.overlap) {
 			tGH = vapply(grobTextList, function(grb) {
-				convertHeight(grobHeight(grb), "lines", valueOnly = TRUE)
-			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+				convertHeight(grobHeight(grb), "inch", valueOnly = TRUE)
+			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE) * yIn
 			
 			tGW = vapply(grobTextList, function(grb) {
-				convertWidth(grobWidth(grb), "lines", valueOnly = TRUE)
-			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+				convertWidth(grobWidth(grb), "inch", valueOnly = TRUE)
+			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE) * xIn
 			
-			just = c(0.5, 0.5)
-			bg.margin=.3
+			tGX = unit(coords[,1], "native")
+			tGY = unit(coords[,2], "native")
 			
-			justx <- .5 - just[1]
-			justy <- .6 - just[2]
-			
-			tGX = unit(coords[,1] + tGW * justx, "native")
-			tGY = unit(coords[,2] + tGH * justy, "native")
-			
-			tGH = unit(tGH + bg.margin, "lines")
-			tGW = unit(tGW + bg.margin, "lines")
-			
+			tGH = unit(tGH , "native")
+			tGW = unit(tGW, "native")
+
 			grobTextBGList = mapply(function(x, y, w, h, b, a) {
 				rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
 			}, tGX, tGY, tGW, tGH, bgcol, bgcol_alpha, SIMPLIFY = FALSE, USE.NAMES = FALSE)
@@ -399,7 +412,64 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			grobTextBGList = NULL
 		}
 		
+		#if (args$auto.placement || args$remove.overlap) {
+			# grobs to sf
+			s = do.call(c,lapply(grobTextBGList, .grob2Poly))
+		#}
 		
+		if (args$point.label) {
+			get_rect_coords = function(polygon) {
+				co = sf::st_coordinates(polygon)
+				xr = range(co[,1])
+				yr = range(co[,2])
+				c(x = mean(xr),
+				  y = mean(yr),
+				  width = xr[2] - xr[1],
+				  height = yr[2] - yr[1])
+			}
+			
+			rect = do.call(rbind, lapply(s, get_rect_coords))
+
+			res = pointLabel2(x = rect[,1], y = rect[,2], width = rect[,3], height = rect[,4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap, method = "SANN")
+			
+			sx = res$x - rect[,1]
+			sy = res$y - rect[,2]
+			
+			grobTextList = mapply(function(grb, sxi, syi) {
+				grb$x = grb$x + grid::unit(sxi, "native")
+				grb$y = grb$y + grid::unit(syi, "native")
+				grb
+			}, grobTextList, sx, sy, SIMPLIFY = FALSE)
+			
+			
+			grobTextBGList = mapply(function(grb, sxi, syi) {
+				grb$x = grb$x + grid::unit(sxi, "native")
+				grb$y = grb$y + grid::unit(syi, "native")
+				grb
+			}, grobTextBGList, sx, sy, SIMPLIFY = FALSE)
+			
+		}
+		
+		if (args$remove.overlap) {
+			
+			
+			im = st_intersects(s, sparse = FALSE)
+			sel = rep(TRUE, length(s))
+			rs = rowSums(im)
+			while(any(rs>1)) {
+				id = which.max(rs)[1]
+				sel[id] = FALSE
+				im[id,] = FALSE
+				im[, id] = FALSE
+				rs = rowSums(im)
+			}
+		} else {
+			sel = TRUE
+		}
+		
+		if (!with_bg && args$remove.overlap) {
+			grobTextBGList = NULL
+		}
 		
 		if (with_shadow) {
 			gp_sh = gp
@@ -412,7 +482,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			grobTextShList = NULL
 		}
 
-		grobTextAll = list(grobTextBGList, grobTextShList, grobTextList)
+		grobTextAll = list(grobTextBGList[sel], grobTextShList[sel], grobTextList[sel])
 		grobTextAll2 = grobTextAll[!vapply(grobTextAll, is.null, FUN.VALUE = logical(1))]
 		
 		grb = grid::grobTree(do.call(grid::gList, do.call(c, do.call(mapply, c(list(FUN = list, SIMPLIFY = FALSE, USE.NAMES = FALSE), grobTextAll2)))))
@@ -429,6 +499,8 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	gt_name = paste0("gt_facet_", rc_text)
 	
 	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	
+	
 	
 	gts[[facet_page]] = gt
 	assign("gts", gts, envir = .TMAP_GRID)

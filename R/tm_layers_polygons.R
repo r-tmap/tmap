@@ -41,8 +41,6 @@
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
-#' @param trans.args,mapping.args lists that are passed on to internal transformation
-#'   and mapping functions respectively.
 #' @param zindex Map layers are drawn on top of each other. The `zindex` numbers
 #'   (one for each map layer) determines the stacking order.
 #'   By default the map layers are drawn in the order they are called.
@@ -68,6 +66,7 @@
 #' @param hover name of the data variable that specifies the hover labels
 #' @param id name of the data variable that specifies the indices of the spatial
 #'   features. Only used for `"view"` mode.
+#' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R 
 #' @name tm_polygons
@@ -106,8 +105,6 @@ tm_polygons = function(fill = tm_const(),
 					   linejoin = "round",
 					   lineend = "round",
 					   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-					   trans.args = list(polygons.only = "ifany"),
-					   mapping.args = list(),
 					   zindex = NA,
 					   group = NA,
 					   group.control = "check",
@@ -115,9 +112,13 @@ tm_polygons = function(fill = tm_const(),
 					   popup.format = list(),
 					   hover = "",
 					   id = "",
+					   polygons.only = "ifany",
 					   ...) {
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	trans.args = list(polygons.only = polygons.only)
+	mapping.args = list()
 	
 	v3 = c("alpha", "palette", "convert2density", "area", "n", 
 		   "style", "style.args", "as.count", "breaks", "interval.closure", 

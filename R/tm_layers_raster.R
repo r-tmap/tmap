@@ -32,8 +32,6 @@
 #'   See details.
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
 #'   that determines the alpha transparency. See details.
-#' @param trans.args,mapping.args lists that are passed on to internal transformation
-#'   and mapping functions respectively.
 #' @param zindex Map layers are drawn on top of each other.
 #'   The `zindex` numbers (one for each map layer) determines the stacking order.
 #'   By default the map layers are drawn in the order they are called.
@@ -56,8 +54,6 @@ tm_raster = function(col = tm_shape_vars(),
 					 col_alpha.legend = tm_legend(),
 					 col_alpha.chart = tm_chart_none(),
 					 col_alpha.free = NA,
-					 trans.args = list(),
-					 mapping.args = list(),
 					 zindex = NA,
 					 group = NA,
 					 group.control = "check",
@@ -66,6 +62,9 @@ tm_raster = function(col = tm_shape_vars(),
 	
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	trans.args = list()
+	mapping.args = list()
 	
 	v3 = c("alpha", "palette", "n", "style", "style.args", "as.count", 
 		   "breaks", "interval.closure", "labels", "drop.levels", "midpoint", 

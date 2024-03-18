@@ -40,8 +40,6 @@ tm_polygons(
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-  trans.args = list(polygons.only = "ifany"),
-  mapping.args = list(),
   zindex = NA,
   group = NA,
   group.control = "check",
@@ -49,6 +47,7 @@ tm_polygons(
   popup.format = list(),
   hover = "",
   id = "",
+  polygons.only = "ifany",
   ...
 )
 
@@ -75,9 +74,6 @@ that determines the border color alpha transparency. See details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
-
-\item{trans.args, mapping.args}{lists that are passed on to internal transformation
-and mapping functions respectively.}
 
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order.
@@ -110,6 +106,8 @@ is applied to the named variable.}
 
 \item{id}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
+
+\item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 }

@@ -16,8 +16,18 @@ select_sf = function(shpTM, dt) {
 	} else {
 		setkeyv(d, cols = "sord")
 	}
+	sid = match(d$tid, stid)
 	
-	shpSel = shp[match(d$tid, stid)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	shpSel = shp[sid] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	
+	# assign prop_ vectors to data dt (to be used in plotting) e.g. prop_angle is determined in tmapTransCentroid when along.lines = TRUE
+	prop_vars = names(shpTM)[substr(names(shpTM), 1, 5) == "prop_"]
+	if (length(prop_vars)) {
+		for (p in prop_vars) {
+			pname = substr(p, 6, nchar(p))
+			dt[[pname]] = shpTM[[p]][sid]
+		}
+	}
 	
 	dt = dt[match(d$tid, dtid), ]
 	list(shp = shpSel, dt = dt)
@@ -220,5 +230,148 @@ cont_collapse = function(x) sapply(x, paste, collapse="_")
 without_units = function(x) {
 	if (inherits(x, "units")) units::drop_units(x) else x
 }
+
+
+get_midpoint <- function (coords) {
+	dist <- sqrt((diff(coords[, 1])^2 + (diff(coords[, 2]))^2))
+	dist_mid <- sum(dist)/2
+	dist_cum <- c(0, cumsum(dist))
+	end_index <- which(dist_cum > dist_mid)[1]
+	start_index <- end_index - 1
+	start <- coords[start_index, ]
+	end <- coords[end_index, ]
+	dist_remaining <- dist_mid - dist_cum[start_index]
+	start + (end - start) * (dist_remaining/dist[start_index])
+	
+}
+
+
+
+
+
+################!!!!! Functions below needed for Advanced text options !!!!####################
+
+.grob2Poly <- function(g) {
+	x <- convertX(g$x, unitTo = "native", valueOnly = TRUE)
+	y <- convertY(g$y, unitTo = "native", valueOnly = TRUE)
+	if (inherits(g, "rect")) {
+		w <- convertWidth(g$width, unitTo = "native", valueOnly = TRUE)
+		h <- convertHeight(g$height, unitTo = "native", valueOnly = TRUE)
+		x1 <- x - .5*w
+		x2 <- x + .5*w
+		y1 <- y - .5*h
+		y2 <- y + .5*h
+		polys <- mapply(function(X1, X2, Y1, Y2) {
+			st_polygon(list(cbind(c(X1, X2, X2, X1, X1),
+								  c(Y2, Y2, Y1, Y1, Y2))))
+		}, x1, x2, y1, y2, SIMPLIFY=FALSE)
+		st_union(st_sfc(polys))
+	} else if (inherits(g, "polygon")) {
+		xs <- split(x, g$id)
+		ys <- split(y, g$id)
+		
+		polys <- mapply(function(xi, yi) {
+			co <- cbind(xi, yi)
+			st_polygon(list(rbind(co, co[1,])))
+		}, xs, ys, SIMPLIFY = FALSE)
+		st_union(st_sfc(polys))
+	} # else return(NULL)
+	
+}
+
+polylineGrob2sfLines <- function(gL) {
+	if (is.null(gL$id)) {
+		ids = unlist(mapply(rep, 1L:length(gL$id.lengths), gL$id.lengths, SIMPLIFY = FALSE, USE.NAMES = FALSE))
+	} else {
+		ids = gL$id
+	}
+	coords <- mapply(cbind, split(as.numeric(gL$x), ids), split(as.numeric(gL$y), ids), SIMPLIFY = FALSE)
+	
+	st_sf(geometry = st_sfc(st_multilinestring(coords)))
+}
+
+npc_to_native <- function(x, scale) {
+	x * (scale[2] - scale[1])# + scale[1]
+}
+
+native_to_npc_to_native <- function(x, scale) {
+	#(x - scale[1]) / (scale[2] - scale[1])
+	(x) / (scale[2] - scale[1])
+}
+
+.rectGrob2pathGrob <- function(rg, angles) {
+	x <- convertX(rg$x, "inch", valueOnly=TRUE)
+	y <- convertY(rg$y, "inch", valueOnly=TRUE)
+	w <- convertWidth(rg$width, "inch", valueOnly=TRUE)
+	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
+	
+	a <- atan2(h, w)
+	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
+	
+	as2 <- as + rep(angles * pi / 180, each=4)
+	
+	dst <- rep(sqrt((w/2)^2+(h/2)^2), each=4)
+	
+	xs <- rep(x, each=4) + cos(as2) * dst
+	ys <- rep(y, each=4) + sin(as2) * dst
+	
+	xs2 <- convertX(unit(xs, "inch"), "npc")
+	ys2 <- convertY(unit(ys, "inch"), "npc")
+	
+	id <- rep(1:length(x), each=4)
+	
+	w2 <- w + (h-w) * abs(sin(angles*pi/180))
+	h2 <- h + (w-h) * abs(sin(angles*pi/180))
+	
+	w3 <- convertWidth(unit(w2, "inch"), "npc")
+	h3 <- convertHeight(unit(h2, "inch"), "npc")
+	
+	list(poly=polygonGrob(xs2, ys2, id=id, gp=rg$gp),
+		 rect=rectGrob(rg$x, rg$y, width = w3, height=h3))
+}
+
+.get_direction_angle <- function(co) {
+	p1 <- co[1,]
+	p2 <- co[nrow(co),]
+	
+	a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
+	if (a < 0) a <- a + 360
+	a
+}
+
+
+.editGrob <- function(tg, sel, shiftX, shiftY, angles) {
+	nt <- length(sel)
+	angles <- rep(angles, length.out=nt)
+	if (any(angles!=0)) {
+		if (inherits(tg, "rect")) {
+			tg <- .rectGrob2pathGrob(tg, angles)$poly
+		}
+	}
+	tgx <- convertX(tg$x, "native", valueOnly = TRUE)
+	tgy <- convertY(tg$y, "native", valueOnly = TRUE)
+	
+	if (inherits(tg, "polygon")) {
+		sel4 <- rep(sel, each=4)
+		tg$x <- unit(tgx + rep(shiftX, each=4), "native")[sel4]
+		tg$y <- unit(tgy + rep(shiftY, each=4), "native")[sel4]
+		tg$id <- rep(1:sum(sel), each=4)
+	} else {
+		tg$x <- unit(tgx + shiftX, "native")[sel]
+		tg$y <- unit(tgy + shiftY, "native")[sel]
+		if (inherits(tg, "rect")) {
+			tg$height <- tg$height[sel]
+			tg$width <- tg$width[sel]
+		} else if (inherits(tg, "text")) {
+			tg$label <- tg$label[sel]
+			tg$rot <- angles[sel]
+		}
+	}
+	tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
+		if (length(g)==nt) g[sel] else g
+	}))
+	tg
+}
+
 
 

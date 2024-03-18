@@ -49,9 +49,6 @@ tm_symbols(
   col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
   plot.order = tm_plot_order("size"),
-  trans.args = list(points.only = "ifany"),
-  mapping.args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48, height = 48,
-    render.width = 256, render.height = 256)),
   zindex = NA,
   group = NA,
   group.control = "check",
@@ -59,6 +56,10 @@ tm_symbols(
   popup.format = list(),
   hover = "",
   id = "",
+  points.only = "ifany",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256),
   ...
 )
 
@@ -84,12 +85,13 @@ tm_dots(
   fill_alpha.legend = tm_legend(),
   fill_alpha.free = NA,
   plot.order = tm_plot_order("size"),
-  trans.args = list(points.only = "ifany"),
-  mapping.args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48, height = 48,
-    render.width = 256, render.height = 256)),
   zindex = NA,
   group = NA,
   group.control = "check",
+  points.only = "ifany",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256),
   ...
 )
 
@@ -123,12 +125,13 @@ tm_bubbles(
   col_alpha.legend = tm_legend(),
   col_alpha.free = NA,
   plot.order = tm_plot_order("size"),
-  trans.args = list(points.only = "ifany"),
-  mapping.args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48, height = 48,
-    render.width = 256, render.height = 256)),
   zindex = NA,
   group = NA,
   group.control = "check",
+  points.only = "ifany",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256),
   ...
 )
 
@@ -162,12 +165,13 @@ tm_squares(
   col_alpha.legend = tm_legend(),
   col_alpha.free = NA,
   plot.order = tm_plot_order("size"),
-  trans.args = list(points.only = "ifany"),
-  mapping.args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48, height = 48,
-    render.width = 256, render.height = 256)),
   zindex = NA,
   group = NA,
   group.control = "check",
+  points.only = "ifany",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256),
   ...
 )
 }
@@ -192,9 +196,6 @@ the border color alpha transparency. See details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
-
-\item{trans.args, mapping.args}{lists that are passed on to internal
-transformation and mapping functions respectively}
 
 \item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order. By default the map
@@ -226,6 +227,14 @@ In that case, each list of formatting options is applied to the named variable.}
 
 \item{id}{name of the data variable that specifies the indices of the spatial features.
 Only used for \code{"view"} mode.}
+
+\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}}
+
+\item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
+\item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 }

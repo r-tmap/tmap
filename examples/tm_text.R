@@ -36,3 +36,27 @@ metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
 tm_shape(metro) +
 	tm_text(text = "name", size = "pop2020", angle = "upside_down", size.legend = tm_legend_hide())
 
+DE = World[World$name == "Germany",]
+rivers_DE = st_intersection(rivers, DE)
+
+tm_shape(DE) +
+	tm_polygons() +
+tm_shape(rivers_DE) +
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
+	tm_text("name", along.lines = TRUE)
+
+metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
+
+# remove.overlap
+tm_shape(metroAfrica) +
+	tm_text("name", bgcol = "yellow") +
+	tm_dots("red")
+	
+tm_shape(metroAfrica) +
+	tm_text("name", bgcol = "yellow", remove.overlap = TRUE) +
+	tm_dots("red")
+
+# tm_labels uses a labeling algorithm that uses randomization (so rerunning this code may give different outcomes, unless set.seed is used)
+tm_shape(metroAfrica) +
+	tm_labels("name", bgcol = "yellow") +
+	tm_dots("red")

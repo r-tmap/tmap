@@ -43,8 +43,6 @@
 #'   the border color alpha transparency. See details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
-#' @param trans.args,mapping.args lists that are passed on to internal
-#'   transformation and mapping functions respectively
 #' @param zindex Map layers are drawn on top of each other. The `zindex` numbers
 #'   (one for each map layer) determines the stacking order. By default the map
 #'   layers are drawn in the order they are called.
@@ -70,6 +68,10 @@
 #' 
 #' @param id name of the data variable that specifies the indices of the spatial features.
 #'   Only used for `"view"` mode.
+#' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified. 
+#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
+#' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
+#' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_symbols.R 
 #' @export
@@ -116,10 +118,6 @@ tm_symbols = function(size = tm_const(),
 					  col_alpha.chart = tm_chart_none(),
 					  col_alpha.free = NA,
 					  plot.order = tm_plot_order("size"),
-					  trans.args = list(points.only = "ifany"),
-					  mapping.args = list(icon.scale = 3,
-					  					just = NA,
-					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
@@ -127,10 +125,19 @@ tm_symbols = function(size = tm_const(),
 					  popup.format = list(),
 					  hover = "",
 					  id = "",
+					  points.only = "ifany",
+					  icon.scale = 3,
+					  just = NA,
+					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
 					  ...) {
 	
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	trans.args = list(points.only = points.only)
+	mapping.args = list(icon.scale = icon.scale,
+					  	just = just,
+					  	grob.dim = grob.dim)
 	
 	res = v3_symbols(args, args_called)
 	if (!is.null(res)) {
@@ -412,121 +419,6 @@ v3_symbols = function(args, args_called) {
 }
 
 
-tm_bubbles = function(size = tm_const(),
-					  size.scale = tm_scale(),
-					  size.legend = tm_legend(),
-					  size.free = NA,
-					  fill = tm_const(),
-					  fill.scale = tm_scale(),
-					  fill.legend = tm_legend(),
-					  fill.free = NA,
-					  col = tm_const(),
-					  col.scale = tm_scale(),
-					  col.legend = tm_legend(),
-					  col.free = NA,
-					  lwd = tm_const(),
-					  lwd.scale = tm_scale(),
-					  lwd.legend = tm_legend(),
-					  lwd.free = NA,
-					  lty = tm_const(),
-					  lty.scale = tm_scale(),
-					  lty.legend = tm_legend(),
-					  lty.free = NA,
-					  fill_alpha = tm_const(),
-					  fill_alpha.scale = tm_scale(),
-					  fill_alpha.legend = tm_legend(),
-					  fill_alpha.free = NA,
-					  col_alpha = tm_const(),
-					  col_alpha.scale = tm_scale(),
-					  col_alpha.legend = tm_legend(),
-					  col_alpha.free = NA,
-					  plot.order = tm_plot_order("size"),
-					  trans.args = list(points.only = "ifany"),
-					  mapping.args = list(),
-					  zindex = NA,
-					  group = NA,
-					  group.control = "check",
-					  ...) {
-	
-	args = list(...)
-	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
-	res = v3_symbols(args, args_called)
-	if (!is.null(res)) {
-		fill = res$fill
-		col = res$col
-		fill_alpha = res$fill_alpha
-		fill.scale = res$fill.scale
-		fill.legend = res$fill.legend
-		size.scale = res$size.scale
-		size.legend = res$size.legend
-		shape.scale = res$shape.scale
-		shape.legend = res$shape.legend
-		fill.chart = res$fill.chart
-	}
-	
-	tm_element_list(tm_element(
-		layer = c("bubbles", "symbols"),
-		trans.fun = tmapTransCentroid,
-		trans.args = trans.args,
-		trans.aes = list(),
-		trans.isglobal = FALSE,
-		mapping.aes = list(col = tmapScale(aes = "col",
-										   value = col,
-										   scale = col.scale,
-										   legend = col.legend,
-										   free = col.free),
-						   fill = tmapScale(aes = "fill",
-						   				 value = fill,
-						   				 scale = fill.scale,
-						   				 legend = fill.legend,
-						   				 free = fill.free),
-						   size = tmapScale(aes = "size",
-						   				 value = size,
-						   				 scale = size.scale,
-						   				 legend = size.legend,
-						   				 free = size.free),
-						   lwd = tmapScale(aes = "lwd",
-						   				value = lwd,
-						   				scale = lwd.scale,
-						   				legend = lwd.legend,
-						   				free = lwd.free),
-						   lty = tmapScale(aes = "lty",
-						   				value = lty,
-						   				scale = lty.scale,
-						   				legend = lty.legend,
-						   				free = lty.free),
-						   fill_alpha = tmapScale(aes = "fill_alpha",
-						   					   value = fill_alpha,
-						   					   scale = fill_alpha.scale,
-						   					   legend = fill_alpha.legend,
-						   					   free = fill_alpha.free),
-						   col_alpha = tmapScale(aes = "col_alpha",
-						   					  value = col_alpha,
-						   					  scale = col_alpha.scale,
-						   					  legend = col_alpha.legend,
-						   					  free = col_alpha.free)),
-		
-		gpar = tmapGpar(fill = "__fill",
-						col = "__col",
-						shape = 21,
-						size = "__size",
-						fill_alpha = "__fill_alpha",
-						col_alpha = "__col_alpha",
-						pattern = "fill",
-						lty = "__lty",
-						lwd = "__lwd",
-						linejoin = NA,
-						lineend = NA),
-		tpar = tmapTpar(),
-		plot.order = plot.order,
-		mapping.fun = "Symbols",
-		mapping.args = mapping.args,
-		zindex = zindex,
-		group = group,
-		group.control = group.control,
-		subclass = c("tm_aes_layer", "tm_layer")))
-}
 
 #' @export
 #' @name tm_dots
@@ -552,13 +444,13 @@ tm_dots = function(fill = tm_const(),
 				   fill_alpha.legend = tm_legend(),
 				   fill_alpha.free = NA,
 				   plot.order = tm_plot_order("size"),
-				   trans.args = list(points.only = "ifany"),
-				   mapping.args = list(icon.scale = 3,
-				   					just = NA,
-				   					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 				   zindex = NA,
 				   group = NA,
 				   group.control = "check",
+				   points.only = "ifany",
+				   icon.scale = 3,
+				   just = NA,
+				   grob.dim = c(width=48, height=48, render.width=256, render.height=256),
 				   ...) {
 	
 		args = c(as.list(environment()), list(...))
@@ -602,13 +494,13 @@ tm_bubbles = function(size = tm_const(),
 					  col_alpha.legend = tm_legend(),
 					  col_alpha.free = NA,
 					  plot.order = tm_plot_order("size"),
-					  trans.args = list(points.only = "ifany"),
-					  mapping.args = list(icon.scale = 3,
-					  					just = NA,
-					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
+					  points.only = "ifany",
+					  icon.scale = 3,
+					  just = NA,
+					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
@@ -650,13 +542,13 @@ tm_squares = function(size = tm_const(),
 					  col_alpha.legend = tm_legend(),
 					  col_alpha.free = NA,
 					  plot.order = tm_plot_order("size"),
-					  trans.args = list(points.only = "ifany"),
-					  mapping.args = list(icon.scale = 3,
-					  					just = NA,
-					  					grob.dim = c(width=48, height=48, render.width=256, render.height=256)),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
+					  points.only = "ifany",
+					  icon.scale = 3,
+					  just = NA,
+					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
