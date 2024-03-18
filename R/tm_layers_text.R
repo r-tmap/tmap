@@ -59,7 +59,6 @@
 #' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
 #'   the text. See details.
 #' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle
-#'   the background color. See Details.
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
 #' @param clustering value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.

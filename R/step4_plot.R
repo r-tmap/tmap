@@ -524,7 +524,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		# prepare aux layers and return group label (in case it is not user specified)
 		aux_group_def = mapply(function(a, id) {
 			FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
-			do.call(FUNaux_prep, list(a = a$args, b = db$bbox, id = id, o = o))
+			do.call(FUNaux_prep, list(a = a$args, bs = db$bbox, id = id, o = o))
 		}, aux, 1:length(aux))
 		aux_group = mapply(function(a, agd) {
 			if (is.na(a$group)) agd else as.character(a$group)
