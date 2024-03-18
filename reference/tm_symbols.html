@@ -109,9 +109,6 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  col_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>icon.scale <span class="op">=</span> <span class="fl">3</span>, just <span class="op">=</span> <span class="cn">NA</span>, grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>,</span>
-<span>    render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
@@ -119,6 +116,10 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hover <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -144,12 +145,13 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  fill_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>icon.scale <span class="op">=</span> <span class="fl">3</span>, just <span class="op">=</span> <span class="cn">NA</span>, grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>,</span>
-<span>    render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -183,12 +185,13 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  col_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>icon.scale <span class="op">=</span> <span class="fl">3</span>, just <span class="op">=</span> <span class="cn">NA</span>, grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>,</span>
-<span>    render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -222,12 +225,13 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  col_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>icon.scale <span class="op">=</span> <span class="fl">3</span>, just <span class="op">=</span> <span class="cn">NA</span>, grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>,</span>
-<span>    render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -273,11 +277,6 @@ the border color alpha transparency. See details.</p></dd>
 See <code><a href="tm_plot_order.html">tm_plot_order()</a></code> for details.</p></dd>
 
 
-<dt>trans.args, mapping.args</dt>
-<dd><p>lists that are passed on to internal
-transformation and mapping functions respectively</p></dd>
-
-
 <dt>zindex</dt>
 <dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers
 (one for each map layer) determines the stacking order. By default the map
@@ -321,6 +320,22 @@ In that case, each list of formatting options is applied to the named variable.<
 <dt>id</dt>
 <dd><p>name of the data variable that specifies the indices of the spatial features.
 Only used for <code>"view"</code> mode.</p></dd>
+
+
+<dt>points.only</dt>
+<dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
+
+
+<dt>icon.scale</dt>
+<dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see <code><a href="tmap_icons.html">tmap_icons</a></code>) or, if grobs are specified by <code>grob.width</code> and <code>grob.heigth</code></p></dd>
+
+
+<dt>just</dt>
+<dd><p>justification of the text relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
+
+
+<dt>grob.dim</dt>
+<dd><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></dd>
 
 
 <dt>...</dt>

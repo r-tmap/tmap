@@ -110,10 +110,6 @@ that determines the border color alpha transparency. See details.</p></dd>
     <dt><code>linejoin,lineend</code></dt>
 <dd><p>Line join and line end. See <a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar()</a> for details.</p></dd>
 
-    <dt><code>trans.args,mapping.args</code></dt>
-<dd><p>lists that are passed on to internal transformation
-and mapping functions respectively.</p></dd>
-
     <dt><code>zindex</code></dt>
 <dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers
 (one for each map layer) determines the stacking order.
@@ -152,6 +148,9 @@ is applied to the named variable.</p></dd>
     <dt><code>id</code></dt>
 <dd><p>name of the data variable that specifies the indices of the spatial
 features. Only used for <code>"view"</code> mode.</p></dd>
+
+    <dt><code>polygons.only</code></dt>
+<dd><p>should only polygon geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
   
 </dl></dd>

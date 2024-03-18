@@ -98,8 +98,6 @@ fill_alpha (fill color alpha transparency) and col_alpha (border color alpha tra
 <span>  linejoin <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  lineend <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"AREA"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, na.order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
@@ -107,6 +105,7 @@ fill_alpha (fill color alpha transparency) and col_alpha (border color alpha tra
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hover <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  polygons.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -150,11 +149,6 @@ that determines the border color alpha transparency. See details.</p></dd>
 <dt>plot.order</dt>
 <dd><p>Specification in which order the spatial features are drawn.
 See <code><a href="tm_plot_order.html">tm_plot_order()</a></code> for details.</p></dd>
-
-
-<dt>trans.args, mapping.args</dt>
-<dd><p>lists that are passed on to internal transformation
-and mapping functions respectively.</p></dd>
 
 
 <dt>zindex</dt>
@@ -201,6 +195,10 @@ is applied to the named variable.</p></dd>
 <dt>id</dt>
 <dd><p>name of the data variable that specifies the indices of the spatial
 features. Only used for <code>"view"</code> mode.</p></dd>
+
+
+<dt>polygons.only</dt>
+<dd><p>should only polygon geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
 
 <dt>...</dt>

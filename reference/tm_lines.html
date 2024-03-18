@@ -82,8 +82,6 @@
 <span>  linejoin <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  lineend <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"LENGTH"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, na.order <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>,</span>
-<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lines.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>,</span>
-<span>  mapping.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
@@ -91,6 +89,7 @@
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hover <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  lines.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -121,10 +120,6 @@
 <dd><p>Specification in which order the spatial features are drawn. See <code><a href="tm_plot_order.html">tm_plot_order()</a></code> for details.</p></dd>
 
 
-<dt>trans.args, mapping.args</dt>
-<dd><p>lists that are passed on to internal transformation and mapping functions respectively</p></dd>
-
-
 <dt>zindex</dt>
 <dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.</p></dd>
 
@@ -151,6 +146,10 @@
 
 <dt>id</dt>
 <dd><p>name of the data variable that specifies the indices of the spatial features. Only used for <code>"view"</code> mode.</p></dd>
+
+
+<dt>lines.only</dt>
+<dd><p>should only line geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted, or also other geometry types (like polygons)? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
 
 <dt>...</dt>
