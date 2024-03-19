@@ -119,10 +119,13 @@
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
 <span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  just <span class="op">=</span> <span class="st">"center"</span>,</span>
 <span>  along.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  bg.padding <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
 <span>  remove.overlap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -185,7 +188,7 @@
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
 <span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
-<span>  along.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  along.lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0.3</span>,</span>
@@ -279,8 +282,16 @@ and <code>"none"</code> for no control (the group cannot be (de)selected).</p></
 <dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
 
+<dt>just</dt>
+<dd><p>justification of the text relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
+
+
 <dt>along.lines</dt>
 <dd><p>logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.</p></dd>
+
+
+<dt>bg.padding</dt>
+<dd><p>The padding of the background in terms of line heights.</p></dd>
 
 
 <dt>clustering</dt>
@@ -293,6 +304,10 @@ and <code>"none"</code> for no control (the group cannot be (de)selected).</p></
 
 <dt>point.label.gap</dt>
 <dd><p>numeric that determines the gap between the point and label</p></dd>
+
+
+<dt>point.label.method</dt>
+<dd><p>the optimization method, either <code>"SANN"</code> for simulated annealing (the default) or <code>"GA"</code> for a genetic algorithm.</p></dd>
 
 
 <dt>remove.overlap</dt>
@@ -333,13 +348,13 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Need to be updated. The following is just to illustrate bgcol(_alpha)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, bgcol <span class="op">=</span> <span class="st">"economy"</span>, bgcol_alpha <span class="op">=</span> <span class="fl">.5</span>, shadow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-1.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Incorrect values for layer text, aesthetic text; values should conform visual variable "text".</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, </span></span>
 <span class="r-in"><span>    size <span class="op">=</span> <span class="fl">.4</span>, </span></span>
 <span class="r-in"><span>    bgcol <span class="op">=</span> <span class="st">"economy"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-2.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Incorrect values for layer text, aesthetic text; values should conform visual variable "text".</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, </span></span>
@@ -348,11 +363,11 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>    bgcol.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">cols4all</span><span class="fu">::</span><span class="va"><a href="https://mtennekes.github.io/cols4all/reference/c4a_palettes.html" class="external-link">.P</a></span><span class="op">$</span><span class="va">hcl</span><span class="op">$</span><span class="va">cat</span><span class="op">$</span><span class="va">set2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    bgcol_alpha <span class="op">=</span> <span class="st">"pop_est"</span>,</span></span>
 <span class="r-in"><span>    bgcol_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-3.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Incorrect values for layer text, aesthetic text; values should conform visual variable "text".</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>, size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## xymod</span></span></span>
 <span class="r-in"><span><span class="va">metro</span><span class="op">$</span><span class="va">initial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">metro</span><span class="op">$</span><span class="va">name</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span></span>
@@ -361,7 +376,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"initial"</span>, ymod <span class="op">=</span> <span class="st">"az"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># angle</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -369,13 +384,13 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>,</span></span>
 <span class="r-in"><span>      angle <span class="op">=</span> <span class="op">-</span><span class="fl">30</span>, shadow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">metro</span><span class="op">$</span><span class="va">upside_down</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="fl">180</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>,</span></span>
 <span class="r-in"><span>      angle <span class="op">=</span> <span class="st">"upside_down"</span>, size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">DE</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">name</span> <span class="op">==</span> <span class="st">"Germany"</span>,<span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">rivers_DE</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">rivers</span>, <span class="va">DE</span><span class="op">)</span></span></span>
@@ -385,7 +400,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">rivers_DE</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_lines.html">tm_lines</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="st">"strokelwd"</span>, lwd.scale <span class="op">=</span> <span class="fu">tm_scale_asis</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span></span>
-<span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, along.lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_labels</span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tm_scale_asis():</span> could not find function "tm_scale_asis"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">metroAfrica</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">metro</span>, <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span><span class="op">)</span></span></span>
@@ -395,18 +410,60 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, bgcol <span class="op">=</span> <span class="st">"yellow"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, bgcol <span class="op">=</span> <span class="st">"yellow"</span>, remove.overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_text-9.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_text-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># tm_labels uses a labeling algorithm that uses randomization (so rerunning this code may give different outcomes, unless set.seed is used)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_labels</span><span class="op">(</span><span class="st">"name"</span>, bgcol <span class="op">=</span> <span class="st">"yellow"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pointLabel2(x = rect[, 1], y = rect[, 2], width = rect[, 3],     height = rect[, 4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap,     method = "SANN"):</span> could not find function "pointLabel2"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pointLabel2(x = rect[, 1], y = rect[, 2], width = rect[, 3],     height = rect[, 4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap,     method = args$point.label.method):</span> could not find function "pointLabel2"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">##### v3 examples</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'plot'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, size<span class="op">=</span><span class="st">"AREA"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Incorrect values for layer text, aesthetic text; values should conform visual variable "text".</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, size<span class="op">=</span><span class="st">"pop_est"</span>, col<span class="op">=</span><span class="st">"continent"</span>, palette<span class="op">=</span><span class="st">"Dark2"</span>,</span></span>
+<span class="r-in"><span>      title.size <span class="op">=</span> <span class="st">"Population"</span>, title.col<span class="op">=</span><span class="st">"Continent"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tm_text: Deprecated tmap v3 code detected. Code translated to v4</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Incorrect values for layer text, aesthetic text; values should conform visual variable "text".</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'view'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmaptools" class="external-link">tmaptools</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">metro_aus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tmaptools/man/crop_shape.html" class="external-link">crop_shape</a></span><span class="op">(</span><span class="va">metro</span>, <span class="fu"><a href="https://rdrr.io/pkg/tmaptools/man/bb.html" class="external-link">bb</a></span><span class="op">(</span><span class="st">"Australia"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro_aus</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">tm_text</span><span class="op">(</span><span class="st">"name"</span>, just <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># alternative</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro_aus</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="v4-not-yet.html">tm_markers</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># restore current mode</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'plot'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
