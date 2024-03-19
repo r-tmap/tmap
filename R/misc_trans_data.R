@@ -20,6 +20,17 @@ trans_log1p = list(
 	domain = c(0, Inf)
 )
 
+pseudo_log_sigma = 1
+pseudo_log_base = exp(1)
+
+trans_pseudo_log = list(
+	fun = function(x) asinh(x/(2 * pseudo_log_sigma))/log(pseudo_log_base), 
+	rev = function(x) 2 * pseudo_log_sigma * sinh(x * log(pseudo_log_base)), 
+	#d_transform = function(x) 1/(sqrt(4 + x^2/pseudo_log_sigma^2) * pseudo_log_sigma * log(pseudo_log_base)) 
+	#d_inverse = function(x) 2 * pseudo_log_sigma * cosh(x * log(pseudo_log_base)) * log(pseudo_log_base))
+	domain = c(-Inf, Inf)
+)
+
 trans_identity = list(
 	fun = function(x) x,
 	rev = function(x) x,
