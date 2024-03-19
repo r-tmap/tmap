@@ -280,7 +280,7 @@ tm_shape(metro) +
 			angle = "upside_down", size.legend = tm_legend_hide())
 
 DE = World[World$name == "Germany",]
-rivers_DE = st_intersection(rivers, DE)
+rivers_DE = sf::st_intersection(rivers, DE)
 
 tm_shape(DE) +
 	tm_polygons() +
@@ -299,7 +299,8 @@ tm_shape(metroAfrica) +
 	tm_text("name", bgcol = "yellow", remove.overlap = TRUE) +
 	tm_dots("red")
 
-# tm_labels uses a labeling algorithm that uses randomization (so rerunning this code may give different outcomes, unless set.seed is used)
+# tm_labels uses a labeling algorithm that uses randomization 
+# (so rerunning this code may give different outcomes, unless set.seed is used)
 tm_shape(metroAfrica) +
 	tm_labels("name", bgcol = "yellow") +
 	tm_dots("red")
