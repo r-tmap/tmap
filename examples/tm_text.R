@@ -45,7 +45,7 @@ tm_shape(DE) +
 	tm_polygons() +
 tm_shape(rivers_DE) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
-	tm_text("name", along.lines = TRUE)
+	tm_labels("name")
 
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 
@@ -63,3 +63,38 @@ tm_shape(metroAfrica) +
 tm_shape(metroAfrica) +
 	tm_labels("name", bgcol = "yellow") +
 	tm_dots("red")
+
+##### v3 examples
+
+current.mode <- tmap_mode("plot")
+
+data(World, metro)
+
+tm_shape(World) +
+	tm_text("name", size="AREA")
+
+
+tm_shape(World) +
+	tm_text("name", size="pop_est", col="continent", palette="Dark2",
+			title.size = "Population", title.col="Continent") +
+	tm_legend(outside = TRUE)
+
+tmap_mode("view")
+
+\dontrun{
+	require(tmaptools)
+	metro_aus <- crop_shape(metro, bb("Australia"))
+	
+	tm_shape(metro_aus) +
+		tm_dots() +
+		tm_text("name", just = "top")
+	
+	# alternative
+	tm_shape(metro_aus) +
+		tm_markers(text = "name")
+}
+
+# restore current mode
+tmap_mode(current.mode)
+
+

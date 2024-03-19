@@ -42,10 +42,12 @@ tmapValuesCheck_lty = function(x) {
 
 tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x) {
 	# to do
-	TRUE
+	res = all(x >= -50 & x <= 50)
+	if (!res) attr(res, "info") = " Values found that are outside the [-50,50] range. Note that the default scale for xmod and ymod is tm_scale_asis."
+	res
 }
 
-tmapValuesCheck_angle = tmapValuesCheck_ymod = function(x) {
+tmapValuesCheck_angle = function(x) {
 	# to do
 	is.numeric(x)
 }

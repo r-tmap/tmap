@@ -350,22 +350,36 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	
 	
 	# calculate native per line
-		wIn = g$colsIn[g$cols_facet_ids[facet_col]]
-		hIn = g$rowsIn[g$rows_facet_ids[facet_row]]
-		
-		wNative = bbx[3] - bbx[1]
-		hNative = bbx[4] - bbx[2]
-		
-		xIn = wNative / wIn
-		yIn = hNative / hIn
-		
-		
-		lineIn = convertHeight(unit(1, "lines"), "inch", valueOnly = TRUE)
-		#xnpl = (wNative / wIn) / lineIn
-		#ynpl = (hNative / hIn) / lineIn
+	wIn = g$colsIn[g$cols_facet_ids[facet_col]]
+	hIn = g$rowsIn[g$rows_facet_ids[facet_row]]
+	
+	wNative = bbx[3] - bbx[1]
+	hNative = bbx[4] - bbx[2]
+	
+	xIn = wNative / wIn
+	yIn = hNative / hIn
+	
+	
+	lineIn = convertHeight(unit(1, "lines"), "inch", valueOnly = TRUE)
+	#xnpl = (wNative / wIn) / lineIn
+	#ynpl = (hNative / hIn) / lineIn
 	#}
 	
 	
+	just = process_just(args$just, interactive = FALSE)
+	if (args$point.label) {
+		if (!all(just == 0.5)) {
+			just = c(0.5, 0.5)
+			if (get("tmapOptions", envir = .TMAP)$show.messages) message("Point labeling is enabled. Therefore, just will be ignored.")
+			
+		}
+	}
+	
+	
+	# apply xmod and ymod
+	coords[,1] = coords[,1] + xIn * lineIn * gp$cex * gp$xmod
+	coords[,2] = coords[,2] + yIn * lineIn * gp$cex * gp$ymod
+		
 	# specials vv (later on lost after gp_to_gpar)
 	bgcol = gp$bgcol
 	bgcol_alpha = gp$bgcol_alpha
@@ -386,8 +400,9 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		gps = split_gp(gp, n)
 		
 		grobTextList = mapply(function(txt, x , y, gp, a) {
-			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a) #, name = paste0("text_", id))
+			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a, just = just) #, name = paste0("text_", id))
 		}, dt$text, coords[,1], coords[, 2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+		
 		
 		
 		if (with_bg || args$remove.overlap) {
@@ -399,11 +414,18 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 				convertWidth(grobWidth(grb), "inch", valueOnly = TRUE)
 			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE) * xIn
 			
-			tGX = unit(coords[,1], "native")
-			tGY = unit(coords[,2], "native")
+			justx <- .5 - just[1]
+			justy <- .5 - just[2]
 			
-			tGH = unit(tGH , "native")
-			tGW = unit(tGW, "native")
+			#tGX <- grobText$x + unit(tGW * justx, "native")
+			#tGY <- grobText$y + unit(tGH * justy, "native")
+			
+			
+			tGX = unit(coords[,1] + justx * tGW, "native")
+			tGY = unit(coords[,2] + justy * tGH, "native")
+			
+			tGH = unit(tGH + args$bg.padding * yIn * lineIn, "native")
+			tGW = unit(tGW + args$bg.padding * xIn * lineIn, "native")
 
 			grobTextBGList = mapply(function(x, y, w, h, b, a) {
 				rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
@@ -430,7 +452,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			
 			rect = do.call(rbind, lapply(s, get_rect_coords))
 
-			res = pointLabel2(x = rect[,1], y = rect[,2], width = rect[,3], height = rect[,4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap, method = "SANN")
+			res = pointLabel2(x = rect[,1], y = rect[,2], width = rect[,3], height = rect[,4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap, method = args$point.label.method)
 			
 			sx = res$x - rect[,1]
 			sy = res$y - rect[,2]
@@ -506,3 +528,4 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	assign("gts", gts, envir = .TMAP_GRID)
 	NULL	
 }
+

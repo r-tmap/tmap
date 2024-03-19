@@ -60,10 +60,13 @@
 #'   the text. See details.
 #' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
+#' @param bg.padding The padding of the background in terms of line heights.
 #' @param clustering value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
 #' @param point.label logical that determines whether the labels are placed automatically.
 #' @param point.label.gap numeric that determines the gap between the point and label
+#' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm.
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R 
@@ -127,10 +130,13 @@ tm_text = function(text = tm_const(),
 				   group = NA,
 				   group.control = "check",
 				   points.only = "ifany",
+				   just = "center",
 				   along.lines = FALSE,
+				   bg.padding = 0.4,
 				   clustering = FALSE, 
 				   point.label = FALSE,
 				   point.label.gap = 0,
+				   point.label.method = "SANN",
 				   remove.overlap = FALSE,
 				   ...) {
 	
@@ -138,7 +144,7 @@ tm_text = function(text = tm_const(),
 	args = list(...)
 	
 	trans.args = list(points.only = points.only, along.lines = along.lines)
-	mapping.args = list(clustering = clustering, point.label = point.label, remove.overlap = remove.overlap, point.label.gap = point.label.gap)
+	mapping.args = list(clustering = clustering, point.label = point.label, remove.overlap = remove.overlap, point.label.gap = point.label.gap, point.label.method = point.label.method, just = just, bg.padding = bg.padding)
 
 	# dput(names(formals("tm_text")))
 	v3 = c("root", "clustering", "size.lim", "sizes.legend", 
@@ -148,7 +154,7 @@ tm_text = function(text = tm_const(),
 		   "contrast", "colorNA", "textNA", "showNA", "colorNULL", "fontface", 
 		   "fontfamily", "alpha", "case", "bg.alpha", 
 		   "size.lowerbound", "print.tiny", "scale", "auto.placement", 
-		   "along.lines", "overwrite.lines", "just", "xmod", "ymod", "title.size", 
+		   "along.lines", "overwrite.lines", "xmod", "ymod", "title.size", 
 		   "title.col", "legend.size.show", "legend.col.show", "legend.format", 
 		   "legend.size.is.portrait", "legend.col.is.portrait", "legend.size.reverse", 
 		   "legend.col.reverse", "legend.hist", "legend.hist.title", "legend.size.z", 
@@ -242,18 +248,7 @@ tm_text = function(text = tm_const(),
 	tm_element_list(tm_element(
 		layer = "text",
 		trans.fun = tmapTransCentroid,
-		trans.aes = list(xmod = tmapScale(aes = "xmod",
-											  value = xmod,
-											  scale = xmod.scale,
-											  legend = xmod.legend,
-											  chart = xmod.chart,
-											  free = xmod.free),
-						 ymod = tmapScale(aes = "ymod",
-						 				 value = ymod,
-						 				 scale = ymod.scale,
-						 				 legend = ymod.legend,
-						 				 chart = ymod.chart,
-						 				 free = ymod.free)),
+		trans.aes = list(),
 		trans.args = trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(
@@ -304,7 +299,19 @@ tm_text = function(text = tm_const(),
 						   				scale = fontface.scale,
 						   				legend = fontface.legend,
 						   				chart = fontface.chart,
-						   				free = fontface.free)),
+						   				free = fontface.free),
+						   xmod = tmapScale(aes = "xmod",
+						   				 value = xmod,
+						   				 scale = xmod.scale,
+						   				 legend = xmod.legend,
+						   				 chart = xmod.chart,
+						   				 free = xmod.free),
+						   ymod = tmapScale(aes = "ymod",
+						   				 value = ymod,
+						   				 scale = ymod.scale,
+						   				 legend = ymod.legend,
+						   				 chart = ymod.chart,
+						   				 free = ymod.free)),
 		
 		gpar = tmapGpar(fill = NA,
 						col = "__col",
@@ -323,6 +330,8 @@ tm_text = function(text = tm_const(),
 						lineend = NA,
 						bgcol = "__bgcol",
 						bgcol_alpha = "__bgcol_alpha",
+						xmod = "__xmod",
+						ymod = "__ymod",
 						angle = "__angle",
 						shadow = shadow),
 		tpar = tmapTpar(),
@@ -400,7 +409,7 @@ tm_labels = function(text = tm_const(),
 					group = NA,
 					group.control = "check",
 					points.only = "ifany",
-					along.lines = FALSE,
+					along.lines = TRUE,
 					clustering = FALSE, 
 					point.label = TRUE,
 					point.label.gap = 0.3,
@@ -411,3 +420,4 @@ tm_labels = function(text = tm_const(),
 	tm[[1]]$layer = c("labels", "text")
 	tm
 }
+

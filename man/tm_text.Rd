@@ -63,10 +63,13 @@ tm_text(
   group = NA,
   group.control = "check",
   points.only = "ifany",
+  just = "center",
   along.lines = FALSE,
+  bg.padding = 0.4,
   clustering = FALSE,
   point.label = FALSE,
   point.label.gap = 0,
+  point.label.method = "SANN",
   remove.overlap = FALSE,
   ...
 )
@@ -129,7 +132,7 @@ tm_labels(
   group = NA,
   group.control = "check",
   points.only = "ifany",
-  along.lines = FALSE,
+  along.lines = TRUE,
   clustering = FALSE,
   point.label = TRUE,
   point.label.gap = 0.3,
@@ -187,13 +190,19 @@ and \code{"none"} for no control (the group cannot be (de)selected).}
 
 \item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
+\item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
 \item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+
+\item{bg.padding}{The padding of the background in terms of line heights.}
 
 \item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
 \item{point.label}{logical that determines whether the labels are placed automatically.}
 
 \item{point.label.gap}{numeric that determines the gap between the point and label}
+
+\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
 
 \item{remove.overlap}{logical that determines whether the overlapping labels are removed}
 
@@ -277,7 +286,7 @@ tm_shape(DE) +
 	tm_polygons() +
 tm_shape(rivers_DE) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
-	tm_text("name", along.lines = TRUE)
+	tm_labels("name")
 
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 
@@ -295,4 +304,39 @@ tm_shape(metroAfrica) +
 tm_shape(metroAfrica) +
 	tm_labels("name", bgcol = "yellow") +
 	tm_dots("red")
+
+##### v3 examples
+
+current.mode <- tmap_mode("plot")
+
+data(World, metro)
+
+tm_shape(World) +
+	tm_text("name", size="AREA")
+
+
+tm_shape(World) +
+	tm_text("name", size="pop_est", col="continent", palette="Dark2",
+			title.size = "Population", title.col="Continent") +
+	tm_legend(outside = TRUE)
+
+tmap_mode("view")
+
+\dontrun{
+	require(tmaptools)
+	metro_aus <- crop_shape(metro, bb("Australia"))
+	
+	tm_shape(metro_aus) +
+		tm_dots() +
+		tm_text("name", just = "top")
+	
+	# alternative
+	tm_shape(metro_aus) +
+		tm_markers(text = "name")
+}
+
+# restore current mode
+tmap_mode(current.mode)
+
+
 }
