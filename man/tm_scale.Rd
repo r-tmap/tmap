@@ -2,9 +2,12 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_scale}
 \alias{tm_scale}
+\alias{tm_scale_asis}
 \title{Scales: automatic scale}
 \usage{
 tm_scale(...)
+
+tm_scale_asis(...)
 }
 \arguments{
 \item{...}{arguments passed on to the applied scale function \verb{tm_scale_*()}}
