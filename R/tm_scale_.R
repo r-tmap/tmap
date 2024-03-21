@@ -32,10 +32,19 @@ tm_scale = function(...) {
 	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale", "list"))
 }
 
+#' Scales: as is
+#' 
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the
+#' layer functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The function `tm_scale_asis()` is used to take data values as they are and use them as such for the visual variable.
+#' 
+#' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
+#' @param value.neutral (generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both `fill` and `size` are used for [tm_symbols()] (using filled circles), the size legend items are filled with the `value.neutral` color from the `fill.scale` scale, and fill legend items are bubbles of size `value.neutral` from the `size.scale` scale.
+#' @param ... Arguments caught (and not used) from the automatic function [tm_scale()]
 #' @export
-#' @rdname tm_scale
-tm_scale_asis = function(...) {
-	structure(c(list(FUN = "tmapScaleAsIs"), list(...)), class = c("tm_scale_asis", "tm_scale", "list"))
+tm_scale_asis = function(values.scale = NA, value.neutral = NA, ...) {
+	structure(c(list(FUN = "tmapScaleAsIs"), c(list(values.scale = values.scale, value.neutral = value.neutral), list(...))), class = c("tm_scale_asis", "tm_scale", "list"))
 }
 
 #' @export

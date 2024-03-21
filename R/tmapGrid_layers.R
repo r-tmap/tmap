@@ -332,10 +332,16 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	args = list(...)
 	
 	rc_text = frc(facet_row, facet_col)
+
+	if (("prop_angle" %in% names(shpTM))) {
+		args$point.label = FALSE
+	}
 	
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
+	
+
 	
 	# specials non-vv (later on lost after gp_to_gpar)
 	shadow = gp$shadow
@@ -407,10 +413,12 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		
 		if (with_bg || args$remove.overlap) {
 			tGH = vapply(grobTextList, function(grb) {
+				grb$rot = 0
 				convertHeight(grobHeight(grb), "inch", valueOnly = TRUE)
 			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE) * yIn
 			
 			tGW = vapply(grobTextList, function(grb) {
+				grb$rot = 0
 				convertWidth(grobWidth(grb), "inch", valueOnly = TRUE)
 			}, FUN.VALUE = numeric(1), USE.NAMES = FALSE) * xIn
 			
@@ -426,10 +434,15 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			
 			tGH = unit(tGH + args$bg.padding * yIn * lineIn, "native")
 			tGW = unit(tGW + args$bg.padding * xIn * lineIn, "native")
-
-			grobTextBGList = mapply(function(x, y, w, h, b, a) {
-				rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
-			}, tGX, tGY, tGW, tGH, bgcol, bgcol_alpha, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			
+			grobTextBGList = mapply(function(x, y, w, h, b, a, rot) {
+				rect = rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
+				if (rot != 0) {
+					.rectGrob2pathGrob(rect, rot, bbx)$poly
+				} else {
+					rect
+				}
+			}, tGX, tGY, tGW, tGH, bgcol, bgcol_alpha, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextBGList = NULL
 		}

@@ -69,7 +69,7 @@ tmapValuesCheck_area = function(x) {
 }
 
 tmapValuesCheck_text = function(x) {
-	is.character(x)
+	is.character(x) || is.factor(x)
 }
 
 tmapValuesCheck_fontface = function(x) {

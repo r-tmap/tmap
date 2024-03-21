@@ -1,100 +1,40 @@
-# Need to be updated. The following is just to illustrate bgcol(_alpha)
-tm_shape(World) + tm_polygons() +
-	tm_text("name", bgcol = "economy", bgcol_alpha = .5, shadow = TRUE)
-
-tm_shape(World) +
-  tm_text(text = "name", 
-    size = .4, 
-    bgcol = "economy")
-
-tm_shape(World) +
-  tm_text(text = "name", 
-    size = .4, 
-    bgcol = "economy", 
-    bgcol.scale = tm_scale_categorical(values = cols4all::.P$hcl$cat$set2),
-    bgcol_alpha = "pop_est",
-    bgcol_alpha.scale = tm_scale_intervals(style = "kmeans"))
-
-tm_shape(metro) +
-	tm_text(text = "name", size = "pop2020", size.legend = tm_legend_hide())
-
-## xymod
-metro$initial = substr(metro$name,1,1)
-metro$az = (match(metro$initial, LETTERS)-1) /25
-
-tm_shape(metro) +
-	tm_dots("red") +
-	tm_text("initial", ymod = "az")
-
-# angle
-tm_shape(World) +
-	tm_polygons() +
-tm_shape(metro) +
-	tm_text(text = "name", size = "pop2020",
-			angle = -30, shadow = TRUE)
+tm_shape(World, bbox = World) +
+	tm_text("name", size="pop_est", col="continent", 
+			col.scale = tm_scale_categorical(values = "brewer.dark2"),
+			col.legend = tm_legend_hide(),
+			size.scale = tm_scale_continuous(values.scale = 4),
+			size.legend = tm_legend_hide())
 
 metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
 tm_shape(metro) +
 	tm_text(text = "name", size = "pop2020",
-			angle = "upside_down", size.legend = tm_legend_hide())
+			angle = "upside_down", size.legend = tm_legend_hide()) +
+	tm_title_out("Cities in the Southern Hemisphere are printed upside down", position = tm_pos_out("center", "top", pos.v = "bottom"))
 
 DE = World[World$name == "Germany",]
 rivers_DE = sf::st_intersection(rivers, DE)
 
-tm_shape(DE) +
+tm_shape(DE, crs = 3035) +
 	tm_polygons() +
 tm_shape(rivers_DE) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
-	tm_labels("name")
+	tm_labels("name", bgcol = "grey85")
 
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
+Africa = World[World$continent == "Africa", ]
 
-# remove.overlap
+tm_shape(land) +
+	tm_raster("cover_cls", 
+			  col.scale = tm_scale(values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]),
+			  col.legend = tm_legend_hide()) +
+tm_shape(rivers) +
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3), col = cols4all::c4a("brewer.pastel1")[2]) +
+tm_shape(Africa, is.main = TRUE) + 
+	tm_borders() +
 tm_shape(metroAfrica) +
-	tm_text("name", bgcol = "yellow") +
-	tm_dots("red")
-	
-tm_shape(metroAfrica) +
-	tm_text("name", bgcol = "yellow", remove.overlap = TRUE) +
-	tm_dots("red")
-
-# tm_labels uses a labeling algorithm that uses randomization 
-# (so rerunning this code may give different outcomes, unless set.seed is used)
-tm_shape(metroAfrica) +
-	tm_labels("name", bgcol = "yellow") +
-	tm_dots("red")
-
-##### v3 examples
-
-current.mode <- tmap_mode("plot")
-
-data(World, metro)
-
-tm_shape(World) +
-	tm_text("name", size="AREA")
-
-
-tm_shape(World) +
-	tm_text("name", size="pop_est", col="continent", palette="Dark2",
-			title.size = "Population", title.col="Continent") +
-	tm_legend(outside = TRUE)
-
-tmap_mode("view")
-
-\dontrun{
-	require(tmaptools)
-	metro_aus <- crop_shape(metro, bb("Australia"))
-	
-	tm_shape(metro_aus) +
-		tm_dots() +
-		tm_text("name", just = "top")
-	
-	# alternative
-	tm_shape(metro_aus) +
-		tm_markers(text = "name")
-}
-
-# restore current mode
-tmap_mode(current.mode)
-
-
+	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
+			   size.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values.range = c(0.2,2)),
+			   size.legend = tm_legend("Population in 2020"),
+			   shape.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)),
+			   shape.legend = tm_legend_combine("size")) +
+	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))

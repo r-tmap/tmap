@@ -358,35 +358,87 @@ native_to_npc_to_native <- function(x, scale) {
 	(x) / (scale[2] - scale[1])
 }
 
-.rectGrob2pathGrob <- function(rg, angles) {
-	x <- convertX(rg$x, "inch", valueOnly=TRUE)
-	y <- convertY(rg$y, "inch", valueOnly=TRUE)
-	w <- convertWidth(rg$width, "inch", valueOnly=TRUE)
-	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
+.rectGrob2pathGrob <- function(rg, angles, bbx) {
+	x = as.numeric(rg$x)
+	y = as.numeric(rg$y)
+	w = as.numeric(rg$width)
+	h = as.numeric(rg$height)
+
+
+	####################################
+	### borrowed from pointLabel2
+	####################################
 	
-	a <- atan2(h, w)
+
+	asp = tmaptools::get_asp_ratio(bbx)# * 1.25
+	
+	#xyAspect <- diff(boundary[c(1,2)]) / diff(boundary[c(3,4)])
+	
+	toUnityCoords <- function(xy) {
+		if (asp > 1) {
+			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]) * asp, 
+				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2]))	
+		} else {
+			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]), 
+				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2])/asp)	
+		}
+		
+		
+	}
+	toUserCoords <- function(xy) {
+		if (asp > 1) {
+			list(x = bbx[1] + xy$x/asp * (bbx[3] - bbx[1]),
+				 y = bbx[2] + xy$y * (bbx[4] - bbx[2]))
+		} else {
+			list(x = bbx[1] + xy$x * (bbx[3] - bbx[1]),
+				 y = bbx[2] + xy$y * asp * (bbx[4] - bbx[2]))
+		}
+		
+	}
+	xy <- xy.coords(x, y, recycle = TRUE)
+	z <- toUnityCoords(xy)
+	x2 <- z$x
+	y2 <- z$y
+	
+	# CHANGED: width and height are specified by user
+	if (asp > 1) {
+		w2 <- ((w) / (bbx[3] - bbx[1])) * asp
+		h2 <- ((h) / (bbx[4] - bbx[2]))
+	} else {
+		w2 <- ((w) / (bbx[3] - bbx[1]))
+		h2 <- ((h) / (bbx[4] - bbx[2])) / asp
+	}
+	
+	
+	####################################
+	####################################
+	####################################
+	
+
+	xs = c(x2 - w2/2, x2 + w2 / 2, x2 + w2 / 2, x2 - w2 / 2, x2 - w2/2)
+	ys = c(y2 - h2/2, y2 - h2 / 2, y2 + h2 / 2, y2 + h2 / 2, y2 - h2/2)
+	
+	a <- atan2(h2, w2)
+	#as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
 	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
 	
 	as2 <- as + rep(angles * pi / 180, each=4)
 	
-	dst <- rep(sqrt((w/2)^2+(h/2)^2), each=4)
+	dst <- rep(sqrt((w2/2)^2+(h2/2)^2), each=4)
 	
-	xs <- rep(x, each=4) + cos(as2) * dst
-	ys <- rep(y, each=4) + sin(as2) * dst
-	
-	xs2 <- convertX(unit(xs, "inch"), "npc")
-	ys2 <- convertY(unit(ys, "inch"), "npc")
+	xs2 <- rep(x2, each=4) + cos(as2) * dst
+	ys2 <- rep(y2, each=4) + sin(as2) * dst
 	
 	id <- rep(1:length(x), each=4)
 	
-	w2 <- w + (h-w) * abs(sin(angles*pi/180))
-	h2 <- h + (w-h) * abs(sin(angles*pi/180))
+	#w2 <- w + (h-w) * abs(cos(angles*pi/180))
+	#h2 <- h + (w-h) * abs(sin(angles*pi/180))
 	
-	w3 <- convertWidth(unit(w2, "inch"), "npc")
-	h3 <- convertHeight(unit(h2, "inch"), "npc")
+	z2 <- xy.coords(xs2, ys2, recycle = TRUE)
+	xy2 <- toUserCoords(z2)
 	
-	list(poly=polygonGrob(xs2, ys2, id=id, gp=rg$gp),
-		 rect=rectGrob(rg$x, rg$y, width = w3, height=h3))
+	list(poly=polygonGrob(unit(xy2$x, "native"), unit(xy2$y, "native"), id=id, gp=rg$gp))
+	#list(poly=rectGrob(unit(x, "native"), unit(y, "native"), width = unit(w, "native"), height=unit(h, "native"), gp = rg$gp))
 }
 
 .get_direction_angle <- function(co) {

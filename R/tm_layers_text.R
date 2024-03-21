@@ -1,3 +1,54 @@
+#' @rdname tm_text
+#' @name opt_tm_text
+#' @export
+opt_tm_text = function(points.only = "ifany",
+					   just = "center",
+					   along.lines = FALSE,
+					   bg.padding = 0.4,
+					   clustering = FALSE, 
+					   point.label = FALSE,
+					   point.label.gap = 0,
+					   point.label.method = "SANN",
+					   remove.overlap = FALSE) {
+	list(trans.args = list(points.only = points.only,
+						   along.lines = along.lines),
+		 mapping.args = list(just = just,
+		 					along.lines = along.lines,
+		 					bg.padding = bg.padding,
+		 					clustering = clustering,
+		 					point.label = point.label,
+		 					point.label.gap = point.label.gap,
+		 					point.label.method = point.label.method,
+		 					remove.overlap = remove.overlap))
+}
+
+
+#' @rdname tm_text
+#' @name opt_tm_labels
+#' @export
+opt_tm_labels = function(points.only = "ifany",
+						 just = "center",
+						 along.lines = TRUE,
+						 bg.padding = 0.4,
+						 clustering = TRUE, 
+						 point.label = TRUE,
+						 point.label.gap = 0.4,
+						 point.label.method = "SANN",
+						 remove.overlap = FALSE) {
+	list(trans.args = list(points.only = points.only,
+						   along.lines = along.lines),
+		 mapping.args = list(just = just,
+		 					along.lines = along.lines,
+		 					bg.padding = bg.padding,
+		 					clustering = clustering,
+		 					point.label = point.label,
+		 					point.label.gap = point.label.gap,
+		 					point.label.method = point.label.method,
+		 					remove.overlap = remove.overlap))
+}
+
+
+
 #' Map layer: text
 #' 
 #' Map layer that draws symbols Supported visual variables are: `text`
@@ -51,6 +102,7 @@
 #'   groups can be switched on and off. Options: `"radio"` for radio buttons
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
 #'   the background color. See Details.
 #' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
@@ -129,23 +181,12 @@ tm_text = function(text = tm_const(),
 				   zindex = NA,
 				   group = NA,
 				   group.control = "check",
-				   points.only = "ifany",
-				   just = "center",
-				   along.lines = FALSE,
-				   bg.padding = 0.4,
-				   clustering = FALSE, 
-				   point.label = FALSE,
-				   point.label.gap = 0,
-				   point.label.method = "SANN",
-				   remove.overlap = FALSE,
+				   options = opt_tm_text(),
 				   ...) {
 	
 	#if (FALSE) {
 	args = list(...)
 	
-	trans.args = list(points.only = points.only, along.lines = along.lines)
-	mapping.args = list(clustering = clustering, point.label = point.label, remove.overlap = remove.overlap, point.label.gap = point.label.gap, point.label.method = point.label.method, just = just, bg.padding = bg.padding)
-
 	# dput(names(formals("tm_text")))
 	v3 = c("root", "clustering", "size.lim", "sizes.legend", 
 		   "sizes.legend.labels", "sizes.legend.text", "n", "style", "style.args", 
@@ -249,7 +290,7 @@ tm_text = function(text = tm_const(),
 		layer = "text",
 		trans.fun = tmapTransCentroid,
 		trans.aes = list(),
-		trans.args = trans.args,
+		trans.args = options$trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(
 						   text = tmapScale(aes = "text",
@@ -337,7 +378,7 @@ tm_text = function(text = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Text",
-		mapping.args = mapping.args,
+		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
@@ -408,12 +449,7 @@ tm_labels = function(text = tm_const(),
 					zindex = NA,
 					group = NA,
 					group.control = "check",
-					points.only = "ifany",
-					along.lines = TRUE,
-					clustering = FALSE, 
-					point.label = TRUE,
-					point.label.gap = 0.3,
-					remove.overlap = FALSE,
+					options = opt_tm_labels(),
 					...) {
 	args = c(as.list(environment()), list(...))
 	tm = do.call(tm_text, args)
