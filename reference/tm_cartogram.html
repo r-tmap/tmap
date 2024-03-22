@@ -126,6 +126,9 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 (so multiple groups can be shown), and <code>"none"</code> for no control
 (the group cannot be (de)selected).</p></dd>
 
+    <dt><code>options</code></dt>
+<dd><p>options passed on to the corresponding <code>opt_&lt;layer_function&gt;</code> function</p></dd>
+
     <dt><code>popup.vars</code></dt>
 <dd><p>names of data variables that are shown in the popups
 in <code>"view"</code> mode. Set popup.vars to <code>TRUE</code> to show all variables in the
@@ -148,9 +151,6 @@ is applied to the named variable.</p></dd>
     <dt><code>id</code></dt>
 <dd><p>name of the data variable that specifies the indices of the spatial
 features. Only used for <code>"view"</code> mode.</p></dd>
-
-    <dt><code>polygons.only</code></dt>
-<dd><p>should only polygon geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
   
 </dl></dd>
