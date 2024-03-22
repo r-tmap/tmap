@@ -47,6 +47,42 @@ opt_tm_labels = function(points.only = "ifany",
 		 					remove.overlap = remove.overlap))
 }
 
+#' @param markers.on.top.of.text should markers be plot on top of the text (by default `FALSE`)
+#' @param dots.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
+#' @param dots.just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
+#' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
+#' @rdname tm_text
+#' @name opt_tm_labels
+opt_tm_markers = function(markers.on.top.of.text = FALSE,
+						  points.only = "ifany",
+						  just = "center",
+						  along.lines = TRUE,
+						  bg.padding = 0.4,
+						  clustering = TRUE, 
+						  point.label = TRUE,
+						  point.label.gap = 0.4,
+						  point.label.method = "SANN",
+						  remove.overlap = FALSE,
+						  dots.just = NA,
+						  dots.icon.scale = 3,
+						  dots.grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
+	list(markers = list(markers.on.top.of.text = markers.on.top.of.text),
+		 text = opt_tm_labels(points.only = points.only,
+		 					 just = just,
+		 					 along.lines = along.lines,
+		 					 bg.padding = bg.padding,
+		 					 clustering = clustering,
+		 					 point.label = point.label,
+		 					 point.label.gap = point.label.gap,
+		 					 point.label.method = point.label.method,
+		 					 remove.overlap = remove.overlap),
+		 dots = opt_tm_dots(points.only = points.only,
+		 				   icon.scale = dots.icon.scale,
+		 				   just = dots.just,
+		 				   grob.dim = dots.grob.dim))
+}
+
+
 
 
 #' Map layer: text
@@ -457,3 +493,82 @@ tm_labels = function(text = tm_const(),
 	tm
 }
 
+#' @rdname tm_text
+#' @name tm_markers
+#' @export
+tm_markers = function(text = tm_const(),
+					 text.scale = tm_scale(),
+					 text.legend = tm_legend(),
+					 text.chart = tm_chart_none(),
+					 text.free = NA,
+					 size = tm_const(),
+					 size.scale = tm_scale(),
+					 size.legend = tm_legend(),
+					 size.chart = tm_chart_none(),
+					 size.free = NA,
+					 col = tm_const(),
+					 col.scale = tm_scale(),
+					 col.legend = tm_legend(),
+					 col.chart = tm_chart_none(),
+					 col.free = NA,
+					 col_alpha = tm_const(),
+					 col_alpha.scale = tm_scale(),
+					 col_alpha.legend = tm_legend(),
+					 col_alpha.chart = tm_chart_none(),
+					 col_alpha.free = NA,
+					 fontface = tm_const(),
+					 fontface.scale = tm_scale(),
+					 fontface.legend = tm_legend(),
+					 fontface.chart = tm_chart_none(),
+					 fontface.free = NA,
+					 fontfamily = "",
+					 bgcol = tm_const(),
+					 bgcol.scale = tm_scale(),
+					 bgcol.legend = tm_legend(),
+					 bgcol.chart = tm_chart_none(),
+					 bgcol.free = NA,
+					 bgcol_alpha = tm_const(),
+					 bgcol_alpha.scale = tm_scale(),
+					 bgcol_alpha.legend = tm_legend(),
+					 bgcol_alpha.chart = tm_chart_none(),
+					 bgcol_alpha.free = NA,
+					 xmod = 0,
+					 xmod.scale = tm_scale(),
+					 xmod.legend = tm_legend_hide(),
+					 xmod.chart = tm_chart_none(),
+					 xmod.free = NA,
+					 ymod = 0,
+					 ymod.scale = tm_scale(),
+					 ymod.legend = tm_legend_hide(),
+					 ymod.chart = tm_chart_none(),
+					 ymod.free = NA,
+					 angle = 0,
+					 angle.scale = tm_scale(),
+					 angle.legend = tm_legend_hide(),
+					 angle.chart = tm_chart_none(),
+					 angle.free = NA,
+					 shadow = FALSE,
+					 plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+					 zindex = NA,
+					 group = NA,
+					 group.control = "check",
+					 options = opt_tm_markers(),
+					 ...) {
+	e = as.list(environment())
+	e$options = options$text
+	a = list(...)
+	
+	sel = substr(names(a), 1, 5) == "dots_"
+	a_dots = a[sel]
+	a_other = a[!sel]
+	names(a_dots) = substr(names(a_dots), 6, nchar(names(a_dots)))
+	
+	args_dots = c(a_dots, list(plot.order = plot.order, zindex = zindex, group = group, group.control = group.control, options = options$dots))
+	args_text = c(e, a_other)
+	
+	tm_t = do.call(tm_text, args_text)
+	tm_t[[1]]$layer = c("labels", "text")
+	tm_d = do.call(tm_dots, a_dots)
+	
+	if (options$markers$markers.on.top.of.text) tm_t + tm_d else tm_d + tm_t
+}

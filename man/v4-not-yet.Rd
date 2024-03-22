@@ -3,7 +3,6 @@
 \name{v4-not-yet}
 \alias{v4-not-yet}
 \alias{tm_iso}
-\alias{tm_markers}
 \alias{tm_logo}
 \alias{tm_minimap}
 \alias{tmap_grob}
@@ -18,8 +17,6 @@
 \title{Features not yet implemented in tmap4}
 \usage{
 tm_iso(...)
-
-tm_markers(...)
 
 tm_logo(...)
 

@@ -1,3 +1,12 @@
+#' @rdname tm_raster
+#' @name opt_tm_raster
+#' @export
+opt_tm_raster = function() {
+	list(trans.args = list(),
+		 mapping.args = list())
+}
+
+
 #' Map layer: raster
 #' 
 #' Map layer that draws rasters. Supported visual variable is: `col` (the  color).
@@ -41,6 +50,7 @@
 #'   can be switched on and off. Options: `"radio"` for radio buttons (meaning only
 #'   one group can be shown), `"check"` for check boxes (so multiple groups can be
 #'   shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_raster.R 
 #' @export
@@ -57,14 +67,12 @@ tm_raster = function(col = tm_shape_vars(),
 					 zindex = NA,
 					 group = NA,
 					 group.control = "check",
+					 options = opt_tm_raster(),
 					 ...) {
 	
 	
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
-	trans.args = list()
-	mapping.args = list()
 	
 	v3 = c("alpha", "palette", "n", "style", "style.args", "as.count", 
 		   "breaks", "interval.closure", "labels", "drop.levels", "midpoint", 
@@ -152,7 +160,7 @@ tm_raster = function(col = tm_shape_vars(),
 		layer = "raster",
 		trans.fun = tmapTransRaster,
 		trans.aes = list(),
-		trans.args = trans.args,
+		trans.args = options$trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
 										   value = col,
@@ -181,7 +189,7 @@ tm_raster = function(col = tm_shape_vars(),
 		tpar = tmapTpar(),
 		plot.order = tm_plot_order("DATA"),
 		mapping.fun = "Raster",
-		mapping.args = mapping.args,
+		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
 		group.control = group.control,

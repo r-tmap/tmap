@@ -1,3 +1,11 @@
+#' @rdname tm_lines
+#' @name opt_tm_lines
+#' @export
+opt_tm_lines = function(lines.only = "ifany") {
+	list(trans.args = list(lines.only = lines.only),
+		 mapping.args = list())
+}
+
 #' Map layer: lines
 #' 
 #' Map layer that draws symbols Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
@@ -37,6 +45,7 @@
 #' @param zindex Map layers are drawn on top of each other. The `zindex` numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called.
 #' @param group Name of the group to which this layer belongs. This is only relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer groups can be switched on and off. Options: `"radio"` for radio buttons (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param popup.vars names of data variables that are shown in the popups in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the shape object. Set popup.vars to `FALSE` to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (`NA`) depends on whether visual variables (e.g.`col`) are used. If so, only those are shown. If not all variables in the shape object are shown.
 #' @param popup.format list of formatting options for the popup values. See the argument `legend.format` for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of `popup.vars`. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param hover name of the data variable that specifies the hover labels
@@ -76,14 +85,11 @@ tm_lines = function(col = tm_const(),
 					popup.format = list(),
 					hover = "",
 					id = "",
-					lines.only = "ifany",
+					options = opt_tm_lines(),
 					...) {
 	
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
-	trans.args = list(lines.only = lines.only)
-	mapping.args = list()
 	
 	v3 = c("alpha", "scale", "lwd.legend.labels", "lwd.legend.col", "n", 
 		   "style", "style.args", "as.count", "breaks", "interval.closure", 
@@ -190,7 +196,7 @@ tm_lines = function(col = tm_const(),
 		layer = "lines",
 		trans.fun = tmapTransLines,
 		trans.aes = list(),
-		trans.args = trans.args,
+		trans.args = options$trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
 										   value = col,
@@ -231,7 +237,7 @@ tm_lines = function(col = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Lines",
-		mapping.args = mapping.args,
+		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
 		group.control = group.control,

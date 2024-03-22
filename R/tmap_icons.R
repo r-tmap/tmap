@@ -80,7 +80,7 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 marker_icon <- function() {
 	file <- system.file("htmlwidgets/lib/leaflet/images/marker-icon.png", package="leaflet")
 	if (!file.exists(file)) stop("leaflet marker icon not found")
-	icons(iconUrl = system.file("htmlwidgets/lib/leaflet/images/marker-icon.png", package="leaflet"), iconWidth=25, iconHeight=41, iconAnchorX = 12, iconAnchorY = 41)
+	icons(iconUrl = file, iconWidth=25, iconHeight=41, iconAnchorX = 12, iconAnchorY = 41)
 }
 
 

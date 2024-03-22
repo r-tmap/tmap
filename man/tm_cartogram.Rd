@@ -46,6 +46,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (meaning only one group can be shown), \code{"check"} for check boxes
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
+    \item{\code{options}}{options passed on to the corresponding \verb{opt_<layer_function>} function}
     \item{\code{popup.vars}}{names of data variables that are shown in the popups
 in \code{"view"} mode. Set popup.vars to \code{TRUE} to show all variables in the
 shape object. Set popup.vars to \code{FALSE} to disable popups. Set \code{popup.vars}
@@ -61,7 +62,6 @@ is applied to the named variable.}
     \item{\code{hover}}{name of the data variable that specifies the hover labels}
     \item{\code{id}}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
-    \item{\code{polygons.only}}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
   }}
 }
 \description{

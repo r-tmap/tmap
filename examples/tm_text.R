@@ -1,6 +1,6 @@
 tm_shape(World, bbox = World) +
 	tm_text("name", size="pop_est", col="continent", 
-			col.scale = tm_scale_categorical(values = "brewer.dark2"),
+			col.scale = tm_scale_categorical(values = "seaborn.dark"),
 			col.legend = tm_legend_hide(),
 			size.scale = tm_scale_continuous(values.scale = 4),
 			size.legend = tm_legend_hide())
@@ -8,17 +8,11 @@ tm_shape(World, bbox = World) +
 metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
 tm_shape(metro) +
 	tm_text(text = "name", size = "pop2020",
-			angle = "upside_down", size.legend = tm_legend_hide()) +
-	tm_title_out("Cities in the Southern Hemisphere are printed upside down", position = tm_pos_out("center", "top", pos.v = "bottom"))
+			angle = "upside_down", size.legend = tm_legend_hide(),
+			col = "upside_down", col.scale = tm_scale_categorical(values = c("#9900BB", "#228822")),
+			col.legend = tm_legend_hide()) +
+	tm_title_out("Which Hemisphere?", position = tm_pos_out("center", "top", pos.v = "bottom"))
 
-DE = World[World$name == "Germany",]
-rivers_DE = sf::st_intersection(rivers, DE)
-
-tm_shape(DE, crs = 3035) +
-	tm_polygons() +
-tm_shape(rivers_DE) +
-	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis()) + 
-	tm_labels("name", bgcol = "grey85")
 
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 Africa = World[World$continent == "Africa", ]
@@ -37,4 +31,9 @@ tm_shape(metroAfrica) +
 			   size.legend = tm_legend("Population in 2020"),
 			   shape.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)),
 			   shape.legend = tm_legend_combine("size")) +
-	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
+	tm_labels("name")
+
+tm_shape(metroAfrica) +
+	tm_markers(text = "name", 
+			   dots_fill = "red", 
+			   dots_size = 0.3)

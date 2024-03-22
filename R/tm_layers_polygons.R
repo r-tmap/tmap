@@ -1,3 +1,12 @@
+#' @rdname tm_polygons
+#' @name opt_tm_polygons
+#' @export
+opt_tm_polygons = function(polygons.only = "ifany") {
+	list(trans.args = list(polygons.only = polygons.only),
+		 mapping.args = list())
+}
+
+
 #' Map layer: polygons
 #' 
 #' Map layer that draws polygons. Supported visual variables are: `fill` (the fill color),
@@ -51,6 +60,7 @@
 #'   (meaning only one group can be shown), `"check"` for check boxes
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param popup.vars names of data variables that are shown in the popups
 #'   in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the
 #'   shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
@@ -112,13 +122,10 @@ tm_polygons = function(fill = tm_const(),
 					   popup.format = list(),
 					   hover = "",
 					   id = "",
-					   polygons.only = "ifany",
+					   options = opt_tm_polygons(),
 					   ...) {
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
-	trans.args = list(polygons.only = polygons.only)
-	mapping.args = list()
 	
 	v3 = c("alpha", "palette", "convert2density", "area", "n", 
 		   "style", "style.args", "as.count", "breaks", "interval.closure", 
@@ -215,7 +222,7 @@ tm_polygons = function(fill = tm_const(),
 	tm_element_list(tm_element(
 		layer = "polygons",
 		trans.fun = tmapTransPolygons,
-		trans.args = trans.args,
+		trans.args = options$trans.args,
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(fill = tmapScale(aes = "fill",
@@ -269,7 +276,7 @@ tm_polygons = function(fill = tm_const(),
 		tpar = tmapTpar(area = "AREA"),
 		plot.order = plot.order,
 		mapping.fun = "Polygons",
-		mapping.args = mapping.args,
+		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
 		group.control = group.control,

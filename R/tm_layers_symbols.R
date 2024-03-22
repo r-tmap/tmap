@@ -1,3 +1,33 @@
+#' @rdname tm_symbols
+#' @name opt_tm_symbols
+#' @export
+opt_tm_symbols = function(points.only = "ifany",
+						  icon.scale = 3,
+						  just = NA,
+						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
+	list(trans.args = list(points.only = points.only),
+		 mapping.args = list(icon.scale = icon.scale,
+		 					just = just,
+		 					grob.dim = grob.dim))
+}
+
+#' @rdname tm_symbols
+#' @name opt_tm_dots
+#' @export
+opt_tm_dots = opt_tm_symbols
+
+#' @rdname tm_symbols
+#' @name opt_tm_bubbles
+#' @export
+opt_tm_bubbles = opt_tm_symbols
+
+#' @rdname tm_symbols
+#' @name opt_tm_squares
+#' @export
+opt_tm_sqaures = opt_tm_symbols
+
+
+
 #' Map layer: symbols
 #' 
 #' Map layer that draws symbols Supported visual variables are:
@@ -53,6 +83,7 @@
 #'   groups can be switched on and off. Options: `"radio"` for radio buttons
 #'   (meaning only one group can be shown), `"check"` for check boxes
 #'   (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param popup.vars names of data variables that are shown in the popups in
 #'   `"view"` mode. Set popup.vars to `TRUE` to show all variables in the shape object.
 #'   Set popup.vars to `FALSE` to disable popups. Set popup.vars to a character vector
@@ -125,20 +156,13 @@ tm_symbols = function(size = tm_const(),
 					  popup.format = list(),
 					  hover = "",
 					  id = "",
-					  points.only = "ifany",
-					  icon.scale = 3,
-					  just = NA,
-					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
+					  options = opt_tm_symbols(),
 					  ...) {
 	
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
-	trans.args = list(points.only = points.only)
-	mapping.args = list(icon.scale = icon.scale,
-					  	just = just,
-					  	grob.dim = grob.dim)
-	
+
 	res = v3_symbols(args, args_called)
 	if (!is.null(res)) {
 		fill = res$fill
@@ -158,7 +182,7 @@ tm_symbols = function(size = tm_const(),
 		layer = "symbols",
 		trans.fun = tmapTransCentroid,
 		trans.aes = list(),
-		trans.args = trans.args,
+		trans.args = options$trans.args,
 		trans.isglobal = FALSE,
 		mapping.aes = list(size = tmapScale(aes = "size",
 											value = size,
@@ -224,7 +248,7 @@ tm_symbols = function(size = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Symbols",
-		mapping.args = mapping.args,
+		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
@@ -447,10 +471,7 @@ tm_dots = function(fill = tm_const(),
 				   zindex = NA,
 				   group = NA,
 				   group.control = "check",
-				   points.only = "ifany",
-				   icon.scale = 3,
-				   just = NA,
-				   grob.dim = c(width=48, height=48, render.width=256, render.height=256),
+				   options = opt_tm_dots(),
 				   ...) {
 	
 		args = c(as.list(environment()), list(...))
@@ -497,10 +518,7 @@ tm_bubbles = function(size = tm_const(),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
-					  points.only = "ifany",
-					  icon.scale = 3,
-					  just = NA,
-					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
+					  options = opt_tm_bubbles(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
@@ -545,10 +563,7 @@ tm_squares = function(size = tm_const(),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
-					  points.only = "ifany",
-					  icon.scale = 3,
-					  just = NA,
-					  grob.dim = c(width=48, height=48, render.width=256, render.height=256),
+					  options = opt_tm_sqaures(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
