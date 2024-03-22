@@ -37,3 +37,12 @@ tm_shape(metroAfrica) +
 	tm_markers(text = "name", 
 			   dots_fill = "red", 
 			   dots_size = 0.3)
+
+tm_shape(metroAfrica) +
+	tm_markers(text = "name", 
+			   dots_shape = marker_icon(),
+			   dots_col = NA,
+			   dots_fill = "red", 
+			   dots_size = 2,
+			   ymod = -0.25,
+			   options = opt_tm_markers(point.label = FALSE, remove.overlap = TRUE))

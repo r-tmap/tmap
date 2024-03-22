@@ -204,4 +204,98 @@ distr_space_over_nulls = function(u, tot, stretchID = NA) {
 	grid::unit(un, units = "inch")
 }
 
+rescale_gp = function(gp, scale, skip = character()) {
+	if ("lwd" %in% names(gp) && (!"lwd" %in% skip)) gp$lwd = gp$lwd * scale
+	if ("size" %in% names(gp) && (!"size" %in% skip)) gp$size = gp$size * sqrt(scale)
+	if ("cex" %in% names(gp) && (!"cex" %in% skip)) gp$cex = gp$cex * sqrt(scale)
+	gp
+}
+
+
+
+
+appendGlist = function(glist, x) {
+	glist = grid::gList(glist, x)
+	names(glist)[length(glist)] = x$name
+	glist
+}
+
+swap_pch_15_20 = function(gp) {
+	# swap fill and col for pch 15-20
+	if (any(gp$shape %in% 15:20)) {
+		gp = make_equal_list(gp)
+		pch15_20 = which(gp$shape %in% 15:20)
+		fill = gp$col[pch15_20]
+		fill_alpha = gp$col_alpha[pch15_20]
+		gp$col[pch15_20] = gp$fill[pch15_20]
+		gp$col_alpha[pch15_20] = gp$fill_alpha[pch15_20]
+		gp$fill[pch15_20] = fill
+		gp$fill_alpha[pch15_20] = fill_alpha
+	}
+	gp
+}	
+
+
+# zero_one_to_hex = function(x) {
+# 	# using indexing
+# 	u = unique(x)
+# 	
+# 	x255 = round(u * 255)
+# 	
+# 	nc = c(0:9, LETTERS[1:6])
+# 	
+# 	y1 = (x255 %/% 16) + 1
+# 	y2 = (x255 - (y1 - 1) * 16) + 1
+# 	
+# 	r = paste0(nc[y1], nc[y2])
+# 	r[match(x, u)]
+# }
+
+# 255 to 2digit hex number
+num_to_hex = function(x) {
+	
+	nc = c(0:9, LETTERS[1:6])
+	
+	y1 = (x %/% 16) + 1
+	y2 = (x - (y1 - 1) * 16) + 1
+	
+	paste0(nc[y1], nc[y2])
+}
+
+hex_to_num = function(h) {
+	nc = c(0:9, LETTERS[1:6])
+	y1 = match(substr(h, 1, 1), nc)
+	y2 = match(substr(h, 2, 2), nc)
+	(y1 - 1) * 16 + (y2 - 1)
+}
+
+merge_alpha = function(dt, name) {
+	name_a = paste0(name, "_alpha")
+	f = function(d) {
+		
+		d1 = d[1,]
+		col = d1[[name]]
+		alpha = d1[[name_a]]
+		
+		if (nchar(col) == 9) {
+			a = hex_to_num(substr(col, 8, 9)) * alpha
+			cl = substr(col, 1, 7)
+		} else {
+			a = alpha
+			cl = col
+		}
+		ac = paste0(cl, num_to_hex(round(a*255)))
+		rep(ac, nrow(d))
+	}
+	
+	dt[, ca:=f(.SD), by = c(name, name_a), .SDcols = c(name, name_a)]
+}
+
+
+
+
+
+npc_to_native = function(x, scale) {
+	x * (scale[2] - scale[1])# + scale[1]
+}
 

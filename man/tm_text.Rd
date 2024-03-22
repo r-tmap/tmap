@@ -11,6 +11,9 @@
 \usage{
 opt_tm_text(
   points.only = "ifany",
+  shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
   just = "center",
   along.lines = FALSE,
   bg.padding = 0.4,
@@ -23,6 +26,9 @@ opt_tm_text(
 
 opt_tm_labels(
   points.only = "ifany",
+  shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
   just = "center",
   along.lines = TRUE,
   bg.padding = 0.4,
@@ -36,6 +42,7 @@ opt_tm_labels(
 opt_tm_markers(
   markers.on.top.of.text = FALSE,
   points.only = "ifany",
+  shadow = FALSE,
   just = "center",
   along.lines = TRUE,
   bg.padding = 0.4,
@@ -101,7 +108,6 @@ tm_text(
   angle.legend = tm_legend_hide(),
   angle.chart = tm_chart_none(),
   angle.free = NA,
-  shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   zindex = NA,
   group = NA,
@@ -223,7 +229,6 @@ tm_markers(
   angle.legend = tm_legend_hide(),
   angle.chart = tm_chart_none(),
   angle.free = NA,
-  shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   zindex = NA,
   group = NA,
@@ -234,6 +239,10 @@ tm_markers(
 }
 \arguments{
 \item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{shadow}{Shadow behind the text. Logical or color.}
+
+\item{shadow.offset.x, shadow.offset.y}{Shadow offset in line heights}
 
 \item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
@@ -288,8 +297,6 @@ the background color transparency. See Details.}
 the text. See details.}
 
 \item{angle, angle.scale, angle.legend, angle.chart, angle.free}{Rotation angle}
-
-\item{shadow}{Shadow behind the text. Logical or color.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
@@ -380,4 +387,13 @@ tm_shape(metroAfrica) +
 	tm_markers(text = "name", 
 			   dots_fill = "red", 
 			   dots_size = 0.3)
+
+tm_shape(metroAfrica) +
+	tm_markers(text = "name", 
+			   dots_shape = marker_icon(),
+			   dots_col = NA,
+			   dots_fill = "red", 
+			   dots_size = 2,
+			   ymod = -0.25,
+			   options = opt_tm_markers(point.label = FALSE, remove.overlap = TRUE))
 }
