@@ -248,15 +248,17 @@ tmapTransCartogram = function(shpTM, area, ord__, plot.order, args, scale) {
 	message("Cartogram in progress...")
 		
 	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
+	x = x[x$weight > 0,]
 	
+
 	rlang::check_installed("cartogram")
 	
 	if (args$type == "cont") {
 		shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = args$itermax)}))
 	} else if (args$type == "ncont") {
-		shp = suppressMessages(suppressWarnings({cartogram::cartogram_ncont(x, weight = "weight")}))
+		shp = suppressMessages(suppressWarnings({cartogram::cartogram_ncont(x, weight = "weight", k = args$expansion, inplace = args$inplace)}))
 	} else if (args$type == "dorling") {
-		shp = suppressMessages(suppressWarnings({cartogram::cartogram_dorling(x, weight = "weight")}))
+		shp = suppressMessages(suppressWarnings({cartogram::cartogram_dorling(x, weight = "weight", k = args$share, itermax = args$itermax)}))
 	} else {
 		stop("unknown cartogram type", call. = FALSE)
 	}

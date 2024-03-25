@@ -284,16 +284,16 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 							   submit_legend = TRUE)
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
-						dtl[, c(varname, legname, crtname) := list(value.null, 0L)]
+						dtl[, c(varname, legname, crtname) := list(value.null, 0L, 0L)]
 					} else {
-						dtl[, c(varname, ordname, legname, crtname) := list(value.null, -1L, 0L)]	
+						dtl[, c(varname, ordname, legname, crtname) := list(value.null, -1L, 0L, 0L)]	
 					}
 					
 					if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
 					if (bypass_ord) {
-						dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
-						dtl[sel__ == TRUE, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, ordname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				} else {
 					if (bypass_ord) {
@@ -308,7 +308,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
 				}
-
 				dtl
 			}
 			
