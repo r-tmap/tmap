@@ -6,5 +6,5 @@ World$geometry[World$continent == "South America"] <-
   sf::st_cast(World$geometry[World$continent == "South America"], 
     "MULTILINESTRING", group_or_split = FALSE)
 
-tm_shape(World) + 
+tm_shape(World, crs = "+proj=robin") + 
 	tm_sf()

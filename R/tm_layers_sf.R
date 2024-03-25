@@ -1,3 +1,27 @@
+#' @rdname tm_sf
+#' @name opt_tm_sf
+#' @export
+opt_tm_sf = function(polygons.only = "yes",
+					 lines.only = "yes",
+					 points.only = "yes",
+					 points.icon.scale = 3,
+					 points.just = NA,
+					 points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)) {
+
+	list(points = list(trans.args = list(points.only = points.only),
+					   mapping.args = list(icon.scale = points.icon.scale,
+					   					just = points.just,
+					   					grob.dim = points.grob.dim)),
+		 lines = list(trans.args = list(lines.only = lines.only),
+		 			 mapping.args = list()),
+		 polygons = list(trans.args = list(polygons.only = polygons.only),
+		 				mapping.args = list()))
+	
+}
+
+
+
+
 #' Map layer: simple features
 #' 
 #' Map layer that draws simple features as they are. Supported visual variables
@@ -49,9 +73,8 @@
 #' @param plot.order.list Specification in which order the spatial features are drawn.
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.
 #'   For each of these types, which are drawn in that order, a [tm_plot_order()] is required.
-#' @param trans.args.list,mapping.args.list lists that are passed on to internal
-#'   transformation and mapping functions respectively. Each is a list of three
-#'   items, named `polygons`, `lines`, and `points`. See [tm_polygons()], [tm_lines()], and [tm_dots()].
+#' @param polygons.only,lines.only,points.only,points.icon.scale,points.just,points.grob.dim See [opt_tm_polygons()], [opt_tm_lines()] and [opt_tm_symbols()]
+#' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param zindex Map layers are drawn on top of each other.
 #'   The `zindex` numbers (one for each map layer) determines the stacking order.
 #'   By default the map layers are drawn in the order they are called.
@@ -103,22 +126,13 @@ tm_sf = function(fill = tm_const(),
                  plot.order.list = list(
                  	polygons = tm_plot_order("AREA"), lines = tm_plot_order("LENGTH"), points = tm_plot_order("size")
                  	),
-                 trans.args.list = list(
-                 	polygons = list(polygons.only = "yes"), lines = list(lines.only = "yes"), points = list(points.only = "yes")
-                 	),
-                 mapping.args.list = list(
-                 	polygons = list(),
-                    lines = list(),
-                    points = list(icon.scale = 3, just = NA, grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256))
-                  ),
+				 options = opt_tm_sf(),
                   zindex = NA,
                   group = NA,
                   group.control = "check",
                   ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	
-	
 	
 	#paste(paste(names(formals(tm_polygons)), names(formals(tm_polygons)), sep = " = "), collapse = ", ")
 	tm = tm_polygons(
@@ -131,7 +145,7 @@ tm_sf = function(fill = tm_const(),
 		col_alpha = col_alpha, col_alpha.scale = col_alpha.scale,
 		col_alpha.legend = col_alpha.legend, col_alpha.free = col_alpha.free,
 		linejoin = linejoin, lineend = lineend, plot.order = plot.order.list$polygons,
-		trans.args = trans.args.list$polygons, mapping.args = mapping.args.list$polygons) +
+		options = options$polygons) +
 	tm_lines(
 		col = col, col.scale = col.scale, col.legend = col.legend,
 		col.free = col.free, lwd = lwd, lwd.scale = lwd.scale,
@@ -139,8 +153,7 @@ tm_sf = function(fill = tm_const(),
 		lty.legend = lty.legend, lty.free = lty.free, col_alpha = col_alpha,
 		col_alpha.scale = col_alpha.scale, col_alpha.legend = col_alpha.legend,
 		col_alpha.free = col_alpha.free, linejoin = linejoin, lineend = lineend,
-		plot.order = plot.order.list$lines, trans.args = trans.args.list$lines,
-		mapping.args = mapping.args.list$lines)
+		plot.order = plot.order.list$lines, options = options$lines)
 	
 	
 	if ("shape" %in% calls) {
@@ -155,8 +168,7 @@ tm_sf = function(fill = tm_const(),
 						fill_alpha.legend = fill_alpha.legend, fill_alpha.free = fill_alpha.free,
 						col_alpha = col_alpha, col_alpha.scale = col_alpha.scale,
 						col_alpha.legend = col_alpha.legend, col_alpha.free = col_alpha.free,
-						plot.order = plot.order.list$points, trans.args = trans.args.list$points,
-						mapping.args = mapping.args.list$points)
+						plot.order = plot.order.list$points, options = options$points)
 	} else {
 		tm + tm_dots(fill = fill, fill.scale = fill.scale, fill.legend = fill.legend,
 					 fill.free = fill.free, size = size, size.scale = size.scale,
@@ -165,8 +177,7 @@ tm_sf = function(fill = tm_const(),
 					 lty = lty, lty.scale = lty.scale, lty.legend = lty.legend, lty.free = lty.free,
 					 fill_alpha = fill_alpha, fill_alpha.scale = fill_alpha.scale,
 					 fill_alpha.legend = fill_alpha.legend, fill_alpha.free = fill_alpha.free,
-					 plot.order = plot.order.list$points, trans.args = trans.args.list$points,
-					 mapping.args = mapping.args.list$points)
+					 plot.order = plot.order.list$points, options = options$points)
 	}
 	
 }
