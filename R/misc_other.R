@@ -395,7 +395,7 @@ native_to_npc_to_native <- function(x, scale) {
 		}
 		
 	}
-	xy <- xy.coords(x, y, recycle = TRUE)
+	xy <- grDevices::xy.coords(x, y, recycle = TRUE)
 	z <- toUnityCoords(xy)
 	x2 <- z$x
 	y2 <- z$y
@@ -434,10 +434,10 @@ native_to_npc_to_native <- function(x, scale) {
 	#w2 <- w + (h-w) * abs(cos(angles*pi/180))
 	#h2 <- h + (w-h) * abs(sin(angles*pi/180))
 	
-	z2 <- xy.coords(xs2, ys2, recycle = TRUE)
+	z2 <- grDevices::xy.coords(xs2, ys2, recycle = TRUE)
 	xy2 <- toUserCoords(z2)
 	
-	list(poly=polygonGrob(unit(xy2$x, "native"), unit(xy2$y, "native"), id=id, gp=rg$gp))
+	list(poly=polygonGrob(unit(xy2$x, "native"), grid::unit(xy2$y, "native"), id=id, gp=rg$gp))
 	#list(poly=rectGrob(unit(x, "native"), unit(y, "native"), width = unit(w, "native"), height=unit(h, "native"), gp = rg$gp))
 }
 
@@ -454,7 +454,7 @@ native_to_npc_to_native <- function(x, scale) {
 .editGrob <- function(tg, sel, shiftX, shiftY, angles) {
 	nt <- length(sel)
 	angles <- rep(angles, length.out=nt)
-	if (any(angles!=0)) {
+	if (any(angles != 0)) {
 		if (inherits(tg, "rect")) {
 			tg <- .rectGrob2pathGrob(tg, angles)$poly
 		}
