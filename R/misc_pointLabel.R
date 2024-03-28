@@ -117,7 +117,7 @@ pointLabel2 <- function (x, y, width, height, bbx,
 	rectv <- width + (0+1i) * height
 	rectidx1 <- rectidx2 <- array(0, (length(x)^2 - length(x))/2)
 	k <- 0
-	for (i in 1:length(x)) for (j in seq(len = (i - 1))) {
+	for (i in 1:length(x)) for (j in seq_len(i - 1)) {
 		k <- k + 1
 		rectidx1[k] <- i
 		rectidx2[k] <- j

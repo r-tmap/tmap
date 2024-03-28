@@ -102,7 +102,7 @@ bin_num = function(x1, breaks_def, chart) {
 	# are breaks (and bin_colors)
 	predefined = !is.null(breaks_def)
 
-	if (is.null(chart$breaks)) {
+	if (is.null(chart$breaks_def)) {
 		if (!predefined) {
 			breaks = pretty(x1)
 			ids = rep(1L, length(breaks) - 1)
@@ -112,7 +112,7 @@ bin_num = function(x1, breaks_def, chart) {
 			ids = 1L:(length(breaks) - 1L)
 		}
 	} else {
-		breaks = chart$breaks
+		breaks = chart$breaks_def
 		subbreaks = (all(breaks_def %in% breaks))
 		
 		break_mids = (breaks[-1] + head(breaks, -1)) / 2
