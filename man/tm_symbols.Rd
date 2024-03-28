@@ -313,7 +313,8 @@ tm_shape(land) +
 			   	),
 			   size.legend = tm_legend("Population in 2020"),
 			   shape.scale = tm_scale_intervals(
-			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)
+			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+			   	   values = c(21, 23, 22, 21, 23, 22)
 			   	),
 			   shape.legend = tm_legend_combine("size")) +
 	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
@@ -392,7 +393,7 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 	
 	grobs2 = grobs
 	grobs2[[6]] = 21
-	
+	names(grobs2) <- as.character(NLD_prov$name)
 	NLD_prov$population[1:5] = 500000
 	tm_shape(NLD_prov) +
 		tm_polygons(group = "Provinces") +
@@ -435,10 +436,10 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 			geom_point(aes(x=p\%\%16, y=-(p\%/\%16), shape=p), size=5, fill="red") +
 			geom_text(mapping=aes(x=p\%\%16, y=-(p\%/\%16+0.25), label=p), size=3) +
 			scale_shape_identity() +
-			theme(axis.title=element_blank(),
-				  axis.text=element_blank(),
-				  axis.ticks=element_blank(),
-				  panel.background=element_blank())
+			theme(axis.title = element_blank(),
+				  axis.text = element_blank(),
+				  axis.ticks = element_blank(),
+				  panel.background = element_blank())
 	}
 }
 

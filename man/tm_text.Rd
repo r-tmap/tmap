@@ -358,7 +358,8 @@ metro$upside_down = ifelse(sf::st_coordinates(metro)[,2] < 0, 180, 0)
 tm_shape(metro) +
 	tm_text(text = "name", size = "pop2020",
 			angle = "upside_down", size.legend = tm_legend_hide(),
-			col = "upside_down", col.scale = tm_scale_categorical(values = c("#9900BB", "#228822")),
+			col = "upside_down",
+			col.scale = tm_scale_categorical(values = c("#9900BB", "#228822")),
 			col.legend = tm_legend_hide()) +
 	tm_title_out("Which Hemisphere?", position = tm_pos_out("center", "top", pos.v = "bottom"))
 
@@ -368,7 +369,9 @@ Africa = World[World$continent == "Africa", ]
 
 tm_shape(land) +
 	tm_raster("cover_cls", 
-			  col.scale = tm_scale(values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]),
+			  col.scale = tm_scale(
+			  	  values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]
+			  ),
 			  col.legend = tm_legend_hide()) +
 tm_shape(rivers) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
@@ -382,7 +385,8 @@ tm_shape(rivers) +
 			   ),
 			   size.legend = tm_legend("Population in 2020"),
 			   shape.scale = tm_scale_intervals(
-			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)
+			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+			   	   values = c(21, 23, 22, 21, 23, 22)
 			   ),
 			   shape.legend = tm_legend_combine("size")) +
 	tm_labels("name")
