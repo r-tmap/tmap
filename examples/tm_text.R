@@ -32,7 +32,8 @@ tm_shape(rivers) +
     tm_shape(metroAfrica) +
 	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
 			   size.scale = tm_scale_intervals(
-			   	    breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values.range = c(0.2,2)
+			   	    breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+			   	    values.range = c(0.2,2)
 			   ),
 			   size.legend = tm_legend("Population in 2020"),
 			   shape.scale = tm_scale_intervals(
