@@ -168,7 +168,6 @@ tm_labels(
   angle.legend = tm_legend_hide(),
   angle.chart = tm_chart_none(),
   angle.free = NA,
-  shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   zindex = NA,
   group = NA,
@@ -372,14 +371,19 @@ tm_shape(land) +
 			  col.scale = tm_scale(values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]),
 			  col.legend = tm_legend_hide()) +
 tm_shape(rivers) +
-	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3), col = cols4all::c4a("brewer.pastel1")[2]) +
-tm_shape(Africa, is.main = TRUE) + 
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
+			 col = cols4all::c4a("brewer.pastel1")[2]) +
+    tm_shape(Africa, is.main = TRUE) + 
 	tm_borders() +
-tm_shape(metroAfrica) +
+    tm_shape(metroAfrica) +
 	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
-			   size.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values.range = c(0.2,2)),
+			   size.scale = tm_scale_intervals(
+			   	    breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values.range = c(0.2,2)
+			   ),
 			   size.legend = tm_legend("Population in 2020"),
-			   shape.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)),
+			   shape.scale = tm_scale_intervals(
+			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)
+			   ),
 			   shape.legend = tm_legend_combine("size")) +
 	tm_labels("name")
 

@@ -24,7 +24,7 @@ opt_tm_bubbles = opt_tm_symbols
 #' @rdname tm_symbols
 #' @name opt_tm_squares
 #' @export
-opt_tm_sqaures = opt_tm_symbols
+opt_tm_squares = opt_tm_symbols
 
 
 
@@ -563,7 +563,7 @@ tm_squares = function(size = tm_const(),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
-					  options = opt_tm_sqaures(),
+					  options = opt_tm_squares(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
