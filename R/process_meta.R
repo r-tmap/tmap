@@ -179,6 +179,23 @@ process_meta = function(o, d, cdt, aux) {
 				  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
 			} else c(0, 0, 0, 0)
 			
+			panel.margin = get_option_class(panel.margin, panel.type)
+			
+			panel.xtab.margin = if (panel.type == "xtab") {
+				c(ifelse("bottom" %in% panel.xtab.pos, panel.margin * lineH, 0),
+				  ifelse("left" %in% panel.xtab.pos, panel.margin * lineW, 0),
+				  ifelse("top" %in% panel.xtab.pos, panel.margin * lineH, 0),
+				  ifelse("right" %in% panel.xtab.pos, panel.margin * lineW, 0))
+			} else c(0, 0, 0, 0)
+			
+			panel.wrap.margin =	if (panel.type == "wrap") {
+				c(ifelse(panel.wrap.pos == "bottom", panel.margin * lineH, 0),
+				  ifelse(panel.wrap.pos == "left", panel.margin * lineW, 0),
+				  ifelse(panel.wrap.pos == "top", panel.margin * lineH, 0),
+				  ifelse(panel.wrap.pos == "right", panel.margin * lineW, 0))
+			} else c(0, 0, 0, 0)
+				
+
 			panel.wrap.size = if (panel.type == "wrap") {
 				c(ifelse(panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
 				  ifelse(panel.wrap.pos == "left", panel.label.height * lineW, 0),

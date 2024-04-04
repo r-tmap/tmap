@@ -202,6 +202,6 @@ tm_facets_vstack = function(by = "VARS__",
 #' @export
 #' @rdname tm_facets
 #' @name tm_facet_flip
-tm_facets_flip = function() {
-	tm_options(facet.flip = TRUE)
+tm_facets_flip = function(...) {
+	do.call(tm_facets, list(...)) + tm_options(facet.flip = TRUE)
 }

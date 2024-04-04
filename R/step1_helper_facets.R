@@ -43,6 +43,9 @@ get_split_stars_dim = function(lst) {
 	}
 }
 
+is_rev = function(x) !is.null(x) && substr(x, 1, 1) == "-"
+remove_min = function(x) substr(x, 2, nchar(x))
+
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo, o) {
 	#o = tmap_options_mode()
@@ -208,6 +211,12 @@ step1_rearrange_facets = function(tmo, o) {
 			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
 			
 			if (type %in% c("wrapstack", "wrap", "stack", "page")) {
+				rev1 = is_rev(by)
+				rev2 = FALSE
+				rev3 = FALSE
+
+				if (rev1) by = remove_min(by)
+				
 				by1 = by
 				by2 = NULL
 				by3 = NULL
@@ -257,6 +266,15 @@ step1_rearrange_facets = function(tmo, o) {
 				by1 = rows
 				by2 = columns
 				by3 = pages
+				
+				rev1 = is_rev(by1)
+				rev2 = is_rev(by2)
+				rev3 = is_rev(by3)
+				
+				if (rev1) by1 = remove_min(by1)
+				if (rev2) by2 = remove_min(by2)
+				if (rev3) by3 = remove_min(by3)
+				
 				
 				if (nrd > 3L) {
 					if (nrsd > 3L) stop("The shape object has more than 3 dimensions, so even tm_facets_grid cannot be used.", call. = FALSE)

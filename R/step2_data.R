@@ -21,7 +21,12 @@ step2_data = function(tm) {
 	grps = lapply(tmo, function(tmg) {
 		tmf = tmg$tmf
 		dt = tmg$tms$dt
+
+		if ("by1__" %in% names(dt) && o$rev1) dt[, by1__ := (o$fn[1]+1L)-by1__]
+		if ("by2__" %in% names(dt) && o$rev2) dt[, by2__ := (o$fn[2]+1L)-by2__]
+		if ("by3__" %in% names(dt) && o$rev3) dt[, by3__ := (o$fn[3]+1L)-by3__]
 		
+				
 		if (o$facet.flip && !o$type %in% c("wrapstack", "wrap", "stack")) {
 			if ("by2__" %in% names(dt)) {
 				dt[, by2b__:= by2__]
@@ -34,7 +39,7 @@ step2_data = function(tm) {
 				dt[, by1__ := by2b__]
 				dt[, by2b__ := NULL]
 			}
-			
+
 			tmf = within(tmf, {
 				b = ifelse(b == 1L, 2L, ifelse(b == 2L, 1L, b))
 				v = ifelse(v == 1L, 2L, ifelse(v == 2L, 1L, v))
@@ -42,8 +47,8 @@ step2_data = function(tm) {
 				var__ = ifelse(var__ == "by1__", "by2__", ifelse(var__ == "by2__", "by1__", var__))
 				gn = gn[c(2,1,3)]
 				gl = gl[c(2,1,3)]
-				fl = fl[c(2,1,3)]
-				fn = fn[c(2,1,3)]
+				#fl = fl[c(2,1,3)]
+				#fn = fn[c(2,1,3)]
 			})
 		}
 		
@@ -158,5 +163,15 @@ step2_data = function(tm) {
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
 	
+	o = within(o, {
+		if (rev1) fl[[1]][] = rev(fl[[1]][])
+		if (rev2) fl[[2]][] = rev(fl[[2]][])
+		if (rev3) fl[[3]][] = rev(fl[[3]][])
+		if (facet.flip  && !type %in% c("wrapstack", "wrap", "stack")) {
+			fl[] = fl[c(2,1,3)]
+			fn = fn[c(2,1,3)]
+		}
+	})
+
 	list(tmo = grps, aux = aux, cmp = cmp, o = o)
 }

@@ -8,14 +8,16 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 			  xylab.margins.top = xylab.margins[3],
 			  
 			  panel.xtab.top = panel.xtab.size[3],
+			  panel.xtab.margin.top = panel.xtab.margin[3],
 			  grid.buffers.top = grid.buffers[3],
 			  grid.margins.top = grid.margins[3],
 			  
 			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 0, panel.wrap.size[1], between.marginH), o$nrows -1) else NULL},
 			  panel.wrap.size[3], 0, panel.wrap.size[1],
 			  
-			  grid.margins.top = grid.margins[1],
-			  grid.buffers.top = grid.buffers[1],
+			  grid.margins.bottom = grid.margins[1],
+			  grid.buffers.bottom = grid.buffers[1],
+			  panel.xtab.margin.bottom = panel.xtab.margin[1],
 			  panel.xtab.bottom = panel.xtab.size[1],
 			  
 			  xylab.margins.bottom = xylab.margins[1],
@@ -37,14 +39,16 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 			  xylab.margins.left = xylab.margins[2],
 			  
 			  panel.xtab.left = panel.xtab.size[2],
+			  panel.xtab.margin.left = panel.xtab.margin[2],
 			  grid.buffers.left = grid.buffers[2],
 			  grid.margins.left = grid.margins[2],
 			  
-			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 0, panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
+			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 0,  panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
 			  panel.wrap.size[2], 0, panel.wrap.size[4],
 			  
 			  grid.margins.left = grid.margins[4],
 			  grid.buffers.left = grid.buffers[4],
+			  panel.xtab.margin.right = panel.xtab.margin[4],
 			  panel.xtab.right = panel.xtab.size[4],
 			  
 			  xylab.margins.right = xylab.margins[4],
@@ -61,8 +65,8 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	nr = length(rows)
 	nc = length(cols)
 	
-	cols_facet_ids = 1:o$ncols * 4 + 6
-	rows_facet_ids = 1:o$nrows * 4 + 6
+	cols_facet_ids = 1:o$ncols * 4 + 7
+	rows_facet_ids = 1:o$nrows * 4 + 7
 	
 	#if (o$panel.type == "xtab") {
 	cols_panel_col_ids = cols_facet_ids
