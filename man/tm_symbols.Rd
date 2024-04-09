@@ -449,6 +449,7 @@ tm_shape(metro) +
 	tm_symbols("pop2010", size.scale = tm_scale_continuous(n = 8, values.scale = 3), shape = 22)
 
 
+
 data("NLD_prov")
 NLD_prov$x = seq(10, by = 5, length.out = 12)
 
