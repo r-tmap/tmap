@@ -155,14 +155,13 @@ tm_shape(metro) +
 	tm_symbols("pop2010", size.scale = tm_scale_continuous(n = 8, values.scale = 3), shape = 22)
 
 
-\dontrun{
 data("NLD_prov")
 NLD_prov$x = seq(10, by = 5, length.out = 12)
 
 tm_shape(NLD_prov) + 
 	tm_symbols(size = "x", size.scale = tm_scale_continuous(values.scale = 4)) +
 	tm_text(text = "x")
-}
+
 tm_shape(metro) + 
 	tm_symbols("pop2010", fill = "pop2020", 
 			   fill.scale = tm_scale_continuous(), 
