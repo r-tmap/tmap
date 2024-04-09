@@ -52,11 +52,17 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 			grobs <- lapply(1:length(gp$shape), function(i) {
 				shi = gp$shape[[i]]
 				
-				just = args$just
+				just = if (is.na(args$just[1])) c(0.5, 0.5) else args$just
 				jst = if (!is.na(shi) && shi>999) {
 					js = justLib[[shi-999]]
-					if (is.na(js[1])) args$just else js
-				} else args$just
+					if (!is.na(js[1])) {
+						js
+					} else if (!is.na(args$just[1])) {
+						args$just
+					} else {
+						just
+					}
+				} else just
 				
 				justs.x = jst[1]
 				justs.y = jst[2]
