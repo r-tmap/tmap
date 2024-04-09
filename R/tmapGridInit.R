@@ -8,14 +8,16 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 			  xylab.margins.top = xylab.margins[3],
 			  
 			  panel.xtab.top = panel.xtab.size[3],
+			  panel.xtab.margin.top = panel.xtab.margin[3],
 			  grid.buffers.top = grid.buffers[3],
 			  grid.margins.top = grid.margins[3],
 			  
-			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 0, panel.wrap.size[1], between.marginH), o$nrows -1) else NULL},
-			  panel.wrap.size[3], 0, panel.wrap.size[1],
+			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], panel.wrap.margin[3], 0, panel.wrap.margin[1], panel.wrap.size[1], between.marginH), o$nrows -1) else NULL},
+			  panel.wrap.size[3], panel.wrap.margin[3], 0, panel.wrap.margin[1], panel.wrap.size[1],
 			  
-			  grid.margins.top = grid.margins[1],
-			  grid.buffers.top = grid.buffers[1],
+			  grid.margins.bottom = grid.margins[1],
+			  grid.buffers.bottom = grid.buffers[1],
+			  panel.xtab.margin.bottom = panel.xtab.margin[1],
 			  panel.xtab.bottom = panel.xtab.size[1],
 			  
 			  xylab.margins.bottom = xylab.margins[1],
@@ -37,14 +39,16 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 			  xylab.margins.left = xylab.margins[2],
 			  
 			  panel.xtab.left = panel.xtab.size[2],
+			  panel.xtab.margin.left = panel.xtab.margin[2],
 			  grid.buffers.left = grid.buffers[2],
 			  grid.margins.left = grid.margins[2],
 			  
-			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 0, panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
-			  panel.wrap.size[2], 0, panel.wrap.size[4],
+			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], panel.wrap.margin[2], 0,  panel.wrap.margin[4], panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
+			  panel.wrap.size[2], panel.wrap.margin[2], 0, panel.wrap.margin[4], panel.wrap.size[4],
 			  
 			  grid.margins.left = grid.margins[4],
 			  grid.buffers.left = grid.buffers[4],
+			  panel.xtab.margin.right = panel.xtab.margin[4],
 			  panel.xtab.right = panel.xtab.size[4],
 			  
 			  xylab.margins.right = xylab.margins[4],
@@ -61,8 +65,8 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	nr = length(rows)
 	nc = length(cols)
 	
-	cols_facet_ids = 1:o$ncols * 4 + 6
-	rows_facet_ids = 1:o$nrows * 4 + 6
+	cols_facet_ids = 1:o$ncols * 6 + 6
+	rows_facet_ids = 1:o$nrows * 6 + 6
 	
 	#if (o$panel.type == "xtab") {
 	cols_panel_col_ids = cols_facet_ids
@@ -71,8 +75,8 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	rows_panel_row_ids = rows_facet_ids
 	rows_panel_col_id = ifelse(o$panel.xtab.pos[1] == "left", 6, nc - 5)
 	#} else if (o$panel.type == "wrap") {
-	cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -1, ifelse(o$panel.wrap.pos  == "right", 1, 0))
-	rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -1, ifelse(o$panel.wrap.pos  == "bottom", 1, 0))
+	cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -2, ifelse(o$panel.wrap.pos  == "right", 2, 0))
+	rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -2, ifelse(o$panel.wrap.pos  == "bottom", 2, 0))
 	
 	panel_col_rot = 0
 	panel_row_rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)

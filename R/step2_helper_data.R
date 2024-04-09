@@ -88,16 +88,16 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 		# active grouping variables (to keep)
 		grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
 		
-		sfun = paste0("tmapValuesScale_", unm)
-		cfun = paste0("tmapValuesColorize_", unm)
+		sfun = paste0("tmapValuesScale_", nm)
+		cfun = paste0("tmapValuesColorize_", nm)
 		
 		#print(vars)
 		if (!aes$data_vars && !aes$geo_vars) {
-			# cat("step2_grp_lyr_aes_const", unm," \n")
+			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
-			check_fun = paste0("tmapValuesCheck_", unm)
+			check_fun = paste0("tmapValuesCheck_", nm)
 			check = do.call(check_fun, list(x = val1))
 			if (!check) {
 				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
@@ -138,7 +138,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (any(!dtl$sel__) || !q$drop.units) {
 				# also needed for drop.units later on
 				cls = data_class(dtl[[nm]])
-				value.null = getAesOption("value.null", o, unm, layer, cls = cls)
+				value.null = getAesOption("value.null", o, nm, layer, cls = cls)
 				value.null = do.call(sfun, list(x = value.null, scale = o$scale))
 				value.null = do.call(cfun, list(x = value.null, pc = o$pc))
 				
@@ -162,6 +162,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			
 			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..nm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..nm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (nm) := NULL]
 		} else {
+			#cat("step2_grp_lyr_aes_var", nm," \n")
+			
 			relevant_vars = c("tmapID__", "sel__" , vars, by123__[b])
 			dtl = copy(dt[, relevant_vars, with = FALSE])
 			
@@ -271,12 +273,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
-					vn = getAesOption("value.null", o, unm, layer, cls = cls)
+					vn = getAesOption("value.null", o, nm, layer, cls = cls)
 					vn = do.call(sfun, list(x = vn, scale = o$scale))
 					do.call(cfun, list(x = vn, pc = o$pc))
 				}
 				
-				arglist = list(scale = s, legend = l, chart = crt, o = o, aes = unm, 
+				arglist = list(scale = s, legend = l, chart = crt, o = o, aes = nm, 
 							   layer = layer, 
 							   layer_args = args,
 							   sortRev = sortRev, 

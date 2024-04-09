@@ -74,7 +74,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			if (pick_middle) {
 				x = sapply(x, function(i) {
 					if (all(is.na(i))) NA else {
-						sq = c(5,6,4,7,3,8,2,9,1,10) # priority for middle values
+						sq = (o$nvv/2) + (rep(0:5,each=2) * c(1,-1))[-1] # priority for middle values
 						i[sq[which(!is.na(i)[sq])[1]]]
 					}
 				})

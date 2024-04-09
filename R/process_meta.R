@@ -40,8 +40,7 @@ preprocess_meta = function(o, cdt) {
 		isdef = !sapply(fl, is.null)
 		n = prod(nby)
 		
-		
-		if (is.na(panel.type)) panel.type = ifelse(((type == "page" || n == 1) && is.na(panel.labels[[1]])) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
+		if (is.na(panel.type)) panel.type = ifelse(((type == "page" || n == 1) && is.na(panel.labels[[1]])) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) || !o$panel.show, "none", 
 										    ifelse((type %in% c("wrap", "stack")) || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
@@ -95,6 +94,8 @@ process_meta = function(o, d, cdt, aux) {
 			meta.margins = c(0, 0, 0, 0)
 			xylab.margins = rep(0, 4)
 			panel.xtab.size = c(0, 0, 0, 0)
+			panel.xtab.margin = rep(0, 4)
+			panel.wrap.margin = rep(0, 4)
 			grid.buffers = c(0, 0, 0, 0)
 			grid.margins = c(0, 0, 0, 0)
 			panel.wrap.size = c(0, 0, 0, 0)
@@ -179,6 +180,23 @@ process_meta = function(o, d, cdt, aux) {
 				  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
 			} else c(0, 0, 0, 0)
 			
+			panel.margin = get_option_class(panel.margin, panel.type)
+			
+			panel.xtab.margin = if (panel.type == "xtab") {
+				c(ifelse("bottom" %in% panel.xtab.pos, panel.margin * lineH, 0),
+				  ifelse("left" %in% panel.xtab.pos, panel.margin * lineW, 0),
+				  ifelse("top" %in% panel.xtab.pos, panel.margin * lineH, 0),
+				  ifelse("right" %in% panel.xtab.pos, panel.margin * lineW, 0))
+			} else c(0, 0, 0, 0)
+			
+			panel.wrap.margin =	if (panel.type == "wrap") {
+				c(ifelse(panel.wrap.pos == "bottom", panel.margin * lineH, 0),
+				  ifelse(panel.wrap.pos == "left", panel.margin * lineW, 0),
+				  ifelse(panel.wrap.pos == "top", panel.margin * lineH, 0),
+				  ifelse(panel.wrap.pos == "right", panel.margin * lineW, 0))
+			} else c(0, 0, 0, 0)
+				
+
 			panel.wrap.size = if (panel.type == "wrap") {
 				c(ifelse(panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
 				  ifelse(panel.wrap.pos == "left", panel.label.height * lineW, 0),

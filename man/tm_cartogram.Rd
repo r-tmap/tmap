@@ -25,7 +25,9 @@ tm_cartogram(
 )
 }
 \arguments{
-\item{type, itermax, expansion, inplace, share}{Additional options}
+\item{type}{cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms}
+
+\item{itermax, }{maximum number of iterations (see \code{\link[cartogram:cartogram_cont]{cartogram::cartogram_cont()}})}
 
 \item{...}{
   Arguments passed on to \code{\link[=tm_polygons]{tm_polygons}}
@@ -65,6 +67,12 @@ is applied to the named variable.}
     \item{\code{id}}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
   }}
+
+\item{expansion}{factor expansion, see \code{\link[cartogram:cartogram_ncont]{cartogram::cartogram_ncont()}} (argument \code{k})}
+
+\item{inplace}{should each polygon be modified in its original place? (\code{TRUE} by default)}
+
+\item{share}{share of the bounding box filled with the larger circle (see \code{\link[cartogram:cartogram_dorling]{cartogram::cartogram_dorling()}} argument \code{k})}
 
 \item{size, size.scale, size.legend, size.chart, size.free}{Transformation variable that
 determines the size of the polygons.}

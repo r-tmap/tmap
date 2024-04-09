@@ -72,7 +72,7 @@ completeDT2 = function(DT, cols, defs = NULL){
 } 
 
 cont_breaks = function(breaks, n=101) {
-	x = round(seq(1, 101, length.out=length(breaks)))
+	x = round(seq(1, n, length.out=length(breaks)))
 	
 	unlist(lapply(1L:(length(breaks)-1L), function(i) {
 		y = seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
