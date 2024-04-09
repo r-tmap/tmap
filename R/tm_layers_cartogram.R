@@ -1,3 +1,5 @@
+#' @param type,itermax,expansion,inplace,share Additional options
+#'
 #' @rdname tm_cartogram
 #' @name opt_tm_cartogram
 #' @param type cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms

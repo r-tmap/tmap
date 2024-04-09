@@ -266,7 +266,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					x2 <- x2[!lnsX_emp]
 					lnsX_proj <- lnsX_proj[!lnsX_emp]
 					xco <- st_coordinates(lnsX_proj)
-					co.x.lns <- lapply(unique(xco[,3]), function(i) {
+					# co.x.lns
+					co.x <- lapply(unique(xco[,3]), function(i) {
 						lco <- xco[xco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -278,7 +279,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					
 					sel.x <- which(x2 %in% x)
 				} else {
-					co.x.lns <- numeric(0)
+					co.x <- numeric(0)
 				}
 				
 				if (lnsSel[2]) {
@@ -291,7 +292,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					y2 <- y2[!lnsY_emp]
 					lnsY_proj <- lnsY_proj[!lnsY_emp]
 					yco <- st_coordinates(lnsY_proj)
-					co.y.lns <- lapply(unique(yco[,3]), function(i) {
+					co.y <- lapply(unique(yco[,3]), function(i) {
 						lco <- yco[yco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -303,7 +304,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					
 					sel.y <- which(y2 %in% y)
 				}	else {
-					co.y.lns <- numeric(0)
+					co.y <- numeric(0)
 				}
 				
 				
@@ -396,7 +397,7 @@ tmapGridGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 
 	# find coordinates for projected grid labels
 	if (!is.na(a$crs)) {
-		glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = as.integer(is_top))
+		glabelsx <- get_gridline_labels(lco=a$co.x[a$sel.x], xax = as.integer(is_top))
 		cogridx <- glabelsx$cogrid
 		idsx <- glabelsx$ids
 		labelsx <- labelsx[idsx]
@@ -473,7 +474,7 @@ tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	
 	# find coordinates for projected grid labels
 	if (!is.na(a$crs)) {
-		glabelsy <- get_gridline_labels(lco=a$co.y.lns[a$sel.y], yax = 0)
+		glabelsy <- get_gridline_labels(lco=a$co.y[a$sel.y], yax = 0)
 		cogridy <- glabelsy$cogrid
 		idsy <- glabelsy$ids
 		labelsy <- labelsy[idsy]
@@ -603,7 +604,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	# find coordinates for projected grid labels
 	if (!is.na(a$crs)) {
 		if (selx) {
-			glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = labelsXw + spacerX+marginX)
+			glabelsx <- get_gridline_labels(lco=a$co.x[a$sel.x], xax = labelsXw + spacerX+marginX)
 			cogridx <- glabelsx$cogrid
 			idsx <- glabelsx$ids
 			labelsx <- labelsx[idsx]
@@ -614,7 +615,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		# }
 		
 		if (sely) {
-			glabelsy <- get_gridline_labels(lco=a$co.y.lns[a$sel.y], yax = labelsYw + spacerY+marginY)
+			glabelsy <- get_gridline_labels(lco=a$co.y[a$sel.y], yax = labelsYw + spacerY+marginY)
 			cogridy <- glabelsy$cogrid
 			idsy <- glabelsy$ids
 			labelsy <- labelsy[idsy]
@@ -647,13 +648,13 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	# crop projected grid lines, and extract polylineGrob ingredients
 	if (!is.na(a$crs)) {
 		lnsList <- list(
-			if (any(selx)) st_multilinestring(a$co.x.lns) else NULL,
-			if (any(sely)) st_multilinestring(a$co.y.lns) else NULL
+			if (any(selx)) st_multilinestring(a$co.x) else NULL,
+			if (any(sely)) st_multilinestring(a$co.y) else NULL
 		)
 		lnsSel <- !vapply(lnsList, is.null, logical(1))
 		if (!any(lnsSel)) {
-			grid.co.x.lns <- numeric(0)
-			grid.co.y.lns <- numeric(0)
+			grid.co.x <- numeric(0)
+			grid.co.y <- numeric(0)
 		} else {
 			lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = 4326)) # trick for 0-1 coordinates
 			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)), projection = 4326)

@@ -50,7 +50,7 @@ step1_rearrange = function(tmel) {
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
 		
-		if ("v3" %in% o2$calls) warning("v3 code detected: as of tmap v4, tm_legend should be specified per visual variable (e.g. with the argument fill.legend of tm_polygons", call. = FALSE)
+		if ("v3" %in% o2$calls) message("v3 code detected: as of tmap v4, the legend should be specified for each visual variable\n(e.g. with `fill.legend = tm_legend()` inside tm_polygons to control the legend of fill for polygons.", call. = FALSE)
 		
 		# special case: position, in case c("left", "top") is used
 		pids = grep(".position", names(o2), fixed = TRUE)
