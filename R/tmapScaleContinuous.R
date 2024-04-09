@@ -210,7 +210,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		if (is.null(sortRev)) {
 			ids = NULL
 		} else if (is.na(sortRev)) {
-			ids[] = 1L
+			ids = rep(1L, length(x1))
 		} else if (sortRev) {
 			if (vnum) {
 				ids = rank(-vals)
