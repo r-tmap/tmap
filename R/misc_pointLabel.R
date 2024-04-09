@@ -1,44 +1,44 @@
 test_rect = function(x, y, width, height, bbx) {
-	library(grid)
-	grid.newpage()
+	# library(grid)
+	grid::grid.newpage()
 	
 	asp = tmaptools::get_asp_ratio(bbx)
 	
 	if (asp > 1) {
-		pushViewport(viewport(width = unit(1, "snpc"), height = unit(1/asp, "snpc")))	
+		grid::pushViewport(grid::viewport(width = grid::unit(1, "snpc"), height = grid::unit(1/asp, "snpc")))	
 	} else {
-		pushViewport(viewport(width = unit(asp, "snpc"), height = unit(1, "snpc")))	
+		grid::pushViewport(grid::viewport(width = grid::unit(asp, "snpc"), height = grid::unit(1, "snpc")))	
 	}
 	
 	
-	pushViewport(viewport(xscale = bbx[c(1,3)], yscale = bbx[c(2,4)]))
-	grid.rect()
+	grid::pushViewport(grid::viewport(xscale = bbx[c(1,3)], yscale = bbx[c(2,4)]))
+	grid::grid.rect()
 	
 	mapply(function(xi,yi,wi,hi) {
-		grid.rect(x = unit(xi, "native"), y = unit(yi, "native"), width = unit(wi, "native"), height = unit(hi, "native"), gp = gpar(fill = "orange", col = "black"))
+		grid::grid.rect(x = grid::unit(xi, "native"), y = grid::unit(yi, "native"), width = grid::unit(wi, "native"), height = grid::unit(hi, "native"), gp = grid::gpar(fill = "orange", col = "black"))
 	}, x, y, width, height)
-	upViewport(2)
+	grid::upViewport(2)
 }
 
 test_poly = function(xs, ys, bbx) {
-	library(grid)
-	grid.newpage()
+	# library(grid)
+	grid::grid.newpage()
 	
 	asp = tmaptools::get_asp_ratio(bbx)
 	
 	if (asp > 1) {
-		pushViewport(viewport(width = unit(1, "snpc"), height = unit(1/asp, "snpc")))	
+		grid::pushViewport(grid::viewport(width = grid::unit(1, "snpc"), height = grid::unit(1/asp, "snpc")))	
 	} else {
-		pushViewport(viewport(width = unit(asp, "snpc"), height = unit(1, "snpc")))	
+		grid::pushViewport(grid::viewport(width = grid::unit(asp, "snpc"), height = grid::unit(1, "snpc")))	
 	}
 	
-	pushViewport(viewport(xscale = bbx[c(1,3)], yscale = bbx[c(2,4)]))
+	grid::pushViewport(grid::viewport(xscale = bbx[c(1,3)], yscale = bbx[c(2,4)]))
 
-	grid.rect()
+	grid::grid.rect()
 	
-	grid.path(x = unit(xs, "native"), y = unit(ys, "native"), gp = gpar(fill = "orange", col = "black"))
+	grid::grid.path(x = grid::unit(xs, "native"), y = grid::unit(ys, "native"), gp = grid::gpar(fill = "orange", col = "black"))
 	
-	upViewport(2)
+	grid::upViewport(2)
 }
 
 # function adapted from car::pointLabel
@@ -74,7 +74,7 @@ pointLabel2 <- function (x, y, width, height, bbx,
 		
 	}
 
-	z <- xy.coords(x, y, recycle = TRUE)
+	z <- grDevices::xy.coords(x, y, recycle = TRUE)
 	z <- toUnityCoords(z)
 	x <- z$x
 	y <- z$y
@@ -117,7 +117,7 @@ pointLabel2 <- function (x, y, width, height, bbx,
 	rectv <- width + (0+1i) * height
 	rectidx1 <- rectidx2 <- array(0, (length(x)^2 - length(x))/2)
 	k <- 0
-	for (i in 1:length(x)) for (j in seq(len = (i - 1))) {
+	for (i in 1:length(x)) for (j in seq_len(i - 1)) {
 		k <- k + 1
 		rectidx1[k] <- i
 		rectidx2[k] <- j

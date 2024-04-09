@@ -55,7 +55,7 @@ most_common_cat = function(x) {
 	tab = table(x)
 	nm = names(tab)[which.max(tab)]
 	tryCatch({
-		as(nm, cls)	
+		methods::as(nm, cls)	
 	}, error = function(e) {
 		nm	
 	})

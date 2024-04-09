@@ -5,7 +5,6 @@
 \alias{opt_tm_dots}
 \alias{opt_tm_bubbles}
 \alias{opt_tm_squares}
-\alias{opt_tm_sqaures}
 \alias{tm_symbols}
 \alias{tm_dots}
 \alias{tm_bubbles}
@@ -33,7 +32,7 @@ opt_tm_bubbles(
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
-opt_tm_sqaures(
+opt_tm_squares(
   points.only = "ifany",
   icon.scale = 3,
   just = NA,
@@ -192,7 +191,7 @@ tm_squares(
   zindex = NA,
   group = NA,
   group.control = "check",
-  options = opt_tm_sqaures(),
+  options = opt_tm_squares(),
   ...
 )
 }
@@ -298,17 +297,26 @@ Africa = World[World$continent == "Africa", ]
 
 tm_shape(land) +
 	tm_raster("cover_cls", 
-			  col.scale = tm_scale(values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]),
+			  col.scale = tm_scale(
+			  	values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]
+			  ),
 			  col.legend = tm_legend_hide()) +
 	tm_shape(rivers) +
-	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3), col = cols4all::c4a("brewer.pastel1")[2]) +
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
+			 col = cols4all::c4a("brewer.pastel1")[2]) +
 	tm_shape(Africa, is.main = TRUE) + 
 	tm_borders() +
 	tm_shape(metroAfrica) +
 	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
-			   size.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values.range = c(0.2,2)),
+			   size.scale = tm_scale_intervals(
+			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+			   	   values.range = c(0.2,2)
+			   	),
 			   size.legend = tm_legend("Population in 2020"),
-			   shape.scale = tm_scale_intervals(breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6, values = c(21, 23, 22, 21, 23, 22)),
+			   shape.scale = tm_scale_intervals(
+			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+			   	   values = c(21, 23, 22, 21, 23, 22)
+			   	),
 			   shape.legend = tm_legend_combine("size")) +
 	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
 
@@ -386,7 +394,7 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 	
 	grobs2 = grobs
 	grobs2[[6]] = 21
-	
+	names(grobs2) <- as.character(NLD_prov$name)
 	NLD_prov$population[1:5] = 500000
 	tm_shape(NLD_prov) +
 		tm_polygons(group = "Provinces") +
@@ -429,10 +437,10 @@ if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) &
 			geom_point(aes(x=p\%\%16, y=-(p\%/\%16), shape=p), size=5, fill="red") +
 			geom_text(mapping=aes(x=p\%\%16, y=-(p\%/\%16+0.25), label=p), size=3) +
 			scale_shape_identity() +
-			theme(axis.title=element_blank(),
-				  axis.text=element_blank(),
-				  axis.ticks=element_blank(),
-				  panel.background=element_blank())
+			theme(axis.title = element_blank(),
+				  axis.text = element_blank(),
+				  axis.ticks = element_blank(),
+				  panel.background = element_blank())
 	}
 }
 
