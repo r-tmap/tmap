@@ -32,7 +32,7 @@ tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 		}
 		
 		limits = range(x1)
-		breaks = cont_breaks(limits, n=101)
+		breaks = cont_breaks(limits, n=o$precision)
 		
 		if (is.null(labels)) {
 			ncont = n
@@ -44,7 +44,7 @@ tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 				ncont = length(labels)	
 			}
 		}
-		q = num2breaks(x = x1, n = 101, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
+		q = num2breaks(x = x1, n = o$precision, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
 		
 		breaks = q$brks
 		nbrks = length(breaks)
@@ -115,7 +115,7 @@ tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 			res1 = round(seq(i-floor(s1/2), i, length.out=6))
 			res2 = round(seq(i, i+ceiling(s2/2), length.out=6))[2:5]
 			res = c(res1, res2)
-			res[res<1 | res>101] = NA
+			res[res<1 | res>o$precision] = NA
 			res
 		}, id, head(id_step, -1), id_step[-1], SIMPLIFY = FALSE)
 		vvalues = lapply(id_lst, function(i) {

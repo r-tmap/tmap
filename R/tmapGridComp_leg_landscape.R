@@ -256,15 +256,15 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 			id1 = which(!is.na(fill_list[[1]]))[1]
 			id2 = tail(which(!is.na(fill_list[[nlev2]])), 1)
 			
-			x1 = ((id1-1) / 10) / nlev2
-			x2 = (id2 / 10) / nlev2 + ((nlev2-1)/nlev2)
+			x1 = ((id1-1) / o$nvv) / nlev2
+			x2 = (id2 / o$nvv) / nlev2 + ((nlev2-1)/nlev2)
 			w = x2 - x1
 			
 			if (vary_fill) {
-				cols = unlist(fill_list)[id1:(10*(nlev2-1) + id2)]
+				cols = unlist(fill_list)[id1:(o$nvv*(nlev2-1) + id2)]
 				cols_alph = paste0(cols, num_to_hex(gp$fill_alpha[1] * 255))
 			} else {
-				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
+				alph = unlist(alpha_list)[id1:(o$nvv*(nlev2-1) + id2)]
 				cols_alph = paste0(col2hex(gp$fill[1]), num_to_hex(alph * 255))
 			}
 			grItems1 = list(gridCell(6, comp$item_ids[lvs], grid::rectGrob(x = x1 + 0.5*w, width= w, gp=gpar(fill = grid::linearGradient(colours = cols_alph), col = NA))))
@@ -279,11 +279,11 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		}
 		
 		if (vary_fill) {
-			x1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
-			x2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2
+			x1 = (sum(is.na(fill_list[[1]])) / o$nvv) / nlev2
+			x2 = (sum(is.na(fill_list[[nlev2]])) / o$nvv) / nlev2
 		} else {
-			x1 = (sum(is.na(alpha_list[[1]])) * .1) / nlev2
-			x2 = (sum(is.na(alpha_list[[nlev2]])) * .1) / nlev2
+			x1 = (sum(is.na(alpha_list[[1]])) / o$nvv) / nlev2
+			x2 = (sum(is.na(alpha_list[[nlev2]])) / o$nvv) / nlev2
 		}
 		
 		

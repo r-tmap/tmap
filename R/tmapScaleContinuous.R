@@ -36,11 +36,17 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
 	
+	
+	
+	
 	x1 = without_units(x1)
 
 	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	scale = get_scale_defaults(scale, o, aes, layer, cls)
+	
+	vnum = (is.numeric(scale$values) || inherits(scale$values, "tmapSeq")) 
+	#vnum=FALSE
 	
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
@@ -108,25 +114,28 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		limits_t = tr$fun(limits)
 		domain_t = tr$fun(tr$domain)	
 		
-		breaks = cont_breaks(limits_t, n=101)
-		
-		if (is.null(labels)) {
-			ncont = n
-		} else {
-			if (ticks.specified && length(labels) != n+1) {
-				if (show.warnings) warning("The length of legend labels is ", length(labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend labels will be ignored", call.=FALSE)
-				labels = NULL
+		if (!vnum) {
+			breaks = cont_breaks(limits_t, n=o$precision)
+			if (is.null(labels)) {
+				ncont = n
 			} else {
-				ncont = length(labels)	
+				if (ticks.specified && length(labels) != n+1) {
+					if (show.warnings) warning("The length of legend labels is ", length(labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend labels will be ignored", call.=FALSE)
+					labels = NULL
+				} else {
+					ncont = length(labels)	
+				}
 			}
+			q = num2breaks(x = x_t, n = o$precision, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
+			
+			breaks = q$brks
+			nbrks = length(breaks)
+			n2 = nbrks - 1
+			
 		}
-		q = num2breaks(x = x_t, n = 101, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
 		
-		breaks = q$brks
-		nbrks = length(breaks)
-		n2 = nbrks - 1
 		
-		int.closure <- attr(q, "intervalClosure")
+
 		
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
@@ -150,28 +159,49 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full range of visual values.")
 				midpoint <- 0
 			} else {
-				if ((n2 %% 2) == 1) {
-					# number of classes is odd, so take middle class (average of those breaks)
-					midpoint <- mean.default(breaks[c((n2+1) / 2, (n2+3) / 2)])
+				if (vnum) {
+					midpoint = mean(limits_t)
 				} else {
-					midpoint <- breaks[(n2+2) / 2]
+					if ((n2 %% 2) == 1) {
+						# number of classes is odd, so take middle class (average of those breaks)
+						midpoint <- mean.default(breaks[c((n2+1) / 2, (n2+3) / 2)])
+					} else {
+						midpoint <- breaks[(n2+2) / 2]
+					}
 				}
 			}
 		}
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
 		
-		vvalues = VV$vvalues
-		value.na = VV$value.na
-
-		sfun = paste0("tmapValuesScale_", aes)
-		cfun = paste0("tmapValuesColorize_", aes)
-		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+		if (!vnum) {
+			#### discretisize
+			
+			# number of visual values in legend item (belonging to one label)
+			nvv = o$nvv
+			
+			
+			VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
+			
+			vv = VV$vvalues
+			value.na = VV$value.na
+			
+			sfun = paste0("tmapValuesScale_", aes)
+			cfun = paste0("tmapValuesColorize_", aes)
+			if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+			
+			ids = classInt::findCols(q)
+			vals = vv[ids]
+		} else {
+			if (is.numeric(values)) {
+				values = tmap_seq(values[1], values[length(values)], power = "lin")
+			}
+			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * o$scale)
+			
+			vals = VV$x
+			value.neutral = VV$neutral
+		}
 		
-		
-		ids = classInt::findCols(q)
-		vals = vvalues[ids]
 		isna = is.na(vals)
 		anyNA = any(isna)
 		
@@ -182,7 +212,13 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		} else if (is.na(sortRev)) {
 			ids[] = 1L
 		} else if (sortRev) {
-			ids = (as.integer(n2) + 1L) - ids
+			if (vnum) {
+				ids = rank(-vals)
+			} else {
+				ids = (as.integer(n2) + 1L) - ids	
+			}
+		} else if (vnum) {
+			ids = rank(vals)
 		}
 
 		if (anyNA) {
@@ -194,49 +230,55 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			b_t = ticks_t
 			b = tr$rev(b_t)
 		} else {
-#			tr$rev(pretty(limits_t, n = 10))
-			# TODO
-			#pretty()
-			#tr$fun(round(tr$rev(pretty(limits_t)),1))
 			b  = prettyTicks(tr$rev(seq(limits_t[1], limits_t[2], length.out = n)))
 			if (!(aes %in% c("col", "fill"))) b = b[b!=0]
-			
 			b_t = tr$fun(b)
 		}
 		sel = if (length(b_t) == 2) TRUE else (b_t>=limits_t[1] & b_t<=limits_t[2])
 		b_t = b_t[sel]
 		b = b[sel]
 
+		
+		
 		nbrks_cont <- length(b_t)
-		id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 
-		id_step = id[-1] - head(id, -1)
-		id_step = c(id_step[1], id_step, id_step[length(id_step)])
-		id_lst = mapply(function(i, s1, s2){
-			#res = round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
-			res1 = round(seq(i-floor(s1/2), i, length.out=6))
-			res2 = round(seq(i, i+ceiling(s2/2), length.out=6))[2:5]
-			res = c(res1, res2)
-			res[res<1 | res>101] = NA
-			res
-		}, id, head(id_step, -1), id_step[-1], SIMPLIFY = FALSE)
-		vvalues = lapply(id_lst, function(i) {
-			if (legend$reverse) rev(vvalues[i]) else vvalues[i]
-		})
+		if (vnum) {
+			vvalues = transform_values(b_t, limits_t, values.range, values$power, values.scale * o$scale, include.neutral = FALSE)
+		} else {
+			id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
+			id_step = id[-1] - head(id, -1)
+			id_step = c(id_step[1], id_step, id_step[length(id_step)])
+			id_lst = mapply(function(i, s1, s2){
+				#res = round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
+				res1 = round(seq(i-floor(s1/2), i, length.out=(nvv/2)+1L))
+				res2 = round(seq(i, i+ceiling(s2/2), length.out=(nvv/2)+1L))[2:(nvv/2)]
+				res = c(res1, res2)
+				res[res<1 | res>o$precision] = NA
+				res
+			}, id, head(id_step, -1), id_step[-1], SIMPLIFY = FALSE)
+			vvalues = lapply(id_lst, function(i) {
+				if (legend$reverse) rev(vv[i]) else vv[i]
+			})
+		}
+		
+		
+		
+
+		
 		
 		if (legend$reverse) vvalues = rev(vvalues)
 		
 		if (na.show) vvalues = c(vvalues, value.na)
 		
 		# temporarily stack gradient values
-		vvalues = cont_collapse(vvalues)
+		if (!vnum) vvalues = cont_collapse(vvalues)
 		
 		# create legend values
 		values = b
 		
 		# create legend labels for continuous cases
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)) 	
+			labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure="left"), label.format)) 	
 		} else {
 			labels = rep(labels, length.out=nbrks_cont)
 			attr(labels, "align") <- label.format$text.align
@@ -254,7 +296,6 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		}
 
 		
-
 		legend = within(legend, {
 			nitems = length(labels)
 			labels = labels
@@ -267,9 +308,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			limits = limits
 		})
 		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
-		
-		vvalues_mids = sapply(cont_split(vvalues), "[", 5)
-		vvalues_mids[vvalues_mids == "NA"] = NA
+		#vvalues_mids = sapply(cont_split(vvalues), "[", nvv/2)
+		#vvalues_mids[vvalues_mids == "NA"] = NA
 		
 		
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))

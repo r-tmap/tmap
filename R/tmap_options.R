@@ -174,6 +174,8 @@
 							   			unit = "rank")), # NA means take data range, 0 means include 0
 		
 		
+		nvv = 50, # the number of continuous legend breaks within one 'unit' (label). Should be even 
+		precision = 101, # the number of classes of a continuous scale. Should be oddÒ
 		
 		# labels			  
 		label.format = list(
@@ -524,13 +526,16 @@
 		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 		mouse_coordinates.show = FALSE,
 
-		panel.show = NA,
+		panel.show = TRUE,
 		panel.labels = NA,
 		panel.label.size = 1,
 		panel.label.color = "black",
 		panel.label.fontface = NULL,
 		panel.label.fontfamily = NULL,
 		panel.label.bg.color = "grey80",
+		panel.label.frame = TRUE,
+		panel.label.frame.lwd = 1,
+		panel.label.frame.r = 2,
 		panel.label.height = 1,
 		panel.label.rot = c(90, 0),
 

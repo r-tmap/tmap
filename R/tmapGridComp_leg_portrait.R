@@ -7,7 +7,7 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 		
 		type = if ("biv" %in% names(attributes(gp$fill))) {
 			"bivariate"
-		} else if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
+		} else if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 20) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 20)) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
 			"symbols"
@@ -423,15 +423,15 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			id1 = which(!is.na(fill_list[[1]]))[1]
 			id2 = tail(which(!is.na(fill_list[[nlev2]])), 1)
 
-			y1 = 1 - ((id1-1) / 10) / nlev2
-			y2 = 1 - ((id2 / 10) / nlev2 + ((nlev2-1)/nlev2))
+			y1 = 1 - ((id1-1) / o$nvv) / nlev2
+			y2 = 1 - ((id2 / o$nvv) / nlev2 + ((nlev2-1)/nlev2))
 			h = y1 - y2
 			
 			if (vary_fill) {
-				cols = unlist(fill_list)[id1:(10*(nlev2-1) + id2)]
+				cols = unlist(fill_list)[id1:(o$nvv*(nlev2-1) + id2)]
 				cols_alph = paste0(cols, num_to_hex(gp$fill_alpha[1] * 255))
 			} else {
-				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
+				alph = unlist(alpha_list)[id1:(o$nvv*(nlev2-1) + id2)]
 				cols_alph = paste0(col2hex(gp$fill[1]), num_to_hex(alph * 255))
 			}
 			grItems1 = list(gridCell(comp$item_ids[lvs], 3, grid::rectGrob(y = y2 + 0.5*h, height= h, gp=gpar(fill = grid::linearGradient(colours = rev(cols_alph)), col = NA))))
@@ -448,11 +448,11 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		
 		
 		if (vary_fill) {
-			y1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
-			y2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2
+			y1 = (sum(is.na(fill_list[[1]])) /o$nvv) / nlev2
+			y2 = (sum(is.na(fill_list[[nlev2]])) /o$nvv) / nlev2
 		} else {
-			y1 = (sum(is.na(alpha_list[[1]])) * .1) / nlev2
-			y2 = (sum(is.na(alpha_list[[nlev2]])) * .1) / nlev2
+			y1 = (sum(is.na(alpha_list[[1]])) /o$nvv) / nlev2
+			y2 = (sum(is.na(alpha_list[[nlev2]])) /o$nvv) / nlev2
 		}
 		
 		grItems2 = list(gridCell(comp$item_ids[lvs], 3, rndrectGrob(y = grid::unit(y2, "npc"), just = c("center", "bottom"), height = grid::unit(1-(y1+y2), "npc"), gp = gpars, r = comp$item.r)))

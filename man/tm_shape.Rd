@@ -37,3 +37,7 @@ bounding box of the map?}
 Specify a shape, which is a spatial object from one of these spatial object
 class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, or \code{terra}.
 }
+\examples{
+tm_shape(World, crs = "+proj=robin", filter = World$continent=="Africa") + 
+	tm_polygons()
+}

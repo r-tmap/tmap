@@ -47,7 +47,7 @@ tm_facets_hstack(by = "VARS__", ...)
 
 tm_facets_vstack(by = "VARS__", ...)
 
-tm_facets_flip()
+tm_facets_flip(...)
 }
 \arguments{
 \item{by}{Group by variable (only for a facet wrap or facet stack)}

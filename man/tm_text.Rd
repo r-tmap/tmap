@@ -168,7 +168,6 @@ tm_labels(
   angle.legend = tm_legend_hide(),
   angle.chart = tm_chart_none(),
   angle.free = NA,
-  shadow = FALSE,
   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
   zindex = NA,
   group = NA,

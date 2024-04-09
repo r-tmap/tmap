@@ -8,21 +8,26 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page, o) {
 	row = g$rows_panel_ids[facet_row]
 	col = g$cols_panel_ids[facet_col]
 	
-	frame.col = if (isFALSE(o$frame)) o$attr.color else if (isTRUE(o$frame)) o$attr.color else o$frame
+	frame.col = if (isFALSE(o$panel.label.frame)) o$attr.color else if (isTRUE(o$panel.label.frame)) o$attr.color else o$panel.label.frame
+	
+	frame.show = !isFALSE(o$panel.label.frame)
 	
 	#scale = o$scale * o$scale_down
 	
-	gpar_rect = grid::gpar(fill = o$panel.label.bg.color, lwd=o$frame.lwd * o$scale, col = o$frame)
+	if (frame.show) {
+		gpar_rect = grid::gpar(fill = o$panel.label.bg.color, lwd=o$panel.label.frame.lwd * o$scale, col = frame.col)
+	} 
 	gpar_text = rescale_gp(grid::gpar(cex = o$panel.label.size * o$scale, col = o$panel.label.color, fontfamily = o$panel.label.fontfamily, fontface = o$panel.label.fontface), o$scale_down)
 	
 	# resize due to not fitting
 	gpar_text$cex = determine_scale(label = label, rot = rot, row = row, col = col, g = g, scale = gpar_text$cex)
 	grb = grid::grobTree(
-		rndrectGrob(gp = gpar_rect, r = o$frame.r * o$scale),
+		if (frame.show) {
+			rndrectGrob(gp = gpar_rect, r = o$panel.label.frame.r * o$scale)
+		} else NULL,
 		grid::textGrob(label = label, rot = rot, gp = gpar_text)
 	)
-	
-	
+
 	gt = add_to_gt(gt, grb, row = row, col = col)
 	
 	gts[[facet_page]] = gt

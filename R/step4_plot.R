@@ -470,7 +470,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		
 		# determine row and col ids	
 		
-		if (o$panel.type == "xtab") {
+		if (o$type == "grid") {
 			d[, row := as.integer((i - 1) %% o$nrows + 1)]
 			d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 		} else {
