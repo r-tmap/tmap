@@ -65,6 +65,7 @@ opt_tm_labels = function(points.only = "ifany",
 #' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @rdname tm_text
 #' @name opt_tm_labels
+#' @export
 opt_tm_markers = function(markers.on.top.of.text = FALSE,
 						  points.only = "ifany",
 						  shadow = FALSE,
