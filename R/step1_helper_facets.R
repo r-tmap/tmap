@@ -28,7 +28,13 @@ update_grp_vars = function(lev = NULL, m = NULL) {
 	assign("vn", vn, envir = .TMAP)
 }
 
-add_used_vars = function(v) {
+add_used_vars = function(v, convert2density = FALSE) {
+	if (convert2density) {
+		c2d_vars = get("c2d_vars", envir = .TMAP)
+		c2d_vars = unique(c(c2d_vars, v))
+		assign("c2d_vars", c2d_vars, envir = .TMAP)
+	}
+	
 	used_vars = get("used_vars", envir = .TMAP)
 	used_vars = unique(c(used_vars, v))
 	assign("used_vars", used_vars, envir = .TMAP)
@@ -72,6 +78,7 @@ step1_rearrange_facets = function(tmo, o) {
 		assign("vn", 1L, envir = .TMAP)
 		
 		assign("used_vars", character(0), envir = .TMAP)
+		assign("c2d_vars", character(0), envir = .TMAP)
 		
 		precheck_aes = function(a, layer, shpvars, args) {
 			within(a, {
@@ -124,11 +131,13 @@ step1_rearrange_facets = function(tmo, o) {
 					data_vars = all(vars %in% shpvars)
 					geo_vars = all(vars %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 					
+					convert2density = "convert2density" %in% names(scale) && scale$convert2density 
+					
 					nflvar = nvars
 					if (data_vars) {
 						flvar = names(value)
 						update_grp_vars(lev = flvar)
-						add_used_vars(vars)
+						add_used_vars(vars, convert2density = convert2density)
 					} else if (geo_vars) {
 						flvar = names(value)
 						update_grp_vars(lev = flvar)
@@ -317,7 +326,21 @@ step1_rearrange_facets = function(tmo, o) {
 		})
 
 		smeta$vars = get("used_vars", envir = .TMAP)
-		shp = tmapSubsetShp(shp, smeta$vars)
+		convert2density = get("c2d_vars", envir = .TMAP)
+		smvars = if (length(convert2density)) unique(c(smeta$vars, "AREA")) else smeta$vars
+		shp = tmapSubsetShp(shp, smvars)
+		
+		if (length(convert2density)) {
+			for (v in convert2density) {
+				sunit = tmg$tms$unit
+				if (is.null(sunit)) sunit = o$unit
+				shape.unit <- ifelse(sunit=="metric", "km", ifelse(sunit=="imperial", "mi", sunit))
+				u = paste(shape.unit, shape.unit)
+				shp[[v]] = shp[[v]] / units::set_units(shp$AREA, u, mode = "standard")
+			}
+		}
+		
+		
 		if (dev) timing_add(s3 = "subset_shp")
 		
 		smeta = tmapGetShapeMeta2(shp, smeta, c(o, tmg$tmf))

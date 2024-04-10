@@ -75,6 +75,7 @@ preprocess_meta_step1 = function(o) {
 		
 		earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
 		
+		if (is.na(bg.color) && pc$sepia.intensity != 0) bg.color = "#FFFFFF"
 		bg.color = do.call("process_color", c(list(col=bg.color), pc))
 		
 		if (!is.null(outer.bg.color)) outer.bg.color = do.call("process_color", c(list(col=outer.bg.color), pc))

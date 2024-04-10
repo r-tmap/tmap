@@ -744,7 +744,7 @@ styles = list(
 					 basemaps = "CartoDB.DarkMatter",
 					 basemaps.alpha = .5),
 	classic = list(color.sepia.intensity = .7,
-				   fontfamily = "serif",
+				   text.fontfamily = "serif",
 				   frame = TRUE,
 				   frame.double.line = TRUE,
 				   compass.type = "rose")

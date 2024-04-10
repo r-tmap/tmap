@@ -187,7 +187,11 @@ tm_polygons = function(fill = tm_const(),
 		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
-		if ("col" %in% names(args_called) &&  (is.null(args_called$called_from) || (args_called$called_from != "fill"))) {
+		if ("convert2density" %in% names(args) && args$convert2density) {
+			fill.scale$convert2density = TRUE
+		}
+		
+		if ("col" %in% names(args_called)) {
 			fill = col
 			col = tm_const()
 		}

@@ -181,7 +181,7 @@ tm_scalebar = function(breaks,
 						z) {
 	
 	if (!identical(size, "deprecated")) {
-		warning("The 'size' argument of 'tm_scalebar()' is deprecated as of tmap 4.0. Please use 'text.size' instead.", call. = FALSE)
+		message("The 'size' argument of 'tm_scalebar()' is deprecated as of tmap 4.0. Please use 'text.size' instead.", call. = FALSE)
 	}
 
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
@@ -195,7 +195,7 @@ tm_scalebar = function(breaks,
 #' @inheritDotParams tm_scalebar
 #' @export
 tm_scale_bar = function(...) {
-	warning("As of version 4.0, 'tm_scale_bar()' is deprecated. Please use 'tm_scalebar()' instead.", call. = FALSE)
+	message("As of version 4.0, 'tm_scale_bar()' is deprecated. Please use 'tm_scalebar()' instead.", call. = FALSE)
 	tm_scalebar(...)
 	# can also be
 	# stop("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated. tm_scalebar also has new argument names.", call. = FALSE)
