@@ -307,8 +307,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 						 grobLabels), 
 		  name="compass")
 	})
-	po(comp$text.size)
-	
 	grid::grobTree(compass, vp = vp)
 }
 
