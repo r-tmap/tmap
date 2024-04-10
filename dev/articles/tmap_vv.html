@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="tmap">
-<title>tmap: visual variables • tmap</title>
+<title>tmap: charts • tmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -14,10 +14,10 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="tmap: visual variables">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="tmap: charts">
 <meta property="og:description" content="tmap">
 <meta property="og:image" content="https://r-tmap.github.io/tmap/logo.png">
 <meta name="robots" content="noindex">
@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.99.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.99.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a>
-    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: visual variables</a>
+    <a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a>
   </div>
 </li>
 <li class="nav-item">
@@ -80,11 +80,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>tmap: visual variables</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>tmap: charts</h1>
                         <h4 data-toc-skip class="author">Martijn
 Tennekes</h4>
             
-            <h4 data-toc-skip class="date">2023-09-21</h4>
+            <h4 data-toc-skip class="date">2024-04-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/vignettes/tmap_vv.Rmd" class="external-link"><code>vignettes/tmap_vv.Rmd</code></a></small>
       <div class="d-none name"><code>tmap_vv.Rmd</code></div>
@@ -97,10 +97,10 @@ Tennekes</h4>
 </h2>
 <p><strong>tmap</strong> is an R package for spatial data visualization.
 This vignette describes the alpha version of the major update (version
-4), which will be on CRAN in the course of 2023.</p>
-<div class="section level4">
-<h4 id="tmap-4---tmap-3-x">tmap 4 - tmap 3.x<a class="anchor" aria-label="anchor" href="#tmap-4---tmap-3-x"></a>
-</h4>
+4), which will be on CRAN in the course of 2024.</p>
+<div class="section level3">
+<h3 id="tmap-4---tmap-3-x">tmap 4 - tmap 3.x<a class="anchor" aria-label="anchor" href="#tmap-4---tmap-3-x"></a>
+</h3>
 <ul>
 <li><p><strong>tmap 3.x</strong> supports several map layer variables,
 for example <code>"col"</code>, <code>"size"</code>, and
@@ -142,9 +142,9 @@ data variable is applied for multiple visual variables using the same
 scaling function.</p></li>
 </ul>
 </div>
-<div class="section level4">
-<h4 id="tmap-4---ggplot2">tmap 4 - ggplot2<a class="anchor" aria-label="anchor" href="#tmap-4---ggplot2"></a>
-</h4>
+<div class="section level3">
+<h3 id="tmap-4---ggplot2">tmap 4 - ggplot2<a class="anchor" aria-label="anchor" href="#tmap-4---ggplot2"></a>
+</h3>
 <p>The <strong>tmap</strong> package is very similar to
 <strong>ggplot2</strong> and its Grammar of Graphics, but tailored to
 spatial data visualization, whereas <strong>ggplot2</strong> is much
@@ -173,9 +173,9 @@ mode.</p></li>
 <li><p>…</p></li>
 </ul>
 </div>
-<div class="section level4">
-<h4 id="tmap-4---other-r-packages">tmap 4 - other R packages<a class="anchor" aria-label="anchor" href="#tmap-4---other-r-packages"></a>
-</h4>
+<div class="section level3">
+<h3 id="tmap-4---other-r-packages">tmap 4 - other R packages<a class="anchor" aria-label="anchor" href="#tmap-4---other-r-packages"></a>
+</h3>
 <p>There are several great R packages for spatial data visualization,
 including: <strong>ggplot2</strong>, <strong>mapview</strong>,
 <strong>leaflet</strong>, <strong>mapsf</strong>, and the generic plot
@@ -499,7 +499,7 @@ above.</p>
 <p>Regarding the available color palettes: <strong>tmap</strong> uses
 the new R package <strong>cols4all</strong> which contains a large
 number of well-known color palettes. Please run
-<code><a href="https://rdrr.io/pkg/cols4all/man/c4a_gui.html" class="external-link">cols4all::c4a_gui()</a></code> which starts an interactive tool (the
+<code><a href="https://mtennekes.github.io/cols4all/reference/c4a_gui.html" class="external-link">cols4all::c4a_gui()</a></code> which starts an interactive tool (the
 successor of <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code>). Of course,
 also own color palettes can be loaded directly via a vector of color
 codes.</p>

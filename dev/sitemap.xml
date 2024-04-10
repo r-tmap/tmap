@@ -70,6 +70,9 @@
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_cartogram.html</loc>
   </url>
   <url>
+    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_chart.html</loc>
+  </url>
+  <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_compass.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_facets.html</loc>
+  </url>
+  <url>
+    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_graticules.html</loc>
   </url>
   <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_grid.html</loc>
@@ -127,6 +133,9 @@
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale.html</loc>
   </url>
   <url>
+    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_asis.html</loc>
+  </url>
+  <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_bar.html</loc>
   </url>
   <url>
@@ -143,6 +152,9 @@
   </url>
   <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_intervals.html</loc>
+  </url>
+  <url>
+    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rank.html</loc>
   </url>
   <url>
     <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rgb.html</loc>
