@@ -1138,6 +1138,7 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 #' @rdname tm_layout
 #' @param style name of the style
 #' @export
+#' @order 1
 tm_style = function(style, ...) {
 	args = list(...)
 	
@@ -1150,6 +1151,7 @@ tm_style = function(style, ...) {
 }
 
 #' @rdname tm_layout
+#' @order 2
 #' @param format name of the format
 #' @export
 tm_format = function(format, ...) {
