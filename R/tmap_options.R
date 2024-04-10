@@ -434,7 +434,7 @@
 		credits.frame.lwd = 1,
 		credits.frame.r = 2,
 		credits.stack = "vertical",
-		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		credits.width = NA,
 		credits.heigth = NA,
 		credits.group.frame = TRUE,
@@ -452,12 +452,12 @@
 		compass.lwd=1,
 		compass.bg.color=NA,
 		compass.bg.alpha=NA,
-		compass.margins = c(0.4, 0.4, 0.4, 0.4),
+		compass.margins = c(0.25, 0.25, 0.25, 0.25),
 		
 		# standard arguments:
 		compass.show = FALSE,
 		compass.stack = "vertical",
-		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		compass.frame = FALSE,
 		compass.frame.lwd = 1,
 		compass.frame.r = 2,
@@ -479,7 +479,7 @@
 		
 		# standard arguments:
 		scalebar.stack = "vertical",
-		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		scalebar.frame = FALSE,
 		scalebar.frame.lwd = 1,
 		scalebar.frame.r = 2,
@@ -523,7 +523,7 @@
 		# 
 		
 		mouse_coordinates.stack = "vertical", 
-		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		mouse_coordinates.show = FALSE,
 
 		panel.show = TRUE,

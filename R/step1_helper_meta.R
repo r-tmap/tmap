@@ -111,7 +111,7 @@ preprocess_meta_step1 = function(o) {
 		for (nm in names(o)[grep("fontface", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontface)
 		for (nm in names(o)[grep("fontfamily", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontfamily)
 		
-		for (nm in names(o)[c(grep("lwd", names(o), fixed = TRUE), grep("size", names(o), fixed = TRUE))]) assign(nm, get(nm) * scale)
+		#for (nm in names(o)[c(grep("lwd", names(o), fixed = TRUE), grep("size", names(o), fixed = TRUE))]) assign(nm, get(nm) * scale)
 
 		# if (is.null(legend.title.fontface)) legend.title.fontface = text.fontface
 		# if (is.null(legend.title.fontfamily)) legend.title.fontfamily = text.fontfamily

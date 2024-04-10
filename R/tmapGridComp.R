@@ -68,6 +68,8 @@ tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
 tmapGridCompPrepare.tm_compass = function(comp, o) {
 	o$attr.color.light = is_light(o$attr.color)
 	within(comp, {
+		text.size = text.size * o$scale
+		
 		if (is.na(text.color)) text.color = o$attr.color
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
 		
@@ -76,8 +78,7 @@ tmapGridCompPrepare.tm_compass = function(comp, o) {
 		color.dark = do.call("process_color", c(list(col=color.dark), o$pc))
 		color.light = do.call("process_color", c(list(col=color.light), o$pc))
 		
-		text.size = text.size * o$scale
-		lwd = lwd * o$scale
+		asp = if (type == "arrow") 0.5 else 1
 		
 		show = TRUE
 		if (is.na(type)) type = o$type
@@ -92,7 +93,6 @@ tmapGridCompHeight.tm_compass = function(comp, o) {
 	
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
-	
 	
 	marH = comp$margins[c(3,1)] * textS * o$lin
 	hs = c(marH[1], comp$nlines * textS * o$lin, marH[2])
@@ -116,8 +116,9 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
 	
+	
 	marW = comp$margins[c(2,4)] * textS * o$lin
-	ws = c(marW[1], comp$nlines * textS * o$lin, marW[2])
+	ws = c(marW[1], comp$nlines * textS * o$lin * comp$asp, marW[2])
 
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 	wsu = set_unit_with_stretch(ws, sides = sides)
@@ -161,7 +162,7 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 		id = rep(1:16, each=3)
 		fill = c(dark, light, dark, light, light, dark, light, dark)
 	} else if (comp$type=="arrow") {
-		x = list(c(.5, .7, .5, .5, .3, .5))
+		x = list(c(.5, .9, .5, .5, .1, .5))
 		y = list(c(1, 0, .2, 1, 0, .2))
 		id = rep(1:2, each=3)
 		fill = c(dark, light)
@@ -187,7 +188,7 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 		
 	} else if (comp$type=="rose") {
 		cr = c(.45, .42, .2, .17, .1)
-		LWD = convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE) * comp$lwd
+		LWD = (o$lineH * 24) * comp$lwd
 		cd = seq(1/8, 15/8, by=.25) * pi
 		cd2 = seq(1/4, 7/4, by=.5) * pi
 		cd3 = seq(0, 1.75, by=.25) * pi
@@ -306,6 +307,8 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 						 grobLabels), 
 		  name="compass")
 	})
+	po(comp$text.size)
+	
 	grid::grobTree(compass, vp = vp)
 }
 
@@ -503,6 +506,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	#xtext = just-just*width+xtext
 	
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	
 	
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
 	scalebar = gridCell(3,3, {
