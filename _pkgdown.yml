@@ -3,3 +3,6 @@ template:
   bootstrap: 5
   bslib:
     primary: "#5f8640"
+
+development:
+  mode: auto
