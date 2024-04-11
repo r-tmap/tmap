@@ -9,11 +9,15 @@
 #' @keywords internal
 shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 	if (!is.null(bbox) && (!inherits(bbox, "bbox"))) {
-		tryCatch({
-			bbox = sf::st_bbox(bbox)
-		}, error = function(e) {
-			stop("Invalid bbox", call. = FALSE)
-		})
+		if (is.character(bbox)) {
+			bbox = tmaptools::geocode_OSM(bbox)$bbox
+		} else {
+			tryCatch({
+				bbox = sf::st_bbox(bbox)
+			}, error = function(e) {
+				stop("Invalid bbox", call. = FALSE)
+			})
+		}
 	} 
 	
 	# filter empty geometries

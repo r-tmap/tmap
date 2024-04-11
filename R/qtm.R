@@ -91,6 +91,43 @@ qtm <- function(shp,
 	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
 	
+	v3 = c("symbols.size", "symbols.col", "symbols.shape", "dots.col", 
+	  "text", "text.size", "text.col", "lines.lwd", "lines.col", "raster", 
+	  "borders", "projection")
+	
+	if (any(v3 %in% names(args))) {
+		mes = "tmap v3 code detected"
+		
+		if ("symbols.size" %in% names(args)) {
+			size = args$symbols.size
+			called = unique(c(called, "shape"))
+			mes = paste0(mes, "; use 'size' instead of 'symbols.size'")
+		}
+		if ("symbols.col" %in% names(args)) {
+			fill = args$symbols.col
+			called = unique(c(called, "shape"))
+			mes = paste0(mes, "; use 'fill' instead of 'symbols.col'")
+		} else if ("dots.col" %in% names(args)) {
+			fill = args$dots.col
+			mes = paste0(mes, "; use 'fill' instead of 'dots.col'")
+		}
+		
+		if ("lines.lwd" %in% names(args)) {
+			lwd = args$lines.lwd
+			mes = paste0(mes, "; use 'lwd' instead of 'lines.lwd'")
+		}
+		if ("lines.col" %in% names(args)) {
+			col = args$lines.col
+			mes = paste0(mes, "; use 'col' instead of 'lines.col'")
+		}
+		if ("raster" %in% names(args)) {
+			col = args$raster
+			mes = paste0(mes, "; use 'col' instead of 'raster'")
+		}
+		message(mes)
+		
+	}
+	
 	tmapOptions <- tmap_options_mode()
 	show.warnings = tmapOptions$show.warnings
 	
@@ -105,24 +142,37 @@ qtm <- function(shp,
 		class(g) <- "tmap"
 		return(g)
 	}
+	
 
 	
-	lst = c(list(size = size, 
-				 fill = fill, 
-				 col = col,
-				 shape = shape,
-				 lwd = lwd,
-				 lty = lty,
-				 fill_alpha = fill_alpha,
-				 col_alpha = col_alpha,
-				 zindex = zindex,
-				 group = group,
-				 group.control = group.control), args)
+	s = tm_shape(shp, crs = crs, bbox = bbox)
 	
-	# if shape is specified at tm_sf, symbols are drawn instead of dots
-	if (!"shape" %in% called) lst$shape = NULL
+	is_rst = inherits(shp, c("stars", "SpatRaster"))
 	
-	g = tm_shape(shp) + do.call(tm_sf, lst)
+	if (is_rst) {
+		lst = c(list(col = col,
+					 zindex = zindex,
+					 group = group,
+					 group.control = group.control), args)
+		g = s + do.call(tm_raster, lst)
+	} else {
+		lst = c(list(size = size, 
+					 fill = fill, 
+					 col = col,
+					 shape = shape,
+					 lwd = lwd,
+					 lty = lty,
+					 fill_alpha = fill_alpha,
+					 col_alpha = col_alpha,
+					 zindex = zindex,
+					 group = group,
+					 group.control = group.control), args)
+		
+		# if shape is specified at tm_sf, symbols are drawn instead of dots
+		if (!"shape" %in% called) lst$shape = NULL
+		g = s + do.call(tm_sf, lst)
+	}
+	
 	
 	assign("last_map_new", match.call(), envir = .TMAP)
 	attr(g, "qtm_shortcut") <- FALSE
