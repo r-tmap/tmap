@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.8
 pkgdown_sha: ~
 articles:
   tmap_sneak_peek: tmap_sneak_peek.html
   tmap_vv: tmap_vv.html
-last_built: 2024-04-11T10:06Z
+last_built: 2024-04-12T14:35Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
