@@ -4,6 +4,7 @@
 \alias{tm_scale_continuous}
 \alias{tm_scale_continuous_log}
 \alias{tm_scale_continuous_log1p}
+\alias{tm_scale_continuous_sqrt}
 \title{Scales: continuous scale}
 \usage{
 tm_scale_continuous(
@@ -29,6 +30,8 @@ tm_scale_continuous(
 tm_scale_continuous_log(...)
 
 tm_scale_continuous_log1p(...)
+
+tm_scale_continuous_sqrt(...)
 }
 \arguments{
 \item{n}{Preferred number of tick labels. Only used if \code{ticks} is not specified}

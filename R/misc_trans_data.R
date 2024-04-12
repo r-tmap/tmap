@@ -14,6 +14,14 @@ trans_log = list(
 # 	domain = c(-Inf, Inf)
 # )
 
+
+trans_sqrt = list(
+	fun = sqrt,
+	rev = function(x) x^2,
+	domain = c(0, Inf)
+)
+
+
 trans_log1p = list(
 	fun = log1p,
 	rev = expm1,

@@ -309,6 +309,13 @@ tm_scale_continuous_log1p = function(...) {
 	tm_scale_continuous(trans = "log1p", ...)
 }
 
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_continuous_sqrt
+tm_scale_continuous_sqrt = function(...) {
+	tm_scale_continuous(trans = "sqrt", ...)
+}
+
 # 
 # #' @export
 # #' @rdname tm_scale_continuous

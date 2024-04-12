@@ -129,7 +129,7 @@
 						  xmod = c(0, 1),
 						  ymod = c(0, 1),
 						  angle = c(0, 360)),
-		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0.1, 1),
+		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0, 1),
 							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
 							col_alpha = NA, shape = NA, angle = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
@@ -274,6 +274,8 @@
 								  out = list(cell.h = "right", cell.v = "center",
 								  			   pos.h = "left", pos.v = "top",
 								  			   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
+		
+		component.autoscale = TRUE,
 		
 		# legend		
 		legend.show = TRUE,
