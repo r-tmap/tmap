@@ -174,7 +174,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 					})
 				}
 				if (length(ids_point)) {
-					dist = if (sf::st_is_longlat(crs)) 0.01 else 100
+					dist = if (sf::st_is_longlat(shp)) 0.01 else 100
 					shp[ids_point] = sf::st_buffer(shp[ids_point], dist = dist)
 				}
 				

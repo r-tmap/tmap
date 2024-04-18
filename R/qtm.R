@@ -74,6 +74,9 @@ qtm <- function(shp,
 				lty = tm_const(),
 				fill_alpha = tm_const(),
 				col_alpha = tm_const(),
+				text = tm_const(),
+				text_col = tm_const(),
+				text_size = tm_const(),
 				by = NULL,
 				scale = NULL,
 				title = NULL,
@@ -87,43 +90,79 @@ qtm <- function(shp,
 				style=NULL,
 				format=NULL,
 				...) {
-	args <- list(...)
+	args <- c(as.list(environment()), list(...))
 	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
 	
+	vv_col = "col"
+	vv_text = c("text", "text_col", "text_size")
+	vv_oher = c("fill", "size", "shape", "lwd", "lty", "fill_alpha", "col_alpha")
+	
+	vv_attr = c(".scale", ".legend", ".free", ".chart")
+
+
 	v3 = c("symbols.size", "symbols.col", "symbols.shape", "dots.col", 
-	  "text", "text.size", "text.col", "lines.lwd", "lines.col", "raster", 
+	 "text.size", "text.col", "lines.lwd", "lines.col", "raster", 
 	  "borders", "projection")
 	
 	if (any(v3 %in% names(args))) {
 		mes = "tmap v3 code detected"
 		
 		if ("symbols.size" %in% names(args)) {
-			size = args$symbols.size
+			args$size = args$symbols.size
+			args$symbols.size = NULL
 			called = unique(c(called, "shape"))
 			mes = paste0(mes, "; use 'size' instead of 'symbols.size'")
 		}
 		if ("symbols.col" %in% names(args)) {
-			fill = args$symbols.col
+			args$fill = args$symbols.col
+			args$symbols.col = NULL
 			called = unique(c(called, "shape"))
 			mes = paste0(mes, "; use 'fill' instead of 'symbols.col'")
 		} else if ("dots.col" %in% names(args)) {
-			fill = args$dots.col
+			args$fill = args$dots.col
+			args$dots.col = NULL
 			mes = paste0(mes, "; use 'fill' instead of 'dots.col'")
 		}
 		
 		if ("lines.lwd" %in% names(args)) {
-			lwd = args$lines.lwd
+			args$lwd = args$lines.lwd
+			args$lines.lwd = NULL
 			mes = paste0(mes, "; use 'lwd' instead of 'lines.lwd'")
 		}
 		if ("lines.col" %in% names(args)) {
-			col = args$lines.col
+			args$col = args$lines.col
+			args$lines.col = NULL
 			mes = paste0(mes, "; use 'col' instead of 'lines.col'")
 		}
 		if ("raster" %in% names(args)) {
-			col = args$raster
+			args$col = args$raster
+			args$raster = NULL
 			mes = paste0(mes, "; use 'col' instead of 'raster'")
 		}
+		if ("borders" %in% names(args)) {
+			if (is.null(args$borders)) {
+				args$borders = NULL
+				args$col = NA
+				mes = paste0(mes, "; use 'col = NA' instead of 'borders = NULL'")	
+			} else {
+				args$col = args$borders
+				args$borders = NULL
+				mes = paste0(mes, "; use 'col' instead of 'borders'")	
+			}
+		}
+		
+		if ("text.size" %in% names(args)) {
+			args$text_size = args$text.size
+			args$text.size = NULL
+			mes = paste0(mes, "; use 'text_size' instead of 'text.size'")
+		}
+		if ("text.col" %in% names(args)) {
+			args$text_col = args$text.col
+			args$text.col = NULL
+			mes = paste0(mes, "; use 'text_col' instead of 'text.col'")
+		}
+		
 		message(mes)
 		
 	}
@@ -143,34 +182,62 @@ qtm <- function(shp,
 		return(g)
 	}
 	
-
 	
-	s = tm_shape(shp, crs = crs, bbox = bbox)
+	nms_shp = intersect(names(args), names(formals(tm_shape)))
+	g = do.call(tm_shape, args[nms_shp])
 	
 	is_rst = inherits(shp, c("stars", "SpatRaster"))
 	
 	if (is_rst) {
-		lst = c(list(col = col,
-					 zindex = zindex,
-					 group = group,
-					 group.control = group.control), args)
-		g = s + do.call(tm_raster, lst)
-	} else {
-		lst = c(list(size = size, 
-					 fill = fill, 
-					 col = col,
-					 shape = shape,
-					 lwd = lwd,
-					 lty = lty,
-					 fill_alpha = fill_alpha,
-					 col_alpha = col_alpha,
-					 zindex = zindex,
-					 group = group,
-					 group.control = group.control), args)
+		nms_rst = intersect(names(args), names(formals(tm_raster)))
+		args_rst = args[nms_rst]
 		
-		# if shape is specified at tm_sf, symbols are drawn instead of dots
-		if (!"shape" %in% called) lst$shape = NULL
-		g = s + do.call(tm_sf, lst)
+		if (!any(c("col", "raster") %in% called)) {
+			args_rst$col = tm_shape_vars()
+		}
+
+		nms_rst_v3 = names(args)[substr(names(args), 1, 7) == "raster."]
+		args_rst_v3 = args[nms_rst_v3]	
+		names(args_rst_v3) = substr(names(args_rst_v3), 8, nchar(names(args_rst_v3)))
+		
+		g = g + do.call(tm_raster, c(args_rst, args_rst_v3))
+	} else {
+		nms_all = intersect(names(args), names(formals(tm_sf)))
+		args_all =  args[nms_all]
+		
+		for (f in c("tm_polygons", "tm_lines", "tm_symbols")) {
+			nms_f = intersect(names(args), names(formals(f)))
+			args_f = args[nms_f]
+			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), called)
+			args_other = args[nms_other]
+			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
+			if (f == "tm_symbols") {
+				if (!"shape" %in% called) args_f$shape = NULL
+				if (!"col" %in% called) args_f$col = NULL
+			}
+			if (f == "tm_polygons") {
+				if (length(args_other)) {
+					# v3 confusion: tm_polygons used col while qtm used fill, therefore, tm_polygons will be called will col
+					args_f$col = args_f$fill
+				}
+			}
+			
+			options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
+			g = g + do.call(f, c(args_f, args_other, list(options = options)))
+		}
+		if ("text" %in% called) {
+			args[substr(names(args), 1, 3) %in% c("col", "siz")] = NULL
+			text_ = substr(names(args), 1, 5) == "text_"
+			names(args)[text_] = substr(names(args)[text_], 6, nchar(names(args)[text_]))
+			
+			nms_f = intersect(names(args), names(formals(tm_text)))
+			args_f = args[nms_f]
+			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), called)
+			args_other = args[nms_other]
+			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
+			g = g + do.call(tm_text, c(args_f, args_other))
+		}
+		
 	}
 	
 	

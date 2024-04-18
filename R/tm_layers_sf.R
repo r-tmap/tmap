@@ -156,7 +156,7 @@ tm_sf = function(fill = tm_const(),
 		plot.order = plot.order.list$lines, options = options$lines)
 	
 	
-	if ("shape" %in% calls) {
+	if ("shape" %in% calls || "col" %in% calls) {
 		tm + tm_symbols(size = size, size.scale = size.scale, size.legend = size.legend,
 						size.free = size.free, fill = fill, fill.scale = fill.scale,
 						fill.legend = fill.legend, fill.free = fill.free, col = col,
