@@ -260,26 +260,10 @@ tm_symbols = function(size = tm_const(),
 }
 
 v3_symbols = function(args, args_called) {
-	v3 = c("alpha", "border.col", "border.lwd", "border.alpha", "scale", 
-		   "perceptual", "clustering", "size.max", "size.lim", "sizes.legend", 
-		   "sizes.legend.labels", "n", "style", "style.args", "as.count", 
-		   "breaks", "interval.closure", "palette", "labels", "drop.levels", 
-		   "midpoint", "stretch.palette", "contrast", "colorNA", "textNA", 
-		   "showNA", "colorNULL", "shapes", "shapes.legend", "shapes.legend.fill", 
-		   "shapes.labels", "shapes.drop.levels", "shapeNA", "shape.textNA", 
-		   "shape.showNA", "shapes.n", "shapes.style", "shapes.style.args", 
-		   "shapes.as.count", "shapes.breaks", "shapes.interval.closure", 
-		   "legend.max.symbol.size", "just", "jitter", "xmod", "ymod", "icon.scale", 
-		   "grob.dim", "title.size", "title.col", "title.shape", "legend.size.show", 
-		   "legend.col.show", "legend.shape.show", "legend.format", "legend.size.is.portrait", 
-		   "legend.col.is.portrait", "legend.shape.is.portrait", "legend.size.reverse", 
-		   "legend.col.reverse", "legend.shape.reverse", "legend.hist", 
-		   "legend.hist.title", "legend.size.z", "legend.col.z", "legend.shape.z", 
-		   "legend.hist.z", "id", "interactive", "popup.vars", "popup.format", 
-		   "auto.palette.mapping", "max.categories")
+	v3 = v3_only("tm_symbols")
 	
 	if (any(v3 %in% names(args))) {
-		message("tm_symbols: Deprecated tmap v3 code detected. Code translated to v4")
+		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -329,6 +313,11 @@ v3_symbols = function(args, args_called) {
 		} else {
 			stop("unknown style")
 		}
+		
+		if ("style" %in% names(args)) {
+			message("tm_symbols (v3->v4): instead of 'style = \"", style, "\"', pleaase use 'fill.scale = tm_scale_", fill.scale.args$fun_pref, "()'")
+		}
+		
 		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
