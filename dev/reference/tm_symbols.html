@@ -434,7 +434,8 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span>         title.size<span class="op">=</span><span class="st">"Metro population"</span>, </span></span>
 <span class="r-in"><span>         title.col<span class="op">=</span><span class="st">"Growth rate (%)"</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 code detected. Specific changes listed below.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols (v3-&gt;v4): instead of 'style = "fixed"', pleaase use 'fill.scale = tm_scale_intervals()'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Variable(s) "fill" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
 <span class="r-plt img"><img src="tm_symbols-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -442,7 +443,7 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2010"</span>, col<span class="op">=</span><span class="st">"pop2010"</span>, shape<span class="op">=</span><span class="st">"pop2010"</span>,</span></span>
 <span class="r-in"><span>         legend.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>text.align<span class="op">=</span><span class="st">"right"</span>, text.to.columns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="cn">TRUE</span>, outside.position <span class="op">=</span> <span class="st">"bottom"</span>, stack <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 code detected. Specific changes listed below.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> v3 code detected: as of tmap v4, the legend should be specified for each visual variable</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> (e.g. with `fill.legend = tm_legend()` inside tm_polygons to control the legend of fill for polygons.FALSE</span>
 <span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
@@ -525,7 +526,7 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: tmaptools</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tm_symbols: Deprecated tmap v3 code detected. Code translated to v4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 code detected. Specific changes listed below.</span>
 <span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="tm_symbols-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
