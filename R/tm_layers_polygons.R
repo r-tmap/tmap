@@ -127,17 +127,8 @@ tm_polygons = function(fill = tm_const(),
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
-	v3 = c("alpha", "palette", "convert2density", "area", "n", 
-		   "style", "style.args", "as.count", "breaks", "interval.closure", 
-		   "labels", "drop.levels", "midpoint", "stretch.palette", "contrast", 
-		   "colorNA", "textNA", "showNA", "colorNULL", "thres.poly", "title", 
-		   "legend.show", "legend.format", "legend.is.portrait", "legend.reverse", 
-		   "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", 
-		   "interactive", "auto.palette.mapping", "max.categories")
-	
-	
-	if (any(v3 %in% names(args))) {
-		message("tm_polygons: Deprecated tmap v3 code detected. Code translated to v4")
+	if (any(v3_only("tm_polygons") %in% names(args))) {
+		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"

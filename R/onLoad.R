@@ -18,6 +18,10 @@
 	assign("last_map_new", NULL, envir = .TMAP)
 	
 	
+	# flag for old v3 code
+	assign("v3", FALSE, envir = .TMAP)
+	
+	
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
 	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
 	

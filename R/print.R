@@ -21,6 +21,9 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, knit = knit, args)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
+	
+	v3_reset_flag()
+	
 	#if (return.asp) return(asp) else invisible(NULL)
 	if (knit && tmap_graphics_name() == "Leaflet") {
 		kp = get("knit_print", asNamespace("knitr"))
