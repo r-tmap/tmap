@@ -272,7 +272,7 @@ process_meta = function(o, d, cdt, aux) {
 			between.marginW = between.margin * lineW
 			
 			fixedMargins = outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
-		} else if (gs == "Leaflet") {
+		} else { #if (gs == "Leaflet") {
 			grid.buffers = rep(0, 4)
 			grid.margins = rep(0, 4)
 			fixedMargins = rep(0, 4)
@@ -336,7 +336,7 @@ process_meta = function(o, d, cdt, aux) {
 					}
 				}
 			}
-		} else if (gs == "Leaflet") {
+		} else { #if (gs == "Leaflet") {
 			orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
 		}
 		

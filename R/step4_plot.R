@@ -24,7 +24,7 @@ process_components = function(cdt, o) {
 	}
 	
 	
-	if (gs == "Leaflet") {
+	if (gs != "Grid") {
 		cdt[class == "out", class := "in"]
 		cdt[class == "autoout", class := "in"]
 	}
@@ -442,7 +442,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	if (!o$legend.only) {
 		# workaround to move panels to titles in view mode
 		# TO DO: make this generic (e.g. component prep function?)
-		if (gs == "Leaflet") {
+		if (gs != "Grid") {
 			if (o$panel.type != "none") {
 				cdt = rbindlist(c(list(cdt), mapply(function(lab, i) {
 					data.table::data.table(by1__ = i, 

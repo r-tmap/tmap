@@ -42,7 +42,7 @@ tm_polygons(
   col_alpha.free = NA,
   linejoin = "round",
   lineend = "round",
-  plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  plot.order = tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
   zindex = NA,
   group = NA,
   group.control = "check",

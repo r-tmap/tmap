@@ -1,9 +1,25 @@
+#' Internal method for submitting a new mode
+#' 
+#' Internal method for submitting a new mode
+#'
+#' @param id id of the mode: please use lowercase and one-word. This will be used with [tmap_mode()].
+#' @param name name of the mode: please use title case. This will be used to recognize internal functions, e.g. `tmapLeafletInit`
+#' @param ... mode specific options
+#' @export
+#' @keywords internal 
+tmapMode = function(id, name, ...) {
+	modes = tmap_options("modes")$modes
+	
+	modes[[id]] = c(list(name = name), list(...))
+	tmap_options(modes = modes)
+}
+
+
 .defaultTmapOptions = structure(
 	list(
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid", 
-								 use.gradient = FALSE,
-								 basemap.show = FALSE),
+								 use.gradient = FALSE),
 					 view = list(name = "Leaflet", 
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -573,6 +589,7 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
+		basemap.show = FALSE,
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,

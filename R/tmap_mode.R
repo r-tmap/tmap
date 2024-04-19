@@ -61,7 +61,7 @@ tmap_mode = function(mode = NULL) {
 	if (is.null(mode)) {
 		message("current tmap mode is \"", current.mode, "\"")
 	} else {
-		if (!mode %in% modes) stop("Unknown mode. Available modes:", paste(modes, collapse = ", "))
+		if (!mode %in% modes) stop("Unknown mode. Available modes: ", paste(modes, collapse = ", "))
 		options(tmap.mode=mode)
 		if (show.messages) message("tmap mode set to '", mode, "'")
 	}
