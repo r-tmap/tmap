@@ -238,24 +238,9 @@ tm_text = function(text = tm_const(),
 	#if (FALSE) {
 	args = list(...)
 	
-	# dput(names(formals("tm_text")))
-	v3 = c("root", "clustering", "size.lim", "sizes.legend", 
-		   "sizes.legend.labels", "sizes.legend.text", "n", "style", "style.args", 
-		   "as.count", "breaks", "interval.closure", "palette", "labels", 
-		   "drop.levels", "labels.text", "midpoint", "stretch.palette", 
-		   "contrast", "colorNA", "textNA", "showNA", "colorNULL", "fontface", 
-		   "fontfamily", "alpha", "case", "bg.alpha", 
-		   "size.lowerbound", "print.tiny", "scale", "auto.placement", 
-		   "along.lines", "overwrite.lines", "xmod", "ymod", "title.size", 
-		   "title.col", "legend.size.show", "legend.col.show", "legend.format", 
-		   "legend.size.is.portrait", "legend.col.is.portrait", "legend.size.reverse", 
-		   "legend.col.reverse", "legend.hist", "legend.hist.title", "legend.size.z", 
-		   "legend.col.z", "legend.hist.z", "id", "auto.palette.mapping", "shadow",
-		   "max.categories")
-	
-	
-	if (any(v3 %in% names(args))) {
-		message("tm_text: Deprecated tmap v3 code detected. Code translated to v4")
+
+	if (any(v3_only("tm_text") %in% names(args))) {
+		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -266,29 +251,26 @@ tm_text = function(text = tm_const(),
 			style = args$style
 		}
 		
-		imp = function(name, value) {
-			if (name %in% names(args)) args[[name]] else value
-		}
-		
-		col.scale.args = list(n = imp("n", 5), 
+		v3_list_init()
+		col.scale.args = list(n = v3_impute(args, "n", 5), 
 				   style = style, 
-				   style.args = imp("style.args", list()), 
-				   breaks = imp("breaks", NULL), 
-				   interval.closure = imp("interval.closure", "left"), 
-				   drop.levels = imp("drop.levels", FALSE),
-				   midpoint = imp("midpoint", NULL), 
-				   as.count = imp("as.count", NA), 
-				   values = imp("palette", NA), 
-				   values.repeat = !imp("stretch.palette", TRUE), 
-				   values.range = imp("contrast", NA), 
+				   style.args = v3_impute(args, "style.args", list()), 
+				   breaks = v3_impute(args, "breaks", NULL), 
+				   interval.closure = v3_impute(args, "interval.closure", "left"), 
+				   drop.levels = v3_impute(args, "drop.levels", FALSE),
+				   midpoint = v3_impute(args, "midpoint", NULL), 
+				   as.count = v3_impute(args, "as.count", NA), 
+				   values = v3_impute(args, "palette", NA, "values"), 
+				   values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
+				   values.range = v3_impute(args, "contrast", NA, "values.range"), 
 				   values.scale = 1, 
-				   value.na = imp("colorNA", NA), 
-				   value.null = imp("colorNULL", NA), 
+				   value.na = v3_impute(args, "colorNA", NA, "value.na"), 
+				   value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
 				   value.neutral = NA, 
-				   labels = imp("labels", NULL), 
-				   label.na = imp("textNA", "Missing"), 
+				   labels = v3_impute(args, "labels", NULL), 
+				   label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
 				   label.null = NA, 
-				   label.format = imp("legend.format", list()))
+				   label.format = v3_impute(args, "legend.format", list(), "label.format"))
 		col.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
@@ -301,39 +283,61 @@ tm_text = function(text = tm_const(),
 			stop("unknown style")
 		}
 		
+		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+		
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
-		col.legend.args = list(title = imp("title.col", NA),
-								show = imp("legend.col.show", NULL),
-								na.show = imp("na.show", NA),
-								format = imp("legend.format", list()),
-								orientation = ifelse(imp("legend.col.is.portrait", TRUE), "portrait", "landscape"),
-								reverse = imp("legend.col.reverse", FALSE))
-		
+		v3_list_init()
+		col.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+								show = v3_impute(args, "legend.col.show", NULL, "show"),
+								na.show = v3_impute(args, "na.show", NA),
+								format = v3_impute(args, "legend.format", list(), "format"),
+								orientation = ifelse(v3_impute(args, "legend.col.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+								reverse = v3_impute(args, "legend.col.reverse", FALSE, "reverse"))
+
+		v3_tm_legend(fun = "tm_text", vv = "col", arg_list = v3_list_get())
 		col.legend = do.call("tm_legend", col.legend.args)
 		
-		text.scale = tm_scale_asis(value.neutral = imp("sizes.legend.text", NA))
+		v3_list_init()
+		text.scale = tm_scale_asis(value.neutral = v3_impute(args, "sizes.legend.text", NA, "value.neutral"))
+		v3_tm_scale(scale_fun = "asis", vv = "text", layer_fun = "tm_text", arg_list = v3_list_get())
 		
-		size.scale.args = list(values = tmap_seq(0, 1, power = 1/imp("root", 3)),
-							   limits = imp("size.lim", NULL),
-							   outliers.trunc = c(imp("print.tiny", FALSE), TRUE),
-							   ticks = imp("breaks", NULL),
-							   midpoint = imp("midpoint", NULL),
-							   labels = imp("sizes.legend.labels", NULL))
-		size.scale = do.call("tm_scale_continuous", size.scale.args)
-		
-		size.legend.args = list(title = imp("title.size", NA),
-							   show = imp("legend.size.show", NULL),
-							   na.show = imp("na.show", NA),
-							   format = imp("legend.format", list()),
-							   orientation = ifelse(imp("legend.size.is.portrait", TRUE), "portrait", "landscape"),
-							   reverse = imp("legend.size.reverse", FALSE))
-							   
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			col.chart = tm_chart_histogram()
+			v3_tm_chart_hist(layer_fun = "tm_text", vv = "col", arg = "legend.hist")
 			# to do: histogram title
-		}				   
+		}	
+		
+		v3_list_init()
+		size.scale.args = list(values = tmap_seq(0, 1, power = 1/v3_impute(args, "root", 3, "values = tmap_seq(0, 1, power = 1/<root>)")),
+							   values.scale = v3_impute(args, "scale", 1, "values.scale"),
+							   limits = v3_impute(args, "size.lim", NULL),
+							   outliers.trunc = c(v3_impute(args, "print.tiny", FALSE), TRUE),
+							   ticks = v3_impute(args, "breaks", NULL),
+							   midpoint = v3_impute(args, "midpoint", NULL),
+							   labels = v3_impute(args, "sizes.legend.labels", NULL))
+		v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = "tm_text", arg_list = v3_list_get())
+		size.scale = do.call("tm_scale_continuous", size.scale.args)
+		
+		
+		v3_list_init()
+		size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
+							   show = v3_impute(args, "legend.size.show", NULL, "show"),
+							   na.show = v3_impute(args, "na.show", NA),
+							   format = v3_impute(args, "legend.format", list(), "format"),
+							   orientation = ifelse(v3_impute(args, "legend.size.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+							   reverse = v3_impute(args, "legend.size.reverse", FALSE, "reverse"))
+		v3_tm_legend(fun = "tm_text", vv = "size", arg_list = v3_list_get())
+		size.legend = do.call("tm_legend", size.legend.args)
+		
+			   
 
+		v4_opt_args = c("along.lines", "shadow", "just", "clustering", "point.label", "remove.overlap")
+		v3_opt_args = c("along.lines", "shadow", "just", "clustering", "auto.placement", "remove.overlap")
+		
+		#if ()
+			
+		
 	#}
 	}
 	

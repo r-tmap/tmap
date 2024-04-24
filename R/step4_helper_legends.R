@@ -44,10 +44,20 @@ step4_plot_collect_legends = function(tmx) {
 				
 				legs2 = lapply(legs, function(legs_aes) {
 					legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral), use.names = FALSE, recursive = FALSE)
+					if ("icon_scale" %in% names(legs_aes$legend[[1]])) {
+						legs_aes$icon_scale = legs_aes$legend[[1]]$icon_scale
+					} else {
+						legs_aes$icon_scale = 1
+					}
 					legs_aes
 				})
 				
 				# find shared legends
+				
+				icon_scales = vapply(legs2, function(l) {
+					as.numeric(l$icon_scale)
+				}, FUN.VALUE = numeric(1))
+				icon_scale = if (any(icon_scales != 1)) icon_scales[which(icon_scales != 1)[1]] else 1
 				
 				clones = vapply(legs2, function(l) {
 					a = l$legend[[1]]$aes
@@ -120,8 +130,9 @@ step4_plot_collect_legends = function(tmx) {
 								
 							}
 							
-							
 							leleg = legs_aes$legend[[k]]
+							
+			
 							
 							# get gp values from shared legends (slave)
 							if ("clones" %in% names(leleg)) {
@@ -130,6 +141,11 @@ step4_plot_collect_legends = function(tmx) {
 									cnm = names(clist)[j]
 									gp[[cnm]] = clist[[j]]
 								}
+							}
+							
+							# in case the size legend consists of symbols shapes that represented icons
+							if (icon_scale > 1 && legnm == "size") {
+								gp$size = gp$size * icon_scale
 							}
 							
 							leleg$gp = gp

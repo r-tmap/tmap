@@ -92,7 +92,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			rng <- range(x1, na.rm = TRUE)
 			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 				
-				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
+				if (show.messages) message(paste0("[scale] tm_", layer[1], ":() the data variable assigned to '", aes, "' contains positive and negative values, so midpoint is set to 0. Set 'midpoint = NA' in 'fill.scale = tm_scale_intervals(<HERE>)' to use all visual values (e.g. colors)"))
 				midpoint <- 0
 			} else {
 				if ((n %% 2) == 1) {
@@ -136,7 +136,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	
 		# detransform log 
 		if (is.log) {
-			if (any((breaks %% 1) != 0)) warning("non-rounded breaks occur, because style = \"log10_pretty\" is designed for large values", call. = FALSE)
+			if (any((breaks %% 1) != 0)) message("non-rounded breaks occur, because style = \"log10_pretty\" is designed for large values")
 			breaks <- 10^breaks
 		}
 		

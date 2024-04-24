@@ -167,6 +167,7 @@ tm_symbols = function(size = tm_const(),
 	if (!is.null(res)) {
 		fill = res$fill
 		col = res$col
+		col_alpha = res$col_alpha
 		fill_alpha = res$fill_alpha
 		fill.scale = res$fill.scale
 		fill.legend = res$fill.legend
@@ -176,7 +177,6 @@ tm_symbols = function(size = tm_const(),
 		shape.legend = res$shape.legend
 		fill.chart = res$fill.chart
 	}
-	
 
 	tm_element_list(tm_element(
 		layer = "symbols",
@@ -263,6 +263,12 @@ v3_symbols = function(args, args_called) {
 	v3 = v3_only("tm_symbols")
 	
 	if (any(v3 %in% names(args))) {
+		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+			args$called_from
+		} else {
+			"symbols"
+		}})
+		
 		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
@@ -274,30 +280,27 @@ v3_symbols = function(args, args_called) {
 			style = args$style
 		}
 		
-		imp = function(name, value) {
-			if (name %in% names(args)) args[[name]] else value
-		}
-		
+		v3_list_init()
 		# v3 visual variable: fill
-		fill.scale.args = list(n = imp("n", 5), 
+		fill.scale.args = list(n = v3_impute(args, "n", 5), 
 							   style = style, 
-							   style.args = imp("style.args", list()), 
-							   breaks = imp("breaks", NULL), 
-							   interval.closure = imp("interval.closure", "left"), 
-							   drop.levels = imp("drop.levels", FALSE),
-							   midpoint = imp("midpoint", NULL), 
-							   as.count = imp("as.count", NA), 
-							   values = imp("palette", NA), 
-							   values.repeat = !imp("stretch.palette", TRUE), 
-							   values.range = imp("contrast", NA), 
+							   style.args = v3_impute(args, "style.args", list()), 
+							   breaks = v3_impute(args, "breaks", NULL), 
+							   interval.closure = v3_impute(args, "interval.closure", "left"), 
+							   drop.levels = v3_impute(args, "drop.levels", FALSE),
+							   midpoint = v3_impute(args, "midpoint", NULL), 
+							   as.count = v3_impute(args, "as.count", NA), 
+							   values = v3_impute(args, "palette", NA, "values"), 
+							   values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
+							   values.range = v3_impute(args, "contrast", NA, "values.range"), 
 							   values.scale = 1, 
-							   value.na = imp("colorNA", NA), 
-							   value.null = imp("colorNULL", NA), 
+							   value.na = v3_impute(args, "colorNA", NA, "value.na"), 
+							   value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
 							   value.neutral = NA, 
-							   labels = imp("labels", NULL), 
-							   label.na = imp("textNA", NA), 
+							   labels = v3_impute(args, "labels", NULL), 
+							   label.na = v3_impute(args, "textNA", NA, "label.na"), 
 							   label.null = NA, 
-							   label.format = imp("legend.format", list()))
+							   label.format = v3_impute(args, "legend.format", list(), "label.format"))
 		fill.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile",
@@ -314,61 +317,81 @@ v3_symbols = function(args, args_called) {
 			stop("unknown style")
 		}
 		
-		if ("style" %in% names(args)) {
-			message("tm_symbols (v3->v4): instead of 'style = \"", style, "\"', pleaase use 'fill.scale = tm_scale_", fill.scale.args$fun_pref, "()'")
-		}
-		
-		
+		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
 		if ("col" %in% names(args_called)) {
 			fill = args_called$col
+			isn_fill = is.null(fill)
+			v3_message_col_fill(layer_fun = layer_fun)
+			if (isn_fill) {
+				v3_message_vv_null(layer_fun = layer_fun)
+				fill = NA
+			}
 			col = tm_const()
 		} else {
 			fill = tm_const()
 			col = tm_const()
+			isn_fill = FALSE
 		}
+		
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
+			isn_col = is.null(col)
+			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
+			if (isn_col) {
+				if (!isn_fill) v3_message_vv_null(layer_fun = layer_fun)
+				col = NA
+			}
 		}
 		
 		
 		if ("alpha" %in% names(args)) {
+			v3_message_fill_alpha(layer_fun = layer_fun)
 			fill_alpha = args$alpha
 		} else {
 			fill_alpha = tm_const()
 		}
 		
-		fill.legend.args = alist(title = imp("title.col", NA),
-								 show = imp("legend.show", NULL),
-								 na.show = imp("na.show", NA),
-								 format = imp("legend.format", list()),
-								 orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = imp("legend.reverse", FALSE))
+		if ("border.alpha" %in% names(args)) {
+			v3_message_col_alpha(layer_fun = layer_fun)
+			col_alpha = args$border.alpha
+		} else {
+			col_alpha = tm_const()
+		}
 		
+		v3_list_init()
+		fill.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+								 show = v3_impute(args, "legend.show", NULL, "show"),
+								 na.show = v3_impute(args, "na.show", NA),
+								 format = v3_impute(args, "legend.format", list(), "format"),
+								 orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+								 reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
 		fill.legend = do.call("tm_legend", fill.legend.args)
+		v3_tm_legend(fun = layer_fun, vv = "col", arg_list = v3_list_get())
 		
 		
 		# v3 visual variable: size
-		size.scale.args = list(ticks = imp("sizes.legend", NULL),
+		v3_list_init()
+		size.scale.args = list(ticks = v3_impute(args, "sizes.legend", NULL, "ticks"),
 							   value.range = {if ("size.lim" %in% names(args)) {
 							   	c(args[["size.lim"]][1] / args[["size.lim"]][2], 1)
 							   }},
-							   limits = imp("size.lim", NULL),
+							   limits = v3_impute(args, "size.lim", NULL, "limits"),
 							   outliers.trunc = c(TRUE, FALSE),
-							   labels = imp("sizes.legend.labels", NULL),
+							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"),
 							   fun_pref = "continuous")
-		
+		if ("size" %in% names(args_called)) v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = layer_fun, arg_list = v3_list_get())
 		size.scale = do.call("tm_scale", args = size.scale.args)		
 		
-		
-		size.legend.args = alist(title = imp("title.size", NA),
-								 show = imp("legend.size.show", NULL),
-								 na.show = imp("showNA", NA),
-								 format = imp("legend.format", list()),
-								 orientation = ifelse(imp("legend.size.is.portrait", FALSE), "portrait", "landscape"),
-								 reverse = imp("legend.size.reverse", FALSE))
-		
+		v3_list_init()
+		size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
+								 show = v3_impute(args, "legend.size.show", NULL),
+								 na.show = v3_impute(args, "showNA", NA),
+								 format = v3_impute(args, "legend.format", list(), "format"),
+								 orientation = ifelse(v3_impute(args, "legend.size.is.portrait", FALSE), "portrait", "landscape"),
+								 reverse = v3_impute(args, "legend.size.reverse", FALSE))
+		if ("size" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
 		size.legend = do.call("tm_legend", size.legend.args)
 		
 		# v3 visual variable: shape
@@ -382,35 +405,45 @@ v3_symbols = function(args, args_called) {
 			shapes.style = args$shapes.style
 		}
 		
-		shape.scale.args = list(n = imp("shapes.n", 5), 
+		v3_list_init()
+		shape.scale.args = list(n = v3_impute(args, "shapes.n", 5, "n"), 
 								style = shapes.style, 
-								style.args = imp("shapes.style.args", list()), 
-								breaks = imp("shapes.breaks", NULL), 
-								interval.closure = imp("shapes.interval.closure", "left"), 
-								drop.levels = imp("drop.levels", FALSE),
-								midpoint = imp("midpoint", NULL), 
-								as.count = imp("as.count", NA), 
-								values = imp("shapes", 21:25),
-								labels = imp("shapes.labels", NULL), 
-								label.na = imp("shape.textNA", NA), 
+								style.args = v3_impute(args, "shapes.style.args", list(), "style.args"), 
+								breaks = v3_impute(args, "shapes.breaks", NULL, "breaks"), 
+								interval.closure = v3_impute(args, "shapes.interval.closure", "left", "interval.closure"), 
+								drop.levels = v3_impute(args, "drop.levels", FALSE),
+								midpoint = v3_impute(args, "midpoint", NULL), 
+								as.count = v3_impute(args, "as.count", NA), 
+								value.neutral = v3_impute(args, "shapes.legend", NA, "value.neutral"),
+								values = v3_impute(args, "shapes", 21:25, "values"),
+								labels = v3_impute(args, "shapes.labels", NULL, "labels"), 
+								label.na = v3_impute(args, "shape.textNA", NA, "label.na"), 
 								label.null = NA, 
-								label.format = imp("legend.format", list()),
+								label.format = v3_impute(args, "legend.format", list(), "label.format"),
 								fun_pref = "intervals")
-		
 		shape.scale = do.call("tm_scale", args = shape.scale.args)		
+		if ("shape" %in% names(args_called)) {
+			if ("shapes.style" %in% names(args)) {
+				v3_tm_scale_instead_of_style(shapes.style, scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
+			} else {
+				v3_tm_scale(scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
+			}
+		}
 		
-		
-		shape.legend.args = alist(title = imp("title.shape", NA),
-								 show = imp("legend.shape.show", NULL),
-								 na.show = imp("shape.showNA ", NA),
-								 format = imp("legend.format", list()),
-								 orientation = ifelse(imp("legend.shape.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = imp("legend.shape.reverse", FALSE))
-		
+		v3_list_init()
+		shape.legend.args = list(title = v3_impute(args, "title.shape", NA),
+								 show = v3_impute(args, "legend.shape.show", NULL),
+								 na.show = v3_impute(args, "shape.showNA ", NA),
+								 format = v3_impute(args, "legend.format", list(), "format"),
+								 orientation = ifelse(v3_impute(args, "legend.shape.is.portrait", TRUE), "portrait", "landscape"),
+								 reverse = v3_impute(args, "legend.shape.reverse", FALSE))
+		if ("shape" %in% names(args_called))v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
 		shape.legend = do.call("tm_legend", shape.legend.args)
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
+			v3_tm_chart_hist(layer_fun = layer_fun, vv = "fill", arg = "legend.hist")
+			
 			# to do: histogram title
 		} else {
 			fill.chart = tm_chart_none()
@@ -418,6 +451,7 @@ v3_symbols = function(args, args_called) {
 		
 		list(fill = fill,
 			 col = col,
+			 col_alpha = col_alpha,
 			 fill_alpha = fill_alpha,
 			 fill.scale = fill.scale,
 			 fill.legend = fill.legend,
@@ -464,6 +498,8 @@ tm_dots = function(fill = tm_const(),
 				   ...) {
 	
 		args = c(as.list(environment()), list(...))
+		args$called_from = "dots"
+		
 		tm = do.call(tm_symbols, args)
 		tm[[1]]$layer = c("dots", "symbols")
 		tm
@@ -511,6 +547,8 @@ tm_bubbles = function(size = tm_const(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
+	args$called_from = "bubbles"
+	
 	tm = do.call(tm_symbols, args)
 	tm[[1]]$layer = c("bubbles", "symbols")
 	tm
@@ -556,6 +594,7 @@ tm_squares = function(size = tm_const(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
+	args$called_from = "squares"
 	tm = do.call(tm_symbols, args)
 	tm[[1]]$layer = c("squares", "symbols")
 	tm

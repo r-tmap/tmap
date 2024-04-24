@@ -128,6 +128,13 @@ tm_polygons = function(fill = tm_const(),
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
 	if (any(v3_only("tm_polygons") %in% names(args))) {
+		
+		layer_fun = paste0("tm", {if ("called_from" %in% names(args)) {
+			args$called_from
+		} else {
+			"polygons"
+		}})
+		
 		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
@@ -139,29 +146,27 @@ tm_polygons = function(fill = tm_const(),
 			style = args$style
 		}
 		
-		imp = function(name, value) {
-			if (name %in% names(args)) args[[name]] else value
-		}
-		
-		fill.scale.args = list(n = imp("n", 5), 
+
+		fill.scale.args = list(n = v3_impute(args, "n", 5), 
 							   style = style, 
-							   style.args = imp("style.args", list()), 
-							   breaks = imp("breaks", NULL), 
-							   interval.closure = imp("interval.closure", "left"), 
-							   drop.levels = imp("drop.levels", FALSE),
-							   midpoint = imp("midpoint", NULL), 
-							   as.count = imp("as.count", NA), 
-							   values = imp("palette", NA), 
-							   values.repeat = !imp("stretch.palette", TRUE), 
-							   values.range = imp("contrast", NA), 
+							   style.args = v3_impute(args, "style.args", list()), 
+							   breaks = v3_impute(args, "breaks", NULL), 
+							   interval.closure = v3_impute(args, "interval.closure", "left"), 
+							   drop.levels = v3_impute(args, "drop.levels", FALSE),
+							   midpoint = v3_impute(args, "midpoint", NULL), 
+							   as.count = v3_impute(args, "as.count", NA), 
+							   values = v3_impute(args, "palette", NA, "values"), 
+							   values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
+							   values.range = v3_impute(args, "contrast", NA, "values.range"), 
 							   values.scale = 1, 
-							   value.na = imp("colorNA", NA), 
-							   value.null = imp("colorNULL", NA), 
+							   value.na = v3_impute(args, "colorNA", NA, "value.na"), 
+							   value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
 							   value.neutral = NA, 
-							   labels = imp("labels", NULL), 
-							   label.na = imp("textNA", NA), 
+							   labels = v3_impute(args, "labels", NULL), 
+							   label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
 							   label.null = NA, 
-							   label.format = imp("legend.format", list()))
+							   label.format = v3_impute(args, "legend.format", list(), "label.format"))
+			
 		fill.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
@@ -175,6 +180,8 @@ tm_polygons = function(fill = tm_const(),
 		} else {
 			stop("unknown style")
 		}
+		
+		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
@@ -197,17 +204,19 @@ tm_polygons = function(fill = tm_const(),
 			fill_alpha = args$alpha
 		}
 		
-		fill.legend.args = alist(title = imp("title", NA),
-								 show = imp("legend.show", NULL),
-								 na.show = imp("na.show", NA),
-								 format = imp("legend.format", list()),
-								 orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = imp("legend.reverse", FALSE))
+		fill.legend.args = list(title = v3_impute(args, "title", NA),
+								 show = v3_impute(args, "legend.show", NULL),
+								 na.show = v3_impute(args, "na.show", NA),
+								 format = v3_impute(args, "legend.format", list()),
+								 orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE), "portrait", "landscape"),
+								 reverse = v3_impute(args, "legend.reverse", FALSE))
 		
 		fill.legend = do.call("tm_legend", fill.legend.args)
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
+			v3_tm_chart_hist(layer_fun = layer_fun, vv = "fill", arg = "legend.hist")
+			
 			# to do: histogram title
 		}
 		

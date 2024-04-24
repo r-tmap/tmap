@@ -32,7 +32,7 @@ tm_element_list_sel = function(tml, subclass) {
 	if (inherits(e2, "tm_legend")) {
 		names(e2) = paste0("legend.", names(e2))
 		
-		e2 = tm_element_list(do.call(tm_element, c(e2, list(calls = "v3", subclass = "tm_options"))))
+		e2 = tm_element_list(do.call(tm_element, c(e2, list(calls = "v3_tm_legend", subclass = c("tm_legend_v3", "tm_options")))))
 	}
 	structure(c(e1, e2), class = "tmap")
 }

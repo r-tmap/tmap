@@ -96,6 +96,7 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 }
 
 tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	args = list(...)
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -147,6 +148,8 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 			iconLib <- get("shapeLib", envir = .TMAP)[sn[sid]-999]
 			symbols_icons <- merge_icons(iconLib)
 			size = gp2$width[sid] / gp2$baseSize
+			
+			size[sid] = size[sid] * args$icon.scale
 			
 			for (i in seq_along(sid)) {
 				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]

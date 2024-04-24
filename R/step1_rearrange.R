@@ -49,7 +49,9 @@ step1_rearrange = function(tmel) {
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
 		
-		if ("v3" %in% o2$calls) message("v3 code detected: as of tmap v4, the legend should be specified for each visual variable\n(e.g. with `fill.legend = tm_legend()` inside tm_polygons to control the legend of fill for polygons.", call. = FALSE)
+		cls = class(o2)[1]
+		if (substr(cls, nchar(cls)-2,nchar(cls)) == "_v3") cls = substr(cls, 1, nchar(cls) - 3)
+		if ("v3_tm_legend" %in% o2$calls) v3_tm_legend_general(fun = cls) 
 		
 		# special case: position, in case c("left", "top") is used
 		pids = grep(".position", names(o2), fixed = TRUE)

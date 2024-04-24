@@ -35,6 +35,17 @@ tm_add_legend = function(...,
 	#args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (missing(labels)) stop("tm_add_legend: labels required", call. = FALSE)
 	args = c(as.list(environment()), list(...))
+	if (type %in% c("fill", "symbol", "line")) {
+		v3_add_legend(type, names(args))
+		if ("col" %in% names(args) && !c("fill" %in% names(args))) {
+			args$fill = args$col
+			args$col = NULL
+		}
+		if ("border.col" %in% names(args)) {
+			args$col = args$border.col
+			args$border.col = NULL
+		}
+	}
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_add_legend", "tm_component")))))
 }
 

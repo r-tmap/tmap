@@ -39,13 +39,10 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 		value.blank = getAesOption("value.blank", o, aes, layer, cls = cls)
 		if (is.na(value.na) || identical(value.na, value.blank)) label.na = ""
 		
-		
-		
 		# label.na TRUE: always show NA's, but use option
 		# label.na FALSE or "": never show NA's
 		# label.na NA: show NA is there are any
 		# label.na "qwerty" always snow NA's
-		
 		label.show = !isFALSE(label.na) && (isTRUE(label.na) || (!is.na(label.na) && label.na != ""))
 		if (is.na(label.na)) label.show = NA # will be TRUE if there are NAs
 		if (is.logical(label.na)) label.na = getAesOption("label.na", o, aes, layer, cls = cls)
