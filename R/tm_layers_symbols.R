@@ -60,7 +60,16 @@ opt_tm_squares = opt_tm_symbols
 #' scale, and therefore its own legend. For facet wraps and stacks
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
-#' 
+#'
+#' A symbol shape specification is one of the following three options.
+#' \enumerate{
+#'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. Note that this is not supported for the \code{"view" mode.}}
+#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+#'  \item{An icon specification, which can be created with \code{\link{tmap_icons}}.}
+#'  }
+#'  To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the \code{shape} argument.
+#'  For small multiples, a list of these shape specification(s) should be provided.
+#'
 #' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the col color. See details.
 #' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines the size. See details.
@@ -100,7 +109,7 @@ opt_tm_squares = opt_tm_symbols
 #' @param id name of the data variable that specifies the indices of the spatial features.
 #'   Only used for `"view"` mode.
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified. 
-#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
+#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument `grob.dim`
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @param ... to catch deprecated arguments from version < 4.0

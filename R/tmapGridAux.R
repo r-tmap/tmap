@@ -382,7 +382,7 @@ tmapGridGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
-	rowid = g$rows_facet_ids[facet_row] + ifelse(is_top, -2, 2)
+	rowid = g$rows_facet_ids[facet_row] + ifelse(is_top, -3, 3)
 	colid = g$cols_facet_ids[facet_col]
 	
 	H = g$rowsIn[rowid]
@@ -461,7 +461,7 @@ tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	rc_text = frc(facet_row, facet_col)
 	
 	rowid = g$rows_facet_ids[facet_row]
-	colid = g$cols_facet_ids[facet_col] + ifelse(is_left, -2, 2)
+	colid = g$cols_facet_ids[facet_col] + ifelse(is_left, -3, 3)
 	
 	H = g$rowsIn[rowid]
 	W = g$colsIn[colid]

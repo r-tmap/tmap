@@ -222,7 +222,7 @@ process_meta = function(o, d, cdt, aux) {
 			
 			
 			grid.buffers = if (grid.show) {
-				as.integer(grid.labels.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
+				as.integer(c("bottom", "left", "top", "right") %in% grid.labels.pos) * c(bufferH, bufferW, bufferH, bufferW)
 			} else {
 				rep(0, 4)
 			}
