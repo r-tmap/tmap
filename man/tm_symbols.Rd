@@ -337,7 +337,7 @@ tm_shape(land) +
 library(sf)
 x = st_as_sf(cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25)), coords = c("x", "y"), crs = 4326)
 
-tm_shape(x, bbox = bb(x, ext = 1.1)) +
+tm_shape(x, bbox = bb(x, ext = 1.2)) +
 	tm_symbols(shape = "id",
 			   size = 2,
 			   lwd = 2,

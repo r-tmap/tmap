@@ -88,6 +88,11 @@ tm_layout = function(
 		
 	) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!missing(modes) && is.character(modes)) {
+		title = modes
+		args$modes = NULL
+	}
+	
 	if (!is.null(title) || (!is.null(main.title))) {
 		title1 = if (!is.null(title)) {
 			title.args = args[substr(names(args), 1, 5) == "title"]
