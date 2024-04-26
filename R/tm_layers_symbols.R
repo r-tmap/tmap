@@ -371,22 +371,27 @@ v3_symbols = function(args, args_called) {
 		}
 		
 		v3_list_init()
-		fill.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
-								 show = v3_impute(args, "legend.show", NULL, "show"),
-								 na.show = v3_impute(args, "showNA", NA, "na.show"),
-								 format = v3_impute(args, "legend.format", list(), "format"),
-								 orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
-								 reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
-		fill.legend = do.call("tm_legend", fill.legend.args)
-		v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
+		if ("legend.show" %in% names(args) && !args$legend.show) {
+			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
+			fill.legend = tm_legend_hide()
+		} else {
+			fill.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+									na.show = v3_impute(args, "showNA", NA, "na.show"),
+									format = v3_impute(args, "legend.format", list(), "format"),
+									orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+									reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
+			fill.legend = do.call("tm_legend", fill.legend.args)
+			v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
+		}	
 		
 		
 		# v3 visual variable: size
 		v3_list_init()
 		size.scale.args = list(ticks = v3_impute(args, "sizes.legend", NULL, "ticks"),
-							   value.range = {if ("size.lim" %in% names(args)) {
+							   values.range = {if ("size.lim" %in% names(args)) {
 							   	c(args[["size.lim"]][1] / args[["size.lim"]][2], 1)
-							   }},
+							   } else c(0, 1)},
+							   values.scale = v3_impute(args, "scale", 1, "values.scale"),
 							   limits = v3_impute(args, "size.lim", NULL, "limits"),
 							   outliers.trunc = c(TRUE, FALSE),
 							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"),
@@ -395,14 +400,18 @@ v3_symbols = function(args, args_called) {
 		size.scale = do.call("tm_scale", args = size.scale.args)		
 		
 		v3_list_init()
-		size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
-								 show = v3_impute(args, "legend.size.show", NULL),
-								 na.show = v3_impute(args, "showNA", NA),
-								 format = v3_impute(args, "legend.format", list(), "format"),
-								 orientation = ifelse(v3_impute(args, "legend.size.is.portrait", FALSE), "portrait", "landscape"),
-								 reverse = v3_impute(args, "legend.size.reverse", FALSE))
-		if ("size" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
-		size.legend = do.call("tm_legend", size.legend.args)
+		if ("legend.size.show" %in% names(args) && !args$legend.size.show) {
+			v3_tm_legend_hide(layer_fun, arg = "legend.size.show", vv = "size")
+			size.legend = tm_legend_hide()
+		} else {
+			size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
+									na.show = v3_impute(args, "showNA", NA),
+									format = v3_impute(args, "legend.format", list(), "format"),
+									orientation = ifelse(v3_impute(args, "legend.size.is.portrait", FALSE), "portrait", "landscape"),
+									reverse = v3_impute(args, "legend.size.reverse", FALSE))
+			if ("size" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
+			size.legend = do.call("tm_legend", size.legend.args)
+		}
 		
 		# v3 visual variable: shape
 		if (!("shapes.style" %in% names(args))) {
@@ -441,14 +450,18 @@ v3_symbols = function(args, args_called) {
 		}
 		
 		v3_list_init()
-		shape.legend.args = list(title = v3_impute(args, "title.shape", NA),
-								 show = v3_impute(args, "legend.shape.show", NULL),
-								 na.show = v3_impute(args, "shape.showNA ", NA),
-								 format = v3_impute(args, "legend.format", list(), "format"),
-								 orientation = ifelse(v3_impute(args, "legend.shape.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = v3_impute(args, "legend.shape.reverse", FALSE))
-		if ("shape" %in% names(args_called))v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
-		shape.legend = do.call("tm_legend", shape.legend.args)
+		if ("legend.shape.show" %in% names(args) && !args$legend.shape.show) {
+			v3_tm_legend_hide(layer_fun, arg = "legend.shape.show", vv = "shape")
+			shape.legend = tm_legend_hide()
+		} else {
+			shape.legend.args = list(title = v3_impute(args, "title.shape", NA),
+									 na.show = v3_impute(args, "shape.showNA ", NA),
+									 format = v3_impute(args, "legend.format", list(), "format"),
+									 orientation = ifelse(v3_impute(args, "legend.shape.is.portrait", TRUE), "portrait", "landscape"),
+									 reverse = v3_impute(args, "legend.shape.reverse", FALSE))
+			if ("shape" %in% names(args_called))v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
+			shape.legend = do.call("tm_legend", shape.legend.args)
+		}
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()

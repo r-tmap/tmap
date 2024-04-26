@@ -1166,8 +1166,9 @@ tm_style = function(style, ...) {
 	check_style(style)
 	
 	args$style = style
+	args$called_from = "tm_style"
 	#structure(list(tm_layout=args), class = "tm")
-	do.call(tm_options, args)
+	do.call(tm_layout, args)
 }
 
 #' @rdname tm_layout

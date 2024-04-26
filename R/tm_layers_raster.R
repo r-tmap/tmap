@@ -74,16 +74,15 @@ tm_raster = function(col = tm_shape_vars(),
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
-	v3 = c("alpha", "palette", "n", "style", "style.args", "as.count", 
-		   "breaks", "interval.closure", "labels", "drop.levels", "midpoint", 
-		   "stretch.palette", "contrast", "saturation", "interpolate", "colorNA", 
-		   "textNA", "showNA", "colorNULL", "title", "legend.show", "legend.format", 
-		   "legend.is.portrait", "legend.reverse", "legend.hist", "legend.hist.title", 
-		   "legend.z", "legend.hist.z", "auto.palette.mapping", 
-		   "max.categories", "max.value")
-
-	if (any(v3 %in% names(args))) {
-		message("tm_raster: Deprecated tmap v3 code detected. Code translated to v4")
+	
+	if (any(v3_only("tm_raster") %in% names(args))) {
+		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+			args$called_from
+		} else {
+			"raster"
+		}})
+		
+		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -94,32 +93,32 @@ tm_raster = function(col = tm_shape_vars(),
 			style = args$style
 		}
 		
-		imp = function(name, value) {
-			if (name %in% names(args)) args[[name]] else value
-		}
-		
-		col.scale.args = list(n = imp("n", 5), 
-							   style = style, 
-							   style.args = imp("style.args", list()), 
-							   breaks = imp("breaks", NULL), 
-							   interval.closure = imp("interval.closure", "left"), 
-							   drop.levels = imp("drop.levels", FALSE),
-							   midpoint = imp("midpoint", NULL), 
-							   as.count = imp("as.count", NA), 
-							   values = imp("palette", NA), 
-							   values.repeat = !imp("stretch.palette", TRUE), 
-							   values.range = imp("contrast", NA), 
-							   values.scale = 1, 
-							   value.na = imp("colorNA", NA), 
-							   value.null = imp("colorNULL", NA), 
-							   value.neutral = NA, 
-							   labels = imp("labels", NULL), 
-							   label.na = imp("textNA", NA), 
-							   label.null = NA, 
-							   label.format = imp("legend.format", list()))
+		v3_list_init()
+		# v3 visual variable: col
+		col.scale.args = list(n = v3_impute(args, "n", 5), 
+							  style = style, 
+							  style.args = v3_impute(args, "style.args", list()), 
+							  breaks = v3_impute(args, "breaks", NULL), 
+							  interval.closure = v3_impute(args, "interval.closure", "left"), 
+							  drop.levels = v3_impute(args, "drop.levels", FALSE),
+							  midpoint = v3_impute(args, "midpoint", NULL), 
+							  as.count = v3_impute(args, "as.count", NA), 
+							  values = v3_impute(args, "palette", NA, "values"), 
+							  values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
+							  values.range = v3_impute(args, "contrast", NA, "values.range"), 
+							  values.scale = 1, 
+							  value.na = v3_impute(args, "colorNA", NA, "value.na"), 
+							  value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
+							  value.neutral = NA, 
+							  labels = v3_impute(args, "labels", NULL), 
+							  label.na = v3_impute(args, "textNA", NA, "label.na"), 
+							  label.null = NA, 
+							  label.format = v3_impute(args, "legend.format", list(), "label.format"))
 		col.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
-		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile",
+								"kmeans", "hclust", "bclust", "fisher", "jenks",
+								"dpih", "headtails", "log10_pretty")) {
 			"intervals"
 		} else if (style == "cont") {
 			"continuous"
@@ -130,28 +129,41 @@ tm_raster = function(col = tm_shape_vars(),
 		} else {
 			stop("unknown style")
 		}
-		
+		if ("style" %in% names(args)) {
+			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
+		} else {
+			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
+		}
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
 		if ("alpha" %in% names(args)) {
 			col_alpha = args$alpha
+			v3_message_col_alpha(layer_fun = layer_fun, orig = "alpha")
+			
 		}
 		
-		col.legend.args = alist(title = imp("title", NA),
-								 show = imp("legend.show", NULL),
-								 na.show = imp("na.show", NA),
-								 format = imp("legend.format", list()),
-								 orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = imp("legend.reverse", FALSE))
-		
-		col.legend = do.call("tm_legend", col.legend.args)
+		v3_list_init()
+		if ("legend.show" %in% names(args) && !args$legend.show) {
+			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "col")
+			lwd.legend = tm_legend_hide()
+		} else {
+			col.legend.args = list(title = v3_impute(args, "title", NA, "title"),
+								   na.show = v3_impute(args, "showNA", NA),
+								   format = v3_impute(args, "legend.format", list(), "format"),
+								   orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+								   reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
+			col.legend = do.call("tm_legend", col.legend.args)
+			v3_tm_legend(fun = layer_fun, vv = "col", arg_list = v3_list_get())
+		}
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			col.chart = tm_chart_histogram()
+			v3_tm_chart_hist(layer_fun = layer_fun, vv = "col", arg = "legend.hist")
+			
 			# to do: histogram title
 		}
 	}
-	
+
 	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
 	col.legend$called = "col.legend" %in% names(args_called)
 	

@@ -88,6 +88,13 @@ tm_layout = function(
 		
 	) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
+	fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_layout"
+	}
+	
 	if (!missing(modes) && is.character(modes)) {
 		title = modes
 		args$modes = NULL
@@ -98,7 +105,9 @@ tm_layout = function(
 			title.args = args[substr(names(args), 1, 5) == "title"]
 			title.args$title = NULL
 			names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
-			warning("The 'title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.", call. = FALSE)
+			
+			v3_title(fun)
+			
 			if (!("position" %in% names(title.args))) title.args$position = tm_pos_in("left", "top")
 			args$title = NULL
 			do.call(tm_title, c(list(text = title), title.args))

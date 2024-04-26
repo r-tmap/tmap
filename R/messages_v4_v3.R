@@ -21,6 +21,10 @@ v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_fo
 	message(paste0("[v3->v4] ", container, "(): use ", comp, "() instead of the argument '", arg, "'"))
 }
 
+v3_title = function(fun) {
+	message("[v3->v4] ", fun, "(): use 'tm_title()' instead of the 'title' argument of '", fun, "'")	
+}
+
 v3_convert2density = function(layer_fun) {
 	message(paste0("[v3->v4] ", layer_fun, "(): convert2density is deprecated: divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')"))
 }
@@ -124,6 +128,13 @@ v3_tm_legend = function(fun, vv, arg_list) {
 	NULL
 }
 
+
+v3_tm_legend_hide = function(fun, arg, vv) {
+	message("[v3->v4] ", fun, "(): use '", vv, ".legend = tm_legend_hide()' instead of '", arg, " = FALSE")
+}
+
+
+
 v3_tm_legend_general = function(fun) {
 	v3_start_message()
 	message(paste0("[v3->v4] ", fun, "(): use 'tm_legend()' inside a layer function, e.g. 'tm_polygons(..., fill.legend = tm_legend())'"))
@@ -158,11 +169,11 @@ v3_message_vv_null = function(layer_fun = layer_fun) {
 
 
 v3_message_fill_alpha = function(layer_fun = layer_fun) {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'fill_alpha' instead of 'alpha''"))
+	message(paste0("[v3->v4] ", layer_fun, "(): use 'fill_alpha' instead of 'alpha'"))
 }
 
 v3_message_col_alpha = function(layer_fun = layer_fun, orig = "border.alpha") {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'col_alpha' instead of '", orig, "''"))
+	message(paste0("[v3->v4] ", layer_fun, "(): use 'col_alpha' instead of '", orig, "'"))
 }
 
 v3_add_legend = function(type, args) {

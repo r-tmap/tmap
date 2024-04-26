@@ -200,9 +200,14 @@ tm_polygons = function(fill = tm_const(),
 		if ("col" %in% names(args_called)) {
 			fill = col
 			col = tm_const()
+			v3_message_col_fill(layer_fun = layer_fun)
 		}
-		if ("border.col" %in% names(args) && !identical(args$called_from, "borders")) {
+		
+
+		
+		if ("border.col" %in% names(args)) {
 			col = args$border.col
+			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
 		}
 		if (identical(args$called_from, "borders")) {
 			fill = NA
@@ -210,18 +215,28 @@ tm_polygons = function(fill = tm_const(),
 		
 		if ("alpha" %in% names(args)) {
 			fill_alpha = args$alpha
+			v3_message_fill_alpha(layer_fun = layer_fun)
+		}
+		
+		if ("border.alpha" %in% names(args)) {
+			col_alpha = args$border.alpha
+			v3_message_col_alpha(layer_fun = layer_fun)
 		}
 		
 		
 		v3_list_init()
-		fill.legend.args = list(title = v3_impute(args, "title", NA),
-								show = v3_impute(args, "legend.show", NULL, "show"),
-								na.show = v3_impute(args, "showNA", NA, "na.show"),
-								format = v3_impute(args, "legend.format", list(), "format"),
-								orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
-								reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
-		fill.legend = do.call("tm_legend", fill.legend.args)
-		v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
+		if ("legend.show" %in% names(args) && !args$legend.show) {
+			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
+			fill.legend = tm_legend_hide()
+		} else {
+			fill.legend.args = list(title = v3_impute(args, "title", NA),
+									na.show = v3_impute(args, "showNA", NA, "na.show"),
+									format = v3_impute(args, "legend.format", list(), "format"),
+									orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+									reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
+			fill.legend = do.call("tm_legend", fill.legend.args)
+			v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
+		}	
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
