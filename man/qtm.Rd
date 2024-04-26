@@ -47,6 +47,8 @@ search query (from OpenStreetMap nominatim)
 
 \item{fill, col, size, shape, lwd, lty, fill_alpha, col_alpha}{Visual variables.}
 
+\item{text, text_col, text_size}{Visual variables.}
+
 \item{by}{data variable name by which the data is split, or a vector of two
 variable names to split the data by two variables (where the first is used
 for the rows and the second for the columns). See also \code{\link[=tm_facets]{tm_facets()}}.}

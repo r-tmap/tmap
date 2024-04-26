@@ -25,6 +25,7 @@
 #'    plain interactive map is shown positioned according to the results of the
 #'    search query (from OpenStreetMap nominatim)
 #' @param fill,col,size,shape,lwd,lty,fill_alpha,col_alpha Visual variables.
+#' @param text,text_col,text_size Visual variables.
 #' @param by data variable name by which the data is split, or a vector of two
 #'   variable names to split the data by two variables (where the first is used
 #'   for the rows and the second for the columns). See also [tm_facets()].
