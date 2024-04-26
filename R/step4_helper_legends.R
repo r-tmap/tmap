@@ -55,7 +55,7 @@ step4_plot_collect_legends = function(tmx) {
 				# find shared legends
 				
 				icon_scales = vapply(legs2, function(l) {
-					as.numeric(l$icon_scale)
+					as.numeric(l$icon_scale[1])
 				}, FUN.VALUE = numeric(1))
 				icon_scale = if (any(icon_scales != 1)) icon_scales[which(icon_scales != 1)[1]] else 1
 				

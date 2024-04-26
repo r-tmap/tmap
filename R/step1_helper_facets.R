@@ -336,7 +336,7 @@ step1_rearrange_facets = function(tmo, o) {
 				if (is.null(sunit)) sunit = o$unit
 				shape.unit <- ifelse(sunit=="metric", "km", ifelse(sunit=="imperial", "mi", sunit))
 				u = paste(shape.unit, shape.unit)
-				shp[[v]] = shp[[v]] / units::set_units(shp$AREA, u, mode = "standard")
+				if (is.numeric(shp[[v]])) shp[[v]] = shp[[v]] / units::set_units(shp$AREA, u, mode = "standard")
 			}
 		}
 		

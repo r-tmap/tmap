@@ -21,6 +21,10 @@ v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_fo
 	message(paste0("[v3->v4] ", container, "(): use ", comp, "() instead of the argument '", arg, "'"))
 }
 
+v3_convert2density = function(layer_fun) {
+	message(paste0("[v3->v4] ", layer_fun, "(): convert2density is deprecated: divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')"))
+}
+
 v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_list) {
 	if (scale_fun == "intervals") {
 		arg_list$old = c("style", arg_list$old)
