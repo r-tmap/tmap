@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  tmap-JSS-code: tmap-JSS-code.html
   tmap-changes: tmap-changes.html
   tmap-getstarted: tmap-getstarted.html
-last_built: 2024-04-10T10:35Z
+  tmap-JSS-code: tmap-JSS-code.html
+last_built: 2024-04-26T21:01Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
