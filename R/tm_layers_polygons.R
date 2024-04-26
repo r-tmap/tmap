@@ -129,7 +129,7 @@ tm_polygons = function(fill = tm_const(),
 	
 	if (any(v3_only("tm_polygons") %in% names(args))) {
 		
-		layer_fun = paste0("tm", {if ("called_from" %in% names(args)) {
+		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
 			"polygons"
@@ -146,7 +146,8 @@ tm_polygons = function(fill = tm_const(),
 			style = args$style
 		}
 		
-
+		v3_list_init()
+		
 		fill.scale.args = list(n = v3_impute(args, "n", 5), 
 							   style = style, 
 							   style.args = v3_impute(args, "style.args", list()), 
@@ -181,12 +182,19 @@ tm_polygons = function(fill = tm_const(),
 			stop("unknown style")
 		}
 		
-		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		if ("style" %in% names(args)) {
+			v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		} else {
+			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		}
+		
+		
 		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
 		if ("convert2density" %in% names(args) && args$convert2density) {
 			fill.scale$convert2density = TRUE
+			v3_convert2density(layer_fun)
 		}
 		
 		if ("col" %in% names(args_called)) {
@@ -204,14 +212,16 @@ tm_polygons = function(fill = tm_const(),
 			fill_alpha = args$alpha
 		}
 		
-		fill.legend.args = list(title = v3_impute(args, "title", NA),
-								 show = v3_impute(args, "legend.show", NULL),
-								 na.show = v3_impute(args, "na.show", NA),
-								 format = v3_impute(args, "legend.format", list()),
-								 orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE), "portrait", "landscape"),
-								 reverse = v3_impute(args, "legend.reverse", FALSE))
 		
+		v3_list_init()
+		fill.legend.args = list(title = v3_impute(args, "title", NA),
+								show = v3_impute(args, "legend.show", NULL, "show"),
+								na.show = v3_impute(args, "showNA", NA, "na.show"),
+								format = v3_impute(args, "legend.format", list(), "format"),
+								orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
+								reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
 		fill.legend = do.call("tm_legend", fill.legend.args)
+		v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
 		
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()

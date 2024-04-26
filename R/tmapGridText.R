@@ -7,7 +7,8 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		args$point.label = FALSE
 	}
 	
-	res = select_sf(shpTM, dt)
+	res = select_sf(shpTM, dt[!is.na(dt$size), ])
+	
 	shp = res$shp
 	dt = res$dt
 	

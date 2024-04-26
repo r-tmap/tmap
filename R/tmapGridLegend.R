@@ -51,7 +51,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	# because of legend frames (for which margins are added in tmapGridLegend), the scale may be a bit above 1, even though automatic layout is applied and there is enough space
 	
 	if (o$component.autoscale) {
-		if (any(scaleW > 1.1) || any(scaleH > 1.1)) message("Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.", call. = FALSE)
+		if (any(scaleW > 1.1) || any(scaleH > 1.1)) message_comp_scale()
 	} else {
 		scaleW[scaleW > 1.1] = 1
 		scaleH[scaleH > 1.1] = 1
@@ -87,7 +87,8 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	if (o$component.autoscale) {
 		if (scaleS > 1.01) {
 			if (scaleS > 1.05) {
-				message("(Some) components or legends are too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled. Set the tmap option component.autoscale to FALSE to disable this.")
+				message_comp_high_wide(stack)
+				
 			}
 			legWin = legWin / scaleS
 			legHin = legHin / scaleS

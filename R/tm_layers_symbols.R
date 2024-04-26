@@ -269,9 +269,7 @@ tm_symbols = function(size = tm_const(),
 }
 
 v3_symbols = function(args, args_called) {
-	v3 = v3_only("tm_symbols")
-	
-	if (any(v3 %in% names(args))) {
+	if (any(v3_only("tm_symbols") %in% names(args))) {
 		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
@@ -325,8 +323,11 @@ v3_symbols = function(args, args_called) {
 		} else {
 			stop("unknown style")
 		}
-		
-		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		if ("style" %in% names(args)) {
+			v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		} else {
+			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+		}
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
 		if ("col" %in% names(args_called)) {
@@ -372,12 +373,12 @@ v3_symbols = function(args, args_called) {
 		v3_list_init()
 		fill.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
 								 show = v3_impute(args, "legend.show", NULL, "show"),
-								 na.show = v3_impute(args, "na.show", NA),
+								 na.show = v3_impute(args, "showNA", NA, "na.show"),
 								 format = v3_impute(args, "legend.format", list(), "format"),
 								 orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
 								 reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
 		fill.legend = do.call("tm_legend", fill.legend.args)
-		v3_tm_legend(fun = layer_fun, vv = "col", arg_list = v3_list_get())
+		v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
 		
 		
 		# v3 visual variable: size
@@ -456,6 +457,16 @@ v3_symbols = function(args, args_called) {
 			# to do: histogram title
 		} else {
 			fill.chart = tm_chart_none()
+		}
+		
+		
+		v4_opt_args = c("icon.scale", "just", "grob.dim")
+		v3_opt_args = c("icon.scale", "just", "grob.dim")
+		osel = which(v3_opt_args %in% names(args))
+		if (length(osel)) {
+			o3 = v3_opt_args[osel]
+			o4 = v4_opt_args[osel]
+			v3_opt(o3, o4, layer_fun)
 		}
 		
 		list(fill = fill,

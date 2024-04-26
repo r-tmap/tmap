@@ -230,7 +230,6 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	#palid = tmapPalId(x[1])
 	
 	m = getPalMeta(x[1])
-	
 
 	scale_ids = function(ids, n) {
 		1 + ((ids - 1) / (n - 1)) * 100	
@@ -259,6 +258,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	}
 	
 	if (!is.null(m)) {
+		if (x[1] != tolower(x[1])) message_c4a(x[1], info = m)
 		vvalues = getPal(x, n = ntot, range = range)[ids]
 	} else {
 		pal =colorRampPalette(x)
@@ -520,6 +520,9 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	m = getPalMeta(x[1])
 	
 	ispalette = !is.null(m) && !arecolors # the latter in case of ambiguity (e.g. "blue")
+	
+	if (ispalette) if (x[1] != tolower(x[1])) message_c4a(x[1], info = m)
+
 	
 	values = if (!ispalette && !arecolors) {
 		rep(x, length.out = n) 

@@ -131,9 +131,14 @@ v3_tm_legend_general = function(fun) {
 
 
 v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
+	scale_fun = if (scale_fun == "") {
+		"tm_scale"
+	} else {
+		paste0("tm_scale_", scale_fun)
+	}
 	if (length(arg_list$old)) {
 		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		message(paste0("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = tm_scale_", scale_fun, "(<HERE>)'"))
+		message(paste0("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'"))
 	}
 	NULL
 }
@@ -156,8 +161,8 @@ v3_message_fill_alpha = function(layer_fun = layer_fun) {
 	message(paste0("[v3->v4] ", layer_fun, "(): use 'fill_alpha' instead of 'alpha''"))
 }
 
-v3_message_col_alpha = function(layer_fun = layer_fun) {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'col_alpha' instead of 'border.alpha''"))
+v3_message_col_alpha = function(layer_fun = layer_fun, orig = "border.alpha") {
+	message(paste0("[v3->v4] ", layer_fun, "(): use 'col_alpha' instead of '", orig, "''"))
 }
 
 v3_add_legend = function(type, args) {
@@ -169,4 +174,9 @@ v3_add_legend = function(type, args) {
 	if ("border.col" %in% args) {
 		message(paste0("[v3->v4] tm_add_legend(): use 'col' instead of 'border.col' for the outline color of ", newtype[type]))
 	}
+}
+
+v3_opt = function(olds, news, layer_fun) {
+	x = v3_list_text(olds, news)
+	message("[v3->v4] ", layer_fun, "(): migrate the layer options ", x, " to 'options = opt_", layer_fun, "(<HERE>)'")
 }

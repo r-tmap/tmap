@@ -1,4 +1,5 @@
 step1_rearrange = function(tmel) {
+	message_init()
 	dev = getOption("tmap.devel.mode")
 	
 	# get options (mode specific)

@@ -283,14 +283,18 @@ tm_text = function(text = tm_const(),
 			stop("unknown style")
 		}
 		
-		if ("style" %in% names(args)) v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+		if ("style" %in% names(args)) {
+			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+		} else {
+			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+		}
 		
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
 		v3_list_init()
 		col.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
 								show = v3_impute(args, "legend.col.show", NULL, "show"),
-								na.show = v3_impute(args, "na.show", NA),
+								na.show = v3_impute(args, "showNA", NA, "na.show"),
 								format = v3_impute(args, "legend.format", list(), "format"),
 								orientation = ifelse(v3_impute(args, "legend.col.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
 								reverse = v3_impute(args, "legend.col.reverse", FALSE, "reverse"))
@@ -309,13 +313,13 @@ tm_text = function(text = tm_const(),
 		}	
 		
 		v3_list_init()
-		size.scale.args = list(values = tmap_seq(0, 1, power = 1/v3_impute(args, "root", 3, "values = tmap_seq(0, 1, power = 1/<root>)")),
+		size.scale.args = list(values = tmap_seq(v3_impute(args, "size.lowerbound", 0, "values = tmap_seq(<size.lowerbound>, 1)"), 1, power = 1/v3_impute(args, "root", 3, "values = tmap_seq(<size.lowerbound>, 1, power = 1/<root>)")),
 							   values.scale = v3_impute(args, "scale", 1, "values.scale"),
-							   limits = v3_impute(args, "size.lim", NULL),
-							   outliers.trunc = c(v3_impute(args, "print.tiny", FALSE), TRUE),
-							   ticks = v3_impute(args, "breaks", NULL),
+							   limits = v3_impute(args, "size.lim", NULL, "limits"),
+							   outliers.trunc = c(v3_impute(args, "print.tiny", FALSE, paste0("outliers.trunc = c(", {if ("print.tiny" %in% names(args)) !args$print.tiny else TRUE}, ", TRUE)") ), TRUE),
+							   ticks = v3_impute(args, "breaks", NULL, "ticks"),
 							   midpoint = v3_impute(args, "midpoint", NULL),
-							   labels = v3_impute(args, "sizes.legend.labels", NULL))
+							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"))
 		v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = "tm_text", arg_list = v3_list_get())
 		size.scale = do.call("tm_scale_continuous", size.scale.args)
 		
@@ -323,7 +327,7 @@ tm_text = function(text = tm_const(),
 		v3_list_init()
 		size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
 							   show = v3_impute(args, "legend.size.show", NULL, "show"),
-							   na.show = v3_impute(args, "na.show", NA),
+							   na.show = v3_impute(args, "showNA", NA, "na.show"),
 							   format = v3_impute(args, "legend.format", list(), "format"),
 							   orientation = ifelse(v3_impute(args, "legend.size.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
 							   reverse = v3_impute(args, "legend.size.reverse", FALSE, "reverse"))
@@ -334,8 +338,12 @@ tm_text = function(text = tm_const(),
 
 		v4_opt_args = c("along.lines", "shadow", "just", "clustering", "point.label", "remove.overlap")
 		v3_opt_args = c("along.lines", "shadow", "just", "clustering", "auto.placement", "remove.overlap")
-		
-		#if ()
+		osel = which(v3_opt_args %in% names(args))
+		if (length(osel)) {
+			o3 = v3_opt_args[osel]
+			o4 = v4_opt_args[osel]
+			v3_opt(o3, o4, "tm_text")
+		}
 			
 		
 	#}
