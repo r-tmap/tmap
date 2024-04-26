@@ -194,7 +194,7 @@ next example uses <code>fill</code>, <code>lwd</code> (line width), and
 <span>                                             label.na <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>                lty.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Life Expectancy"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## (Some) components or legends are too high and are therefore rescaled. Set the tmap option component.autoscale to FALSE to disable this.</span></span></code></pre>
+<pre><code><span><span class="co">## [plot mode] legend/component: Some components or legends are too high and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable this.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-5-1.png" width="864"></p>
 <p>Besides these <strong>visual mapping aesthetics</strong>, which map
 data variables to visual variables, there is also another group of
@@ -512,7 +512,7 @@ will be a bunch of handy shortcut functions, such as
 <span>             shape <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
 <span>             size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>value.neutral <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## (Some) components or legends are too high and are therefore rescaled. Set the tmap option component.autoscale to FALSE to disable this.</span></span></code></pre>
+<pre><code><span><span class="co">## [plot mode] legend/component: Some components or legends are too high and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable this.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-18-1.png" width="864"></p>
 </div>
 <div class="section level3">
@@ -582,7 +582,7 @@ this argument has been moved to the layer functions:</p>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_wrap</a></span><span class="op">(</span><span class="st">"continent"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span></code></pre>
+<pre><code><span><span class="co">## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable this.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-22-1.png" width="864"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># tmap v3</span></span>
@@ -618,18 +618,7 @@ example:</p>
 <span>               fill <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span><span class="st">"income_grp"</span>, <span class="st">"economy"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">0</span>, <span class="fl">0</span>,<span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span>
-<span><span class="co">## Some legend items or map compoments do not fit well (e.g. due to the specified font size). They are rescaled Set the tmap option component.autoscale to FALSE to disable this.FALSE</span></span></code></pre>
+<pre><code><span><span class="co">## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable this.</span></span></code></pre>
 <p><img src="tmap_sneak_peek_files/figure-html/unnamed-chunk-26-1.png" width="864"></p>
 <p>What you see in the map is that life expectancy is shown as polygon
 fill in green, and GDP per capita as red bubbles. The maps are grouped
