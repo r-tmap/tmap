@@ -2,8 +2,8 @@ test_that("v3 syntax works", {
 	skip_on_cran()
 	
 	
-	expect_warning(tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title = "A green World"))
-	expect_warning(tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World"))
+	expect_message(tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title = "A green World"))
+	expect_message(tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World"))
 	
 	
 	# Data variable containing color values
