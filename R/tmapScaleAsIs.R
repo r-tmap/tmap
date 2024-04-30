@@ -15,7 +15,6 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 
 	scale$values.scale = if (is.na(scale$values.scale)) getAesOption("values.scale", o, aes, layer) else scale$values.scale
 	
-	
 	sfun = paste0("tmapValuesScale_", aes)
 	cfun = paste0("tmapValuesColorize_", aes)
 	
@@ -24,16 +23,14 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	x2 = do.call(sfun, list(x = x1, scale = sc))
 	values = do.call(cfun, list(x = x2, pc = o$pc))
 	
-	
-	
 	vneutral = if (is.na(scale$value.neutral)) {
-		isnum = is.numeric(x1)
-		if (isnum) most_common_num(x1) else most_common_cat(x1)
+		getAesOption("value.neutral", o, aes, layer)
 	} else {
 		scale$value.neutral
 	}
-	legend$vneutral = do.call(sfun, list(x = do.call(cfun, list(x = vneutral, pc = o$pc)), scale = o$scale))
 	
+	
+	legend$vneutral = do.call(sfun, list(x = do.call(cfun, list(x = vneutral, pc = o$pc)), scale = o$scale))
 
 	if (submit_legend) {
 		if (bypass_ord) {
