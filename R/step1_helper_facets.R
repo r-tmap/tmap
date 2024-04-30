@@ -323,6 +323,7 @@ step1_rearrange_facets = function(tmo, o) {
 				if (length(byvars)) add_used_vars(byvars)
 			}
 			if (!all(bys %in% c("VARS__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
+			if (is.na(na.text)) na.text = o$label.na
 		})
 
 		smeta$vars = get("used_vars", envir = .TMAP)

@@ -236,7 +236,7 @@ tmapMode = function(id, name, ...) {
 		meta.margins = NA,
 		meta.auto.margins = c(0.4, 0.4, 0.4, 0.4),
 		between.margin = 0.5,
-		panel.margin = c(xtab = 0.4, wrap = 0),
+		panel.margin = c(xtab = 0.4, 0),
 		component.offset = c(inside = 0.75, INSIDE = 0, outside = 0, OUTSIDE = 0),
 		component.stack.margin = 0,
 		grid.mark.height = 2,

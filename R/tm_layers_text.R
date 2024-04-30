@@ -252,6 +252,10 @@ tm_text = function(text = tm_const(),
 		}
 		
 		v3_list_init()
+		if (length(style) > 1) {
+			style = style[1]
+			.TMAP$v3_list$mult = TRUE
+		}
 		col.scale.args = list(n = v3_impute(args, "n", 5), 
 				   style = style, 
 				   style.args = v3_impute(args, "style.args", list()), 

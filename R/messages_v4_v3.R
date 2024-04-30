@@ -35,16 +35,45 @@ v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_lis
 		arg_list$new = c("style", arg_list$new)
 	}
 	if (length(arg_list$old)) {
+		x = if (arg_list$mult) {
+			paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+		} else {
+			""
+		}
 		al = do.call(paste, c(mapply(function(x,y) {
 			if (x == y) paste0("'", x, "'") else paste0("'", x, "' (rename to '", y, "')")
 		}, arg_list$old, arg_list$new, SIMPLIFY = FALSE), sep = ", "))
 		xtra = paste0(" and migrate the argument(s) ", al, " to 'tm_scale_", scale_fun, "(<HERE>)'")
 	} else {
 		xtra = ""
+		x = ""
 	}
 	
-	message(paste0("[v3->v4] ", layer_fun, "(): instead of 'style = \"", style, "\"', use '", vv, ".scale = tm_scale_", scale_fun, "()'", xtra))
+	message(paste0("[v3->v4] ", layer_fun, "(): instead of 'style = \"", style, "\"', use '", vv, ".scale = tm_scale_", scale_fun, "()'", xtra, x))
 }
+
+v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
+	scale_fun = if (scale_fun == "") {
+		"tm_scale"
+	} else {
+		paste0("tm_scale_", scale_fun)
+	}
+	if (length(arg_list$old)) {
+		x = if (arg_list$mult) {
+			paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+		} else {
+			""
+		}
+		
+		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
+		message("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'", x)
+	}
+	NULL
+}
+
+
+
+
 
 v3_instead_message = function(arg_old, arg_new, fun) {
 	v3_start_message()
@@ -89,13 +118,13 @@ v3_instead_value = function(args_called, old, new, fun, value_old, value_new) {
 }
 
 v3_list_init = function() {
-	.TMAP$v3_list = list(old = character(), new = character())
-	#.TMAP$v3_list = paste0(.TMAP$v3_list, v3_list_impute_item(name, value)
+	.TMAP$v3_list = list(old = character(), new = character(), mult = FALSE)
 	invisible(NULL)	
 }
-v3_list_impute_item = function(name, new_name) {
+v3_list_impute_item = function(name, new_name, mult = FALSE) {
 	.TMAP$v3_list$old = c(.TMAP$v3_list$old, name)
 	.TMAP$v3_list$new = c(.TMAP$v3_list$new, new_name)
+	.TMAP$v3_list$mult = .TMAP$v3_list$mult || mult
 }
 v3_list_get = function() {
 	.TMAP$v3_list
@@ -103,8 +132,18 @@ v3_list_get = function() {
 
 v3_impute = function(args, name, value, new_name = name) {
 	if (name %in% names(args)) {
-		v3_list_impute_item(name, new_name)
-		args[[name]]
+		res = args[[name]]
+		if (is.list(res) && length(grep("format", name, fixed =TRUE)) == 0) {
+			res = res[[1]]
+			mult = TRUE
+		} else if (new_name %in% c("title", "na.show", "orientation", "reverse", "interval.closure", "drop.levels", "midpoint", "as.count", "values.repeat", "values.scale", "value.na", "value.null", "value.neutral", "label.na", "label.null")) {
+			res = res[1]
+			mult = TRUE
+		} else {
+			mult = FALSE
+		}
+		v3_list_impute_item(name, new_name, mult)
+		res
 	} else value
 }
 
@@ -128,6 +167,19 @@ v3_tm_legend = function(fun, vv, arg_list) {
 	NULL
 }
 
+v3_tm_facets = function(arg_list) {
+	if (length(arg_list$old)) {
+		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
+		message(paste0("[v3->v4] tm_facets(): rename the following argument(s): ", al))
+	}
+	NULL
+}
+
+v3_tm_facets_free_scales = function() {
+	message(paste0("[v3->v4] tm_facets(): migrate each 'free.scales.<X>' argument to the argument '<X>.free' of the corresponding layer function"))
+}
+
+
 
 v3_tm_legend_hide = function(fun, arg, vv) {
 	message("[v3->v4] ", fun, "(): use '", vv, ".legend = tm_legend_hide()' instead of '", arg, " = FALSE")
@@ -141,18 +193,7 @@ v3_tm_legend_general = function(fun) {
 }
 
 
-v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
-	scale_fun = if (scale_fun == "") {
-		"tm_scale"
-	} else {
-		paste0("tm_scale_", scale_fun)
-	}
-	if (length(arg_list$old)) {
-		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		message(paste0("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'"))
-	}
-	NULL
-}
+
 
 v3_tm_chart_hist = function(layer_fun, vv, arg) {
 	message(paste0("[v3->v4] ", layer_fun, "(): use '", vv, ".chart = tm_chart_histogram()' instead of '", arg, " = TRUE'"))
@@ -191,3 +232,11 @@ v3_opt = function(olds, news, layer_fun) {
 	x = v3_list_text(olds, news)
 	message("[v3->v4] ", layer_fun, "(): migrate the layer options ", x, " to 'options = opt_", layer_fun, "(<HERE>)'")
 }
+
+# v3_multiple = function(layer_fun, vv) {
+# 	if (!message_thrown("multiple_args")) {
+# 		message("[v3->v4] ", layer_fun, "(): use '", vv, ".scale = list(<scale1>, <scale2>, ...)' to specify small multiples")
+# 		message_reg("multiple_args")
+# 	}
+# 
+# }

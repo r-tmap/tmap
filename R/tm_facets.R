@@ -51,6 +51,7 @@
 #' @param type `"grid"`, `"wrap"` or `"stack"`
 #' @param along deprecated Please use `tm_facets_page()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
+#' @param ... used to catch deprecated arguments
 #' @export
 #' @rdname tm_facets
 #' @name tm_facets
@@ -68,14 +69,35 @@ tm_facets = function(by = NULL,
 					 drop.empty.facets = TRUE,
 					 drop.NA.facets = FALSE,
 					 sync = TRUE,
-					 showNA = NA,
-					 textNA = "Mssing",
+					 na.text = NA,
 					 scale.factor=2,
 					 type = NA, # grid, wrap or stack
 					 along = NULL,
-					 free.scales = NULL) {
+					 free.scales = NULL,
+					 ...) {
 	
+	args = list(...)
 	calls <- names(match.call(expand.dots = TRUE)[-1])
+	
+	if (any(v3_only("tm_facets") %in% names(args))) {
+		layer_fun = "facets"
+		v3_start_message()
+		
+		v3_list_init()
+		drop.empty.facets = v3_impute(args, "showNA", NA, paste0("drop.empty.facets = ", !args$showNA))
+		na.text = v3_impute(args, "textNA", NA, "na.text")
+		ncols = v3_impute(args, "ncol", NA, "ncols")
+		nrows = v3_impute(args, "nrow", NA, "nrows")
+		drop.units = v3_impute(args, "drop.shapes", NA, "drop.units")
+		v3_tm_facets(arg_list = v3_list_get())
+		
+		if (any(substr(names(args), 1, 12) == "free.scales.")) {
+			v3_tm_facets_free_scales()
+		}
+		
+	}
+	
+	
 	
 	if (!is.null(along)) {
 		warning("The 'along' argument of 'tm_facets()' is deprecated as of tmap 4.0. Please use 'pages' instead.", call. = FALSE)
@@ -110,8 +132,7 @@ tm_facets = function(by = NULL,
 		drop.empty.facets = drop.empty.facets,
 		drop.NA.facets = drop.NA.facets,
 		sync = sync,
-		showNA = showNA,
-		textNA = textNA,
+		na.text = na.text,
 		scale.factor = scale.factor,
 		calls = calls,
 		subclass = "tm_facets"))

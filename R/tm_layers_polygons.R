@@ -136,6 +136,8 @@ tm_polygons = function(fill = tm_const(),
 		}})
 		
 		v3_start_message()
+		
+
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
 				style = "pretty"
@@ -146,7 +148,12 @@ tm_polygons = function(fill = tm_const(),
 			style = args$style
 		}
 		
+		
 		v3_list_init()
+		if (length(style) > 1) {
+			style = style[1]
+			.TMAP$v3_list$mult = TRUE
+		}
 		
 		fill.scale.args = list(n = v3_impute(args, "n", 5), 
 							   style = style, 
@@ -168,7 +175,8 @@ tm_polygons = function(fill = tm_const(),
 							   label.null = NA, 
 							   label.format = v3_impute(args, "legend.format", list(), "label.format"))
 			
-		fill.scale.args$fun_pref = if (style == "cat") {
+
+		fill.scale.args$fun_pref = if (style[1] == "cat") {
 			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
 			"intervals"
@@ -183,7 +191,7 @@ tm_polygons = function(fill = tm_const(),
 		}
 		
 		if ("style" %in% names(args)) {
-			v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
+			v3_tm_scale_instead_of_style(style[1], scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		} else {
 			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		}
@@ -197,7 +205,7 @@ tm_polygons = function(fill = tm_const(),
 			v3_convert2density(layer_fun)
 		}
 		
-		if ("col" %in% names(args_called)) {
+		if ("col" %in% names(args_called) && (args$called_from != "fill")) {
 			fill = col
 			col = tm_const()
 			v3_message_col_fill(layer_fun = layer_fun)

@@ -196,10 +196,10 @@ get_fact_levels_na = function(x, o) {
 
 		if (!o$drop.NA.facets && anyna) {
 			showNA = TRUE
-			levs = c(levs, o$label.na)
+			levs = c(levs, o$na.text)
 		} else if (!o$drop.NA.facets && any(is.na(levs))) {
 			showNA = TRUE
-			levs[is.na(levs)] = o$label.na
+			levs[is.na(levs)] = o$na.text
 		} else if (o$drop.NA.facets && any(is.na(levs))) {
 			showNA = FALSE
 			levs = levs[!is.na(levs)]
@@ -214,7 +214,7 @@ get_fact_levels_na = function(x, o) {
 			levs = as.character(sort(u))
 			if (!o$drop.NA.facets && any(is.na(u))) {
 				showNA = TRUE
-				levs = c(levs, o$label.na)
+				levs = c(levs, o$na.text)
 			} else {
 				showNA = FALSE
 			}

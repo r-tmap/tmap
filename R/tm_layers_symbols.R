@@ -288,6 +288,11 @@ v3_symbols = function(args, args_called) {
 		}
 		
 		v3_list_init()
+		if (length(style) > 1) {
+			style = style[1]
+			.TMAP$v3_list$mult = TRUE
+		}
+		
 		# v3 visual variable: fill
 		fill.scale.args = list(n = v3_impute(args, "n", 5), 
 							   style = style, 

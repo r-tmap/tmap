@@ -180,7 +180,7 @@ process_meta = function(o, d, cdt, aux) {
 				  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
 			} else c(0, 0, 0, 0)
 			
-			panel.margin = get_option_class(panel.margin, panel.type)
+			panel.margin = get_option_class(panel.margin, panel.type, spatial_class = FALSE)
 			
 			panel.xtab.margin = if (panel.type == "xtab") {
 				c(ifelse("bottom" %in% panel.xtab.pos, panel.margin * lineH, 0),
