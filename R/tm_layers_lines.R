@@ -92,11 +92,11 @@ tm_lines = function(col = tm_const(),
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	
 	if (any(v3_only("tm_lines") %in% names(args))) {
-		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
 			"lines"
-		}})
+		}
 		
 		v3_start_message()
 		if (!("style" %in% names(args))) {
@@ -149,11 +149,14 @@ tm_lines = function(col = tm_const(),
 		} else {
 			stop("unknown style")
 		}
-		if ("style" %in% names(args)) {
-			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
-		} else {
-			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
+		if (!(args$called_from == "qtm" && (!"col" %in% names(args)))) {
+			if ("style" %in% names(args)) {
+				v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
+			} else {
+				v3_tm_scale(scale_fun = "", vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
+			}
 		}
+
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
 	

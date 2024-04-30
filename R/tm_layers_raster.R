@@ -76,11 +76,11 @@ tm_raster = function(col = tm_shape_vars(),
 	
 	
 	if (any(v3_only("tm_raster") %in% names(args))) {
-		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
-			"raster"
-		}})
+			"tm_raster"
+		}
 		
 		v3_start_message()
 		if (!("style" %in% names(args))) {

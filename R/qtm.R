@@ -154,6 +154,10 @@ qtm <- function(shp,
 				if (!"shape" %in% called) args_f$shape = NULL
 				if (!"col" %in% called) args_f$col = NULL
 			}
+			if (f == "tm_lines") {
+				if (!"col" %in% called) args_f$col = NULL
+			}
+			
 			if (f == "tm_polygons") {
 				if (length(args_other)) {
 					# v3 confusion: tm_polygons used col while qtm used fill, therefore, tm_polygons will be called will col
@@ -162,7 +166,7 @@ qtm <- function(shp,
 					args_f$fill = NULL
 				}
 			}
-			
+			args_f$called_from = "qtm"
 			options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
 			g = g + do.call(f, c(args_f, args_other, list(options = options)))
 		}

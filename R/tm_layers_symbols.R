@@ -270,11 +270,11 @@ tm_symbols = function(size = tm_const(),
 
 v3_symbols = function(args, args_called) {
 	if (any(v3_only("tm_symbols") %in% names(args))) {
-		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
 			"symbols"
-		}})
+		}
 		
 		v3_start_message()
 		if (!("style" %in% names(args))) {
@@ -328,6 +328,7 @@ v3_symbols = function(args, args_called) {
 		} else {
 			stop("unknown style")
 		}
+		
 		if ("style" %in% names(args)) {
 			v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		} else {
@@ -536,7 +537,7 @@ tm_dots = function(fill = tm_const(),
 				   ...) {
 	
 		args = c(as.list(environment()), list(...))
-		args$called_from = "dots"
+		args$called_from = "tm_dots"
 		
 		tm = do.call(tm_symbols, args)
 		tm[[1]]$layer = c("dots", "symbols")
@@ -585,7 +586,7 @@ tm_bubbles = function(size = tm_const(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
-	args$called_from = "bubbles"
+	args$called_from = "tm_bubbles"
 	
 	tm = do.call(tm_symbols, args)
 	tm[[1]]$layer = c("bubbles", "symbols")
@@ -632,7 +633,7 @@ tm_squares = function(size = tm_const(),
 					  ...) {
 	
 	args = c(as.list(environment()), list(...))
-	args$called_from = "squares"
+	args$called_from = "tm_squares"
 	tm = do.call(tm_symbols, args)
 	tm[[1]]$layer = c("squares", "symbols")
 	tm

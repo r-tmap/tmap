@@ -129,11 +129,11 @@ tm_polygons = function(fill = tm_const(),
 	
 	if (any(v3_only("tm_polygons") %in% names(args))) {
 		
-		layer_fun = paste0("tm_", {if ("called_from" %in% names(args)) {
+		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
 			"polygons"
-		}})
+		}
 		
 		v3_start_message()
 		
@@ -196,8 +196,6 @@ tm_polygons = function(fill = tm_const(),
 			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		}
 		
-		
-		
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 		
 		if ("convert2density" %in% names(args) && args$convert2density) {
@@ -205,7 +203,7 @@ tm_polygons = function(fill = tm_const(),
 			v3_convert2density(layer_fun)
 		}
 		
-		if ("col" %in% names(args_called) && (args$called_from != "fill")) {
+		if ("col" %in% names(args_called) && (!args$called_from %in% c("tm_fill", "qtm"))) {
 			fill = col
 			col = tm_const()
 			v3_message_col_fill(layer_fun = layer_fun)
@@ -217,7 +215,7 @@ tm_polygons = function(fill = tm_const(),
 			col = args$border.col
 			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
 		}
-		if (identical(args$called_from, "borders")) {
+		if (identical(args$called_from, "tm_borders")) {
 			fill = NA
 		}
 		
@@ -332,7 +330,7 @@ tm_fill = function(...) {
 	if (!("col" %in% names(args))) {
 		args$col = NA
 	}
-	args$called_from = "fill"
+	args$called_from = "tm_fill"
 	do.call(tm_polygons, args)
 }
 
@@ -344,6 +342,6 @@ tm_borders = function(col = tm_const(), ...) {
 	if (!("fill" %in% names(args))) {
 		args$fill = NA
 	}
-	args$called_from = "borders"
+	args$called_from = "tm_borders"
 	do.call(tm_polygons, c(list(col = col), args))
 }

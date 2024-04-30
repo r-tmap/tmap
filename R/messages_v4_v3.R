@@ -30,43 +30,53 @@ v3_convert2density = function(layer_fun) {
 }
 
 v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_list) {
-	if (scale_fun == "intervals") {
-		arg_list$old = c("style", arg_list$old)
-		arg_list$new = c("style", arg_list$new)
-	}
-	if (length(arg_list$old)) {
-		x = if (arg_list$mult) {
-			paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
-		} else {
-			""
+	m = paste0("scale_", scale_fun, "_vv_", vv, "style_", style)
+	if (!message_thrown(m)) {
+		if (scale_fun == "intervals") {
+			arg_list$old = c("style", arg_list$old)
+			arg_list$new = c("style", arg_list$new)
 		}
-		al = do.call(paste, c(mapply(function(x,y) {
-			if (x == y) paste0("'", x, "'") else paste0("'", x, "' (rename to '", y, "')")
-		}, arg_list$old, arg_list$new, SIMPLIFY = FALSE), sep = ", "))
-		xtra = paste0(" and migrate the argument(s) ", al, " to 'tm_scale_", scale_fun, "(<HERE>)'")
-	} else {
-		xtra = ""
-		x = ""
+		if (length(arg_list$old)) {
+			x = if (arg_list$mult) {
+				paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+			} else {
+				""
+			}
+			al = do.call(paste, c(mapply(function(x,y) {
+				if (x == y) paste0("'", x, "'") else paste0("'", x, "' (rename to '", y, "')")
+			}, arg_list$old, arg_list$new, SIMPLIFY = FALSE), sep = ", "))
+			xtra = paste0(" and migrate the argument(s) ", al, " to 'tm_scale_", scale_fun, "(<HERE>)'")
+		} else {
+			xtra = ""
+			x = ""
+		}
+		
+		message(paste0("[v3->v4] ", layer_fun, "(): instead of 'style = \"", style, "\"', use '", vv, ".scale = tm_scale_", scale_fun, "()'", xtra, x))
+		message_reg(m)
 	}
-	
-	message(paste0("[v3->v4] ", layer_fun, "(): instead of 'style = \"", style, "\"', use '", vv, ".scale = tm_scale_", scale_fun, "()'", xtra, x))
+	NULL
 }
 
 v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
-	scale_fun = if (scale_fun == "") {
-		"tm_scale"
-	} else {
-		paste0("tm_scale_", scale_fun)
-	}
-	if (length(arg_list$old)) {
-		x = if (arg_list$mult) {
-			paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+	m = paste0("scale_", scale_fun, "_vv_", vv)
+	
+	if (!message_thrown(m)) {
+		scale_fun = if (scale_fun == "") {
+			"tm_scale"
 		} else {
-			""
+			paste0("tm_scale_", scale_fun)
 		}
-		
-		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		message("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'", x)
+		if (length(arg_list$old)) {
+			x = if (arg_list$mult) {
+				paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+			} else {
+				""
+			}
+			
+			al = v3_list_text(olds = arg_list$old, news = arg_list$new)
+			message("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'", x)
+		}
+		message_reg(m)
 	}
 	NULL
 }
