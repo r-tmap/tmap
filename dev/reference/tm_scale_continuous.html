@@ -87,14 +87,21 @@ The functions <code>tm_scale_continuous_&lt;x&gt;()</code> use transformation fu
 <span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  label.na <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  label.null <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  label.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  label.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  trans.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tm_scale_continuous_log</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">tm_scale_continuous_log</span><span class="op">(</span><span class="va">...</span>, base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_scale_continuous_log2</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_scale_continuous_log10</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_scale_continuous_log1p</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tm_scale_continuous_sqrt</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">tm_scale_continuous_sqrt</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_scale_continuous_pseudo_log</span><span class="op">(</span><span class="va">...</span>, base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, sigma <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
