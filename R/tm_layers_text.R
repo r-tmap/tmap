@@ -296,7 +296,7 @@ tm_text = function(text = tm_const(),
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
 		v3_list_init()
-		col.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+		col.legend.args = alist(title = v3_impute(args, "title.col", NA, "title"),
 								show = v3_impute(args, "legend.col.show", NULL, "show"),
 								na.show = v3_impute(args, "showNA", NA, "na.show"),
 								format = v3_impute(args, "legend.format", list(), "format"),
@@ -329,7 +329,7 @@ tm_text = function(text = tm_const(),
 		
 		
 		v3_list_init()
-		size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
+		size.legend.args = alist(title = v3_impute(args, "title.size", NA, "title"),
 							   show = v3_impute(args, "legend.size.show", NULL, "show"),
 							   na.show = v3_impute(args, "showNA", NA, "na.show"),
 							   format = v3_impute(args, "legend.format", list(), "format"),

@@ -235,7 +235,7 @@ tm_polygons = function(fill = tm_const(),
 			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
 			fill.legend = tm_legend_hide()
 		} else {
-			fill.legend.args = list(title = v3_impute(args, "title", NA),
+			fill.legend.args = alist(title = v3_impute(args, "title", NA),
 									na.show = v3_impute(args, "showNA", NA, "na.show"),
 									format = v3_impute(args, "legend.format", list(), "format"),
 									orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
@@ -327,10 +327,11 @@ tm_polygons = function(fill = tm_const(),
 #' @export
 tm_fill = function(...) {
 	args = list(...)
+	# tricks to make backward comp. work
 	if (!("col" %in% names(args))) {
 		args$col = NA
 	}
-	args$called_from = "tm_fill"
+	args$called_from = if (names(args)[1] == "") "tm_fill" else  "tm_polygons"
 	do.call(tm_polygons, args)
 }
 

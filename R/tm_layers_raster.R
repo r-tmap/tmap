@@ -151,7 +151,7 @@ tm_raster = function(col = tm_shape_vars(),
 			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "col")
 			lwd.legend = tm_legend_hide()
 		} else {
-			col.legend.args = list(title = v3_impute(args, "title", NA, "title"),
+			col.legend.args = alist(title = v3_impute(args, "title", NA, "title"),
 								   na.show = v3_impute(args, "showNA", NA),
 								   format = v3_impute(args, "legend.format", list(), "format"),
 								   orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),

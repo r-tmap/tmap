@@ -173,7 +173,7 @@ tm_lines = function(col = tm_const(),
 			v3_tm_legend_hide(layer_fun, arg = "legend.col.show", vv = "col")
 			lwd.legend = tm_legend_hide()
 		} else {
-			col.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+			col.legend.args = alist(title = v3_impute(args, "title.col", NA, "title"),
 									na.show = v3_impute(args, "showNA", NA),
 									format = v3_impute(args, "legend.format", list(), "format"),
 									orientation = ifelse(v3_impute(args, "legend.col.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
@@ -197,7 +197,7 @@ tm_lines = function(col = tm_const(),
 			v3_tm_legend_hide(layer_fun, arg = "legend.lwd.show", vv = "lwd")
 			lwd.legend = tm_legend_hide()
 		} else {
-			lwd.legend.args = list(title = v3_impute(args, "title.lwd", NA, "title"),
+			lwd.legend.args = alist(title = v3_impute(args, "title.lwd", NA, "title"),
 								   na.show = v3_impute(args, "showNA", NA),
 								   format = v3_impute(args, "legend.format", list(), "format"),
 								   orientation = ifelse(v3_impute(args, "legend.lwd.is.portrait", FALSE), "portrait", "landscape"),

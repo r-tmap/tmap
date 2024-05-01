@@ -381,7 +381,7 @@ v3_symbols = function(args, args_called) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
 			fill.legend = tm_legend_hide()
 		} else {
-			fill.legend.args = list(title = v3_impute(args, "title.col", NA, "title"),
+			fill.legend.args = list(atitle = v3_impute(args, "title.col", NA, "title"),
 									na.show = v3_impute(args, "showNA", NA, "na.show"),
 									format = v3_impute(args, "legend.format", list(), "format"),
 									orientation = ifelse(v3_impute(args, "legend.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
@@ -410,7 +410,7 @@ v3_symbols = function(args, args_called) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.size.show", vv = "size")
 			size.legend = tm_legend_hide()
 		} else {
-			size.legend.args = list(title = v3_impute(args, "title.size", NA, "title"),
+			size.legend.args = alist(title = v3_impute(args, "title.size", NA, "title"),
 									na.show = v3_impute(args, "showNA", NA),
 									format = v3_impute(args, "legend.format", list(), "format"),
 									orientation = ifelse(v3_impute(args, "legend.size.is.portrait", FALSE), "portrait", "landscape"),
@@ -460,7 +460,7 @@ v3_symbols = function(args, args_called) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.shape.show", vv = "shape")
 			shape.legend = tm_legend_hide()
 		} else {
-			shape.legend.args = list(title = v3_impute(args, "title.shape", NA),
+			shape.legend.args = alist(title = v3_impute(args, "title.shape", NA),
 									 na.show = v3_impute(args, "shape.showNA ", NA),
 									 format = v3_impute(args, "legend.format", list(), "format"),
 									 orientation = ifelse(v3_impute(args, "legend.shape.is.portrait", TRUE), "portrait", "landscape"),
