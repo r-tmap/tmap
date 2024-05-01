@@ -3,8 +3,11 @@
 \name{tm_scale_continuous}
 \alias{tm_scale_continuous}
 \alias{tm_scale_continuous_log}
+\alias{tm_scale_continuous_log2}
+\alias{tm_scale_continuous_log10}
 \alias{tm_scale_continuous_log1p}
 \alias{tm_scale_continuous_sqrt}
+\alias{tm_scale_continuous_pseudo_log}
 \title{Scales: continuous scale}
 \usage{
 tm_scale_continuous(
@@ -24,14 +27,21 @@ tm_scale_continuous(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = list()
+  label.format = list(),
+  trans.args = list()
 )
 
-tm_scale_continuous_log(...)
+tm_scale_continuous_log(..., base = exp(1))
+
+tm_scale_continuous_log2(...)
+
+tm_scale_continuous_log10(...)
 
 tm_scale_continuous_log1p(...)
 
 tm_scale_continuous_sqrt(...)
+
+tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 }
 \arguments{
 \item{n}{Preferred number of tick labels. Only used if \code{ticks} is not specified}

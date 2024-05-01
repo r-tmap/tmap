@@ -66,6 +66,14 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 		tr = get(paste0("trans_", trans))
 		
+		trargs = formals(tr$fun)
+		trargs$x = NULL
+		trargs_match = intersect(names(trargs), names(trans.args))
+		if (!is.null(trargs_match) && length(trargs_match)) {
+			trargs[trargs_match] = trans.args[trargs_match]
+		}
+		
+		
 		xrange = range(x1, na.rm = TRUE)
 		
 		if (xrange[1] < tr$domain[1]) stop("Values found that are lower than the valid domain", call. = FALSE)
@@ -94,7 +102,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 				if (any(ticks > limits[2])) stop("(Some) ticks are higher than the upper limit. Please remove these ticks or adjust the upper limit.", call. = FALSE)
 			}
 			n = length(ticks) - 1
-			ticks_t = tr$fun(ticks)
+			ticks_t = do.call(tr$fun, c(list(x = ticks), trargs))
 		}
 		
 		if (limits.specified) {
@@ -110,9 +118,9 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			}
 		}
 		
-		x_t = tr$fun(x1)
-		limits_t = tr$fun(limits)
-		domain_t = tr$fun(tr$domain)	
+		x_t = do.call(tr$fun, c(list(x = x1), trargs))
+		limits_t = do.call(tr$fun, c(list(x = limits), trargs))
+		domain_t = do.call(tr$fun, c(list(x = tr$domain), trargs))	
 		
 		if (!vnum) {
 			breaks = cont_breaks(limits_t, n=o$precision)
@@ -226,13 +234,21 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
+		labels_exp = !ticks.specified && trans == "log" && trargs$base != exp(1)
+		
+		
 		if (ticks.specified) {
 			b_t = ticks_t
-			b = tr$rev(b_t)
+			b = do.call(tr$rev, c(list(x = b_t), trargs))
 		} else {
-			b  = prettyTicks(tr$rev(seq(limits_t[1], limits_t[2], length.out = n)))
+			if (labels_exp) {
+				b = do.call(tr$rev, c(list(x = pretty(limits_t, n = n)), trargs))
+			} else {
+				b  = prettyTicks(do.call(tr$rev, c(list(x = seq(limits_t[1], limits_t[2], length.out = n)), trargs)))	
+			}
+
 			if (!(aes %in% c("col", "fill"))) b = b[b!=0]
-			b_t = tr$fun(b)
+			b_t = do.call(tr$fun, c(list(x = b), trargs))
 		}
 		sel = if (length(b_t) == 2) TRUE else (b_t>=limits_t[1] & b_t<=limits_t[2])
 		b_t = b_t[sel]
@@ -278,7 +294,11 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		
 		# create legend labels for continuous cases
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure="left"), label.format)) 	
+			if (labels_exp) {
+				labels = paste(trargs$base, b_t, sep = "^")
+			} else {
+				labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure="left"), label.format)) 	
+			}
 		} else {
 			labels = rep(labels, length.out=nbrks_cont)
 			attr(labels, "align") <- label.format$text.align

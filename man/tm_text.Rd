@@ -108,7 +108,7 @@ tm_text(
   angle.legend = tm_legend_hide(),
   angle.chart = tm_chart_none(),
   angle.free = NA,
-  plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  plot.order = tm_plot_order("size", reverse = FALSE),
   zindex = NA,
   group = NA,
   group.control = "check",

@@ -27,12 +27,12 @@ tm_facets(
   drop.empty.facets = TRUE,
   drop.NA.facets = FALSE,
   sync = TRUE,
-  showNA = NA,
-  textNA = "Mssing",
+  na.text = NA,
   scale.factor = 2,
   type = NA,
   along = NULL,
-  free.scales = NULL
+  free.scales = NULL,
+  ...
 )
 
 tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
@@ -91,15 +91,6 @@ be synchronized? By default \code{TRUE} if the facets have the same bounding box
 This is generally the case when rasters are plotted, or when \code{free.coords} is
 \code{FALSE}.}
 
-\item{showNA}{If the \code{by} argument is specified, should missing values of the
-\code{by}-variable be shown in a facet? If two \code{by}-variables are specified,
-should missing values be shown in an additional row and column?
-If \code{NA}, missing values only are shown if they exist. Similar to the
-\code{useNA} argument of \link[base:table]{table()}, where \code{TRUE}, \code{FALSE},
-and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
-
-\item{textNA}{Text used for facets of missing values.}
-
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes,
 symbol sizes, line widths) of the small multiples are scaled in relation to
 the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th
@@ -115,6 +106,15 @@ By default, \code{scale.factor=2}.}
 \item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
 
 \item{...}{passed on to \code{tm_facets()}}
+
+\item{showNA}{If the \code{by} argument is specified, should missing values of the
+\code{by}-variable be shown in a facet? If two \code{by}-variables are specified,
+should missing values be shown in an additional row and column?
+If \code{NA}, missing values only are shown if they exist. Similar to the
+\code{useNA} argument of \link[base:table]{table()}, where \code{TRUE}, \code{FALSE},
+and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
+
+\item{textNA}{Text used for facets of missing values.}
 }
 \description{
 Specify facets. \code{tm_facets()} is the core function, but recommended is to use

@@ -241,7 +241,8 @@ tm_scale_continuous = function(n = NULL,
 							   labels = NULL,
 							   label.na = NA,
 							   label.null = NA,
-							   label.format = list()) {
+							   label.format = list(),
+							   trans.args = list()) {
 	
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale", "list"))
 }
@@ -298,9 +299,24 @@ tm_scale_rank = function(n = NULL,
 #' @param ... passed on to `tm_scale_continuous`
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous_log
-tm_scale_continuous_log = function(...) {
-	tm_scale_continuous(trans = "log", ...)
+tm_scale_continuous_log = function(..., base = exp(1)) {
+	tm_scale_continuous(trans = "log", trans.args = list(base = base))
 }
+
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_continuous_log2
+tm_scale_continuous_log2 = function(...) {
+	tm_scale_continuous(trans = "log", trans.args = list(base = 2))
+}
+
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_continuous_log10
+tm_scale_continuous_log10 = function(...) {
+	tm_scale_continuous(trans = "log", trans.args = list(base = 10))
+}
+
 
 #' @export
 #' @rdname tm_scale_continuous
@@ -315,6 +331,15 @@ tm_scale_continuous_log1p = function(...) {
 tm_scale_continuous_sqrt = function(...) {
 	tm_scale_continuous(trans = "sqrt", ...)
 }
+
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_continuous_pseudo_log
+tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
+	tm_scale_continuous(trans = "pseudo_log", trans.args = list(base = base, sigma = sigma), ...)
+}
+
+
 
 # 
 # #' @export
