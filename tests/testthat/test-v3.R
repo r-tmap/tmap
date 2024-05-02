@@ -51,10 +51,12 @@ test_that("v3 syntax works", {
 })
 
 test_that("Possible to revert to v3 styling.", {
+	skip_on_cran()
 	World$HPI[1:10] = NA
 	tm_shape(World) + tm_polygons("economy", style = "cat")
-	tmap_style("v3")
-	expect_message(tm_shape(World) + tm_polygons("economy", style = "cat"))
+	current_style <- tmap_style("v3")
+	tm_shape(World) + tm_polygons("economy", style = "cat") %>% expect_no_error()
+	tm_shape(World) + tm_polygons("HPI", style = "cont") %>% expect_no_error()
 	expect_message(tm_shape(World) + tm_polygons("HPI",
 									  style = "fixed",
 									  breaks = c(0, 20, 35, 42, 50)))
@@ -69,8 +71,8 @@ test_that("Possible to revert to v3 styling.", {
 	expect_message(tm_shape(World) + tm_polygons("HPI", style = "jenks"))
 	expect_message(tm_shape(World) + tm_polygons("HPI", style = "dpih"))
 	expect_message(tm_shape(World) + tm_polygons("HPI", style = "headtails"))
-	expect_message(tm_shape(World) + tm_polygons("HPI", style = "cont"))
 	expect_message(tm_shape(World) + tm_polygons("HPI", style = "log10"))
+	tmap_style(current_style)
 })
 
 test_that("log10_pretty and order styles work", {
@@ -81,21 +83,22 @@ test_that("log10_pretty and order styles work", {
 })
 
 test_that("v3 that doesn't work", {
-	skip("v3 should warn?")
-	expect_warning({tm_shape(World) +
-		tm_fill(I("isNLD")) +
+	skip_on_cran()
+	World$isNLD <- ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
+	
+	expect_message({tm_shape(World) +
+		tm_fill("isNLD") +
 		tm_layout("Find the Netherlands!")})
 })
 
 test_that("title size works with many titles.", {
-	
+	skip_on_cran()
 	# Example to illustrate the type of titles
 	# Brought over to make examples work.
 	# The failing test can be resolved later.
 	# the problem is still there for many titles.
-	skip("Many titles still do not work.")
-	expect_snapshot({
-		tm_shape(World) +
+	# Many titles now work
+	expect_no_error(tm_shape(World) +
 		tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2")) +
 		tm_layout(main.title = "Main Title",
 				  main.title.position = "center",
@@ -104,6 +107,5 @@ test_that("title size works with many titles.", {
 				  title.color = "red",
 				  panel.labels = c("Panel Label 1", "Panel Label 2"),
 				  panel.label.color = "purple",
-				  legend.text.color = "brown")
-	})
+				  legend.text.color = "brown"))
 })
