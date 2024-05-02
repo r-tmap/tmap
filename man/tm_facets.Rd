@@ -84,12 +84,14 @@ and columns are dropped.}
 
 \item{drop.NA.facets}{Logical. If the \code{by} argument is specified, and all
 data values for specific facets are missing, should these facets be dropped?
-\code{FALSE} by default.}
+\code{FALSE} by default. In v3, it was called \code{showNA}.}
 
 \item{sync}{Logical. Should the navigation in view mode (zooming and panning)
 be synchronized? By default \code{TRUE} if the facets have the same bounding box.
 This is generally the case when rasters are plotted, or when \code{free.coords} is
 \code{FALSE}.}
+
+\item{na.text}{Text used for facets of missing values. In v3, it was \code{textNA}.}
 
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes,
 symbol sizes, line widths) of the small multiples are scaled in relation to
@@ -106,15 +108,6 @@ By default, \code{scale.factor=2}.}
 \item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
 
 \item{...}{passed on to \code{tm_facets()}}
-
-\item{showNA}{If the \code{by} argument is specified, should missing values of the
-\code{by}-variable be shown in a facet? If two \code{by}-variables are specified,
-should missing values be shown in an additional row and column?
-If \code{NA}, missing values only are shown if they exist. Similar to the
-\code{useNA} argument of \link[base:table]{table()}, where \code{TRUE}, \code{FALSE},
-and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
-
-\item{textNA}{Text used for facets of missing values.}
 }
 \description{
 Specify facets. \code{tm_facets()} is the core function, but recommended is to use

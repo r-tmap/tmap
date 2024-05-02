@@ -29,18 +29,12 @@
 #'   and columns are dropped.
 #' @param drop.NA.facets Logical. If the `by` argument is specified, and all
 #'   data values for specific facets are missing, should these facets be dropped?
-#'   `FALSE` by default.
+#'   `FALSE` by default. In v3, it was called `showNA`.
 #' @param sync Logical. Should the navigation in view mode (zooming and panning)
 #'   be synchronized? By default `TRUE` if the facets have the same bounding box.
 #'   This is generally the case when rasters are plotted, or when `free.coords` is
 #'   `FALSE`.
-#' @param showNA If the `by` argument is specified, should missing values of the
-#'   `by`-variable be shown in a facet? If two `by`-variables are specified,
-#'   should missing values be shown in an additional row and column? 
-#'   If `NA`, missing values only are shown if they exist. Similar to the
-#'   `useNA` argument of [table()][base::table()], where `TRUE`, `FALSE`,
-#'   and `NA` correspond to `"always"`, `"no"`, and `"ifany"` respectively.
-#' @param textNA Text used for facets of missing values.
+#' @param na.text Text used for facets of missing values. In v3, it was `textNA`.
 #' @param scale.factor Number that determines how the elements (e.g. font sizes,
 #'   symbol sizes, line widths) of the small multiples are scaled in relation to
 #'   the scaling factor of the shapes. The elements are scaled to the `scale.factor`th

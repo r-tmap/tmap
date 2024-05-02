@@ -222,6 +222,8 @@ tm_scale_discrete = function(ticks = NA,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param trans.args list of additional argument for the transformation (generic transformation arguments)
+#' @inheritParams scales::transform_pseudo_log
 #' @export
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous
