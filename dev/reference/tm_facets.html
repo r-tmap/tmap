@@ -172,7 +172,7 @@ and columns are dropped.</p></dd>
 <dt>drop.NA.facets</dt>
 <dd><p>Logical. If the <code>by</code> argument is specified, and all
 data values for specific facets are missing, should these facets be dropped?
-<code>FALSE</code> by default.</p></dd>
+<code>FALSE</code> by default. In v3, it was called <code>showNA</code>.</p></dd>
 
 
 <dt>sync</dt>
@@ -180,6 +180,10 @@ data values for specific facets are missing, should these facets be dropped?
 be synchronized? By default <code>TRUE</code> if the facets have the same bounding box.
 This is generally the case when rasters are plotted, or when <code>free.coords</code> is
 <code>FALSE</code>.</p></dd>
+
+
+<dt>na.text</dt>
+<dd><p>Text used for facets of missing values. In v3, it was <code>textNA</code>.</p></dd>
 
 
 <dt>scale.factor</dt>
@@ -206,19 +210,6 @@ By default, <code>scale.factor=2</code>.</p></dd>
 
 <dt>...</dt>
 <dd><p>passed on to <code>tm_facets()</code></p></dd>
-
-
-<dt>showNA</dt>
-<dd><p>If the <code>by</code> argument is specified, should missing values of the
-<code>by</code>-variable be shown in a facet? If two <code>by</code>-variables are specified,
-should missing values be shown in an additional row and column?
-If <code>NA</code>, missing values only are shown if they exist. Similar to the
-<code>useNA</code> argument of <a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a>, where <code>TRUE</code>, <code>FALSE</code>,
-and <code>NA</code> correspond to <code>"always"</code>, <code>"no"</code>, and <code>"ifany"</code> respectively.</p></dd>
-
-
-<dt>textNA</dt>
-<dd><p>Text used for facets of missing values.</p></dd>
 
 </dl></div>
 
