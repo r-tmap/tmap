@@ -25,6 +25,10 @@ v3_title = function(fun) {
 	message("[v3->v4] ", fun, "(): use 'tm_title()' instead of the 'title' argument of '", fun, "'")	
 }
 
+v3_main_title = function(fun) {
+	message("[v3->v4] ", fun, "(): use 'tm_title()' instead of the 'main.title' argument of '", fun, "'")	
+}
+
 v3_convert2density = function(layer_fun) {
 	message(paste0("[v3->v4] ", layer_fun, "(): convert2density is deprecated: divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')"))
 }

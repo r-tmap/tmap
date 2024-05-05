@@ -117,8 +117,11 @@ tm_layout = function(
 		title2 = if (!is.null(main.title)) {
 			main.title.args = args[substr(names(args), 1, 10) == "main.title"]
 			main.title.args$main.title = NULL
+			if ("main.title.position" %in% names(main.title.args)) {
+				main.title.args$main.title.position = tm_pos_out(main.title.args$main.title.position, "top")
+			}
 			names(main.title.args) = substr(names(main.title.args), 12, nchar(names(main.title.args)))
-			warning("The 'main.title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.", call. = FALSE)
+			v3_main_title(fun)
 			args$main.title = NULL
 			do.call(tm_title, c(list(text = main.title), main.title.args))
 		} else {
