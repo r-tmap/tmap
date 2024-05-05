@@ -78,7 +78,13 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 
 \item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 
+\item{trans.args}{list of additional argument for the transformation (generic transformation arguments)}
+
 \item{...}{passed on to \code{tm_scale_continuous}}
+
+\item{base}{base of logarithm}
+
+\item{sigma}{Scaling factor for the linear part of pseudo-log transformation.}
 }
 \description{
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
