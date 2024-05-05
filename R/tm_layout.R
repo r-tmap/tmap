@@ -115,9 +115,9 @@ tm_layout = function(
 			NULL
 		}
 		title2 = if (!is.null(main.title)) {
-			main.title.args = args[substr(names(args), 1, 5) == "main.title"]
+			main.title.args = args[substr(names(args), 1, 10) == "main.title"]
 			main.title.args$main.title = NULL
-			names(main.title.args) = substr(names(main.title.args), 7, nchar(names(main.title.args)))
+			names(main.title.args) = substr(names(main.title.args), 12, nchar(names(main.title.args)))
 			warning("The 'main.title' argument of 'tm_layout()' is deprecated as of tmap 4.0. Please use 'tm_title()' instead.", call. = FALSE)
 			args$main.title = NULL
 			do.call(tm_title, c(list(text = main.title), main.title.args))

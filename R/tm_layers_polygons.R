@@ -132,7 +132,7 @@ tm_polygons = function(fill = tm_const(),
 		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
-			"polygons"
+			"tm_polygons"
 		}
 		
 		v3_start_message()
@@ -203,7 +203,7 @@ tm_polygons = function(fill = tm_const(),
 			v3_convert2density(layer_fun)
 		}
 		
-		if ("col" %in% names(args_called) && (!args$called_from %in% c("tm_fill", "qtm"))) {
+		if ("col" %in% names(args_called) && (!layer_fun %in% c("tm_fill", "qtm"))) {
 			fill = col
 			col = tm_const()
 			v3_message_col_fill(layer_fun = layer_fun)
