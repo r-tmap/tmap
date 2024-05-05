@@ -9,12 +9,15 @@ tm_rgb(
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
-  col.free = NA
+  col.free = NA,
+  options = opt_tm_rgb()
 )
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the col color.}
+
+\item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 }
 \description{
 Map layer: RGB
