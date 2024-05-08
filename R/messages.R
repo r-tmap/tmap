@@ -38,3 +38,11 @@ message_c4a = function(old_palette_name, info) {
 		message_reg(mess)	
 	} 
 }
+
+message_nothing_to_show = function(any_groups) {
+	if (any_groups) {
+		message("[nothing to show] no data layers defined after tm_shape")
+	} else {
+		message("[nothing to show] no layers defined")
+	}
+}

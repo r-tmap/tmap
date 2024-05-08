@@ -120,7 +120,7 @@ step2_data = function(tm) {
 				 gp = gp,
 				 tp = tp)
 		})
-		names(lrs) = layernames
+		if (length(lrs)) names(lrs) = layernames
 		
 		shpDT = data.table(shpTM = list(tmg$tms$shpTM))
 		if (dev) timing_add(s2 = "group")

@@ -213,7 +213,15 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
+	if ("bbx" %in% names(tmx[[o$main]])) {
+		bbm = tmx[[o$main]]$bbx
+	} else {
+		bbm = NULL
+	}
+	
 	# remove empty data layers
+	any_groups = (length(tmx) > 0L)
+	
 	tmx = lapply(tmx, function(tmxi) {
 		tmxi$layers = lapply(tmxi$layers, function(tml) {
 			empt = vapply(tml$shpDT$shpTM, function(sdt) {
@@ -224,7 +232,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		empt = vapply(tmxi$layers, is.null, logical(1))
 		
 		if (all(empt)) {
-			NULL 
+			NULL
 		} else {
 			tmxi$layers = tmxi$layers[!empt]
 			tmxi
@@ -342,19 +350,34 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	if (o$legend.only) {
 		d = NULL
 	} else if (any_data_layer) {
-		tmain = tmx[[o$main]][[1]]
-		
 		# create table with meta data for the facets (row, col id, bbox, asp)
 		d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
 		d[, i := seq_len(nrow(d))]
 		grps = c("by1", "by2", "by3")[o$free.coords]
-		d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
-	} else {
-		bbo = o$bbox
-		if (!is.null(bbo)) {
-			bbm = tmaptools::bb(bbo)
+		
+		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
+		if (o$main %in% grp_ids) {
+			tmain = tmx[[which(grp_ids == o$main)]][[1]]
+			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 		} else {
-			bbm = sf::st_bbox()
+			if (is.null(bbm)) {
+				bbo = o$bbox
+				if (!is.null(bbo)) {
+					bbm = tmaptools::bb(bbo)
+				} else {
+					bbm = sf::st_bbox()
+				}
+			}
+			d[, bbox:=rep(list(bbm),nrow(d))]	
+		}
+	} else {
+		if (is.null(bbm)) {
+			bbo = o$bbox
+			if (!is.null(bbo)) {
+				bbm = tmaptools::bb(bbo)
+			} else {
+				bbm = sf::st_bbox()
+			}
 		}
 		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(bbm))
 	}
@@ -570,7 +593,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
 		
 		if (!any_data_layer && !length(aux_lid)) {
-			message("Nothing to show")
+			message_nothing_to_show(any_groups)
 			return(invisible(NULL))
 		}
 		

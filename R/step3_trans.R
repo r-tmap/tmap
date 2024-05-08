@@ -62,8 +62,9 @@ step3_trans = function(tm) {
 			al[c("trans_dt", "trans_args", "trans_isglobal", "tp")] = NULL
 			al
 		})
-	
-
+		if (!length(adi$layers)) {
+			adi$bbx = tmaptools::bb(shpDT$shpTM[[1]]$shp)
+		}	
 		adi$shpDT = NULL
 
 		adi
