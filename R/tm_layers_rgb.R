@@ -1,7 +1,7 @@
 #' @rdname tm_raster
 #' @name opt_tm_rgb
 #' @export
-opt_tm_rgb = function(interpolate = TRUE) {
+opt_tm_rgb = function(interpolate = FALSE) {
 	list(trans.args = list(),
 		 mapping.args = list(interpolate = interpolate))
 }
