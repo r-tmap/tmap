@@ -146,7 +146,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		if (show) {
 			if (knit) {
 				kp <- get("knit_print", asNamespace("knitr"))
-				return(do.call(kp, c(list(x=lfmv), args, list(options=options))))
+				return(do.call(kp, c(list(x=res2), args, list(options=options))))
 			} else {
 				return(print(res2))
 			}
