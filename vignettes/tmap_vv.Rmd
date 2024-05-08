@@ -113,7 +113,7 @@ In the next example we have three layers: a basemap from OpenTopoMap, country po
 
 ```{r}
 if (requireNamespace("maptiles")) {
-tm_basemap(server = "OpenTopoMap", zoom = 2, alpha = 0.5) +
+# tm_basemap(server = "OpenTopoMap", zoom = 2, alpha = 0.5) +
 tm_shape(World, bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -86, ymax = 86))) +
 	tm_polygons(fill = NA, col = "black") +
 tm_shape(metro) +
