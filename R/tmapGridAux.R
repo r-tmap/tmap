@@ -662,10 +662,9 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 			
 			# quick fix for #564
 			if (!all(sf::st_geometry_type(lns_crop) == "MULTILINESTRING")) {
-				lns_crop_split_geo = split_geometry_collection(lns_crop$geometry)
-				lns_crop_split_geo = lns_crop_split_geo[sf::st_geometry_type(lns_crop_split_geo) == "MULTILINESTRING"]
-				stopifnot(nrow(lns_crop) == length(lns_crop_split_geo))
-				lns_crop$geometry = lns_crop_split_geo
+				lns_crop_lns = sf::st_collection_extract(lns_crop, "LINESTRING")
+				stopifnot(nrow(lns_crop) == length(lns_crop_lns))
+				lns_crop$geometry = sf::st_geometry(lns_crop_lns)
 			}
 			
 			if (any(selx)) {
