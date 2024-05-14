@@ -147,7 +147,7 @@ v3_list_get = function() {
 v3_impute = function(args, name, value, new_name = name) {
 	if (name %in% names(args)) {
 		res = args[[name]]
-		if (is.list(res) && length(grep("format", name, fixed =TRUE)) == 0) {
+		if (is.list(res) && length(grep("format", name, fixed =TRUE)) == 0 && !is.list(res[[1]])) {
 			res = res[[1]]
 			mult = TRUE
 		} else if (new_name %in% c("title", "na.show", "orientation", "reverse", "interval.closure", "drop.levels", "midpoint", "as.count", "values.repeat", "values.scale", "value.na", "value.null", "value.neutral", "label.na", "label.null")) {
