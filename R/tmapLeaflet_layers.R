@@ -65,6 +65,7 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	
 	res = select_sf(shpTM, dt)
 	shp = res$shp
+	names(shp) = NULL # also required for other layers?
 	dt = res$dt
 	
 	if (is.null(pdt)) {
