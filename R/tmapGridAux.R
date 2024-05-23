@@ -368,7 +368,7 @@ tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gr
 	shpTM = g$bmaps_shpTHs[[id]][[bi]]
 	gp = list()
 	
-	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)	
+	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, interpolate = FALSE)	
 }
 
 

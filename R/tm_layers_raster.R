@@ -2,7 +2,7 @@
 #' @name opt_tm_raster
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
 #' @export
-opt_tm_raster = function(interpolate = FALSE) {
+opt_tm_raster = function(interpolate = TRUE) {
 	list(trans.args = list(),
 		 mapping.args = list(interpolate = interpolate))
 }
