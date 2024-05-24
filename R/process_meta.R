@@ -74,12 +74,17 @@ preprocess_meta = function(o, cdt) {
 		
 		
 		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
-		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (type == "stack")) {
-			per_facet_wrap_outside = TRUE
-			legend.present.auto[1] = TRUE
-			legend.present.auto[4] = FALSE
+		if (legend.present.auto[4] && (!any(legend.present.auto[2:3]))) {
+			
+			if (type == "stack") {
+				legend.present.auto[1] = TRUE
+				legend.present.auto[4] = FALSE
+				set_to_stack_message = FALSE
+			} else {
+				set_to_stack_message = TRUE
+			}
 		} else {
-			per_facet_wrap_outside = FALSE
+			set_to_stack_message = FALSE
 		}
 		
 		
@@ -510,6 +515,7 @@ process_meta = function(o, d, cdt, aux) {
 				
 				nrows = ceiling(n / ncols)
 			}
+			if ((nrows == 1 || ncols == 1) && set_to_stack_message) message_wrapstack(nrows == 1)
 		}
 		
 		#overall scale down factor for facets

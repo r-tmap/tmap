@@ -213,7 +213,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
-	if ("bbx" %in% names(tmx[[o$main]])) {
+	if (length(tmx) && ("bbx" %in% names(tmx[[o$main]]))) {
 		bbm = tmx[[o$main]]$bbx
 	} else {
 		bbm = NULL

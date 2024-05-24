@@ -46,3 +46,12 @@ message_nothing_to_show = function(any_groups) {
 		message("[nothing to show] no layers defined")
 	}
 }
+
+message_wrapstack = function(horizontal = TRUE) {
+	if (horizontal) {
+		message("[facets] use tm_facets_hstack() instead of tm_facets_wrap() to put the legends next to and aligned with the facets")
+	} else {
+		message("[facets] use tm_facets_vstack() instead of tm_facets_wrap() to put the legends next to and aligned with the facets")
+	}
+	
+}
