@@ -5,7 +5,7 @@
 #' `tm_pos_out()` places the components outside the map area and `tm_pos_in()` inside the map area.
 #' Each `position` argument of a map layer or component should be specified with
 #' one of these functions. The functions `tm_pos_auto_out()` and `tm_pos_auto_in()`
-#' are used to set the components automatically, and are recommended to use globally,
+#' are used to set the components automatically, and should be used
 #' via [tmap_options()]. See Details how the positioning works.
 #' 
 #' @param cell.h,cell.v The plotting area is overlaid with a 3x3 grid, of which

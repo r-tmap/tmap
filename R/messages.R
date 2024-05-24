@@ -45,6 +45,7 @@ message_nothing_to_show = function(any_groups) {
 	} else {
 		message("[nothing to show] no layers defined")
 	}
+	NULL
 }
 
 message_wrapstack = function(horizontal = TRUE) {
@@ -53,5 +54,16 @@ message_wrapstack = function(horizontal = TRUE) {
 	} else {
 		message("[facets] use tm_facets_vstack() instead of tm_facets_wrap() to put the legends next to and aligned with the facets")
 	}
-	
+	NULL
 }
+
+message_pos_auto = function(type) {
+	if (!message_thrown("pos_auto")) {
+		fun = if (type == "autoout") "tm_pos_auto_out()" else "tm_pos_auto_in()"
+		fun2 = if (type == "autoout") "tm_pos_out()" else "tm_pos_in()"
+		message("[position] ", "use ", fun2, " instead of ", fun, ". The latter should be used with tmap_options().")
+		message_reg("pos_auto")
+	}
+	NULL	
+}
+

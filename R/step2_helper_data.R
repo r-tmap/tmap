@@ -14,11 +14,15 @@ update_l = function(o, l, v, mfun) {
 	settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
 	oleg = c(oleg, o[[settings_name]])
 	
-	
+
 	if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
 	if ("position" %in% names(l) && is.numeric(l$position)) l$position = num2pos(l$position)
-	if ("position" %in% names(l) && inherits(l$position, "tm_pos")) l$position = complete_options(l$position, o$component.position[[l$position$type]])
+	if ("position" %in% names(l) && inherits(l$position, "tm_pos")) {
+		l$position = complete_options(l$position, o$component.position[[l$position$type]])
+		if (l$position$type %in% c("autoin", "autoout")) message_pos_auto(l$position$type)
+	}
 	
+
 	l = complete_options(l, oleg)
 	l$call = call
 	l$mfun = mfun
@@ -41,7 +45,10 @@ update_crt = function(o, crt, v, mfun) {
 	
 	if ("position" %in% names(crt) && is.character(crt$position)) crt$position = str2pos(crt$position)
 	if ("position" %in% names(crt) && is.numeric(crt$position)) crt$position = num2pos(crt$position)
-	
+	if ("position" %in% names(crt) && inherits(crt$position, "tm_pos")) {
+		l$position = complete_options(crt$position, o$component.position[[crt$position$type]])
+		if (crt$position$type %in% c("autoin", "autoout")) message_pos_auto(crt$position$type)
+	}
 	
 	crt = complete_options(crt, ocrt)
 	crt$call = call
@@ -59,6 +66,13 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 	
 	nm = aes$aes
 	nm__ord = paste0(nm, "__ord")
+	
+	
+	#nm and unm are both visual variables
+	#nm is the 'prototype', for which methods are written (tmapScale_defaults.R)
+	#unm is the name known by the user, so used in messaging and also as identifier in data
+	
+	unm__ord = paste0(unm, "__ord")
 	
 	# should the results of the data (needed for the plotting function)?
 	# sorting order will be plotting order
@@ -91,8 +105,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 		sfun = paste0("tmapValuesScale_", nm)
 		cfun = paste0("tmapValuesColorize_", nm)
 		
-		#print(vars)
-		if (!aes$data_vars && !aes$geo_vars) {
+		
+		if (inherits(val, "tmapUsrCls")) {
+			# not data driven variable: visual variable to support tm_mv of other visual variable (e.g. fill of donut maps)
+			dtl = data.table::data.table()
+			
+		} else if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
@@ -126,10 +144,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (length(v)) update_fl(k = v, m = nvars)
 			
 			if (nvars > 1) {
-				dtl = melt(dtl, id.vars = c("tmapID__", "sel__", by123__[b]), measure.vars = vnames, variable.name = var__, value.name = nm)
+				dtl = melt(dtl, id.vars = c("tmapID__", "sel__", by123__[b]), measure.vars = vnames, variable.name = var__, value.name = unm)
 				dtl[, (var__) := as.integer(get(..var__))]
 			} else {
-				setnames(dtl, vnames[1], nm)
+				setnames(dtl, vnames[1], unm)
 			}
 			
 			# impute null (filter argument of tm_shape) with value.null					
@@ -137,18 +155,18 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			
 			if (any(!dtl$sel__) || !q$drop.units) {
 				# also needed for drop.units later on
-				cls = data_class(dtl[[nm]])
+				cls = data_class(dtl[[unm]])
 				value.null = getAesOption("value.null", o, nm, layer, cls = cls)
 				value.null = do.call(sfun, list(x = value.null, scale = o$scale))
 				value.null = do.call(cfun, list(x = value.null, pc = o$pc))
 				
 				# todo: combine these:
-				dtl[sel__==FALSE, (nm) := value.null]
+				dtl[sel__==FALSE, (unm) := value.null]
 				if (!bypass_ord) dtl[sel__==FALSE, (nm__ord) := -1L]
 				
 				if (!q$drop.units) {
 
-					imp = structure(list(value.null, -1L, FALSE), names = c(nm, {if (bypass_ord) NULL else nm__ord}, "sel__"))
+					imp = structure(list(value.null, -1L, FALSE), names = c(unm, {if (bypass_ord) NULL else nm__ord}, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
@@ -160,7 +178,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			dtl[, crtnr := vector("integer", length = nrow(dtl))]
 			
 			
-			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..nm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..nm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (nm) := NULL]
+			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..unm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..unm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (unm) := NULL]
 		} else {
 			#cat("step2_grp_lyr_aes_var", nm," \n")
 			
@@ -240,7 +258,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				l = update_l(o = o, l = l, v = v, mfun = mfun)
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun)
 
-				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
+				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
 				# update label.format
@@ -291,7 +309,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 						dtl[, c(varname, ordname, legname, crtname) := list(value.null, -1L, 0L, 0L)]	
 					}
 					
-					if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
+					if (is.na(value.null)) stop("value.null not specified for aesthetic ", unm, call. = FALSE)
 					if (bypass_ord) {
 						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
@@ -305,7 +323,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					}
 				}
 				if (!q$drop.units) {
-					imp = structure(list(value.null, 0L, TRUE), names = c(nm, legname, "sel__"))
+					imp = structure(list(value.null, 0L, TRUE), names = c(unm, legname, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
@@ -341,8 +359,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				}
 				
 				
-				varnames = paste(nm, 1L:nvars, sep = "_")
-				ordnames = paste(nm__ord, 1L:nvars, sep = "_")
+				varnames = paste(unm, 1L:nvars, sep = "_")
+				ordnames = paste(unm__ord, 1L:nvars, sep = "_")
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 				crtnames = paste("crtnr", 1L:nvars, sep = "_")
 				
@@ -353,7 +371,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legnr")
 				dtl_crt = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = crtnames, variable.name = var__, value.name = "crtnr")
 				if (!bypass_ord) dtl_ord = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = ordnames, variable.name = var__, value.name = nm__ord)
-				dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
+				dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = unm)
 				if (!bypass_ord) dtl[, (nm__ord) := dtl_ord[[nm__ord]]]
 				
 				dtl[, (var__) := as.integer(get(..var__))]
@@ -375,7 +393,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					stop("incorrect scale specification")
 				}
 				
-				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
+				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
 				
 				if (inherits(aes$legend, "tm_legend")) {
 					l = aes$legend
@@ -395,7 +413,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					stop("incorrect chart specification")
 				}
 				
-				dtl = apply_scale(s, l, crt, val, nm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)
+				dtl = apply_scale(s, l, crt, val, unm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)
 
 				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr", "crtnr"), with = FALSE]
@@ -404,10 +422,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 		if (dev) timing_add(s4 = paste0("aes ", aes$aes))
 		
 		if (bypass_ord) {
-			list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
+			list(dt = dtl[, c("tmapID__", grp_bv, unm), with = FALSE],
 				 leg = dtl_leg)
 		} else {
-			list(dt = dtl[, c("tmapID__", grp_bv, nm, nm__ord), with = FALSE],
+			list(dt = dtl[, c("tmapID__", grp_bv, unm, nm__ord), with = FALSE],
 				 leg = dtl_leg)
 		}
 	})

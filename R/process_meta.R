@@ -379,13 +379,22 @@ process_meta = function(o, d, cdt, aux) {
 			margins.used =  margins.used.all | margins.used.sides | legend.present.fix
 			
 			# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
-			
-			
+
 			if (nrow(cdt)) {
 				cdt2 = data.table::copy(cdt[cdt$class %in% c("autoout", "out"),])
 				
 				# CODE COPIED FROM STEP4_plot L157
 				# TO DO: fix this
+				if (o$type != "grid" && o$n > 1) {
+					#if (o$nrows == 1 && o$ncols == 1)
+					if (identical(orientation, "horizontal")) {
+						# -use by2 and not by1 when they form a row
+						cdt2[, by2__ := by1__]
+						cdt2[, by1__ := NA]
+					} 
+				}
+				
+				
 				stacks = o$legend.stack
 				
 				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.all$cell.h, cell.v = legend.position.all$cell.v)]
@@ -410,18 +419,22 @@ process_meta = function(o, d, cdt, aux) {
 						
 						cdt2[is.na(by1__), by1__:=1]
 						
+						po(meta.auto.margins)
 						
 						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]	
 							
-							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]		
-							c(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
+							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]	
+							
+							print(cdt2b)
+							
+							c(sum(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
 								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
-							  sum(c(0,cdt2b[cell.h == "left" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
+							  sum(sum(c(0,cdt2b[cell.h == "left" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW)),
 							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1],
-							  sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH),
+							  sum(sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
 							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
-							  sum(c(0,cdt2b[cell.h == "right" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW),
+							  sum(sum(c(0,cdt2b[cell.h == "right" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW)),
 							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1])
 						})))
 					} else {
@@ -435,6 +448,7 @@ process_meta = function(o, d, cdt, aux) {
 					# add margins (compensate for legend frames)
 					# the final calculations of these margins are computed in tmapGridLegend (this is just to compute the meta.auto.margins)
 					# those calculations are take the component.offset into account
+					
 					sel_tb = c(3,1)[meta.auto.margins[c(3,1)]!=0]
 					sel_lr = c(2,4)[meta.auto.margins[c(2,4)]!=0]
 					if (length(sel_tb)) meta.auto.margins[sel_tb] = meta.auto.margins[sel_tb] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[2]
@@ -464,7 +478,7 @@ process_meta = function(o, d, cdt, aux) {
 				} else {
 					meta.margins[margins.used] = meta.auto.margins[margins.used]
 				}
-				
+
 				# redo calculations
 				meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
 				fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
@@ -474,8 +488,7 @@ process_meta = function(o, d, cdt, aux) {
 			meta.margins = c(0, 0, 0, 0)
 		}
 		
-		
-		
+
 		# determine number of rows and cols
 		if (type == "grid") {
 			nrows = nby[1]
