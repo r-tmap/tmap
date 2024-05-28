@@ -150,7 +150,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 			symbols_icons <- merge_icons(iconLib)
 			size = gp2$width[sid] / gp2$baseSize
 			
-			#size[sid] = size[sid] * args$icon.scale # icon.scale is set to 1 in view mode
+			size[sid] = size[sid] * args$icon.scale/3 # icon.scale is set to 1 in view mode
 			
 			for (i in seq_along(sid)) {
 				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]

@@ -1,29 +1,29 @@
-addBaseGroup <- function(group) {
+addBaseGroup = function(group) {
 	for (g in group) {
 		if (is.na(bases[1])) {
-			bases <- g
+			bases = g
 		} else if (!(g %in% bases)) {
-			bases <- c(bases, g)
+			bases = c(bases, g)
 		}
 	}
 	assign("bases", bases, envir = .TMAP_LEAFLET)
 }
 
-eraseBaseGroup <- function() {
+eraseBaseGroup = function() {
 	assign("bases", character(0), envir = .TMAP_LEAFLET)
 }
 
-eraseOverlayTiles <- function() {
-	overlays <- setdiff(overlays, overlays_tiles)
+eraseOverlayTiles = function() {
+	overlays = setdiff(overlays, overlays_tiles)
 	assign("overlays", overlays, envir = .TMAP_LEAFLET)
 }
 
-addOverlayGroup <- function(group, are.tiles = FALSE) {
+addOverlayGroup = function(group, are.tiles = FALSE) {
 	for (g in group) {
 		if (is.na(overlays[1])) {
-			overlays <- g
+			overlays = g
 		} else if (!(g %in% overlays)) {
-			overlays <- c(overlays, g)
+			overlays = c(overlays, g)
 		}
 	}
 	assign("overlays", overlays, envir = .TMAP_LEAFLET)
@@ -45,7 +45,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 	# leaflet options
 	
 	if (o$crs_leaflet$crsClass == "L.CRS.Simple") {
-		if (is.na(o$set.zoom.limits)[1]) o$set.zoom.limits[1] <- -1000
+		if (is.na(o$set.zoom.limits)[1]) o$set.zoom.limits[1] = -1000
 	}	
 	leaflet_opts = do.call(leaflet::leafletOptions, c(list(crs=o$crs_leaflet), o$leaflet.options))
 	
@@ -104,7 +104,7 @@ tmapLeafletAux = function(o, q) {
 
 
 
-view_set_bounds <- function(lf, bbx, o) {
+view_set_bounds = function(lf, bbx, o) {
 	if (!is.logical(o$set.bounds)) {
 		lims = unname(o$set.bounds)
 	} else {
@@ -127,19 +127,20 @@ view_set_bounds <- function(lf, bbx, o) {
 		}
 		
 		if (!is.na(zm)) {
-			set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), zm)
+			set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), zm)
 		} else if (!is.na(o$set.zoom.limits[2])) { # 2nd is checked to bypass (-1000, NA) used for simple CRS
-			set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.zoom.limits[1])
+			set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.zoom.limits[1])
 		} else {
 			set.view = NULL
 		}
 	} else if (length(o$set.view) == 1) {
-		set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.view)
+		set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.view)
 	} else {
-		set.view <- o$set.view
+		set.view = o$set.view
 	}
 	
 	if (!is.null(set.view)) {
+		names(set.view) = NULL
 		lf = lf %>% setView(set.view[1], set.view[2], set.view[3])
 	}
 		
