@@ -17,3 +17,10 @@ is a scale that is set automatically given by the data type (factor, numeric, an
 and the visual variable. The tmap option \code{scales.var} contains information
 which scale is applied when.
 }
+\seealso{
+\code{\link[=tm_scale_asis]{tm_scale_asis()}}, \code{\link[=tm_scale_ordinal]{tm_scale_ordinal()}}, \code{\link[=tm_scale_categorical]{tm_scale_categorical()}},
+\code{\link[=tm_scale_intervals]{tm_scale_intervals()}}, \code{\link[=tm_scale_discrete]{tm_scale_discrete()}}, \code{\link[=tm_scale_continuous]{tm_scale_continuous()}},
+\code{\link[=tm_scale_rank]{tm_scale_rank()}}, \code{\link[=tm_scale_continuous_log]{tm_scale_continuous_log()}}, \code{\link[=tm_scale_continuous_log2]{tm_scale_continuous_log2()}},
+\code{\link[=tm_scale_continuous_log10]{tm_scale_continuous_log10()}}, \code{\link[=tm_scale_continuous_log1p]{tm_scale_continuous_log1p()}}, \code{\link[=tm_scale_continuous_sqrt]{tm_scale_continuous_sqrt()}},
+\code{\link[=tm_scale_continuous_pseudo_log]{tm_scale_continuous_pseudo_log()}}, \code{\link[=tm_scale_rgb]{tm_scale_rgb()}}
+}

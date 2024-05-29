@@ -50,7 +50,7 @@ Set the position of map components, such as legends, title, compass, scale bar, 
 \code{tm_pos_out()} places the components outside the map area and \code{tm_pos_in()} inside the map area.
 Each \code{position} argument of a map layer or component should be specified with
 one of these functions. The functions \code{tm_pos_auto_out()} and \code{tm_pos_auto_in()}
-are used to set the components automatically, and are recommended to use globally,
+are used to set the components automatically, and should be used
 via \code{\link[=tmap_options]{tmap_options()}}. See Details how the positioning works.
 }
 \details{
