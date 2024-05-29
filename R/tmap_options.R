@@ -1245,10 +1245,6 @@ tmapAddLayerOptions = function(option, id, value) {
 	tmap_options(o2)
 }
 
-
-
-
-
 #' @rdname tmap_options
 #' @export
 tmap_options_diff <- function() {

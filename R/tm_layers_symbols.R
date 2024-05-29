@@ -26,8 +26,6 @@ opt_tm_bubbles = opt_tm_symbols
 #' @export
 opt_tm_squares = opt_tm_symbols
 
-
-
 #' Map layer: symbols
 #' 
 #' Map layer that draws symbols Supported visual variables are:

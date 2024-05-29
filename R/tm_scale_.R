@@ -30,7 +30,7 @@ tm_shape_vars = function() {
 #' [tm_scale_intervals()], [tm_scale_discrete()], [tm_scale_continuous()], 
 #' [tm_scale_rank()], [tm_scale_continuous_log()], [tm_scale_continuous_log2()],
 #' [tm_scale_continuous_log10()], [tm_scale_continuous_log1p()], [tm_scale_continuous_sqrt()],
-#' [tm_scale_continuous_pseudo_log()], [tm_scale_rgb()]
+#' [tm_scale_continuous_pseudo_log()], [tm_scale_rgb()], [tm_scale_bivariate()]
 #' @export
 tm_scale = function(...) {
 	# maybe add the generic scales parameters after ... here?
