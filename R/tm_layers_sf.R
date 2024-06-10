@@ -19,9 +19,6 @@ opt_tm_sf = function(polygons.only = "yes",
 	
 }
 
-
-
-
 #' Map layer: simple features
 #' 
 #' Map layer that draws simple features as they are. Supported visual variables

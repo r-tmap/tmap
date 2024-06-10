@@ -2,34 +2,34 @@
 #' 
 #' Legend specification
 #' 
-#' @param title PARAM_DESCRIPTION
-#' @param show PARAM_DESCRIPTION
-#' @param orientation PARAM_DESCRIPTION
+#' @param title Legend title
+#' @param show Show legend?
+#' @param orientation Orientation of the legend: `"portrait"` or `"landscape"`
 #' @param design PARAM_DESCRIPTION
-#' @param reverse PARAM_DESCRIPTION
+#' @param reverse Should the legend be reversed?
 #' @param na.show PARAM_DESCRIPTION
 #' @param position PARAM_DESCRIPTION
-#' @param width PARAM_DESCRIPTION
-#' @param height PARAM_DESCRIPTION
+#' @param width Width of the legend
+#' @param height Height of the legend
 #' @param stack PARAM_DESCRIPTION
 #' @param z PARAM_DESCRIPTION
 #' @param group.frame PARAM_DESCRIPTION
 #' @param resize.as.group PARAM_DESCRIPTION
-#' @param title.color PARAM_DESCRIPTION
-#' @param title.size PARAM_DESCRIPTION
-#' @param title.fontface PARAM_DESCRIPTION
-#' @param title.fontfamily PARAM_DESCRIPTION
+#' @param title.color Color of the legend title
+#' @param title.size Size of the legend title
+#' @param title.fontface Font face of the legend title
+#' @param title.fontfamily Font family of the legend title
 #' @param title.padding PARAM_DESCRIPTION
-#' @param text.color PARAM_DESCRIPTION
-#' @param text.size PARAM_DESCRIPTION
-#' @param text.fontface PARAM_DESCRIPTION
-#' @param text.fontfamily PARAM_DESCRIPTION
+#' @param text.color Color of the legend text
+#' @param text.size Size of the legend text
+#' @param text.fontface Font face of the legend text
+#' @param text.fontfamily Font family of the legend text
 #' @param format PARAM_DESCRIPTION
 #' @param frame PARAM_DESCRIPTION
 #' @param frame.lwd PARAM_DESCRIPTION
 #' @param frame.r PARAM_DESCRIPTION
-#' @param bg.color PARAM_DESCRIPTION
-#' @param bg.alpha PARAM_DESCRIPTION
+#' @param bg.color Background color of the legend
+#' @param bg.alpha Background transparency of the legend
 #' @param item.height PARAM_DESCRIPTION
 #' @param item.width PARAM_DESCRIPTION
 #' @param item.space PARAM_DESCRIPTION
@@ -138,4 +138,3 @@ tm_legend_bivariate = function(xlab,
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
-

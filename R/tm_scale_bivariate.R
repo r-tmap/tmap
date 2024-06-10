@@ -16,6 +16,7 @@
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
+#' @seealso [tm_scale()]
 #' @export
 #' @name tm_scale_bivariate
 #' @rdname tm_scale_bivariate

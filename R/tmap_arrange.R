@@ -33,7 +33,7 @@
 #' @param options options passed on to [knitr::knit_print()]
 #' @example ./examples/tmap_arrange.R
 #' @export
-tmap_arrange <- function(..., ncol=NA, nrow=NA, widths=NA, heights = NA, sync=FALSE, asp=0, outer.margins=.02) {
+tmap_arrange <- function(..., ncol = NA, nrow = NA, widths = NA, heights = NA, sync = FALSE, asp = 0, outer.margins = .02) {
 	tms <- list(...)
 	if (!inherits(tms[[1]], "tmap")) {
 		if (!is.list(tms[[1]])) stop("The first argument of tmap_arrange is neither a tmap object nor a list.")

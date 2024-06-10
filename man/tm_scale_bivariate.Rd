@@ -48,3 +48,6 @@ Such function should be used for the input of the \code{.scale} arguments in the
 layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
 The function \code{tm_scale_bivariate()} is used for \code{bivariate.scales}.
 }
+\seealso{
+\code{\link[=tm_scale]{tm_scale()}}
+}
