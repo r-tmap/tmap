@@ -14,3 +14,6 @@ tm_scale_rgb(value.na = NA, maxValue = 255)
 \description{
 Scales: RGB
 }
+\seealso{
+\code{\link[=tm_scale]{tm_scale()}}
+}

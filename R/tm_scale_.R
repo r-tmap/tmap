@@ -26,6 +26,11 @@ tm_shape_vars = function() {
 #' which scale is applied when.
 #' 
 #' @param ... arguments passed on to the applied scale function `tm_scale_*()`
+#' @seealso [tm_scale_asis()], [tm_scale_ordinal()], [tm_scale_categorical()],
+#' [tm_scale_intervals()], [tm_scale_discrete()], [tm_scale_continuous()], 
+#' [tm_scale_rank()], [tm_scale_continuous_log()], [tm_scale_continuous_log2()],
+#' [tm_scale_continuous_log10()], [tm_scale_continuous_log1p()], [tm_scale_continuous_sqrt()],
+#' [tm_scale_continuous_pseudo_log()], [tm_scale_rgb()]
 #' @export
 tm_scale = function(...) {
 	# maybe add the generic scales parameters after ... here?
@@ -37,11 +42,12 @@ tm_scale = function(...) {
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function `tm_scale_asis()` is used to take data values as they are and use them as such for the visual variable.
+#' The function [tm_scale_asis()] is used to take data values as they are and use them as such for the visual variable.
 #' 
 #' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
 #' @param value.neutral (generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both `fill` and `size` are used for [tm_symbols()] (using filled circles), the size legend items are filled with the `value.neutral` color from the `fill.scale` scale, and fill legend items are bubbles of size `value.neutral` from the `size.scale` scale.
 #' @param ... Arguments caught (and not used) from the automatic function [tm_scale()]
+#' @seealso [tm_scale()]
 #' @export
 tm_scale_asis = function(values.scale = NA, value.neutral = NA, ...) {
 	structure(c(list(FUN = "tmapScaleAsIs"), c(list(values.scale = values.scale, value.neutral = value.neutral), list(...))), class = c("tm_scale_asis", "tm_scale", "list"))
@@ -72,7 +78,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The functions `tm_scale_categorical()` and `tm_scale_ordinal()` are used
+#' The functions [tm_scale_categorical()] and [tm_scale_ordinal()] are used
 #' for categorical data. The only difference between these functions is that the
 #' former assumes unordered categories whereas the latter assumes ordered categories.
 #' For colors (the visual variable `fill` or `col`), different default color
@@ -92,6 +98,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @seealso [tm_scale()]
 #' @export
 #' @name tm_scale_categorical
 #' @rdname tm_scale_categorical
@@ -117,7 +124,7 @@ tm_scale_categorical = function(n.max = 30,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function `tm_scale_interval()` is used for numerical data.
+#' The function [tm_scale_interval()] is used for numerical data.
 #' 
 #' @param n Number of intervals. For some styles (see argument `style` below) it is the preferred number rather than the exact number.
 #' @param style Method to create intervals. Options are `"cat"`, `"fixed"`, `"sd"`, `"equal"`, `"pretty"`, `"quantile"`, `"kmeans"`, `"hclust"`, `"bclust"`, `"fisher"`, `"jenks"`, `"dpih"`, `"headtails"`, and `"log10_pretty"`. See the details in [classInt::classIntervals()] (extra arguments can be passed on via `style.args`).
@@ -137,6 +144,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to legend.format in tmap3)
+#' @seealso [tm_scale()]
 #' @export
 tm_scale_intervals = function(n = 5, 
 							  style = ifelse(is.null(breaks), "pretty", "fixed"),
@@ -164,7 +172,7 @@ tm_scale_intervals = function(n = 5,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function `tm_scale_discrete()` is used for discrete numerical data, such as integers.
+#' The function [tm_scale_discrete()] is used for discrete numerical data, such as integers.
 #' 
 #' @param ticks Discrete values. If not specified, it is determined automatically: unique values are put on a discrete scale.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
@@ -179,6 +187,7 @@ tm_scale_intervals = function(n = 5,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @seealso [tm_scale()]
 #' @export
 tm_scale_discrete = function(ticks = NA,
 							 #step = NA,
@@ -202,7 +211,7 @@ tm_scale_discrete = function(ticks = NA,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the layer
 #' functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function `tm_scale_continuous()` is used for continuous data.
+#' The function [tm_scale_continuous()] is used for continuous data.
 #' The functions `tm_scale_continuous_<x>()` use transformation functions x.
 #' 
 #' @param n Preferred number of tick labels. Only used if `ticks` is not specified
@@ -224,6 +233,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
 #' @param trans.args list of additional argument for the transformation (generic transformation arguments)
 #' @inheritParams scales::transform_pseudo_log
+#' @seealso [tm_scale()]
 #' @export
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous
@@ -255,7 +265,7 @@ tm_scale_continuous = function(n = NULL,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the layer
 #' functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function `tm_scale_rank()` is used to rank numeric data.
+#' The function [tm_scale_rank()] is used to rank numeric data.
 #' 
 #' @param n Preferred number of tick labels. Only used if `ticks` is not specified
 #' @param ticks Tick values. If not specified, it is determined automatically with `n`
@@ -271,6 +281,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
 #' @param unit unit the unit name of the values. By default `"rank"`.
+#' @seealso [tm_scale()]
 #' @export
 tm_scale_rank = function(n = NULL,
 						 ticks = NULL,
@@ -298,7 +309,7 @@ tm_scale_rank = function(n = NULL,
 #' }
 
 #' @export
-#' @param ... passed on to `tm_scale_continuous`
+#' @param ... passed on to [tm_scale_continuous()]
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous_log
 tm_scale_continuous_log = function(..., base = exp(1)) {
@@ -341,8 +352,6 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 	tm_scale_continuous(trans = "pseudo_log", trans.args = list(base = base, sigma = sigma), ...)
 }
 
-
-
 # 
 # #' @export
 # #' @rdname tm_scale_continuous
@@ -358,6 +367,7 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #'
 #' @param value.na value for missing values
 #' @param maxValue maximum value
+#' @seealso [tm_scale()]
 #' @export
 tm_scale_rgb = function(value.na = NA,
 						maxValue = 255) {

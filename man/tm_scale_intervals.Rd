@@ -66,5 +66,8 @@ tm_scale_intervals(
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
 Such function should be used for the input of the \code{.scale} arguments in the
 layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
-The function \code{tm_scale_interval()} is used for numerical data.
+The function \code{\link[=tm_scale_interval]{tm_scale_interval()}} is used for numerical data.
+}
+\seealso{
+\code{\link[=tm_scale]{tm_scale()}}
 }

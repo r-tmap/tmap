@@ -6,7 +6,7 @@
 \alias{opt_tm_rgb}
 \title{Map layer: raster}
 \usage{
-opt_tm_raster(interpolate = FALSE)
+opt_tm_raster(interpolate = TRUE)
 
 tm_raster(
   col = tm_shape_vars(),
@@ -26,7 +26,7 @@ tm_raster(
   ...
 )
 
-opt_tm_rgb(interpolate = TRUE)
+opt_tm_rgb(interpolate = FALSE)
 }
 \arguments{
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:grid.raster]{grid}})}

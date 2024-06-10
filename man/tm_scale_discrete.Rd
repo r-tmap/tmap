@@ -51,5 +51,8 @@ tm_scale_discrete(
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
 Such function should be used for the input of the \code{.scale} arguments in the
 layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
-The function \code{tm_scale_discrete()} is used for discrete numerical data, such as integers.
+The function \code{\link[=tm_scale_discrete]{tm_scale_discrete()}} is used for discrete numerical data, such as integers.
+}
+\seealso{
+\code{\link[=tm_scale]{tm_scale()}}
 }

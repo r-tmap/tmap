@@ -80,7 +80,7 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 
 \item{trans.args}{list of additional argument for the transformation (generic transformation arguments)}
 
-\item{...}{passed on to \code{tm_scale_continuous}}
+\item{...}{passed on to \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}}
 
 \item{base}{base of logarithm}
 
@@ -90,6 +90,9 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
 Such function should be used for the input of the \code{.scale} arguments in the layer
 functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
-The function \code{tm_scale_continuous()} is used for continuous data.
+The function \code{\link[=tm_scale_continuous]{tm_scale_continuous()}} is used for continuous data.
 The functions \verb{tm_scale_continuous_<x>()} use transformation functions x.
+}
+\seealso{
+\code{\link[=tm_scale]{tm_scale()}}
 }
