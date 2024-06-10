@@ -13,6 +13,7 @@
 #'   Use `NULL` in `tm_basemap()` to disable basemaps.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
+#' @param max.native.zoom Maximum native zoom level (only used in view mode). The minimum and maximum zoom levels are determined in `tm_view`.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the
 #'   layer number plus 400. By default, the tmap layers will therefore be placed
 #'   in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the base tile
@@ -31,9 +32,9 @@
 #' @rdname tm_basemap
 #' @name tm_basemap
 #' @example ./examples/tm_basemap.R
-tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, group = NA, group.control = "radio") {
+tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, type = "basemap"),
+		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "basemap"),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
@@ -44,9 +45,9 @@ tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, zindex = 0, grou
 #' @export
 #' @rdname tm_basemap
 #' @name tm_tiles
-tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, zindex = NA, group = NA, group.control = "check") {
+tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom = 1, zindex = NA, group = NA, group.control = "check") {
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, type = "overlay"),
+		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "overlay"),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
