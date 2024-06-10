@@ -238,7 +238,7 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	})
 }
 
-tmapTransCartogram = function(shpTM, area, ord__, plot.order, args, scale) {
+tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	s = shpTM$shp
 	
 	if (sf::st_is_longlat(s)) {
@@ -247,7 +247,7 @@ tmapTransCartogram = function(shpTM, area, ord__, plot.order, args, scale) {
 
 	message("Cartogram in progress...")
 		
-	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
+	x = sf::st_sf(geometry = s, weight = size, tmapID__ = shpTM$tmapID)
 	x = x[x$weight > 0,]
 	
 
