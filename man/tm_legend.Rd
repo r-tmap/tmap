@@ -57,23 +57,23 @@ tm_legend_hide()
 tm_legend_combine(variable)
 }
 \arguments{
-\item{title}{PARAM_DESCRIPTION}
+\item{title}{Legend title}
 
-\item{show}{PARAM_DESCRIPTION}
+\item{show}{Show legend?}
 
-\item{orientation}{PARAM_DESCRIPTION}
+\item{orientation}{Orientation of the legend: \code{"portrait"} or \code{"landscape"}}
 
 \item{design}{PARAM_DESCRIPTION}
 
-\item{reverse}{PARAM_DESCRIPTION}
+\item{reverse}{Should the legend be reversed?}
 
 \item{na.show}{PARAM_DESCRIPTION}
 
 \item{position}{PARAM_DESCRIPTION}
 
-\item{width}{PARAM_DESCRIPTION}
+\item{width}{Width of the legend}
 
-\item{height}{PARAM_DESCRIPTION}
+\item{height}{Height of the legend}
 
 \item{stack}{PARAM_DESCRIPTION}
 
@@ -83,23 +83,23 @@ tm_legend_combine(variable)
 
 \item{resize.as.group}{PARAM_DESCRIPTION}
 
-\item{title.color}{PARAM_DESCRIPTION}
+\item{title.color}{Color of the legend title}
 
-\item{title.size}{PARAM_DESCRIPTION}
+\item{title.size}{Size of the legend title}
 
-\item{title.fontface}{PARAM_DESCRIPTION}
+\item{title.fontface}{Font face of the legend title}
 
-\item{title.fontfamily}{PARAM_DESCRIPTION}
+\item{title.fontfamily}{Font family of the legend title}
 
 \item{title.padding}{PARAM_DESCRIPTION}
 
-\item{text.color}{PARAM_DESCRIPTION}
+\item{text.color}{Color of the legend text}
 
-\item{text.size}{PARAM_DESCRIPTION}
+\item{text.size}{Size of the legend text}
 
-\item{text.fontface}{PARAM_DESCRIPTION}
+\item{text.fontface}{Font face of the legend text}
 
-\item{text.fontfamily}{PARAM_DESCRIPTION}
+\item{text.fontfamily}{Font family of the legend text}
 
 \item{format}{PARAM_DESCRIPTION}
 
@@ -109,9 +109,9 @@ tm_legend_combine(variable)
 
 \item{frame.r}{PARAM_DESCRIPTION}
 
-\item{bg.color}{PARAM_DESCRIPTION}
+\item{bg.color}{Background color of the legend}
 
-\item{bg.alpha}{PARAM_DESCRIPTION}
+\item{bg.alpha}{Background transparency of the legend}
 
 \item{item.height}{PARAM_DESCRIPTION}
 

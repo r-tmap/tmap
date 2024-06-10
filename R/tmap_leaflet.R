@@ -25,7 +25,7 @@ tmap_leaflet = function(x,
 		options(tmap.mode = current_mode)
 	})
 	options(tmap.mode = "view")
-	print.tmap(x, show=show, ...)
+	print.tmap(x, show = show, ...)
 }
 
 #' @name tmap_grid
@@ -39,5 +39,5 @@ tmap_grid = function(x,
 		options(tmap.mode = current_mode)
 	})
 	options(tmap.mode = "plot")
-	print.tmap(x, show=show, ...)
+	print.tmap(x, show = show, ...)
 }

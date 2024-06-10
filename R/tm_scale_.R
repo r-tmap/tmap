@@ -30,7 +30,7 @@ tm_shape_vars = function() {
 #' [tm_scale_intervals()], [tm_scale_discrete()], [tm_scale_continuous()], 
 #' [tm_scale_rank()], [tm_scale_continuous_log()], [tm_scale_continuous_log2()],
 #' [tm_scale_continuous_log10()], [tm_scale_continuous_log1p()], [tm_scale_continuous_sqrt()],
-#' [tm_scale_continuous_pseudo_log()], [tm_scale_rgb()]
+#' [tm_scale_continuous_pseudo_log()], [tm_scale_rgb()], [tm_scale_bivariate()]
 #' @export
 tm_scale = function(...) {
 	# maybe add the generic scales parameters after ... here?
@@ -54,7 +54,6 @@ tm_scale_asis = function(values.scale = NA, value.neutral = NA, ...) {
 }
 
 #' @export
-#' @name tm_scale_ordinal
 #' @rdname tm_scale_categorical
 tm_scale_ordinal = function(n.max = 30,
 							values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
@@ -78,7 +77,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The functions [tm_scale_categorical()] and [tm_scale_ordinal()] are used
+#' The functions `tm_scale_categorical()` and `tm_scale_ordinal()` are used
 #' for categorical data. The only difference between these functions is that the
 #' former assumes unordered categories whereas the latter assumes ordered categories.
 #' For colors (the visual variable `fill` or `col`), different default color
@@ -100,8 +99,6 @@ tm_scale_ordinal = function(n.max = 30,
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
 #' @seealso [tm_scale()]
 #' @export
-#' @name tm_scale_categorical
-#' @rdname tm_scale_categorical
 tm_scale_categorical = function(n.max = 30,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
@@ -124,7 +121,7 @@ tm_scale_categorical = function(n.max = 30,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function [tm_scale_interval()] is used for numerical data.
+#' The function `tm_scale_intervals()` is used for numerical data.
 #' 
 #' @param n Number of intervals. For some styles (see argument `style` below) it is the preferred number rather than the exact number.
 #' @param style Method to create intervals. Options are `"cat"`, `"fixed"`, `"sd"`, `"equal"`, `"pretty"`, `"quantile"`, `"kmeans"`, `"hclust"`, `"bclust"`, `"fisher"`, `"jenks"`, `"dpih"`, `"headtails"`, and `"log10_pretty"`. See the details in [classInt::classIntervals()] (extra arguments can be passed on via `style.args`).

@@ -62,7 +62,6 @@ save_last_map = function() {
 	assign("last_map_new", NULL, envir = .TMAP)
 }
 
-
 replace_last_tmap_by_correct_call = function(mc, lt) {
 	if (is.symbol(mc)) {
 		mc
@@ -76,11 +75,6 @@ replace_last_tmap_by_correct_call = function(mc, lt) {
 		mc
 	}
 }
-
-
-
-
-
 
 #' Print tm_element
 #' 

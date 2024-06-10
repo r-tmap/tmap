@@ -72,7 +72,7 @@ tm_scale_categorical(
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
 Such function should be used for the input of the \code{.scale} arguments in the
 layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
-The functions \code{\link[=tm_scale_categorical]{tm_scale_categorical()}} and \code{\link[=tm_scale_ordinal]{tm_scale_ordinal()}} are used
+The functions \code{tm_scale_categorical()} and \code{tm_scale_ordinal()} are used
 for categorical data. The only difference between these functions is that the
 former assumes unordered categories whereas the latter assumes ordered categories.
 For colors (the visual variable \code{fill} or \code{col}), different default color
