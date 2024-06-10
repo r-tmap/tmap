@@ -14,10 +14,11 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	tiles = .TMAP_LEAFLET$tiles[[id]][[bi]]
 	
 	if (o$credits.defined) {
-		opt = leaflet::providerTileOptions(attribution = "", maxNativeZoom = tiles$max.native.zoom, maxZoom = o$set.zoom.limits[2])
+		opt = leaflet::providerTileOptions(attribution = "", maxNativeZoom = tiles$max.native.zoom)
 	} else {
-		opt = leaflet::providerTileOptions(maxNativeZoom = tiles$max.native.zoom, maxZoom = o$set.zoom.limits[2])
+		opt = leaflet::providerTileOptions(maxNativeZoom = tiles$max.native.zoom)
 	}
+	if (!is.na(o$set.zoom.limits[2])) opt$maxZoom = o$set.zoom.limits[2]
 	
 	for (s in tiles$server) lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
 	
