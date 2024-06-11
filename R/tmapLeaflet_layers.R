@@ -251,8 +251,10 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 
 		lf = get_lf(facet_row, facet_col, facet_page)
 		
+		opts = leaflet::gridOptions(pane = pane)
+		
 		lf %>% 
-			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group) %>% 
+			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group, options = opts) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		#shp2 = st_as_stars(list(values = tmapID), dimensions = shp)

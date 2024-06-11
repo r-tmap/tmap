@@ -657,3 +657,27 @@ tmapValuesBVV_col = function(x, value.na, m, n, scale, rep, o) {
 tmapValuesBVV_bgcol = function(x, value.na, m, n, scale, rep, o) {
 	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
 }
+
+
+
+tmapValuesCheck_num = tmapValuesCheck_size
+tmapValuesIsDiv_num = tmapValuesIsDiv_size
+tmapValuesRange_num = tmapValuesRange_size
+tmapValuesVV_num = tmapValuesVV_size
+tmapValuesSubmit_num = tmapValuesSubmit_size
+tmapValuesScale_num = tmapValuesScale_size
+tmapValuesColorize_num = tmapValuesColorize_size
+tmapValuesCVV_num = tmapValuesCVV_size
+
+tmapValuesCheck_skip = function(x) TRUE
+tmapValuesIsDiv_skip = function(x) FALSE
+tmapValuesRange_skip = function(x, n, isdiv) c(0, 1)
+tmapValuesVV_skip = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
+}
+tmapValuesSubmit_skip = function(x, args) x
+tmapValuesScale_skip = function(x, scale) x
+tmapValuesColorize_skip = function(x, pc) x
+tmapValuesCVV_skip = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_shape(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}

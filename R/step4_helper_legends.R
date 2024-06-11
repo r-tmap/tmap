@@ -97,7 +97,7 @@ step4_plot_collect_legends = function(tmx) {
 					
 					if (!is.null(legs_aes)) {
 						for (k in 1:nrow(legs_aes)) {
-							if (length(legs_aes$legend[[k]]) == 1 || !legs_aes$legend[[k]]$show) {
+							if (!legs_aes$legend[[k]]$active || !legs_aes$legend[[k]]$show) {
 								legs_aes$legend[[k]] = list(NULL)
 								next
 							}

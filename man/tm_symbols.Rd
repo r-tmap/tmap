@@ -329,6 +329,27 @@ tm_shape(land) +
 			   shape.legend = tm_legend_combine("size")) +
 	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
 
+## to do: replace this example:
+
+\dontrun{
+	if (require(rnaturalearth)) {
+		
+		airports <- ne_download(scale=10, type="airports", returnclass = "sf")
+		airplane <- tmap_icons(system.file("img/airplane.png", package = "tmap"))
+		
+		
+		
+		current.mode <- tmap_mode("view")
+		
+		tm_shape(NLD_prov, crs = 4326) + tm_polygons() + 
+		tm_shape(airports) +
+			tm_symbols(shape=airplane, size="natlscale",
+					   legend.size.show = FALSE, scale=1, border.col = NULL, id="name", popup.vars = TRUE)
+			#tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
+		tmap_mode(current.mode)
+	}
+}
+
 ########################
 ## plot symbol shapes
 ########################

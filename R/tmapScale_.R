@@ -24,7 +24,7 @@ tmapVars = function(x) {
 	if (inherits(x, "tm_shape_vars")) return(structure(list(), class = "tmapShpVars"))
 	if (inherits(x, "tmapDimVars")) return(x)
 	
-	cls = if (inherits(x, "AsIs")) "tmapAsIs" else "tmapVars"
+	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tmapVars"
 	
 	isL = is.list(x)
 	if (!isL) {
@@ -35,6 +35,13 @@ tmapVars = function(x) {
 	
 	structure(x, class = cls)
 }
+
+tmapUsrCls = function(x) {
+	structure(x, class = "tmapUsrCls")
+}
+
+
+
 format_aes_results = function(values, ord = NULL, legend, chart) {
 	legnr = vector(mode = "integer", length = length(values))
 	legnr[1] = legend_save(legend)
@@ -152,14 +159,22 @@ tmapScale = function(aes, value, scale, legend, chart, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
 }
 
-tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, x2 = NULL) {
+tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, ...) {
+	args = list(...)
+	k = length(args) + 1L
+	if (length(args)) {
+		names(args) = paste0("x", 2L:(length(args)+1L))
+	}
+	
 	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
 	sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
-	
-	if (!is.null(x2)) {
+#if (aes == "fill") browser()	
+	if (k == 2) {
 		sc = "bivariate"
+	} else if (k > 2) {
+		sc = "composition"
 	} else if (cls[1] == "asis") {
 		sc = "asis"	
 	} else if (attr(cls, "unique") && !(sc_opt == "asis")) {
@@ -196,7 +211,9 @@ tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	scale_new$FUN = NULL
 	
 	if (sc == "bivariate") {
-		do.call(FUN, list(x1 = x1, x2 = x2, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
+		do.call(FUN, list(x1 = x1, x2 = args[[1]], scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend))
+	} else if (sc == "multi_continuous") {
+		do.call(FUN, c(list(x1 = x1), args, list(scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend)))
 	} else {
 		do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
 	}

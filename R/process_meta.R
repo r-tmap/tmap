@@ -419,14 +419,10 @@ process_meta = function(o, d, cdt, aux) {
 						
 						cdt2[is.na(by1__), by1__:=1]
 						
-						po(meta.auto.margins)
-						
 						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]	
 							
 							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]	
-							
-							print(cdt2b)
 							
 							c(sum(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
 								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],

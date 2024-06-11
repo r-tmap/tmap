@@ -9,6 +9,7 @@ tm_basemap(
   server = NULL,
   alpha = NULL,
   zoom = NULL,
+  max.native.zoom = 17,
   zindex = 0,
   group = NA,
   group.control = "radio"
@@ -18,6 +19,7 @@ tm_tiles(
   server = NULL,
   alpha = NULL,
   zoom = NULL,
+  max.native.zoom = 1,
   zindex = NA,
   group = NA,
   group.control = "check"
@@ -34,6 +36,8 @@ Use \code{NULL} in \code{tm_basemap()} to disable basemaps.}
 \item{alpha}{Transparency level}
 
 \item{zoom}{Zoom level (only used in plot mode)}
+
+\item{max.native.zoom}{Maximum native zoom level (only used in view mode). The minimum and maximum zoom levels are determined in \code{tm_view}.}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the
 layer number plus 400. By default, the tmap layers will therefore be placed

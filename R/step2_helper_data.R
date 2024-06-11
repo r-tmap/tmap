@@ -1,4 +1,4 @@
-update_l = function(o, l, v, mfun) {
+update_l = function(o, l, v, mfun, unm, active) {
 	# update legend options
 	oltype = o[c("legend.design", "legend.orientation")]
 	names(oltype) = c("design", "orientation")
@@ -26,13 +26,15 @@ update_l = function(o, l, v, mfun) {
 	l = complete_options(l, oleg)
 	l$call = call
 	l$mfun = mfun
+	l$unm = unm
+	l$active = active
 	
 	# update legend class
 	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
 	l
 }
 
-update_crt = function(o, crt, v, mfun) {
+update_crt = function(o, crt, v, mfun, unm, active) {
 	
 	#crt_options
 	cls = class(crt)
@@ -46,14 +48,17 @@ update_crt = function(o, crt, v, mfun) {
 	if ("position" %in% names(crt) && is.character(crt$position)) crt$position = str2pos(crt$position)
 	if ("position" %in% names(crt) && is.numeric(crt$position)) crt$position = num2pos(crt$position)
 	if ("position" %in% names(crt) && inherits(crt$position, "tm_pos")) {
-		l$position = complete_options(crt$position, o$component.position[[crt$position$type]])
+		crt$position = complete_options(crt$position, o$component.position[[crt$position$type]])
 		if (crt$position$type %in% c("autoin", "autoout")) message_pos_auto(crt$position$type)
 	}
 	
 	crt = complete_options(crt, ocrt)
 	crt$call = call
 	crt$mfun = mfun
-		
+	crt$unm = unm
+	crt$active = active
+	
+	
 	# update legend class
 	#class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
 	#l
@@ -105,12 +110,71 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 		sfun = paste0("tmapValuesScale_", nm)
 		cfun = paste0("tmapValuesColorize_", nm)
 		
-		
 		if (inherits(val, "tmapUsrCls")) {
-			# not data driven variable: visual variable to support tm_mv of other visual variable (e.g. fill of donut maps)
-			dtl = data.table::data.table()
+			temp = local({
+				# not data driven variable: visual variable to support tm_mv of other visual variable (e.g. fill of donut maps)
+				k = length(aes$value[[1]])
+				vls = unname(aes$value[[1]])
+				dtl = data.table::data.table(tmapID__ = 1L:k, sel = TRUE, value = factor(vls, levels = vls))
+				
+				
+				varname = paste(unm, 1L, sep = "_")
+				legname = paste("legnr", 1L, sep = "_")
+				crtname = paste("crtnr", 1L, sep = "_")
+				
+				l = update_l(o = o, l = aes$legend, v = "value", mfun = mfun, unm = unm, active = TRUE)
+				crt = update_crt(o = o, crt = aes$chart, v = "value", mfun = mfun, unm = unm, active = TRUE)
+	
+				s = aes$scale			
+				f = s$FUN
+				s$FUN = NULL
+				# update label.format
+				s$label.format = process_label_format(s$label.format, o$label.format)
+				
+				if (all(is.ena(l$title))) l$title = ""
+				
+				arglist = list(scale = s, legend = l, chart = crt, 
+							   o = o, aes = nm, 
+							   layer = layer, 
+							   layer_args = args,
+							   sortRev = NA, 
+							   bypass_ord = TRUE,
+							   submit_legend = TRUE)
+				dtl[, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), .SDcols = "value"]
+				
+				
+				list(val = paste(dtl[[varname]], collapse = "__"),
+					 legnr = dtl$legnr_1[1],
+					 ctrnr = dtl$crtnr_1[1])
+			})
+			nvars = 1
+			nvarsi = 1
+			vars = temp$val
+			grp_bv = by123__[sort(b)]
 			
-		} else if (!aes$data_vars && !aes$geo_vars) {
+			nm = "skip"
+			
+			sfun = paste0("tmapValuesScale_", nm)
+			cfun = paste0("tmapValuesColorize_", nm)
+			aes$data_vars = FALSE
+		}
+			
+			# 
+			# List of 10
+			# $ scale        :List of 1
+			# ..- attr(*, "class")= chr [1:3] "tm_scale_auto" "tm_scale" "list"
+			# $ legend       :List of 65
+			# ..- attr(*, "class")= chr [1:2] "tm_legend_standard_portrait" "list"
+			# $ chart        :List of 36
+			# ..- attr(*, "class")= chr [1:4] "tm_chart_none" "tm_chart" "tm_component" "list"
+			# $ o            :List of 343
+			# $ aes          : chr "fill"
+			# $ layer        : chr "polygons"
+			# $ layer_args   : list()
+			# $ sortRev      : logi NA
+			# $ bypass_ord   : logi FALSE
+			# $ submit_legend: logi TRUE
+		if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
@@ -177,8 +241,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			dtl[, legnr := vector("integer", length = nrow(dtl))]
 			dtl[, crtnr := vector("integer", length = nrow(dtl))]
 			
+			if (exists("temp")) {
+				dtl_leg = data.table::data.table(sel = TRUE, legnr = temp$legnr, crtnr = temp$ctrnr)
+			} else {
+				dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..unm), function(s) legend_save(list(mfun = mfun, unm = unm, active = FALSE, vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..unm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (unm) := NULL]
+			}
 			
-			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..unm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..unm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (unm) := NULL]
 		} else {
 			#cat("step2_grp_lyr_aes_var", nm," \n")
 			
@@ -255,8 +323,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord) {
-				l = update_l(o = o, l = l, v = v, mfun = mfun)
-				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun)
+				l = update_l(o = o, l = l, v = v, mfun = mfun, unm = unm, active = TRUE)
+				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
 				f = s$FUN
