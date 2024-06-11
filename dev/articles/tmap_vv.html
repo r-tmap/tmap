@@ -84,7 +84,7 @@
                         <h4 data-toc-skip class="author">Martijn
 Tennekes</h4>
             
-            <h4 data-toc-skip class="date">2024-06-10</h4>
+            <h4 data-toc-skip class="date">2024-06-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/vignettes/tmap_vv.Rmd" class="external-link"><code>vignettes/tmap_vv.Rmd</code></a></small>
       <div class="d-none name"><code>tmap_vv.Rmd</code></div>
@@ -327,16 +327,6 @@ variable.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## &lt;====================  meta.auto.margins ===============&gt;</span></span>
-<span><span class="co">## [1] 0.4 0.4 0.4 0.4</span></span>
-<span><span class="co">## &lt;/============================================&gt;</span></span>
-<span><span class="co">## Index: &lt;stack_auto&gt;</span></span>
-<span><span class="co">##    by1__ by2__ by3__                              comp  class cell.h cell.v</span></span>
-<span><span class="co">##    &lt;num&gt; &lt;int&gt; &lt;int&gt;                            &lt;list&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span></span>
-<span><span class="co">## 1:     1    NA    NA &lt;tm_legend_standard_portrait[80]&gt;    out  right center</span></span>
-<span><span class="co">##     pos.h  pos.v     z facet_row facet_col stack_auto    stack      legW  legH</span></span>
-<span><span class="co">##    &lt;char&gt; &lt;char&gt; &lt;int&gt;    &lt;char&gt;    &lt;char&gt;     &lt;lgcl&gt;   &lt;char&gt;     &lt;num&gt; &lt;num&gt;</span></span>
-<span><span class="co">## 1:   left    top     1      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 0.8031999 2.073</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-4-1.png" width="864"></p>
 <p>In this example, life expectancy per country is shown, or to put it
 more precisely: the <em>data variable</em> life expectancy is mapped to
@@ -358,19 +348,9 @@ visual values. In this example data values are put into 5 year intervals
 and a sequential discrete blue scale is used to show these. With the
 <code>tm_scale_*()</code> family of functions, users are free to create
 other scales.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-carto.earth"</span><span class="op">)</span>, fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Life\nExpectancy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## &lt;====================  meta.auto.margins ===============&gt;</span></span>
-<span><span class="co">## [1] 0.4 0.4 0.4 0.4</span></span>
-<span><span class="co">## &lt;/============================================&gt;</span></span>
-<span><span class="co">## Index: &lt;stack_auto&gt;</span></span>
-<span><span class="co">##    by1__ by2__ by3__                              comp  class cell.h cell.v</span></span>
-<span><span class="co">##    &lt;num&gt; &lt;int&gt; &lt;int&gt;                            &lt;list&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span></span>
-<span><span class="co">## 1:     1    NA    NA &lt;tm_legend_standard_portrait[82]&gt;    out  right center</span></span>
-<span><span class="co">##     pos.h  pos.v     z facet_row facet_col stack_auto    stack      legW  legH</span></span>
-<span><span class="co">##    &lt;char&gt; &lt;char&gt; &lt;int&gt;    &lt;char&gt;    &lt;char&gt;     &lt;lgcl&gt;   &lt;char&gt;     &lt;num&gt; &lt;num&gt;</span></span>
-<span><span class="co">## 1:   left    top     1      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 0.9824427  3.81</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-6-1.png" width="864"></p>
 <p>This map uses a continuous color scale with colors from CARTO. More
 on scales later.</p>
@@ -381,23 +361,13 @@ on scales later.</p>
 </h2>
 <p>Besides visual variables, map layer may use spatial transformation
 variables.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cartogram"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="fl">8857</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, fill <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required namespace: cartogram</span></span></code></pre>
 <pre><code><span><span class="co">## Cartogram in progress...</span></span></code></pre>
-<pre><code><span><span class="co">## &lt;====================  meta.auto.margins ===============&gt;</span></span>
-<span><span class="co">## [1] 0.4 0.4 0.4 0.4</span></span>
-<span><span class="co">## &lt;/============================================&gt;</span></span>
-<span><span class="co">## Index: &lt;stack_auto&gt;</span></span>
-<span><span class="co">##    by1__ by2__ by3__                              comp  class cell.h cell.v</span></span>
-<span><span class="co">##    &lt;num&gt; &lt;int&gt; &lt;int&gt;                            &lt;list&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span></span>
-<span><span class="co">## 1:     1    NA    NA &lt;tm_legend_standard_portrait[81]&gt;    out  right center</span></span>
-<span><span class="co">##     pos.h  pos.v     z facet_row facet_col stack_auto    stack     legW  legH</span></span>
-<span><span class="co">##    &lt;char&gt; &lt;char&gt; &lt;int&gt;    &lt;char&gt;    &lt;char&gt;     &lt;lgcl&gt;   &lt;char&gt;    &lt;num&gt; &lt;num&gt;</span></span>
-<span><span class="co">## 1:   left    top     1      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 1.828021 1.289</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-7-1.png" width="864"></p>
 <p>We used two variables: <code>size</code> to deform the polygons using
 a continuous cartogram and <code>fill</code> to color the polygons. The
@@ -423,14 +393,14 @@ algorithm is able to achieve).</p>
 with one of the <code>tm_scale_</code> functions. To illustrate the
 different options, we show life expectancy across Africa, which we round
 in order to use the categorical scales as well.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span><span class="va">Africa</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">Africa</span><span class="op">$</span><span class="va">life_exp</span><span class="op">)</span></span></code></pre></div>
 <p>Like <strong>tmap 3.x</strong>, it is possible to create facets by
 specifying multiple data variable names and scales to one visual (or
 transformation) variable, in this case <code>"fill"</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"life_exp"</span>, <span class="fl">6</span><span class="op">)</span>, </span>
 <span>                fill.scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -494,26 +464,14 @@ palette. However, if for instance the same scale is applied to line
 width, then values should be numeric values that represent line
 widths.</p>
 <p>This is illustrated in the following example:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"scico.roma"</span>, value.na <span class="op">=</span> <span class="st">"grey95"</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">45</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"HPI"</span>, size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>, value.na <span class="op">=</span> <span class="fl">0.1</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">45</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"grey30"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## &lt;====================  meta.auto.margins ===============&gt;</span></span>
-<span><span class="co">## [1] 0.4 0.4 0.4 0.4</span></span>
-<span><span class="co">## &lt;/============================================&gt;</span></span>
-<span><span class="co">## Index: &lt;stack_auto&gt;</span></span>
-<span><span class="co">##    by1__ by2__ by3__                              comp  class cell.h cell.v</span></span>
-<span><span class="co">##    &lt;int&gt; &lt;int&gt; &lt;int&gt;                            &lt;list&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span></span>
-<span><span class="co">## 1:     1    NA    NA &lt;tm_legend_standard_portrait[80]&gt;    out  right center</span></span>
-<span><span class="co">## 2:     1    NA    NA &lt;tm_legend_standard_portrait[80]&gt;    out  right center</span></span>
-<span><span class="co">##     pos.h  pos.v     z facet_row facet_col stack_auto    stack      legW  legH</span></span>
-<span><span class="co">##    &lt;char&gt; &lt;char&gt; &lt;int&gt;    &lt;char&gt;    &lt;char&gt;     &lt;lgcl&gt;   &lt;char&gt;     &lt;num&gt; &lt;num&gt;</span></span>
-<span><span class="co">## 1:   left    top     1      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 0.8031999 1.093</span></span>
-<span><span class="co">## 2:   left    top     2      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 0.7951999 1.015</span></span></code></pre>
 <p><img src="tmap_vv_files/figure-html/unnamed-chunk-11-1.png" width="864"></p>
 <p>The defaults for those <code>value.*</code> arguments are stored in
 the <strong>tmap</strong> options. For instance</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span><span class="st">"values.var"</span><span class="op">)</span><span class="op">$</span><span class="va">values.var</span><span class="op">$</span><span class="va">fill</span></span></code></pre></div>
 <pre><code><span><span class="co">## $seq</span></span>
 <span><span class="co">## [1] "hcl.blues3"</span></span>

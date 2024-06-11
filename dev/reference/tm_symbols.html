@@ -421,20 +421,28 @@ For small multiples, a list of these shape specification(s) should be provided.<
 <span class="r-in"><span>           <span class="op">)</span>,</span></span>
 <span class="r-in"><span>         shape.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, options <span class="op">=</span> <span class="fu"><a href="tm_text.html">opt_tm_labels</a></span><span class="op">(</span>remove.overlap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  meta.auto.margins ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4 0.4 0.4 0.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Index: &lt;stack_auto&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    by1__ by2__ by3__                              comp  class cell.h cell.v</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;num&gt; &lt;int&gt; &lt;int&gt;                            &lt;list&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1    NA    NA &lt;tm_legend_standard_portrait[81]&gt;    out  right center</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     pos.h  pos.v     z facet_row facet_col stack_auto    stack     legW</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt; &lt;char&gt; &lt;int&gt;    &lt;char&gt;    &lt;char&gt;     &lt;lgcl&gt;   &lt;char&gt;    &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   left    top     1      &lt;NA&gt;      &lt;NA&gt;       TRUE vertical 1.548736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        legH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2.123388</span>
-<span class="r-plt img"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in !legs_aes$legend[[k]]$active:</span> invalid argument type</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## to do: replace this example:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">airports</span> <span class="op">&lt;-</span> <span class="fu">ne_download</span><span class="op">(</span>scale<span class="op">=</span><span class="fl">10</span>, type<span class="op">=</span><span class="st">"airports"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">airplane</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_icons.html">tmap_icons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"img/airplane.png"</span>, package <span class="op">=</span> <span class="st">"tmap"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">airports</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu">tm_symbols</span><span class="op">(</span>shape<span class="op">=</span><span class="va">airplane</span>, size<span class="op">=</span><span class="st">"natlscale"</span>,</span></span>
+<span class="r-in"><span>             legend.size.show <span class="op">=</span> <span class="cn">FALSE</span>, scale<span class="op">=</span><span class="fl">1</span>, border.col <span class="op">=</span> <span class="cn">NULL</span>, id<span class="op">=</span><span class="st">"name"</span>, popup.vars <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="co">#tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">########################</span></span></span>
 <span class="r-in"><span><span class="co">## plot symbol shapes</span></span></span>
@@ -454,7 +462,7 @@ For small multiples, a list of these shape specification(s) should be provided.<
 <span class="r-in"><span>         col <span class="op">=</span> <span class="st">"black"</span>,</span></span>
 <span class="r-in"><span>         shape.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-2.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in !legs_aes$legend[[k]]$active:</span> invalid argument type</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># also supported in view mode :-)</span></span></span>
 </code></pre></div>
