@@ -7,7 +7,8 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 				  vneutral = NA,
 				  na.show = NA,
 				  scale = "AsIs",
-				  show = FALSE)
+				  show = FALSE,
+				  active = FALSE)
 	
 	x1h = head(x1, 100)
 	check_values(layer, aes, x1h)
