@@ -36,6 +36,11 @@ tmapVars = function(x) {
 	structure(x, class = cls)
 }
 
+#' @param x x
+#' @export
+#' @name tmapUsrCls
+#' @rdname tmap_internal
+#' @keywords internal
 tmapUsrCls = function(x) {
 	structure(x, class = "tmapUsrCls")
 }
@@ -155,6 +160,16 @@ data_class = function(x, check_for_color_class = FALSE) {
 }
 
 
+#' @param aes aes
+#' @param value value
+#' @param scale scale
+#' @param legend legend
+#' @param chart chart
+#' @param free free
+#' @export
+#' @name tmapScale
+#' @rdname tmap_internal
+#' @keywords internal
 tmapScale = function(aes, value, scale, legend, chart, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
 }

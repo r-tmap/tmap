@@ -67,10 +67,16 @@ get_midpoint_angle = function(shp) {
 	list(shp = sf::st_geometry(pShp), angles = angles)
 }
 
-# args:
-# - points.only: "yes", "no", "ifany"
-# 
-# prop_ vectors, e.g. prop_angle can be added to shpTM. These are later put into dt (and used in step 4 (plotting))
+#' @param shpTM shpTM
+#' @param xmod,ymod xmod and ymod
+#' @param ord__ ord
+#' @param plot.order plot.order
+#' @param args args
+#' @param scale scale
+#' @export
+#' @name tmapTransCentroid
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -131,16 +137,26 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 		}
 	})
 }
+# args:
+# - points.only: "yes", "no", "ifany"
+# 
+# prop_ vectors, e.g. prop_angle can be added to shpTM. These are later put into dt (and used in step 4 (plotting))
 
 
+#' @export
+#' @name tmapTransRaster
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object (of class dimensions) expected for tm_raster", call. = FALSE)
 	shpTM
 }
 
 
-# args:
-# - polygons.only: "yes", "no", "ifany"
+#' @export
+#' @name tmapTransPolygons
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -189,9 +205,13 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 		}
 	})
 }
-
 # args:
-# - lines.only: "yes", "no", "ifany"
+# - polygons.only: "yes", "no", "ifany"
+
+#' @export
+#' @name tmapTransLines
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -237,7 +257,13 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 		}
 	})
 }
+# args:
+# - lines.only: "yes", "no", "ifany"
 
+#' @export
+#' @name tmapTransCartogram
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	s = shpTM$shp
 	

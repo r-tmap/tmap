@@ -1,3 +1,9 @@
+#' @param fill,col,shape,size,fill_alpha,col_alpha,lty,lwd,linejoin,lineend visual variables
+#' @param ... args
+#' @export
+#' @name tmapGpar
+#' @rdname tmap_internal
+#' @keywords internal
 tmapGpar = function(fill = NULL,
 					col = NULL,
 					shape = NULL,
@@ -14,6 +20,10 @@ tmapGpar = function(fill = NULL,
 	structure(args, class = "tmapGpar")
 }
 
+#' @export
+#' @name tmapTpar
+#' @rdname tmap_internal
+#' @keywords internal
 tmapTpar = function(...) {
 	args = c(as.list(environment()), list(...))
 	structure(args, class = "tmapTpar")
