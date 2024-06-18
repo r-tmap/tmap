@@ -84,7 +84,6 @@ make_equal_list = function(x) {
 
 
 tmapLeaflet_legend = function(cmp, lf, o, orientation) {
-
 	group = "tmp" # TODO
 	leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
 	layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo

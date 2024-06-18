@@ -189,7 +189,8 @@ tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	if (k == 2) {
 		sc = "bivariate"
 	} else if (k > 2) {
-		sc = "composition"
+		stop("No default scale for multivariate variables", call. = FALSE)
+		#sc = "composition"
 	} else if (cls[1] == "asis") {
 		sc = "asis"	
 	} else if (attr(cls, "unique") && !(sc_opt == "asis")) {
