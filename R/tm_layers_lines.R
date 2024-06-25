@@ -48,8 +48,7 @@ opt_tm_lines = function(lines.only = "ifany") {
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param popup.vars names of data variables that are shown in the popups in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the shape object. Set popup.vars to `FALSE` to disable popups. Set popup.vars to a character vector of variable names to those those variables in the popups. The default (`NA`) depends on whether visual variables (e.g.`col`) are used. If so, only those are shown. If not all variables in the shape object are shown.
 #' @param popup.format list of formatting options for the popup values. See the argument `legend.format` for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of `popup.vars`. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
-#' @param hover name of the data variable that specifies the hover labels
-#' 
+#' @param hover name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,
 #' @param id name of the data variable that specifies the indices of the spatial features. Only used for `"view"` mode.
 #' @param lines.only should only line geometries of the shape object (defined in [tm_shape()]) be plotted, or also other geometry types (like polygons)? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @param ... to catch deprecated arguments from version < 4.0
@@ -83,7 +82,7 @@ tm_lines = function(col = tm_const(),
 					group.control = "check",
 					popup.vars = NA,
 					popup.format = list(),
-					hover = "",
+					hover = NA,
 					id = "",
 					options = opt_tm_lines(),
 					...) {

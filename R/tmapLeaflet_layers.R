@@ -12,8 +12,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		popups = NULL
 	} else {
 		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
-		
-		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 	
 	
@@ -72,7 +71,7 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 		popups = NULL
 	} else {
 		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
-		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 	
 	gp = impute_gp(gp, dt)
@@ -111,7 +110,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	} else {
 		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
 	
-		popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 	
 	gp = impute_gp(gp, dt)

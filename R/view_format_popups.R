@@ -21,7 +21,6 @@ view_format_popups <- function(id=NULL, titles, format, values) {
 			function(x) x
 		}	
 	})
-	
 	if (!is.null(id)) {
 		labels <- paste("<b>", h[[1]](id), "</b>", sep="")
 	} else {

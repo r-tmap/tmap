@@ -41,21 +41,6 @@
 # 	gpl$data[[gpl[[var_names]]]]
 # }
 
-get_popups <- function(gpl, type) {
-	var_names <- paste(type, "names", sep=".")
-	var_vars <- paste(type, "popup.vars", sep=".")
-	var_format <- paste(type, "popup.format", sep=".")
-	
-	dt <- gpl$data
-	
-	if (is.na(gpl[[var_vars]][1])) {
-		popups <- NULL
-	} else {
-		popups <- view_format_popups(dt[[gpl[[var_names]]]], gpl[[var_vars]], gpl[[var_format]], dt[, gpl[[var_vars]], drop=FALSE])
-	}
-	popups
-}
-
 # 
 # working_internet <- function(url = "https://www.google.com") {
 # 	# test the http capabilities of the current R build

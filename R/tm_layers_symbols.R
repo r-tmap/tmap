@@ -102,8 +102,7 @@ opt_tm_squares = opt_tm_symbols
 #'   variables. If one list of formatting options is provided, it is applied to
 #'   all numeric variables of `popup.vars`. Also, a (named) list of lists can be provided.
 #'   In that case, each list of formatting options is applied to the named variable.
-#' @param hover name of the data variable that specifies the hover labels
-#' 
+#' @param hover name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,
 #' @param id name of the data variable that specifies the indices of the spatial features.
 #'   Only used for `"view"` mode.
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified. 
@@ -161,7 +160,7 @@ tm_symbols = function(size = tm_const(),
 					  group.control = "check",
 					  popup.vars = NA,
 					  popup.format = list(),
-					  hover = "",
+					  hover = NA,
 					  id = "",
 					  options = opt_tm_symbols(),
 					  ...) {
