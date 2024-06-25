@@ -88,7 +88,7 @@ step2_data = function(tm) {
 			} else {
 				copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
 			}
-			hover.data = if (tml$hover == "") {
+			hover.data = if (tml$hover == "" || is.na(tml$hover)) {
 				NULL
 			} else {
 				as.character(dt[[tml$hover]])
