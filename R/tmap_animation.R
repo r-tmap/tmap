@@ -35,7 +35,6 @@
 #' @concept animation
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
-#' @importFrom utils browseURL
 #' @export
 tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = NA, delay = 40, fps = NA, loop = TRUE, outer.margins = NA, asp = NULL, scale = NA, restart.delay = NULL, ...) {
 	.tmapOptions <- get("tmapOptions", envir = .TMAP)

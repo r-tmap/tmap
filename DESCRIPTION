@@ -21,7 +21,6 @@ License: GPL-3
 URL: https://github.com/r-tmap/tmap, https://r-tmap.github.io/tmap/
 BugReports: https://github.com/r-tmap/tmap/issues
 Depends:
-    methods,
     R (>= 3.6.0)
 Imports:
     classInt (>= 0.4-3),
@@ -35,13 +34,13 @@ Imports:
     leaflegend,
     leaflet (>= 2.0.2),
     leafsync,
+    methods,
     rlang,
     sf (>= 0.9-3),
     stars (>= 0.4-2),
     stats,
     tmaptools (>= 3.1),
     units (>= 0.6-1),
-    utils,
     widgetframe
 Suggests:
     av,
