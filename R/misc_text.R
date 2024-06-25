@@ -58,9 +58,9 @@ text_height_npc = function(txt, to_width = FALSE) {
 
 text_height_inch = function(txt, to_width = FALSE) {
 	if (to_width) {
-		convertWidth(convertHeight(stringHeight(txt), "inch"), "inch", TRUE)
+		grid::convertWidth(grid::convertHeight(stringHeight(txt), "inch"), "inch", TRUE)
 	} else {
-		convertHeight(stringHeight(txt), "inch", TRUE)
+		grid::convertHeight(stringHeight(txt), "inch", TRUE)
 	}
 }
 
@@ -74,24 +74,24 @@ split_legend_labels = function(txt, brks) {
 
 is.ena = function(x) {
 	if (is.expression(x)) {
-		rep(FALSE, length(x))
+		rep_len(FALSE, length(x))
 	} else is.na(x)
 }
 
 
-nonempty_text <- function(txt) {
+nonempty_text = function(txt) {
 	if (is.character(txt)) {
-		txt!=""
-	} else rep(TRUE, length(txt))
+		nzchar(txt)
+	} else rep_len(TRUE, length(txt))
 }
 
-number_text_lines <- function(txt) {
+number_text_lines = function(txt) {
 	if (is.character(txt)) {
 		length(strsplit(txt, "\n")[[1]])
 	} else 1
 }
 
-expr_to_char <- function(txt) {
+expr_to_char = function(txt) {
 	if (is.character(txt)) {
 		txt
 	} else {
@@ -99,6 +99,6 @@ expr_to_char <- function(txt) {
 	}
 }
 
-is_num_string <- function(x) {
+is_num_string = function(x) {
 	suppressWarnings(!is.na(as.numeric(x)))
 }

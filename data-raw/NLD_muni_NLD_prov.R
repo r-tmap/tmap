@@ -87,11 +87,11 @@ library(sf)
 data(NLD_muni)
 data(NLD_prov)
 
-NLD_muni <- as(NLD_muni, "sf")
-NLD_prov <- as(NLD_prov, "sf")
+NLD_muni <- methods::as(NLD_muni, "sf")
+NLD_prov <- methods::as(NLD_prov, "sf")
 
-NLD_muni <- st_transform(NLD_muni, crs = 28992)
-NLD_prov <- st_transform(NLD_prov, crs = 28992)
+NLD_muni <- sf::st_transform(NLD_muni, crs = 28992)
+NLD_prov <- sf::st_transform(NLD_prov, crs = 28992)
 
 save(NLD_muni, file="data/NLD_muni.rda", compress="xz")
 save(NLD_prov, file="data/NLD_prov.rda", compress="xz")

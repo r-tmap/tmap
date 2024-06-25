@@ -171,7 +171,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		}
 		
 		if (args$remove.overlap) {
-			im = st_intersects(s, sparse = FALSE)
+			im = sf::st_intersects(s, sparse = FALSE)
 			sel = rep(TRUE, length(s))
 			rs = rowSums(im)
 			while(any(rs>1)) {

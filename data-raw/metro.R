@@ -82,7 +82,7 @@ save(metro, file="./data/metro.rda", compress="xz")
 # convert to sf (version 2.0)
 library(sf)
 data(metro)
-metro <- as(metro, "sf")
+metro <- methods::as(metro, "sf")
 save(metro, file="./data/metro.rda", compress="xz")
 
 

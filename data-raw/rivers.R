@@ -21,7 +21,7 @@ rivers$name <- iconv(
 )
 x <- grep("I_WAS_NOT_ASCII", iconv(levels(rivers$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
 
-rivers = st_set_crs(rivers, 4326)
+rivers = sf::st_set_crs(rivers, 4326)
 
 rivers = rivers %>% 
 	filter(!is.na(type)) 

@@ -38,7 +38,7 @@ m4 <- tm_shape(World) +
 tm_shape(metro) +
 	tm_bubbles(col = "red") +
 	tm_text("name", ymod = -1) +
-tm_facets(by = "name", free.coords = F, nrow = 1, ncol = 1) +
+tm_facets(by = "name", free.coords = FALSE, nrow = 1, ncol = 1) +
 	tm_layout(panel.show = FALSE, frame = FALSE)
 
 tmap_animation(m4, filename = "World_cities.mp4", 

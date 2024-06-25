@@ -395,7 +395,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 				while(prod(fn_lim) > n_lim) {
 					fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L
 				}
-				d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3<= fn_lim[3]]
+				d = d[by1<= fn_lim[1] & by2<= fn_lim[2] & by3 <= fn_lim[3]]
 				o$fl = mapply(function(a, b) a[1:b], o$fl, fn_lim, SIMPLIFY = FALSE)
 				o$fn = fn_lim
 				o$n = n_lim
@@ -403,7 +403,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		}
 		
 		d[, bbox:=lapply(bbox, FUN = function(bbx) {
-			if (!is.na(bbx) && !is.na(longlat) && longlat && !st_is_longlat(bbx)) {
+			if (!is.na(bbx) && !is.na(longlat) && longlat && !sf::st_is_longlat(bbx)) {
 				sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
 			} else {
 				bbx

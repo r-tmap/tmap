@@ -53,9 +53,8 @@ tm_shape(land) +
 ########################
 
 # create grid of 25 points in the Atlantic
-library(sf)
 atlantic_grid = cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25))
-x = st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
+x = sf::st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
 
 tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
 	tm_symbols(shape = "id",

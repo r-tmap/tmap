@@ -110,7 +110,7 @@ get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin"
 
 
 # st_is_merc = function(x) {
-# 	crs = st_crs(x)
+# 	crs = sf::st_crs(x)
 # 	if (is.na(crs)) { 
 # 		NA
 # 	} else {
@@ -119,7 +119,7 @@ get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin"
 # }
 
 get_xy_dim = function(x) {
-	d = st_dimensions(x)
+	d = stars::st_dimensions(x)
 	dxy = attr(d, "raster")$dimensions
 	dim(x)[dxy]
 }
@@ -144,10 +144,10 @@ transwarp = function(x, crs, raster.warp) {
 
 has_rotate_or_shear = function (x) 
 {
-	dimensions = st_dimensions(x)
+	dimensions = stars::st_dimensions(x)
 	if (has_raster(x)) {
 		r = attr(dimensions, "raster")
-		!any(is.na(r$affine)) && any(r$affine != 0)
+		!anyNA(r$affine) && any(r$affine != 0)
 	}
 	else FALSE
 }

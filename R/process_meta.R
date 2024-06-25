@@ -255,7 +255,7 @@ process_meta = function(o, d, cdt, aux) {
 				
 				if (grid.labels.show[2]) {
 					gridy = pretty30(bbx[c(2,4)], n = 5, longlat = !is.na(o$grid.crs) && sf::st_is_longlat(proj))
-					ybbstringWin <- max(
+					ybbstringWin = max(
 						convertWidth(
 							stringWidth(do.call("fancy_breaks", c(
 								list(vec=gridy, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)

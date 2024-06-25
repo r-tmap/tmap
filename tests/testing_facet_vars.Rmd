@@ -46,16 +46,16 @@ World$economy_int[1:100] = NA
 landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
 
-tif_stars = system.file("tif/L7_ETMs.tif", package = "stars") %>% read_stars()
-tif_terra = system.file("tif/L7_ETMs.tif", package = "stars") %>% rast()
+tif_stars = system.file("tif/L7_ETMs.tif", package = "stars") %>% stars::read_stars()
+tif_terra = system.file("tif/L7_ETMs.tif", package = "stars") %>% terra::rast()
 
-prec = read_ncdf(system.file("nc/test_stageiv_xyt.nc", package = "stars"), curvilinear = c("lon", "lat"), ignore_bounds = TRUE)
+prec = stars::read_ncdf(system.file("nc/test_stageiv_xyt.nc", package = "stars"), curvilinear = c("lon", "lat"), ignore_bounds = TRUE)
 nc = sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf"), "nc.gpkg") %>%
-	st_transform(st_crs(prec))
+	sf::st_transform(sf::st_crs(prec))
 prec_nc = aggregate(prec, by = nc, FUN = max)
 
-weather = read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
-weather1 = st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
+weather = stars::read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
+weather1 = stars::st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
 weather2 = split(weather1, 'time')
 
 
@@ -229,9 +229,9 @@ tm_shape(weather22) +
 
 
 ```{r}
-tm_shape(World) + tm_polygons("pop_est", fill.free = F) + tm_facets("continent")
-tm_shape(World) + tm_polygons("pop_est", fill.free = T) + tm_facets("continent")
-tm_shape(World) + tm_polygons("pop_est", fill.free = T) + tm_facets("continent", nrows = 1)
+tm_shape(World) + tm_polygons("pop_est", fill.free = FALSE) + tm_facets("continent")
+tm_shape(World) + tm_polygons("pop_est", fill.free = TRUE) + tm_facets("continent")
+tm_shape(World) + tm_polygons("pop_est", fill.free = TRUE) + tm_facets("continent", nrows = 1)
 ```
 
 

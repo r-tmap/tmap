@@ -88,8 +88,8 @@ qtm <- function(shp,
 				zindex = NA,
 				group = NA,
 				group.control = "check",
-				style=NULL,
-				format=NULL,
+				style = NULL,
+				format = NULL,
 				...) {
 	
 	args <- c(as.list(environment()), list(...))
@@ -117,11 +117,11 @@ qtm <- function(shp,
 	show.warnings = tmapOptions$show.warnings
 	
 	if (missing(shp) || is.character(shp)) {
-		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		if (!missing(shp)) viewargs$bbox <- shp
-		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
-		attr(g, "qtm_shortcut") <- TRUE
-		class(g) <- "tmap"
+		viewargs = args[intersect(names(args), names(formals(tm_view)))]
+		if (!missing(shp)) viewargs$bbox = shp
+		g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
+		attr(g, "qtm_shortcut") = TRUE
+		class(g) = "tmap"
 		return(g)
 	}
 	
@@ -199,6 +199,6 @@ qtm <- function(shp,
 	
 	
 	assign("last_map_new", match.call(), envir = .TMAP)
-	attr(g, "qtm_shortcut") <- FALSE
+	attr(g, "qtm_shortcut") = FALSE
 	g
 }

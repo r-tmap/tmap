@@ -228,37 +228,37 @@ tm_shape(metro) +
 	tm_facets_wrap(by = "pop2020_class")
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(), fill.free = F, size.free = T) +
+	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(), fill.free = FALSE, size.free = TRUE) +
 	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
-	tm_symbols(size = "pop2010", size.free = T, size.scale = tm_scale_intervals()) +
+	tm_symbols(size = "pop2010", size.free = TRUE, size.scale = tm_scale_intervals()) +
 	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals()) +
+	tm_symbols(fill = "pop2010", fill.free = TRUE, fill.scale = tm_scale_intervals()) +
 	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals(as.count = TRUE)) +
+	tm_symbols(fill = "pop2010", fill.free = TRUE, fill.scale = tm_scale_intervals(as.count = TRUE)) +
 	tm_facets_wrap(by = "pop2020_class")
 
 
 
 tm_shape(World) +
-	tm_polygons("HPI2", fill.scale = tm_scale_intervals(as.count = T, n = 15))
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(as.count = TRUE, n = 15))
 
 tm_shape(World) +
 	tm_polygons("HPI3", fill.scale = tm_scale_discrete(ticks = 12:50, values = "RdYlBu"))
 
 tm_shape(World) +
-	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = T))
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = TRUE))
 
 tm_shape(World) +
-	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = T), fill.legend = tm_legend(position = tm_lp_out("right", "center"))) +
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = TRUE), fill.legend = tm_legend(position = tm_lp_out("right", "center"))) +
 	tm_options(meta.auto.margins = 0.1)
 
 
@@ -342,7 +342,7 @@ tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
-land_terra = rast(as(land, "Raster"))
+land_terra = terra::rast(methods::as(land, "Raster"))
 
 tm_shape(land) +
 	tm_raster("trees")
@@ -423,9 +423,9 @@ library(sf)
 library(raster)
 library(terra)
 library(stars)
-r<- raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100))
-st_crs(r)
-st_crs(rast(r))
+r = raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100))
+sf::st_crs(r)
+sf::st_crs(terra::rast(r))
 
 
 
