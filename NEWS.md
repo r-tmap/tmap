@@ -6,17 +6,6 @@
 
 * In view mode, `hover` is now independent from `id` (#851).
 
-```r
-tmap_mode("view")
-# v3
-tm_shape(World) +
-  tm_polygons(id = "footprint")
-  
-# v4
-tm_shape(World) +
-  tm_polygons(id = "footprint", hover = "footprint")
-```
-
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
 - fixed bug (some stars appeared upside down in plot mode)
