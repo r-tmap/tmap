@@ -15,7 +15,7 @@
   ...
 )
 
-knit_print.tmap(x, ..., options = NULL)
+\method{knit_print}{tmap}(x, ..., options = NULL)
 }
 \arguments{
 \item{x}{tmap object.}
