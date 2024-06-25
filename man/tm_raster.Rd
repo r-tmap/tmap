@@ -6,7 +6,7 @@
 \alias{opt_tm_rgb}
 \title{Map layer: raster}
 \usage{
-opt_tm_raster(interpolate = TRUE)
+opt_tm_raster(interpolate = FALSE)
 
 tm_raster(
   col = tm_shape_vars(),
