@@ -142,7 +142,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
 <span>  popup.vars <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  hover <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  hover <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_symbols</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -346,7 +346,7 @@ In that case, each list of formatting options is applied to the named variable.<
 
 
 <dt>hover</dt>
-<dd><p>name of the data variable that specifies the hover labels</p></dd>
+<dd><p>name of the data variable that specifies the hover labels (view mode only). Set to <code>FALSE</code> to disable hover labels. By default <code>FALSE</code>, unless <code>id</code> is specified. In that case, it is set to <code>id</code>,</p></dd>
 
 
 <dt>id</dt>
