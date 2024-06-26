@@ -185,6 +185,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			icon_scale = icon_scale
 			na.show = get("na.show", envir = parent.env(environment()))
 			scale = "categorical"
+			layer_args = layer_args
 		})
 		
 

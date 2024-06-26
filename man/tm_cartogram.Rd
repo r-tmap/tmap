@@ -63,7 +63,7 @@ numeric data variables. If one list of formatting options is provided,
 it is applied to all numeric variables of \code{popup.vars}. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options
 is applied to the named variable.}
-    \item{\code{hover}}{name of the data variable that specifies the hover labels}
+    \item{\code{hover}}{name of the data variable that specifies the hover labels (view mode only). Set to \code{FALSE} to disable hover labels. By default \code{FALSE}, unless \code{id} is specified. In that case, it is set to \code{id},}
     \item{\code{id}}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
   }}

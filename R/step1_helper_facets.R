@@ -189,6 +189,13 @@ step1_rearrange_facets = function(tmo, o) {
 				}
 				if (length(popup.vars)) add_used_vars(popup.vars)
 
+				
+				if (is.na(hover)) {
+					hover = id
+				} else if (is.logical(hover)) {
+					hover = ifelse(hover, id, "")
+				}
+				
 				if (hover != "" && !hover %in% smeta$vars) rlang::arg_match0(hover, smeta$vars, "hover label", error_call = NULL)
 				if (hover != "") add_used_vars(hover)
 				if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)

@@ -49,7 +49,8 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	# for the latter two, there are 3 ways of stretching the legend: padding (space between items), items (heights of all items), or itemsNNA (heights of non-NA items)
 
 	if (comp$type == "symbols") {
-		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev))
+		shps = rep(comp$gpar$shape, length.out = nlev)
+		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1))
 		comp$stretch = if (!is.na(comp$height)) "padding" else "none"	
 	} else if (comp$type %in% c("rect", "lines", "bivariate")) {
 		item_heights = rep(height, nlev)
@@ -150,7 +151,10 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	
 	width = get_legend_option(comp$item.width, comp$type)
 	
-	item_widths = if (comp$type == "symbols") pmax(width, rep(comp$gpar$size / textS, length.out = comp$nitems)) else rep(width, length.out = ni)
+	item_widths = if (comp$type == "symbols") {
+		shps = rep(comp$gpar$shape, length.out = comp$nitems)
+		pmax(width, rep(comp$gpar$size / textS, length.out = comp$nitems) * ifelse(shps > 999, comp$layer_args$icon.scale, 1))
+	} else rep(width, length.out = ni)
 	
 	
 	if (comp$type == "bivariate") {
@@ -522,18 +526,14 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		
 		shapeLib = get("shapeLib", envir = .TMAP)
 		justLib = get("justLib", envir = .TMAP)
-		
+#browser()		
 		grItems = mapply(function(id, gpari, gpari1, gpari2) {
 			grobs = if (gpari$shape > 999) {
-				grbs = if (gpari$lwd == 0) {
-					gList(shapeLib[[gpari$shape-999]])	
-				} else {
-					gList(shapeLib[[gpari$shape-999]], rectGrob(gp=gpar(fill=NA, col=gpari$col, lwd=gpari$lwd)))	
-				}
+				grbs = gList(shapeLib[[gpari$shape-999]])	
 				grid::gTree(children=grbs, vp=viewport(x=0.5, 
 												 y=0.5,
-												 width=unit(gpari$size*2/3, "lines"),
-												 height=unit(gpari$size*2/3, "lines")))
+												 width=unit(gpari$size*9/10 * comp$layer_args$icon.scale, "lines"),
+												 height=unit(gpari$size*9/10 * comp$layer_args$icon.scale, "lines")))
 			} else {
 				if (diffAlpha) {
 					grid::grobTree(

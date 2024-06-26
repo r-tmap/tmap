@@ -326,6 +326,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			scale = "continuous"
 			tr = tr
 			limits = limits
+			layer_args = layer_args
 		})
 		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
 		#vvalues_mids = sapply(cont_split(vvalues), "[", nvv/2)

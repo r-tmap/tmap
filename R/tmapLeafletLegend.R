@@ -182,14 +182,15 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		if (length(sid)) {
 			iconLib <- get("shapeLib", envir = .TMAP)[sn[sid]-999]
 			symbols_icons <- merge_icons(iconLib)
-			size = gp2$width[sid] / gp2$baseSize
+			
+			size = gp2$width[sid] / gp2$baseSize * cmp$layer_args$icon.scale/3
 			
 			for (i in seq_along(sid)) {
 				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]
 				symbols$iconWidth[sid[i]] <- symbols_icons$iconWidth[i] * size[i]
 				symbols$iconHeight[sid[i]] <- symbols_icons$iconHeight[i] * size[i]
 				if (all(c("iconAnchorX", "iconAnchorY") %in% names(symbols_icons))) {
-					symbols$iconAnchorX[sid[i]] <- symbols_icons$iconAnchorX[i] * size[i]
+					symbols$iconAnchorX[sid[i]] <- symbols_icons$iconAnchorX[i] * size[i] 
 					symbols$iconAnchorY[sid[i]] <- symbols_icons$iconAnchorY[i] * size[i]
 					
 				}
