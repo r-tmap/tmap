@@ -1,21 +1,21 @@
-process_label_format <- function(lf, mlf) {
+process_label_format = function(lf, mlf) {
 	
 
-	to_be_assigned <- setdiff(names(mlf), names(lf))
-	big.num.abbr.set <- "big.num.abbr" %in% names(lf)
-	lf[to_be_assigned] <- mlf[to_be_assigned]
-	attr(lf, "big.num.abbr.set") <- big.num.abbr.set
+	to_be_assigned = setdiff(names(mlf), names(lf))
+	big.num.abbr.set = "big.num.abbr" %in% names(lf)
+	lf[to_be_assigned] = mlf[to_be_assigned]
+	attr(lf, "big.num.abbr.set") = big.num.abbr.set
 	lf
 }
 
-# process_popup_format <- function(gpf, gtlf, vars, show.warnings) {
+# process_popup_format = function(gpf, gtlf, vars, show.warnings) {
 # 	# check if g$legend.format is list of lists or functions
-# 	islist <- is.list(gpf) && length(gpf)>0 && is.list(gpf[[1]])
+# 	islist = is.list(gpf) && length(gpf)>0 && is.list(gpf[[1]])
 # 	
 # 	if (!islist) {
 # 		process_legend_format(gpf, gtlf, nx=1)
 # 	} else {
-# 		nms <- names(gpf)
+# 		nms = names(gpf)
 # 		if (is.na(vars[1])) {
 # 			if (show.warnings) warning("popup.vars not specified whereas popup.format is a list", call. = FALSE)
 # 			return(process_legend_format(gpf[[1]], gtlf, nx=1))

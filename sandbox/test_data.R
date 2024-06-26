@@ -11,16 +11,16 @@ data(metro, package = "tmap")
 data(rivers, package = "tmap")
 
 prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
-(prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
+(prec = stars::read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
 sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf"), "nc.gpkg") %>%
-	st_transform(st_crs(prec)) -> nc # transform from NAD27 to WGS84
+	sf::st_transform(sf::st_crs(prec)) -> nc # transform from NAD27 to WGS84
 prec_nc = aggregate(prec, by = nc, FUN = max)
 
-tif = system.file("tif/L7_ETMs.tif", package = "stars") %>% read_stars()
+tif = system.file("tif/L7_ETMs.tif", package = "stars") %>% stars::read_stars()
 tif2 = c(tif,tif, along = 'testdim')
 
-weather = read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
-weather1 = st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
+weather = stars::read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
+weather1 = stars::st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
 weather2 = split(weather1, 'time')
 
 #install.packages("starsdata", repos = "http://pebesma.staff.ifgi.de", type = "source")
@@ -28,7 +28,7 @@ weather2 = split(weather1, 'time')
 granule = system.file("sentinel/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.zip", package = "starsdata")
 s2 = paste0("SENTINEL2_L1C:/vsizip/", granule, "/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.SAFE/MTD_MSIL1C.xml:10m:EPSG_32632")
 #gran = read_stars(s2, proxy = FALSE)
-gran_p = read_stars(s2, proxy = TRUE)
+gran_p = stars::read_stars(s2, proxy = TRUE)
 
 rm(granule, s2)
 gc()
@@ -41,12 +41,12 @@ landsat_stars2 = split(landsat_stars)
 
 lux <- vect(system.file("ex/lux.shp", package="terra"))
 
-land_terra = rast(as(land, "Raster"))
+land_terra = terra::rast(methods::as(land, "Raster"))
 ls_stars =  landsat_stars[,,,1,drop=TRUE]
-ls_terra = rast(as(ls_stars, "Raster"))
+ls_terra = terra::rast(methods::as(ls_stars, "Raster"))
 names(ls_stars) = "layer"
 la_stars = land[3]
-la_terra = rast(as(la_stars, 'Raster'))
+la_terra = terra::rast(methods::as(la_stars, 'Raster'))
 names(la_terra) = "trees"
 
 

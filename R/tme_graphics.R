@@ -17,8 +17,8 @@
 # 		sf::st_as_grob(geoms, gp = gp)
 # 	},
 # 	symbols = function(x, size, col, shape, alpha, border.col, border.lwd, border.lty) {
-# 		geoms <- st_centroid(sf::st_geometry(x))
-# 		co = st_coordinates(geoms)
+# 		geoms = sf::st_centroid(sf::st_geometry(x))
+# 		co = sf::st_coordinates(geoms)
 # 		gp = gpar(fill=col, col=border.col, lwd=border.lwd, lty=border.lty)
 # 		
 # 		pointsGrob(x=co[,1], y = co[,2],
@@ -42,7 +42,7 @@
 # 
 # t_polygon = function(x, col, alpha, border.col, border.lwd, border.lty) {
 # 	
-# 	geoms <- st_geometry(x)
+# 	geoms = sf::st_geometry(x)
 # 	
 # 	gp=gpar(fill=col, col=border.col, lwd=border.lwd, lty=border.lty)
 # 	

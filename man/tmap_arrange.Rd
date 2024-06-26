@@ -17,7 +17,7 @@ tmap_arrange(
   outer.margins = 0.02
 )
 
-knit_print.tmap_arrange(x, ..., options = NULL)
+\method{knit_print}{tmap_arrange}(x, ..., options = NULL)
 
 \method{print}{tmap_arrange}(x, knit = FALSE, ..., options = NULL)
 }

@@ -18,7 +18,7 @@ select_sf = function(shpTM, dt) {
 	}
 	sid = match(d$tid, stid)
 	
-	shpSel = shp[sid] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	shpSel = shp[sid] #sf::st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
 	
 	# assign prop_ vectors to data dt (to be used in plotting) e.g. prop_angle is determined in tmapTransCentroid when along.lines = TRUE
 	prop_vars = names(shpTM)[substr(names(shpTM), 1, 5) == "prop_"]
@@ -232,32 +232,32 @@ without_units = function(x) {
 }
 
 
-get_midpoint <- function (coords) {
-	dist <- sqrt((diff(coords[, 1])^2 + (diff(coords[, 2]))^2))
-	dist_mid <- sum(dist)/2
-	dist_cum <- c(0, cumsum(dist))
-	end_index <- which(dist_cum > dist_mid)[1]
-	start_index <- end_index - 1
-	start <- coords[start_index, ]
-	end <- coords[end_index, ]
-	dist_remaining <- dist_mid - dist_cum[start_index]
+get_midpoint = function (coords) {
+	dist = sqrt((diff(coords[, 1])^2 + (diff(coords[, 2]))^2))
+	dist_mid = sum(dist)/2
+	dist_cum = c(0, cumsum(dist))
+	end_index = which(dist_cum > dist_mid)[1]
+	start_index = end_index - 1
+	start = coords[start_index, ]
+	end = coords[end_index, ]
+	dist_remaining = dist_mid - dist_cum[start_index]
 	start + (end - start) * (dist_remaining/dist[start_index])
 	
 }
 
 # copied from tmap3, may need updating
-process_just <- function(just, interactive) {
-	show.messages <- get("tmapOptions", envir = .TMAP)$show.messages
-	show.warnings <- get("tmapOptions", envir = .TMAP)$show.warnings
+process_just = function(just, interactive) {
+	show.messages = get("tmapOptions", envir = .TMAP)$show.messages
+	show.warnings = get("tmapOptions", envir = .TMAP)$show.warnings
 	
-	n <- length(just)
-	isnum <- is_num_string(just)
+	n = length(just)
+	isnum = is_num_string(just)
 	
 	if (!all(isnum | (just %in% c("left", "right", "top", "bottom", "center", "centre"))) && show.warnings) {
 		warning("wrong specification of argument just", call. = FALSE)
 	}
 	
-	just[just == "centre"] <- "center"
+	just[just == "centre"] = "center"
 	
 	if (interactive) {
 		just <- just[1]
@@ -273,15 +273,15 @@ process_just <- function(just, interactive) {
 		if (n > 2 && show.warnings) warning("The just argument should be a single value or a vector of 2 values.", call. = FALSE)
 		if (n == 1) {
 			if (just %in% c("top", "bottom")) {
-				just <- c("center", just)
-				isnum <- c(FALSE, isnum)
+				just = c("center", just)
+				isnum = c(FALSE, isnum)
 			} else {
-				just <- c(just, "center")
-				isnum <- c(isnum, FALSE)
+				just = c(just, "center")
+				isnum = c(isnum, FALSE)
 			}
 		}
 		
-		x <- ifelse(isnum[1], as.numeric(just[1]),
+		x = ifelse(isnum[1], as.numeric(just[1]),
 					ifelse(just[1] == "left", 0,
 						   ifelse(just[1] == "right", 1,
 						   	   ifelse(just[1] == "center", .5, NA))))
@@ -310,30 +310,30 @@ process_just <- function(just, interactive) {
 
 ################!!!!! Functions below needed for Advanced text options !!!!####################
 
-.grob2Poly <- function(g) {
-	x <- convertX(g$x, unitTo = "native", valueOnly = TRUE)
-	y <- convertY(g$y, unitTo = "native", valueOnly = TRUE)
+.grob2Poly = function(g) {
+	x = convertX(g$x, unitTo = "native", valueOnly = TRUE)
+	y = convertY(g$y, unitTo = "native", valueOnly = TRUE)
 	if (inherits(g, "rect")) {
-		w <- convertWidth(g$width, unitTo = "native", valueOnly = TRUE)
-		h <- convertHeight(g$height, unitTo = "native", valueOnly = TRUE)
-		x1 <- x - .5*w
-		x2 <- x + .5*w
-		y1 <- y - .5*h
-		y2 <- y + .5*h
-		polys <- mapply(function(X1, X2, Y1, Y2) {
-			st_polygon(list(cbind(c(X1, X2, X2, X1, X1),
+		w = convertWidth(g$width, unitTo = "native", valueOnly = TRUE)
+		h = convertHeight(g$height, unitTo = "native", valueOnly = TRUE)
+		x1 = x - .5*w
+		x2 = x + .5*w
+		y1 = y - .5*h
+		y2 = y + .5*h
+		polys = mapply(function(X1, X2, Y1, Y2) {
+			sf::st_polygon(list(cbind(c(X1, X2, X2, X1, X1),
 								  c(Y2, Y2, Y1, Y1, Y2))))
-		}, x1, x2, y1, y2, SIMPLIFY=FALSE)
-		st_union(st_sfc(polys))
+		}, x1, x2, y1, y2, SIMPLIFY = FALSE)
+		sf::st_union(sf::st_sfc(polys))
 	} else if (inherits(g, "polygon")) {
-		xs <- split(x, g$id)
-		ys <- split(y, g$id)
+		xs = split(x, g$id)
+		ys = split(y, g$id)
 		
-		polys <- mapply(function(xi, yi) {
-			co <- cbind(xi, yi)
-			st_polygon(list(rbind(co, co[1,])))
+		polys = mapply(function(xi, yi) {
+			co = cbind(xi, yi)
+			sf::st_polygon(list(rbind(co, co[1,])))
 		}, xs, ys, SIMPLIFY = FALSE)
-		st_union(st_sfc(polys))
+		sf::st_union(sf::st_sfc(polys))
 	} # else return(NULL)
 	
 }
@@ -344,9 +344,9 @@ polylineGrob2sfLines <- function(gL) {
 	} else {
 		ids = gL$id
 	}
-	coords <- mapply(cbind, split(as.numeric(gL$x), ids), split(as.numeric(gL$y), ids), SIMPLIFY = FALSE)
+	coords = mapply(cbind, split(as.numeric(gL$x), ids), split(as.numeric(gL$y), ids), SIMPLIFY = FALSE)
 	
-	st_sf(geometry = st_sfc(st_multilinestring(coords)))
+	sf::st_sf(geometry = sf::st_sfc(sf::st_multilinestring(coords)))
 }
 
 npc_to_native <- function(x, scale) {

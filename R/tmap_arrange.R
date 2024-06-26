@@ -48,12 +48,7 @@ tmap_arrange <- function(..., ncol = NA, nrow = NA, widths = NA, heights = NA, s
 }
 
 #' @rdname tmap_arrange
-#' @rawNamespace
-#' if(getRversion() >= "3.6.0") {
-#'   S3method(knitr::knit_print, tmap_arrange)
-#' } else {
-#'   export(knit_print.tmap_arrange)
-#' }
+#' @exportS3Method knitr::knit_print
 knit_print.tmap_arrange <- function(x, ..., options = NULL) {
 	print_tmap_arrange(x, knit=TRUE, ..., options = options)
 }

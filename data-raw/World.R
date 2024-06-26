@@ -7,13 +7,13 @@ library(dplyr)
 
 ## STEP 1 Download main shape
 W <- ne_countries(returnclass = "sf")
-all(st_is_valid(W))
+all(sf::st_is_valid(W))
 
 
 ## STEP 2 Download detailed shape to extract area size (these areas will be used as fallback source. The main source of area sizes is the World Bank (see STEP 5 below)
 W_detail <- ne_countries(returnclass = "sf", scale = 10)
-W_detail_GallPeters <- st_transform(W_detail, crs = 3410)
-W_detail_GallPeters$area <- st_area(W_detail_GallPeters)
+W_detail_GallPeters <- sf::st_transform(W_detail, crs = 3410)
+W_detail_GallPeters$area <- sf::st_area(W_detail_GallPeters)
 W$area_from_shp <- units::set_units(W_detail_GallPeters$area[match(W$name_long, W_detail_GallPeters$name_long)], km^2)
 
 
@@ -107,7 +107,7 @@ tmap_arrange(tm1, tm2, sync = TRUE)
 ## Tidy up
 
 W4 <- W3 %>% 
-	select(iso_a3, name, sovereignt, continent, area, pop_est, pop_est_dens, economy, income_grp, gdp_cap_est, life_exp, well_being, footprint, inequality, HPI, geometry) %>% 
+	dplyr::select(iso_a3, name, sovereignt, continent, area, pop_est, pop_est_dens, economy, income_grp, gdp_cap_est, life_exp, well_being, footprint, inequality, HPI, geometry) %>% 
 	mutate(iso_a3 = factor(iso_a3),
 		   name = factor(name),
 		   sovereignt = factor(sovereignt),
@@ -115,9 +115,9 @@ W4 <- W3 %>%
 		   economy = factor(economy),
 		   income_grp = factor(income_grp))
 
-World <- st_transform(W4, crs = "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0")
-World <- st_make_valid(World)
+World <- sf::st_transform(W4, crs = "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0")
+World <- sf::st_make_valid(World)
 
-all(st_is_valid(World))
+all(sf::st_is_valid(World))
 
 save(World, file="data/World.rda", compress="xz")

@@ -106,10 +106,10 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	#dt = data.table::melt(dt, id.vars = "tmapID__", variable.name = "layer", value.name = "value")
 	
 	xy_dim = dim(shp)[1:2]
-	b = st_bbox(shp)
+	b = sf::st_bbox(shp)
 	
 	
-	crs = st_crs(shp)
+	crs = sf::st_crs(shp)
 	
 	
 	shp = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1], delta = (b[3] - b[1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
@@ -234,7 +234,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 			dimcols = dimnms_new[-dimid] # columns names, used for default facetting
 			dimvls = lapply(dimcols, function(d) stars::st_get_dimension_values(shp, d))		
 			shpnames = names(shp)
-			shp = stars::st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
+			shp = stars::st_set_dimensions(shp, dimnms[dimid], values = seq_along(geoms))
 			shp = stars::st_set_dimensions(shp, names = dimnms_new)
 		}
 		
@@ -245,7 +245,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		} else {
 			shp = geoms
 		}
-		shpTM = shapeTM(shp = shp, tmapID = 1L:length(shp), bbox = bbox)
+		shpTM = shapeTM(shp = shp, tmapID = seq_along(shp), bbox = bbox)
 		
 		
 		shpclass = "sfc"
@@ -339,13 +339,13 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 		sfc = sf::st_zm(sfc)
 	}
 	
-	dt = as.data.table(sf::st_drop_geometry(shp))
+	dt = data.table::as.data.table(sf::st_drop_geometry(shp))
 	
 	dtcols = copy(names(dt))
 	
 	#if (is.null(bbox)) bbox = sf::st_bbox(sfc)
 	
-	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
+	if (is.null(filter)) filter = rep_len(TRUE, nrow(dt))
 	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
 
 	make_by_vars(dt, tmf, smeta)

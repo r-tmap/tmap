@@ -52,20 +52,20 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_grid(labels.inside.frame = F) +
+	tm_grid(labels.inside.frame = FALSE) +
 	tm_layout(meta.margins = c(0, 0, 0, .6)) +
 	tm_scalebar(width = 10,
 		position = tm_pos_out())
 
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_grid(labels.inside.frame = F) +
+	tm_grid(labels.inside.frame = FALSE) +
 	tm_scalebar(breaks = c(0,10,20,100), width = 1,
 		position = tm_pos_in())
 
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_grid(labels.inside.frame = T) +
+	tm_grid(labels.inside.frame = TRUE) +
 	tm_scalebar(breaks = c(0,50,100,250),
 				position = tm_pos_in())
 
@@ -74,11 +74,11 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_grid(labels.inside.frame = F) +
+	tm_grid(labels.inside.frame = FALSE) +
 	tm_scalebar(position = tm_pos_out(), width = 1)
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_grid(labels.inside.frame = F) +
+	tm_grid(labels.inside.frame = FALSE) +
 	tm_scalebar(position = tm_pos_in())
 
 tm_shape(World) +
@@ -176,9 +176,9 @@ osf_retrieve_node("xykzv") |>
 
 lc = rast("testdata/land_cover.tif")
 cameroon = ne_countries(country = "Cameroon", returnclass = "sf") |>
-	st_transform(crs = st_crs(lc))
+	sf::st_transform(crs = sf::st_crs(lc))
 
-lc_cameroon = crop(lc, cameroon, mask = TRUE)
+lc_cameroon = terra::crop(lc, cameroon, mask = TRUE)
 
 lc_palette_df = read.csv("testdata/lc_palette.csv")
 coltb = lc_palette_df[c("value", "color")]
@@ -304,15 +304,15 @@ reprex::reprex({
 library(stars)
 library(mapview)
 m = matrix(1:20, 4)
-s0 = st_as_stars(m)
+s0 = stars::st_as_stars(m)
 s = s0
-st_crs(s) <- 4326
-st_crs(s0) <- 4326
-st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
+sf::st_crs(s) <- 4326
+sf::st_crs(s0) <- 4326
+stars::st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
 
 
 
-s0_4326 = st_transform(s0, crs = 4326)
+s0_4326 = sf::st_transform(s0, crs = 4326)
 
 stars:::is_curvilinear(s0)
 stars:::is_curvilinear(s0_4326)
@@ -324,7 +324,7 @@ s0_4326
 
 
 
-d = st_dimensions(s0)
+d = sf::st_dimensions(s0)
 has_raster(s0) && isTRUE(attr(s0, "raster")$curvilinear)
 
 
@@ -412,18 +412,18 @@ library(mapview)
 #m = matrix(1:4, 2)
 m = matrix(c(3,4,1,2), 2)
 
-s0 = st_as_stars(m)
+s0 = stars::st_as_stars(m)
 s = s0
-st_crs(s) <- 4326
-st_crs(s0) <- 4326
+sf::st_crs(s) <- 4326
+sf::st_crs(s0) <- 4326
 
-st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
+stars::st_geotransform(s0) <- c(5, 1.5, 0.2, 0, 0.2, 1.5)
 
 
 tm_shape(s, crs = 3857)  + tm_raster()
 tm_shape(s0, crs = 3857)  + tm_raster()
 
-tm_shape(s)  + tm_raster()
+tm_shape(s) + tm_raster()
 #tm_shape(s0)  + tm_raster()
 
 mapview::mapview(s)
@@ -472,7 +472,7 @@ levels(landr)
 terra::levels(land)
 
 
-lc2 = terra::spatSample(lc, 1e5, method = "regular", as.raster = T)
+lc2 = terra::spatSample(lc, 1e5, method = "regular", as.raster = TRUE)
 
 tm_shape(lc2) + tm_raster("land_cover") + tm_facets("land_cover")
 tm_shape(lc) + tm_raster("land_cover") + tm_facets("land_cover")

@@ -41,7 +41,8 @@ tm_shape(land) +
 		tm_shape(NLD_prov, crs = 4326) + tm_polygons() + 
 		tm_shape(airports) +
 			tm_symbols(shape=airplane, size="natlscale",
-					   legend.size.show = FALSE, scale=1, border.col = NULL, id="name", popup.vars = TRUE)
+					   legend.size.show = FALSE, scale=1, border.col = NULL,
+					   id="name", popup.vars = TRUE)
 			#tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
 		tmap_mode(current.mode)
 	}
@@ -52,9 +53,8 @@ tm_shape(land) +
 ########################
 
 # create grid of 25 points in the Atlantic
-library(sf)
 atlantic_grid = cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25))
-x = st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
+x = sf::st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
 
 tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
 	tm_symbols(shape = "id",

@@ -27,7 +27,7 @@ tmapGridInit2(o)
 gts = get("gts", envir = .TMAP_GRID)
 g = get("g", envir = .TMAP_GRID)
 
-bbx = st_bbox(World)
+bbx = sf::st_bbox(World)
 
 
 g$fasp

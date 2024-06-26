@@ -55,7 +55,7 @@ tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom = 
 		subclass = c("tm_tiles", "tm_aux_layer")))
 }
 
-#' @import leaflet
+#' @importFrom leaflet providers
 #' @export
 leaflet::providers
 

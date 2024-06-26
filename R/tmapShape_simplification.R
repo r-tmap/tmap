@@ -1,15 +1,15 @@
-downsample_stars <- function(x, max.raster) {
+downsample_stars = function(x, max.raster) {
 	k = length(dim(x))
-	xy_dim <- get_xy_dim(x)
+	xy_dim = get_xy_dim(x)
 	
 	fact = round(sqrt(prod(xy_dim) / max.raster) - 1)
 	
-	n <- dim(x)
+	n = dim(x)
 	n[] = 0L
-	n[names(xy_dim)] <- fact
+	n[names(xy_dim)] = fact
 	
 	if (inherits(x, "stars_proxy") || (fact > 0)) {
-		y = st_downsample(x, n)
+		y = stars::st_downsample(x, n)
 		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells.")
 	} else {
 		y = x

@@ -37,32 +37,32 @@ delta_per_lineheight = function(x, n = 20, scale = 1) {
 get_midpoint_angle = function(shp) {
 	lShp = sf::st_cast(shp, "MULTILINESTRING")
 	
-	coor <- st_coordinates(lShp)
-	coors <- split.data.frame(coor[,1:2], f = coor[,ncol(coor)], drop=FALSE)
-	co <- do.call(rbind, lapply(coors, get_midpoint))
+	coor = sf::st_coordinates(lShp)
+	coors = split.data.frame(coor[,1:2], f = coor[, ncol(coor)], drop=FALSE)
+	co = do.call(rbind, lapply(coors, get_midpoint))
 	pShp = sf::st_as_sf(as.data.frame(co), coords = c("X", "Y"), crs = sf::st_crs(shp))
 	
 	bbx = sf::st_bbox(shp)
-	deltax <- bbx[3] - bbx[1]
-	deltay <- bbx[4] - bbx[2]
-	delta <- max(deltax, deltay)
+	deltax = bbx[3] - bbx[1]
+	deltay = bbx[4] - bbx[2]
+	delta = max(deltax, deltay)
 	
-	pbShp <- st_cast(st_geometry(st_buffer(pShp, dist = delta / 100)), "MULTILINESTRING")
+	pbShp = sf::st_cast(sf::st_geometry(sf::st_buffer(pShp, dist = delta / 100)), "MULTILINESTRING")
 	
 	iShps <- mapply(function(x,y,z) {
-		res = st_intersection(x,y)
-		if (!st_is_empty(res)) {
-			st_cast(res, "MULTIPOINT")
+		res = sf::st_intersection(x,y)
+		if (!sf::st_is_empty(res)) {
+			sf::st_cast(res, "MULTIPOINT")
 		} else {
 			z
 		}
 	}, lShp, pbShp,pShp)
 	
 	angles = vapply(iShps, function(x) {
-		if (length(x) == 0) 0 else .get_direction_angle(st_coordinates(x)[,1:2, drop = FALSE])
+		if (length(x) == 0) 0 else .get_direction_angle(sf::st_coordinates(x)[,1:2, drop = FALSE])
 	}, numeric(1))
 	
-	angles[angles>90 & angles < 270] = angles[angles>90 & angles < 270] - 180
+	angles[angles > 90 & angles < 270] = angles[angles > 90 & angles < 270] - 180
 	
 	list(shp = sf::st_geometry(pShp), angles = angles)
 }
@@ -84,11 +84,11 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			### stars
 			
 			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
-			strs = st_as_stars(list(values = m), dimensions = shp)
+			strs = stars::st_as_stars(list(values = m), dimensions = shp)
 			shp = sf::st_as_sfc(s, as_points = TRUE)
 		} else if (is_stars) {
-			shp = st_sfc()
-			tmapID = integer(0)
+			shp = sf::st_sfc()
+			tmapID = integer(0L)
 		} else {
 			geom_types = sf::st_geometry_type(shp)
 			
@@ -165,7 +165,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
 			shp = sf::st_as_sfc(s, as_points = FALSE)
 		} else if (is_stars) {
-			shp = st_sfc()
+			shp = sf::st_sfc()
 			tmapID = integer(0)
 		} else {
 			
@@ -199,7 +199,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 		}
 		
 		if (plot.order$aes == "AREA" && !is_stars) {
-			o = order(without_units(st_area(shp)), decreasing = !plot.order$reverse)
+			o = order(without_units(sf::st_area(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
 			tmapID = tmapID[o]
 		}
@@ -216,7 +216,7 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
 		if (is_stars) {
-			shp = st_sfc()
+			shp = sf::st_sfc()
 			tmapID = integer(0)
 		} else {
 			
@@ -251,7 +251,7 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 		}
 		
 		if (plot.order$aes == "LENGTH") {
-			o = order(without_units(st_length(shp)), decreasing = !plot.order$reverse)
+			o = order(without_units(sf::st_length(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
 			tmapID = tmapID[o]
 		}

@@ -59,7 +59,7 @@ save(land, file="./data/land.rda", compress="xz")
 
 
 # convert to raster
-#land <- st_as_stars(land)
+#land <- stars::st_as_stars(land)
 #save(land, file="./data/land.rda", compress="xz")
 
 
