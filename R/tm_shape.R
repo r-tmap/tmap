@@ -13,8 +13,8 @@
 #' @param filter Filter features
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @import tmaptools
-#' @import sf
-#' @import stars
+#' @importFrom sf st_geometry st_sf st_as_sf st_transform st_crs
+#' @importFrom stars st_dimensions st_get_dimension_values st_as_stars st_set_dimensions st_warp
 #' @import units
 #' @import grid
 #' @import cols4all

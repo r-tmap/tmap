@@ -71,12 +71,13 @@ if (requireNamespace("maptiles")) {
 	tm_basemap("OpenTopoMap") +
 		tm_shape(World) + 
 		tm_polygons(fill = NA, col = "black")
-
+	
+	\dontrun{
 	tm_basemap("CartoDB.PositronNoLabels") +
 	tm_shape(NLD_prov, crs = 4236) +
 		tm_borders() +
 		tm_facets_wrap("name") +
 		tm_tiles("CartoDB.PositronOnlyLabels")
-	
+	}
 }
 }
