@@ -75,6 +75,8 @@ tmapScaleBivariate = function(x1, x2, scale, legend, chart, o, aes, layer, layer
 		legend$vvalues = pal
 		legend$vneutral = pal[4]
 		legend$na.show = na
+		legend$layer_args = layer_args
+
 		
 		
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))

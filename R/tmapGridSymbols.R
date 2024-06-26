@@ -72,13 +72,9 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 				
 
 				if (!is.na(shi) && shi>999) {
-					size = gp$size[i]*2/3 * args$icon.scale
+					size = gp$size[i]*9/10 * args$icon.scale
 					lwdid = if (length(gp$lwd) == 1L) 1 else i
-					grbs <- if (gp$lwd[lwdid] == 0) {
-						gList(shapeLib[[shi-999]])	
-					} else {
-						gList(shapeLib[[shi-999]], rectGrob(gp=gpar(fill=NA, col=gp$col[i], lwd=gp$lwd[lwdid])))	
-					}
+					grbs <- gList(shapeLib[[shi-999]])	
 					gTree(children=grbs, vp=viewport(x=grid::unit(coords[i,1] + justx * size, "native"), 
 													 y=grid::unit(coords[i,2] + justy * size, "native"),
 													 width=unit(size, "lines"),

@@ -30,7 +30,10 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	
 	height = get_legend_option(comp$item.height, comp$type)
 	
-	item_height = if (comp$type == "symbols") max(height, comp$gpar$size / textS) else height
+	item_height = if (comp$type == "symbols") {
+		shps = rep(comp$gpar$shape, length.out = nlev)
+		max(height, rep(comp$gpar$size, length.out = nlev) / textS * ifelse(shps > 999, comp$layer_args$icon.scale, 1))
+	} else height
 	itemHsIn = grid::unit(item_height * textS * o$lin, units = "inch")
 	
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
@@ -76,7 +79,8 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	# for the latter two, there are 3 ways of stretching the legend: padding (space between items), items (widths of all items), or itemsNNA (widths of non-NA items)
 	
 	if (comp$type == "symbols") {
-		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev), labelW)
+		shps = rep(comp$gpar$shape, length.out = nlev)
+		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1), labelW)
 		comp$stretch = if (!is.na(comp$width)) "padding" else "none"	
 	} else if (comp$type %in% c("rect", "lines")) {
 		item_widths = pmax(rep(width, nlev), labelW)
@@ -327,8 +331,19 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		grItems = mapply(function(id, gpari) gridCell(6, id, grid::linesGrob(x = grid::unit(c(0.5,0.5), "npc"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 	} else if (comp$type == "symbols") {
-		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+		shps = rep(comp$gpar$shape, length.out = comp$nitems)
+		
+		
+	#	* ifelse(shps > 999, comp$layer_args$icon.scale, 1)
+		
+		
+		if (length(gp$size) == 1) {
+			gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		} else {
+			shps = rep(gp$shape, length.out = nlev)
+			gp$size = rep(gp$size, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1)
+		}
 		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
@@ -356,8 +371,8 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 				}
 				grid::gTree(children=grbs, vp=viewport(x=0.5, 
 													   y=0.5,
-													   width=unit(gpari$size*2/3, "lines"),
-													   height=unit(gpari$size*2/3, "lines")))
+													   width=unit(gpari$size*9/10, "lines"),
+													   height=unit(gpari$size*9/10, "lines")))
 			} else {
 				if (diffAlpha) {
 					grid::grobTree(

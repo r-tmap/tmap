@@ -186,6 +186,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
 			scale = "intervals"
+			layer_args = layer_args
 		})
 		
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
