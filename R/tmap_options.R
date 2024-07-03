@@ -44,7 +44,7 @@ tmapMode = function(id, name, ...) {
 		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
 		
 		# spatial object class specific options
-		raster.max.cells = 1e6, # was max.raster
+		raster.max.cells = 1e7, # was max.raster
 		
 		# general
 		show.messages = TRUE,
@@ -992,9 +992,8 @@ get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 # 	o
 # }
 
-tmap_graphics_name = function() {
-	mode = getOption("tmap.mode")
-	
+tmap_graphics_name = function(mode) {
+	if (missing(mode)) mode = getOption("tmap.mode")
 	get("tmapOptions", envir = .TMAP)$modes[[mode]]$name
 }
 

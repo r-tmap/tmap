@@ -1,3 +1,32 @@
+submit_labels = function(labels, cls, pane, group) {
+	
+	layerIds <- get("layerIds", envir = .TMAP_LEAFLET)
+	
+	
+	types <- attr(layerIds, "types")
+	groups <- attr(layerIds, "groups")
+	
+	labels_all <- unlist(layerIds, use.names = FALSE)
+	
+	pos <- length(labels_all)
+	
+	labels_all <- make.names(c(labels_all, labels), unique = TRUE)
+	
+	labels <- labels_all[(pos + 1): length(labels_all)]	
+	
+	labelsList <- list(labels)
+	names(labelsList) <- pane
+	
+	layerIds <- c(layerIds, labelsList)
+	
+	#layerIds[[cls]] <- labels_all
+	
+	attr(layerIds, "types") <- c(types, cls)
+	attr(layerIds, "groups") <- c(types, group)
+	
+	assign("layerIds", layerIds, envir = .TMAP_LEAFLET)
+	labels
+}
 
 tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -20,6 +49,9 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	gp = rescale_gp(gp, o$scale_down)
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	
+	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "polygons", pane, group)
+
 	
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)

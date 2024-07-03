@@ -5,9 +5,10 @@ step2_data = function(tm) {
 	o = tm$o
 	aux = tm$aux
 	cmp = tm$cmp
+	prx = tm$prx
 	
 	if (is.null(tmo)) {
-		return(	list(tmo = NULL, aux = aux, cmp = cmp, o = o))
+		return(	list(tmo = NULL, aux = aux, cmp = cmp, prx = prx, o = o))
 	}
 	
 	groupnames = paste0("group", seq_along(tmo))
@@ -173,5 +174,5 @@ step2_data = function(tm) {
 		}
 	})
 
-	list(tmo = grps, aux = aux, cmp = cmp, o = o)
+	list(tmo = grps, aux = aux, cmp = cmp, prx = prx, o = o)
 }

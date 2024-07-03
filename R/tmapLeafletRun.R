@@ -1,4 +1,4 @@
-tmapLeafletRun = function(o, show, knit, args) {
+tmapLeafletRun = function(o, q, show, knit, args) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	
 	lfs2 = lapply(lfs, function(lfsi) {
@@ -20,7 +20,7 @@ tmapLeafletRun = function(o, show, knit, args) {
 			#print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE, between = list(x = marg, y = marg)))))
 			do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE)))
 		}
-		if (o$pc$sepia.intensity != 0) {
+		if (o$pc$sepia.intensity != 0 && !.TMAP$in.shiny) {
 			col = process_color("#ffffff", sepia.intensity = o$pc$sepia.intensity)
 			htmlwidgets::prependContent(x, htmltools::tags$style(paste0(
 				".leaflet-control-layers {background: ", col, ";}
@@ -33,7 +33,7 @@ tmapLeafletRun = function(o, show, knit, args) {
 	})
 	
 	if (length(lfs2) == 1) lfs2 = lfs2[[1]]
-	if (show && !knit) {
+	if (show && !knit && !.TMAP$in.shiny) {
 		print(lfs2)
 	}
 	lfs2
