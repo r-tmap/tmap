@@ -1,0 +1,16 @@
+url: https://r-tmap.github.io/tmap/
+
+home: 
+  links:
+  - text: tmap v4 docs
+    href: https://r-tmap.github.io/tmap/dev/
+  - text: tmap v4 in Geocomputation with R
+    href: https://r.geocompx.org/adv-map
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#5f8640"
+
+development:
+  mode: auto
