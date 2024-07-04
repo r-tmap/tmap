@@ -6,3 +6,4 @@ template:
 
 development:
   mode: auto
+  version_tooltip: "tmap v4 documentation"
