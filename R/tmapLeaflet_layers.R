@@ -59,7 +59,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
 		lf %>% 
-			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>% 
+			leafgl::addGlPolygons(data = shp3, layerId = idt, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf %>% 

@@ -28,7 +28,7 @@ if (interactive() && require("shiny")) {
 		server <- function(input, output, session) {
 			output$map <- renderTmap({
 				tm_shape(World[1:3,]) +
-					tm_polygons(world_vars[1], zindex = 500)
+					tm_polygons(world_vars[1], zindex = 401)
 			})
 			observe({
 				var <- input$var

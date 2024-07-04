@@ -14,6 +14,8 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	.TMAP$in.shiny = in.shiny
 	.TMAP$proxy = proxy
 	
+	# view mode will use panes, in principle one for each layer. They start at 400, unless shiny proxy is used
+
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
 	x2 = step1_rearrange(x)

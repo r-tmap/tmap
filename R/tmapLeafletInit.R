@@ -8,7 +8,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 		per_page[o$npages] = per_page[o$npages] - (k - o$n)
 	}
 
-	proxy = !is.null(lf)
+	#proxy = !is.null(lf)
 	proxy2 = (length(prx) > 0)
 	
 	# leaflet options
@@ -24,30 +24,32 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 	leaflet_opts$attributionControl = TRUE
 	
 	
-	if (proxy && ("q" %in% ls(envir = .TMAP))) {
-		q = get("q", envir = .TMAP)
-		start_pane_id = 401 + max(q$lid2)
-	} else {
-		start_pane_id = 401
+
+	if (!.TMAP$proxy) {
+		.TMAP_LEAFLET$layerIds = list()
 	}
-	layerIds = list()
-	
-	if (proxy && ("layerIdsNew" %in% ls(envir = .TMAP_LEAFLET))) {
-		layerIds = get("layerIdsNew", envir = .TMAP_LEAFLET)
-	} else {
-		layerIds = list()
-	}
+
 	
 	lfs = lapply(per_page, function(p) {
 		lapply(seq_len(p), function(i) {
-			if (!proxy) {
+			if (!.TMAP$proxy) {
 				lf = leaflet::leaflet(options = leaflet_opts)
-			} 
+			}
 			
-			# if (proxy2) {
-			# 	leaflet::removeShape(lf, "tmap004")
-			# }
-			
+			if (proxy2) {
+				for (px in prx) {
+					z = px$zindex
+					L = .TMAP_LEAFLET$layerIds
+					id = which(names(L) == pane_name(z))[1]
+					if (!is.na(id)) {
+						tp = attr(L, "types")[id]
+						if (tp %in% c("polygons")) {
+							lf = leaflet::removeShape(lf, unname(L[[id]]))			
+						}
+					}
+				}
+			}
+
 			if (!.TMAP$in.shiny) {
 				appendContent(lf, {
 					tags$head(
@@ -60,10 +62,8 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 		})
 	})
 	
-	.TMAP$start_pane_id = start_pane_id
-    .TMAP_LEAFLET$layerIds = list()
+    #.TMAP_LEAFLET$layerIds = layerIds
 	
-	.TMAP_LEAFLET$proxy = proxy
 	.TMAP_LEAFLET$lfs = lfs
 	.TMAP_LEAFLET$nrow = o$nrows
 	.TMAP_LEAFLET$ncol = o$ncols

@@ -25,13 +25,27 @@ step1_rearrange = function(tmel) {
 	
 	if (any(is_proxy)) {
 		prx = tmel[is_proxy]
+		proxy_z = lapply(prx, function(px) px$zindex)
 	} else {
 		prx = list()
+		proxy_z = numeric(0)
 	}
 	
-	
-	
-	
+	# remove layers from q (via tm_remove_layer)
+	# and determine highest pane number (400 default)
+	if (.TMAP$proxy) {
+		q = .TMAP$q
+		q = q[!(q$lid %in% proxy_z), ]
+		.TMAP$q = q
+		if (any(q$lid != 0)) {
+			.TMAP$start_pane_id = max(q$lid)
+		} else {
+			.TMAP$start_pane_id = 400
+		}
+	} else {
+		.TMAP$start_pane_id = 400
+	}
+
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	ids = cumsum(is_tms)
 	ids[is_other] = 0L
@@ -107,7 +121,7 @@ step1_rearrange = function(tmel) {
 			
 			# extract layers and add layer id number
 			tmls = mapply(function(l, i) {
-				l$lid = if (is.na(l$zindex)) i + 400L else l$zindex
+				l$lid = if (is.na(l$zindex)) i + .TMAP$start_pane_id else l$zindex
 				l
 			}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
 			
@@ -181,7 +195,7 @@ step1_rearrange = function(tmel) {
 	if (any(is_aux)) {
 		
 		aux = mapply(function(l, i) {
-			l$lid = if (is.na(l$zindex)) i + 400L else l$zindex
+			l$lid = if (is.na(l$zindex)) i + .TMAP$start_pane_id else l$zindex
 			
 			cls = class(l)[1]
 			ot = get_prefix_opt(class = cls, o = o)
