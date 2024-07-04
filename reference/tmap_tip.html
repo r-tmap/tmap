@@ -82,10 +82,14 @@
 <span class="r-plt img"><img src="tmap_tip-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="st">"3.0"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Search for multiple locations directly with qtm. It uses tmaptools::geocode_OSM. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 3.1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 3.0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> qtm(c("Paris", "Amsterdam", "Berlin", "London")) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data(World)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tm_shape(World) + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih")) </span>
+<span class="r-plt img"><img src="tmap_tip-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

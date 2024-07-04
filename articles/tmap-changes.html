@@ -171,11 +171,12 @@ are overwritten according to the new style. The changes can be seen with
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span>
 <span><span class="co">## tmap style set to "classic"</span></span>
-<span><span class="co">## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"</span></span>
-<span></span>
+<span><span class="co">## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/tmap_options.html">tmap_options_diff</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## current tmap options (style "classic") that are different from default tmap options (style "white"):</span></span>
@@ -195,8 +196,9 @@ are overwritten according to the new style. The changes can be seen with
 <span><span class="co">## [1] "Esri.WorldTopoMap"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $basemaps.alpha</span></span>
-<span><span class="co">## [1] 0.5</span></span>
-<span></span>
+<span><span class="co">## [1] 0.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/tmap_options.html">tmap_options_reset</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## tmap options successfully reset</span></span></code></pre></div>
 <p>Styles included in tmap are: <code>"white"</code>,
@@ -211,21 +213,23 @@ these have been replaced by the general function <code>tm_format</code>.
 With this function, the available formats can be retrieved, as well as
 the configuration of a specific format. With the function
 <code>tm_format_add</code> new formats can be created.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide"</span></span>
-<span><span class="va">panorama</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
+<span><span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide"</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">panorama</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
 <span><span class="va">panorama</span><span class="op">$</span><span class="va">asp</span> <span class="op">&lt;-</span> <span class="fl">6</span></span>
 <span><span class="fu"><a href="../reference/tmap_format.html">tmap_format_add</a></span><span class="op">(</span><span class="va">panorama</span>, name <span class="op">=</span> <span class="st">"panorama"</span><span class="op">)</span></span>
-<span><span class="co">## format panorama succesfully added. Use this format with tm_format("panorama")</span></span>
-<span><span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">## format panorama succesfully added. Use this format with tm_format("panorama")</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide", "panorama"</span></span></code></pre></div>
 <p>Unlike a style, a format cannot be set globally. Instead, it has to
 be specified in each plot:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"panorama"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># or: qtm(World, fill = "HPI", format = "panorama")</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -271,7 +275,7 @@ functions. Note the difference with <code>colorNA</code>, which is used
 to color features with missing data.</p>
 <p>To show the potiential of this filter the following code chunk
 creates a map in which only European countries are colored:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, filter <span class="op">=</span> <span class="va">World</span><span class="op">$</span><span class="va">continent</span><span class="op">==</span><span class="st">"Europe"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, id <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="images/tmap_filter.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
