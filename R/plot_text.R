@@ -167,7 +167,7 @@ native_to_npc_to_native <- function(x, scale) {
 			tg$rot <- angles[sel]
 		}
 	}
-	tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
+	tg$gp <- do.call("gpar", lapply(unclass(tg$gp), function(g) {
 		if (length(g)==nt) g[sel] else g
 	}))
 	tg
