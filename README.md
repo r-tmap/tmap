@@ -52,7 +52,7 @@ See https://r-spatial.github.io/sf/#macos
 Development (major update!)
 ------------
 
-We are working on a major update (version4). The development of the current CRAN release (3.3) has been stopped, but if there are critical bugs, let us know. Version 4 will be submitted to CRAN this year, when it is mature enough and when it is backwards compatible with version 3.
+We are working on a major update (version 4). The development of the current CRAN release (3.3) has been stopped, but if there are critical bugs, let us know. Version 4 will be submitted to CRAN this year, when it is mature enough and when it is backwards compatible with version 3.
 
 Are you curious about version 4? You can install the development version as follows:
 
@@ -60,6 +60,10 @@ Are you curious about version 4? You can install the development version as foll
 library(remotes)
 install_github("r-tmap/tmap@v4")
 ```
+
+[Documentation is available, and is a work in progress](https://r-tmap.github.io/tmap/dev/). Examples are also available at [tmap v4: a sneak peek (this is a good place to start, although is slightly outdated)](https://mtennekes.github.io/tmap4/index.html) and more up to date examples in [Geocomputation with R](https://r.geocompx.org/adv-map). 
+
+*Hint:* if you want to try out version 4, but don't want to risk breaking your installation of version 3, try it in [posit.cloud](https://posit.cloud). 
 
 Any feedback, requests, tips, or bug reports are welcome!
 
