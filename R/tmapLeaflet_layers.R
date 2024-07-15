@@ -1,28 +1,45 @@
 submit_labels = function(labels, cls, pane, group) {
+	print("submit")
 	
-	layerIds <- get("layerIds", envir = .TMAP_LEAFLET)
+	layerIds = get("layerIds", envir = .TMAP_LEAFLET)
 	
+	if (length(layerIds)) {
+		labels = local({
+			labels_all = unlist(lapply(layerIds, function(l) l$Lid), use.names = FALSE)
+			pos <- length(labels_all)
+			labels_all = make.names(c(labels_all, labels), unique = TRUE)
+			labels_all = gsub(".", "_", labels_all,fixed = TRUE)
+			labels_all[(pos + 1): length(labels_all)]	
+		})
+	} else {
+		labels = make.names(labels)
+	}
+
+	layerIds = c(layerIds, list(list(name = pane, type = cls, group = group, Lid = labels)))
 	
-	types <- attr(layerIds, "types")
-	groups <- attr(layerIds, "groups")
-	
-	labels_all <- unlist(layerIds, use.names = FALSE)
-	
-	pos <- length(labels_all)
-	
-	labels_all <- make.names(c(labels_all, labels), unique = TRUE)
-	
-	labels <- labels_all[(pos + 1): length(labels_all)]	
-	
-	labelsList <- list(labels)
-	names(labelsList) <- pane
-	
-	layerIds <- c(layerIds, labelsList)
-	
-	#layerIds[[cls]] <- labels_all
-	
-	attr(layerIds, "types") <- c(types, cls)
-	attr(layerIds, "groups") <- c(types, group)
+	# types <- attr(layerIds, "types")
+	# groups <- attr(layerIds, "groups")
+	# 
+	# labels_all <- unlist(layerIds, use.names = FALSE)
+	# 
+	# pos <- length(labels_all)
+	# 
+	# labels_all <- make.names(c(labels_all, labels), unique = TRUE)
+	# labels_all = gsub(".", "_", labels_all,fixed = TRUE)
+	# 
+	# labels <- labels_all[(pos + 1): length(labels_all)]	
+	# 
+	# labelsList <- list(labels)
+	# names(labelsList) <- pane
+	# 
+	# layerIds <- c(layerIds, labelsList)
+	# 
+	# #layerIds[[cls]] <- labels_all
+	# 
+	# attr(layerIds, "types") <- c(types, cls)
+	# attr(layerIds, "groups") <- c(groups, group)
+	# 
+	# po(layerIds)
 	
 	assign("layerIds", layerIds, envir = .TMAP_LEAFLET)
 	labels
@@ -165,6 +182,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%  
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		if (is.null(idt)) idt = submit_labels(dt$tmapID__, "symbols", pane, group)
 		
 		sn = suppressWarnings(as.numeric(gp2$shape))
 		
@@ -196,7 +214,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		}
 
 		lf %>% leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups) %>% 
+								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups, options = opt) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 		
 	}
@@ -330,6 +348,9 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
+	idt = submit_labels(dt$tmapID__, "text", pane, group)
+	
+	
 	cex_set = unique(gp$cex)
 	alpha_set = unique(gp$col_alpha) 
 	face_set = unique(gp$fontface)
@@ -375,29 +396,31 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
 										 label=text,
 										 group=group, 
-										 #layerId = ids, 
+										 layerId = idt, 
 										 labelOptions = labelOptions(noHide = TRUE, 
 										 							textOnly = TRUE, 
+										 							pane = pane,
 										 							direction = direction, 
 										 							opacity=gp$col_alpha[1],
 										 							textsize=sizeChar[1],
 										 							style=list(color=gp$col[1])),
-										 clusterOptions = clustering,
-										 options = markerOptions(pane = pane))
+										 options = markerOptions(pane = pane),
+										 clusterOptions = clustering)
 	} else {
 		for (i in 1:length(text)) {
 			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
 											 label=text[i],
 											 group=group, 
-											 #layerId = ids[i], 
+											 layerId = idt, 
 											 labelOptions = labelOptions(noHide = TRUE, 
 											 							textOnly = TRUE, 
+											 							pane = pane,
 											 							direction = direction, 
 											 							opacity=gp$col_alpha[i],
 											 							textsize=sizeChar[i],
 											 							style=list(color=gp$col[i])),
-											 clusterOptions = clustering,
-											 options = markerOptions(pane = pane))	
+											 options = markerOptions(pane = pane),
+											 clusterOptions = clustering)	
 		}
 	}
 	assign_lf(lf, facet_row, facet_col, facet_page)

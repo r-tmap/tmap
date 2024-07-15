@@ -35,6 +35,7 @@ step1_rearrange = function(tmel) {
 	# and determine highest pane number (400 default)
 	if (.TMAP$proxy) {
 		q = .TMAP$q
+		.TMAP$pane_ids = setdiff(unique(c(.TMAP$pane_ids, q$lid)), 0)
 		q = q[!(q$lid %in% proxy_z), ]
 		.TMAP$q = q
 		if (any(q$lid != 0)) {

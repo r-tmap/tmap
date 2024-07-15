@@ -23,6 +23,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 
 	leaflet_opts$attributionControl = TRUE
 	
+	print("init")
 	
 
 	if (!.TMAP$proxy) {
@@ -37,17 +38,31 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 			}
 			
 			if (proxy2) {
+				L2 = list()
 				for (px in prx) {
 					z = px$zindex
 					L = .TMAP_LEAFLET$layerIds
-					id = which(names(L) == pane_name(z))[1]
+					Lnames = vapply(L, function(l) {
+						l$name
+					}, FUN.VALUE = character(1))
+					Lids = lapply(L, function(l) {
+						l$Lid
+					})
+					Ltypes = vapply(L, function(l) {
+						l$type
+					}, FUN.VALUE = character(1))
+					
+					id = which(Lnames == pane_name(z))[1]
 					if (!is.na(id)) {
-						tp = attr(L, "types")[id]
-						if (tp %in% c("polygons")) {
-							lf = leaflet::removeShape(lf, unname(L[[id]]))			
+						tp = Ltypes[id]
+						if (tp %in% c("polygons", "symbols")) {
+							L2 = c(L2, list(list(name = Lnames[id], type = tp, Lid = Lids[[id]])))
 						}
 					}
+					#L = L[-id]
 				}
+				#.TMAP_LEAFLET$layerIds = L
+				.TMAP_LEAFLET$layerIds2 = L2
 			}
 
 			if (!.TMAP$in.shiny) {
@@ -78,9 +93,8 @@ tmapLeafletAux = function(o, q) {
 	isTMAP = substr(q$pane, 1, 4) == "tmap"
 	isNEW = q$new
 	
-	lids = q$lid[isTMAP & isNEW]
+	lids = setdiff(q$lid[isTMAP & isNEW], .TMAP$pane_ids)
 	
-
 
 	groups_radio = unique(unlist(strsplit(q$group[q$group.control == "radio"], split = "__", fixed = TRUE)))
 	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))

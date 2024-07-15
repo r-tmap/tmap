@@ -3,7 +3,30 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 	
 	lfs2 = lapply(lfs, function(lfsi) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
-			lfsi[[1]]
+			lf = lfsi[[1]]
+			print("run")
+			# proxy remove
+			if (!is.null(.TMAP_LEAFLET$layerIds2)) {
+				L = .TMAP_LEAFLET$layerIds
+				po(.TMAP_LEAFLET$layerIds2)
+				for (L2 in .TMAP_LEAFLET$layerIds2) {
+					if (L2$type == "raster") {
+						lf = leaflet::removeImage(lf, L2$Lid)
+					} else if (L2$type %in% c("symbols")) {
+						lf = leaflet::removeMarker(lf, L2$Lid)
+					} else {
+						lf = leaflet::removeShape(lf, L2$Lid)
+					}
+					L = lapply(L, function(x) {
+						if (any(L2$Lid %in% x$Lid)) NULL else x
+					})
+					L = L[!vapply(L, is.null, FUN.VALUE = logical(1))]
+				}
+				# to do: update group and type arguments 
+				.TMAP_LEAFLET$layerIds = L
+				.TMAP_LEAFLET$layerIds2 = NULL
+			}
+			lf
 		} else {
 			fc = o$free.coords
 			sync = if (identical(o$sync, TRUE) || all(!fc)) {
