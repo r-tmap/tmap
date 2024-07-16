@@ -45,6 +45,7 @@ step1_rearrange = function(tmel) {
 		}
 	} else {
 		.TMAP$start_pane_id = 400
+		.TMAP$pane_ids = NULL
 	}
 
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)

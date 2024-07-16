@@ -1,6 +1,6 @@
-#' Wrapper functions for using tmap in shiny
+#' Wrapper functions for using **tmap** in **shiny**
 #' 
-#' Use \code{tmapOutput} to create a UI element, and \code{renderTmap} to render the tmap map. To update the map (more specifically, to add and remove layers) use \code{tmapProxy}. Adding layers is as usual, removing layers can be done with the function \code{tm_remove_layer}.
+#' Use \code{tmapOutput} to create a UI element, and \code{renderTmap} to render the tmap map. To update the map in \code{view} mode, use \code{tmapProxy}. Adding layers is as usual via the map layer functions like \code{\link{tm_polygons}}. Removing layers can be done , removing with the function \code{tm_remove_layer}.
 #' 
 #' Two features from tmap are not (yet) supported in Shiny: small multiples (facets) and colored backgrounds (argument bg.color of \code{\link{tm_layout}}). Workarounds for small multiples: create multiple independent maps or specify as.layers = TRUE in \code{\link{tm_facets}}.
 #' 
@@ -13,7 +13,7 @@
 #' @param mapId single-element character vector indicating the output ID of the map to modify (if invoked from a Shiny module, the namespace will be added automatically)
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
 #' @param x the tmap object that specifies the added and removed layers.
-#' @param zindex the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the zindex for this layer when creating the map (inside \code{renderTmap}).
+#' @param zindex the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the `zindex` for this layer when creating the map (inside \code{renderTmap}).
 #' @param execOnResize If `TRUE` (default), when the plot is resized, the map is regenerated. When set to `FALSE` the map is rescaled: the aspect ratio is kept, but the layout will be less desirable.
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @rdname renderTmap

@@ -4,15 +4,13 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 	lfs2 = lapply(lfs, function(lfsi) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
 			lf = lfsi[[1]]
-			print("run")
 			# proxy remove
 			if (!is.null(.TMAP_LEAFLET$layerIds2)) {
 				L = .TMAP_LEAFLET$layerIds
-				po(.TMAP_LEAFLET$layerIds2)
 				for (L2 in .TMAP_LEAFLET$layerIds2) {
 					if (L2$type == "raster") {
 						lf = leaflet::removeImage(lf, L2$Lid)
-					} else if (L2$type %in% c("symbols")) {
+					} else if (L2$type %in% c("symbols", "text")) {
 						lf = leaflet::removeMarker(lf, L2$Lid)
 					} else {
 						lf = leaflet::removeShape(lf, L2$Lid)

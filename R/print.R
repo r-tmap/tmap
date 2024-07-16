@@ -5,6 +5,8 @@
 #' @param show show the map
 #' @param vp viewport (for `"plot"` mode)
 #' @param knit A logical, should knit?
+#' @param in.shiny A logical, is the map drawn in **shiny**?
+#' @param proxy A logical, if `in.shiny`, is \code{\link{tmapProxy}} used?
 #' @param options A vector of options
 #' @param ... not used
 #' @export

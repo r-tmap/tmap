@@ -23,11 +23,8 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 
 	leaflet_opts$attributionControl = TRUE
 	
-	print("init")
-	
-
 	if (!.TMAP$proxy) {
-		.TMAP_LEAFLET$layerIds = list()
+		.TMAP_LEAFLET$layerIds = NULL
 	}
 
 	
@@ -55,7 +52,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 					id = which(Lnames == pane_name(z))[1]
 					if (!is.na(id)) {
 						tp = Ltypes[id]
-						if (tp %in% c("polygons", "symbols")) {
+						if (tp %in% c("polygons", "symbols", "text", "lines")) {
 							L2 = c(L2, list(list(name = Lnames[id], type = tp, Lid = Lids[[id]])))
 						}
 					}

@@ -1,6 +1,4 @@
 submit_labels = function(labels, cls, pane, group) {
-	print("submit")
-	
 	layerIds = get("layerIds", envir = .TMAP_LEAFLET)
 	
 	if (length(layerIds)) {
@@ -69,7 +67,6 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	
 	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "polygons", pane, group)
 
-	
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
@@ -127,15 +124,17 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	gp = rescale_gp(gp, o$scale_down)
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "lines", pane, group)
 	
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		lf %>% 
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group) %>% 
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group, layerId = idt) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		
 		lf %>% 
 			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
@@ -411,7 +410,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
 											 label=text[i],
 											 group=group, 
-											 layerId = idt, 
+											 layerId = idt[i], 
 											 labelOptions = labelOptions(noHide = TRUE, 
 											 							textOnly = TRUE, 
 											 							pane = pane,
