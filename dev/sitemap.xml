@@ -1,258 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/articles/tmap_sneak_peek.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/articles/tmap_vv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/Shapes.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/get_fact_levels_na.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/land.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/make_by_vars.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/metro.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/print.tm_element.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/print.tmap.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/qtm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/rivers.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/shapeTM.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/theme_ps.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_add_legend.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_basemap.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_cartogram.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_chart.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_compass.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_const.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_credits.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_extra_innner_margin.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_facets.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_graticules.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_grid.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_layout.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_legend.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_lines.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_mouse_coordinates.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_mv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_mv_dim.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_plot_order.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_polygons.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_pos.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_rgb.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_asis.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_bar.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_bivariate.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_categorical.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_continuous.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_discrete.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_intervals.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rank.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rgb.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_scalebar.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_sf.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_shape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_shape_vars.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_symbols.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_text.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_title.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_view.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tm_xlab.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap-element.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap-package.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapAddLayerOptions.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapGetShapeMeta1.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapGetShapeMeta2.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapMode.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapShape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapSplitShp.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmapSubsetShp.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_animation.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_arrange.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_design_mode.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_devel_mode.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_format.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_icons.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_internal.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_last.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_leaflet.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_mode.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_options.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_save.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/tmap_style.html</loc>
-  </url>
-  <url>
-    <loc>https://r-tmap.github.io/tmap/dev/reference/v4-not-yet.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://r-tmap.github.io/tmap/dev/LICENSE-text.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_sneak_peek.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_vv.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/authors.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/news/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/Shapes.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/get_fact_levels_na.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/land.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/make_by_vars.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/metro.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/print.tm_element.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/print.tmap.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/qtm.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/reexports.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/renderTmap.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/rivers.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/shapeTM.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/theme_ps.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_add_legend.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_basemap.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_cartogram.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_chart.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_compass.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_const.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_credits.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_extra_innner_margin.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_facets.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_graticules.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_grid.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_layout.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_legend.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_lines.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_mouse_coordinates.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_mv.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_mv_dim.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_plot.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_plot_order.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_polygons.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_pos.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_raster.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_rgb.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_asis.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_bar.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_bivariate.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_categorical.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_continuous.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_discrete.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_intervals.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rank.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scale_rgb.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_scalebar.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_sf.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_shape.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_shape_vars.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_symbols.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_text.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_title.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_view.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tm_xlab.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap-element.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap-package.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapAddLayerOptions.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapGetShapeMeta1.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapGetShapeMeta2.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapMode.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapShape.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapSplitShp.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmapSubsetShp.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_animation.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_arrange.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_design_mode.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_devel_mode.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_format.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_icons.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_internal.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_last.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_leaflet.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_mode.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_options.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_save.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_style.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/v4-not-yet.html</loc></url>
 </urlset>
+
