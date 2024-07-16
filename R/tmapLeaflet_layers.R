@@ -1,3 +1,47 @@
+submit_labels = function(labels, cls, pane, group) {
+	layerIds = get("layerIds", envir = .TMAP_LEAFLET)
+	
+	if (length(layerIds)) {
+		labels = local({
+			labels_all = unlist(lapply(layerIds, function(l) l$Lid), use.names = FALSE)
+			pos <- length(labels_all)
+			labels_all = make.names(c(labels_all, labels), unique = TRUE)
+			labels_all = gsub(".", "_", labels_all,fixed = TRUE)
+			labels_all[(pos + 1): length(labels_all)]	
+		})
+	} else {
+		labels = make.names(labels)
+	}
+
+	layerIds = c(layerIds, list(list(name = pane, type = cls, group = group, Lid = labels)))
+	
+	# types <- attr(layerIds, "types")
+	# groups <- attr(layerIds, "groups")
+	# 
+	# labels_all <- unlist(layerIds, use.names = FALSE)
+	# 
+	# pos <- length(labels_all)
+	# 
+	# labels_all <- make.names(c(labels_all, labels), unique = TRUE)
+	# labels_all = gsub(".", "_", labels_all,fixed = TRUE)
+	# 
+	# labels <- labels_all[(pos + 1): length(labels_all)]	
+	# 
+	# labelsList <- list(labels)
+	# names(labelsList) <- pane
+	# 
+	# layerIds <- c(layerIds, labelsList)
+	# 
+	# #layerIds[[cls]] <- labels_all
+	# 
+	# attr(layerIds, "types") <- c(types, cls)
+	# attr(layerIds, "groups") <- c(groups, group)
+	# 
+	# po(layerIds)
+	
+	assign("layerIds", layerIds, envir = .TMAP_LEAFLET)
+	labels
+}
 
 tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -21,13 +65,15 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
+	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "polygons", pane, group)
+
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
 		lf %>% 
-			leafgl::addGlPolygons(data = shp3, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>% 
+			leafgl::addGlPolygons(data = shp3, layerId = idt, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf %>% 
@@ -78,15 +124,17 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	gp = rescale_gp(gp, o$scale_down)
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "lines", pane, group)
 	
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		lf %>% 
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group) %>% 
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group, layerId = idt) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		
 		lf %>% 
 			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
@@ -133,6 +181,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%  
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		if (is.null(idt)) idt = submit_labels(dt$tmapID__, "symbols", pane, group)
 		
 		sn = suppressWarnings(as.numeric(gp2$shape))
 		
@@ -164,7 +213,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		}
 
 		lf %>% leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
-								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups) %>% 
+								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups, options = opt) %>% 
 			assign_lf(facet_row, facet_col, facet_page)
 		
 	}
@@ -298,6 +347,9 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
+	idt = submit_labels(dt$tmapID__, "text", pane, group)
+	
+	
 	cex_set = unique(gp$cex)
 	alpha_set = unique(gp$col_alpha) 
 	face_set = unique(gp$fontface)
@@ -343,29 +395,31 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
 										 label=text,
 										 group=group, 
-										 #layerId = ids, 
+										 layerId = idt, 
 										 labelOptions = labelOptions(noHide = TRUE, 
 										 							textOnly = TRUE, 
+										 							pane = pane,
 										 							direction = direction, 
 										 							opacity=gp$col_alpha[1],
 										 							textsize=sizeChar[1],
 										 							style=list(color=gp$col[1])),
-										 clusterOptions = clustering,
-										 options = markerOptions(pane = pane))
+										 options = markerOptions(pane = pane),
+										 clusterOptions = clustering)
 	} else {
 		for (i in 1:length(text)) {
 			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
 											 label=text[i],
 											 group=group, 
-											 #layerId = ids[i], 
+											 layerId = idt[i], 
 											 labelOptions = labelOptions(noHide = TRUE, 
 											 							textOnly = TRUE, 
+											 							pane = pane,
 											 							direction = direction, 
 											 							opacity=gp$col_alpha[i],
 											 							textsize=sizeChar[i],
 											 							style=list(color=gp$col[i])),
-											 clusterOptions = clustering,
-											 options = markerOptions(pane = pane))	
+											 options = markerOptions(pane = pane),
+											 clusterOptions = clustering)	
 		}
 	}
 	assign_lf(lf, facet_row, facet_col, facet_page)

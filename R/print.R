@@ -5,11 +5,19 @@
 #' @param show show the map
 #' @param vp viewport (for `"plot"` mode)
 #' @param knit A logical, should knit?
+#' @param in.shiny A logical, is the map drawn in **shiny**?
+#' @param proxy A logical, if `in.shiny`, is \code{\link{tmapProxy}} used?
 #' @param options A vector of options
 #' @param ... not used
 #' @export
-print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, ...) {
+print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, in.shiny = FALSE, proxy = FALSE, ...) {
 	args = list(...)
+	
+	.TMAP$in.shiny = in.shiny
+	.TMAP$proxy = proxy
+	
+	# view mode will use panes, in principle one for each layer. They start at 400, unless shiny proxy is used
+
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
 	x2 = step1_rearrange(x)
@@ -18,7 +26,7 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	if (dev) timing_add("step 2")
 	x4 = step3_trans(x3)
 	if (dev) timing_add("step 3")
-	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, knit = knit, args)
+	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, in.shiny = in.shiny, knit = knit, args)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
 	

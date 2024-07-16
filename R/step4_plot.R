@@ -1,3 +1,7 @@
+pane_name = function(id) {
+	paste0("tmap", sprintf("%03d", id))
+}
+
 process_components = function(cdt, o) {
 	gs = tmap_graphics_name()
 	
@@ -207,11 +211,12 @@ process_components2 = function(cdt, o) {
 	cdt
 }
 
-step4_plot = function(tm, vp, return.asp, show, knit, args) {
+step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
 	cmp = tm$cmp
+	prx = tm$prx
 	
 	if (length(tmx) && ("bbx" %in% names(tmx[[o$main]]))) {
 		bbm = tmx[[o$main]]$bbx
@@ -571,34 +576,37 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		if (nrow(cdt)) cdt = process_components2(cdt, o)
 		
 		# init
-		asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
+		asp = do.call(FUNinit, c(list(o = o, return.asp = return.asp, vp = vp, prx = prx), args))
 		if (return.asp) return(asp)
 	
 		## prepare aux layers
+		if (length(aux)) {
+			# prepare aux layers and return group label (in case it is not user specified)
+			aux_group_def = mapply(function(a, id) {
+				FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
+				do.call(FUNaux_prep, list(a = a$args, bs = db$bbox, id = id, o = o))
+			}, aux, 1:length(aux))
+			aux_group = mapply(function(a, agd) {
+				if (is.na(a$group)) agd else as.character(a$group)
+			}, aux, aux_group_def, USE.NAMES = FALSE)
+			
+			aux_group.control = vapply(aux, function(a) {
+				a$group.control
+			}, FUN.VALUE = character(1))
+			
+			# find lid (layer plot id values) for aux layers
+			aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
+		}
 		
-		# prepare aux layers and return group label (in case it is not user specified)
-		aux_group_def = mapply(function(a, id) {
-			FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
-			do.call(FUNaux_prep, list(a = a$args, bs = db$bbox, id = id, o = o))
-		}, aux, 1:length(aux))
-		aux_group = mapply(function(a, agd) {
-			if (is.na(a$group)) agd else as.character(a$group)
-		}, aux, aux_group_def, USE.NAMES = FALSE)
-		
-		aux_group.control = vapply(aux, function(a) {
-			a$group.control
-		}, FUN.VALUE = character(1))
-		
-		# find lid (layer plot id values) for aux layers
-		aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
-		
-		if (!any_data_layer && !length(aux_lid)) {
+		if (!any_data_layer && !length(aux)) {
 			message_nothing_to_show(any_groups)
 			return(invisible(NULL))
 		}
 		
+		
+		
 		# data frame for layer ids
-		q = do.call(rbind, c( 
+		q = do.call(rbind, c(
 			{if (any_data_layer) {
 				lapply(1L:o$ng, function(ig) {
 					tmxi = tmx[[ig]]
@@ -606,21 +614,30 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 					lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
 					group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
 					group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
-					data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control)
+					data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control, lid2 = 0, pane = "", new = TRUE)
 				})			
 			} else {
 				NULL
 			}}, 
-			{if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control)) else NULL}))
+			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE)) else NULL}))
 		
-		q$lid2 = 0
+		#q$lid[q$lid != 0] = q$lid[q$lid != 0] + 400L
+		
+		if (.TMAP$proxy) {
+			q0 = .TMAP$q
+			q0$new = FALSE
+			q = rbind(q0, q)
+		}
+
 		qnotnull = (q$lid != 0)
 		if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
 		
 		q = q[order(q$lid2), ]
 		q$pane = "tilePane"
-		q$pane[q$lid2 > 0] = paste0("tmap", 400 + q$lid2[q$lid2 > 0])
 		
+		q$pane[q$lid2 > 0] = pane_name(q$lid[q$lid2 > 0])
+		
+
 		# q data frame:
 		# gid = tmap-group counter
 		# glid = layer counter inside tmap-group
@@ -628,8 +645,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 		# lid2 = same as lid, but 1,2,3,...
 		# pane = pane name (for view mode)
 		# group = group name (for selecting layers in view mode)
-		
-		
+	
 		do.call(FUNaux, list(o = o, q = q))
 		
 		
@@ -676,7 +692,7 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 				}
 			}
 			
-			for (qi in 1L:nrow(q)) {
+			for (qi in which(q$new)) {
 				gid = q$gid[qi]
 				glid = q$glid[qi]
 				pane = q$pane[qi]
@@ -798,8 +814,9 @@ step4_plot = function(tm, vp, return.asp, show, knit, args) {
 	
 	if (show) save_last_map()		
 
-
+	if (.TMAP$in.shiny) {
+		.TMAP$q = q
+	}
 	
-	
-	do.call(FUNrun, list(o = o, show = show, knit = knit, args))
+	do.call(FUNrun, list(o = o, q = q, show = show, knit = knit, args))
 }

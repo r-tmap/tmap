@@ -6,10 +6,6 @@
 \alias{tm_logo}
 \alias{tm_minimap}
 \alias{tmap_grob}
-\alias{tmapOutput}
-\alias{tmapProxy}
-\alias{renderTmap}
-\alias{tm_remove_layer}
 \alias{tm_rgba}
 \alias{tmap_tip}
 \alias{tmap_style_catalog}
@@ -23,14 +19,6 @@ tm_logo(...)
 tm_minimap(...)
 
 tmap_grob(...)
-
-tmapOutput(...)
-
-tmapProxy(...)
-
-renderTmap(...)
-
-tm_remove_layer(...)
 
 tm_rgba(...)
 

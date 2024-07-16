@@ -20,6 +20,8 @@ tmap_grid(x, show = FALSE, ...)
     \item{\code{return.asp}}{should the aspect ratio be returned?}
     \item{\code{vp}}{viewport (for \code{"plot"} mode)}
     \item{\code{knit}}{A logical, should knit?}
+    \item{\code{in.shiny}}{A logical, is the map drawn in \strong{shiny}?}
+    \item{\code{proxy}}{A logical, if \code{in.shiny}, is \code{\link{tmapProxy}} used?}
     \item{\code{options}}{A vector of options}
   }}
 }

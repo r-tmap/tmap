@@ -16,11 +16,38 @@ step1_rearrange = function(tmel) {
 	is_other = !is_tml & !is_tms & !is_tmf
 
 	is_aux = vapply(tmel, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
+	is_proxy = vapply(tmel, inherits, "tm_proxy", FUN.VALUE = logical(1))
 	
 	# find layer id numbers (needed to plot layers in correct order, which is not trivial due to the two layer types)
 	lay_id = cumsum(is_tml | is_aux)
 	lay_id[!is_tml & !is_aux] = 0
 	
+	
+	if (any(is_proxy)) {
+		prx = tmel[is_proxy]
+		proxy_z = lapply(prx, function(px) px$zindex)
+	} else {
+		prx = list()
+		proxy_z = numeric(0)
+	}
+	
+	# remove layers from q (via tm_remove_layer)
+	# and determine highest pane number (400 default)
+	if (.TMAP$proxy) {
+		q = .TMAP$q
+		.TMAP$pane_ids = setdiff(unique(c(.TMAP$pane_ids, q$lid)), 0)
+		q = q[!(q$lid %in% proxy_z), ]
+		.TMAP$q = q
+		if (any(q$lid != 0)) {
+			.TMAP$start_pane_id = max(q$lid)
+		} else {
+			.TMAP$start_pane_id = 400
+		}
+	} else {
+		.TMAP$start_pane_id = 400
+		.TMAP$pane_ids = NULL
+	}
+
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	ids = cumsum(is_tms)
 	ids[is_other] = 0L
@@ -96,7 +123,7 @@ step1_rearrange = function(tmel) {
 			
 			# extract layers and add layer id number
 			tmls = mapply(function(l, i) {
-				l$lid = if (is.na(l$zindex)) i else l$zindex
+				l$lid = if (is.na(l$zindex)) i + .TMAP$start_pane_id else l$zindex
 				l
 			}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
 			
@@ -157,8 +184,8 @@ step1_rearrange = function(tmel) {
 	if (dev) timing_add(s2 = "facet meta")
 	
 	
-	# # add basemaps
-	if (o$basemap.show) {
+	# add basemaps
+	if (o$basemap.show && !.TMAP$proxy) {
 		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
 			oth = c(oth, tm_basemap())
 			oth_lay_id = c(oth_lay_id, 0L)
@@ -170,7 +197,7 @@ step1_rearrange = function(tmel) {
 	if (any(is_aux)) {
 		
 		aux = mapply(function(l, i) {
-			l$lid = if (is.na(l$zindex)) i else l$zindex
+			l$lid = if (is.na(l$zindex)) i + .TMAP$start_pane_id else l$zindex
 			
 			cls = class(l)[1]
 			ot = get_prefix_opt(class = cls, o = o)
@@ -189,6 +216,7 @@ step1_rearrange = function(tmel) {
 	} else {
 		cmp = list()
 	}
+	
 	
 	# to be used later
 	o$main = ids # to determine total bounding box in step 4
@@ -210,7 +238,7 @@ step1_rearrange = function(tmel) {
 	
 	if (dev) timing_add(s2 = "prep shape")
 	
-	list(tmo = tmo, aux = aux, cmp = cmp, o = o)
+	list(tmo = tmo, aux = aux, cmp = cmp, prx = prx, o = o)
 }
 
 # see above

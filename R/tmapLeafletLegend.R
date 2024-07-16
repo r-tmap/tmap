@@ -215,8 +215,11 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										 className = leg_className)
 	}
 	backg <- htmltools::tags$style(paste0("#", layerId, " { background: ", substr(cmp$bg.color,1,7), "; opacity: ", cmp$bg.alpha, "}")) 
-	lf2 %>% htmlwidgets::prependContent(backg)
-
+	if (!.TMAP$in.shiny) {
+		htmlwidgets::prependContent(lf2, backg)
+	} else {
+		lf2
+	}
 }
 
 #' @export

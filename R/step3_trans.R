@@ -3,6 +3,7 @@ step3_trans = function(tm) {
 	o = tm$o
 	aux = tm$aux
 	cmp = tm$cmp
+	prx = tm$prx
 	
 	bd = lapply(ad, function(adi) {
 		shpDT = adi$shpDT
@@ -70,6 +71,6 @@ step3_trans = function(tm) {
 		adi
 	})
 	
-	list(tmo = bd, aux = aux, cmp = cmp, o = o)
+	list(tmo = bd, aux = aux, cmp = cmp, prx = prx, o = o)
 }
 

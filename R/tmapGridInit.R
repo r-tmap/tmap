@@ -1,4 +1,4 @@
-tmapGridInit = function(o, return.asp = FALSE, vp) {
+tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 	rlang::check_installed("grid")
 	rows = with(o, {
 		x = c(outer.margins.top = outer.margins[3],
@@ -228,7 +228,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp) {
 	#}
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)
-	
+	.TMAP$start_pane_id = 401
 }
 
 tmapGridAux = function(o, q) {

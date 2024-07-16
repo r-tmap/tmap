@@ -12,6 +12,8 @@
   vp = NULL,
   knit = FALSE,
   options = NULL,
+  in.shiny = FALSE,
+  proxy = FALSE,
   ...
 )
 
@@ -29,6 +31,10 @@
 \item{knit}{A logical, should knit?}
 
 \item{options}{A vector of options}
+
+\item{in.shiny}{A logical, is the map drawn in \strong{shiny}?}
+
+\item{proxy}{A logical, if \code{in.shiny}, is \code{\link{tmapProxy}} used?}
 
 \item{...}{not used}
 }

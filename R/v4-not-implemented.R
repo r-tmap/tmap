@@ -26,26 +26,6 @@ tmap_grob <- function(...) {
 }
 #' @export
 #' @rdname v4-not-yet
-tmapOutput <- function(...) {
-	stop("Not yet implemented in v4")
-}
-#' @export
-#' @rdname v4-not-yet
-tmapProxy <- function(...) {
-	stop("Not yet implemented in v4")
-}
-#' @export
-#' @rdname v4-not-yet
-renderTmap <- function(...) {
-	stop("Not yet implemented in v4")
-}
-#' @export
-#' @rdname v4-not-yet
-tm_remove_layer <- function(...) {
-	stop("Not yet implemented in v4")
-}
-#' @export
-#' @rdname v4-not-yet
 tm_rgba <- function(...) {
 	.Deprecated(new = "tm_rgb()")
 	stop("Not yet implemented in v4")

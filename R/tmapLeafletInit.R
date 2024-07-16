@@ -1,37 +1,5 @@
-addBaseGroup = function(group) {
-	for (g in group) {
-		if (is.na(bases[1])) {
-			bases = g
-		} else if (!(g %in% bases)) {
-			bases = c(bases, g)
-		}
-	}
-	assign("bases", bases, envir = .TMAP_LEAFLET)
-}
-
-eraseBaseGroup = function() {
-	assign("bases", character(0), envir = .TMAP_LEAFLET)
-}
-
-eraseOverlayTiles = function() {
-	overlays = setdiff(overlays, overlays_tiles)
-	assign("overlays", overlays, envir = .TMAP_LEAFLET)
-}
-
-addOverlayGroup = function(group, are.tiles = FALSE) {
-	for (g in group) {
-		if (is.na(overlays[1])) {
-			overlays = g
-		} else if (!(g %in% overlays)) {
-			overlays = c(overlays, g)
-		}
-	}
-	assign("overlays", overlays, envir = .TMAP_LEAFLET)
-	if (are.tiles) assign("overlays_tiles", c(overlays_tiles, group), envir = .TMAP_LEAFLET)
-}
-
-
-tmapLeafletInit = function(o, return.asp = FALSE, vp) {
+tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
+	args = list(...)
 	if (return.asp) return(1)
 
 	per_page = rep(o$ncols * o$nrows, o$npages)
@@ -39,8 +7,9 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 	if (o$n < k) {
 		per_page[o$npages] = per_page[o$npages] - (k - o$n)
 	}
-	
-	proxy = FALSE
+
+	#proxy = !is.null(lf)
+	proxy2 = (length(prx) > 0)
 	
 	# leaflet options
 	
@@ -54,21 +23,59 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 
 	leaflet_opts$attributionControl = TRUE
 	
-	
+	if (!.TMAP$proxy) {
+		.TMAP_LEAFLET$layerIds = NULL
+	}
+
 	
 	lfs = lapply(per_page, function(p) {
 		lapply(seq_len(p), function(i) {
-			if (!proxy) lf = leaflet::leaflet(options = leaflet_opts)
+			if (!.TMAP$proxy) {
+				lf = leaflet::leaflet(options = leaflet_opts)
+			}
 			
-			lf = appendContent(lf, {
-				tags$head(
-					tags$style(HTML(paste(".leaflet-container {background:", o$bg.color, ";}", sep="")))
-				)	
-			})
-			lf
+			if (proxy2) {
+				L2 = list()
+				for (px in prx) {
+					z = px$zindex
+					L = .TMAP_LEAFLET$layerIds
+					Lnames = vapply(L, function(l) {
+						l$name
+					}, FUN.VALUE = character(1))
+					Lids = lapply(L, function(l) {
+						l$Lid
+					})
+					Ltypes = vapply(L, function(l) {
+						l$type
+					}, FUN.VALUE = character(1))
+					
+					id = which(Lnames == pane_name(z))[1]
+					if (!is.na(id)) {
+						tp = Ltypes[id]
+						if (tp %in% c("polygons", "symbols", "text", "lines")) {
+							L2 = c(L2, list(list(name = Lnames[id], type = tp, Lid = Lids[[id]])))
+						}
+					}
+					#L = L[-id]
+				}
+				#.TMAP_LEAFLET$layerIds = L
+				.TMAP_LEAFLET$layerIds2 = L2
+			}
+
+			if (!.TMAP$in.shiny) {
+				appendContent(lf, {
+					tags$head(
+						tags$style(HTML(paste(".leaflet-container {background:", o$bg.color, ";}", sep="")))
+					)
+				})
+			} else {
+				lf
+			}
 		})
 	})
-
+	
+    #.TMAP_LEAFLET$layerIds = layerIds
+	
 	.TMAP_LEAFLET$lfs = lfs
 	.TMAP_LEAFLET$nrow = o$nrows
 	.TMAP_LEAFLET$ncol = o$ncols
@@ -79,17 +86,23 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp) {
 tmapLeafletAux = function(o, q) {
 	lfs = .TMAP_LEAFLET$lfs
 	
-	pids = which(substr(q$pane, 1, 4) == "tmap")
+	
+	isTMAP = substr(q$pane, 1, 4) == "tmap"
+	isNEW = q$new
+	
+	lids = setdiff(q$lid[isTMAP & isNEW], .TMAP$pane_ids)
+	
+
 	groups_radio = unique(unlist(strsplit(q$group[q$group.control == "radio"], split = "__", fixed = TRUE)))
 	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
 
 	# remove radio button when there is only one
 	if (is.null(groups_radio) || length(groups_radio) == 1) groups_radio = character(0)
 	if (is.null(groups_check)) groups_check = character(0)
-	
+		
 	lfs = lapply(lfs, function(lfp) {
 		lapply(lfp, function(lf) {
-			if (length(pids)) for (pid in pids) lf = leaflet::addMapPane(lf, q$pane[pid], zIndex = q$lid2[pid] + 400)
+			if (length(lids)) for (lid in lids) lf = leaflet::addMapPane(lf, pane_name(lid), zIndex = lid)
 			if (length(groups_radio) > 0L || length(groups_check) > 0L) {
 				lf = leaflet::addLayersControl(lf, baseGroups = groups_radio, overlayGroups = groups_check, position = leaflet_pos(str2pos(o$control.position)), options = leaflet::layersControlOptions(collapsed = o$control.collapse))
 			} else {
