@@ -182,7 +182,7 @@ tmapGetShapeMeta1.SpatVector = function(shp, o) {
 #' @export
 #' @keywords internal
 get_fact_levels_na = function(x, o) {
-	if (inherits(x, "sfc")) {
+	if (inherits(x, "sfc") || is.list(x)) {
 		levs = NULL
 	} else if (is.factor(x)) {
 		if (o$drop.empty.facets) {
