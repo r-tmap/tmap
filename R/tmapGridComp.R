@@ -705,3 +705,26 @@ tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
 	NULL
 }
 
+
+#' @export
+tmapGridCompPrepare.tm_minimap = function(comp, o) {
+	message("tm_minimap ignored for 'plot' mode")
+	comp$show = FALSE
+	comp
+}
+
+
+#' @export
+tmapGridCompHeight.tm_minimap = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapGridCompWidth.tm_minimap = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapGridLegPlot.tm_minimap = function(comp, o, fH, fW) {
+	NULL
+}

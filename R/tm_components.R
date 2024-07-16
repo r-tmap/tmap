@@ -217,4 +217,28 @@ tm_mouse_coordinates <- function(stack,
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
 }
 
+#' Map component: minimap
+#' 
+#' Map component that adds a minimap in view mode
+#' 
+#' @param server name of the provider or an URL (see \code{\link{tm_tiles}}). By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps. Note the latter does not happen when \code{server} is specified.
+#' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
+#' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. The first is either "left" or "right", the second either "top" or "bottom".
+#' @param stack stack
+#' @param position position
+#' @param z z
+#' @param ... arguments passed on to \code{\link[leaflet:addMiniMap]{addMiniMap}}.
+#' @seealso \code{\link[leaflet:addMiniMap]{addMiniMap}}
+#' @export
+tm_minimap <- function(server, 
+					   toggle, 
+					   stack,
+					   position,
+					   z,
+					   ...) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
+}
+
  

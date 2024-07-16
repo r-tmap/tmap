@@ -157,3 +157,52 @@ tmapLeafletLegPlot.tm_mouse_coordinates = function(comp, lf, o) {
 }
 
 
+
+#' @export
+tmapLeafletCompPrepare.tm_minimap = function(comp, o) {
+	comp$show = TRUE
+	
+	extra = comp[setdiff(intersect(names(comp), names(formals(leaflet::addMiniMap))), c("position", "map"))]
+	
+	comp$specified_tiles = !is.na(comp$server)
+	
+	comp$args = c(list(toggleDisplay = comp$toggle), extra)
+	comp
+}
+
+
+#' @export
+tmapLeafletCompHeight.tm_minimap = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapLeafletCompWidth.tm_minimap = function(comp, o) {
+	comp
+}
+
+
+#' @export
+tmapLeafletLegPlot.tm_minimap = function(comp, lf, o) {
+	comp$args$tiles = if (comp$specified_tiles) {
+		comp$server 
+	} else if (length(.TMAP_LEAFLET$tiles)) {
+		.TMAP_LEAFLET$tiles[[1]][[1]]$server[1]
+	} else {
+		o$basemap.server[1]
+	}
+	lf2 = do.call(addMiniMap, c(list(map = lf), comp$args)) 
+	if (!comp$specified_tiles && (length(comp$args$tiles) > 0)) {
+		lf2 <- lf2 %>% 
+			htmlwidgets::onRender("
+			    function(el, x) {
+			      var myMap = this;
+			      myMap.on('baselayerchange',
+			        function (e) {
+			          myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
+			        })
+			    }")
+	}
+	lf2
+}
+

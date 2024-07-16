@@ -4,7 +4,6 @@
 \alias{v4-not-yet}
 \alias{tm_iso}
 \alias{tm_logo}
-\alias{tm_minimap}
 \alias{tmap_grob}
 \alias{tm_rgba}
 \alias{tmap_tip}
@@ -15,8 +14,6 @@
 tm_iso(...)
 
 tm_logo(...)
-
-tm_minimap(...)
 
 tmap_grob(...)
 

@@ -550,6 +550,12 @@ tmapMode = function(id, name, ...) {
 		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		mouse_coordinates.show = FALSE,
 
+		minimap.server = NA,
+		minimap.toggle = TRUE,
+		minimap.stack = "vertical", 
+		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		minimap.show = FALSE,
+		
 		panel.show = TRUE,
 		panel.labels = NA,
 		panel.label.size = 1,
