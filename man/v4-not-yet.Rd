@@ -2,7 +2,6 @@
 % Please edit documentation in R/v4-not-implemented.R
 \name{v4-not-yet}
 \alias{v4-not-yet}
-\alias{tm_iso}
 \alias{tm_logo}
 \alias{tmap_grob}
 \alias{tm_rgba}
@@ -11,8 +10,6 @@
 \alias{tmap_style_catalogue}
 \title{Features not yet implemented in tmap4}
 \usage{
-tm_iso(...)
-
 tm_logo(...)
 
 tmap_grob(...)

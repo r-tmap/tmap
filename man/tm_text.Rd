@@ -6,6 +6,7 @@
 \alias{opt_tm_markers}
 \alias{tm_text}
 \alias{tm_labels}
+\alias{tm_labels_highlighted}
 \alias{tm_markers}
 \title{Map layer: text}
 \usage{
@@ -43,6 +44,8 @@ opt_tm_markers(
   markers.on.top.of.text = FALSE,
   points.only = "ifany",
   shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
   just = "center",
   along.lines = TRUE,
   bg.padding = 0.4,
@@ -117,6 +120,66 @@ tm_text(
 )
 
 tm_labels(
+  text = tm_const(),
+  text.scale = tm_scale(),
+  text.legend = tm_legend(),
+  text.chart = tm_chart_none(),
+  text.free = NA,
+  size = tm_const(),
+  size.scale = tm_scale(),
+  size.legend = tm_legend(),
+  size.chart = tm_chart_none(),
+  size.free = NA,
+  col = tm_const(),
+  col.scale = tm_scale(),
+  col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
+  col.free = NA,
+  col_alpha = tm_const(),
+  col_alpha.scale = tm_scale(),
+  col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
+  col_alpha.free = NA,
+  fontface = tm_const(),
+  fontface.scale = tm_scale(),
+  fontface.legend = tm_legend(),
+  fontface.chart = tm_chart_none(),
+  fontface.free = NA,
+  fontfamily = "",
+  bgcol = tm_const(),
+  bgcol.scale = tm_scale(),
+  bgcol.legend = tm_legend(),
+  bgcol.chart = tm_chart_none(),
+  bgcol.free = NA,
+  bgcol_alpha = tm_const(),
+  bgcol_alpha.scale = tm_scale(),
+  bgcol_alpha.legend = tm_legend(),
+  bgcol_alpha.chart = tm_chart_none(),
+  bgcol_alpha.free = NA,
+  xmod = 0,
+  xmod.scale = tm_scale(),
+  xmod.legend = tm_legend_hide(),
+  xmod.chart = tm_chart_none(),
+  xmod.free = NA,
+  ymod = 0,
+  ymod.scale = tm_scale(),
+  ymod.legend = tm_legend_hide(),
+  ymod.chart = tm_chart_none(),
+  ymod.free = NA,
+  angle = 0,
+  angle.scale = tm_scale(),
+  angle.legend = tm_legend_hide(),
+  angle.chart = tm_chart_none(),
+  angle.free = NA,
+  plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+  zindex = NA,
+  group = NA,
+  group.control = "check",
+  options = opt_tm_labels(),
+  ...
+)
+
+tm_labels_highlighted(
   text = tm_const(),
   text.scale = tm_scale(),
   text.legend = tm_legend(),

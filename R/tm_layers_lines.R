@@ -8,7 +8,7 @@ opt_tm_lines = function(lines.only = "ifany") {
 
 #' Map layer: lines
 #' 
-#' Map layer that draws symbols Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
+#' Map layer that draws lines. Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
 #' 
 #' The visual variable arguments (e.g. `col`) can be specified with either a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object

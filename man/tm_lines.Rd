@@ -76,7 +76,7 @@ tm_lines(
 \item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
-Map layer that draws symbols Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
+Map layer that draws lines. Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
 }
 \details{
 The visual variable arguments (e.g. \code{col}) can be specified with either a data

@@ -64,6 +64,7 @@ tmapMode = function(id, name, ...) {
 						 col.symbols = "grey40",
 						 col.raster = "grey40",
 						 col = "black",
+						 bgcol.labels_highlighted = "white",
 						 bgcol = "#00000000",
 						 lwd = 1,
 						 lty = "solid",

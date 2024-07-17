@@ -69,6 +69,8 @@ opt_tm_labels = function(points.only = "ifany",
 opt_tm_markers = function(markers.on.top.of.text = FALSE,
 						  points.only = "ifany",
 						  shadow = FALSE,
+						  shadow.offset.x = 0.1,
+						  shadow.offset.y = 0.1,
 						  just = "center",
 						  along.lines = TRUE,
 						  bg.padding = 0.4,
@@ -83,6 +85,8 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 	list(markers = list(markers.on.top.of.text = markers.on.top.of.text),
 		 text = opt_tm_labels(points.only = points.only,
 		 					 shadow = shadow,
+		 					 shadow.offset.x = shadow.offset.x,
+		 					 shadow.offset.y = shadow.offset.y,
 		 					 just = just,
 		 					 along.lines = along.lines,
 		 					 bg.padding = bg.padding,
@@ -141,8 +145,14 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 #' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free Visual variable that determines
 #'   the font face. See Details.
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
-#' @param shadow Shadow behind the text. Logical or color.
-#' @param shadow.offset.x,shadow.offset.y Shadow offset in line heights
+#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
+#'   the background color. See Details.
+#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
+#'   the background color transparency. See Details.
+#' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details.
+#' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
+#'   the text. See details.
+#' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
 #' @param zindex Map layers are drawn on top of each other. The `zindex` numbers
@@ -155,15 +165,9 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 #'   (meaning only one group can be shown), `"check"` for check boxes (so multiple groups can be shown),
 #'   and `"none"` for no control (the group cannot be (de)selected).
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
-#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
-#'   the background color. See Details.
-#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
-#'   the background color transparency. See Details.
-#' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details.
-#' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
-#'   the text. See details.
-#' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param shadow Shadow behind the text. Logical or color.
+#' @param shadow.offset.x,shadow.offset.y Shadow offset in line heights
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
 #' @param bg.padding The padding of the background in terms of line heights.
@@ -521,6 +525,75 @@ tm_labels = function(text = tm_const(),
 	tm[[1]]$layer = c("labels", "text")
 	tm
 }
+
+
+
+#' @rdname tm_text
+#' @name tm_labels_highlighted
+#' @export
+tm_labels_highlighted = function(text = tm_const(),
+								 text.scale = tm_scale(),
+								 text.legend = tm_legend(),
+								 text.chart = tm_chart_none(),
+								 text.free = NA,
+								 size = tm_const(),
+								 size.scale = tm_scale(),
+								 size.legend = tm_legend(),
+								 size.chart = tm_chart_none(),
+								 size.free = NA,
+								 col = tm_const(),
+								 col.scale = tm_scale(),
+								 col.legend = tm_legend(),
+								 col.chart = tm_chart_none(),
+								 col.free = NA,
+								 col_alpha = tm_const(),
+								 col_alpha.scale = tm_scale(),
+								 col_alpha.legend = tm_legend(),
+								 col_alpha.chart = tm_chart_none(),
+								 col_alpha.free = NA,
+								 fontface = tm_const(),
+								 fontface.scale = tm_scale(),
+								 fontface.legend = tm_legend(),
+								 fontface.chart = tm_chart_none(),
+								 fontface.free = NA,
+								 fontfamily = "",
+								 bgcol = tm_const(),
+								 bgcol.scale = tm_scale(),
+								 bgcol.legend = tm_legend(),
+								 bgcol.chart = tm_chart_none(),
+								 bgcol.free = NA,
+								 bgcol_alpha = tm_const(),
+								 bgcol_alpha.scale = tm_scale(),
+								 bgcol_alpha.legend = tm_legend(),
+								 bgcol_alpha.chart = tm_chart_none(),
+								 bgcol_alpha.free = NA,
+								 xmod = 0,
+								 xmod.scale = tm_scale(),
+								 xmod.legend = tm_legend_hide(),
+								 xmod.chart = tm_chart_none(),
+								 xmod.free = NA,
+								 ymod = 0,
+								 ymod.scale = tm_scale(),
+								 ymod.legend = tm_legend_hide(),
+								 ymod.chart = tm_chart_none(),
+								 ymod.free = NA,
+								 angle = 0,
+								 angle.scale = tm_scale(),
+								 angle.legend = tm_legend_hide(),
+								 angle.chart = tm_chart_none(),
+								 angle.free = NA,
+								 plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+								 zindex = NA,
+								 group = NA,
+								 group.control = "check",
+								 options = opt_tm_labels(),
+								 ...) {
+	args = c(as.list(environment()), list(...))
+	tm = do.call(tm_text, args)
+	tm[[1]]$layer = c("labels_highlighted", "text")
+	tm
+}
+
 
 #' @rdname tm_text
 #' @name tm_markers
