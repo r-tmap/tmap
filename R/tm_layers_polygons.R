@@ -155,25 +155,42 @@ tm_polygons = function(fill = tm_const(),
 			.TMAP$v3_list$mult = TRUE
 		}
 		
-		fill.scale.args = list(n = v3_impute(args, "n", 5), 
-							   style = style, 
-							   style.args = v3_impute(args, "style.args", list()), 
-							   breaks = v3_impute(args, "breaks", NULL), 
-							   interval.closure = v3_impute(args, "interval.closure", "left"), 
-							   drop.levels = v3_impute(args, "drop.levels", FALSE),
-							   midpoint = v3_impute(args, "midpoint", NULL), 
-							   as.count = v3_impute(args, "as.count", NA), 
-							   values = v3_impute(args, "palette", NA, "values"), 
-							   values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
-							   values.range = v3_impute(args, "contrast", NA, "values.range"), 
-							   values.scale = 1, 
-							   value.na = v3_impute(args, "colorNA", NA, "value.na"), 
-							   value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
-							   value.neutral = NA, 
-							   labels = v3_impute(args, "labels", NULL), 
-							   label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
-							   label.null = NA, 
-							   label.format = v3_impute(args, "legend.format", list(), "label.format"))
+		
+		
+		fill.scale.args = c(list(n = v3_impute(args, "n", 5), 
+								 style = style, 
+								 style.args = v3_impute(args, "style.args", list())), 
+							if (style %in% c("cont", "log10")) {
+								c({
+									if (!is.null(args$breaks)) {
+										if (length(args$breaks) > 2) {
+											list(ticks = v3_impute(args, "breaks", NULL, "ticks"))
+										} else {
+											list(ticks = v3_impute(args, "breaks", NULL, "limits"))
+										}
+									} else {
+										list()
+									}
+								},
+								list(outliers.trunc = c(TRUE, FALSE)))
+							} else {
+								list(breaks = v3_impute(args, "breaks", NULL), 
+									 interval.closure = v3_impute(args, "interval.closure", "left"), 
+									 drop.levels = v3_impute(args, "drop.levels", FALSE))
+							},
+							list(midpoint = v3_impute(args, "midpoint", NULL), 
+								 as.count = v3_impute(args, "as.count", NA), 
+								 values = v3_impute(args, "palette", NA, "values"), 
+								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
+								 values.range = v3_impute(args, "contrast", NA, "values.range"), 
+								 values.scale = 1, 
+								 value.na = v3_impute(args, "colorNA", NA, "value.na"), 
+								 value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
+								 value.neutral = NA, 
+								 labels = v3_impute(args, "labels", NULL), 
+								 label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
+								 label.null = NA, 
+								 label.format = v3_impute(args, "legend.format", list(), "label.format")))
 			
 
 		fill.scale.args$fun_pref = if (style[1] == "cat") {
