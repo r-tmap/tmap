@@ -85,6 +85,12 @@ tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, sme
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
+#' @export
+tmapShape.Spatial = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+	tmapShape.sf(as(shp, "sf"), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
+}
+
+
 
 #' @export
 tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {

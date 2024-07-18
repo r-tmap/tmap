@@ -38,6 +38,12 @@ tmapSubsetShp.Raster = function(shp, vars) {
 }
 
 #' @export
+tmapSubsetShp.Spatial = function(shp, vars) {
+	tmapSubsetShp.sf(as(shp, "sf"), vars)
+}
+
+
+#' @export
 tmapSubsetShp.SpatVector = function(shp, vars) {
 	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
 		shp$AREA = terra::expanse(shp)
@@ -68,6 +74,7 @@ tmapSubsetShp.sf = function(shp, vars) {
 	}
 	shp[, vars]
 }
+
 
 #' @export
 tmapSubsetShp.sfc = function(shp, vars) {

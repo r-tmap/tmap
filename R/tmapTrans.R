@@ -56,7 +56,7 @@ get_midpoint_angle = function(shp) {
 		} else {
 			z
 		}
-	}, lShp, pbShp,pShp)
+	}, lShp, pbShp,pShp, SIMPLIFY = FALSE)
 	
 	angles = vapply(iShps, function(x) {
 		if (length(x) == 0) 0 else .get_direction_angle(sf::st_coordinates(x)[,1:2, drop = FALSE])
@@ -65,6 +65,24 @@ get_midpoint_angle = function(shp) {
 	angles[angles > 90 & angles < 270] = angles[angles > 90 & angles < 270] - 180
 	
 	list(shp = sf::st_geometry(pShp), angles = angles)
+}
+
+sf_expand <- function(shp) {
+	x = mapply(function(tp, ge) {
+		if (tp == "MULTILINESTRING") {
+			st_cast(st_geometry(ge), "LINESTRING")
+		} else if (tp == "MULTIPOLYGON") {
+			st_cast(st_geometry(ge), "POLYGON")
+		} else if (tp == "MULTIPOINT") {
+			st_cast(st_geometry(ge), "POINT")
+		} else {
+			st_geometry(ge)
+		}
+	}, st_geometry_type(shp), st_geometry(shp), SIMPLIFY = FALSE)
+	ids = rep(1L:length(x), vapply(x, length, integer(1)))
+	shp3 = st_sf(geometry=st_sfc(do.call(c, x)))
+	shp3$split__id = ids
+	shp3
 }
 
 #' @param shpTM shpTM
@@ -92,10 +110,31 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 		} else {
 			geom_types = sf::st_geometry_type(shp)
 			
+			if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
+				if (args$point.per=="segment") {
+					shp = sf_expand(shp)
+					tmapID = tmapID[shp$split__id]
+					shp = sf::st_geometry(shp)
+				} else if (args$point.per == "largest") {
+					ids_multiline = which(geom_types == "MULTILINESTRING")
+					if (length(ids_multiline)) {
+						shp[ids_multiline] = local({
+							shp_ml = sf_expand(shp[ids_multiline])
+							lengths <- st_length(shp_ml)
+							id_max <- vapply(split(lengths, f=shp_ml$split__id), which.max, integer(1))
+							id_max2 <- vapply(1L:length(ids_multiline), function(i) {
+								which(shp_ml$split__id==i)[id_max[i]]
+							}, integer(1))
+							sf::st_geometry(shp_ml[id_max2, ])
+						})
+					}
+				}
+			}
+			
+			geom_types = sf::st_geometry_type(shp)
 			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
 			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
 			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
-			
 			
 			if (args$points.only == "yes" || (args$points.only == "ifany" && length(ids_point))) {
 				shp = shp[ids_point]
@@ -114,11 +153,11 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 						})	
 					}
 				}
-				
 				if (length(ids_poly)) {
 					shp[ids_poly] = suppressWarnings({
-						sf::st_centroid(shp[ids_poly])
+						sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point.per == "largest"))
 					})
+
 				}
 			}
 			
@@ -131,6 +170,17 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 					mod = mapply(c, xmod * d, ymod * d, SIMPLIFY = FALSE)
 					shp + mod
 				})
+			}
+			
+			if (args$point.per=="segment") {
+				u = sort(unique(tmapID))
+				tmapID_1n = match(tmapID, u)
+				
+				
+				shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
+				tmapID = u
+				rm(u)
+				rm(tmapID_1n)
 			}
 			
 			rm(geom_types)

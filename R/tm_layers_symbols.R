@@ -2,10 +2,11 @@
 #' @name opt_tm_symbols
 #' @export
 opt_tm_symbols = function(points.only = "ifany",
+						  point.per = "feature",
 						  icon.scale = 3,
 						  just = NA,
 						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
-	list(trans.args = list(points.only = points.only),
+	list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
 		 mapping.args = list(icon.scale = icon.scale,
 		 					just = just,
 		 					grob.dim = grob.dim))

@@ -4,11 +4,12 @@
 opt_tm_sf = function(polygons.only = "yes",
 					 lines.only = "yes",
 					 points.only = "yes",
+					 point.per = "feature",
 					 points.icon.scale = 3,
 					 points.just = NA,
 					 points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)) {
 
-	list(points = list(trans.args = list(points.only = points.only),
+	list(points = list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
 					   mapping.args = list(icon.scale = points.icon.scale,
 					   					just = points.just,
 					   					grob.dim = points.grob.dim)),

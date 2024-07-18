@@ -2,6 +2,7 @@
 #' @name opt_tm_text
 #' @export
 opt_tm_text = function(points.only = "ifany",
+					   point.per = "feature",
 					   shadow = FALSE,
 					   shadow.offset.x = 0.1,
 					   shadow.offset.y = 0.1,
@@ -14,6 +15,7 @@ opt_tm_text = function(points.only = "ifany",
 					   point.label.method = "SANN",
 					   remove.overlap = FALSE) {
 	list(trans.args = list(points.only = points.only,
+						   point.per = point.per,
 						   along.lines = along.lines),
 		 mapping.args = list(shadow = shadow,
 		 					shadow.offset.x = shadow.offset.x,
@@ -33,6 +35,7 @@ opt_tm_text = function(points.only = "ifany",
 #' @name opt_tm_labels
 #' @export
 opt_tm_labels = function(points.only = "ifany",
+						 point.per = "feature",
 						 shadow = FALSE,
 						 shadow.offset.x = 0.1,
 						 shadow.offset.y = 0.1,
@@ -45,6 +48,7 @@ opt_tm_labels = function(points.only = "ifany",
 						 point.label.method = "SANN",
 						 remove.overlap = FALSE) {
 	list(trans.args = list(points.only = points.only,
+						   point.per = point.per,
 						   along.lines = along.lines),
 		 mapping.args = list(shadow = shadow,
 		 					shadow.offset.x = shadow.offset.x,

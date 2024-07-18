@@ -58,6 +58,10 @@ tmapGetShapeMeta1.Raster = function(shp, o) {
 	tmapGetShapeMeta1.SpatRaster(terra::rast(shp), o)
 }
 
+#' @export
+tmapGetShapeMeta1.Spatial = function(shp, o) {
+	tmapGetShapeMeta1.SpatRaster(as(shp, "sf"), o)
+}
 
 #' @export
 tmapGetShapeMeta2.stars = function(shp, smeta, o) {
