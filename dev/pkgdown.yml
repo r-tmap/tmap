@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   tmap_sneak_peek: tmap_sneak_peek.html
   tmap_vv: tmap_vv.html
-last_built: 2024-07-18T14:54Z
+last_built: 2024-07-18T21:25Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
