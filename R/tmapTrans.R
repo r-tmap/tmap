@@ -173,12 +173,18 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			}
 			
 			if (args$point.per=="segment") {
+				tmapID_expanded = tmapID
 				u = sort(unique(tmapID))
 				tmapID_1n = match(tmapID, u)
-				
-				
+
+
 				shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
 				tmapID = u
+
+				if (args$along.lines) {
+					prop_angle = split(prop_angle, f = tmapID_1n)
+				}
+
 				rm(u)
 				rm(tmapID_1n)
 			}

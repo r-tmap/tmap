@@ -12,6 +12,7 @@
 \usage{
 opt_tm_text(
   points.only = "ifany",
+  point.per = "feature",
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
@@ -27,6 +28,7 @@ opt_tm_text(
 
 opt_tm_labels(
   points.only = "ifany",
+  point.per = "feature",
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
@@ -43,6 +45,7 @@ opt_tm_labels(
 opt_tm_markers(
   markers.on.top.of.text = FALSE,
   points.only = "ifany",
+  point.per = "feature",
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
@@ -301,6 +304,8 @@ tm_markers(
 }
 \arguments{
 \item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 

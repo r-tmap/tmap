@@ -68,10 +68,11 @@ opt_tm_labels = function(points.only = "ifany",
 #' @param dots.just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @rdname tm_text
-#' @name opt_tm_labels
+#' @name opt_tm_markers
 #' @export
 opt_tm_markers = function(markers.on.top.of.text = FALSE,
 						  points.only = "ifany",
+						  point.per = "feature",
 						  shadow = FALSE,
 						  shadow.offset.x = 0.1,
 						  shadow.offset.y = 0.1,
@@ -170,6 +171,7 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 #'   and `"none"` for no control (the group cannot be (de)selected).
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param point.per specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.
 #' @param shadow Shadow behind the text. Logical or color.
 #' @param shadow.offset.x,shadow.offset.y Shadow offset in line heights
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.

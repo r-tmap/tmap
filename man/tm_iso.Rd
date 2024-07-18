@@ -4,7 +4,13 @@
 \alias{tm_iso}
 \title{Map layer: iso (contour)}
 \usage{
-tm_iso(col, text, ...)
+tm_iso(
+  col,
+  text,
+  ...,
+  options_lines = opt_tm_lines(),
+  options_labels = opt_tm_labels()
+)
 }
 \arguments{
 \item{col}{Visual variable that determines the color of the lines}
@@ -12,7 +18,11 @@ tm_iso(col, text, ...)
 \item{text}{Visual variable that determines the text}
 
 \item{...}{passed on to \code{\link[=tm_lines]{tm_lines()}} and \code{\link[=tm_labels_highlighted]{tm_labels_highlighted()}}. For the text color and alpha transparency of the text labels, please use \code{text_col} and \code{text_alpha} instead of \code{col} and \code{col_alpha}.}
+
+\item{options_lines}{The options for \code{\link[=tm_lines]{tm_lines()}}}
+
+\item{options_labels}{The options for \code{\link[=tm_labels_highlighted]{tm_labels_highlighted()}}}
 }
 \description{
-Map layer that draws iso (contour) lines. Stack of \code{\link[=tm_lines]{tm_lines()}} and \link{tm_labels_highlighed}.
+Map layer that draws iso (contour) lines. Stack of \code{\link[=tm_lines]{tm_lines()}} and \link{tm_labels_highlighted}.
 }

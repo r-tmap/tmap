@@ -9,6 +9,7 @@ opt_tm_sf(
   polygons.only = "yes",
   lines.only = "yes",
   points.only = "yes",
+  point.per = "feature",
   points.icon.scale = 3,
   points.just = NA,
   points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -59,7 +60,7 @@ tm_sf(
 )
 }
 \arguments{
-\item{polygons.only, lines.only, points.only, points.icon.scale, points.just, points.grob.dim}{See \code{\link[=opt_tm_polygons]{opt_tm_polygons()}}, \code{\link[=opt_tm_lines]{opt_tm_lines()}} and \code{\link[=opt_tm_symbols]{opt_tm_symbols()}}}
+\item{polygons.only, lines.only, points.only, point.per, points.icon.scale, points.just, points.grob.dim}{See \code{\link[=opt_tm_polygons]{opt_tm_polygons()}}, \code{\link[=opt_tm_lines]{opt_tm_lines()}} and \code{\link[=opt_tm_symbols]{opt_tm_symbols()}}}
 
 \item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines
 the fill color. See details.}

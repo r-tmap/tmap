@@ -71,7 +71,7 @@ opt_tm_sf = function(polygons.only = "yes",
 #' @param plot.order.list Specification in which order the spatial features are drawn.
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.
 #'   For each of these types, which are drawn in that order, a [tm_plot_order()] is required.
-#' @param polygons.only,lines.only,points.only,points.icon.scale,points.just,points.grob.dim See [opt_tm_polygons()], [opt_tm_lines()] and [opt_tm_symbols()]
+#' @param polygons.only,lines.only,points.only,point.per,points.icon.scale,points.just,points.grob.dim See [opt_tm_polygons()], [opt_tm_lines()] and [opt_tm_symbols()]
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param zindex Map layers are drawn on top of each other.
 #'   The `zindex` numbers (one for each map layer) determines the stacking order.

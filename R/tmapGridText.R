@@ -23,6 +23,27 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	
 	coords = sf::st_coordinates(shp)
 	
+	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	if (ncol(coords) == 3L) {
+		ndt = nrow(dt)
+		gp = lapply(gp, function(gpi) {
+			if (is.list(gpi)) {
+				unlist(gpi)
+			} else if (length(gpi) == ndt) {
+				gpi[coords[,3L]]
+			} else {
+				gpi
+			}
+		})
+		coords = coords[,1:2]
+		n = nrow(coords)
+		text = dt$text[match(shpTM$tmapID_expanded, shpTM$tmapID)]
+	} else {
+		n = nrow(dt)
+		text = dt$text
+	}
+	
+	
 	g = get("g", .TMAP_GRID)
 	
 	
@@ -53,6 +74,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	# apply xmod and ymod
 	coords[,1] = coords[,1] + xIn * lineIn * gp$cex * gp$xmod
 	coords[,2] = coords[,2] + yIn * lineIn * gp$cex * gp$ymod
+
 	
 	# specials vv (later on lost after gp_to_gpar)
 	bgcol = gp$bgcol
@@ -70,20 +92,19 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		# grobs are processed seperately because of the order: backgrond1, shadow1, text1, background2, shadow2, text2, etc.
 		# becaues it is less efficient when there is no background/shadow (majority of use cases), this is a seperate routine
 		
-		n = nrow(dt)
 		gps = split_gp(gp, n)
 		
 		grobTextList = mapply(function(txt, x , y, gp, a) {
 			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a, just = just) #, name = paste0("text_", id))
-		}, dt$text, coords[,1], coords[, 2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-		
+		}, text, coords[,1], coords[,2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+
 		if (with_shadow) {
 			gp_sh = gp
 			gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
 			gps_sh = split_gp(gp_sh, n)
 			grobTextShList = mapply(function(x, y, txt, g, a) {
 				grid::textGrob(x = grid::unit(x + args$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  args$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = a)
-			}, coords[,1], coords[,2], dt$text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			}, coords[,1], coords[,2], text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
 		}
@@ -197,7 +218,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 		grb = grid::grobTree(do.call(grid::gList, do.call(c, do.call(mapply, c(list(FUN = list, SIMPLIFY = FALSE, USE.NAMES = FALSE), grobTextAll2)))))
 		
 	} else {
-		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id), rot = angle)
+		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = text, gp = gp, name = paste0("text_", id), rot = angle)
 		grb = grid::grobTree(gList(grobText))
 	}
 	
