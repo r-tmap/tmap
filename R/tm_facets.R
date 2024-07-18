@@ -39,7 +39,7 @@ tm_facets = function(by = NULL,
 					 drop.NA.facets = FALSE,
 					 sync = TRUE,
 					 showNA = NA,
-					 textNA = "Mssing",
+					 textNA = "Missing",
 					 scale.factor=2,
 					 type = NA, # grid, wrap or stack
 					 along = NULL
@@ -104,7 +104,7 @@ tm_facets_grid = function(rows = NULL,
 
 #' @export
 #' @rdname tm_facets
-#' @param ... paseed on to `tm_facets`
+#' @param ... passed on to `tm_facets`
 #' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,
