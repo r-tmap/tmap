@@ -272,7 +272,6 @@ hex_to_num = function(h) {
 merge_alpha = function(dt, name) {
 	name_a = paste0(name, "_alpha")
 	f = function(d) {
-		
 		d1 = d[1,]
 		col = d1[[name]]
 		alpha = d1[[name_a]]
@@ -281,10 +280,10 @@ merge_alpha = function(dt, name) {
 			a = hex_to_num(substr(col, 8, 9)) * alpha
 			cl = substr(col, 1, 7)
 		} else {
-			a = alpha
+			a = alpha * 255
 			cl = col
 		}
-		ac = paste0(cl, num_to_hex(round(a*255)))
+		ac = paste0(cl, num_to_hex(round(a)))
 		rep(ac, nrow(d))
 	}
 	

@@ -4,7 +4,6 @@
 \alias{v4-not-yet}
 \alias{tm_logo}
 \alias{tmap_grob}
-\alias{tm_rgba}
 \alias{tmap_tip}
 \alias{tmap_style_catalog}
 \alias{tmap_style_catalogue}
@@ -13,8 +12,6 @@
 tm_logo(...)
 
 tmap_grob(...)
-
-tm_rgba(...)
 
 tmap_tip(...)
 

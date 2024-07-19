@@ -2,9 +2,12 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_scale_rgb}
 \alias{tm_scale_rgb}
+\alias{tm_scale_rgba}
 \title{Scales: RGB}
 \usage{
 tm_scale_rgb(value.na = NA, maxValue = 255)
+
+tm_scale_rgba(value.na = NA, maxValue = 255)
 }
 \arguments{
 \item{value.na}{value for missing values}

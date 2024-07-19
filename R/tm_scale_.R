@@ -365,10 +365,18 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #' @param value.na value for missing values
 #' @param maxValue maximum value
 #' @seealso [tm_scale()]
+#' @rdname tm_scale_rgb
 #' @export
 tm_scale_rgb = function(value.na = NA,
 						maxValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale", "list"))
+}
+
+#' @rdname tm_scale_rgb
+#' @export
+tm_scale_rgba = function(value.na = NA,
+						maxValue = 255) {
+	structure(c(list(FUN = "tmapScaleRGBA"), as.list(environment())), class = c("tm_scale_rgba", "tm_scale", "list"))
 }
 
 # tm_scale_na = function() {
