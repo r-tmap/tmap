@@ -10,34 +10,11 @@ submit_labels = function(labels, cls, pane, group) {
 			labels_all[(pos + 1): length(labels_all)]	
 		})
 	} else {
-		labels = make.names(labels)
+		labels = make.names(labels, unique = TRUE)
+		labels = gsub(".", "_", labels,fixed = TRUE)
 	}
 
 	layerIds = c(layerIds, list(list(name = pane, type = cls, group = group, Lid = labels)))
-	
-	# types <- attr(layerIds, "types")
-	# groups <- attr(layerIds, "groups")
-	# 
-	# labels_all <- unlist(layerIds, use.names = FALSE)
-	# 
-	# pos <- length(labels_all)
-	# 
-	# labels_all <- make.names(c(labels_all, labels), unique = TRUE)
-	# labels_all = gsub(".", "_", labels_all,fixed = TRUE)
-	# 
-	# labels <- labels_all[(pos + 1): length(labels_all)]	
-	# 
-	# labelsList <- list(labels)
-	# names(labelsList) <- pane
-	# 
-	# layerIds <- c(layerIds, labelsList)
-	# 
-	# #layerIds[[cls]] <- labels_all
-	# 
-	# attr(layerIds, "types") <- c(types, cls)
-	# attr(layerIds, "groups") <- c(groups, group)
-	# 
-	# po(layerIds)
 	
 	assign("layerIds", layerIds, envir = .TMAP_LEAFLET)
 	labels
@@ -166,6 +143,25 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	coords = sf::st_coordinates(shp)
 	
+	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	if (ncol(coords) == 3L) {
+		ndt = nrow(dt)
+		gp = lapply(gp, function(gpi) {
+			if (is.list(gpi)) {
+				unlist(gpi)
+			} else if (length(gpi) == ndt) {
+				gpi[coords[,3L]]
+			} else {
+				gpi
+			}
+		})
+		coords = coords[,1:2]
+		tmapID_ids = match(shpTM$tmapID_expanded, shpTM$tmapID)
+		if (!is.null(idt)) idt = submit_labels(dt$tmapID__[tmapID_ids], "text", pane, group)
+	} else {
+		if (!is.null(idt)) idt = submit_labels(dt$tmapID__, "text", pane, group)
+	}
+	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
 	gp2 = gp_to_lpar(gp, mfun = "Symbols")
@@ -181,8 +177,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%  
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
-		if (is.null(idt)) idt = submit_labels(dt$tmapID__, "symbols", pane, group)
-		
+
 		sn = suppressWarnings(as.numeric(gp2$shape))
 		
 		sid = which(!is.na(sn))
@@ -341,13 +336,32 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
-	text = as.character(gp$text)
-	
+
 	coords = sf::st_coordinates(shp)
+	
+	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	if (ncol(coords) == 3L) {
+		ndt = nrow(dt)
+		gp = lapply(gp, function(gpi) {
+			if (is.list(gpi)) {
+				unlist(gpi)
+			} else if (length(gpi) == ndt) {
+				gpi[coords[,3L]]
+			} else {
+				gpi
+			}
+		})
+		coords = coords[,1:2]
+		tmapID_ids = match(shpTM$tmapID_expanded, shpTM$tmapID)
+		text = as.character(dt$text[tmapID_ids])
+		idt = submit_labels(dt$tmapID__[tmapID_ids], "text", pane, group)
+	} else {
+		text = as.character(dt$text)
+		idt = submit_labels(dt$tmapID__, "text", pane, group)
+	}
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
-	idt = submit_labels(dt$tmapID__, "text", pane, group)
 	
 	
 	cex_set = unique(gp$cex)
@@ -392,14 +406,14 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	
 	if (!vary) {
-		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
+		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2],
 										 label=text,
-										 group=group, 
-										 layerId = idt, 
-										 labelOptions = labelOptions(noHide = TRUE, 
-										 							textOnly = TRUE, 
+										 group=group,
+										 layerId = idt,
+										 labelOptions = labelOptions(noHide = TRUE,
+										 							textOnly = TRUE,
 										 							pane = pane,
-										 							direction = direction, 
+										 							direction = direction,
 										 							opacity=gp$col_alpha[1],
 										 							textsize=sizeChar[1],
 										 							style=list(color=gp$col[1])),
@@ -407,19 +421,19 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 										 clusterOptions = clustering)
 	} else {
 		for (i in 1:length(text)) {
-			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
+			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2],
 											 label=text[i],
-											 group=group, 
-											 layerId = idt[i], 
-											 labelOptions = labelOptions(noHide = TRUE, 
-											 							textOnly = TRUE, 
+											 group=group,
+											 layerId = idt[i],
+											 labelOptions = labelOptions(noHide = TRUE,
+											 							textOnly = TRUE,
 											 							pane = pane,
-											 							direction = direction, 
+											 							direction = direction,
 											 							opacity=gp$col_alpha[i],
 											 							textsize=sizeChar[i],
 											 							style=list(color=gp$col[i])),
 											 options = markerOptions(pane = pane),
-											 clusterOptions = clustering)	
+											 clusterOptions = clustering)
 		}
 	}
 	assign_lf(lf, facet_row, facet_col, facet_page)
