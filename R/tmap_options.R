@@ -180,7 +180,7 @@ tmapMode = function(id, name, ...) {
 						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
 						  lty = list(fact = "categorical", num = "intervals"),
 						  shape = list(fact = "categorical", num = "intervals"),
-						  size = list(fact = "categorical", num = "continuous"),
+						  size = list(fact = "continuous", num = "continuous"),
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
 						  bgcol_alpha = list(fact = "categorical", num = "intervals"),
