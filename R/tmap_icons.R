@@ -19,6 +19,8 @@
 #'   they override `width` and `height`, and `just`.
 #' @return icon data (see [leaflet::icons()])
 #' @export
+#' @name tmap_icons
+#' @rdname tmap_icons
 #' @seealso [tm_symbols()]
 tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), as.local=TRUE, ...) {
 	icon_names <- names(file)
