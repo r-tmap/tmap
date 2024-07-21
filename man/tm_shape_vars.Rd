@@ -2,9 +2,15 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_shape_vars}
 \alias{tm_shape_vars}
+\alias{tm_mv_shape_vars}
 \title{tmap function to specify all variables in the shape object}
 \usage{
-tm_shape_vars()
+tm_shape_vars(n = NA)
+
+tm_mv_shape_vars(n = NA)
+}
+\arguments{
+\item{n}{the first \code{n} shape variables are used}
 }
 \description{
 tmap function to specify all variables in the shape object

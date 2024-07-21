@@ -13,9 +13,9 @@ opt_tm_rgb = function(interpolate = FALSE) {
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
 #'   the col color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_mv()] or [tm_mv_dim()]
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
-
+#' @example ./examples/tm_rgb.R 
 #' @export
-tm_rgb = function(col = tm_mv(1:3),
+tm_rgb = function(col = tm_mv_shape_vars(3),
 				  col.scale = tm_scale_rgb(),
 				  col.legend = tm_legend(),
 				  col.chart = tm_chart_none(),
@@ -26,7 +26,7 @@ tm_rgb = function(col = tm_mv(1:3),
 
 #' @rdname tm_rgb
 #' @export
-tm_rgba = function(col = tm_mv(1:4),
+tm_rgba = function(col = tm_mv_shape_vars(4),
 				  col.scale = tm_scale_rgba(),
 				  col.legend = tm_legend(),
 				  col.chart = tm_chart_none(),

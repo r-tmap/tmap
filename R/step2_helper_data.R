@@ -159,21 +159,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			aes$data_vars = FALSE
 		}
 			
-			# 
-			# List of 10
-			# $ scale        :List of 1
-			# ..- attr(*, "class")= chr [1:3] "tm_scale_auto" "tm_scale" "list"
-			# $ legend       :List of 65
-			# ..- attr(*, "class")= chr [1:2] "tm_legend_standard_portrait" "list"
-			# $ chart        :List of 36
-			# ..- attr(*, "class")= chr [1:4] "tm_chart_none" "tm_chart" "tm_component" "list"
-			# $ o            :List of 343
-			# $ aes          : chr "fill"
-			# $ layer        : chr "polygons"
-			# $ layer_args   : list()
-			# $ sortRev      : logi NA
-			# $ bypass_ord   : logi FALSE
-			# $ submit_legend: logi TRUE
 		if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible tm_mv per facet)

@@ -83,8 +83,15 @@ step1_rearrange_facets = function(tmo, o) {
 		precheck_aes = function(a, layer, shpvars, args) {
 			within(a, {
 				
-				if (inherits(value, "tmapDimVars")) {
-					if (!(value$x %in% smeta$dims)) stop("Unknown dimension in tm_dim_vars", call. = FALSE)
+				if (inherits(value, "tmapDimVars") || (inherits(value, "tmapMVShpVars") && length(shpvars) == 1L && value$n >= 1)) {
+					if (inherits(value, "tmapDimVars")) {
+						if (!(value$x %in% smeta$dims)) stop("Unknown dimension in tm_dim_vars", call. = FALSE)
+					} else {
+						value = list(x = smeta$dims[1], values = {
+							if (is.na(value$n)) smeta$dims_vals[[1]] else smeta$dims_vals[[1]][1L:value$n]
+						})
+					}
+					
 					split_stars_dim = value$x
 					if (!all(value$values %in% smeta$dims_vals[[split_stars_dim]])) stop("Unknown values in tm_dim_vars", call. = FALSE)
 					
@@ -110,7 +117,21 @@ step1_rearrange_facets = function(tmo, o) {
 						if (!is.list(value_orig)) value = list(value_orig)
 						names(value) = sapply(value, "[", 1)
 					} else if (inherits(value, "tmapShpVars")) {
-						value = as.list(shpvars)
+						if (is.na(value$n)) {
+							value = as.list(shpvars)
+						} else {
+							if (length(shpvars) < value$n) {
+								stop("tm_shape_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
+							}
+							value = as.list(shpvars[1L:value$n])
+						}
+					} else if (inherits(value, "tmapMVShpVars")) {
+						if (is.na(value$n)) {
+							value = list(shpvars)
+						} else {
+							if (length(shpvars) < value$n) stop("tm_shape_vars specified with n = ", value$n, " but there are only ", length(shpvars), " variables available", call. = FALSE)
+							value = list(shpvars[1L:value$n])
+						}
 					} else {
 						value_orig = value
 						#value = lapply(value_orig, make.names)

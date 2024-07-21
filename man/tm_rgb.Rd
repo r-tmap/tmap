@@ -9,7 +9,7 @@
 opt_tm_rgb(interpolate = FALSE)
 
 tm_rgb(
-  col = tm_mv(1:3),
+  col = tm_mv_shape_vars(3),
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
@@ -18,7 +18,7 @@ tm_rgb(
 )
 
 tm_rgba(
-  col = tm_mv(1:4),
+  col = tm_mv_shape_vars(4),
   col.scale = tm_scale_rgba(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
@@ -36,4 +36,37 @@ the col color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col}, which should be specified with 3 or 4 variables for \code{tm_rgb} and \code{tm_rgba} respectively. The first three correspond to the red, green, and blue channels. The optional fourth is the alpha transparency channel.
+}
+\examples{
+require(stars)
+file = system.file("tif/L7_ETMs.tif", package = "stars")
+
+L7 = stars::read_stars(file)
+
+tm_shape(L7) +
+	tm_rgb()
+
+\dontrun{
+# the previous example was a shortcut of this call
+tm_shape(L7) +
+	tm_rgb(col = tm_mv_dim("band", 1:3))
+
+# alternative format: using a stars dimension instead of attributes
+L7_alt = split(L7, "band")
+tm_shape(L7_alt) +
+	tm_rgb()
+
+tm_shape(L7_alt) +
+	tm_rgb(col = tm_mv("X1", "X2", "X3"))
+
+if (requireNamespace("terra")) {
+	L7_terra = terra::rast(file)
+	
+	tm_shape(L7_terra) +
+		tm_rgb()
+	
+	tm_shape(L7_terra) +
+		tm_rgb(tm_mv(names(L7_terra)[1:3]))
+}
+}
 }
