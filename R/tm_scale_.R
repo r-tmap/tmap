@@ -12,7 +12,7 @@ tm_const = function() {
 #' tmap function to specify all variables in the shape object
 #' 
 #' @param n if specified, the first `n` shape variables are used
-#' @param id index numbers of the used shape variables
+#' @param ids index numbers of the used shape variables
 #' @export
 tm_shape_vars = function(ids = NA, n = NA) {
 	structure(list(ids = ids, n = n), class = c("tm_shape_vars", "list"))

@@ -1,13 +1,13 @@
 #' Export tmap to the format of the used graphics mode
 #' 
-#' * `tmap_grid()` returns a [`grob`][grid::grob()] object (`"plot" mode`)
+#' * `tmap_grob()` returns a [`grob`][grid::grob()] object (`"plot" mode`)
 #' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).
 #' 
 #' @param x a tmap object.
 #' @param show show the map?
 #' @inheritDotParams print.tmap
 #' @return 
-#' * `tmap_grid()` returns a [`grob`][grid::grob()] object (`"plot"` mode)
+#' * `tmap_grob()` returns a [`grob`][grid::grob()] object (`"plot"` mode)
 #' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).
 #'   In case small multiples are shown, a list is returned.
 #' @export
@@ -28,10 +28,10 @@ tmap_leaflet = function(x,
 	print.tmap(x, show = show, ...)
 }
 
-#' @name tmap_grid
+#' @name tmap_grob
 #' @rdname tmap_leaflet
 #' @export
-tmap_grid = function(x,
+tmap_grob = function(x,
 					 show = FALSE,
 					 ...) {
 	current_mode = getOption("tmap.mode")

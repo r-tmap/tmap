@@ -2,12 +2,12 @@
 % Please edit documentation in R/tmap_leaflet.R
 \name{tmap_leaflet}
 \alias{tmap_leaflet}
-\alias{tmap_grid}
+\alias{tmap_grob}
 \title{Export tmap to the format of the used graphics mode}
 \usage{
 tmap_leaflet(x, show = FALSE, ...)
 
-tmap_grid(x, show = FALSE, ...)
+tmap_grob(x, show = FALSE, ...)
 }
 \arguments{
 \item{x}{a tmap object.}
@@ -27,14 +27,14 @@ tmap_grid(x, show = FALSE, ...)
 }
 \value{
 \itemize{
-\item \code{tmap_grid()} returns a \code{\link[grid:grid.grob]{grob}} object (\code{"plot"} mode)
+\item \code{tmap_grob()} returns a \code{\link[grid:grid.grob]{grob}} object (\code{"plot"} mode)
 \item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
 In case small multiples are shown, a list is returned.
 }
 }
 \description{
 \itemize{
-\item \code{tmap_grid()} returns a \code{\link[grid:grid.grob]{grob}} object (\verb{"plot" mode})
+\item \code{tmap_grob()} returns a \code{\link[grid:grid.grob]{grob}} object (\verb{"plot" mode})
 \item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
 }
 }
