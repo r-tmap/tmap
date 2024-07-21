@@ -21,8 +21,8 @@ tm_mv_dim = function(x, values) {
 
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
-	if (inherits(x, "tm_shape_vars")) return(structure(list(n = x$n), class = "tmapShpVars"))
-	if (inherits(x, "tm_mv_shape_vars")) return(structure(list(n = x$n), class = "tmapMVShpVars"))
+	if (inherits(x, "tm_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapShpVars"))
+	if (inherits(x, "tm_mv_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapMVShpVars"))
 	if (inherits(x, "tmapDimVars")) return(x)
 	
 	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tmapVars"

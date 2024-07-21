@@ -11,18 +11,18 @@ tm_const = function() {
 #' 
 #' tmap function to specify all variables in the shape object
 #' 
-#' @param n the first `n` shape variables are used
-#' @rdname tm_shape_vars
+#' @param n if specified, the first `n` shape variables are used
+#' @param id index numbers of the used shape variables
 #' @export
-tm_shape_vars = function(n = NA) {
-	structure(list(n = n), class = c("tm_shape_vars", "list"))
+tm_shape_vars = function(ids = NA, n = NA) {
+	structure(list(ids = ids, n = n), class = c("tm_shape_vars", "list"))
 }
 
+
 #' @rdname tm_shape_vars
-#' @name tm_mv_shape_vars
 #' @export
-tm_mv_shape_vars = function(n = NA) {
-	structure(list(n = n), class = c("tm_mv_shape_vars", "list"))
+tm_mv_shape_vars = function(ids = NA, n = NA) {
+	structure(list(ids = ids, n = n), class = c("tm_mv_shape_vars", "list"))
 }
 
 #' Scales: automatic scale

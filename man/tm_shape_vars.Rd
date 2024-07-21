@@ -5,12 +5,14 @@
 \alias{tm_mv_shape_vars}
 \title{tmap function to specify all variables in the shape object}
 \usage{
-tm_shape_vars(n = NA)
+tm_shape_vars(ids = NA, n = NA)
 
-tm_mv_shape_vars(n = NA)
+tm_mv_shape_vars(ids = NA, n = NA)
 }
 \arguments{
-\item{n}{the first \code{n} shape variables are used}
+\item{n}{if specified, the first \code{n} shape variables are used}
+
+\item{id}{index numbers of the used shape variables}
 }
 \description{
 tmap function to specify all variables in the shape object

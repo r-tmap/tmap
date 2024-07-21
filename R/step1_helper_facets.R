@@ -83,7 +83,7 @@ step1_rearrange_facets = function(tmo, o) {
 		precheck_aes = function(a, layer, shpvars, args) {
 			within(a, {
 				
-				if (inherits(value, "tmapDimVars") || (inherits(value, "tmapMVShpVars") && length(shpvars) == 1L && value$n >= 1)) {
+				if (inherits(value, "tmapDimVars") || (inherits(value, "tmapMVShpVars") && length(shpvars) == 1L)) {
 					if (inherits(value, "tmapDimVars")) {
 						if (!(value$x %in% smeta$dims)) stop("Unknown dimension in tm_dim_vars", call. = FALSE)
 					} else {
@@ -117,20 +117,24 @@ step1_rearrange_facets = function(tmo, o) {
 						if (!is.list(value_orig)) value = list(value_orig)
 						names(value) = sapply(value, "[", 1)
 					} else if (inherits(value, "tmapShpVars")) {
-						if (is.na(value$n)) {
-							value = as.list(shpvars)
-						} else {
-							if (length(shpvars) < value$n) {
-								stop("tm_shape_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
-							}
+						if (!is.na(value$ids[1])) {
+							if (!all(value$ids %in% 1L:length(shpvars))) stop("tm_shape_vars defined for ids = ", paste(value$ids, collapse = ", "), " while there are only ", length(shpvars), " variables", call. = FALSE)
+							value = as.list(shpvars[value$ids])
+						} else if (!is.na(value$n)) {
+							if (length(shpvars) < value$n) stop("tm_shape_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
 							value = as.list(shpvars[1L:value$n])
+						} else {
+							value = as.list(shpvars)
 						}
 					} else if (inherits(value, "tmapMVShpVars")) {
-						if (is.na(value$n)) {
-							value = list(shpvars)
-						} else {
+						if (!is.na(value$ids[1])) {
+							if (!all(value$ids %in% 1L:length(shpvars))) stop("tm_shape_vars defined for ids = ", paste(value$ids, collapse = ", "), " while there are only ", length(shpvars), " variables", call. = FALSE)
+							value = list(shpvars[value$ids])
+						} else if (!is.na(value$n)) {
 							if (length(shpvars) < value$n) stop("tm_shape_vars specified with n = ", value$n, " but there are only ", length(shpvars), " variables available", call. = FALSE)
 							value = list(shpvars[1L:value$n])
+						} else {
+							value = list(shpvars)
 						}
 					} else {
 						value_orig = value
