@@ -107,7 +107,7 @@ step1_rearrange_facets = function(tmo, o) {
 					
 				} else {
 					split_stars_dim = ""
-					if (length(value) && is.na(value[[1]][1])) {
+					if (length(value) && is.na(value[[1]][1]) && !inherits(value, c("tmapMVShpVars", "tmapShpVars"))) {
 						# NA -> value.blank
 						value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
 					}

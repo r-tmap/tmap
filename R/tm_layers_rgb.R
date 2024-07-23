@@ -15,7 +15,7 @@ opt_tm_rgb = function(interpolate = FALSE) {
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @example ./examples/tm_rgb.R 
 #' @export
-tm_rgb = function(col = tm_mv_shape_vars(3),
+tm_rgb = function(col = tm_mv_shape_vars(n = 3),
 				  col.scale = tm_scale_rgb(),
 				  col.legend = tm_legend(),
 				  col.chart = tm_chart_none(),
@@ -26,7 +26,7 @@ tm_rgb = function(col = tm_mv_shape_vars(3),
 
 #' @rdname tm_rgb
 #' @export
-tm_rgba = function(col = tm_mv_shape_vars(4),
+tm_rgba = function(col = tm_mv_shape_vars(n = 4),
 				  col.scale = tm_scale_rgba(),
 				  col.legend = tm_legend(),
 				  col.chart = tm_chart_none(),
