@@ -207,7 +207,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * o$scale)
 			
 			vals = VV$x
-			value.neutral = VV$neutral
+			if (is.na(value.neutral)) value.neutral = VV$neutral
 		}
 		
 		isna = is.na(vals)

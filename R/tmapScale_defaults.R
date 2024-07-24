@@ -226,10 +226,15 @@ tmapValuesRange_fontface = function(x, n, isdiv) {
 	c(0, 1)
 }
 
-tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o, aes = "fill") {
 	#palid = tmapPalId(x[1])
+	if (x[1] %in% c("seq", "div", "unord", "ord", "biv")) {
+		# cols4all can also take "div", but does not take into account tmap style
+		x = getAesOption("values.var", o, aes = aes, layer = NA, cls = x[1])
+	}
 	
-	m = getPalMeta(x[1])
+	m = getPalMeta(x[1])	
+	
 
 	scale_ids = function(ids, n) {
 		1 + ((ids - 1) / (n - 1)) * 100	
@@ -302,11 +307,11 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 }
 
 tmapValuesVV_col = function(...) {
-	tmapValuesVV_fill(...)
+	tmapValuesVV_fill(..., aes = "col")
 }
 
 tmapValuesVV_bgcol = function(...) {
-	tmapValuesVV_fill(...)
+	tmapValuesVV_fill(..., aes = "bgcol")
 }
 
 tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
@@ -492,7 +497,7 @@ transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
 	x2 = norm_vector(x, lim)
 	x3 = if (rng[1] != 0 || rng[2] != 1) scale_vector(x2, rng) else x2
 
-	if (include.neutral) neutral = mean(x3)
+	if (include.neutral) neutral = mean(rng)
 	if (p != 1) {
 		x3 = x3 ^ p
 		if (include.neutral) neutral = neutral ^ p

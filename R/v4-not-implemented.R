@@ -10,13 +10,3 @@ NULL
 tmap_tip <- function(...) {
 	stop("Not yet implemented in v4")
 }
-#' @export
-#' @rdname v4-not-yet
-tmap_style_catalog <- function(...) {
-	stop("Not yet implemented in v4")
-}
-#' @export
-#' @rdname v4-not-yet
-tmap_style_catalogue <- function(...) {
-	stop("Not yet implemented in v4")
-}
