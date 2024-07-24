@@ -9,7 +9,7 @@
 opt_tm_rgb(interpolate = FALSE)
 
 tm_rgb(
-  col = tm_mv_shape_vars(3),
+  col = tm_mv_shape_vars(n = 3),
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
@@ -18,7 +18,7 @@ tm_rgb(
 )
 
 tm_rgba(
-  col = tm_mv_shape_vars(4),
+  col = tm_mv_shape_vars(n = 4),
   col.scale = tm_scale_rgba(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),

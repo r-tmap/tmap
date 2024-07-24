@@ -2,14 +2,11 @@
 % Please edit documentation in R/v4-not-implemented.R
 \name{v4-not-yet}
 \alias{v4-not-yet}
-\alias{tm_logo}
 \alias{tmap_tip}
 \alias{tmap_style_catalog}
 \alias{tmap_style_catalogue}
 \title{Features not yet implemented in tmap4}
 \usage{
-tm_logo(...)
-
 tmap_tip(...)
 
 tmap_style_catalog(...)

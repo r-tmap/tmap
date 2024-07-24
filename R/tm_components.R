@@ -241,4 +241,40 @@ tm_minimap <- function(server,
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
 }
 
- 
+
+#' Map component: logo
+#' 
+#' Map component that adds a scale bar. As of version 4.0, `tm_scalebar()` is
+#' used instead of `tm_scale_bar()` (now deprecated), because of the potential
+#' confusion with the `tm_scale_*()` scaling functions (like [tm_scale_continuous()]).
+#' 
+#' @param file either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
+#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo. If multiple logos are specified by a vector or list, the heights can be specified accordingly.
+#' @param margins margins
+#' @param between.margin between.margin
+#' @param stack stack
+#' @param position position
+#' @param frame frame
+#' @param frame.lwd frame.lwd
+#' @param frame.r frame.r
+#' @param group.frame group.frame
+#' @param resize.as.group resize.as.group
+#' @param z z
+#' @example ./examples/tm_logo.R 
+#' @export
+tm_logo = function(file,
+				   height,
+				   margins,
+				   between.margin,
+				   stack,
+				   position,
+				   frame,
+				   frame.lwd,
+				   frame.r,
+				   group.frame,
+				   resize.as.group,
+				   z) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
+}

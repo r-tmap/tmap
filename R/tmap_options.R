@@ -491,6 +491,18 @@ tmapMode = function(id, name, ...) {
 		compass.group.frame = TRUE,
 		compass.resize.as.group = FALSE,
 		
+		logo.height = 3,
+		logo.margins = c(0.2, 0.2, 0.2, 0.2),
+		logo.between.margin = 0.2,
+		logo.show = FALSE,
+		logo.stack = "vertical",
+		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		logo.frame = FALSE,
+		logo.frame.lwd = 1,
+		logo.frame.r = 2,
+		logo.group.frame = TRUE,
+		logo.resize.as.group = FALSE,
+		
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
 		scalebar.width=20, 

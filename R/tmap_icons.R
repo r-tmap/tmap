@@ -37,8 +37,8 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 		stop(file, " is neither a valid path nor url", call.=FALSE)
 	}
 	if (!pu) {
-		tmpfile <- tempfile(fileext=".png")
-		download.file(file, destfile=tmpfile, mode="wb")
+		tmpfile <- file.path(tempdir(), basename(file))
+		if (!file.exists(tmpfile)) download.file(file, destfile=tmpfile, mode="wb")
 		localfile <- tmpfile
 	} else {
 		localfile <- file
@@ -95,8 +95,8 @@ pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dp
 	}
 		
 	if (!pu) {
-		tmpfile <- tempfile(fileext=".png")
-		download.file(file, destfile=tmpfile, mode="wb")
+		tmpfile <- file.path(tempdir(), basename(file))
+		if (!file.exists(tmpfile)) download.file(file, destfile=tmpfile, mode="wb")
 		file <- tmpfile
 	}
 		

@@ -728,3 +728,81 @@ tmapGridCompWidth.tm_minimap = function(comp, o) {
 tmapGridLegPlot.tm_minimap = function(comp, o, fH, fW) {
 	NULL
 }
+
+
+
+
+#' @export
+tmapGridCompPrepare.tm_logo = function(comp, o) {
+	comp$logo = lapply(comp$file, function(lf){
+		tmap_icons(lf)
+	})
+	comp$asp = vapply(comp$logo, function(lg) {
+		lg$iconWidth / lg$iconHeight
+	}, FUN.VALUE = numeric(1))
+	comp$show = TRUE
+	comp
+}
+
+#' @export
+tmapGridCompHeight.tm_logo = function(comp, o) {
+	marH = comp$margins[c(3,1)] * o$lin
+	hs = c(marH[1], comp$height * o$lin, marH[2])
+	
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+	
+	Hin = sum(hs)
+	comp$flexRow = NA
+	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
+	comp$hsu = hsu
+	comp
+}
+
+#' @export
+tmapGridCompWidth.tm_logo = function(comp, o) {
+	k = length(comp$asp)
+	comp$width = comp$height * comp$asp
+	
+	marW = comp$margins[c(2,4)] * o$lin
+	ws = c(marW[1], 
+		   comp$width[1] * o$lin, 
+		   {if (k > 1) unlist(lapply(comp$width[-1], function(w) c(comp$between.margin, w) * o$lin)) else NULL},
+		   marW[2])
+	
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+	comp$col_ids = seq(3L, by = 2L, length.out = k)
+	comp$flexCol = NA
+	comp$Win = sum(ws)
+	comp$wsu = wsu
+	comp
+}
+
+#' @export
+tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
+	
+	k = length(comp$logo)
+	
+	wsu = comp$wsu
+	hsu = comp$hsu
+	
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu), 
+												   widths = wsu,
+												   heights = hsu))
+	gLogos = mapply(function(logo, col) {
+		grobLogo = pngGrob(logo$iconUrl, fix.borders = TRUE, n=2, height.inch=as.numeric(comp$hsu[3]), target.dpi=96)
+		rdim = dim(grobLogo$raster)
+		grobLogo$raster = matrix(do.call("process_color", c(list(as.vector(grobLogo$raster), alpha=1), o$pc)), nrow = rdim[1], ncol=rdim[2])
+		gridCell(3L, col, grobLogo)
+	}, comp$logo, comp$col_ids, SIMPLIFY = FALSE)
+	
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
+	
+	do.call(grid::grobTree, c(list(gBG), gLogos, list(vp = vp)))
+
+}
+
+
