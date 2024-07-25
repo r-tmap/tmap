@@ -30,8 +30,9 @@ tmap_style = function(style) {
 	show.messages = get("tmapOptions", envir = .TMAP)$show.messages
 	
 	if (missing(style) && show.messages) {
-		message("current tmap style is \"", current.style, "\"")
-		message("other available styles are: ", print_text_vector(get_style_names(current.style)))
+		message("current tmap style is \"", style_names(current.style))
+		message("other available styles are: ", print_text_vector(get_style_names(current.style, v3 = "no")))
+		message("tmap v3 styles: ", print_text_vector(get_style_names(current.style, v3 = "only")))
 	} else {
 		.tmapOptions = .defaultTmapOptions	
 		check_style(style)
@@ -47,18 +48,30 @@ tmap_style = function(style) {
 		assign("tmapOptions", .tmapOptions, envir = .TMAP)	
 		
 		if (show.messages) {
-			message("tmap style set to \"", style, "\"")
-			message("other available styles are: ", print_text_vector(get_style_names(style)))
+			message("style set to ", style_names(style))
+			message("other available styles are: ", print_text_vector(get_style_names(style, v3 = "no")))
+			message("tmap v3 styles: ", print_text_vector(get_style_names(style, v3 = "only")))
 		}
 	}
 	invisible(current.style)
 }
 
+
+
 print_text_vector = function(x) {
-	paste0("\"", paste(x, collapse = "\", \""), "\" ")
+	x2 = style_names(x)
+	
+	paste(x2, collapse = ", ")
 }
 
-get_style_names = function(except_style = NULL, remove_grey = TRUE) {
+style_names = function(x) {
+	x2 = paste0("\"", x, "\"")
+	x2[x2 == "\"white\""] = "\"white\" (tmap default)"
+	x2[x2 == "\"v3\""] = "\"v3\" (tmap v3 default)"
+	x2
+}
+
+get_style_names = function(except_style = NULL, remove_grey = TRUE, v3 = "yes") {
 	styles = c("white", names(get("tmapStyles", envir = .TMAP)))
 	if (!is.null(except_style)) {
 		styles = setdiff(styles, except_style)
@@ -66,15 +79,26 @@ get_style_names = function(except_style = NULL, remove_grey = TRUE) {
 	
 	# remove double name gray/grey
 	if (remove_grey) {
-		if (!is.null(except_style) && (except_style %in% c("gray", "grey"))) {
-			styles = setdiff(styles, c("gray", "grey"))
+		if (!is.null(except_style) && (except_style %in% c("gray", "grey", "gray_v3", "grey_v3"))) {
+			styles = setdiff(styles, c("gray", "grey", "gray_v3", "grey_v3"))
 		} else {
-			styles = setdiff(styles, "grey")
+			styles = setdiff(styles, c("grey", "grey_v3"))
 		}
+	}
+	
+	is_v3 = substr(styles, nchar(styles) - 1, nchar(styles)) == "v3"
+	
+	if (v3 == "no") {
+		styles = styles[!is_v3]
+	} else if (v3 == "only") {
+		styles = styles[is_v3]
 	}
 	
 	styles
 }
+
+
+
 
 check_style = function(style) {
 	styles = get_style_names(remove_grey = FALSE)

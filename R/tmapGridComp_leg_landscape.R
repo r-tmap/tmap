@@ -157,19 +157,20 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	
 	if (is.na(comp$title.align)) comp$title.align = comp$position$align.h
 	
+	titleGP = grid::gpar(col = comp$title.color, cex = titleS, fontface = comp$title.fontface, fontfamily = comp$title.fontfamily)
 	
 	if (comp$title.align == "left") {
-		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = titleGP))
 	} else if (comp$title.align == "right") {
-		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = titleGP))
 	} else {
-		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = 0.5, just = "center", gp = titleGP))
 	}
 	
 	textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 	scale_labels = max(textW / grid::convertUnit(wsu[comp$item_ids], unitTo = "inch", valueOnly = TRUE), 1)
 	
-	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(comp$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS/scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
+	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(comp$labels[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS/scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(comp$ticks, comp$type)
 	ticks.disable.na = get_legend_option(comp$ticks.disable.na, comp$type)
@@ -390,14 +391,32 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		
 		
 	} else if (comp$type == "text") {
-		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
-															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		gp$text[is.na(gp$text)] = getAesOption("value.const", o, aes = "text", layer = "text")
+		
+		if (length(gp$cex) == 1) gp$cex = min(gp$cex, min(get_legend_option(comp$item.height, "text"),
+														  get_legend_option(comp$item.width, "text")) * comp$textS)
+		
+		bgcols = rep(gp$bgcol, length.out = nlev)
+		bgcols_alpha = rep(gp$bgcol_alpha, length.out = nlev)
+		
+		# in case size is a continuous scale
+		if (is.character(gp$cex)) gp$cex = vapply(cont_split(gp$cex), FUN = function(x) {
+			as.numeric(x[round(length(x)/2)])
+		}, FUN.VALUE = numeric(1))
+		
+		
 		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
-		grItems = mapply(function(id, gpari) gridCell(6, id, grid::textGrob(x=0.5, y=0.5, gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha, size) {
+			gridCell(6, id, {
+				grid::gList(
+					rndrectGrob(width = grid::unit(grid::convertWidth(grid::stringWidth(txt), "inches")* size, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = grid::gpar(fill = bgcol, alpha = bgcol_alpha, col = NA), r = comp$item.r),
+					grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari))
+			})
+		}, comp$item_ids, gpars, gp$text, bgcols, bgcols_alpha, gp$cex, SIMPLIFY = FALSE)
 		
 	}
 	

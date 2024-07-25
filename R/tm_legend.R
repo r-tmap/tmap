@@ -136,5 +136,6 @@ tm_legend_bivariate = function(xlab,
 	if (!("xlab" %in% (names(args)))) args$xlab = NA
 	if (!("ylab" %in% (names(args)))) args$ylab = NA
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	args$orientation = "portrait"
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }

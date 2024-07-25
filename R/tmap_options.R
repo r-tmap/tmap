@@ -63,6 +63,7 @@ tmapMode = function(id, name, ...) {
 						 col.polygons = "grey40",
 						 col.symbols = "grey40",
 						 col.raster = "grey40",
+						 col.text = "black",
 						 col = "black",
 						 bgcol.labels_highlighted = "white",
 						 bgcol = "#00000000",
@@ -713,21 +714,27 @@ styles = list(
 	),
 	gray = list(
 		bg.color = "grey85",
-		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
-						  col = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"))
+		value.const = list(fill = "grey70",
+						   fill.dots = "black",
+						   fill = "grey50",
+						   col.polygons = "grey20",
+						   col = "black")
 	),
 	grey = list(
 		bg.color = "grey85",
-		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
-						  col = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"))
+		value.const = list(fill = "grey70",
+						   fill.dots = "black",
+						   fill = "grey50",
+						   col.polygons = "grey20",
+						   col = "black")
 	),
 	natural = list(
 		bg.color = "lightskyblue1",
 		value.const = list(fill.polygons = "darkolivegreen3",
-						   fill.symbols = "tomato2",
-						   col.polygons = "black",
-						   col.symbols = "black",
+						   fill.dots = "firebrick",
+						   fill = "tomato2",
 						   col.lines = "steelblue",
+						   col.text = "white",
 						   col = "black"),
 		value.na = list(
 			fill = "white",
@@ -744,15 +751,14 @@ styles = list(
 		legend.frame = TRUE,
 		legend.bg.color = "grey90",
 		earth.boundary = TRUE,
-		basemaps = "Esri.NatGeoWorldMap",
-		basemaps.alpha = 1),
+		basemap.server = "Esri.NatGeoWorldMap",
+		basemap.alpha = 1),
 	cobalt = list(bg.color = "#002240",
 				  outer.bg.color = "#002240",
 				  value.const = list(fill.polygons = "#0088FF",
-				  				   fill.symbols = "#FF9D00",
-				  				   col.polygons = "#002240",
-				  				   col.symbols = "#002240",
-				  				   col.lines = "#002240",
+				  				   fill = "#FF9D00",
+				  				   col.lines = "#FFEE80",
+				  				   col.text = "white",
 				  				   col = "#002240",
 				  				   bgcol.labels_highlighted = "#002240",
 				  				   bgcol = "#00000000"),
@@ -769,14 +775,13 @@ styles = list(
 				  attr.color = "white",
 				  chart.text.color = "white",
 				  chart.title.color = "white",
-				  basemaps = "CartoDB.DarkMatter",
-				  basemaps.alpha = .5),
+				  basemap.server = "CartoDB.DarkMatter",
+				  basemap.alpha = .5),
 	albatross = list(bg.color = "#00007F",
 					 value.const = list(fill.polygons = "#4C4C88",
-					 				   fill.symbols = "#BFBFFF",
-					 				   col.polygons = "#00004C",
-					 				   col.symbols = "#00004C",
+					 				   fill = "#BFBFFF",
 					 				   col.lines = "#BFBFFF",
+					 				   col.text = "#FFE700",
 					 				   col = "#00004C",
 					 				   bgcol.labels_highlighted = "#00007F",
 					 				   bgcol = "#00000000"),
@@ -791,13 +796,49 @@ styles = list(
 					 values.var = list(fill = list(seq = "brewer.yl_or_rd", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_rd"),
 					 				  col = list(seq = "brewer.yl_or_rd", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_rd")),
 					 attr.color = "#BFBFFF",
-					 basemaps = "CartoDB.DarkMatter",
-					 basemaps.alpha = .5),
+					 basemap.server = "CartoDB.DarkMatter",
+					 basemap.alpha = .5),
+	beaver = list(bg.color = "#FFFFFF",
+				  value.const = list(fill.polygons = "#FFE200",
+				  				   fill = "#A30000",
+				  				   col.lines = "#A30000",
+				  				   col = "#00004C",
+				  				   bgcol.labels_highlighted = "#FFFFFF",
+				  				   bgcol = "#00000000"),
+				  value.na = list(
+				  	fill = "grey80",
+				  	col = "grey80",
+				  	col.raster = "grey80"),
+				  value.null = list(
+				  	fill = "grey95",
+				  	col = "grey95",
+				  	col.polygons = "grey95"),
+				  values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.dark2", ord = "brewer.yl_or_br"),
+				  				  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.dark2", ord = "brewer.yl_or_br")),
+				  attr.color = "black"),
+	bw = list(color.saturation = 0),
 	classic = list(color.sepia.intensity = .7,
 				   text.fontfamily = "serif",
 				   frame = TRUE,
 				   frame.double.line = TRUE,
-				   compass.type = "rose")
+				   compass.type = "rose"),
+	watercolor = list(value.const = list(fill = "#D95F02",
+					  				   fill.dots = "red",
+					  				   col.lines = "red",
+					  				   col = "black",
+					  				   bgcol.labels_highlighted = "white",
+					  				   bgcol = "#00000000"),
+					  value.na = list(
+					  	fill = "grey80",
+					  	col = "grey80",
+					  	col.raster = "grey80"),
+					  value.null = list(
+					  	fill = "#FDCDAC",
+					  	col = "#FDCDAC",
+					  	col.polygons = "#FDCDAC"),
+					  values.var = list(fill = list(seq = "brewer.greens", div = "brewer.pi_yg", unord = "brewer.pastel1", ord = "brewer.greens"),
+					  				  col = list(seq = "brewer.greens", div = "brewer.pi_yg", unord = "brewer.pastel1", ord = "brewer.greens")),
+					  basemap.server = "Stadia.StamenWatercolor")
 )
 
 .defaultTmapStyles = list(
@@ -806,14 +847,20 @@ styles = list(
 	natural = styles$natural,
 	cobalt = styles$cobalt,
 	albatross = styles$albatross,
+	beaver = styles$beaver,
+	bw = styles$bw,
 	classic = styles$classic,
+	watercolor = styles$watercolor,
 	v3 = styles$v3,
-	gray_v3 = c(styles$v3, styles$gray),
-	grey_v3 = c(styles$v3, styles$grey),
-	natural_v3 = c(styles$v3, styles$natural),
-	cobalt_v3 = c(styles$v3, styles$cobalt),
-	albatross_v3 = c(styles$v3, styles$albatross),
-	classic_v3 = c(styles$v3, styles$classic)
+	gray_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$gray))], styles$gray),
+	grey_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$grey))], styles$grey),
+	natural_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$natural))], styles$natural),
+	cobalt_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$cobalt))], styles$cobalt),
+	albatross_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$albatross))], styles$albatross),
+	beaver_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$beaver))], styles$beaver),
+	bw_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$bw))], styles$bw),
+	classic_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$classic))], styles$classic),
+	watercolor_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$watercolor))], styles$watercolor)
 )
 
 .defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
@@ -843,6 +890,7 @@ styles = list(
 											attr.position=c("left", "bottom")))
 
 
+# add/merge options x to the full option set o: x can be style options
 complete_options = function(x, o) {
 	nmx = names(x)
 	nmo = names(o)
@@ -853,10 +901,28 @@ complete_options = function(x, o) {
 	if (length(d)) o = c(o, x[d])
 	if (length(e)) {
 		for (i in e) {
-			o[[i]] = complete_options(x[[i]], o[[i]])
+			if (i %in% c("value.const", "value.na", "value.null", "value.blank", "values.var")) {
+				# special case to cover the following issue 
+				#    if o = list(value.const = list(fill = "red", fill.polygons = "blue", fill.dots = "black)), and 
+				#       x = list(value.const = list(fill = "white", fill.polygons = "grey"))
+				#    the new option set should be x (so dot fill color should be white)
+				o[[i]] = complete_value_list(x[[i]], o[[i]])	
+			} else {
+				o[[i]] = complete_options(x[[i]], o[[i]])	
+			}
+			
 		}
 	}
 	o
+}
+
+complete_value_list = function(x, o) {
+	aes_x = gsub("\\..*", "", names(x))
+	aes_o = gsub("\\..*", "", names(o))
+	
+	aes_o_not_x = setdiff(aes_o, aes_x)
+	
+	c(x, o[aes_o %in% aes_o_not_x])
 }
 
 #' tmap options
