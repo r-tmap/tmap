@@ -90,15 +90,17 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "white (modified)"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "albatross", "classic", "v3", "gray_v3", "grey_v3", "natural_v3", "cobalt_v3", "albatross_v3", "classic_v3" </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is ""white (modified)"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "cobalt"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "albatross", "classic", "v3", "gray_v3", "grey_v3", "natural_v3", "cobalt_v3", "albatross_v3", "classic_v3" </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "albatross", "beaver", "bw", "classic", "watercolor"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-2.png" alt="" width="700" height="433"></span>
@@ -106,15 +108,17 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-in"><span><span class="co"># for backwards compatibility, the styles of tmap versions 1-3 are also included:</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"v3"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "v3"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "albatross", "classic", "gray_v3", "grey_v3", "natural_v3", "cobalt_v3", "albatross_v3", "classic_v3" </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "v3" (tmap v3 default)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt_v3"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "cobalt_v3"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "albatross", "classic", "v3", "gray_v3", "grey_v3", "natural_v3", "albatross_v3", "classic_v3" </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-4.png" alt="" width="700" height="433"></span>
