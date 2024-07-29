@@ -8,6 +8,7 @@ tm_logo(
   file,
   height,
   margins,
+  between.margin,
   stack,
   position,
   frame,
@@ -25,7 +26,21 @@ tm_logo(
 
 \item{margins}{margins}
 
+\item{between.margin}{between.margin}
+
+\item{stack}{stack}
+
 \item{position}{position}
+
+\item{frame}{frame}
+
+\item{frame.lwd}{frame.lwd}
+
+\item{frame.r}{frame.r}
+
+\item{group.frame}{group.frame}
+
+\item{resize.as.group}{resize.as.group}
 
 \item{z}{z}
 }
@@ -33,4 +48,15 @@ tm_logo(
 Map component that adds a scale bar. As of version 4.0, \code{tm_scalebar()} is
 used instead of \code{tm_scale_bar()} (now deprecated), because of the potential
 confusion with the \verb{tm_scale_*()} scaling functions (like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}).
+}
+\examples{
+data(World)
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlGn")) +
+	tm_logo(c("https://www.r-project.org/logo/Rlogo.png", 
+			  system.file("img/tmap.png", package="tmap"))) +
+	tm_logo("http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png", 
+			height=5, position = c("left", "top")) +
+	tm_format("World")
 }

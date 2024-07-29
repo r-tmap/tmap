@@ -6,12 +6,12 @@
 #' @param shp Spatial object
 #' @param name Name of the shape
 #' @param is.main Is `shp` the main shape, which determines the crs and
-#'   bounding box of the map?
+#'   bounding box of the map? By default, `TRUE` if it is the first `tm_shape` call
 #' @param crs CRS to which `shp` is reprojected (only used if `is.main = TRUE`)
-#' @param bbox Bounding box of he map (only used if `is.main = TRUE`)
+#' @param bbox Bounding box of the map (only used if `shp` is the main shape (see `is.main`)
 #' @param unit Unit of the coordinates
 #' @param filter Filter features
-#' @param ... to catch deprecated arguments from version < 4.0
+#' @param ... passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrink a bounding box)
 #' @import tmaptools
 #' @importFrom sf st_geometry st_sf st_as_sf st_transform st_crs
 #' @importFrom stars st_dimensions st_get_dimension_values st_as_stars st_set_dimensions st_warp
@@ -27,6 +27,7 @@
 #' @import leafem
 #' @import leaflegend
 #' @import stats
+#' @importFrom methods as
 #' @importFrom rlang missing_arg expr
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
 #' @import utils
@@ -47,13 +48,15 @@ tm_shape = function(shp,
 		crs = args$projection
 	}
 	
+	bbox_list = c(list(x = bbox), args[intersect(names(args), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
+	
 	if (missing(shp)) {
 		do.call(tm_options, args[intersect(names(args), c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
 	} else {
 		tm_element_list(tm_element(shp = shp,
 								   is.main = is.main,
 								   crs = crs,
-								   bbox = bbox,
+								   bbox = bbox_list,
 								   unit = unit,
 								   filter = filter,
 								   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name), 

@@ -18,12 +18,12 @@ tm_shape(
 \arguments{
 \item{shp}{Spatial object}
 
-\item{bbox}{Bounding box of he map (only used if \code{is.main = TRUE})}
+\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
 
 \item{crs}{CRS to which \code{shp} is reprojected (only used if \code{is.main = TRUE})}
 
 \item{is.main}{Is \code{shp} the main shape, which determines the crs and
-bounding box of the map?}
+bounding box of the map? By default, \code{TRUE} if it is the first \code{tm_shape} call}
 
 \item{name}{Name of the shape}
 
@@ -31,7 +31,7 @@ bounding box of the map?}
 
 \item{filter}{Filter features}
 
-\item{...}{to catch deprecated arguments from version < 4.0}
+\item{...}{passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrink a bounding box)}
 }
 \description{
 Specify a shape, which is a spatial object from one of these spatial object

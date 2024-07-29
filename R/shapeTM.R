@@ -8,17 +8,7 @@
 #' @export
 #' @keywords internal
 shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
-	if (!is.null(bbox) && (!inherits(bbox, "bbox"))) {
-		if (is.character(bbox)) {
-			bbox = tmaptools::geocode_OSM(bbox)$bbox
-		} else {
-			tryCatch({
-				bbox = sf::st_bbox(bbox)
-			}, error = function(e) {
-				stop("Invalid bbox", call. = FALSE)
-			})
-		}
-	} 
+	#if (!is.null(bbox$x)) bbox = do.call(tmaptools::bb, bbox)
 	
 	# filter empty geometries
 	if (inherits(shp, "sfc")) {
@@ -44,36 +34,37 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 
 stm_bbox = function(shpTM, tmapID, crs) {
 	bbox = shpTM$bbox
-	if (!is.null(bbox)) {
-		if (sf::st_crs(bbox) != crs) {
-			bbox = tmaptools::bb(bbox, projection = crs)
-		}
-		return(bbox)
-	}
 	
-	shp = shpTM$shp
-	shpID = shpTM$tmapID
-	
-	if (length(tmapID) ==0 ) return(sf::st_bbox(as.numeric(NA)))
-	# filter the shape?
-	do_filter = (length(tmapID) != length(shpID)) || (!all(tmapID == shpID))
-
-	if (do_filter) {
-		ids = match(tmapID, shpID)
+	if (!is.null(bbox$x)) {
+		# to make sure the supplied bounding box will be converted in the correct crs
+		bbox$projection = crs
+	} else { 
+		shp = shpTM$shp
+		shpID = shpTM$tmapID
 		
-		if (inherits(shp, "dimensions")) {
-			m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
-			m[ids] = TRUE
+		if (length(tmapID) ==0 ) return(sf::st_bbox(as.numeric(NA)))
+		# filter the shape?
+		do_filter = (length(tmapID) != length(shpID)) || (!all(tmapID == shpID))
+		
+		if (do_filter) {
+			ids = match(tmapID, shpID)
 			
-			s = stars::st_as_stars(list(values = m), dimensions = shp)
-			shp = trim_stars(s)
-		} else if (inherits(shp, c("sf", "sfc"))) {
-			shp = shp[ids]
-		} else {
-			stop("unknown shape class")
+			if (inherits(shp, "dimensions")) {
+				m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
+				m[ids] = TRUE
+				
+				s = stars::st_as_stars(list(values = m), dimensions = shp)
+				shp = trim_stars(s)
+			} else if (inherits(shp, c("sf", "sfc"))) {
+				shp = shp[ids]
+			} else {
+				stop("unknown shape class")
+			}
 		}
+		bbox$x = sf::st_bbox(shp)
 	}
-	sf::st_bbox(shp)
+	
+	do.call(tmaptools::bb, bbox)
 
 }
 

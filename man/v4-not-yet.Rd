@@ -3,15 +3,9 @@
 \name{v4-not-yet}
 \alias{v4-not-yet}
 \alias{tmap_tip}
-\alias{tmap_style_catalog}
-\alias{tmap_style_catalogue}
 \title{Features not yet implemented in tmap4}
 \usage{
 tmap_tip(...)
-
-tmap_style_catalog(...)
-
-tmap_style_catalogue(...)
 }
 \arguments{
 \item{...}{Arguments}
