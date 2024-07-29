@@ -67,7 +67,7 @@ class packages: <code><a href="https://r-spatial.github.io/sf/reference/sf.html"
 
 
 <dt id="arg-bbox">bbox<a class="anchor" aria-label="anchor" href="#arg-bbox"></a></dt>
-<dd><p>Bounding box of he map (only used if <code>is.main = TRUE</code>)</p></dd>
+<dd><p>Bounding box of the map (only used if <code>shp</code> is the main shape (see <code>is.main</code>)</p></dd>
 
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
@@ -76,7 +76,7 @@ class packages: <code><a href="https://r-spatial.github.io/sf/reference/sf.html"
 
 <dt id="arg-is-main">is.main<a class="anchor" aria-label="anchor" href="#arg-is-main"></a></dt>
 <dd><p>Is <code>shp</code> the main shape, which determines the crs and
-bounding box of the map?</p></dd>
+bounding box of the map? By default, <code>TRUE</code> if it is the first <code>tm_shape</code> call</p></dd>
 
 
 <dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
@@ -92,7 +92,7 @@ bounding box of the map?</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>to catch deprecated arguments from version &lt; 4.0</p></dd>
+<dd><p>passed on to <code><a href="https://rdrr.io/pkg/tmaptools/man/bb.html" class="external-link">bb</a></code> (e.g. <code>ext</code> can be used to enlarge or shrink a bounding box)</p></dd>
 
 </dl></div>
 
