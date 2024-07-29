@@ -19,6 +19,9 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 			"rect"
 		}
 		
+		text.size = text.size * o$scale
+		title.size = title.size * o$scale
+		
 		title.align = get_vector_id(title.align, type)
 		xlab.align = get_vector_id(xlab.align, type)
 		ylab.align = get_vector_id(ylab.align, type)
