@@ -13,7 +13,7 @@ leaflet_pos = function(pos) {
 }
 
 
-gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE) {
+gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20) {
 	# create a list of gp elements
 
 	lst = c(list(fillColor = {if (!all(is.na(gp$fill))) gp$fill else "#000000"},
@@ -67,8 +67,8 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE) {
 		
 	if (mfun == "Lines") lst$shape = "line"
 
-	lst$width = lst$size * 20
-	lst$height = lst$size * 20
+	lst$width = lst$size * size_factor
+	lst$height = lst$size * size_factor
 	#lst$width[]
 	lst$size = NULL
 	lst
@@ -174,7 +174,8 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		#symbols = do.call(leaflegend::makeSymbolIcons, gp2)#$iconUrl
 		
 		
-		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+		symbols = do.call(makeSymbolIcons2, gp2)
+		po(sort(gp2$width, decreasing = T))
 		
 		symbols$iconWidth = gp2$width#, length(symbols$iconUrl))
 		symbols$iconHeight = gp2$height#, length(symbols$iconUrl))
@@ -203,8 +204,8 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		
 		lf %>% leaflegend::addLegendImage(symbols$iconUrl, 
 										 labels = lab,
-										 width = symbols$iconWidth,
-										 height = symbols$iconHeight, 
+										 width = symbols$iconWidth + 2*gp2$strokeWidth,
+										 height = symbols$iconHeight + 2*gp2$strokeWidth, 
 										 position = legpos,
 										 orientation = orientation,
 										 labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",

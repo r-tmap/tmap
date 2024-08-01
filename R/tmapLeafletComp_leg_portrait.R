@@ -49,7 +49,7 @@ tmapLeaflet_legend_comp = function(comp, o) {
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
 		
-		gp2 = gp_to_lpar(gp, mfun = comp$mfun, shape = comp$item.shape)
+		gp2 = gp_to_lpar(gp, mfun = comp$mfun, shape = comp$item.shape, size_factor = 14)
 	})
 }
 

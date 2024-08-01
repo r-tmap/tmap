@@ -120,6 +120,17 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	NULL	
 }
 
+makeSymbolIcons2  = function (shape, color, fillColor = color, opacity, fillOpacity = opacity, 
+		  strokeWidth = 1, width, height = width, ...) 
+{
+	symbols <- Map(leaflegend::makeSymbol, shape = shape, width = width, 
+				   height = height, color = color, fillColor = fillColor, 
+				   opacity = opacity, fillOpacity = fillOpacity, `stroke-width` = strokeWidth, 
+				   ...)
+	leaflet::icons(iconUrl = unname(symbols), iconAnchorX = width/2 + strokeWidth, 
+				   iconAnchorY = height/2 + strokeWidth)
+}
+
 tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -164,10 +175,12 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 	
-	gp2 = gp_to_lpar(gp, mfun = "Symbols")
+	gp2 = gp_to_lpar(gp, mfun = "Symbols", size_factor = 14) # 14 based on similarity with plot mode and consistency with tmap3 
 	#gp = gp2leafgp(gp)
 	names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
 	gp2$baseSize = 20
+	
+	po(sort(gp2$width, decreasing = T))
 	
 	
 	
@@ -180,10 +193,12 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 		sn = suppressWarnings(as.numeric(gp2$shape))
 		
-		sid = which(!is.na(sn))
+		is_num = !is.na(sn)
+		sid = which(is_num)
+		nid = which(!is_num)
 		
 		gp2$shape[sid] = "circle" # as dummy
-		symbols = do.call(leaflegend::makeSymbolIcons, gp2)
+		symbols = do.call(makeSymbolIcons2, gp2)
 		
 		symbols$iconWidth = rep(NA, length(symbols$iconUrl))
 		symbols$iconHeight = rep(NA, length(symbols$iconUrl))
@@ -206,6 +221,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 				}
 			}
 		}
+
 
 		lf %>% leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2], 
 								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups, options = opt) %>% 
