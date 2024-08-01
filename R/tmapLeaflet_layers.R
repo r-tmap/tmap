@@ -180,7 +180,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
 	gp2$baseSize = 20
 	
-	po(sort(gp2$width, decreasing = T))
+	#po(sort(gp2$width, decreasing = T))
 	
 	
 	

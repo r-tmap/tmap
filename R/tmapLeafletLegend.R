@@ -175,7 +175,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		
 		
 		symbols = do.call(makeSymbolIcons2, gp2)
-		po(sort(gp2$width, decreasing = T))
+		#po(sort(gp2$width, decreasing = T))
 		
 		symbols$iconWidth = gp2$width#, length(symbols$iconUrl))
 		symbols$iconHeight = gp2$height#, length(symbols$iconUrl))
