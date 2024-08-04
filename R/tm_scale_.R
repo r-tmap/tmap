@@ -319,21 +319,21 @@ tm_scale_rank = function(n = NULL,
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous_log
 tm_scale_continuous_log = function(..., base = exp(1)) {
-	tm_scale_continuous(trans = "log", trans.args = list(base = base))
+	tm_scale_continuous(trans = "log", trans.args = list(base = base), ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous_log2
 tm_scale_continuous_log2 = function(...) {
-	tm_scale_continuous(trans = "log", trans.args = list(base = 2))
+	tm_scale_continuous(trans = "log", trans.args = list(base = 2), ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
 #' @name tm_scale_continuous_log10
 tm_scale_continuous_log10 = function(...) {
-	tm_scale_continuous(trans = "log", trans.args = list(base = 10))
+	tm_scale_continuous(trans = "log", trans.args = list(base = 10), ...)
 }
 
 
