@@ -21,18 +21,25 @@ tm_mv_dim = function(x, values) {
 
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
+	
 	if (inherits(x, "tm_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapShpVars"))
 	if (inherits(x, "tm_mv_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapMVShpVars"))
 	if (inherits(x, "tmapDimVars")) return(x)
 	
-	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tmapVars"
+	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tbd"
 	
 	isL = is.list(x)
+	isSpecialL = isL && !setequal(class(x), "list")
+	isSpecialNestedL = isL && is.list(x[[1]]) &&  !setequal(class(x[[1]]), "list")
 	if (!isL) {
 		x = as.list(x)
-	}# else {
-	#	x = list(x)
-	#}
+	} else if (isSpecialL) {
+		x = list(x)
+	}
+	
+	if (cls == "tbd") cls = if (isSpecialL) "tmapSpecial" else if (isSpecialNestedL) "tmapSpecial" else "tmapStandard"
+	
+
 	
 	structure(x, class = cls)
 }

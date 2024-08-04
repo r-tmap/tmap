@@ -107,14 +107,16 @@ step1_rearrange_facets = function(tmo, o) {
 					
 				} else {
 					split_stars_dim = ""
+					value_orig = value # just for the case of L156
 					if (length(value) && is.na(value[[1]][1]) && !inherits(value, c("tmapMVShpVars", "tmapShpVars"))) {
 						# NA -> value.blank
 						value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
 					}
 					
 					if (inherits(value, "tmapOption")) {
-						value_orig = getAesOption(value[[1]], o, aes = aes, layer = layer)
-						if (!is.list(value_orig)) value = list(value_orig)
+						value_orig = tmapVars(getAesOption(value[[1]], o, aes = aes, layer = layer))
+						#if (!is.list(value_orig)) value = list(value_orig)
+						value = value_orig
 						names(value) = sapply(value, "[", 1)
 					} else if (inherits(value, "tmapShpVars")) {
 						if (!is.na(value$ids[1])) {
@@ -148,13 +150,16 @@ step1_rearrange_facets = function(tmo, o) {
 							}
 						}
 					}
-	
 					nvars = length(value) #m
 					nvari = vapply(value, length, integer(1))
-					
-					vars = unlist(value)
-					data_vars = all(vars %in% shpvars)
-					geo_vars = all(vars %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
+					if (inherits(value_orig, c("tmapSpecial", "tmapAsIs"))) {
+						data_vars = FALSE
+						geo_vars = FALSE
+					} else {
+						vars = unlist(value)
+						data_vars = all(vars %in% shpvars)
+						geo_vars = all(vars %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
+					}
 					
 					convert2density = "convert2density" %in% names(scale) && scale$convert2density 
 					
@@ -168,9 +173,10 @@ step1_rearrange_facets = function(tmo, o) {
 						update_grp_vars(lev = flvar)
 						add_used_vars(vars)
 					} else {
+					#	if (aes == "shape") browser()
 						mfun = paste0("tmapValuesSubmit_", aes)
 						if (exists(mfun)) {
-							value = do.call(mfun, list(x = list(value_orig), args = args))[[1]]
+							value = do.call(mfun, list(x = value_orig, args = args))
 						} else {
 							value = value_orig
 						}

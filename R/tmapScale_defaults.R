@@ -392,7 +392,7 @@ tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, mid
 
 # for symbols, which need to be 'submitted' (content replaced by an integer)
 tmapValuesSubmit_col = function(x, args) x
-tmapValuesSubmit_fill = function(x, args) x
+tmapValuesSubmit_fill = function(x, args) x	
 tmapValuesSubmit_bgcol = function(x, args) x
 tmapValuesSubmit_size = function(x, args) x
 tmapValuesSubmit_area = function(x, args) x
@@ -402,7 +402,7 @@ tmapValuesSubmit_angle = function(x, args) x
 tmapValuesSubmit_lwd = function(x, args) x
 tmapValuesSubmit_lty = function(x, args) x
 tmapValuesSubmit_shape = function(x, args) {
-	if (is.list(x)) {
+	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()
 		fun = paste0("submit_symbols_", gs)
 		

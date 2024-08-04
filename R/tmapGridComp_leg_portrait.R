@@ -513,8 +513,6 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		
 		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 		
-		po(gp$size)
-		
 		diffAlpha = !anyNA(c(gp$fill_alpha, gp$col_alpha)) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 		if (diffAlpha) {
 			gpars1 = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type, sel = "fill")
