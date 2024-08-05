@@ -20,22 +20,29 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	if (is_regular_grid(shp)) {
 		
 		if (nrow(dt) == length(tmapID)) {
-			# shortcut for else case
-			
-			dt = merge_alpha(dt, name = "col")
-			color = dt$ca
-			
-			
+			# no matching needed
+
+			if (all(dt$col_alpha == 1)) {
+				color = dt$col
+			} else {
+				dt = merge_alpha(dt, name = "col")
+				color = dt$ca
+			}
 		} else {
-			# to be improved
+			# matching: to be improved
 			tid = intersect(tmapID, dt$tmapID__)
 			
 			color = rep(NA, length(tmapID)) #"#FFFFFF"
 			
 			sel = which(tmapID %in% tid)
 			tid2 = tmapID[sel]
-			dt = merge_alpha(dt, name = "col")
-			color[sel] = dt$ca[match(tid2, dt$tmapID__)]
+			
+			if (all(dt$col_alpha == 1)) {
+				color[sel] = dt$col[match(tid2, dt$tmapID__)]
+			} else {
+				dt = merge_alpha(dt, name = "col")
+				color[sel] = dt$ca[match(tid2, dt$tmapID__)]
+			}
 		}
 		
 		
