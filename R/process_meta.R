@@ -279,6 +279,7 @@ process_meta = function(o, d, cdt, aux) {
 			fixedMargins = outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
 		} else { #if (gs == "Leaflet") {
 			grid.buffers = rep(0, 4)
+			grid.labels.show = c(FALSE, FALSE)
 			grid.margins = rep(0, 4)
 			fixedMargins = rep(0, 4)
 			panel.wrap.size = rep(0, 4)
