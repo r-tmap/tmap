@@ -24,7 +24,7 @@ tmapScaleRGB_RGBA = function(xlist, scale, legend, chart, o, aes, layer, layer_a
 	
 	if (any(isna)) {
 		values = rep(scale$value.na, n) 
-		values[!isna] = do.call(grDevices::rgb, c(xlist, list(maxColorValue = scale$maxValue)))
+		values[!isna] = do.call(grDevices::rgb, c(lapply(xlist, function(xl) xl[!isna]), list(maxColorValue = scale$maxValue)))
 	} else {
 		values = do.call(grDevices::rgb, c(xlist, list(maxColorValue = scale$maxValue)))
 	}
