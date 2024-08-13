@@ -691,7 +691,7 @@ tm_markers = function(text = tm_const(),
 	
 	tm_t = do.call(tm_text, args_text)
 	tm_t[[1]]$layer = c("labels", "text")
-	tm_d = do.call(tm_dots, a_dots)
+	tm_d = do.call(tm_dots, args_dots)
 	tm_d[[1]]$layer = c("markers", "symbols")
 	
 	if (options$markers$markers.on.top.of.text) tm_t + tm_d else tm_d + tm_t
