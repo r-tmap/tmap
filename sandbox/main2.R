@@ -339,7 +339,7 @@ tm_shape(landsat_stars) +
 
 
 tm_shape(landsat_terra) +
-	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
+	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxColorValue = 31961))
 
 
 land_terra = terra::rast(methods::as(land, "Raster"))
@@ -408,7 +408,7 @@ tm_shape(landsat_terra) +
 	tm_raster(col = "lan_1", col_alpha = "lan_2")
 
 tm_shape(landsat_terra) +
-	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
+	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxColorValue = 31961))
 
 
 

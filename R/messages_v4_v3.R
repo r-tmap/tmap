@@ -247,6 +247,12 @@ v3_opt = function(olds, news, layer_fun) {
 	message("[v3->v4] ", layer_fun, "(): migrate the layer options ", x, " to 'options = opt_", layer_fun, "(<HERE>)'")
 }
 
+
+v3_tm_rgb = function(r, g, b) {
+	message("[v3->v4] ", "tm_rgb", "(): instead of using r = ", r, ", g = ", g, ", and b = ", b, ", please use col = tm_vars(c(", r, ", ", g, ", ", b, "), multivariate = TRUE)")
+}
+
+
 # v3_multiple = function(layer_fun, vv) {
 # 	if (!message_thrown("multiple_args")) {
 # 		message("[v3->v4] ", layer_fun, "(): use '", vv, ".scale = list(<scale1>, <scale2>, ...)' to specify small multiples")

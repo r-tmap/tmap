@@ -365,11 +365,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		
 		grItems = mapply(function(id, gpari, gpari1, gpari2) {
 			grobs = if (gpari$shape > 999) {
-				grbs = if (gpari$lwd == 0) {
-					gList(shapeLib[[gpari$shape-999]])	
-				} else {
-					gList(shapeLib[[gpari$shape-999]], rectGrob(gp=gpar(fill=NA, col=gpari$col, lwd=gpari$lwd)))	
-				}
+				grbs = gList(shapeLib[[gpari$shape-999]])	
 				grid::gTree(children=grbs, vp=viewport(x=0.5, 
 													   y=0.5,
 													   width=unit(gpari$size*9/10, "lines"),

@@ -1,49 +1,3 @@
-#' define multivariate variable
-#' 
-#' define multivariate variable
-#' 
-#' @param ... variable names
-#' @export
-tm_mv = function(...) {
-	list(c(...))
-}
-
-#' define multivariate variable based on stars dimension 
-#' 
-#' define multivariate variable based on stars dimension 
-#' 
-#' @param x dimension name
-#' @param values values to be used
-#' @export
-tm_mv_dim = function(x, values) {
-	structure(list(x = x, values = values), class = "tmapDimVars")
-}
-
-tmapVars = function(x) {
-	if (inherits(x, "tmapOption")) return(x)
-	
-	if (inherits(x, "tm_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapShpVars"))
-	if (inherits(x, "tm_mv_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapMVShpVars"))
-	if (inherits(x, "tmapDimVars")) return(x)
-	
-	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tbd"
-	
-	isL = is.list(x)
-	isSpecialL = isL && !setequal(class(x), "list")
-	isSpecialNestedL = isL && is.list(x[[1]]) &&  !setequal(class(x[[1]]), "list")
-	if (!isL) {
-		x = as.list(x)
-	} else if (isSpecialL) {
-		x = list(x)
-	}
-	
-	if (cls == "tbd") cls = if (isSpecialL) "tmapSpecial" else if (isSpecialNestedL) "tmapSpecial" else "tmapStandard"
-	
-
-	
-	structure(x, class = cls)
-}
-
 #' @param x x
 #' @export
 #' @name tmapUsrCls
@@ -179,7 +133,7 @@ data_class = function(x, check_for_color_class = FALSE) {
 #' @rdname tmap_internal
 #' @keywords internal
 tmapScale = function(aes, value, scale, legend, chart, free) {
-	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
+	structure(list(aes = aes, value = tmapVV(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
 }
 
 tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, ...) {

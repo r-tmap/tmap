@@ -4,7 +4,7 @@
 \alias{tmapSplitShp}
 \title{Internal method that split shape objects}
 \usage{
-tmapSplitShp(shp, split_stars_dim)
+tmapSplitShp(shp, split_stars_dim, smeta)
 }
 \arguments{
 \item{shp}{shape}

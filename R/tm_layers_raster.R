@@ -55,7 +55,7 @@ opt_tm_raster = function(interpolate = FALSE) {
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_raster.R 
 #' @export
-tm_raster = function(col = tm_shape_vars(),
+tm_raster = function(col = tm_vars(),
 					 col.scale = tm_scale(value.na = "#00000000"),
 					 col.legend = tm_legend(),
 					 col.chart = tm_chart_none(),

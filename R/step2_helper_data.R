@@ -112,9 +112,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 		
 		if (inherits(val, "tmapUsrCls")) {
 			temp = local({
-				# not data driven variable: visual variable to support tm_mv of other visual variable (e.g. fill of donut maps)
-				k = length(aes$value[[1]])
-				vls = unname(aes$value[[1]])
+				# not data driven variable: visual variable to support tm_vars(multivariate = TRUE) of other visual variable (e.g. fill of donut maps)
+				k = length(aes$value[[1]]$x)
+				vls = unname(aes$value[[1]]$x)
 				dtl = data.table::data.table(tmapID__ = 1L:k, sel = TRUE, value = factor(vls, levels = vls))
 				
 				
@@ -142,7 +142,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 							   submit_legend = TRUE)
 				dtl[, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), .SDcols = "value"]
 				
-				
 				list(val = paste(dtl[[varname]], collapse = "__"),
 					 legnr = dtl$legnr_1[1],
 					 ctrnr = dtl$crtnr_1[1])
@@ -161,8 +160,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 			
 		if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
-			# constant values (take first value (of possible tm_mv per facet)
-			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
+			# constant values (take first value (of possible multivariate per facet)
+			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 			check_fun = paste0("tmapValuesCheck_", nm)
 			check = do.call(check_fun, list(x = val1))
@@ -304,9 +303,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				names(val) = val_name
 				vars = vars[1] # only needed for update_fl?
 			}
-			
 			if (length(v)) update_fl(k = v, lev = vars)
-			
+
 			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord) {
 				l = update_l(o = o, l = l, v = v, mfun = mfun, unm = unm, active = TRUE)
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
@@ -340,6 +338,19 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 					if (all(is.ena(l$title))) l$title = paste0(names(v), attr(cls, "units"), unit)
 				}
 				
+				if (f != "tmapScaleAuto") {
+					# number of variables needed
+					fnames = names(formals(f))
+					fnvar =  which(fnames == "scale") - 1L
+					if (fnames[1] != "...") {
+						if (fnvar > length(v)) {
+							stop("Too few variables defined")
+						} else if (fnvar < length(v)) {
+							warning("Too many variables defined")
+							v = v[1L:fnvar]
+						}
+					}
+				}
 				
 				
 				#aesname = aes$aes
@@ -416,7 +427,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				ordnames = paste(unm__ord, 1L:nvars, sep = "_")
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 				crtnames = paste("crtnr", 1L:nvars, sep = "_")
-				
 				for (i in 1L:nvars) {
 					dtl = apply_scale(scale[[i]], legend[[i]], crt[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], crtnames[[i]], sortRev = sortRev, bypass_ord = bypass_ord)
 				}
@@ -434,6 +444,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 				#sel = !vapply(dtl_leg$legend, is.null, logical(1))
 				dtl_leg = dtl_leg[legnr != 0, c(grp_bv_fr, "legnr"), with = FALSE]
 				dtl_crt = dtl_crt[crtnr != 0, c(grp_bv_fr, "crtnr"), with = FALSE]
+				
 			} else {
 				#cat("step2_grp_lyr_aes_var_one_aes_column\n")
 				

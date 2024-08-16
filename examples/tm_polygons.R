@@ -34,4 +34,4 @@ tm_layout(frame = FALSE)
 
 # bivariate scale
 tm_shape(World) +
-	tm_polygons(tm_mv("inequality", "well_being"))
+	tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))

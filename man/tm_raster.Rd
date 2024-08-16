@@ -8,7 +8,7 @@
 opt_tm_raster(interpolate = FALSE)
 
 tm_raster(
-  col = tm_shape_vars(),
+  col = tm_vars(),
   col.scale = tm_scale(value.na = "#00000000"),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),

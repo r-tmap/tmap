@@ -81,86 +81,106 @@ step1_rearrange_facets = function(tmo, o) {
 		assign("c2d_vars", character(0), envir = .TMAP)
 		
 		precheck_aes = function(a, layer, shpvars, args) {
-			within(a, {
-				
-				if (inherits(value, "tmapDimVars") || (inherits(value, "tmapMVShpVars") && length(shpvars) == 1L)) {
-					if (inherits(value, "tmapDimVars")) {
-						if (!(value$x %in% smeta$dims)) stop("Unknown dimension in tm_dim_vars", call. = FALSE)
-					} else {
-						value = list(x = smeta$dims[1], values = {
-							if (is.na(value$n)) smeta$dims_vals[[1]] else smeta$dims_vals[[1]][1L:value$n]
-						})
+			b = within(a, {
+				if (inherits(value, "tmapAsIs")) {
+					if (inherits(scale, "tm_scale_auto")) {
+						class(scale) = c("tm_scale_asis", "tm_scale", "list")
+						scale$FUN = tmapScaleAsIs
 					}
-					
+				}
+				
+				# check if dimension is or should be used
+				if (inherits(value, "tmapVars") && (length(smeta$dims) != 0) && (!is.null(value$dimvalues) || (!is.na(value$x[1]) && length(value$x) == 1L) || (value$multivariate && length(shpvars) == 1L))) {
+					if (is.na(value$x)) {
+						value$x = smeta$dims[1]
+					} else {
+						if (length(value$x) > 1L) {
+							warning("dimvalues specified while more than one dimension name is specified. Only the first will be used", call. = FALSE) 
+							value$x = value$x[1]
+						}
+						if (!(value$x %in% smeta$dims)) {
+							stop("dimvalues specified, but dimension \"" , x, "\" not found. Available dimension name(s): ", paste(smeta$dims,collapse = ", "), call. = FALSE)
+						}
+					}
+					if (is.null(value$dimvalues)) {
+						if (!is.na(value$n)) {
+							value$dimvalues = smeta$dims_vals[[value$x]][1L:value$n]
+						} else {
+							if (!all(value$dimvalues) %in% smeta$dims_vals[[value$x]]) stop("Incorrect dimvalues", call. = FALSE)
+						}
+					}
+				
 					split_stars_dim = value$x
-					if (!all(value$values %in% smeta$dims_vals[[split_stars_dim]])) stop("Unknown values in tm_dim_vars", call. = FALSE)
-					
-					update_grp_vars(lev = value$x)
-					add_used_vars(value$values)
+					add_used_vars(value$dimvalues)	
 					
 					# redefine value for step 2
-					value = structure(list(as.character(value$values)), names = value$x, class = "tmapVars")
-					
+					if (value$multivariate) {
+						update_grp_vars(lev = value$x)
+						value = structure(list(as.character(value$dimvalues)), names = paste(as.character(value$dimvalues), collapse = "_"), class = "tmapVars")
+					} else {
+						update_grp_vars(lev = value$dimvalues)
+						value = structure(as.list(as.character(value$dimvalues)), names = as.character(value$dimvalues), class = "tmapVars")
+					}
 					
 					data_vars = TRUE
 					geo_vars = FALSE
-					
+				
 				} else {
 					split_stars_dim = ""
-					value_orig = value # just for the case of L156
-					if (length(value) && is.na(value[[1]][1]) && !inherits(value, c("tmapMVShpVars", "tmapShpVars"))) {
+
+					#value_orig = value # just for the case of L156
+					if (length(value) && is.na(value[[1]][1]) && !inherits(value, c("tmapOption", "tmapVars", "tmapAsIs", "tmapSpecial"))) {
 						# NA -> value.blank
-						value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
+						value = tmapVV(getAesOption("value.blank", o, aes = aes, layer = layer))
 					}
 					
 					if (inherits(value, "tmapOption")) {
-						value_orig = tmapVars(getAesOption(value[[1]], o, aes = aes, layer = layer))
+						#value_orig = tmapVV(getAesOption(value[[1]], o, aes = aes, layer = layer))
+						value = tmapVV(getAesOption(value[[1]], o, aes = aes, layer = layer))
+						data_vars = FALSE
+						geo_vars = FALSE
 						#if (!is.list(value_orig)) value = list(value_orig)
-						value = value_orig
-						names(value) = sapply(value, "[", 1)
-					} else if (inherits(value, "tmapShpVars")) {
-						if (!is.na(value$ids[1])) {
-							if (!all(value$ids %in% 1L:length(shpvars))) stop("tm_shape_vars defined for ids = ", paste(value$ids, collapse = ", "), " while there are only ", length(shpvars), " variables", call. = FALSE)
-							value = as.list(shpvars[value$ids])
-						} else if (!is.na(value$n)) {
-							if (length(shpvars) < value$n) stop("tm_shape_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
-							value = as.list(shpvars[1L:value$n])
-						} else {
-							value = as.list(shpvars)
-						}
-					} else if (inherits(value, "tmapMVShpVars")) {
-						if (!is.na(value$ids[1])) {
-							if (!all(value$ids %in% 1L:length(shpvars))) stop("tm_shape_vars defined for ids = ", paste(value$ids, collapse = ", "), " while there are only ", length(shpvars), " variables", call. = FALSE)
-							value = list(shpvars[value$ids])
-						} else if (!is.na(value$n)) {
-							if (length(shpvars) < value$n) stop("tm_shape_vars specified with n = ", value$n, " but there are only ", length(shpvars), " variables available", call. = FALSE)
-							value = list(shpvars[1L:value$n])
-						} else {
-							value = list(shpvars)
-						}
-					} else {
-						value_orig = value
-						#value = lapply(value_orig, make.names)
-						names(value) = value_orig
-						
-						if (inherits(value_orig, "tmapAsIs")) {
-							if (inherits(scale, "tm_scale_auto")) {
-								class(scale) = c("tm_scale_asis", "tm_scale", "list")
-								scale$FUN = tmapScaleAsIs
+						#value = value_orig
+						#names(value) = sapply(value, "[", 1)
+					} else if (inherits(value, "tmapVars")) {
+						if (!is.na(value$x[1])) {
+							if (is.character(value$x)) {
+								if (!all(value$x %in% shpvars)) stop("not all variables specified in tm_vars are found", call. = FALSE)
+								vars = value$x
+							} else {
+								if (!all(value$x %in% 1L:length(shpvars))) stop("tm_vars defined for x = ", paste(value$ids, collapse = ", "), " while there are only ", length(shpvars), " variables", call. = FALSE)
+								vars = shpvars[value$x]
 							}
+						} else if (!is.na(value$n)) {
+							if (length(shpvars) < value$n) stop("tm_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
+							vars = shpvars[1L:value$n]
+						} else {
+							vars = shpvars
+						}
+						names(vars) = vars
+						if (value$multivariate) {
+							value = structure(list(unname(vars)), names = paste(vars, collapse = "_"), class = "tmapStandard")
+						} else {
+							value = structure(as.list(vars), class = "tmapStandard")
+						}
+						
+						data_vars = TRUE
+						geo_vars = FALSE
+					} else {
+						if (inherits(value, "tmapStandard")) {
+							uvalue = unlist(value)
+							data_vars = all(uvalue %in% shpvars)
+							geo_vars = all(uvalue %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
+							if (data_vars) vars = uvalue
+						} else {
+							data_vars = FALSE
+							geo_vars = FALSE
+							vars = character(0)
 						}
 					}
 					nvars = length(value) #m
 					nvari = vapply(value, length, integer(1))
-					if (inherits(value_orig, c("tmapSpecial", "tmapAsIs"))) {
-						data_vars = FALSE
-						geo_vars = FALSE
-					} else {
-						vars = unlist(value)
-						data_vars = all(vars %in% shpvars)
-						geo_vars = all(vars %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
-					}
-					
+
 					convert2density = "convert2density" %in% names(scale) && scale$convert2density 
 					
 					nflvar = nvars
@@ -176,9 +196,7 @@ step1_rearrange_facets = function(tmo, o) {
 					#	if (aes == "shape") browser()
 						mfun = paste0("tmapValuesSubmit_", aes)
 						if (exists(mfun)) {
-							value = do.call(mfun, list(x = value_orig, args = args))
-						} else {
-							value = value_orig
+							value = do.call(mfun, list(x = value, args = args))
 						}
 						nvars = length(value)
 						nflvar = nvars
@@ -190,6 +208,7 @@ step1_rearrange_facets = function(tmo, o) {
 					}
 				}
 			})
+			b
 		}
 		
 		
@@ -243,7 +262,7 @@ step1_rearrange_facets = function(tmo, o) {
 		
 		# split stars if needed (dimension -> attributes)
 		split_stars_dim = get_split_stars_dim(tmg$tmls)
-		shp = tmapSplitShp(shp, split_stars_dim)
+		shp = tmapSplitShp(shp, split_stars_dim, smeta)
 		if (split_stars_dim != "") {
 			smeta = tmapGetShapeMeta1(shp, o)
 			if (dev) timing_add(s3 = "get_shape_meta1_2")
@@ -409,7 +428,6 @@ step1_rearrange_facets = function(tmo, o) {
 					} 
 				}
 			}
-			
 
 			if (is.na(free.coords)) {
 				if (type %in% c("wrapstack", "wrap", "stack", "page")) {
@@ -443,6 +461,7 @@ step1_rearrange_facets = function(tmo, o) {
 	})
 
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
+	
 	tmo$tmf_global = tmf
 	tmo
 }

@@ -87,7 +87,6 @@ preprocess_meta = function(o, cdt) {
 			set_to_stack_message = FALSE
 		}
 		
-		
 	})
 }
 
@@ -141,7 +140,6 @@ process_meta = function(o, d, cdt, aux) {
 	o$credits.defined = (!is.na(cid))
 	
 	bbx = d$bbox[[1]]
-	
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)
 		diff_asp = any(d$asp != d$asp[1])
@@ -164,6 +162,7 @@ process_meta = function(o, d, cdt, aux) {
 		
 		
 		if (gs == "Grid") {
+			
 			bufferH = lineH / 2
 			bufferW = lineW / 2
 			
@@ -397,7 +396,7 @@ process_meta = function(o, d, cdt, aux) {
 				
 				
 				stacks = o$legend.stack
-				
+
 				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.all$cell.h, cell.v = legend.position.all$cell.v)]
 				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.sides$cell.h, cell.v = "by")]
 				cdt2[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = legend.position.sides$cell.v)]

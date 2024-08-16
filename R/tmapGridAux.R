@@ -80,7 +80,7 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", smeta = list(), o = o, tmf = NULL))
 	})
 	
-	srgb = tm_scale_rgb(maxValue = 255, value.na = "#FFFFFF")
+	srgb = tm_scale_rgb(maxColorValue = 255, value.na = "#FFFFFF")
 	
 	
 	ds = lapply(ss, function(s) {

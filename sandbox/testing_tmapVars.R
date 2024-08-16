@@ -108,7 +108,7 @@ tm_shape(World) +
 
 # shape vars
 tm_shape(World) +
-	tm_polygons(fill = tm_shape_vars())
+	tm_polygons(fill = tm_vars())
 
 tm_shape(land) +
 	tm_raster()
@@ -117,6 +117,7 @@ tm_shape(land) +
 require(stars)
 require(terra)
 require(sf)
+
 file = system.file("tif/L7_ETMs.tif", package = "stars")
 
 L7 = stars::read_stars(file)
@@ -124,9 +125,10 @@ L7 = stars::read_stars(file)
 tm_shape(L7) +
 	tm_rgb()
 
+
 # the previous example was a shortcut of this call
 tm_shape(L7) +
-	tm_rgb(col = tm_mv_dim("band", 1:3))
+	tm_rgb(col = tm_vars("band", dimvalues = 1:3))
 
 # alternative format: using a stars dimension instead of attributes
 L7_alt = split(L7, "band")
@@ -135,28 +137,50 @@ tm_shape(L7_alt) +
 
 # with attribute names
 tm_shape(L7_alt) +
-	tm_rgb(col = tm_mv("X1", "X2", "X3"))
+	tm_rgb(col = tm_vars(c("X1", "X2", "X3"), multivariate = TRUE))
 
 # with attribute indices
 tm_shape(L7_alt) +
-	tm_rgb(col = tm_mv_shape_vars(1:3))
+	tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
+
+if (requireNamespace("terra")) {
+	L7_terra = terra::rast(file)
+	
+	tm_shape(L7_terra) +
+		tm_rgb()
+	
+	# with layer names
+	tm_shape(L7_terra) +
+		tm_rgb(tm_vars(names(L7_terra)[1:3], multivariate = TRUE))
+	
+	# with layer indices
+	tm_shape(L7_alt) +
+		tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
+	
+}
 
 
-L7_terra = terra::rast(file)
+# complex stars
+L7alt = L7
+L7alt$L7_ETMs.tif = 255 - L7alt$L7_ETMs.tif
 
-tm_shape(L7_terra) +
-	tm_rgb()
+L7duo = c(L7, L7alt)
+L7duo2 = merge(L7duo)
 
-# with layer names
-tm_shape(L7_terra) +
-	tm_rgb(tm_mv(names(L7_terra)[1:3]))
+tm_shape(L7duo) +
+	tm_rgb(tm_vars("band", dimvalues = 1:3), col.scale = tm_scale_rgb(stretch = F)) +
+tm_facets(by = "VARS__")
 
-# with layer indices
-tm_shape(L7_alt) +
-	tm_rgb(col = tm_mv_shape_vars(1:3))
-
-
+tm_shape(L7duo2) +
+	tm_rgb(tm_vars("band", dimvalues = 1:3), col.scale = tm_scale_rgb(stretch = F)) +
+	tm_facets(by = "attributes")
 
 
+tm_shape(World) +
+	tm_polygons(c("HPI", "footprint")) +
+	tm_facets_grid(rows = "VARS__", columns = "continent")
+
+tm_shape(L7) +
+	tm_raster()
 
 

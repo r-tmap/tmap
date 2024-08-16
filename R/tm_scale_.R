@@ -7,24 +7,6 @@ tm_const = function() {
 	tmapOption("value.const")
 }
 
-#' tmap function to specify all variables in the shape object
-#' 
-#' tmap function to specify all variables in the shape object
-#' 
-#' @param n if specified, the first `n` shape variables are used
-#' @param ids index numbers of the used shape variables
-#' @export
-tm_shape_vars = function(ids = NA, n = NA) {
-	structure(list(ids = ids, n = n), class = c("tm_shape_vars", "list"))
-}
-
-
-#' @rdname tm_shape_vars
-#' @export
-tm_mv_shape_vars = function(ids = NA, n = NA) {
-	structure(list(ids = ids, n = n), class = c("tm_mv_shape_vars", "list"))
-}
-
 #' Scales: automatic scale
 #' 
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
@@ -239,6 +221,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
 #' @param trans.args list of additional argument for the transformation (generic transformation arguments)
 #' @inheritParams scales::transform_pseudo_log
+#' @example ./examples/tm_scale_continuous.R 
 #' @seealso [tm_scale()]
 #' @export
 #' @rdname tm_scale_continuous
@@ -369,22 +352,32 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 
 #' Scales: RGB
 #' 
-#' Scales: RGB
+#' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
+#' Such function should be used for the input of the `.scale` arguments in the layer
+#' functions (e.g. `fill.scale` in [tm_polygons()]).
+#' The function [tm_scale_rgb()] is used to transform r, g, b band variables to colors. This function is adopted from (and works similar as) [stars::st_rgb()]
 #'
 #' @param value.na value for missing values
-#' @param maxValue maximum value
-#' @seealso [tm_scale()]
+#' @param stretch should each (r, g, b) band be stretched? Possible values: `"percent"` (same as `TRUE`)  and `"histogram"`. In the first case, the values are stretched to `probs[1]...probs[2]`. In the secodn case, a histogram equalization is performed
+#' @param probs probability (quantile) values when `stretch = "percent"`
+#' @param maxColorValue maximum value
+#' @seealso [tm_scale()] and [stars::st_rgb()]
 #' @rdname tm_scale_rgb
+#' @example ./examples/tm_scale_rgb.R 
 #' @export
 tm_scale_rgb = function(value.na = NA,
-						maxValue = 255) {
+						stretch = FALSE,
+						probs = c(0, 1),
+						maxColorValue = 255L) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale", "list"))
 }
 
 #' @rdname tm_scale_rgb
 #' @export
 tm_scale_rgba = function(value.na = NA,
-						maxValue = 255) {
+						 stretch = FALSE,
+						 probs = c(0, 1),
+						 maxColorValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGBA"), as.list(environment())), class = c("tm_scale_rgba", "tm_scale", "list"))
 }
 

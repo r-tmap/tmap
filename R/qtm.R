@@ -135,7 +135,7 @@ qtm <- function(shp,
 		args_rst = args[nms_rst]
 		
 		if (!any(c("col", "raster") %in% called)) {
-			args_rst$col = tm_shape_vars()
+			args_rst$col = tm_vars()
 		}
 
 		nms_rst_v3 = names(args)[substr(names(args), 1, 7) == "raster."]

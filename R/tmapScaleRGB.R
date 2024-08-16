@@ -22,11 +22,52 @@ tmapScaleRGB_RGBA = function(xlist, scale, legend, chart, o, aes, layer, layer_a
 	
 	isna = Reduce("|", lapply(xlist, is.na))
 	
+	mx = max(unlist(xlist, recursive = FALSE, use.names = FALSE), na.rm = TRUE)
+	
+	scale = within(scale, {
+		if (is.logical(stretch)) {
+			if (stretch) 
+				stretch.method = "percent"
+			else maxColorValue = max(maxColorValue, mx)
+		}
+		if (is.character(stretch)) {
+			if (!stretch %in% c("percent", "histogram")) 
+				stretch.method = "percent"
+			else stretch.method = stretch
+			stretch = TRUE
+		}
+	})
+	cutoff = function(x, probs, stretch.method = "percent", maxColorValue = 255L) {
+		if (stretch.method == "percent") {
+			qs = if (all(probs == c(0, 1))) 
+				range(x)
+			else quantile(x, probs, na.rm = TRUE)
+			x = (x - qs[1])/(qs[2] - qs[1])
+			x[x > 1] = 1
+			x[x < 0] = 0
+			x * maxColorValue
+		}
+		else if (stretch.method == "histogram") {
+			x = (stats::ecdf(x))(x)
+			x * maxColorValue
+		}
+		else {
+			qs = range(x)
+			(x - qs[1])/(qs[2] - qs[1]) * maxColorValue
+		}
+	}
+	
+	if (scale$stretch) {
+		xlist2 = lapply(xlist, cutoff, probs = scale$probs, stretch.method = scale$stretch.method, maxColorValue = scale$maxColorValue)
+	} else {
+		xlist2 = xlist
+	}
+	
 	if (any(isna)) {
 		values = rep(scale$value.na, n) 
-		values[!isna] = do.call(grDevices::rgb, c(lapply(xlist, function(xl) xl[!isna]), list(maxColorValue = scale$maxValue)))
+		values[!isna] = do.call(grDevices::rgb, c(lapply(xlist2, function(xl) xl[!isna]), list(maxColorValue = scale$maxColorValue)))
 	} else {
-		values = do.call(grDevices::rgb, c(xlist, list(maxColorValue = scale$maxValue)))
+		values = do.call(grDevices::rgb, c(xlist2, list(maxColorValue = scale$maxColorValue)))
 	}
 	
 	

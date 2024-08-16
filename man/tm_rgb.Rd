@@ -9,16 +9,17 @@
 opt_tm_rgb(interpolate = FALSE)
 
 tm_rgb(
-  col = tm_mv_shape_vars(n = 3),
+  col = tm_vars(n = 3, multivariate = TRUE),
   col.scale = tm_scale_rgb(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
   col.free = NA,
-  options = opt_tm_rgb()
+  options = opt_tm_rgb(),
+  ...
 )
 
 tm_rgba(
-  col = tm_mv_shape_vars(n = 4),
+  col = tm_vars(n = 4, multivariate = TRUE),
   col.scale = tm_scale_rgba(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
@@ -30,9 +31,11 @@ tm_rgba(
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:grid.raster]{grid}})}
 
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
-the col color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_mv]{tm_mv()}} or \code{\link[=tm_mv_dim]{tm_mv_dim()}}}
+the col color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivarite = TRUE}}
 
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
+
+\item{...}{to catch deprecated arguments from version < 4.0}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col}, which should be specified with 3 or 4 variables for \code{tm_rgb} and \code{tm_rgba} respectively. The first three correspond to the red, green, and blue channels. The optional fourth is the alpha transparency channel.
@@ -49,7 +52,7 @@ tm_shape(L7) +
 \dontrun{
 # the previous example was a shortcut of this call
 tm_shape(L7) +
-	tm_rgb(col = tm_mv_dim("band", 1:3))
+	tm_rgb(col = tm_vars("band", dimvalues = 1:3))
 
 # alternative format: using a stars dimension instead of attributes
 L7_alt = split(L7, "band")
@@ -58,11 +61,11 @@ tm_shape(L7_alt) +
 
 # with attribute names
 tm_shape(L7_alt) +
-	tm_rgb(col = tm_mv("X1", "X2", "X3"))
+	tm_rgb(col = tm_vars(c("X1", "X2", "X3"), multivariate = TRUE))
 
 # with attribute indices
 tm_shape(L7_alt) +
-	tm_rgb(col = tm_mv_shape_vars(1:3))
+	tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
 
 if (requireNamespace("terra")) {
 	L7_terra = terra::rast(file)
@@ -72,11 +75,11 @@ if (requireNamespace("terra")) {
 
 	# with layer names
 	tm_shape(L7_terra) +
-		tm_rgb(tm_mv(names(L7_terra)[1:3]))
+		tm_rgb(tm_vars(names(L7_terra)[1:3], multivariate = TRUE))
 
 	# with layer indices
 	tm_shape(L7_alt) +
-		tm_rgb(col = tm_mv_shape_vars(1:3))
+		tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
 	
 }
 }

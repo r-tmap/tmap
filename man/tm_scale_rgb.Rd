@@ -5,18 +5,47 @@
 \alias{tm_scale_rgba}
 \title{Scales: RGB}
 \usage{
-tm_scale_rgb(value.na = NA, maxValue = 255)
+tm_scale_rgb(
+  value.na = NA,
+  stretch = FALSE,
+  probs = c(0, 1),
+  maxColorValue = 255L
+)
 
-tm_scale_rgba(value.na = NA, maxValue = 255)
+tm_scale_rgba(
+  value.na = NA,
+  stretch = FALSE,
+  probs = c(0, 1),
+  maxColorValue = 255
+)
 }
 \arguments{
 \item{value.na}{value for missing values}
 
-\item{maxValue}{maximum value}
+\item{stretch}{should each (r, g, b) band be stretched? Possible values: \code{"percent"} (same as \code{TRUE})  and \code{"histogram"}. In the first case, the values are stretched to \verb{probs[1]...probs[2]}. In the secodn case, a histogram equalization is performed}
+
+\item{probs}{probability (quantile) values when \code{stretch = "percent"}}
+
+\item{maxColorValue}{maximum value}
 }
 \description{
-Scales: RGB
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.
+Such function should be used for the input of the \code{.scale} arguments in the layer
+functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
+The function \code{\link[=tm_scale_rgb]{tm_scale_rgb()}} is used to transform r, g, b band variables to colors. This function is adopted from (and works similar as) \code{\link[stars:st_rgb]{stars::st_rgb()}}
+}
+\examples{
+require(stars)
+file = system.file("tif/L7_ETMs.tif", package = "stars")
+
+L7 = stars::read_stars(file)
+
+tm_shape(L7) +
+	tm_rgb(col.scale = tm_scale_rgb(probs = c(0, .99), stretch = TRUE))
+
+tm_shape(L7) +
+	tm_rgb(col.scale = tm_scale_rgb(stretch = "histogram"))
 }
 \seealso{
-\code{\link[=tm_scale]{tm_scale()}}
+\code{\link[=tm_scale]{tm_scale()}} and \code{\link[stars:st_rgb]{stars::st_rgb()}}
 }
