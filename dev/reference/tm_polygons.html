@@ -11,7 +11,7 @@ fill_alpha (fill color alpha transparency) and col_alpha (border color alpha tra
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.99.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.99.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -266,7 +266,7 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># bivariate scale</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="fu"><a href="tm_mv.html">tm_mv</a></span><span class="op">(</span><span class="st">"inequality"</span>, <span class="st">"well_being"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="fu"><a href="tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inequality"</span>, <span class="st">"well_being"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Labels abbreviated by the first letters, e.g.: "2 to 3" =&gt; "2"</span>
 <span class="r-plt img"><img src="tm_polygons-7.png" alt="" width="700" height="433"></span>
 </code></pre></div>
