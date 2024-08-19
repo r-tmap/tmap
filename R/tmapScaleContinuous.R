@@ -202,7 +202,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			vals = vv[ids]
 		} else {
 			if (is.numeric(values)) {
-				values = tmap_seq(values[1], values[length(values)], power = "lin")
+				values = tm_seq(values[1], values[length(values)], power = "lin")
 			}
 			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * o$scale)
 			

@@ -15,7 +15,7 @@ test_that("Base layer works at different positions", {
 	t <- tm_basemap("OpenStreetMap") +
 		tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
-		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tmap_seq(0, 2, "sqrt"))) +
+		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tm_seq(0, 2, "sqrt"))) +
 		tm_facets_wrap("well_being_class") +
 		tm_shape(metro) +
 		tm_symbols(fill = "pop2020") +
@@ -28,7 +28,7 @@ test_that("Base layer works at different positions", {
 	tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
 		tm_basemap("OpenStreetMap")+
-		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tmap_seq(0, 2, "sqrt"))) +
+		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tm_seq(0, 2, "sqrt"))) +
 		tm_facets_wrap("well_being_class") +
 		tm_shape(metro) +
 		tm_symbols(fill = "pop2020") +
@@ -36,7 +36,7 @@ test_that("Base layer works at different positions", {
 	
 	tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
-		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tmap_seq(0, 2, "sqrt"))) +
+		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tm_seq(0, 2, "sqrt"))) +
 		tm_facets_wrap("well_being_class") +
 		tm_shape(metro) +
 		tm_basemap("OpenStreetMap")+
@@ -45,7 +45,7 @@ test_that("Base layer works at different positions", {
 	
 	tm_shape(Africa) +
 		tm_polygons("HPI", fill.scale = tm_scale(values = "viridis")) +
-		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tmap_seq(0, 2, "sqrt"))) +
+		tm_symbols(size = "pop_est", fill = "purple", size.scale = tm_scale(values = tm_seq(0, 2, "sqrt"))) +
 		tm_facets_wrap("well_being_class") +
 		tm_shape(metro) +
 		tm_symbols(fill = "pop2020") +

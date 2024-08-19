@@ -331,7 +331,7 @@ tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		x
 	} else {
 		if (is.numeric(x)) {
-			x = tmap_seq(x[1], x[length(x)], power = "lin")
+			x = tm_seq(x[1], x[length(x)], power = "lin")
 		}
 		
 		if (range[1] !=0 || range[2] != 1) {
@@ -467,7 +467,16 @@ tmapValuesColorize_xmod = tmapValuesColorize_ymod = function(x, pc) x
 tmapValuesColorize_angle = function(x, pc) x
 
 
-tmap_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
+#' Specify a numeric sequence
+#' 
+#' Specify a numeric sequence, for numeric scales like [tm_scale_continuous()]. This function is needed when there is a non-linear relationship between the numeric data values and the visual variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
+#' 
+#' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting `power` to `"sqrt_perceptual"`
+#' 
+#' @param from,to The numeric range, default 0 and 1 respectively
+#' @param power The power component, or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`, `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
+#' @export
+tm_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
 	structure(as.list(environment()), class = "tmapSeq")
 }
 

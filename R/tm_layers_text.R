@@ -343,7 +343,7 @@ tm_text = function(text = tm_const(),
 		}	
 		
 		v3_list_init()
-		size.scale.args = list(values = tmap_seq(v3_impute(args, "size.lowerbound", 0, "values = tmap_seq(<size.lowerbound>, 1)"), 1, power = 1/v3_impute(args, "root", 3, "values = tmap_seq(<size.lowerbound>, 1, power = 1/<root>)")),
+		size.scale.args = list(values = tm_seq(v3_impute(args, "size.lowerbound", 0, "values = tm_seq(<size.lowerbound>, 1)"), 1, power = 1/v3_impute(args, "root", 3, "values = tm_seq(<size.lowerbound>, 1, power = 1/<root>)")),
 							   values.scale = v3_impute(args, "scale", 1, "values.scale"),
 							   limits = v3_impute(args, "size.lim", NULL, "limits"),
 							   outliers.trunc = c(v3_impute(args, "print.tiny", FALSE, paste0("outliers.trunc = c(", {if ("print.tiny" %in% names(args)) !args$print.tiny else TRUE}, ", TRUE)") ), TRUE),
