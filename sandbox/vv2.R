@@ -171,7 +171,7 @@ tm_shape(L7_terra) +
 	tm_raster()
 
 tm_shape(L7_terra) +
-	tm_rgb(tm_vars(dimvalues = 1:3, multivariate = TRUE))
+	tm_rgb(tm_vars(1:3, multivariate = TRUE))
 
 
 # tmap vars
