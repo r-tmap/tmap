@@ -45,7 +45,7 @@ test_that("v3 syntax works", {
 	
 	skip_if_not_installed("cartogram")
 	# Cartogram
-	NLD_prov_pop <- cartogram::cartogram(NLD_prov, "population")
+	NLD_prov_pop <- cartogram::cartogram_cont(NLD_prov, "population")
 	tm_shape(NLD_prov_pop) +
 	 tm_polygons("origin_non_west", title = "Non-western origin (%)")
 })
