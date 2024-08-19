@@ -128,7 +128,7 @@ tm_shape(L7split) +
 
 # complex stars
 L7neg = L7
-L7neg$L7_ETMs.tif = 255 - L7alt$L7_ETMs.tif
+L7neg$L7_ETMs.tif = 255 - L7neg$L7_ETMs.tif
 
 L7duo = c(L7, L7neg)
 L7duo2 = merge(L7duo)
