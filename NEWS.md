@@ -6,6 +6,8 @@
 
 * In view mode, `hover` is now independent from `id` (#851).
 
+* `tm_vars()` is a new function for multivariate scale (#819)
+
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
 - fixed bug (some stars appeared upside down in plot mode)

@@ -17,7 +17,7 @@ test_that("terra works", {
 	# FIXME this is not expected.
 	
 	tm_shape(landsat) +
-		tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
+		tm_rgb(tm_vars(c("landsat_4", "landsat_3", "landsat_2"), multivariate = TRUE), col.scale = tm_scale_rgb(maxColorValue = 31961))
 	# Defaults of stars and terra are identical.
 	tm_shape(landsat) + tm_raster(col.free = FALSE)
 	tm_shape(landsat) +
@@ -65,7 +65,7 @@ test_that("multi rast works.", {
 	})
 	
 	tm_shape(multi_rast) +
-		tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961)) 
+		tm_rgb(tm_vars(c("landsat_4", "landsat_3", "landsat_2"), multivariate = TRUE), col.scale = tm_scale_rgb(maxColorValue = 31961)) 
 	
 })
 
@@ -76,11 +76,11 @@ test_that("Both approaches work for stars.", {
 	# direct approach
 	landsat_stars = stars::read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 	expect_no_condition(tm_shape(landsat_stars) +
-		tm_rgb(tm_mv_dim("band", c(4,3,2)), col.scale = tm_scale_rgb(maxValue = 31961))
+		tm_rgb(tm_vars("band", dimvalues = c(4,3,2)), col.scale = tm_scale_rgb(maxColorValue = 31961))
 	)
 	
 	# indirect approach
 	landsat_stars2 = split(landsat_stars, "band")
 	tm_shape(landsat_stars2) +
-		tm_rgb(tm_mv("X4", "X3", "X2"), col.scale = tm_scale_rgb(maxValue = 31961))
+		tm_rgb(tm_vars(c("X4", "X3", "X2"), multivariate = TRUE), col.scale = tm_scale_rgb(maxColorValue = 31961))
 })
