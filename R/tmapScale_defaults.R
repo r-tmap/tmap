@@ -233,7 +233,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		x = getAesOption("values.var", o, aes = aes, layer = NA, cls = x[1])
 	}
 	
-	m = getPalMeta(x[1])	
+	m = if (length(x) > 1) NULL else getPalMeta(x[1])	
 	
 
 	scale_ids = function(ids, n) {
