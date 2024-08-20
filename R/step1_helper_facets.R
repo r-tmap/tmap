@@ -171,7 +171,7 @@ step1_rearrange_facets = function(tmo, o) {
 							uvalue = unlist(value)
 							data_vars = all(uvalue %in% shpvars)
 							geo_vars = all(uvalue %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
-							if (data_vars) vars = uvalue
+							if (data_vars || geo_vars) vars = uvalue else vars = character(0)
 						} else {
 							data_vars = FALSE
 							geo_vars = FALSE
