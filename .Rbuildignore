@@ -24,3 +24,4 @@ ubuntu_17_installation.sh
 ^\.github$
 ^data-raw$
 ^.covrignore$
+^vignettes/tmap-getstarted.Rmd$
