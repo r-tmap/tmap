@@ -32,6 +32,7 @@ test_that("terra works", {
 test_that("stars works", {
 	
 	skip_on_cran()
+	skip_if_not_installed("spDataLarge")
 	landsat = stars::read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 	land_stars = tmap::land
 	
@@ -57,6 +58,8 @@ test_that("stars works", {
 
 
 test_that("multi rast works.", {
+	skip_on_cran()
+	skip_if_not_installed("spDataLarge")
 	multi_raster_file = system.file("raster/landsat.tif", package = "spDataLarge")
 	multi_rast = terra::rast(multi_raster_file)
 	expect_no_error({

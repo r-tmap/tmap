@@ -24,13 +24,13 @@ v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_fo
 
 v3_title = function(fun) {
 	id = paste0(fun, "title")
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fn}(title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_main_title = function(fun) {
 	id = paste0(fun, "main.title")
 	
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fn}(main.title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_convert2density = function(layer_fun) {
@@ -94,8 +94,8 @@ v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
 			
 			al = v3_list_text(olds = arg_list$old, news = arg_list$new)
 			cli::cli_inform(c(
-				"{.field[v3->v4]} {.fn layer_fun}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {.str {vv}} {.scale} = {scale_fun}(<HERE>)'.", 
-				i = x
+				"{.field [v3->v4]} {.fn {layer_fun}}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).", 
+				"i" = x
 			))
 		}
 		message_reg(m)

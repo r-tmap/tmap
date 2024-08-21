@@ -31,6 +31,7 @@ test_that("tm_scale_continuous_pseudo_log() works with special words", {
 			)
 	)
 	expect_no_error(tm_world)
-	tmap_mode("view")
+	mod <- tmap_mode("view")
 	expect_no_error(tm_world)
+	tmap_mode(mod)
 })

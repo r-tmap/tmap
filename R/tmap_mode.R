@@ -59,11 +59,14 @@ tmap_mode = function(mode = NULL) {
 	modes = get_modes()
 
 	if (is.null(mode)) {
-		message("current tmap mode is \"", current.mode, "\"")
+		cli::cli_inform(c(
+			"i" = "Current tmap mode is {.val {current.mode}}.",
+			"i" = "Call {.run tmap::ttm()} to switch mode."
+		))
 	} else {
-		if (!mode %in% modes) stop("Unknown mode. Available modes: ", paste(modes, collapse = ", "))
-		options(tmap.mode=mode)
-		if (show.messages) message("tmap mode set to '", mode, "'")
+		rlang::arg_match0(mode, modes)
+		options(tmap.mode = mode)
+		if (show.messages) cli::cli_inform(c(i = "tmap mode set to {.val {mode}}."))
 	}
 	invisible(current.mode)
 }	
@@ -185,10 +188,6 @@ ttm = function() {
 ttmp = function() {
 	ttm()
 	tmap_last()
-}
-
-check_mode = function(mode) {
-	if (!mode %in% get_modes()) stop("incorrect mode", call. = FALSE)
 }
 
 check_unit = function(unit) {
