@@ -1,11 +1,12 @@
-#' Facets
+#' Specify facets
 #' 
-#' Specify facets. `tm_facets()` is the core function, but recommended is to use
-#' `tm_facets_wrap()`, `tm_facets_stack()` or `tm_facets_grid()`.
-#' The former two specify facets for one grouping variable (so one faceting dimension).
-#' The difference is that wrap may place facets in multiple rows and columns whereas
-#' `tm_facets_stack()` stacks the facets either horizontally or vertically.
-#' `tm_facets_grid()` supports up to three faceting dimensions.
+#' @description
+#' * `tm_facets_wrap()` specify facets for one grouping variable (so one faceting dimension).
+#' * `tm_facets_(hv)stack()` stacks the facets either horizontally or vertically (one grouping variable).
+#' * `tm_facets_grid()` supports up to three faceting dimensions.
+#' * `tm_facets_pagewise()` can be used to replace the old `along` argument.
+#' * `tm_facets_flip()` can be used to flip facets.
+#' * `tm_facets()` is the core function, but it is recommended to use the other functions.
 #'
 #' @param by Group by variable (only for a facet wrap or facet stack)
 #' @param rows Variable that specifies the rows (only for a facet grid)
@@ -43,12 +44,10 @@
 #'   especially text, are often too small to read, a higher value is recommended.
 #'   By default, `scale.factor=2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
-#' @param along deprecated Please use `tm_facets_page()`
+#' @param along deprecated Please use `tm_facets_pagewisse()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
 #' @param ... used to catch deprecated arguments
 #' @export
-#' @rdname tm_facets
-#' @name tm_facets
 tm_facets = function(by = NULL,
 					 rows = NULL,
 					 columns = NULL,
@@ -132,7 +131,7 @@ tm_facets = function(by = NULL,
 		subclass = "tm_facets"))
 	
 	if (!is.null(free.scales)) {
-		message("tm_facets: the argument free.scales is deprecated. Specify this via the layer functions (e.g. fill.free in tm_polygons)")
+		message("tm_facets(): the argument free.scales is deprecated. Specify this via the layer functions (e.g. fill.free in tm_polygons)")
 		x + tm_options(free.scales = free.scales)
 	} else {
 		x
@@ -141,7 +140,6 @@ tm_facets = function(by = NULL,
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_grid
 tm_facets_grid = function(rows = NULL,
 						  columns = NULL,
 						  pages = NULL,
@@ -172,7 +170,6 @@ tm_facets_wrap = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_pagewise
 tm_facets_pagewise = function(by = "VARS__",
 						  nrows = 1,
 						  ncols = 1,
@@ -187,7 +184,6 @@ tm_facets_pagewise = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_stack
 tm_facets_stack = function(by = "VARS__",
 						   orientation = NA,
 						  ...) {
@@ -200,7 +196,6 @@ tm_facets_stack = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_hstack
 tm_facets_hstack = function(by = "VARS__",
 						   ...) {
 	do.call("tm_facets_stack", c(list(by = by, orientation = "horizontal"), list(...)))
@@ -208,7 +203,6 @@ tm_facets_hstack = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facets_vstack
 tm_facets_vstack = function(by = "VARS__",
 							...) {
 	do.call("tm_facets_stack", c(list(by = by, orientation = "vertical"), list(...)))
@@ -216,7 +210,6 @@ tm_facets_vstack = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
-#' @name tm_facet_flip
 tm_facets_flip = function(...) {
 	do.call(tm_facets, list(...)) + tm_options(facet.flip = TRUE)
 }

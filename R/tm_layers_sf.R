@@ -1,27 +1,6 @@
-#' @rdname tm_sf
-#' @name opt_tm_sf
-#' @export
-opt_tm_sf = function(polygons.only = "yes",
-					 lines.only = "yes",
-					 points.only = "yes",
-					 point.per = "feature",
-					 points.icon.scale = 3,
-					 points.just = NA,
-					 points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)) {
-
-	list(points = list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
-					   mapping.args = list(icon.scale = points.icon.scale,
-					   					just = points.just,
-					   					grob.dim = points.grob.dim)),
-		 lines = list(trans.args = list(lines.only = lines.only),
-		 			 mapping.args = list()),
-		 polygons = list(trans.args = list(polygons.only = polygons.only),
-		 				mapping.args = list()))
-	
-}
-
 #' Map layer: simple features
 #' 
+#' @description
 #' Map layer that draws simple features as they are. Supported visual variables
 #' are: `fill` (the fill color), `col` (the border color), `size` the point size,
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha` (fill color alpha transparency)
@@ -33,6 +12,7 @@ opt_tm_sf = function(polygons.only = "yes",
 #' facets are created. These facets can be combined with other faceting data variables,
 #' specified with [tm_facets()].
 #' 
+#' @details
 #' The `.scale` arguments determine the used scale to map the data values to visual
 #' variable values. These can be specified with one of the available `tm_scale_()` functions.
 #' The default scale that is used is specified by the tmap option `scales.var`.
@@ -71,22 +51,11 @@ opt_tm_sf = function(polygons.only = "yes",
 #' @param plot.order.list Specification in which order the spatial features are drawn.
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.
 #'   For each of these types, which are drawn in that order, a [tm_plot_order()] is required.
-#' @param polygons.only,lines.only,points.only,point.per,points.icon.scale,points.just,points.grob.dim See [opt_tm_polygons()], [opt_tm_lines()] and [opt_tm_symbols()]
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
-#' @param zindex Map layers are drawn on top of each other.
-#'   The `zindex` numbers (one for each map layer) determines the stacking order.
-#'   By default the map layers are drawn in the order they are called.
-#' @param group Name of the group to which this layer belongs.
-#'   This is only relevant in view mode, where layer groups can be switched (see `group.control`).
-#' @param group.control In view mode, the group control determines how layer
-#'   groups can be switched on and off. Options: `"radio"` for radio buttons
-#'   (meaning only one group can be shown), `"check"` for check boxes
-#'   (so multiple groups can be shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @inheritParams tm_polygons
 #' @param ... passed on to [tm_polygons()], [tm_lines()], and [tm_dots()]
 #' @example ./examples/tm_sf.R 
 #' @export
-#' @name tm_sf
-#' @rdname tm_sf
 tm_sf = function(fill = tm_const(),
                  fill.scale = tm_scale(),
                  fill.legend = tm_legend(),
@@ -177,5 +146,29 @@ tm_sf = function(fill = tm_const(),
 					 fill_alpha.legend = fill_alpha.legend, fill_alpha.free = fill_alpha.free,
 					 plot.order = plot.order.list$points, options = options$points)
 	}
+	
+}
+
+#' @param points.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument `grob.dim`
+#' @param points.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
+#' @param points.just justification of the points relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
+#' @rdname opt_tm
+#' @export
+opt_tm_sf = function(polygons.only = "yes",
+					 lines.only = "yes",
+					 points.only = "yes",
+					 point.per = "feature",
+					 points.icon.scale = 3,
+					 points.just = NA,
+					 points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)) {
+	
+	list(points = list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
+					   mapping.args = list(icon.scale = points.icon.scale,
+					   					just = points.just,
+					   					grob.dim = points.grob.dim)),
+		 lines = list(trans.args = list(lines.only = lines.only),
+		 			 mapping.args = list()),
+		 polygons = list(trans.args = list(polygons.only = polygons.only),
+		 				mapping.args = list()))
 	
 }
