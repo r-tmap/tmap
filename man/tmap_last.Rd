@@ -11,7 +11,7 @@ call
 }
 \description{
 Retrieve the last map to be modified or created. Works in the same way
-as \code{\link[ggplot2:get_last_plot]{ggplot2::last_plot()}}, although there is a difference:
+as \code{ggplot2::last_plot()}, although there is a difference:
 \code{tmap_last()} returns the last call instead of the stacked \code{\link{tmap-element}}s.
 }
 \seealso{

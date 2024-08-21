@@ -36,7 +36,7 @@ v3_main_title = function(fun) {
 v3_convert2density = function(layer_fun) {
 	id = paste0(layer_fun, "convert2density")
 	cli::cli_inform(c(
-		"{.field [v3->v4]} {.fn {layer_fun}} {.arg convert2density is deprecated.",
+		"{.field [v3->v4]} {.fn {layer_fun}} {.arg convert2density} is deprecated.",
 		"i" = "Divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')."
 	),
 	.id = id,
