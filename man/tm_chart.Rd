@@ -149,7 +149,8 @@ tm_shape(World) +
 				fill.chart = tm_chart_donut())
 
 tm_shape(World) +
-	tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE), fill.chart = tm_chart_heatmap())
+	tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE),
+				fill.chart = tm_chart_heatmap())
 
 
 }
