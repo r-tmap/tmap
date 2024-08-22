@@ -143,6 +143,9 @@ step1_rearrange_facets = function(tmo, o) {
 						#value = value_orig
 						#names(value) = sapply(value, "[", 1)
 					} else if (inherits(value, "tmapVars")) {
+						if (!is.null(value$dimvalues) && length(smeta$dims) == 0L) {
+							error_dimvalues()
+						}
 						if (!is.na(value$x[1])) {
 							if (is.character(value$x)) {
 								if (!all(value$x %in% shpvars)) stop("not all variables specified in tm_vars are found", call. = FALSE)

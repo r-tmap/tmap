@@ -67,3 +67,7 @@ message_pos_auto = function(type) {
 	NULL	
 }
 
+error_dimvalues = function() {
+	stop("tm_vars(): \"dimvalues\" has been used, but the shape object does not contain any dimensions; please use \"x\" to specify variables", call. = FALSE)
+}
+

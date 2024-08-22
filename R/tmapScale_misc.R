@@ -8,6 +8,18 @@ check_values = function(layer, aes, values) {
 	}
 }
 
+#' Internal tmap function get scale values
+#' 
+#' Internal tmap function get scale values
+#'
+#' @param scale scale
+#' @param o o
+#' @param aes aes
+#' @param layer layer
+#' @param cls cls
+#' @param ct ct
+#' @export
+#' @keywords internal
 get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 	within(scale, {
 		values = if (is.na(values[1])) {
