@@ -320,9 +320,8 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	show.messages = o$show.messages
 	show.warnings = o$show.warnings
 	within(comp, {
-		if (is.function(call)) call = ""
 		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			warning("For 'tm_scalebar()', 'breaks' and 'width' cannot be used together. The width is being ignored.", call. = FALSE)	
+			message("For 'tm_scalebar()', 'breaks' and 'width' are not supposed to be used together; normally, setting the exact width is not needed when breaks have been specified.", call. = FALSE)	
 		}
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
@@ -391,8 +390,7 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	comp$WnativeID = 3
 	if (!is.null(comp$breaks)) {
 		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
-		comp$Wextra_line = textS * o$lin# for fitting break labels
-		
+		#comp$Wextra_text_inch = text_width_inch(paste0("  ", cmp$units$unit)) + text_width_inch(paste0(tail(comp$breaks, 1), comp$breaks[1])) / 2 
 	}
 	
 	comp
@@ -486,8 +484,10 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	
 	ticks2Labels = format(ticks2, trim=TRUE)
 	ticksWidths = text_width_inch(ticks2Labels)
+	unitWidth = text_width_inch(unit)
 	
 	labels = c(ticks2Labels, unit)
+	labelsW = c(ticksWidths, unitWidth)
 	
 	n = length(ticks2)
 	
@@ -501,10 +501,14 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	#width = sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
 	xtext = x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
-	
-	#x = just-just*width+x
-	#xtext = just-just*width+xtext
-	
+
+	# if "unit" text is clipped, remove last label and move unit to previous label
+	xright = xtext + labelsW / 2
+	if (tail(xright, 1) > W) {
+		labels = c(head(labels, -2), unit)
+		xtext = x[1] + c(head(ticks3, -1), ticks3[n-1] + .5*ticksWidths[n-1]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
+	}
+
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 	
 	

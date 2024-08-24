@@ -266,6 +266,8 @@ impute_comp = function(a, o) {
 	
 	ca = class(a)
 	
+	call = names(a)
+	
 	# special case: position, in case c("left", "top") is used
 	if (is.character(a$position)) a$position = str2pos(a$position)
 	if (is.numeric(a$position)) a$position = num2pos(a$position)
@@ -276,6 +278,7 @@ impute_comp = function(a, o) {
 	
 	
 	a = complete_options(a, ot)
+	a$call = call
 	
 	class(a) = ca
 	a
