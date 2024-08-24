@@ -391,6 +391,8 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	comp$WnativeID = 3
 	if (!is.null(comp$breaks)) {
 		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
+		comp$Wextra_line = textS * o$lin# for fitting break labels
+		
 	}
 	
 	comp

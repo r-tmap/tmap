@@ -304,8 +304,17 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				#newIn = min(totW, bb_facet * cmp$width)
 				newIn = min(totW, cmp$Win)
 			} else {
-				# in case breaks are defined: allow the total width to be used (as upper bound)
-				newIn = totW
+				# in case breaks are defined: compute width
+				
+				# for fitting breaks (half of last 'breaks' word + width of units text)
+				Wextra = (ceiling(nchar(tail(cmp$breaks, 1)) / 2) + 2 + nchar(cmp$units$unit)) * cmp$Wextra_line # for fitting break labels
+				
+				# bbw are number of (CRS) units of map width, totalCoords translated to scalebar units
+				totalCoords =  bbw * cmp$units$to
+		
+				Wcomp = bb_facet * (cmp$WnativeRange / totalCoords) + Wextra
+				
+				newIn = min(totW, Wcomp)
 			}
 			
 			margins = sum(head(as.numeric(cmp$wsu[-cmp$WnativeID]), -1))
