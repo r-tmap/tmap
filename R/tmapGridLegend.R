@@ -307,7 +307,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 				# in case breaks are defined: compute width
 				
 				# for fitting breaks (half of last 'breaks' word + width of units text)
-				Wextra = (ceiling(nchar(tail(cmp$breaks, 1)) / 2) + 2 + nchar(cmp$units$unit)) * cmp$Wextra_line # for fitting break labels
+				Wextra = (ceiling(nchar(tail(cmp$breaks, 1)) / 2) + nchar(cmp$units$unit)/2) * cmp$Wextra_line # for fitting break labels (in theory, it should include a " ", and a bit for the left-hand side, but in practice this is a better fit)
 				
 				# bbw are number of (CRS) units of map width, totalCoords translated to scalebar units
 				totalCoords =  bbw * cmp$units$to
