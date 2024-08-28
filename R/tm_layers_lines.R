@@ -164,7 +164,7 @@ tm_lines = function(col = tm_const(),
 		} else {
 			stop("unknown style")
 		}
-		if (!(args$called_from == "qtm" && (!"col" %in% names(args)))) {
+		if (!(layer_fun == "qtm" && (!"col" %in% names(args)))) {
 			if ("style" %in% names(args)) {
 				v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
 			} else {
