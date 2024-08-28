@@ -155,10 +155,14 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	nobs <- sum(!is.na(x))
 	# create intervals and assign colors
 	if (style=="fixed") {
+		x2 = na.omit(x)
+		tooLow = (x2 < min(breaks))
+		tooHigh = (x2 > max(breaks))
+		if (any(tooLow) && show.warnings) warning("Values have found that are less than the lowest break. They are assigned to the lowest interval", call. = FALSE)
+		if (any(tooHigh) && show.warnings) warning("Values have found that are higher than the highest break. They are assigned to the highest interval", call. = FALSE)
+		
 		q <- list(var=x,
 				  brks=breaks)
-		if (any(na.omit(x) < min(breaks)) && show.warnings) warning("Values have found that are less than the lowest break", call. = FALSE)
-		if (any(na.omit(x) > max(breaks)) && show.warnings) warning("Values have found that are higher than the highest break", call. = FALSE)
 		attr(q, "style") <- "fixed"
 		attr(q, "nobs") <- nobs
 		attr(q, "intervalClosure") <- interval.closure
