@@ -84,19 +84,12 @@ make_equal_list = function(x) {
 
 
 tmapLeaflet_legend = function(cmp, lf, o, orientation) {
-	group = "tmp" # TODO
+	group = cmp$group
 	leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
 	layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo
 	.TMAP_LEAFLET$leg_id = .TMAP_LEAFLET$leg_id + 1
 	
-	# if (length(cmp$gp$col) > 1 || all(is.na(cmp$gp$fill))) {
-	# 	pal = cmp$gp$col
-	# 	opacity = cmp$gp$col_alpha
-	# } else {
-	# 	pal = cmp$gp$fill
-	# 	opacity = cmp$gp$fill_alpha
-	# }
-	
+
 	lab = cmp$labels
 	val = cmp$dvalues
 	title = if (nonempty_text(cmp$title)) expr_to_char(cmp$title) else NULL
@@ -203,6 +196,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		
 		
 		lf %>% leaflegend::addLegendImage(symbols$iconUrl, 
+										  group = group,
 										 labels = lab,
 										 width = symbols$iconWidth + 2*gp2$strokeWidth,
 										 height = symbols$iconHeight + 2*gp2$strokeWidth, 

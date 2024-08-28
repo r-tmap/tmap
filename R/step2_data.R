@@ -67,11 +67,15 @@ step2_data = function(tm) {
 			
 			plot.order = tml$plot.order
 			
+			group = if (is.na(tml$group)) tmg$tms$shp_name else as.character(tml$group)
+			group.control = as.character(tml$group.control)
+			
+			
 			# args will be passed on to the scale functions (in case needed)
 			# they also will be used in step 3 (trans) and step 4 (mapping)
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, mfun = tml$mapping.fun, args = tml$trans.args, plot.order = plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, mfun = tml$mapping.fun, args = tml$trans.args, plot.order = plot.order))
 
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, mfun = tml$mapping.fun, args = tml$mapping.args, plot.order = plot.order))
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, mfun = tml$mapping.fun, args = tml$mapping.args, plot.order = plot.order))
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -81,8 +85,6 @@ step2_data = function(tm) {
 			if (dev) timing_add(s4 = "combine")
 			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 			
-			group = if (is.na(tml$group)) tmg$tms$shp_name else as.character(tml$group)
-			group.control = as.character(tml$group.control)
 			
 			popup.data = if (!length(tml$popup.vars)) {
 				NULL

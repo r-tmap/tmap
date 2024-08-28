@@ -66,7 +66,7 @@ update_crt = function(o, crt, v, mfun, unm, active) {
 	crt
 }
 
-getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order) {
+getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
 	nm = aes$aes
@@ -307,6 +307,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, args, plot.order)
 
 			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord) {
 				l = update_l(o = o, l = l, v = v, mfun = mfun, unm = unm, active = TRUE)
+				l$group = group
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
