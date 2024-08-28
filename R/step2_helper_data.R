@@ -156,6 +156,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 			sfun = paste0("tmapValuesScale_", nm)
 			cfun = paste0("tmapValuesColorize_", nm)
 			aes$data_vars = FALSE
+		} else {
+			temp = NULL
 		}
 			
 		if (!aes$data_vars && !aes$geo_vars) {
@@ -225,7 +227,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 			dtl[, legnr := vector("integer", length = nrow(dtl))]
 			dtl[, crtnr := vector("integer", length = nrow(dtl))]
 			
-			if (exists("temp")) {
+			if (!is.null(temp)) {
 				dtl_leg = data.table::data.table(sel = TRUE, legnr = temp$legnr, crtnr = temp$ctrnr)
 			} else {
 				dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..unm), function(s) legend_save(list(mfun = mfun, unm = unm, active = FALSE, vneutral = s)), FUN.VALUE = integer(1)))][, crtnr := (vapply(get(..unm), function(s) chart_save(list()), FUN.VALUE = integer(1)))][, (unm) := NULL]
