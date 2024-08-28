@@ -15,8 +15,7 @@
 #' @param group.frame group.frame
 #' @param resize.as.group resize.as.group
 #' @example examples/tm_chart.R
-#' @rdname tm_chart
-#' @name tm_chart_histogram
+#' @name tm_chart
 #' @export
 tm_chart_histogram = function(breaks,
 							  plot.axis.x,
@@ -39,7 +38,6 @@ tm_chart_histogram = function(breaks,
 }
 
 #' @rdname tm_chart
-#' @name tm_chart_bar
 #' @export
 tm_chart_bar = function( plot.axis.x,
 							  plot.axis.y,
@@ -62,7 +60,6 @@ tm_chart_bar = function( plot.axis.x,
 
 
 #' @rdname tm_chart
-#' @name tm_chart_donut
 #' @export
 tm_chart_donut = function(position,
 							  width,
@@ -81,7 +78,6 @@ tm_chart_donut = function(position,
 }
 
 #' @rdname tm_chart
-#' @name tm_chart_violin
 #' @export
 tm_chart_violin = function(position,
 						   width,
@@ -100,7 +96,6 @@ tm_chart_violin = function(position,
 }
 
 #' @rdname tm_chart
-#' @name tm_chart_box
 #' @export
 tm_chart_box = function(position,
 						   width,
@@ -119,7 +114,6 @@ tm_chart_box = function(position,
 }
 
 #' @rdname tm_chart
-#' @name tm_chart_none
 #' @export
 tm_chart_none = function() {
 	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))	
@@ -128,7 +122,6 @@ tm_chart_none = function() {
 
 
 #' @rdname tm_chart
-#' @name tm_chart_heatmap
 #' @export
 tm_chart_heatmap = function(position,
 						width,

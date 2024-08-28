@@ -1,12 +1,3 @@
-#' @rdname tm_polygons
-#' @name opt_tm_polygons
-#' @export
-opt_tm_polygons = function(polygons.only = "ifany") {
-	list(trans.args = list(polygons.only = polygons.only),
-		 mapping.args = list())
-}
-
-
 #' Map layer: polygons
 #' 
 #' Map layer that draws polygons. Supported visual variables are: `fill` (the fill color),
@@ -76,11 +67,8 @@ opt_tm_polygons = function(polygons.only = "ifany") {
 #' @param hover name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,
 #' @param id name of the data variable that specifies the indices of the spatial
 #'   features. Only used for `"view"` mode.
-#' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R 
-#' @name tm_polygons
-#' @rdname tm_polygons
 #' @export
 tm_polygons = function(fill = tm_const(), 
 					   fill.scale = tm_scale(),
@@ -339,7 +327,6 @@ tm_polygons = function(fill = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-#' @name tm_fill
 #' @rdname tm_polygons
 #' @export
 tm_fill = function(...) {
@@ -352,7 +339,6 @@ tm_fill = function(...) {
 	do.call(tm_polygons, args)
 }
 
-#' @name tm_borders
 #' @rdname tm_polygons
 #' @export
 tm_borders = function(col = tm_const(), ...) {
@@ -363,3 +349,25 @@ tm_borders = function(col = tm_const(), ...) {
 	args$called_from = "tm_borders"
 	do.call(tm_polygons, c(list(col = col), args))
 }
+
+#' Specify options to map layers
+#' 
+#' @description
+#' The family of `opt_*()` functions can be used to specify options in the different `tm_*()`
+#' functions.
+#' 
+#' @name opt_tm
+#' 
+#' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @export
+#' @examples
+#' tm_shape(World) +
+#'   tm_polygons(
+#'    
+#'    )
+#' 
+opt_tm_polygons = function(polygons.only = "ifany") {
+	list(trans.args = list(polygons.only = polygons.only),
+		 mapping.args = list())
+}
+

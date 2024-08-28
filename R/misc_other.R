@@ -260,13 +260,13 @@ process_just = function(just, interactive) {
 	just[just == "centre"] = "center"
 	
 	if (interactive) {
-		just <- just[1]
+		just = just[1]
 		if (n > 1 && show.messages) message("In interactive mode, the just argument should be one element")	
 		
 		if (isnum[1]) {
-			justnum <- as.numeric(just)
-			just <- ifelse(justnum < .25, "left",
-						   ifelse(justnum > .75, "right", "center"))
+			justnum = as.numeric(just)
+			just = ifelse(justnum < .25, "left",
+						  ifelse(justnum > .75, "right", "center"))
 			if (show.messages) message("In interactive mode, just cannot be a numeric value. Therefore, ", justnum, " has been cenverted to \"", just, "\".")
 		}
 	} else {
@@ -287,18 +287,18 @@ process_just = function(just, interactive) {
 						   	   ifelse(just[1] == "center", .5, NA))))
 		if (is.na(x)) {
 			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
-			x <- .5
+			x = 0.5
 		}
 		
-		y <- ifelse(isnum[2], as.numeric(just[2]),
-					ifelse(just[2] == "bottom", 0,
-						   ifelse(just[2] == "top", 1,
-						   	   ifelse(just[2] == "center", .5, NA))))
+		y = ifelse(isnum[2], as.numeric(just[2]),
+				   ifelse(just[2] == "bottom", 0,
+						  ifelse(just[2] == "top", 1,
+						  	   ifelse(just[2] == "center", .5, NA))))
 		if (is.na(y)) {
 			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
-			y <- .5
+			y = 0.5
 		}
-		just <- c(x, y)
+		just = c(x, y)
 	}
 	just
 }
@@ -395,10 +395,10 @@ native_to_npc_to_native <- function(x, scale) {
 		}
 		
 	}
-	xy <- grDevices::xy.coords(x, y, recycle = TRUE)
-	z <- toUnityCoords(xy)
-	x2 <- z$x
-	y2 <- z$y
+	xy = grDevices::xy.coords(x, y, recycle = TRUE)
+	z  = toUnityCoords(xy)
+	x2 = z$x
+	y2 = z$y
 	
 	# CHANGED: width and height are specified by user
 	if (asp > 1) {

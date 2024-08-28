@@ -1,13 +1,3 @@
-#' @rdname tm_raster
-#' @name opt_tm_raster
-#' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
-#' @export
-opt_tm_raster = function(interpolate = FALSE) {
-	list(trans.args = list(),
-		 mapping.args = list(interpolate = interpolate))
-}
-
-
 #' Map layer: raster
 #' 
 #' Map layer that draws rasters. Supported visual variable is: `col` (the  color).
@@ -42,15 +32,7 @@ opt_tm_raster = function(interpolate = FALSE) {
 #'   See details.
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
 #'   that determines the alpha transparency. See details.
-#' @param zindex Map layers are drawn on top of each other.
-#'   The `zindex` numbers (one for each map layer) determines the stacking order.
-#'   By default the map layers are drawn in the order they are called.
-#' @param group Name of the group to which this layer belongs. This is only
-#'   relevant in view mode, where layer groups can be switched (see `group.control`)
-#' @param group.control In view mode, the group control determines how layer groups
-#'   can be switched on and off. Options: `"radio"` for radio buttons (meaning only
-#'   one group can be shown), `"check"` for check boxes (so multiple groups can be
-#'   shown), and `"none"` for no control (the group cannot be (de)selected).
+#' @inheritParams tm_polygons
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_raster.R 
@@ -231,3 +213,12 @@ tm_raster = function(col = tm_vars(),
 		id = "",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
+
+#' @rdname tm_raster
+#' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
+#' @export
+opt_tm_raster = function(interpolate = FALSE) {
+	list(trans.args = list(),
+		 mapping.args = list(interpolate = interpolate))
+}
+

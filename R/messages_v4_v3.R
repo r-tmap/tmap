@@ -4,7 +4,7 @@ v3_only = function(fun) {
 
 v3_start_message = function() {
 	if (!.TMAP$v3) {
-		message("-- tmap v3 code detected --")
+		cli::cli_h1("tmap v3 code detected")
 		.TMAP$v3 = TRUE
 	}
 	invisible(NULL)
@@ -18,19 +18,30 @@ v3_reset_flag = function() {
 
 v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_format") {
 	v3_start_message()
-	message(paste0("[v3->v4] ", container, "(): use ", comp, "() instead of the argument '", arg, "'"))
+	id = paste0(arg, comp, container)
+	cli::cli_inform("{.field [v3->v4]} {.fn {container}}: use {.fn {comp}} instead of the {.arg {arg}} argument.", .frequency_id = id, .frequency = "always")
 }
 
 v3_title = function(fun) {
-	message("[v3->v4] ", fun, "(): use 'tm_title()' instead of the 'title' argument of '", fun, "'")	
+	id = paste0(fun, "title")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_main_title = function(fun) {
-	message("[v3->v4] ", fun, "(): use 'tm_title()' instead of the 'main.title' argument of '", fun, "'")	
+	id = paste0(fun, "main.title")
+
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_convert2density = function(layer_fun) {
-	message(paste0("[v3->v4] ", layer_fun, "(): convert2density is deprecated: divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')"))
+	id = paste0(layer_fun, "convert2density")
+	cli::cli_inform(c(
+		"{.field [v3->v4]} {.fn {layer_fun}} {.arg convert2density} is deprecated.",
+		"i" = "Divide the variable values by the polygon areas manually (obtain the areas with 'sf::st_area()')."
+	),
+	.id = id,
+	.frequency_id = "always"
+	)
 }
 
 v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_list) {
@@ -42,20 +53,24 @@ v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_lis
 		}
 		if (length(arg_list$old)) {
 			x = if (arg_list$mult) {
-				paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+				paste0("For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '{vv}'.scale = list(<scale1>, <scale2>, ...)'")
 			} else {
-				""
+				NULL
 			}
 			al = do.call(paste, c(mapply(function(x,y) {
 				if (x == y) paste0("'", x, "'") else paste0("'", x, "' (rename to '", y, "')")
 			}, arg_list$old, arg_list$new, SIMPLIFY = FALSE), sep = ", "))
-			xtra = paste0(" and migrate the argument(s) ", al, " to 'tm_scale_", scale_fun, "(<HERE>)'")
+			xtra = paste0("Migrate the argument(s) ", al, " to 'tm_scale_", scale_fun, "(<HERE>)'")
 		} else {
-			xtra = ""
-			x = ""
+			xtra = NULL
+			x = NULL
 		}
-		
-		message(paste0("[v3->v4] ", layer_fun, "(): instead of 'style = \"", style, "\"', use '", vv, ".scale = tm_scale_", scale_fun, "()'", xtra, x))
+
+		cli::cli_inform(c(
+			"{.field [v3->v4]} {.fn {layer_fun}}: instead of {.code style = {.str {style}}}, use {vv}.scale = {.fn tm_scale_{scale_fun}}.",
+			i = xtra,
+			x
+		))
 		message_reg(m)
 	}
 	NULL
@@ -63,7 +78,7 @@ v3_tm_scale_instead_of_style = function(style, scale_fun, vv, layer_fun, arg_lis
 
 v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
 	m = paste0("scale_", scale_fun, "_vv_", vv)
-	
+
 	if (!message_thrown(m)) {
 		scale_fun = if (scale_fun == "") {
 			"tm_scale"
@@ -72,42 +87,46 @@ v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
 		}
 		if (length(arg_list$old)) {
 			x = if (arg_list$mult) {
-				paste0(". For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
+				paste0("For small multiples, specify a 'tm_scale_' for each multiple, and put them in a list: '", vv, ".scale = list(<scale1>, <scale2>, ...)'")
 			} else {
-				""
+				NULL
 			}
-			
+
 			al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-			message("[v3->v4] ", layer_fun, "(): migrate the argument(s) related to the scale of the visual variable '", vv, "', namely ", al, " to '", vv, ".scale = ", scale_fun, "(<HERE>)'", x)
+			cli::cli_inform(c(
+				"{.field [v3->v4]} {.fn {layer_fun}}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).",
+				"i" = x
+			))
 		}
 		message_reg(m)
 	}
 	NULL
 }
 
-
-
-
-
 v3_instead_message = function(arg_old, arg_new, fun) {
 	v3_start_message()
-	message(paste0("[v3->v4] ", fun, "(): use '", arg_new, "' instead of '", arg_old, "'"))
+	id <- paste0(fun, arg_old, arg_new)
+	cli::cli_inform(c(
+		"{.field [v3->v4]} {.fn {fun}}: use {.arg {arg_new}} instead of {.arg {arg_old}}."
+	),
+	.frequency_id = id,
+	.frequency = "always"
+	)
 }
-
 
 v3_instead = function(args_called, old, new, fun, extra_called = character()) {
 	args = args_called$args
 	called = args_called$called
-	
+
 	if (old %in% called) {
 		args[[new]] = args[[old]]
 		args[[old]] = NULL
-		
+
 		# may be needed to trigger something (e.g. "shape" to use symbols instead of dots)
 		if (length(extra_called)) {
 			called = unique(c(called, extra_called))
 		}
-		message(paste0("[v3->v4] ", fun, "(): use '", new, "' instead of '", old, "'"))
+		v3_instead_message(arg_old = old, arg_new = new, fun = fun)
 	}
 	list(args = args, called = called)
 }
@@ -115,12 +134,15 @@ v3_instead = function(args_called, old, new, fun, extra_called = character()) {
 v3_instead_value = function(args_called, old, new, fun, value_old, value_new) {
 	args = args_called$args
 	called = args_called$called
-	
+
 	if (old %in% called) {
 		if (identical(args[[old]], value_old)) {
 			args[[old]] = NULL
 			args[[new]] = value_new
-			if (is.null(value_old)) value_old = "NULL" 
+			if (is.null(value_old)) value_old = "NULL"
+			cli::cli_inform(c(
+
+			))
 			message(paste0("[v3->v4] ", fun, "(): use '", new, " = ", value_new, "' instead of '", old, " = ", value_old, "'"))
 			list(args = args, called = called)
 		} else {
@@ -133,7 +155,7 @@ v3_instead_value = function(args_called, old, new, fun, value_old, value_new) {
 
 v3_list_init = function() {
 	.TMAP$v3_list = list(old = character(), new = character(), mult = FALSE)
-	invisible(NULL)	
+	invisible(NULL)
 }
 v3_list_impute_item = function(name, new_name, mult = FALSE) {
 	.TMAP$v3_list$old = c(.TMAP$v3_list$old, name)
@@ -170,7 +192,7 @@ v3_list_text = function(olds, news) {
 		} else {
 			paste0("'", x, "' (use '", y, "')")
 		}
-	}, olds , news, SIMPLIFY = FALSE), sep = ", "))	
+	}, olds , news, SIMPLIFY = FALSE), sep = ", "))
 }
 
 v3_tm_legend = function(fun, vv, arg_list) {
@@ -184,13 +206,23 @@ v3_tm_legend = function(fun, vv, arg_list) {
 v3_tm_facets = function(arg_list) {
 	if (length(arg_list$old)) {
 		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		message(paste0("[v3->v4] tm_facets(): rename the following argument(s): ", al))
+		cli::cli_inform(c(
+			"{.field [v3->v4]} {.fn tm_facets}: rename the following argument(s): {al}."
+		),
+		.frequency_id = "facets2",
+		.frequency = "always"
+		)
 	}
 	NULL
 }
 
 v3_tm_facets_free_scales = function() {
-	message(paste0("[v3->v4] tm_facets(): migrate each 'free.scales.<X>' argument to the argument '<X>.free' of the corresponding layer function"))
+	cli::cli_inform(c(
+		"{.field [v3->v4]} {.fn tm_facets}: migrate each  'free.scales.<X>' argument to the argument '<X>.free' of the corresponding layer function."
+		),
+		.frequency_id = "facets",
+		.frequency = "always"
+	)
 }
 
 
@@ -211,7 +243,7 @@ v3_tm_legend_general = function(fun) {
 
 v3_tm_chart_hist = function(layer_fun, vv, arg) {
 	message(paste0("[v3->v4] ", layer_fun, "(): use '", vv, ".chart = tm_chart_histogram()' instead of '", arg, " = TRUE'"))
-	
+
 }
 
 v3_message_col_fill = function(layer_fun = layer_fun) {
@@ -219,20 +251,20 @@ v3_message_col_fill = function(layer_fun = layer_fun) {
 }
 
 v3_message_vv_null = function(layer_fun = layer_fun) {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'NA' instead of 'NULL' to hide a visual variable"))
+	message(paste0("[v3->v4] ", layer_fun, "(): use 'NA' instead of 'NULL' to hide a visual variable."))
 }
 
 
 v3_message_fill_alpha = function(layer_fun = layer_fun) {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'fill_alpha' instead of 'alpha'"))
+	v3_instead_message("alpha", "fill_alpha", layer_fun)
 }
 
 v3_message_col_alpha = function(layer_fun = layer_fun, orig = "border.alpha") {
-	message(paste0("[v3->v4] ", layer_fun, "(): use 'col_alpha' instead of '", orig, "'"))
+	v3_instead_message(orig, arg_new = "col_alpha", layer_fun)
 }
 
 v3_add_legend = function(type, args) {
-	newtype = c(fill = "polygons", symbol = "symbols", line = "lines")	
+	newtype = c(fill = "polygons", symbol = "symbols", line = "lines")
 	message(paste0("[v3->v4] tm_add_legend(): use 'type = \"", newtype[type],"\"' instead of 'type = \"", type,"\"'"))
 	if ("col" %in% args && !c("fill" %in% args)) {
 		message(paste0("[v3->v4] tm_add_legend(): use 'fill' instead of 'coll' for the fill color of ", newtype[type]))
@@ -249,6 +281,7 @@ v3_opt = function(olds, news, layer_fun) {
 
 
 v3_tm_rgb = function(r, g, b) {
+
 	message("[v3->v4] ", "tm_rgb", "(): instead of using r = ", r, ", g = ", g, ", and b = ", b, ", please use col = tm_vars(c(", r, ", ", g, ", ", b, "), multivariate = TRUE)")
 }
 
@@ -258,5 +291,5 @@ v3_tm_rgb = function(r, g, b) {
 # 		message("[v3->v4] ", layer_fun, "(): use '", vv, ".scale = list(<scale1>, <scale2>, ...)' to specify small multiples")
 # 		message_reg("multiple_args")
 # 	}
-# 
+#
 # }

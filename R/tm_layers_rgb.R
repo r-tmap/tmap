@@ -1,17 +1,12 @@
-#' @rdname tm_rgb
-#' @name opt_tm_rgb
-#' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
-opt_tm_rgb = function(interpolate = FALSE) {
-	list(trans.args = list(),
-		 mapping.args = list(interpolate = interpolate))
-}
-
 #' Map layer: rgb images
 #' 
-#' Map layer that an rgb image.. The used (multivariate) visual variable is `col`, which should be specified with 3 or 4 variables for `tm_rgb` and `tm_rgba` respectively. The first three correspond to the red, green, and blue channels. The optional fourth is the alpha transparency channel.
+#' Map layer that an rgb image.. The used (multivariate) visual variable is `col`,
+#' which should be specified with 3 or 4 variables for `tm_rgb()` and `tm_rgba()` respectively.
+#' The first three correspond to the red, green, and blue channels. The optional
+#' fourth is the alpha transparency channel.
 #' 
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
-#'   the col color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivarite = TRUE`
+#'   the col color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
 #' @param options options passed on to the corresponding `opt_<layer_function>` function 
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_rgb.R 
@@ -63,4 +58,11 @@ tm_rgba = function(col = tm_vars(n = 4, multivariate = TRUE),
 				  col.free = NA,
 				  options = opt_tm_rgb()) {
 	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.chart = col.chart, col.free = col.free, options = options))
+}
+
+#' @name opt_tm
+#' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
+opt_tm_rgb = function(interpolate = FALSE) {
+	list(trans.args = list(),
+		 mapping.args = list(interpolate = interpolate))
 }

@@ -1,12 +1,16 @@
 # tmap 4.0 (development version)
 
-* For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`.
+* For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`. 
+
+* Similarly, `border.col` is now `col`.
 
 * tmap now requires R 3.6 and above.
 
 * In view mode, `hover` is now independent from `id` (#851).
 
 * `tm_vars()` is a new function for multivariate scale (#819)
+
+* New family of functions `tm_chart_*()` to do charting (See `?tm_chart`) (#581)
 
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)

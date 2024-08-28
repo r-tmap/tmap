@@ -1,56 +1,8 @@
-#' @rdname tm_cartogram
-#' @name opt_tm_cartogram
-#' @param type cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms
-#' @param itermax, maximum number of iterations (see [cartogram::cartogram_cont()])
-#' @param ... arguments passed on to [cartogram::cartogram_cont()]
-#' @export
-opt_tm_cartogram = function(type = "cont",
-							itermax = 15,
-							...) {
-	list(cartogram = list(mapping.args = list(),
-						 trans.args = list(type = type, itermax = itermax)),
-		  polygons = do.call(opt_tm_polygons, list(...)))
-}
-
-#' @rdname tm_cartogram
-#' @name opt_tm_cartogram
-#' @param expansion factor expansion, see [cartogram::cartogram_ncont()] (argument `k`)
-#' @param inplace should each polygon be modified in its original place? (`TRUE` by default)
-#' @export
-opt_tm_cartogram_ncont = function(type = "ncont",
-								  expansion = 1,
-								  inplace = FALSE,
-								  ...) {
-	
-	list(cartogram = list(mapping.args = list(),
-						  trans.args = list(type = type, expansion = expansion, inplace = inplace)),
-		 polygons = do.call(opt_tm_polygons, list(...)))
-}
-
-
-#' @rdname tm_cartogram
-#' @name opt_tm_cartogram
-#' @param share share of the bounding box filled with the larger circle (see [cartogram::cartogram_dorling()] argument `k`)
-#' @export
-opt_tm_cartogram_dorling = function(type = "dorling",
-									share = 5,
-									itermax = 1000,
-									...) {
-	list(cartogram = list(mapping.args = list(),
-						  trans.args = list(type = type, share = share, itermax = itermax)),
-		 polygons = do.call(opt_tm_polygons, list(...)))
-}
-
-
 #' Map layer: cartogram
 #' 
 #' Map layer that draws a cartogram
 #' 
-#' @param size,size.scale,size.legend,size.chart,size.free Transformation variable that
-#'   determines the size of the polygons.
-#' @param plot.order Specification in which order the spatial features are drawn.
-#'   See [tm_plot_order()] for details.
-#' @param options options passed on to the corresponding `opt_<layer_function>` function 
+#' @inheritParams tm_text
 #' @inheritDotParams tm_polygons
 #' @export
 tm_cartogram = function(size = 1,
@@ -83,7 +35,8 @@ tm_cartogram = function(size = 1,
 	tmp
 }
 
-
+#' @export
+#' @rdname tm_cartogram
 tm_cartogram_ncont = function(size = 1,
 							  size.scale = tm_scale(),
 							  size.legend = tm_legend_hide(),
@@ -103,7 +56,8 @@ tm_cartogram_ncont = function(size = 1,
 }
 
 
-
+#' @export
+#' @rdname tm_cartogram
 tm_cartogram_dorling = function(size = 1,
 								size.scale = tm_scale(),
 								size.legend = tm_legend_hide(),
@@ -122,3 +76,42 @@ tm_cartogram_dorling = function(size = 1,
 								 options = options), args))
 }
 
+#' @name opt_tm
+#' @param type cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms
+#' @param itermax, maximum number of iterations (see [cartogram::cartogram_cont()])
+#' @param ... arguments passed on to [cartogram::cartogram_cont()]
+#' @export
+opt_tm_cartogram = function(type = "cont",
+							itermax = 15,
+							...) {
+	list(cartogram = list(mapping.args = list(),
+						  trans.args = list(type = type, itermax = itermax)),
+		 polygons = do.call(opt_tm_polygons, list(...)))
+}
+
+#' @name opt_tm
+#' @param expansion factor expansion, see [cartogram::cartogram_ncont()] (argument `k`)
+#' @param inplace should each polygon be modified in its original place? (`TRUE` by default)
+#' @export
+opt_tm_cartogram_ncont = function(type = "ncont",
+								  expansion = 1,
+								  inplace = FALSE,
+								  ...) {
+	
+	list(cartogram = list(mapping.args = list(),
+						  trans.args = list(type = type, expansion = expansion, inplace = inplace)),
+		 polygons = do.call(opt_tm_polygons, list(...)))
+}
+
+
+#' @name opt_tm
+#' @param share share of the bounding box filled with the larger circle (see [cartogram::cartogram_dorling()] argument `k`)
+#' @export
+opt_tm_cartogram_dorling = function(type = "dorling",
+									share = 5,
+									itermax = 1000,
+									...) {
+	list(cartogram = list(mapping.args = list(),
+						  trans.args = list(type = type, share = share, itermax = itermax)),
+		 polygons = do.call(opt_tm_polygons, list(...)))
+}
