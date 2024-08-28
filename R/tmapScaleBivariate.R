@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleBivariate = function(x1, x2, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	
 	if (!(aes %in% c("fill", "color", "shape"))) stop("tm_scale_bivariate cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)

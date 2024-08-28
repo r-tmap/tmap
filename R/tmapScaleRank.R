@@ -1,4 +1,6 @@
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	# update misc argument from tmap option scale.misc.args
 	scale = update_scale_args("rank", scale, aes, o)

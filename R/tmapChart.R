@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned = function(chart, bin_colors, breaks_def, na.show, x1) {
 	if (is.numeric(x1)) {
 		tmapChartBinned_numeric(chart, bin_colors, breaks_def, na.show, x1)	
@@ -6,6 +9,9 @@ tmapChartBinned = function(chart, bin_colors, breaks_def, na.show, x1) {
 	}
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned2d = function(chart, chart1, chart2) {
 	if (is.numeric(chart1$x1) && is.numeric(chart2$x1)) {
 		tmapChartBinned2d_numnum(chart, chart1, chart2)
@@ -20,6 +26,9 @@ tmapChartBinned2d = function(chart, chart1, chart2) {
 	}
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned2d_numcat = function(chart, chart1, chart2) {
 	res = bin_num(chart1$x1, chart1$breaks_def, chart1)
 	chart$tab = as.data.frame(table(bin1 = res$xcat, bin2 = chart2$x1, useNA = "no"), responseName = "freq")
@@ -29,6 +38,9 @@ tmapChartBinned2d_numcat = function(chart, chart1, chart2) {
 	chart
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned2d_numnum = function(chart, chart1, chart2) {
 	res1 = bin_num(chart1$x1, chart1$breaks_def, chart1)
 	res2 = bin_num(chart2$x1, chart2$breaks_def, chart2)
@@ -40,6 +52,9 @@ tmapChartBinned2d_numnum = function(chart, chart1, chart2) {
 }
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned2d_catcat = function(chart, chart1, chart2) {
 	chart$tab = as.data.frame(table(bin1 = chart1$x1, bin2 = chart2$x1, useNA = "no"), responseName = "freq")
 	chart$pal = NA
@@ -49,6 +64,9 @@ tmapChartBinned2d_catcat = function(chart, chart1, chart2) {
 }
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartRaw = function(chart, na.show, x1, ...) {
 	if (!na.show) x1 = na.omit(x1)
 	
@@ -58,6 +76,9 @@ tmapChartRaw = function(chart, na.show, x1, ...) {
 	chart
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartRaw_nna = function(chart, na.show, x1, ...) {
 	x1 = na.omit(x1)
 	
@@ -67,16 +88,25 @@ tmapChartRaw_nna = function(chart, na.show, x1, ...) {
 	chart
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartNone = function(chart, na.show, x1, ...) {
 	chart
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartPass = function(chart, na.show, x1, ...) {
 	args = c(list(na.show = na.show, x1 = x1), list(...))
 	chart[names(args)] = args
 	chart
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned_categorical = function(chart, bin_colors, breaks_def, na.show, x1) {
 	if (chart$type == "histogram") {
 		message("histograms are supposed to be used for numerical data, a bar chart will be shown instead (tm_chart_bar)")
@@ -98,10 +128,11 @@ tmapChartBinned_categorical = function(chart, bin_colors, breaks_def, na.show, x
 	chart
 }
 
+
 bin_num = function(x1, breaks_def, chart) {
 	# are breaks (and bin_colors)
 	predefined = !is.null(breaks_def)
-
+	
 	if (is.null(chart$breaks_def)) {
 		if (!predefined) {
 			breaks = pretty(x1)
@@ -129,6 +160,9 @@ bin_num = function(x1, breaks_def, chart) {
 }
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapChartBinned_numeric = function(chart, bin_colors, breaks_def, na.show, x1) {
 	
 	# are breaks (and bin_colors)
@@ -137,7 +171,7 @@ tmapChartBinned_numeric = function(chart, bin_colors, breaks_def, na.show, x1) {
 	res = bin_num(x1, breaks_def, chart)
 	xcat = res$xcat
 	ids = res$ids
-
+	
 	if (!predefined) {
 		bin_colors = chart$object.color
 	}

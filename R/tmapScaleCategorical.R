@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	

@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]

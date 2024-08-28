@@ -1,14 +1,15 @@
-#' @param x x
 #' @export
-#' @name tmapUsrCls
-#' @rdname tmap_internal
 #' @keywords internal
+#' @rdname tmap_internal
 tmapUsrCls = function(x) {
 	structure(x, class = "tmapUsrCls")
 }
 
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 format_aes_results = function(values, ord = NULL, legend, chart) {
 	legnr = vector(mode = "integer", length = length(values))
 	legnr[1] = legend_save(legend)
@@ -32,9 +33,6 @@ format_aes_results = function(values, ord = NULL, legend, chart) {
 
 
 
-# set_legend_number = function(nr) {
-# 	assign("legnr", nr, envir = .TMAP)
-# }
 legends_init = function() {
 	assign("legs", list(), envir = .TMAP)
 }
@@ -42,6 +40,7 @@ legends_init = function() {
 charts_init = function() {
 	assign("charts", list(), envir = .TMAP)
 }
+
 
 legend_save = function(legend) {
 	if (!exists("legs", envir = .TMAP)) legends_init()
@@ -51,6 +50,9 @@ legend_save = function(legend) {
 	length(legs)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 chart_save = function(legend) {
 	if (!exists("charts", envir = .TMAP)) charts_init()
 	charts = get("charts", envir = .TMAP)
@@ -59,6 +61,9 @@ chart_save = function(legend) {
 	length(charts)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 data_type = function(x) {
 	if (all(is.na(x))) {
 		"na"
@@ -85,8 +90,10 @@ data_type_grp = function(x) {
 	}
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 data_class = function(x, check_for_color_class = FALSE) {
-	
 	# if (all(is.na(x))) {
 	# 	"na"
 	# } else
@@ -122,20 +129,16 @@ data_class = function(x, check_for_color_class = FALSE) {
 }
 
 
-#' @param aes aes
-#' @param value value
-#' @param scale scale
-#' @param legend legend
-#' @param chart chart
-#' @param free free
 #' @export
-#' @name tmapScale
-#' @rdname tmap_internal
 #' @keywords internal
+#' @rdname tmap_internal
 tmapScale = function(aes, value, scale, legend, chart, free) {
 	structure(list(aes = aes, value = tmapVV(value), scale = scale, legend = legend, chart = chart, free = free), class = c("tmapScale", "list"))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, ...) {
 	args = list(...)
 	k = length(args) + 1L

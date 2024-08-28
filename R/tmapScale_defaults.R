@@ -1,15 +1,27 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_col = function(x) {
 	((!is.null(getPalMeta(x[1])) && length(x) == 1L)  || all(valid_colors(x))) && !is.numeric(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_fill = function(x) {
 	tmapValuesCheck_col(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_bgcol = function(x) {
 	tmapValuesCheck_col(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_shape = function(x) {
 	isSymbol = function(s) {
 		inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
@@ -27,23 +39,40 @@ tmapValuesCheck_shape = function(x) {
 }
 
 
+
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_size = function(x) {
 	inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
 }
 
+
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_area = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_lwd = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_lty = function(x) {
 	# to do
 	TRUE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x) {
 	# to do
 	res = all(x >= -50 & x <= 50)
@@ -51,35 +80,59 @@ tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x) {
 	res
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_angle = function(x) {
 	# to do
 	is.numeric(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_col_alpha= function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_fill_alpha = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_bgcol_alpha= function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_area = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_text = function(x) {
 	TRUE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_fontface = function(x) {
 	(is.numeric(x) && (all(x %in% 1:5))) || (is.character(x) && (all(x %in% c("plain", "bold", "italic", "oblique", "bold.italic", "cyrillic", "cyrillic.oblique", "EUC"))))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_fill = function(x) {
 	m = getPalMeta(x[1])
 	ispal = !is.null(m)
@@ -91,67 +144,115 @@ tmapValuesIsDiv_fill = function(x) {
 	}
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_col = function(x) {
 	tmapValuesIsDiv_fill(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_bgcol = function(x) {
 	tmapValuesIsDiv_fill(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_size = function(x) {
 	inherits(x, "tmapSeq") && (x$from < 0) && (x$to > 1) || (is.numeric(x) && (any(x < 0) && any(x> 0)))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_area = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_lwd = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_lty = function(x) {
 	FALSE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_col_alpha = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_fill_alpha = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_bgcol_alpha = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_area = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_xmod = tmapValuesIsDiv_ymod = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_angle = function(x) {
 	FALSE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_shape = function(x) {
 	FALSE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_text = function(x) {
 	FALSE
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_fontface = function(x) {
 	FALSE
 }
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_fill = function(x, n, isdiv) {
 	m = getPalMeta(x[1])
 	
@@ -160,72 +261,117 @@ tmapValuesRange_fill = function(x, n, isdiv) {
 	} else c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_col = function(x, n, isdiv) {
 	tmapValuesRange_fill(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_bgcol = function(x, n, isdiv) {
 	tmapValuesRange_fill(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_shape = function(x, n, isdiv) {
 	c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_lty = function(x, n, isdiv) {
 	c(0, 1)
 }
 
 
-
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_size = function(x, n, isdiv) {
 	#print(c(.5/n, 1 - .5/n))
 #	c(.5/n, 1 - .5/n)
 	c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_area = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_lwd = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_col_alpha = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_fill_alpha = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_bgcol_alpha = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_area = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_xmod = tmapValuesRange_ymod = function(x, n, isdiv) {
 	tmapValuesRange_size(x, n, isdiv)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_angle = function(x, n, isdiv) {
 	c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_text = function(x, n, isdiv) {
 	c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_fontface = function(x, n, isdiv) {
 	c(0, 1)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o, aes = "fill") {
 	#palid = tmapPalId(x[1])
 	if (x[1] %in% c("seq", "div", "unord", "ord", "biv")) {
@@ -306,23 +452,38 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_col = function(...) {
 	tmapValuesVV_fill(..., aes = "col")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_bgcol = function(...) {
 	tmapValuesVV_fill(..., aes = "bgcol")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_lty = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	vvalues = if (is.numeric(x) && length(x) == n) {
 		if (range[1] !=0 || range[2] != 1) {
@@ -348,59 +509,121 @@ tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_area = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_lwd = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_col_alpha = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_fill_alpha = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_bgcol_alpha = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_area = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_xmod = tmapValuesVV_ymod = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_angle = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_text = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_fontface = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
 # for symbols, which need to be 'submitted' (content replaced by an integer)
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_col = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_fill = function(x, args) x	
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_bgcol = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_size = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_area = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_xmod = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_ymod = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_angle = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_lwd = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_lty = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
 	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()
@@ -427,43 +650,149 @@ tmapValuesSubmit_shape = function(x, args) {
 		x
 	}
 }
+
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_col_alpha = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_fill_alpha = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_bgcol_alpha = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_text = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_fontface = function(x, args) x
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_col = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_fill = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_bgcol = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_size = function(x, scale) x * scale
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_area = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_lwd = function(x, scale) x * scale
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_lty = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_shape = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_col_alpha = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_fill_alpha = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_bgcol_alpha = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_text = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_fontface = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_xmod = tmapValuesScale_ymod = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_angle = function(x, scale) x
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_col = function(x, pc) do.call(process_color, c(list(col = x), pc))
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_fill = function(x, pc) do.call(process_color, c(list(col = x), pc))
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_bgcol = function(x, pc) do.call(process_color, c(list(col = x), pc))
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_size = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_area = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_lwd = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_lty = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_shape = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_col_alpha = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_fill_alpha = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_bgcol_alpha = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_text = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_fontface = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_xmod = tmapValuesColorize_ymod = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_angle = function(x, pc) x
 
 
@@ -489,7 +818,9 @@ scale_vector = function(x, new_rng) {
 	(x + new_rng[1]) * diff(new_rng)
 }
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapSeq = function(s, n = NULL) {
 	if (is.null(n) && is.null(s$values)) stop("One of n or s$values should be provided")
 	if (is.null(s$values)) s["values"] = list(NULL)
@@ -499,6 +830,9 @@ tmapSeq = function(s, n = NULL) {
 	})
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
 	p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
 	if (p != 1) rng = rng ^ (1/p)
@@ -523,7 +857,9 @@ transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
 }
 
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	
 	
@@ -566,71 +902,122 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 }
 
 
-# categorical 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_col = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_bgcol = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_size = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_size(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_area = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_area(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_lwd = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_lwd(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_col_alpha = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_col_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_fill_alpha = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fill_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_bgcol_alpha = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_bgcol_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
+
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_area = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_area(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_xmod = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_xmod(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_ymod = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_ymod(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_angle = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_angle(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_shape = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_shape(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_lty = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_lty(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_text = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_text(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_fontface = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fontface(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 # bivariate visual variables 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 	#palid = tmapPalId(x[1])
 	
@@ -664,34 +1051,87 @@ tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 	
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesBVV_col = function(x, value.na, m, n, scale, rep, o) {
 	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesBVV_bgcol = function(x, value.na, m, n, scale, rep, o) {
 	tmapValuesBVV_fill(x, value.na, m, n, scale, rep, o)
 }
 
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_num = tmapValuesCheck_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_num = tmapValuesIsDiv_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_num = tmapValuesRange_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_num = tmapValuesVV_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_num = tmapValuesSubmit_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_num = tmapValuesScale_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_num = tmapValuesColorize_size
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_num = tmapValuesCVV_size
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCheck_skip = function(x) TRUE
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesIsDiv_skip = function(x) FALSE
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesRange_skip = function(x, n, isdiv) c(0, 1)
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesVV_skip = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesSubmit_skip = function(x, args) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesScale_skip = function(x, scale) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesColorize_skip = function(x, pc) x
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapValuesCVV_skip = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_shape(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }

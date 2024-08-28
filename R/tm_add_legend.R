@@ -49,6 +49,9 @@ tm_add_legend = function(...,
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_add_legend", "tm_component")))))
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 toTitleCase = function(x) {
 	paste0(toupper(substr(x,1,1)), tolower(substr(x,2, nchar(x))))
 }

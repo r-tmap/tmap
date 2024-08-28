@@ -20,6 +20,9 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
@@ -80,6 +83,9 @@ lty2dash = function(lty) {
 	
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
@@ -131,6 +137,9 @@ makeSymbolIcons2  = function (shape, color, fillColor = color, opacity, fillOpac
 				   iconAnchorY = height/2 + strokeWidth)
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -254,7 +263,9 @@ split_alpha_channel <- function(x, alpha) {
 	}
 }
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
@@ -336,7 +347,9 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 	NULL
 } 
 
-
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)
 	

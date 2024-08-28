@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	legend = list(title = NA, 
 				  nitems = 0,

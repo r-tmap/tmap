@@ -119,6 +119,9 @@ tmapGridLegPlot.tm_chart_bar = function(comp, o, fH, fW) {
 ## borrowed from https://github.com/CMAP-REPOS/cmapplot
 # .lwd <- ggplot2::.pt / ggplot2::.stroke
 
+#' @export
+#' @keywords internal
+#' @rdname tmap_internal
 lwd_to_mm = function(value, unit = "bigpts") {
 	grid::convertUnit(grid::unit(value, unit), "mm", valueOnly = TRUE)
 }
