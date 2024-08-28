@@ -5,6 +5,7 @@ submit_labels = function(labels, cls, pane, group) {
 		labels = local({
 			labels_all = unlist(lapply(layerIds, function(l) l$Lid), use.names = FALSE)
 			pos <- length(labels_all)
+			labels_all = gsub("_", ".", labels_all,fixed = TRUE)
 			labels_all = make.names(c(labels_all, labels), unique = TRUE)
 			labels_all = gsub(".", "_", labels_all,fixed = TRUE)
 			labels_all[(pos + 1): length(labels_all)]	
