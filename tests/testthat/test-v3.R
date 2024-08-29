@@ -1,22 +1,22 @@
 test_that("v3 syntax works", {
 	skip_on_cran()
-	
-	
+
+
 	expect_message(tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title = "A green World"))
 	expect_message(tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World"))
-	
-	
+
+
 	# Data variable containing color values
 	World$isNLD <-
 		ifelse(World$name == "Netherlands",
 			   "darkorange",
 			   "darkolivegreen3")
-	
+
 	tm_shape(World, projection = "+proj=eck4") +
 		tm_polygons("economy", title = "Economy", id = "name") +
 		tm_text("iso_a3", size = "AREA", scale = 1.5) +
 		tm_format("World")
-	
+
 	# Numeric data variable
 	tm_shape(World, projection = "+proj=eck4") +
 		tm_polygons(
@@ -30,7 +30,7 @@ test_that("v3 syntax works", {
 		tm_text("iso_a3", size = "AREA", scale = 1.5) +
 		tm_style("grey") +
 		tm_format("World")
-	
+
 	data(NLD_prov, NLD_muni)
 	# Map coloring algorithm
 	tm_shape(NLD_prov) +
@@ -42,7 +42,7 @@ test_that("v3 syntax works", {
 		tm_text("name", shadow = TRUE) +
 		tm_format("NLD", title = "Dutch provinces and\nmunicipalities", bg.color =
 				  	"white")
-	
+
 	skip_if_not_installed("cartogram")
 	# Cartogram
 	NLD_prov_pop <- cartogram::cartogram_cont(NLD_prov, "population")
@@ -79,16 +79,25 @@ test_that("log10_pretty and order styles work", {
 	skip_on_cran()
 	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "log10_pretty")))
 	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "order")))
-	
+
 })
 
-test_that("v3 that doesn't work", {
+test_that("v3 works", {
 	skip_on_cran()
 	World$isNLD <- ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
-	
+
 	expect_message({tm_shape(World) +
 		tm_fill("isNLD") +
 		tm_layout("Find the Netherlands!")})
+})
+
+test_that("v3 legends work", {
+	skip_on_cran()
+	expect_message(
+		tm_shape(World) +
+			tm_fill("income_grp") +
+			tm_add_legend(type = "fill", title = "hello", labels = c("1", "2", "3"), col = "blue", border.col = "black")
+	)
 })
 
 test_that("title size works with many titles.", {

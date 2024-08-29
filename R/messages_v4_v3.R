@@ -289,18 +289,18 @@ v3_message_col_alpha = function(layer_fun = layer_fun, orig = "border.alpha") {
 v3_add_legend = function(type, args) {
 	newtype = c(fill = "polygons", symbol = "symbols", line = "lines")
 	cli::cli_inform(
-		"{.field [v3->v4]} {.fn tm_add_legend}:  use 'type = {newtype[type}' instead of 'type = {type}'.",
+		"{.field [v3->v4]} {.fn tm_add_legend}:  use {.code type = {.val {newtype[type]}}} instead of {.code type = {.str {type}}}.",
 		.frequency_id = "legend-type"
 	)
 	if ("col" %in% args && !c("fill" %in% args)) {
 		cli::cli_inform(
-			"{.field [v3->v4]} {.fn tm_add_legend}:  use 'fill' instead of 'coll' for the fill color of {newtype[type]}",
+			"{.field [v3->v4]} {.fn tm_add_legend}:  use {.arg fill} instead of {.arg col} for the fill color of {newtype[type]}.",
 			.frequency_id = "legend-fill"
 		)
 	}
 	if ("border.col" %in% args) {
 		cli::cli_inform(
-			"{.field [v3->v4]} {.fn tm_add_legend}:  use 'col' instead of 'border.col' for the outline color of {newtype[type]}",
+			"{.field [v3->v4]} {.fn tm_add_legend}:  use {.arg col} instead of {.arg border.col} for the outline color of {newtype[type]}.",
 			.frequency_id = "legend-border-col"
 		)
 	}
