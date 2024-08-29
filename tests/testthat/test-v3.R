@@ -76,7 +76,7 @@ test_that("Possible to revert to v3 styling.", {
 })
 
 test_that("log10_pretty and order styles work", {
-	
+	skip_on_cran()
 	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "log10_pretty")))
 	expect_no_error(expect_message(tm_shape(World) + tm_polygons("HPI", style = "order")))
 	
@@ -108,4 +108,12 @@ test_that("title size works with many titles.", {
 				  panel.labels = c("Panel Label 1", "Panel Label 2"),
 				  panel.label.color = "purple",
 				  legend.text.color = "brown"))
+})
+
+test_that("convert2density is deprecated", {
+	skip_on_cran()
+	expect_message(
+		tm_shape(NLD_muni) + tm_polygons("population", convert2density = TRUE),
+		"convert2density"
+	)
 })

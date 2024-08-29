@@ -23,3 +23,6 @@ ubuntu_17_installation.sh
 ^pkgdown$
 ^\.github$
 ^data-raw$
+^.covrignore$
+^vignettes/tmap-getstarted.Rmd$
+^tests/testthat/Rplots.pdf$

@@ -39,3 +39,6 @@ vignettes/*.md
 docs
 /doc/
 /Meta/
+inst/doc
+
+tests/testthat/Rplots.pdf

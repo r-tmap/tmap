@@ -16,7 +16,6 @@
 #' @param zindex the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the `zindex` for this layer when creating the map (inside \code{renderTmap}).
 #' @param execOnResize If `TRUE` (default), when the plot is resized, the map is regenerated. When set to `FALSE` the map is rescaled: the aspect ratio is kept, but the layout will be less desirable.
 #' @importFrom htmlwidgets shinyWidgetOutput
-#' @rdname renderTmap
 #' @example ./examples/tmapOutput.R 
 #' @export
 renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize = TRUE, mode = NA) {
@@ -44,7 +43,6 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 
 
 
-#' @name tmapOutput
 #' @rdname renderTmap
 #' @export
 tmapOutput <- function(outputId, width = "100%", height = 400, mode = NA) {
@@ -57,7 +55,6 @@ tmapOutput <- function(outputId, width = "100%", height = 400, mode = NA) {
 	}
 }
 
-#' @name tmapProxy
 #' @rdname renderTmap
 #' @export
 tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x, mode = NA) {
@@ -75,7 +72,6 @@ tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x, mod
 }
 
 
-#' @name tm_remove_layer
 #' @rdname renderTmap
 #' @export
 tm_remove_layer <- function(zindex) {

@@ -8,9 +8,8 @@
 \alias{tm_facets_stack}
 \alias{tm_facets_hstack}
 \alias{tm_facets_vstack}
-\alias{tm_facet_flip}
 \alias{tm_facets_flip}
-\title{Facets}
+\title{Specify facets}
 \usage{
 tm_facets(
   by = NULL,
@@ -103,17 +102,19 @@ By default, \code{scale.factor=2}.}
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
-\item{along}{deprecated Please use \code{tm_facets_page()}}
+\item{along}{deprecated Please use \code{tm_facets_pagewisse()}}
 
 \item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
 
 \item{...}{passed on to \code{tm_facets()}}
 }
 \description{
-Specify facets. \code{tm_facets()} is the core function, but recommended is to use
-\code{tm_facets_wrap()}, \code{tm_facets_stack()} or \code{tm_facets_grid()}.
-The former two specify facets for one grouping variable (so one faceting dimension).
-The difference is that wrap may place facets in multiple rows and columns whereas
-\code{tm_facets_stack()} stacks the facets either horizontally or vertically.
-\code{tm_facets_grid()} supports up to three faceting dimensions.
+\itemize{
+\item \code{tm_facets_wrap()} specify facets for one grouping variable (so one faceting dimension).
+\item \verb{tm_facets_(hv)stack()} stacks the facets either horizontally or vertically (one grouping variable).
+\item \code{tm_facets_grid()} supports up to three faceting dimensions.
+\item \code{tm_facets_pagewise()} can be used to replace the old \code{along} argument.
+\item \code{tm_facets_flip()} can be used to flip facets.
+\item \code{tm_facets()} is the core function, but it is recommended to use the other functions.
+}
 }
