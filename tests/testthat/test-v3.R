@@ -98,6 +98,11 @@ test_that("v3 legends work", {
 			tm_fill("income_grp") +
 			tm_add_legend(type = "fill", title = "hello", labels = c("1", "2", "3"), col = "blue", border.col = "black")
 	)
+
+	expect_message(
+		tm_shape(World) +
+			tm_fill("income_grp", border.alpha = 0.5)
+	)
 })
 
 test_that("title size works with many titles.", {
