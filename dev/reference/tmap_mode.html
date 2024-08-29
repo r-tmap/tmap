@@ -36,6 +36,7 @@ It is recommended to use tmap_mode() in scripts and ttm()/ttmp() in the console.
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a></li>
     <li><a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a></li>
+    <li><a class="dropdown-item" href="../articles/tmap-getstarted.html">tmap: get started!</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -130,21 +131,22 @@ Journal of Statistical Software, 84(6), 1-39, <a href="https://doi.org/10.18637/
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tmap_mode</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap mode is "plot"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Current tmap mode is <span style="color: #0000BB;">"plot"</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Call `tmap::ttm()` to switch mode.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'plot'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"plot"</span>.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_mode-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'view'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"view"</span>.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">ttm</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to 'plot'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"plot"</span>.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_mode-2.png" alt="" width="700" height="433"></span>

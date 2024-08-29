@@ -20,6 +20,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/tmap_sneak_peek.html">tmap v4: a sneak peek</a></li>
     <li><a class="dropdown-item" href="../articles/tmap_vv.html">tmap: charts</a></li>
+    <li><a class="dropdown-item" href="../articles/tmap-getstarted.html">tmap: get started!</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -66,6 +67,12 @@
         <dd>Spatial data of metropolitan areas</dd>
       </dl><dl><dt>
 
+          <code><a href="opt_tm.html">opt_tm_cartogram()</a></code> <code><a href="opt_tm.html">opt_tm_cartogram_ncont()</a></code> <code><a href="opt_tm.html">opt_tm_cartogram_dorling()</a></code> <code><a href="opt_tm.html">opt_tm_lines()</a></code> <code><a href="opt_tm.html">opt_tm_polygons()</a></code> <code><a href="opt_tm.html">opt_tm_rgb()</a></code> <code><a href="opt_tm.html">opt_tm_sf()</a></code> <code><a href="opt_tm.html">opt_tm_symbols()</a></code> <code><a href="opt_tm.html">opt_tm_dots()</a></code> <code><a href="opt_tm.html">opt_tm_markers()</a></code> <code><a href="opt_tm.html">opt_tm_bubbles()</a></code> <code><a href="opt_tm.html">opt_tm_squares()</a></code> <code><a href="opt_tm.html">opt_tm_text()</a></code> <code><a href="opt_tm.html">opt_tm_labels()</a></code>
+
+        </dt>
+        <dd>Specify options to map layers</dd>
+      </dl><dl><dt>
+
           <code><a href="print.tmap.html">print(<i>&lt;tmap&gt;</i>)</a></code> <code><a href="print.tmap.html">knit_print(<i>&lt;tmap&gt;</i>)</a></code>
 
         </dt>
@@ -108,7 +115,7 @@
         <dd>Map layer: basemap / overlay tiles</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_cartogram.html">opt_tm_cartogram()</a></code> <code><a href="tm_cartogram.html">opt_tm_cartogram_ncont()</a></code> <code><a href="tm_cartogram.html">opt_tm_cartogram_dorling()</a></code> <code><a href="tm_cartogram.html">tm_cartogram()</a></code>
+          <code><a href="tm_cartogram.html">tm_cartogram()</a></code> <code><a href="tm_cartogram.html">tm_cartogram_ncont()</a></code> <code><a href="tm_cartogram.html">tm_cartogram_dorling()</a></code>
 
         </dt>
         <dd>Map layer: cartogram</dd>
@@ -147,7 +154,7 @@
           <code><a href="tm_facets.html">tm_facets()</a></code> <code><a href="tm_facets.html">tm_facets_grid()</a></code> <code><a href="tm_facets.html">tm_facets_wrap()</a></code> <code><a href="tm_facets.html">tm_facets_pagewise()</a></code> <code><a href="tm_facets.html">tm_facets_stack()</a></code> <code><a href="tm_facets.html">tm_facets_hstack()</a></code> <code><a href="tm_facets.html">tm_facets_vstack()</a></code> <code><a href="tm_facets.html">tm_facets_flip()</a></code>
 
         </dt>
-        <dd>Facets</dd>
+        <dd>Specify facets</dd>
       </dl><dl><dt>
 
           <code><a href="tm_graticules.html">tm_graticules()</a></code>
@@ -180,7 +187,7 @@
         <dd>Legend</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_lines.html">opt_tm_lines()</a></code> <code><a href="tm_lines.html">tm_lines()</a></code>
+          <code><a href="tm_lines.html">tm_lines()</a></code>
 
         </dt>
         <dd>Map layer: lines</dd>
@@ -216,7 +223,7 @@
         <dd>Determine plotting order of features</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_polygons.html">opt_tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_fill()</a></code> <code><a href="tm_polygons.html">tm_borders()</a></code>
+          <code><a href="tm_polygons.html">tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_fill()</a></code> <code><a href="tm_polygons.html">tm_borders()</a></code>
 
         </dt>
         <dd>Map layer: polygons</dd>
@@ -228,13 +235,13 @@
         <dd>Set the position of map components</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_raster.html">opt_tm_raster()</a></code> <code><a href="tm_raster.html">tm_raster()</a></code>
+          <code><a href="tm_raster.html">tm_raster()</a></code> <code><a href="tm_raster.html">opt_tm_raster()</a></code>
 
         </dt>
         <dd>Map layer: raster</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_rgb.html">opt_tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code>
+          <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code>
 
         </dt>
         <dd>Map layer: rgb images</dd>
@@ -312,7 +319,7 @@
         <dd>Specify a numeric sequence</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_sf.html">opt_tm_sf()</a></code> <code><a href="tm_sf.html">tm_sf()</a></code>
+          <code><a href="tm_sf.html">tm_sf()</a></code>
 
         </dt>
         <dd>Map layer: simple features</dd>
@@ -324,13 +331,13 @@
         <dd>Shape (spatial object) specification</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_symbols.html">opt_tm_symbols()</a></code> <code><a href="tm_symbols.html">opt_tm_dots()</a></code> <code><a href="tm_symbols.html">opt_tm_bubbles()</a></code> <code><a href="tm_symbols.html">opt_tm_squares()</a></code> <code><a href="tm_symbols.html">tm_symbols()</a></code> <code><a href="tm_symbols.html">tm_dots()</a></code> <code><a href="tm_symbols.html">tm_bubbles()</a></code> <code><a href="tm_symbols.html">tm_squares()</a></code>
+          <code><a href="tm_symbols.html">tm_symbols()</a></code> <code><a href="tm_symbols.html">tm_dots()</a></code> <code><a href="tm_symbols.html">tm_bubbles()</a></code> <code><a href="tm_symbols.html">tm_squares()</a></code> <code><a href="tm_symbols.html">tm_markers()</a></code>
 
         </dt>
         <dd>Map layer: symbols</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_text.html">opt_tm_text()</a></code> <code><a href="tm_text.html">opt_tm_labels()</a></code> <code><a href="tm_text.html">opt_tm_markers()</a></code> <code><a href="tm_text.html">tm_text()</a></code> <code><a href="tm_text.html">tm_labels()</a></code> <code><a href="tm_text.html">tm_labels_highlighted()</a></code> <code><a href="tm_text.html">tm_markers()</a></code>
+          <code><a href="tm_text.html">tm_text()</a></code> <code><a href="tm_text.html">tm_labels()</a></code> <code><a href="tm_text.html">tm_labels_highlighted()</a></code>
 
         </dt>
         <dd>Map layer: text</dd>
@@ -450,10 +457,10 @@
         <dd>Create a style catalogue</dd>
       </dl><dl><dt>
 
-          <code><a href="v4-not-yet.html">tmap_tip()</a></code>
+          <code><a href="tmap_tip.html">tmap_tip()</a></code>
 
         </dt>
-        <dd>Features not yet implemented in tmap4</dd>
+        <dd>Print a rnadom tip to the console</dd>
       </dl></div>
   </main></div>
 

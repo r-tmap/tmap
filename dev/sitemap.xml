@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap/dev/LICENSE-text.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/articles/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap-getstarted.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_sneak_peek.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_vv.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/authors.html</loc></url>
@@ -13,6 +14,7 @@
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/land.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/make_by_vars.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/metro.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/opt_tm.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/print.tm_element.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/print.tmap.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/qtm.html</loc></url>
@@ -88,6 +90,6 @@
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_save.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_style.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_style_catalogue.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/dev/reference/v4-not-yet.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/reference/tmap_tip.html</loc></url>
 </urlset>
 
