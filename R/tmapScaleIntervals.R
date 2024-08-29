@@ -25,7 +25,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	
 	with(scale, {
 		if (anyDuplicated(breaks)) stop("breaks specified in the ", aes,  ".scale scaling function contains duplicates.", call. = FALSE)
-		if (length(breaks) < 2) stop("breaks should contain at least 2 numbers", call. = FALSE)
+		if (length(breaks) < 2) warning("breaks should contain at least 2 numbers", call. = FALSE)
 		
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
