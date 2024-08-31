@@ -46,6 +46,7 @@ Imports:
 Suggests:
     av,
     cartogram,
+    colorblindcheck,
     colorspace,
     dplyr,
     ggplot2,
