@@ -1,15 +1,15 @@
 #' Internal method for submitting a new mode
-#' 
+#'
 #' Internal method for submitting a new mode
 #'
 #' @param id id of the mode: please use lowercase and one-word. This will be used with [tmap_mode()].
 #' @param name name of the mode: please use title case. This will be used to recognize internal functions, e.g. `tmapLeafletInit`
 #' @param ... mode specific options
 #' @export
-#' @keywords internal 
+#' @keywords internal
 tmapMode = function(id, name, ...) {
 	modes = tmap_options("modes")$modes
-	
+
 	modes[[id]] = c(list(name = name), list(...))
 	tmap_options(modes = modes)
 }
@@ -18,50 +18,53 @@ tmapMode = function(id, name, ...) {
 .defaultTmapOptions = structure(
 	list(
 		# mode specific options or default values
-		modes = list(plot = list(name = "Grid", 
+		modes = list(plot = list(name = "Grid",
 								 use.gradient = FALSE),
-					 view = list(name = "Leaflet", 
+					 view = list(name = "Leaflet",
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-					 			crs = list(dimensions = 3857, 4326), 
-					 			facet.max = 16, 
+					 			crs = list(dimensions = 3857, 4326),
+					 			facet.max = 16,
 					 			#legend.bg.alpha = 0.8,
-					 			#view.legend.position = c("right", "top"), 
-					 			control.position = c("left", "top"), 
+					 			#view.legend.position = c("right", "top"),
+					 			control.position = c("left", "top"),
 					 			control.collapse = TRUE,
 					 			panel.show = FALSE,
 					 			basemap.show = TRUE,
 					 			set.bounds = FALSE,
 					 			set.view = NA,
 					 			set.zoom.limits = NA,
+					 			qtm.scalebar = TRUE,
+					 			qtm.minimap = FALSE,
+					 			qtm.mouse.coordinates = TRUE,
 					 			leaflet.options = list())),
-		
+
 		crs = NA,
-		
+
 		# facets
 		facet.max = 64, # was max.facets
 		facet.flip = FALSE,
 		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
-		
+
 		# spatial object class specific options
 		raster.max.cells = 1e7, # was max.raster
-		
+
 		# general
 		show.messages = TRUE,
 		show.warnings = TRUE,
-		
+
 		# output
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
 		output.dpi.animation = 100,
-		
+
 		# default visual variable values
 		value.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
 						 fill.dots = "black",
-						 col.polygons = "grey40",
-						 col.symbols = "grey40",
+						 col.polygons = "grey25",
+						 col.symbols = "grey25",
 						 col.raster = "grey40",
 						 col.text = "black",
 						 col = "black",
@@ -133,11 +136,13 @@ tmapMode = function(id, name, ...) {
 			num = 0
 		),
 		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div",
-									  unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+									  unord = "area7", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  col = list(seq = "hcl.blues3", div = "pu_gn_div",
-						  		   unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+						  		   unord = "line7", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+						  fill.dots = list(seq = "hcl.blues3", div = "pu_gn_div",
+						  				unord = "line7", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  bgcol = list(seq = "hcl.blues3", div = "pu_gn_div",
-						  		   unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
+						  		   unord = "area7", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
 						  size = tm_seq(0, 1, power = "sqrt"),
 						  size.bubbles = tm_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
@@ -173,7 +178,7 @@ tmapMode = function(id, name, ...) {
 			size.bubbles = 1.3333,
 			size.squares = 1.3333
 		),
-		
+
 		# scales
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
@@ -191,19 +196,19 @@ tmapMode = function(id, name, ...) {
 						  angle = list(fact = "asis", num = "asis"),
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
-		
-		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5), 
-												 outliers.trunc = c(FALSE, FALSE), 
+
+		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5),
+												 outliers.trunc = c(FALSE, FALSE),
 												 trans = "identity",
 												 limits = list(fill = NA, col = NA, 0)),
 							   rank = list(n = 5,
 							   			unit = "rank")), # NA means take data range, 0 means include 0
-		
-		
-		nvv = 50, # the number of continuous legend breaks within one 'unit' (label). Should be even 
+
+
+		nvv = 50, # the number of continuous legend breaks within one 'unit' (label). Should be even
 		precision = 101, # the number of classes of a continuous scale. Should be oddÒ
-		
-		# labels			  
+
+		# labels
 		label.format = list(
 			fun = NULL,
 			scientific = FALSE,
@@ -220,25 +225,25 @@ tmapMode = function(id, name, ...) {
 		),
 		label.na = "Missing",
 
-		
+
 		###############################3
 		# tm_layout options
 		###############################3
 		scale = 1,
 		asp = NA,
-		
+
 		# background
-		bg.color = NA,		
+		bg.color = NA,
 		outer.bg.color = NA,
-		
+
 		# frame
 		frame = TRUE,
 		frame.lwd = 1,
 		frame.r = 2,
 		frame.double.line = FALSE,
-		
-			
-		# margins	
+
+
+		# margins
 		outer.margins = rep(0.02, 4),
 		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
 		inner.margins.extra = c(0, 0, 0, 0),
@@ -262,7 +267,7 @@ tmapMode = function(id, name, ...) {
 		xlab.fontface = "plain",
 		xlab.fontfamily = "",
 		xlab.side = "bottom",
-		
+
 		ylab.show = FALSE,
 		ylab.text = "",
 		ylab.size = 1,
@@ -272,37 +277,37 @@ tmapMode = function(id, name, ...) {
 		ylab.fontface = "plain",
 		ylab.fontfamily = "",
 		ylab.side = "left",
-		
+
 
 		# panel
 		panel.type = NA, # "wrap" or "xtab",
 		panel.wrap.pos = "top", # or "left", "right", "bottom"
 		panel.xtab.pos = c("left", "top"),
-		
+
 		# data
 		unit = "metric",
-		
+
 		# general visual settings
-		
+
 		# colors
 		color.sepia.intensity = 0,
 		color.saturation = 1,
 		color.vision.deficiency.sim = "none",
-		
+
 		# text
 		text.fontface = "plain",
 		text.fontfamily = "",
-		
+
 
 		component.position = list('in' = list(pos.h = "left", pos.v = "top",
 												align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 								  out = list(cell.h = "right", cell.v = "center",
 								  			   pos.h = "left", pos.v = "top",
 								  			   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
-		
+
 		component.autoscale = TRUE,
-		
-		# legend		
+
+		# legend
 		legend.show = TRUE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
@@ -366,7 +371,7 @@ tmapMode = function(id, name, ...) {
 										 item.na.width = c(rect = NA, symbols = NA, gradient = 4, lines = NA, text = NA),
 										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3, lines = 0.2, text = 0.2),
 										 item.shape = 107,
-										 
+
 										 title.padding  = c(0, 0, 0.25, 0),
 										 xlab.padding = c(0, 0, 0.25, 0),
 										 ylab.padding = c(0, 0, 0.25, 0),
@@ -379,7 +384,7 @@ tmapMode = function(id, name, ...) {
 										 ticks.lwd = 1.5,
 										 margins = c(0.4, 0.4, 0.4, 0.4),
 										 margin.item.text = 0.25),
-		
+
 		# charts
 		chart.show = TRUE,
 		chart.plot.axis.x = FALSE,
@@ -387,7 +392,7 @@ tmapMode = function(id, name, ...) {
 		chart.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
 										  pos.h = "left", pos.v = "top",
 										  align.h = "left", align.v = "bottom", just.h = "left", just.v = "top"),
-		chart.width = c(histogram.min = 10, 
+		chart.width = c(histogram.min = 10,
 						histogram.max = 20,
 						bar.min = 10,
 						bar.max = 20,
@@ -395,7 +400,7 @@ tmapMode = function(id, name, ...) {
 						donut.max = 10,
 						heatmap.min = 10,
 						heatmap.max = 15),
-		chart.height = c(histogram.min = 10, 
+		chart.height = c(histogram.min = 10,
 						 histogram.max = 10,
 						 bar.min = 10,
 						 bar.max = 10,
@@ -440,7 +445,7 @@ tmapMode = function(id, name, ...) {
 		title.bg.color = NA,
 		title.bg.alpha = 1,
 		title.padding = c(0.25, 0.25, 0.25, 0.25),
-		
+
 		title.frame = FALSE,
 		title.frame.lwd = 1,
 		title.frame.r = 2,
@@ -467,21 +472,21 @@ tmapMode = function(id, name, ...) {
 		credits.heigth = NA,
 		credits.group.frame = TRUE,
 		credits.resize.as.group = FALSE,
-		
-		compass.north=0, 
-		compass.type="arrow", 
+
+		compass.north=0,
+		compass.type="arrow",
 		compass.text.size=.8,
 		compass.size=NA,
-		compass.show.labels=1, 
-		compass.cardinal.directions=c("N", "E", "S", "W"), 
+		compass.show.labels=1,
+		compass.cardinal.directions=c("N", "E", "S", "W"),
 		compass.text.color=NA,
-		compass.color.dark=NA, 
+		compass.color.dark=NA,
 		compass.color.light=NA,
 		compass.lwd=1,
 		compass.bg.color=NA,
 		compass.bg.alpha=NA,
 		compass.margins = c(0.25, 0.25, 0.25, 0.25),
-		
+
 		# standard arguments:
 		compass.show = FALSE,
 		compass.stack = "vertical",
@@ -491,7 +496,7 @@ tmapMode = function(id, name, ...) {
 		compass.frame.r = 2,
 		compass.group.frame = TRUE,
 		compass.resize.as.group = FALSE,
-		
+
 		logo.height = 3,
 		logo.margins = c(0.2, 0.2, 0.2, 0.2),
 		logo.between.margin = 0.2,
@@ -503,20 +508,20 @@ tmapMode = function(id, name, ...) {
 		logo.frame.r = 2,
 		logo.group.frame = TRUE,
 		logo.resize.as.group = FALSE,
-		
+
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
-		scalebar.width=40, 
+		scalebar.width=40,
 		scalebar.text.size = .5,
 		scalebar.text.color=NA,
-		scalebar.color.dark="black", 
+		scalebar.color.dark="black",
 		scalebar.color.light="white",
 		scalebar.lwd=1,
 		scalebar.bg.color=NA,
 		scalebar.bg.alpha=NA,
 		scalebar.size = NULL,
 		scalebar.margins = c(0.01,0.01,0.01,0.01),
-		
+
 		# standard arguments:
 		scalebar.stack = "vertical",
 		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -524,8 +529,8 @@ tmapMode = function(id, name, ...) {
 		scalebar.frame.lwd = 1,
 		scalebar.frame.r = 2,
 		scalebar.group.frame = TRUE,
-		scalebar.resize.as.group = FALSE,		
-			
+		scalebar.resize.as.group = FALSE,
+
 		grid.show = FALSE,
 		grid.labels.pos = c("left", "bottom"),
 		grid.x=NA,
@@ -551,7 +556,7 @@ tmapMode = function(id, name, ...) {
 		grid.lines = TRUE,
 		grid.ndiscr = 100,
 
-		
+
 		# standard arguments:
 		# mouse.stack = "vertical",
 		# mouse.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -560,18 +565,18 @@ tmapMode = function(id, name, ...) {
 		# mouse.frame.r = 2,
 		# mouse.group.frame = TRUE,
 		# mouse.resize.as.group = FALSE,
-		# 
-		
-		mouse_coordinates.stack = "vertical", 
+		#
+
+		mouse_coordinates.stack = "vertical",
 		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		mouse_coordinates.show = FALSE,
 
 		minimap.server = NA,
 		minimap.toggle = TRUE,
-		minimap.stack = "vertical", 
+		minimap.stack = "vertical",
 		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		minimap.show = FALSE,
-		
+
 		panel.show = TRUE,
 		panel.labels = NA,
 		panel.label.size = 1,
@@ -585,16 +590,15 @@ tmapMode = function(id, name, ...) {
 		panel.label.height = 1,
 		panel.label.rot = c(90, 0),
 
-		# 
+		#
 		bbox = NULL,
 		set.bounds = FALSE,
 		set.view = NA,
 		set.zoom.limits = NA,
-		
-		# not implemented yet
-		qtm.scalebar = TRUE,
+
+		qtm.scalebar = FALSE,
 		qtm.minimap = FALSE,
-		qtm.mouse.coordinates = TRUE,
+		qtm.mouse.coordinates = FALSE,
 
 		# not used/implemented in tmap4 (yet?)
 		#title = NA,
@@ -876,7 +880,7 @@ styles = list(
 													Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
 													Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
 													Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
-									   frame=FALSE, 
+									   frame=FALSE,
 									   inner.margins=c(.02, .2, .06, .02),
 									   legend.position=tm_pos_in("left", "top"),
 									   attr.position=c("left", "bottom")),
@@ -884,7 +888,7 @@ styles = list(
 														 Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
 														 Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
 														 Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
-											frame=FALSE, 
+											frame=FALSE,
 											inner.margins=c(.02, .3, .06, .02),
 											legend.position=tm_pos_in("left", "top"),
 											attr.position=c("left", "bottom")))
@@ -902,15 +906,15 @@ complete_options = function(x, o) {
 	if (length(e)) {
 		for (i in e) {
 			if (i %in% c("value.const", "value.na", "value.null", "value.blank", "values.var")) {
-				# special case to cover the following issue 
-				#    if o = list(value.const = list(fill = "red", fill.polygons = "blue", fill.dots = "black)), and 
+				# special case to cover the following issue
+				#    if o = list(value.const = list(fill = "red", fill.polygons = "blue", fill.dots = "black)), and
 				#       x = list(value.const = list(fill = "white", fill.polygons = "grey"))
 				#    the new option set should be x (so dot fill color should be white)
-				o[[i]] = complete_value_list(x[[i]], o[[i]])	
+				o[[i]] = complete_value_list(x[[i]], o[[i]])
 			} else {
-				o[[i]] = complete_options(x[[i]], o[[i]])	
+				o[[i]] = complete_options(x[[i]], o[[i]])
 			}
-			
+
 		}
 	}
 	o
@@ -919,16 +923,16 @@ complete_options = function(x, o) {
 complete_value_list = function(x, o) {
 	aes_x = gsub("\\..*", "", names(x))
 	aes_o = gsub("\\..*", "", names(o))
-	
+
 	aes_o_not_x = setdiff(aes_o, aes_x)
-	
+
 	c(x, o[aes_o %in% aes_o_not_x])
 }
 
 #' tmap options
-#' 
+#'
 #' tmap options
-#' 
+#'
 #' @param ... See details
 #' @details
 #' | option         	| description |
@@ -938,7 +942,7 @@ complete_value_list = function(x, o) {
 #' | `facet.max`		| Maximum number of facets |
 #' | `facet.flip`		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
 #' | `free.scales`		| For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions |
-#' | `raster.max.cells`	| Maximum number of raster grid cells  | 
+#' | `raster.max.cells`	| Maximum number of raster grid cells  |
 #' | `show.messages`	| Show messages? |
 #' | `show.warnings`	| Show warnings? |
 #' | `output.format`	| Output format |
@@ -956,34 +960,34 @@ complete_value_list = function(x, o) {
 #' | `label.format`		| Format for the labels (was `legend.format` in tmap v3). |
 #' | `label.na`			| Default label for missing values. |
 #' See [tm_layout()] for layout specific options.
-#' @name tmap_options 
+#' @name tmap_options
 #' @rdname tmap_options
 #' @export
 tmap_options = function(...) {
-	o = get("tmapOptions", envir = .TMAP)	
+	o = get("tmapOptions", envir = .TMAP)
 	nms = names(o)
 	show.warnings = o$show.warnings
-	
+
 	# get current style name (default: white), and set new style name (with "(modified)")
 	sty_cur = getOption("tmap.style")
 	sty_new = if (substr(sty_cur, nchar(sty_cur) - 9, nchar(sty_cur)) == "(modified)") sty_cur else paste(sty_cur, "(modified)")
-	
+
 	e1 = parent.frame()
 	set_new_style = FALSE
-	
+
 	lst = list(...)
 	if (length(lst) >= 1 && is.null(names(lst))) {
 		arg = lst[[1]]
 		if (is.list(arg)) {
 			## case 1: option list is given
 			args = arg
-			
+
 			style_attr = attr(args, "style")
 			if (!is.null(style_attr)) {
 				sty_new = style_attr
 				set_new_style = TRUE
 			}
-			
+
 			if (length(lst) > 1 && show.warnings) warning("Only the first argument is used; the other arguments are ignored.")
 		} else {
 			## case 2: option name is given
@@ -995,41 +999,41 @@ tmap_options = function(...) {
 	} else {
 		## case 3: named options are set
 		## case 4: tmap_options is called without arguments
-		args = lapply(as.list(match.call()[-1]), eval, envir = e1)	
+		args = lapply(as.list(match.call()[-1]), eval, envir = e1)
 	}
-	
+
 	mode_opts = setdiff(unique(unlist(lapply(o$modes, names))), "name")
-	
+
 	all_opts = union(mode_opts, names(.defaultTmapOptions))
-	
+
 	unknown_args = setdiff(names(args), all_opts)
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)
 	} else if (length(unknown_args) > 1) {
 		stop("the following options do not exist: ", paste(unknown_args, collapse = ", "))
 	}
-	
+
 	if (!length(args)) {
 		# case 4
-		return(o)	
+		return(o)
 	} else {
 		# case 1 and 3
 		backup = o[names(args)]
 		o[names(args)] = args # check_named_items(args, backup)
-		
+
 		options(tmap.style=sty_new)
 		attr(o, "style") = sty_new
 		attr(o, "specified") = names(args)
 		assign("tmapOptions", o, envir = .TMAP)
-		
+
 		if (set_new_style) {
 			if (o$show.messages) message("tmap options successfully loaded as style \"", sty_new, "\"")
 			styles = get("tmapStyles", envir = .TMAP)
 			styles[[sty_new]] = suppressMessages(tmap_options_diff())
 			assign("tmapStyles", styles, envir = .TMAP)
-		} 
+		}
 		invisible(backup)
-	}	
+	}
 }
 
 #' @name tmap_options_mode
@@ -1038,15 +1042,15 @@ tmap_options = function(...) {
 #' @rdname tmap_options
 #' @export
 tmap_options_mode = function(mode = NA, default.options = FALSE) {
-	o = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)	
-	
+	o = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)
+
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	opt2 = o$modes[[mode]]
-	
+
 	specified = attr(o, "specified")
 	int_opt = setdiff(intersect(names(o), names(opt2)), specified)
 	diff_opt = setdiff(names(opt2), names(o))
-	
+
 	if (length(int_opt)) o[int_opt] = opt2[int_opt]
 	if (length(diff_opt)) o = c(o, opt2[diff_opt])
 	o
@@ -1067,8 +1071,8 @@ get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 	o
 }
 
-# 
-# 
+#
+#
 # tmap_options_class = function(class) {
 # 	o = tmap_options()
 # 	o = lapply(o, function(o) {
@@ -1097,7 +1101,7 @@ tmapOption = function(...) {
 # 	y = o
 # 	for (i in 1:length(x)) {
 # 		if (x[i] %in% names(y)) {
-# 			y = y[[x[i]]]	
+# 			y = y[[x[i]]]
 # 		} else {
 # 			# string match (e.g. "fill.polygons" will be mapped to "fill")
 # 			namesy_equal_nchar = vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1))
@@ -1113,9 +1117,9 @@ tmapOption = function(...) {
 getAesOption = function(x, o, aes, layer, cls = NULL) {
 	y = o[[x]]
 	al = paste(aes, layer, sep = ".")
-	
 
-	
+
+
 	if (any(al %in% names(y))) {
 		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
 		z = y[[al[id]]]
@@ -1133,7 +1137,7 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 	} else {
 		return(y)
 	}
-	
+
 	if (!is.null(cls) && is.list(z)) {
 		mid = vapply(names(z), FUN = "%in%", FUN.VALUE = logical(1), cls)
 		if (any(mid)) {
@@ -1145,7 +1149,7 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 
 getAesValue = function(x, aes) {
 	nms = names(x)
-	
+
 	if (is.null(nms)) {
 		x
 	} else if (any(nms %in% c("fill", "col", "size", "shape", "lwd", "lty", "fontsize", "fontface"))) {
@@ -1160,22 +1164,22 @@ getAesValue = function(x, aes) {
 		}
 	} else {
 		x
-	} 
+	}
 }
 
 
 #' @rdname tmap_options
 #' @export
 tm_options = function(...) {
-	
+
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	
+
 	e1 = parent.frame()
 	args = lapply(as.list(match.call()[-1]), eval, envir = e1)
-	
+
 	tm_element_list(do.call(tm_element, c(args, list(calls = calls, subclass = "tm_options"))))
-	
-}	
+
+}
 
 #' @rdname tm_extra_innner_margin
 #' @name tm_place_legends_right
@@ -1241,7 +1245,7 @@ tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 }
 
 #' tmap layout: helper functions
-#' 
+#'
 #' @param left,right,top,bottom extra margins
 #' @export
 #' @rdname tm_extra_innner_margin
@@ -1256,10 +1260,10 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 #' @order 1
 tm_style = function(style, ...) {
 	args = list(...)
-	
-	.tmapOptions = get("tmapOptions", envir = .TMAP)	
+
+	.tmapOptions = get("tmapOptions", envir = .TMAP)
 	check_style(style)
-	
+
 	args$style = style
 	args$called_from = "tm_style"
 	#structure(list(tm_layout=args), class = "tm")
@@ -1272,19 +1276,19 @@ tm_style = function(style, ...) {
 #' @export
 tm_format = function(format, ...) {
 	args = list(...)
-	
+
 	.tmapFormats = get("tmapFormats", envir = .TMAP)
-	
+
 	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
-	
+
 	formatArgs = .tmapFormats[[format]]
 	if (length(args)) {
-		formatArgs[names(args)] = args	
+		formatArgs[names(args)] = args
 	}
 	formatArgs$style = NA
-	
-	
-	
+
+
+
 	if ("title" %in% names(formatArgs)) {
 		v3_use_component("title", "tm_title", "tm_format")
 		title = formatArgs$title
@@ -1320,13 +1324,13 @@ get_vector_id = function(x, id) {
 
 
 #' Internal tmap function to add a default value for the layer functions
-#' 
+#'
 #' Internal tmap function to add a default value for the layer functions
-#' 
+#'
 #' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
 #' @param id name of the visual variable with layer, in the format `"x.y"`,
 #'   where `x` is the visual variable and `y` is the layer.
-#'   It is also possible to set `x` only; then it applies to all layer functions. 
+#'   It is also possible to set `x` only; then it applies to all layer functions.
 #' @param value value
 #' @keywords internal
 #' @export
@@ -1343,9 +1347,9 @@ tmapAddLayerOptions = function(option, id, value) {
 #' @rdname tmap_options
 #' @export
 tmap_options_diff <- function() {
-	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP)
 	iden <- mapply(identical, .tmapOptions, .defaultTmapOptions)
-	
+
 	if (all(iden)) {
 		message("current tmap options are similar to the default tmap options (style \"white\")")
 	} else {
@@ -1368,24 +1372,24 @@ tmap_options_reset <- function() {
 #' @rdname tmap_options
 tmap_options_save <- function(style) {
 	show.messages <- get("tmapOptions", envir = .TMAP)$show.messages
-	
+
 	stylediff <- suppressMessages(tmap_options_diff())
-	
-	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
-	
+
+	.tmapOptions <- get("tmapOptions", envir = .TMAP)
+
 	if (is.null(stylediff)) {
 		if (show.messages) message("current style is the same as the default style, so nothing to save")
 		return(invisible(.tmapOptions))
 	}
-	
+
 	options(tmap.style=style)
 	attr(.tmapOptions, "style") <- style
 	assign("tmapOptions", .tmapOptions, envir = .TMAP)
-	
+
 	styles <- get("tmapStyles", envir = .TMAP)
 	styles[[style]] <- suppressMessages(tmap_options_diff())
 	assign("tmapStyles", styles, envir = .TMAP)
-	
+
 	if (show.messages) message("current tmap options saved as style \"", style, "\"")
 	invisible(.tmapOptions)
 }
