@@ -25,6 +25,7 @@ Depends:
 Imports:
     classInt (>= 0.4-3),
     cli,
+    colorblindcheck,
     cols4all (>= 0.7-1),
     data.table,
     grid,
@@ -46,7 +47,6 @@ Imports:
 Suggests:
     av,
     cartogram,
-    colorblindcheck,
     colorspace,
     dplyr,
     ggplot2,
