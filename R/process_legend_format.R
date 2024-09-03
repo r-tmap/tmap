@@ -1,5 +1,5 @@
 process_label_format = function(lf, mlf) {
-	
+	if (is.function(lf)) lf = list(fun = lf)
 
 	to_be_assigned = setdiff(names(mlf), names(lf))
 	big.num.abbr.set = "big.num.abbr" %in% names(lf)
@@ -11,7 +11,7 @@ process_label_format = function(lf, mlf) {
 # process_popup_format = function(gpf, gtlf, vars, show.warnings) {
 # 	# check if g$legend.format is list of lists or functions
 # 	islist = is.list(gpf) && length(gpf)>0 && is.list(gpf[[1]])
-# 	
+#
 # 	if (!islist) {
 # 		process_legend_format(gpf, gtlf, nx=1)
 # 	} else {
