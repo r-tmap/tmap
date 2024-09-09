@@ -13,7 +13,6 @@ view_format_popups <- function(id=NULL, titles, format, values) {
 	# if (!islist) {
 	# 	format <- lapply(1:length(titles), function(i) format)
 	# }
-
 	h = lapply(format, function(f) {
 		if (f$html.escape) {
 			htmltools::htmlEscape

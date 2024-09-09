@@ -242,7 +242,8 @@ step1_rearrange_facets = function(tmo, o) {
 				if (length(popup.vars)) add_used_vars(popup.vars)
 
 
-				if (length(popup.format) != 0 && all(names(popup.format) %in% popup.vars)) {
+				if (length(popup.format) != 0 && !is.null(names(popup.format)) && all(names(popup.format) %in% popup.vars)) {
+					popup.called = names(popup.format)
 					popup.format = lapply(popup.vars, function(pv) {
 						if (pv %in% names(popup.format)) {
 							process_label_format(popup.format[[pv]], o$label.format)
@@ -251,12 +252,14 @@ step1_rearrange_facets = function(tmo, o) {
 						}
 					})
 				} else {
+					popup.called = character(0)
 					one.popup.format = process_label_format(popup.format, o$label.format)
 					popup.format = lapply(popup.vars, function(pv) {
 						one.popup.format
 					})
 				}
 				names(popup.format) = popup.vars
+				attr(popup.format, "called") = popup.called
         if (length(hover) > 1) {
           stop("hover should have length <= 1", call. = FALSE)
         }
