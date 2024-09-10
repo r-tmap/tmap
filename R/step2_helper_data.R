@@ -373,6 +373,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 							   sortRev = sortRev,
 							   bypass_ord = bypass_ord,
 							   submit_legend = TRUE)
+
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
 						dtl[, c(varname, legname, crtname) := list(value.null, 0L, 0L)]
@@ -394,10 +395,23 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 					}
 				}
 				if (!q$drop.units) {
-					imp = structure(list(value.null, 0L, TRUE), names = c(unm, legname, "sel__"))
+					imp = structure(list(value.null, 0L, 0L, TRUE), names = c(unm, legname, crtname, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
+
+					# leg- and crt numbers are assigned to the first data record. If that one is removed because of drop.NA.facets, this number should be assigned to another data record (#932)
+					if (q$drop.NA.facets) {
+						legnr_non0 = (dtl[[legname]] != 0L)
+						if (sum(legnr_non0) == 1L) legnr = dtl[[legname]][which(legnr_non0)] else legnr = NA
+						crtnr_non0 = (dtl[[crtname]] != 0)
+						if (sum(crtnr_non0) == 1L) crtnr = dtl[[crtname]][which(crtnr_non0)] else crtnr = NA
+					} else {
+						legnr = NA
+						crtnr = NA
+					}
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
+					if (!is.na(legnr) && all(dtl[[legname]] == 0)) dtl[[legname]][1] = legnr
+					if (!is.na(crtnr) && all(dtl[[crtname]] == 0)) dtl[[crtname]][1] = crtnr
 				}
 				dtl
 			}
@@ -486,7 +500,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 
 				dtl = apply_scale(s, l, crt, val, unm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)
 
-				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr", "crtnr"), with = FALSE]
 			}
 		}
