@@ -21,6 +21,23 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
+expand_coords_gp = function(coords, gp, ndt) {
+	expanded = (ncol(coords) == 3L)
+	if  (expanded) {
+		gp = lapply(gp, function(gpi) {
+			if (is.list(gpi)) {
+				unlist(gpi)
+			} else if (length(gpi) == ndt) {
+				gpi[coords[,3L]]
+			} else {
+				gpi
+			}
+		})
+		coords = coords[, 1:2, drop=FALSE]
+	}
+	list(coords = coords, gp = gp, expanded = expanded)
+}
+
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
@@ -46,7 +63,8 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 
-	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "polygons", pane, group)
+	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
+		submit_labels("polygons", pane, group)
 
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -108,7 +126,9 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	gp = rescale_gp(gp, o$scale_down)
 
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
-	if (is.null(idt)) idt = submit_labels(dt$tmapID__, "lines", pane, group)
+
+	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
+		submit_labels("lines", pane, group)
 
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -165,23 +185,19 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	coords = sf::st_coordinates(shp)
 
 	# in case shp is a multipoint (point.per == "segment"), expand gp:
-	if (ncol(coords) == 3L) {
-		ndt = nrow(dt)
-		gp = lapply(gp, function(gpi) {
-			if (is.list(gpi)) {
-				unlist(gpi)
-			} else if (length(gpi) == ndt) {
-				gpi[coords[,3L]]
-			} else {
-				gpi
-			}
-		})
-		coords = coords[, 1:2, drop=FALSE]
-		tmapID_ids = match(shpTM$tmapID_expanded, shpTM$tmapID)
-		if (!is.null(idt)) idt = submit_labels(dt$tmapID__[tmapID_ids], "text", pane, group)
+	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
+	coords = cp$coords
+	gp = cp$gp
+
+	if (cp$expanded) {
+		shpTM_match = match(shpTM$tmapID_expanded, shpTM$tmapID)
 	} else {
-		if (!is.null(idt)) idt = submit_labels(dt$tmapID__, "text", pane, group)
+		shpTM_match = TRUE
 	}
+
+	idt = (if (is.null(idt))dt$tmapID__[shpTM_match] else idt[shpTM_match]) |>
+		submit_labels("symbols", pane, group)
+
 
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 
@@ -370,25 +386,20 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	coords = sf::st_coordinates(shp)
 
 	# in case shp is a multipoint (point.per == "segment"), expand gp:
-	if (ncol(coords) == 3L) {
-		ndt = nrow(dt)
-		gp = lapply(gp, function(gpi) {
-			if (is.list(gpi)) {
-				unlist(gpi)
-			} else if (length(gpi) == ndt) {
-				gpi[coords[,3L]]
-			} else {
-				gpi
-			}
-		})
-		coords = coords[,1:2]
-		tmapID_ids = match(shpTM$tmapID_expanded, shpTM$tmapID)
-		text = as.character(dt$text[tmapID_ids])
-		idt = submit_labels(dt$tmapID__[tmapID_ids], "text", pane, group)
+	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
+	coords = cp$coords
+	gp = cp$gp
+
+	if (cp$expanded) {
+		shpTM_match = match(shpTM$tmapID_expanded, shpTM$tmapID)
 	} else {
-		text = as.character(dt$text)
-		idt = submit_labels(dt$tmapID__, "text", pane, group)
+		shpTM_match = TRUE
 	}
+
+	text = as.character(dt$text[shpTM_match])
+	idt = dt$tmapID__[shpTM_match] |>
+		submit_labels("text", pane, group)
+
 
 	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
 

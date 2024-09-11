@@ -39,20 +39,9 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	coords = sf::st_coordinates(shp)
 
 	# in case shp is a multipoint (point.per == "segment"), expand gp:
-	if (ncol(coords) == 3L) {
-		ndt = nrow(dt)
-		gp = lapply(gp, function(gpi) {
-			if (is.list(gpi)) {
-				unlist(gpi)
-			} else if (length(gpi) == ndt) {
-				gpi[coords[,3L]]
-			} else {
-				gpi
-			}
-		})
-		coords = coords[, 1:2, drop=FALSE]
-	}
-
+	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
+	coords = cp$coords
+	gp = cp$gp
 
 	if (diffAlpha) {
 		gp1 = gp_to_gpar(gp, sel = "fill", o = o, type = "symbols")

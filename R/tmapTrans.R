@@ -1,8 +1,8 @@
 do_trans = function(tdt, FUN, shpDT, plot.order, args, scale) {
 	#browser()
-	
+
 	shpDT = copy(shpDT)
-	
+
 	# copy by columns from tdt that do not yet exist in shpDT
 	t_by = names(tdt)[substr(names(tdt), 1, 2) == "by"]
 	s_by = names(shpDT)[substr(names(shpDT), 1, 2) == "by"]
@@ -10,19 +10,19 @@ do_trans = function(tdt, FUN, shpDT, plot.order, args, scale) {
 	if (length(n_by)) {
 		shpDT[, (n_by) := tdt[1, n_by, with = FALSE]]
 	}
-	
+
 	aesvars = setdiff(names(tdt), c("tmapID__", paste0("by", 1:3, "__")))
-	
+
 	apply_trans = function(shpTM) {
 		# todo: stars
 		ids = intersect(shpTM$tmapID, tdt$tmapID__)
-		
+
 		shp = shpTM$shp[match(ids, shpTM$tmapID)]
-		
+
 		shpX = list(shp = shp, tmapID = ids)
-		
+
 		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
-		
+
 		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args, scale = scale)))
 	}
 	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
@@ -36,19 +36,19 @@ delta_per_lineheight = function(x, n = 20, scale = 1) {
 
 get_midpoint_angle = function(shp) {
 	lShp = sf::st_cast(shp, "MULTILINESTRING")
-	
+
 	coor = sf::st_coordinates(lShp)
 	coors = split.data.frame(coor[,1:2], f = coor[, ncol(coor)], drop=FALSE)
 	co = do.call(rbind, lapply(coors, get_midpoint))
 	pShp = sf::st_as_sf(as.data.frame(co), coords = c("X", "Y"), crs = sf::st_crs(shp))
-	
+
 	bbx = sf::st_bbox(shp)
 	deltax = bbx[3] - bbx[1]
 	deltay = bbx[4] - bbx[2]
 	delta = max(deltax, deltay)
-	
+
 	pbShp = sf::st_cast(sf::st_geometry(sf::st_buffer(pShp, dist = delta / 100)), "MULTILINESTRING")
-	
+
 	iShps <- mapply(function(x,y,z) {
 		res = sf::st_intersection(x,y)
 		if (!sf::st_is_empty(res)) {
@@ -57,24 +57,28 @@ get_midpoint_angle = function(shp) {
 			z
 		}
 	}, lShp, pbShp,pShp, SIMPLIFY = FALSE)
-	
+
 	angles = vapply(iShps, function(x) {
 		if (length(x) == 0) 0 else .get_direction_angle(sf::st_coordinates(x)[,1:2, drop = FALSE])
 	}, numeric(1))
-	
+
 	angles[angles > 90 & angles < 270] = angles[angles > 90 & angles < 270] - 180
-	
+
 	list(shp = sf::st_geometry(pShp), angles = angles)
 }
 
-sf_expand <- function(shp) {
+sf_expand <- function(shp, cast = c("MULTILINESTRING", "MULTIPOLYGON", "MULTIPOINT")) {
 	x = mapply(function(tp, ge) {
-		if (tp == "MULTILINESTRING") {
-			sf::st_cast(st_geometry(ge), "LINESTRING")
-		} else if (tp == "MULTIPOLYGON") {
-			sf::st_cast(st_geometry(ge), "POLYGON")
-		} else if (tp == "MULTIPOINT") {
-			sf::st_cast(st_geometry(ge), "POINT")
+		if (tp %in% cast) {
+			if (tp == "MULTILINESTRING") {
+				sf::st_cast(st_geometry(ge), "LINESTRING")
+			} else if (tp == "MULTIPOLYGON") {
+				sf::st_cast(st_geometry(ge), "POLYGON")
+			} else if (tp == "MULTIPOINT") {
+				sf::st_cast(st_geometry(ge), "POINT")
+			} else {
+				sf::st_geometry(ge)
+			}
 		} else {
 			sf::st_geometry(ge)
 		}
@@ -100,7 +104,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 		is_stars = inherits(shp, "dimensions")
 		if (is_stars && args$points.only == "no") {
 			### stars
-			
+
 			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
 			strs = stars::st_as_stars(list(values = m), dimensions = shp)
 			shp = sf::st_as_sfc(s, as_points = TRUE)
@@ -109,9 +113,13 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			tmapID = integer(0L)
 		} else {
 			geom_types = sf::st_geometry_type(shp)
-			
+
 			if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
-				if (args$point.per=="segment") {
+				if (args$point.per=="feature" && any(geom_types == "MULTIPOINT")) {
+					shp = sf_expand(shp, cast = "MULTIPOINT")
+					tmapID = tmapID[shp$split__id]
+					shp = sf::st_geometry(shp)
+				} else if (args$point.per=="segment") {
 					shp = sf_expand(shp)
 					tmapID = tmapID[shp$split__id]
 					shp = sf::st_geometry(shp)
@@ -130,12 +138,12 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 					}
 				}
 			}
-			
-			geom_types = sf::st_geometry_type(shp)
-			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
-			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
-			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
-			
+
+			geom_types2 = sf::st_geometry_type(shp)
+			ids_poly = which(geom_types2 %in% c("POLYGON", "MULTIPOLYGON"))
+			ids_line = which(geom_types2 %in% c("LINESTRING", "MULTILINESTRING"))
+			ids_point = which(geom_types2 %in% c("POINT", "MULTIPOINT"))
+
 			if (args$points.only == "yes" || (args$points.only == "ifany" && length(ids_point))) {
 				shp = shp[ids_point]
 				tmapID = tmapID[ids_point]
@@ -150,7 +158,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 					} else {
 						shp[ids_line] = suppressWarnings({
 							sf::st_centroid(shp[ids_line])
-						})	
+						})
 					}
 				}
 				if (length(ids_poly)) {
@@ -160,42 +168,43 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 
 				}
 			}
-			
+
 			if (!is.null(xmod) || !is.null(ymod)) {
 				shp = local({
 					d = delta_per_lineheight(shp, scale = scale)
-					
+
 					if (is.null(xmod)) xmod = rep(0, length(shp))
 					if (is.null(ymod)) ymod = rep(0, length(shp))
 					mod = mapply(c, xmod * d, ymod * d, SIMPLIFY = FALSE)
 					shp + mod
 				})
 			}
-			
-			if (args$point.per=="segment") {
+
+			# in case of expansion: cast to multipoint (expanded again in step4)
+
+			if (args$point.per=="segment" || (args$point.per=="feature" && any(geom_types == "MULTIPOINT"))) {
 				tmapID_expanded = tmapID
 				u = sort(unique(tmapID))
 				tmapID_1n = match(tmapID, u)
 
-
 				shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
 				tmapID = u
 
-				if (args$along.lines) {
+				if (length(ids_line) && args$along.lines) {
 					prop_angle = split(prop_angle, f = tmapID_1n)
 				}
 
 				rm(u)
 				rm(tmapID_1n)
 			}
-			
-			rm(geom_types)
+
+			rm(geom_types, geom_types2)
 		}
 	})
 }
 # args:
 # - points.only: "yes", "no", "ifany"
-# 
+#
 # prop_ vectors, e.g. prop_angle can be added to shpTM. These are later put into dt (and used in step 4 (plotting))
 
 
@@ -224,36 +233,36 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 			shp = sf::st_sfc()
 			tmapID = integer(0)
 		} else {
-			
+
 			### sf
 			geom_types = sf::st_geometry_type(shp)
 			#crs = sf::st_crs(shp)
-			
+
 			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
 			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
 			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
 
-			
+
 			if (args$polygons.only == "yes" || (args$polygons.only == "ifany" && length(ids_poly))) {
 				shp = shp[ids_poly]
 				tmapID = tmapID[ids_poly]
 			} else {
 				if (length(ids_line)) {
 					tryCatch({
-						shp[ids_line] = sf::st_cast(sf::st_cast(shp[ids_line], "MULTILINESTRING"), "MULTIPOLYGON")	
+						shp[ids_line] = sf::st_cast(sf::st_cast(shp[ids_line], "MULTILINESTRING"), "MULTIPOLYGON")
 					}, error = function(e) {
-						stop("Unable to cast lines to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)	
+						stop("Unable to cast lines to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
 					})
 				}
 				if (length(ids_point)) {
 					dist = if (sf::st_is_longlat(shp)) 0.01 else 100
 					shp[ids_point] = sf::st_buffer(shp[ids_point], dist = dist)
 				}
-				
+
 			}
 			rm(geom_types)
 		}
-		
+
 		if (plot.order$aes == "AREA" && !is_stars) {
 			o = order(without_units(sf::st_area(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
@@ -275,16 +284,16 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 			shp = sf::st_sfc()
 			tmapID = integer(0)
 		} else {
-			
+
 			### sf
 			geom_types = sf::st_geometry_type(shp)
 			#crs = sf::st_crs(shp)
-			
+
 			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
 			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
 			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
-			
-			
+
+
 			if (args$lines.only == "yes" || (args$lines.only == "ifany" && length(ids_line))) {
 				shp = shp[ids_line]
 				tmapID = tmapID[ids_line]
@@ -293,7 +302,7 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 					tryCatch({
 						shp[ids_poly] = sf::st_cast(sf::st_cast(shp[ids_poly], "MULTIPOLYGON"), "MULTILINESTRING")
 					}, error = function(e) {
-						stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)	
+						stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
 					})
 				}
 				if (length(ids_point)) {
@@ -301,11 +310,11 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 					shp = shp[ids_not_point]
 					tmapID = tmapID[ids_not_point]
 				}
-				
+
 			}
 			rm(geom_types)
 		}
-		
+
 		if (plot.order$aes == "LENGTH") {
 			o = order(without_units(sf::st_length(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
@@ -322,19 +331,19 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 #' @keywords internal
 tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	s = shpTM$shp
-	
+
 	if (sf::st_is_longlat(s)) {
 		stop("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
 	}
 
 	message("Cartogram in progress...")
-		
+
 	x = sf::st_sf(geometry = s, weight = size, tmapID__ = shpTM$tmapID)
 	x = x[x$weight > 0,]
-	
+
 
 	rlang::check_installed("cartogram")
-	
+
 	if (args$type == "cont") {
 		shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = args$itermax)}))
 	} else if (args$type == "ncont") {
@@ -344,13 +353,13 @@ tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	} else {
 		stop("unknown cartogram type", call. = FALSE)
 	}
-	
-	
+
+
 	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")
-	
+
 	ord2 = ord__[match(shpTM$tmapID, shp$tmapID__)]
-	
+
 	o = order(ord2, decreasing = FALSE)
-	
+
 	list(shp = shp2[o], tmapID = shp$tmapID__[o])
 }

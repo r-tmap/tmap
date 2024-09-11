@@ -238,7 +238,7 @@ step1_rearrange = function(tmel) {
 
 	if (dev) timing_add(s2 = "prep shape")
 
-	if (!is.null(tms$unit)) o$unit = tms$unit
+	if (any_data_layer && !is.null(tms$unit)) o$unit = tms$unit
 
 	list(tmo = tmo, aux = aux, cmp = cmp, prx = prx, o = o)
 }
