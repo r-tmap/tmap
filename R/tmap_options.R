@@ -1254,6 +1254,13 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
+#' @rdname tmap_options
+#' @export
+tm_check_fix = function() {
+	tm_options(check.and.fix = TRUE)
+}
+
+
 #' @rdname tm_layout
 #' @param style name of the style
 #' @export

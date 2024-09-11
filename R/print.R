@@ -1,6 +1,6 @@
 #' Draw thematic map
-#' 
-#' @param x tmap object. 
+#'
+#' @param x tmap object.
 #' @param return.asp should the aspect ratio be returned?
 #' @param show show the map
 #' @param vp viewport (for `"plot"` mode)
@@ -12,10 +12,11 @@
 #' @export
 print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, in.shiny = FALSE, proxy = FALSE, ...) {
 	args = list(...)
-	
+
 	.TMAP$in.shiny = in.shiny
 	.TMAP$proxy = proxy
-	
+	.TMAP$set_s2 = NA
+
 	# view mode will use panes, in principle one for each layer. They start at 400, unless shiny proxy is used
 
 	dev = getOption("tmap.devel.mode")
@@ -29,9 +30,10 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, in.shiny = in.shiny, knit = knit, args)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
-	
+
 	v3_reset_flag()
-	
+	if (!is.na(.TMAP$set_s2)) suppressMessages(sf::sf_use_s2(.TMAP$set_s2))
+
 	#if (return.asp) return(asp) else invisible(NULL)
 	if (knit && tmap_graphics_name() == "Leaflet") {
 		kp = get("knit_print", asNamespace("knitr"))
@@ -61,24 +63,24 @@ timing_add = function(s1 = "", s2 = "", s3 = "", s4 = "") {
 
 timing_eval = function() {
 	ts = get("timings", envir = .TMAP)
-	
+
 	ts[, total := round(as.numeric(difftime(ts$t, ts$t[1], units = "secs")), 3)]
-	
+
 	i1 = ts$s1 != ""
 	i2 = ts$s2 != "" | i1
 	i3 = ts$s3 != "" | i2
 	i4 = ts$s4 != "" | i3
-	
+
 	ts[, ':='(t1=0,t2=0,t3=0,t4=0)]
 	ts[i1, t1:= c(0, ts$total[i1][-1] - head(ts$total[i1], -1))]
 	ts[i2, t2:= c(0, ts$total[i2][-1] - head(ts$total[i2], -1))]
 	ts[i3, t3:= c(0, ts$total[i3][-1] - head(ts$total[i3], -1))]
 	ts[i4, t4:= c(0, ts$total[i4][-1] - head(ts$total[i4], -1))]
-	
+
 	ts[s2 == "", t2 := 0]
 	ts[s3 == "", t3 := 0]
 	ts[s4 == "", t4 := 0]
-	
+
 	form = function(l, x) {
 		zero = (x==0)
 		y = sprintf("%.3f", x)
@@ -86,11 +88,11 @@ timing_eval = function() {
 		z[zero] = ""
 		z
 	}
-	
+
 	ts[, ':='(s1=form(s1, t1),
 			  s2=form(s2, t2),
 			  s3=form(s3, t3),
 			  s4=form(s4, t4))]
-	
+
 	print(ts[, c("s1", "s2", "s3", "s4", "total")])
 }

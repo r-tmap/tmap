@@ -4,6 +4,7 @@
 \alias{tmap_options}
 \alias{tmap_options_mode}
 \alias{tm_options}
+\alias{tm_check_fix}
 \alias{tmap_options_diff}
 \alias{tmap_options_reset}
 \alias{tmap_options_save}
@@ -14,6 +15,8 @@ tmap_options(...)
 tmap_options_mode(mode = NA, default.options = FALSE)
 
 tm_options(...)
+
+tm_check_fix()
 
 tmap_options_diff()
 
