@@ -86,7 +86,7 @@ step1_rearrange = function(tmel) {
 
 		if (length(pids) > 0L) {
 			for (i in 1L:length(pids)) {
-				if (is.character(o2[[pids[i]]])) o2[[pids[i]]] = tm_pos_in(o2[[pids[i]]][1], o2[[pids[i]]][2])
+				if (is.character(o2[[pids[i]]]) || is.numeric(o2[[pids[i]]])) o2[[pids[i]]] = tm_pos_in(o2[[pids[i]]][1], o2[[pids[i]]][2])
 			}
 		}
 
