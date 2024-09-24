@@ -32,6 +32,7 @@
 	})) # needed for pretty ticks for continuous scale with trans enabled (like log scale)
 
 	if (packageVersion("cols4all") < "0.8") {
+		# NOTE: this is only needed until tmap4 is on CRAN, because cols4all 0.8 will be there sooner
 		cols4all = list(area7 = c("#FF9D9A", "#77AADD", "#F1CE63", "#2CA02C", "#B07AA1", "#9EDAE5", "#CC6677"),
 						area8 = c("#CC6677", "#AEC7E8", "#44BB99", "#B07AA1", "#BBCC33", "#FFAABB", "#B6992D", "#98DF8A"),
 						area9 = c("#EE8866", "#88CCEE", "#2CA02C", "#B07AA1", "#F1CE63", "#FFAABB", "#6699CC", "#44BB99", "#CC6677"),
@@ -47,6 +48,16 @@
 						friendly11 = c("#E73F74", "#F1CE63", "#77AADD", "#9467BD", "#AAAA00", "#FF9D9A", "#99DDFF", "#B07AA1", "#225522", "#882255", "#4B4B8F"),
 						friendly13 = c("#E73F74", "#F1CE63", "#77AADD", "#009988", "#9467BD", "#FF9D9A", "#99DDFF", "#AAAA00", "#225522", "#882255", "#997700", "#4B4B8F", "#8C564B"))
 		cols4all::c4a_load(cols4all::c4a_data(cols4all, types = "cat", series = "cols4all"), overwrite = TRUE)
+
+		# due to disabled auto-reversing of palettes
+		hcl.blues3 = structure(c("#00366C", "#004D86", "#0066A5", "#037EC4", "#5295D4",
+								"#79ABE2", "#99BFEF", "#B6D3F9", "#D0E4FF", "#E6F1FF", "#F9F9F9"
+		), range_matrix = structure(c(0.5, 0.2, 0.2, 0.166666666666667,
+									  0.133333333333333, 0.1, 0.0666666666666667, 0.0333333333333333,
+									  0, 0, 0, 0.5, 0.8, 0.8, 0.833333333333333, 0.866666666666667,
+									  0.9, 0.933333333333333, 0.966666666666667, 1, 1, 1), dim = c(11L, 2L)), space = "Lab")
+
+		cols4all::c4a_load(cols4all::c4a_data_as_is(list("blues3" = hcl.blues3), types = "seq", series = "hcl"), overwrite = TRUE)
 	}
 
 
