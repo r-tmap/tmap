@@ -1,5 +1,5 @@
 #' Specify facets
-#' 
+#'
 #' @description
 #' * `tm_facets_wrap()` specify facets for one grouping variable (so one faceting dimension).
 #' * `tm_facets_(hv)stack()` stacks the facets either horizontally or vertically (one grouping variable).
@@ -68,14 +68,14 @@ tm_facets = function(by = NULL,
 					 along = NULL,
 					 free.scales = NULL,
 					 ...) {
-	
+
 	args = list(...)
 	calls <- names(match.call(expand.dots = TRUE)[-1])
-	
+
 	if (any(v3_only("tm_facets") %in% names(args))) {
 		layer_fun = "facets"
 		v3_start_message()
-		
+
 		v3_list_init()
 		drop.empty.facets = v3_impute(args, "showNA", NA, paste0("drop.empty.facets = ", !args$showNA))
 		na.text = v3_impute(args, "textNA", NA, "na.text")
@@ -83,20 +83,20 @@ tm_facets = function(by = NULL,
 		nrows = v3_impute(args, "nrow", NA, "nrows")
 		drop.units = v3_impute(args, "drop.shapes", NA, "drop.units")
 		v3_tm_facets(arg_list = v3_list_get())
-		
+
 		if (any(substr(names(args), 1, 12) == "free.scales.")) {
 			v3_tm_facets_free_scales()
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	if (!is.null(along)) {
 		warning("The 'along' argument of 'tm_facets()' is deprecated as of tmap 4.0. Please use 'pages' instead.", call. = FALSE)
 		pages = along
 	}
-	
+
 	if (!is.null(by)) {
 		if (is.na(type)) type = "wrapstack"
 		rows = NULL
@@ -107,7 +107,7 @@ tm_facets = function(by = NULL,
 		type = "grid"
 		by = NULL
 	}
-	
+
 
 
 	x = tm_element_list(tm_element(
@@ -129,7 +129,7 @@ tm_facets = function(by = NULL,
 		scale.factor = scale.factor,
 		calls = calls,
 		subclass = "tm_facets"))
-	
+
 	if (!is.null(free.scales)) {
 		message("tm_facets(): the argument free.scales is deprecated. Specify this via the layer functions (e.g. fill.free in tm_polygons)")
 		x + tm_options(free.scales = free.scales)
@@ -176,7 +176,7 @@ tm_facets_pagewise = function(by = "VARS__",
 						  byrow = TRUE,
 						  ...) {
 	args = list(...)
-	calls = names(match.call(expand.dots = TRUE)[-1])
+	calls = unique(c(names(match.call(expand.dots = TRUE)[-1]), "nrows", "ncols"))
 	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm

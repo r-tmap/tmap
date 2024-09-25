@@ -4,33 +4,35 @@
 tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
-	
+
 	if (attr(cls, "unique") && is.null(scale$breaks)) stop("Unique value, so cannot determine intervals scale range. Please specify breaks.", call. = FALSE)
-	
-	
+
+
 	if (cls[1] != "num") {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
 		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
-	
+
 	x1 = without_units(x1)
-	
+
 	if (aes %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
-	
+
 	scale = get_scale_defaults(scale, o, aes, layer, cls)
-	
+
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
-	
+
 	with(scale, {
+		allna = all(is.na(x1))
+
 		if (anyDuplicated(breaks)) stop("breaks specified in the ", aes,  ".scale scaling function contains duplicates.", call. = FALSE)
 		if (!is.null(breaks) && length(breaks) < 2) stop("breaks should contain at least 2 numbers", call. = FALSE)
-		
+
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
-
-		if (all(is.na(x1))) {
+		if (allna && is.null(breaks)) {
+			if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" only contains NAs. Legend disabled for tm_scale_intervals, unless breaks are specified")
 			chart = within(chart, {
 				labels = label.na
 				vvalues = c(value.na, value.na)
@@ -49,7 +51,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		if (is.na(as.count)) {
 			as.count = is.integer(x1) && !any(!is.na(x1) & x1 < 0)
 		}
-	
+
 		if (as.count) {
 			if (interval.closure != "left" && show.warnings) warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
 			interval.closure = "left"
@@ -58,7 +60,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		#breaks.specified <- !is.null(breaks)
 		is.log = (style == "log10_pretty")
 		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
-		
+
 		if (style == "log10_pretty") {
 			x1 = log10(x1)
 			style = "fixed"
@@ -68,34 +70,34 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			style <- "fixed"
 		} else if (as.count && style == "fixed") {
 			breaks[length(breaks)] = breaks[length(breaks)] + 1L
-		}	
-		
+		}
+
 		q = num2breaks(x=x1, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = style.args)
-		
+
 		breaks = q$brks
 		nbrks = length(breaks)
 		n = nbrks - 1
-		
+
 		int.closure <- attr(q, "intervalClosure")
-		
+
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
 			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
-		
+
 		check_values(layer, aes, values)
-		
+
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
-		
+
 		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
 			rng <- range(x1, na.rm = TRUE)
 			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
-				
+
 				if (show.messages) message(paste0("[scale] tm_", layer[1], ":() the data variable assigned to '", aes, "' contains positive and negative values, so midpoint is set to 0. Set 'midpoint = NA' in 'fill.scale = tm_scale_intervals(<HERE>)' to use all visual values (e.g. colors)"))
 				midpoint <- 0
 			} else {
@@ -107,24 +109,24 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 				}
 			}
 		}
-		
+
 		fun_getVV = paste0("tmapValuesVV_", aes)
 		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
-		
+
 		vvalues = VV$vvalues
 		value.na = VV$value.na
-		
+
 		sfun = paste0("tmapValuesScale_", aes)
 		cfun = paste0("tmapValuesColorize_", aes)
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
-		
-	
+
+
 		ids = classInt::findCols(q)
 		vals = vvalues[ids]
 		isna = is.na(vals)
 		anyNA = any(isna)
 		na.show = update_na.show(label.show, legend$na.show, anyNA)
-		
+
 		if (is.null(sortRev)) {
 			ids = NULL
 		} else if (is.na(sortRev)) {
@@ -132,29 +134,29 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids
 		}
-		
+
 		if (anyNA) {
 			vals[isna] = value.na
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}
-	
-		# detransform log 
+
+		# detransform log
 		if (is.log) {
 			if (any((breaks %% 1) != 0)) message("non-rounded breaks occur, because style = \"log10_pretty\" is designed for large values")
 			breaks <- 10^breaks
 		}
-		
+
 		# create legend values
 		#values = breaks[-nbrks]
-		
+
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format)) 
+			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format))
 		} else {
 			if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			labels = rep(labels, length.out=nbrks-1)
 			attr(labels, "align") <- label.format$text.align
 		}
-		
+
 		if (legend$reverse) {
 			labels.brks <- attr(labels, "brks")
 			labels.align <- attr(labels, "align")
@@ -164,10 +166,10 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			}
 			attr(labels, "align") = labels.align
 			vvalues = rev(vvalues)
-		}		
-		
-		
-		
+		}
+
+
+
 		if (na.show) {
 			labels.brks = attr(labels, "brks")
 			labels.align = attr(labels, "align")
@@ -181,7 +183,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			attr(labels, "align") = labels.align
 			vvalues = c(vvalues, value.na)
 		}
-		
+
 		legend = within(legend, {
 			nitems = length(labels)
 			labels = labels
@@ -192,9 +194,9 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			scale = "intervals"
 			layer_args = layer_args
 		})
-		
+
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
-		
+
 		chart = do.call(chartFun, list(chart,
 									   bin_colors = vvalues,
 									   breaks_def = breaks,
@@ -205,7 +207,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			if (bypass_ord) {
 				format_aes_results(vals, legend = legend, chart = chart)
 			} else {
-				format_aes_results(vals, ids, legend, chart = chart)			
+				format_aes_results(vals, ids, legend, chart = chart)
 			}
 		} else {
 			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
