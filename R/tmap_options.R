@@ -577,7 +577,7 @@ tmapMode = function(id, name, ...) {
 		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		minimap.show = FALSE,
 
-		panel.show = TRUE,
+		panel.show = NA, # depends on type: TRUE for facets
 		panel.labels = NA,
 		panel.label.size = 1,
 		panel.label.color = "black",

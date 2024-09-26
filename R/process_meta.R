@@ -40,8 +40,24 @@ preprocess_meta = function(o, cdt) {
 		isdef = !sapply(fl, is.null)
 		n = prod(nby)
 
-		if (is.na(panel.type)) panel.type = ifelse(((type == "page" || n == 1) && is.na(panel.labels[[1]]) && !identical(panel.show, TRUE)) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) || !o$panel.show, "none",
-										    ifelse((type %in% c("wrap", "stack")) || (n == 1) || (type == "page" && identical(panel.show, TRUE)), "wrap", "xtab"))
+		if (is.na(panel.type)) panel.type = if (identical(panel.show, FALSE)) {
+			"none"
+		} else if (identical(panel.show, TRUE)) {
+			# force panel labels
+			if (type %in% c("wrap", "stack", "page") || (n == 1)) {
+				"wrap"
+			} else {
+				"xtab"
+			}
+		} else if ((type == "page" || n == 1) && is.na(panel.labels[[1]])) {
+			"none"
+		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
+			"none"
+		} else if ((type %in% c("wrap", "stack")) || (n == 1)) {
+			"wrap"
+		} else {
+			"xtab"
+		}
 
 		inner.margins = get_option_class(inner.margins, class = main_class)
 
