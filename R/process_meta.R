@@ -49,11 +49,11 @@ preprocess_meta = function(o, cdt) {
 			} else {
 				"xtab"
 			}
-		} else if ((type == "page" || n == 1) && is.na(panel.labels[[1]])) {
+		} else if ((n == 1) && is.na(panel.labels[[1]])) {
 			"none"
 		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
 			"none"
-		} else if ((type %in% c("wrap", "stack")) || (n == 1)) {
+		} else if ((type %in% c("wrap", "stack", "page")) || (n == 1)) {
 			"wrap"
 		} else {
 			"xtab"
