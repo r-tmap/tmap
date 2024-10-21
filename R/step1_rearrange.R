@@ -229,6 +229,13 @@ step1_rearrange = function(tmel) {
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately
 
+
+	# disable s2 in case earth.boundaries are drawn
+	if (o$earth.boundary && sf::sf_use_s2()) {
+		suppressMessages(sf::sf_use_s2(FALSE))
+		.TMAP$set_s2 = TRUE
+	}
+
 	if (any_data_layer) {
 		tmo = structure(lapply(tmo, function(tmg) {
 			tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = o, tmf = tmg$tmf)))
