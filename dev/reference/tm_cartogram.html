@@ -51,7 +51,7 @@
 <span>  size.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_cartogram</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_cartogram</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -62,7 +62,7 @@
 <span>  size.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_cartogram_ncont</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_cartogram_ncont</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -73,9 +73,15 @@
 <span>  size.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  size.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  plot.order <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_cartogram_dorling</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_cartogram_dorling</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_cartogram</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cont"</span>, itermax <span class="op">=</span> <span class="fl">15</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_cartogram_ncont</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"ncont"</span>, expansion <span class="op">=</span> <span class="fl">1</span>, inplace <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_cartogram_dorling</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dorling"</span>, share <span class="op">=</span> <span class="fl">5</span>, itermax <span class="op">=</span> <span class="fl">1000</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -161,6 +167,26 @@ features. Only used for <code>"view"</code> mode.</p></dd>
 
 
 </dl></dd>
+
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms</p></dd>
+
+
+<dt id="arg-itermax-">itermax, <a class="anchor" aria-label="anchor" href="#arg-itermax-"></a></dt>
+<dd><p>maximum number of iterations (see <code><a href="https://rdrr.io/pkg/cartogram/man/cartogram_cont.html" class="external-link">cartogram::cartogram_cont()</a></code>)</p></dd>
+
+
+<dt id="arg-expansion">expansion<a class="anchor" aria-label="anchor" href="#arg-expansion"></a></dt>
+<dd><p>factor expansion, see <code><a href="https://rdrr.io/pkg/cartogram/man/cartogram_ncont.html" class="external-link">cartogram::cartogram_ncont()</a></code> (argument <code>k</code>)</p></dd>
+
+
+<dt id="arg-inplace">inplace<a class="anchor" aria-label="anchor" href="#arg-inplace"></a></dt>
+<dd><p>should each polygon be modified in its original place? (<code>TRUE</code> by default)</p></dd>
+
+
+<dt id="arg-share">share<a class="anchor" aria-label="anchor" href="#arg-share"></a></dt>
+<dd><p>share of the bounding box filled with the larger circle (see <code><a href="https://rdrr.io/pkg/cartogram/man/cartogram_dorling.html" class="external-link">cartogram::cartogram_dorling()</a></code> argument <code>k</code>)</p></dd>
 
 </dl></div>
 

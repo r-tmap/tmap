@@ -59,7 +59,7 @@ fourth is the alpha transparency channel.</p>
 <span>  col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.free <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_rgb</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_rgb</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -69,8 +69,10 @@ fourth is the alpha transparency channel.</p>
 <span>  col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.free <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_rgb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_rgb</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_rgb</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -88,6 +90,10 @@ the col color. <code>col</code> is a multivariate variable, with 3 (<code>tm_rgb
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>to catch deprecated arguments from version &lt; 4.0</p></dd>
+
+
+<dt id="arg-interpolate">interpolate<a class="anchor" aria-label="anchor" href="#arg-interpolate"></a></dt>
+<dd><p>Should the raster image be interpolated? Currently only applicable in view mode (passed on to <code><a href="https://rdrr.io/r/grid/grid.raster.html" class="external-link">grid</a></code>)</p></dd>
 
 </dl></div>
 

@@ -102,7 +102,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hover <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_symbols</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_symbols</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -131,7 +131,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_dots</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_dots</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -168,7 +168,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_bubbles</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_bubbles</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -205,7 +205,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_squares</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_squares</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -265,8 +265,60 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_markers</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_markers</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_markers</span><span class="op">(</span></span>
+<span>  markers.on.top.of.text <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  shadow <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  shadow.offset.x <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  shadow.offset.y <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  just <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>  along.lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  bg.padding <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  point.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  point.label.gap <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
+<span>  remove.overlap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dots.just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dots.icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  dots.grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_symbols</span><span class="op">(</span></span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_dots</span><span class="op">(</span></span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_bubbles</span><span class="op">(</span></span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_squares</span><span class="op">(</span></span>
+<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -403,6 +455,78 @@ the text. See details.</p></dd>
 <dt id="arg-angle-angle-scale-angle-legend-angle-chart-angle-free">angle, angle.scale, angle.legend, angle.chart, angle.free<a class="anchor" aria-label="anchor" href="#arg-angle-angle-scale-angle-legend-angle-chart-angle-free"></a></dt>
 <dd><p>Rotation angle</p></dd>
 
+
+<dt id="arg-markers-on-top-of-text">markers.on.top.of.text<a class="anchor" aria-label="anchor" href="#arg-markers-on-top-of-text"></a></dt>
+<dd><p>should markers be plot on top of the text (by default <code>FALSE</code>)</p></dd>
+
+
+<dt id="arg-points-only">points.only<a class="anchor" aria-label="anchor" href="#arg-points-only"></a></dt>
+<dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
+
+
+<dt id="arg-point-per">point.per<a class="anchor" aria-label="anchor" href="#arg-point-per"></a></dt>
+<dd><p>specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of <code>"feature"</code>, <code>"segment"</code> or <code>"largest"</code>. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.</p></dd>
+
+
+<dt id="arg-shadow">shadow<a class="anchor" aria-label="anchor" href="#arg-shadow"></a></dt>
+<dd><p>Shadow behind the text. Logical or color.</p></dd>
+
+
+<dt id="arg-shadow-offset-x-shadow-offset-y">shadow.offset.x, shadow.offset.y<a class="anchor" aria-label="anchor" href="#arg-shadow-offset-x-shadow-offset-y"></a></dt>
+<dd><p>Shadow offset in line heights</p></dd>
+
+
+<dt id="arg-just">just<a class="anchor" aria-label="anchor" href="#arg-just"></a></dt>
+<dd><p>justification of the text relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
+
+
+<dt id="arg-along-lines">along.lines<a class="anchor" aria-label="anchor" href="#arg-along-lines"></a></dt>
+<dd><p>logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.</p></dd>
+
+
+<dt id="arg-bg-padding">bg.padding<a class="anchor" aria-label="anchor" href="#arg-bg-padding"></a></dt>
+<dd><p>The padding of the background in terms of line heights.</p></dd>
+
+
+<dt id="arg-clustering">clustering<a class="anchor" aria-label="anchor" href="#arg-clustering"></a></dt>
+<dd><p>value that determines whether the text labels are clustered in <code>"view"</code> mode. One of: <code>TRUE</code>, <code>FALSE</code>, or the output of <code><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
+
+
+<dt id="arg-point-label">point.label<a class="anchor" aria-label="anchor" href="#arg-point-label"></a></dt>
+<dd><p>logical that determines whether the labels are placed automatically.</p></dd>
+
+
+<dt id="arg-point-label-gap">point.label.gap<a class="anchor" aria-label="anchor" href="#arg-point-label-gap"></a></dt>
+<dd><p>numeric that determines the gap between the point and label</p></dd>
+
+
+<dt id="arg-point-label-method">point.label.method<a class="anchor" aria-label="anchor" href="#arg-point-label-method"></a></dt>
+<dd><p>the optimization method, either <code>"SANN"</code> for simulated annealing (the default) or <code>"GA"</code> for a genetic algorithm.</p></dd>
+
+
+<dt id="arg-remove-overlap">remove.overlap<a class="anchor" aria-label="anchor" href="#arg-remove-overlap"></a></dt>
+<dd><p>logical that determines whether the overlapping labels are removed</p></dd>
+
+
+<dt id="arg-dots-just">dots.just<a class="anchor" aria-label="anchor" href="#arg-dots-just"></a></dt>
+<dd><p>justification of the text relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
+
+
+<dt id="arg-dots-icon-scale">dots.icon.scale<a class="anchor" aria-label="anchor" href="#arg-dots-icon-scale"></a></dt>
+<dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see <code><a href="tmap_icons.html">tmap_icons</a></code>) or, if grobs are specified by <code>grob.width</code> and <code>grob.heigth</code></p></dd>
+
+
+<dt id="arg-dots-grob-dim">dots.grob.dim<a class="anchor" aria-label="anchor" href="#arg-dots-grob-dim"></a></dt>
+<dd><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></dd>
+
+
+<dt id="arg-icon-scale">icon.scale<a class="anchor" aria-label="anchor" href="#arg-icon-scale"></a></dt>
+<dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument <code>grob.dim</code></p></dd>
+
+
+<dt id="arg-grob-dim">grob.dim<a class="anchor" aria-label="anchor" href="#arg-grob-dim"></a></dt>
+<dd><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -462,7 +586,8 @@ For small multiples, a list of these shape specification(s) should be provided.<
 <span class="r-in"><span>              values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span><span class="op">)</span></span></span>
 <span class="r-in"><span>           <span class="op">)</span>,</span></span>
 <span class="r-in"><span>         shape.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_labels</a></span><span class="op">(</span>remove.overlap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, options <span class="op">=</span> <span class="fu"><a href="tm_text.html">opt_tm_labels</a></span><span class="op">(</span>remove.overlap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to warp stars. Stars will be transformed now (which will take some time).</span>
 <span class="r-plt img"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## to do: replace this example:</span></span></span>

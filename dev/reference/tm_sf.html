@@ -105,11 +105,21 @@ specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p>
 <span>  lineend <span class="op">=</span> <span class="st">"round"</span>,</span>
 <span>  plot.order.list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>polygons <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"AREA"</span><span class="op">)</span>, lines <span class="op">=</span></span>
 <span>    <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"LENGTH"</span><span class="op">)</span>, points <span class="op">=</span> <span class="fu"><a href="tm_plot_order.html">tm_plot_order</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="opt_tm.html">opt_tm_sf</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu">opt_tm_sf</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
 <span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">opt_tm_sf</span><span class="op">(</span></span>
+<span>  polygons.only <span class="op">=</span> <span class="st">"yes"</span>,</span>
+<span>  lines.only <span class="op">=</span> <span class="st">"yes"</span>,</span>
+<span>  points.only <span class="op">=</span> <span class="st">"yes"</span>,</span>
+<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  points.icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  points.just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  points.grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -192,6 +202,34 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>passed on to <code><a href="tm_polygons.html">tm_polygons()</a></code>, <code><a href="tm_lines.html">tm_lines()</a></code>, and <code><a href="tm_symbols.html">tm_dots()</a></code></p></dd>
+
+
+<dt id="arg-polygons-only">polygons.only<a class="anchor" aria-label="anchor" href="#arg-polygons-only"></a></dt>
+<dd><p>should only polygon geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
+
+
+<dt id="arg-lines-only">lines.only<a class="anchor" aria-label="anchor" href="#arg-lines-only"></a></dt>
+<dd><p>should only line geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted, or also other geometry types (like polygons)? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
+
+
+<dt id="arg-points-only">points.only<a class="anchor" aria-label="anchor" href="#arg-points-only"></a></dt>
+<dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
+
+
+<dt id="arg-point-per">point.per<a class="anchor" aria-label="anchor" href="#arg-point-per"></a></dt>
+<dd><p>specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of <code>"feature"</code>, <code>"segment"</code> or <code>"largest"</code>. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.</p></dd>
+
+
+<dt id="arg-points-icon-scale">points.icon.scale<a class="anchor" aria-label="anchor" href="#arg-points-icon-scale"></a></dt>
+<dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument <code>grob.dim</code></p></dd>
+
+
+<dt id="arg-points-just">points.just<a class="anchor" aria-label="anchor" href="#arg-points-just"></a></dt>
+<dd><p>justification of the points relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
+
+
+<dt id="arg-points-grob-dim">points.grob.dim<a class="anchor" aria-label="anchor" href="#arg-points-grob-dim"></a></dt>
+<dd><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></dd>
 
 </dl></div>
     <div class="section level2">
