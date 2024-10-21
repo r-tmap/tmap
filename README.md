@@ -1,65 +1,28 @@
+
 # tmap: thematic maps in R <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
-[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
-[![CRAN checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+[![Codecov test
+coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
+[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap)
+[![CRAN
+checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
 <!-- badges: end -->
 
+**tmap** is an R package for drawing thematic maps. The API is based on
+\[*A Layered Grammar of Graphics*\]\[4\] and resembles the syntax of
+\[`ggplot2`\]\[3\], a popular R-library for drawing charts.
 
+## Installation
 
-[`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps. The API is based on [*A Layered Grammar of Graphics*][4] and resembles the syntax of [`ggplot2`][3], a popular R-library for drawing charts.
+Installation of tmap (version 4) is straightforward:
 
-
-<span>
-<img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"/>
-<img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/>
-</span>
-
-See [below](https://github.com/r-tmap/tmap/#reference) the source code for these images.
-
-
-Installation
-------------
-
-`tmap` is available on [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap). Installation is straightforward:
-
-```r
-install.packages("tmap")
-```
-
-For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
-
-**Windows**
-No additional installation required.
-
-**Linux (Ubuntu)**
-See https://geocompx.org/post/2020/installing-r-spatial-packages-linux/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/150).
-
-**macOS**
-See https://www.kyngchaos.com/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
-
-
-Development
-------------
-
-
-The latest development version can be installed using `remotes`. 
-In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](https://github.com/r-tmap/tmaptools) as well:
-
-```r
+``` r
 # install.packages("remotes")
 install_github("r-tmap/tmap")
 
@@ -71,98 +34,51 @@ pak::pak("r-tmap/tmap")
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-See [NEWS](https://github.com/r-tmap/tmap/blob/master/NEWS.md) for the latest features and improvements and the [issue list](https://github.com/r-tmap/tmap/issues) for discussions of enhancements and bugs.
+The old version of `tmap` (version 3) is available on
+[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap),
+but we recommend to use version 4, which will be on CRAN soon.
 
-Do you want to help with the development of the package?
-Please let us know! 
-Any feedback, requests, tips, or bug reports are welcome!
+For Linux and macOS users who are new to working with spatial data in R,
+this may fail since additional (non-R) libraries are required (which are
+automatically installed for Windows users).
 
-Usage
------
+**Windows** No additional installation required.
 
-```r
-library(tmap)
+**Linux (Ubuntu)** See
+<https://geocompx.org/post/2020/installing-r-spatial-packages-linux/>.
+Please address installation issues in this
+[issue](https://github.com/r-tmap/tmap/issues/150).
+
+**macOS** See <https://www.kyngchaos.com/>. Please address installation
+issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
+
+# Getting started
+
+Plot a World map of the happy planet index (HPI) per country. The object
+`World` is an example spatial data (`sf`) object that is contained in
+`tmap`:
+
+``` r
+tm_shape(World) +
+    tm_polygons(fill = "HPI")
 ```
 
-Reference
-----
-[Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
-This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x.
+This map can be enhanced in several ways. For instance:
 
-Vignettes 
------
+``` r
+tm_shape(World, crs = "+proj=robin") +
+    tm_polygons(fill = "HPI",
+                fill.scale = tm_scale_continuous(values = "matplotlib.rd_yl_bu"),
+                fill.legend = tm_legend(title = "Happy Planet Index",
+                                        orientation = "landscape", 
+                                        frame = FALSE)
+                )
+```
 
-[tmap v3: get started!](https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html)
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-[tmap: what is changed in recent versions?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html)
+# Book chapter about tmap
 
-
-Tutorials
------
-
-[tmap in RMarkdown](https://github.com/r-tmap/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
-
-
-Presentations
------
-
-* [Creating thematic maps in R][23] (OpenGeoHUB Summer School 2019)
-* [Plotting spatial data with R](https://github.com/mtennekes/tmap-workshop) (eRum 2018) 
-* [Exploring and presenting maps with tmap][21] (useR!2017)
-* [tmap: creating thematic maps in a flexible way][10] (useR!2015)]
-
-
-Other resources
------
-
-* [Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow][20]
-* [R tip: Create maps in R][24]
-* [Working with Spatial Data and using tmap, Samantha A. Alger][22]
-* [Computer World: Mapping in R just got a whole lot easier][18]
-* [National Socio-Environmental Synthesis Center: Maps in R][19]
-* [Introduction to visualizing spatial data in R][9]
-* [Blog post SpatialControl][7]
-* [Blog post TWIAV][8]
-* [Computer World: Create maps in R in 10 (fairly) easy steps][12]
-* [Computer World: Great R packages for data import, wrangling and visualization][17]
-* [Tutorial Visualizing spatial data: from base to shiny - workshop][15]
-* [Stack Overflow questions (#tmap)][16]
-
-
-Getting help
------
-
-There are two main places to get help with `tmap`:
-
-1.  [stackoverflow](https://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. 
-It is also a great place to get help, once you have created a reproducible example that illustrates your problem. 
-Please tag your questions with *tmap*.
-2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/r-tmap/tmap/issues), preferably with a reproducible example.
-
-
-  [1]: https://cran.r-project.org/package=tmap
-  [2]: https://stackoverflow.com/tags/r/info
-  [3]: https://cran.r-project.org/package=ggplot2
-  [4]: https://vita.had.co.nz/papers/layered-grammar.pdf
-  [5]: https://github.com/r-tmap/tmap
-  [6]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html
-  [7]: http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/
-  [8]: https://twiav.nl/en/blog0002en.php
-  [9]: https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
-  [10]: https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf
-  [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
-  [12]: https://www.computerworld.com/article/3038270/create-maps-in-r-in-10-fairly-easy-steps.html
-  [13]: https://github.com/r-tmap/tmap/blob/master/demo/US_choropleth.R
-  [14]: https://github.com/r-tmap/tmap/blob/master/demo/crimes_in_Greater_London.R
-  [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
-  [16]: https://stackoverflow.com/questions/tagged/tmap
-  [17]: https://www.computerworld.com/article/2921176/great-r-packages-for-data-import-wrangling-visualization.html
-  [18]:	https://www.computerworld.com/article/3175623/mapping-in-r-just-got-a-whole-lot-easier.html
-  [19]: https://sesync-ci.github.io/maps-in-R-lesson/
-  [20]: https://r.geocompx.org/adv-map.html
-  [21]: https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf
-  [22]: https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html
-  [23]: https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf
-  [24]: https://www.youtube.com/watch?v=wgFVmzSbaQc#t=3m20s
-  
+<https://r.geocompx.org/adv-map>
