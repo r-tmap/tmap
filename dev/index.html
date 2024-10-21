@@ -69,25 +69,12 @@
 </div>
 <!-- badges: start -->
 
-<p><a href="https://cran.r-project.org/package=tmap" class="external-link"><code>tmap</code></a> is an actively maintained open-source <a href="https://stackoverflow.com/tags/r/info" class="external-link">R</a>-library for drawing thematic maps. The API is based on <a href="https://vita.had.co.nz/papers/layered-grammar.pdf" class="external-link"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="https://cran.r-project.org/package=ggplot2" class="external-link"><code>ggplot2</code></a>, a popular R-library for drawing charts.</p>
-<p><span> <img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"></span></p>
-<p>See <a href="https://github.com/r-tmap/tmap/#reference" class="external-link">below</a> the source code for these images.</p>
+<p><strong>tmap</strong> is an R package for drawing thematic maps. The API is based on [<em>A Layered Grammar of Graphics</em>][4] and resembles the syntax of [<code>ggplot2</code>][3], a popular R-library for drawing charts.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><code>tmap</code> is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>. Installation is straightforward:</p>
+<p>Installation of tmap (version 4) is straightforward:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></span></code></pre></div>
-<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
-<p><strong>Windows</strong> No additional installation required.</p>
-<p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompx.org/post/2020/installing-r-spatial-packages-linux/" class="external-link uri">https://geocompx.org/post/2020/installing-r-spatial-packages-linux/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/150" class="external-link">issue</a>.</p>
-<p><strong>macOS</strong> See <a href="https://www.kyngchaos.com/" class="external-link uri">https://www.kyngchaos.com/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/149" class="external-link">issue</a>.</p>
-</div>
-<div class="section level2">
-<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
-</h2>
-<p>The latest development version can be installed using <code>remotes</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <a href="https://github.com/r-tmap/tmaptools" class="external-link">tmaptools</a> as well:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
 <span></span>
@@ -97,75 +84,38 @@
 <span></span>
 <span><span class="co"># Or from r-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>See <a href="https://github.com/r-tmap/tmap/blob/master/NEWS.md" class="external-link">NEWS</a> for the latest features and improvements and the <a href="https://github.com/r-tmap/tmap/issues" class="external-link">issue list</a> for discussions of enhancements and bugs.</p>
-<p>Do you want to help with the development of the package? Please let us know! Any feedback, requests, tips, or bug reports are welcome!</p>
+<p>The old version of <code>tmap</code> (version 3) is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>, but we recommend to use version 4, which will be on CRAN soon.</p>
+<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
+<p><strong>Windows</strong> No additional installation required.</p>
+<p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompx.org/post/2020/installing-r-spatial-packages-linux/" class="external-link uri">https://geocompx.org/post/2020/installing-r-spatial-packages-linux/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/150" class="external-link">issue</a>.</p>
+<p><strong>macOS</strong> See <a href="https://www.kyngchaos.com/" class="external-link uri">https://www.kyngchaos.com/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/149" class="external-link">issue</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h2>
+</div>
+<div class="section level1">
+<h1 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h1>
+<p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data (<code>sf</code>) object that is contained in <code>tmap</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png"><!-- --></p>
+<p>This map can be enhanced in several ways. For instance:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
+<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.rd_yl_bu"</span><span class="op">)</span>,</span>
+<span>                fill.legend <span class="op">=</span> <span class="fu"><a href="reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Happy Planet Index"</span>,</span>
+<span>                                        orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
+<span>                                        frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>                <span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png"><!-- --></p>
 </div>
-<div class="section level2">
-<h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
-</h2>
-<p><a href="https://doi.org/10.18637/jss.v084.i06" class="external-link">Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39</a></p>
-<p>This paper has been written for <code>tmap</code> 1.11-2. See the <a href="https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html" class="external-link">reproducible code</a> using <code>tmap</code> 2.x.</p>
+<div class="section level1">
+<h1 id="book-chapter-about-tmap">Book chapter about tmap<a class="anchor" aria-label="anchor" href="#book-chapter-about-tmap"></a>
+</h1>
+<p><a href="https://r.geocompx.org/adv-map" class="external-link uri">https://r.geocompx.org/adv-map</a></p>
 </div>
-<div class="section level2">
-<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
-</h2>
-<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html" class="external-link">tmap v3: get started!</a></p>
-<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html" class="external-link">tmap: what is changed in recent versions?</a></p>
-</div>
-<div class="section level2">
-<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
-</h2>
-<p><a href="https://github.com/r-tmap/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd" class="external-link">tmap in RMarkdown</a></p>
-</div>
-<div class="section level2">
-<h2 id="presentations">Presentations<a class="anchor" aria-label="anchor" href="#presentations"></a>
-</h2>
-<ul>
-<li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf" class="external-link">Creating thematic maps in R</a> (OpenGeoHUB Summer School 2019)</li>
-<li>
-<a href="https://github.com/mtennekes/tmap-workshop" class="external-link">Plotting spatial data with R</a> (eRum 2018)</li>
-<li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf" class="external-link">Exploring and presenting maps with tmap</a> (useR!2017)</li>
-<li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf" class="external-link">tmap: creating thematic maps in a flexible way</a> (useR!2015)]</li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="other-resources">Other resources<a class="anchor" aria-label="anchor" href="#other-resources"></a>
-</h2>
-<ul>
-<li><a href="https://r.geocompx.org/adv-map.html" class="external-link">Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow</a></li>
-<li><a href="https://www.youtube.com/watch?v=wgFVmzSbaQc#t=3m20s" class="external-link">R tip: Create maps in R</a></li>
-<li><a href="https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html" class="external-link">Working with Spatial Data and using tmap, Samantha A. Alger</a></li>
-<li><a href="https://www.computerworld.com/article/3175623/mapping-in-r-just-got-a-whole-lot-easier.html" class="external-link">Computer World: Mapping in R just got a whole lot easier</a></li>
-<li><a href="https://sesync-ci.github.io/maps-in-R-lesson/" class="external-link">National Socio-Environmental Synthesis Center: Maps in R</a></li>
-<li><a href="https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf" class="external-link">Introduction to visualizing spatial data in R</a></li>
-<li><a href="http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/" class="external-link">Blog post SpatialControl</a></li>
-<li><a href="https://twiav.nl/en/blog0002en.php" class="external-link">Blog post TWIAV</a></li>
-<li><a href="https://www.computerworld.com/article/3038270/create-maps-in-r-in-10-fairly-easy-steps.html" class="external-link">Computer World: Create maps in R in 10 (fairly) easy steps</a></li>
-<li><a href="https://www.computerworld.com/article/2921176/great-r-packages-for-data-import-wrangling-visualization.html" class="external-link">Computer World: Great R packages for data import, wrangling and visualization</a></li>
-<li><a href="https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd" class="external-link">Tutorial Visualizing spatial data: from base to shiny - workshop</a></li>
-<li><a href="https://stackoverflow.com/questions/tagged/tmap" class="external-link">Stack Overflow questions (#tmap)</a></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
-</h2>
-<p>There are two main places to get help with <code>tmap</code>:</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://stackoverflow.com/tags/tmap" class="external-link">stackoverflow</a> is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with <em>tmap</em>.</li>
-<li>If you have a request or if think your problem is caused by a bug, please open an <a href="https://github.com/r-tmap/tmap/issues" class="external-link">issue</a>, preferably with a reproducible example.</li>
-</ol>
-</div>
-</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
