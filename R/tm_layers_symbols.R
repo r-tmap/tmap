@@ -1,25 +1,25 @@
 #' Map layer: symbols
-#' 
+#'
 #' Map layer that draws symbols Supported visual variables are:
 #' `fill` (the fill color), `col` (the border color), `size` the symbol size,
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha`
 #' (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
-#' 
+#'
 #' The visual variable arguments (e.g. `col`) can be specified with either a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
 #' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
-#' 
+#'
 #' * The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
-#' 
+#'
 #' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
-#' 
+#'
 #' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
-#' 
+#'
 #' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
 #' logical values; these determine whether scales are applied freely per facet dimension.
@@ -52,10 +52,10 @@
 #'   the border color alpha transparency. See details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
-#' @param options options passed on to the corresponding `opt_<layer_function>` function 
+#' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @inheritParams tm_polygons
 #' @param ... to catch deprecated arguments from version < 4.0
-#' @example ./examples/tm_symbols.R 
+#' @example ./examples/tm_symbols.R
 #' @export
 tm_symbols = function(size = tm_const(),
 					  size.scale = tm_scale(),
@@ -107,10 +107,10 @@ tm_symbols = function(size = tm_const(),
 					  id = "",
 					  options = opt_tm_symbols(),
 					  ...) {
-	
+
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+
 
 	res = v3_symbols(args, args_called)
 	if (!is.null(res)) {
@@ -139,7 +139,7 @@ tm_symbols = function(size = tm_const(),
 											legend = size.legend,
 											chart = size.chart,
 											free = size.free),
-						   
+
 						   fill = tmapScale(aes = "fill",
 						   				 value = fill,
 						   				 scale = fill.scale,
@@ -182,7 +182,7 @@ tm_symbols = function(size = tm_const(),
 						   					  legend = col_alpha.legend,
 						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
-		
+
 		gpar = tmapGpar(fill = "__fill",
 						col = "__col",
 						shape = "__shape",
@@ -215,7 +215,7 @@ v3_symbols = function(args, args_called) {
 		} else {
 			"symbols"
 		}
-		
+
 		v3_start_message()
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
@@ -226,17 +226,17 @@ v3_symbols = function(args, args_called) {
 		} else {
 			style = args$style
 		}
-		
+
 		v3_list_init()
 		if (length(style) > 1) {
 			style = style[1]
 			.TMAP$v3_list$mult = TRUE
 		}
-		
+
 		# v3 visual variable: fill
-		fill.scale.args = c(list(n = v3_impute(args, "n", 5), 
-								 style = style, 
-								 style.args = v3_impute(args, "style.args", list())), 
+		fill.scale.args = c(list(n = v3_impute(args, "n", 5),
+								 style = style,
+								 style.args = v3_impute(args, "style.args", list())),
 							if (style %in% c("cont", "log10")) {
 								c({
 									if (!is.null(args$breaks)) {
@@ -251,22 +251,22 @@ v3_symbols = function(args, args_called) {
 								},
 								list(outliers.trunc = c(TRUE, FALSE)))
 							} else {
-								list(breaks = v3_impute(args, "breaks", NULL), 
-									 interval.closure = v3_impute(args, "interval.closure", "left"), 
+								list(breaks = v3_impute(args, "breaks", NULL),
+									 interval.closure = v3_impute(args, "interval.closure", "left"),
 									 drop.levels = v3_impute(args, "drop.levels", FALSE))
 							},
-							list(midpoint = v3_impute(args, "midpoint", NULL), 
-								 as.count = v3_impute(args, "as.count", NA), 
-								 values = v3_impute(args, "palette", NA, "values"), 
-								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
-								 values.range = v3_impute(args, "contrast", NA, "values.range"), 
-								 values.scale = 1, 
-								 value.na = v3_impute(args, "colorNA", NA, "value.na"), 
-								 value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
-								 value.neutral = NA, 
-								 labels = v3_impute(args, "labels", NULL), 
-								 label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
-								 label.null = NA, 
+							list(midpoint = v3_impute(args, "midpoint", NULL),
+								 as.count = v3_impute(args, "as.count", NA),
+								 values = v3_impute(args, "palette", NA, "values"),
+								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"),
+								 values.range = v3_impute(args, "contrast", NA, "values.range"),
+								 values.scale = 1,
+								 value.na = v3_impute(args, "colorNA", NA, "value.na"),
+								 value.null = v3_impute(args, "colorNULL", NA, "value.null"),
+								 value.neutral = NA,
+								 labels = v3_impute(args, "labels", NULL),
+								 label.na = v3_impute(args, "textNA", "Missing", "label.na"),
+								 label.null = NA,
 								 label.format = v3_impute(args, "legend.format", list(), "label.format")))
 		fill.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
@@ -283,14 +283,14 @@ v3_symbols = function(args, args_called) {
 		} else {
 			stop("unknown style")
 		}
-		
+
 		if ("style" %in% names(args)) {
 			v3_tm_scale_instead_of_style(style, scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		} else {
 			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		}
-		fill.scale = do.call("tm_scale", args = fill.scale.args)		
-		
+		fill.scale = do.call("tm_scale", args = fill.scale.args)
+
 		if ("col" %in% names(args_called)) {
 			fill = args_called$col
 			isn_fill = is.null(fill)
@@ -305,7 +305,7 @@ v3_symbols = function(args, args_called) {
 			col = tm_const()
 			isn_fill = FALSE
 		}
-		
+
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
 			isn_col = is.null(col)
@@ -315,22 +315,22 @@ v3_symbols = function(args, args_called) {
 				col = NA
 			}
 		}
-		
-		
+
+
 		if ("alpha" %in% names(args)) {
 			v3_message_fill_alpha(layer_fun = layer_fun)
 			fill_alpha = args$alpha
 		} else {
 			fill_alpha = tm_const()
 		}
-		
+
 		if ("border.alpha" %in% names(args)) {
 			v3_message_col_alpha(layer_fun = layer_fun)
 			col_alpha = args$border.alpha
 		} else {
 			col_alpha = tm_const()
 		}
-		
+
 		v3_list_init()
 		if ("legend.show" %in% names(args) && !args$legend.show) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
@@ -343,9 +343,9 @@ v3_symbols = function(args, args_called) {
 									reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
 			fill.legend = do.call("tm_legend", fill.legend.args)
 			v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
-		}	
-		
-		
+		}
+
+
 		# v3 visual variable: size
 		v3_list_init()
 		size.scale.args = list(ticks = v3_impute(args, "sizes.legend", NULL, "ticks"),
@@ -358,8 +358,8 @@ v3_symbols = function(args, args_called) {
 							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"),
 							   fun_pref = "continuous")
 		if ("size" %in% names(args_called)) v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = layer_fun, arg_list = v3_list_get())
-		size.scale = do.call("tm_scale", args = size.scale.args)		
-		
+		size.scale = do.call("tm_scale", args = size.scale.args)
+
 		v3_list_init()
 		if ("legend.size.show" %in% names(args) && !args$legend.size.show) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.size.show", vv = "size")
@@ -373,7 +373,7 @@ v3_symbols = function(args, args_called) {
 			if ("size" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
 			size.legend = do.call("tm_legend", size.legend.args)
 		}
-		
+
 		# v3 visual variable: shape
 		if (!("shapes.style" %in% names(args))) {
 			if (!"shapes.breaks" %in% names(args)) {
@@ -384,24 +384,24 @@ v3_symbols = function(args, args_called) {
 		} else {
 			shapes.style = args$shapes.style
 		}
-		
+
 		v3_list_init()
-		shape.scale.args = list(n = v3_impute(args, "shapes.n", 5, "n"), 
-								style = shapes.style, 
-								style.args = v3_impute(args, "shapes.style.args", list(), "style.args"), 
-								breaks = v3_impute(args, "shapes.breaks", NULL, "breaks"), 
-								interval.closure = v3_impute(args, "shapes.interval.closure", "left", "interval.closure"), 
+		shape.scale.args = list(n = v3_impute(args, "shapes.n", 5, "n"),
+								style = shapes.style,
+								style.args = v3_impute(args, "shapes.style.args", list(), "style.args"),
+								breaks = v3_impute(args, "shapes.breaks", NULL, "breaks"),
+								interval.closure = v3_impute(args, "shapes.interval.closure", "left", "interval.closure"),
 								drop.levels = v3_impute(args, "drop.levels", FALSE),
-								midpoint = v3_impute(args, "midpoint", NULL), 
-								as.count = v3_impute(args, "as.count", NA), 
+								midpoint = v3_impute(args, "midpoint", NULL),
+								as.count = v3_impute(args, "as.count", NA),
 								value.neutral = v3_impute(args, "shapes.legend", NA, "value.neutral"),
 								values = v3_impute(args, "shapes", 21:25, "values"),
-								labels = v3_impute(args, "shapes.labels", NULL, "labels"), 
-								label.na = v3_impute(args, "shape.textNA", NA, "label.na"), 
-								label.null = NA, 
+								labels = v3_impute(args, "shapes.labels", NULL, "labels"),
+								label.na = v3_impute(args, "shape.textNA", NA, "label.na"),
+								label.null = NA,
 								label.format = v3_impute(args, "legend.format", list(), "label.format"),
 								fun_pref = "intervals")
-		shape.scale = do.call("tm_scale", args = shape.scale.args)		
+		shape.scale = do.call("tm_scale", args = shape.scale.args)
 		if ("shape" %in% names(args_called)) {
 			if ("shapes.style" %in% names(args)) {
 				v3_tm_scale_instead_of_style(shapes.style, scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
@@ -409,7 +409,7 @@ v3_symbols = function(args, args_called) {
 				v3_tm_scale(scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
 			}
 		}
-		
+
 		v3_list_init()
 		if ("legend.shape.show" %in% names(args) && !args$legend.shape.show) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.shape.show", vv = "shape")
@@ -423,17 +423,17 @@ v3_symbols = function(args, args_called) {
 			if ("shape" %in% names(args_called))v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
 			shape.legend = do.call("tm_legend", shape.legend.args)
 		}
-		
+
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
 			v3_tm_chart_hist(layer_fun = layer_fun, vv = "fill", arg = "legend.hist")
-			
+
 			# to do: histogram title
 		} else {
 			fill.chart = tm_chart_none()
 		}
-		
-		
+
+
 		v4_opt_args = c("icon.scale", "just", "grob.dim")
 		v3_opt_args = c("icon.scale", "just", "grob.dim")
 		osel = which(v3_opt_args %in% names(args))
@@ -442,7 +442,7 @@ v3_symbols = function(args, args_called) {
 			o4 = v4_opt_args[osel]
 			v3_opt(o3, o4, layer_fun)
 		}
-		
+
 		list(fill = fill,
 			 col = col,
 			 col_alpha = col_alpha,
@@ -490,14 +490,14 @@ tm_dots = function(fill = tm_const(),
 				   group.control = "check",
 				   options = opt_tm_dots(),
 				   ...) {
-	
+
 		args = c(as.list(environment()), list(...))
 		args$called_from = "tm_dots"
-		
+
 		tm = do.call(tm_symbols, args)
 		tm[[1]]$layer = c("dots", "symbols")
 		tm
-				
+
 
 }
 
@@ -539,10 +539,10 @@ tm_bubbles = function(size = tm_const(),
 					  group.control = "check",
 					  options = opt_tm_bubbles(),
 					  ...) {
-	
+
 	args = c(as.list(environment()), list(...))
 	args$called_from = "tm_bubbles"
-	
+
 	tm = do.call(tm_symbols, args)
 	tm[[1]]$layer = c("bubbles", "symbols")
 	tm
@@ -585,7 +585,7 @@ tm_squares = function(size = tm_const(),
 					  group.control = "check",
 					  options = opt_tm_squares(),
 					  ...) {
-	
+
 	args = c(as.list(environment()), list(...))
 	args$called_from = "tm_squares"
 	tm = do.call(tm_symbols, args)
@@ -656,48 +656,29 @@ tm_markers = function(text = tm_const(),
 	e = as.list(environment())
 	e$options = options$text
 	a = list(...)
-	
+
 	sel = substr(names(a), 1, 5) == "dots_"
 	a_dots = a[sel]
 	a_other = a[!sel]
 	names(a_dots) = substr(names(a_dots), 6, nchar(names(a_dots)))
-	
+
 	args_dots = c(a_dots, list(plot.order = plot.order, zindex = zindex, group = group, group.control = group.control, options = options$dots))
 	args_text = c(e, a_other)
-	
+
 	tm_t = do.call(tm_text, args_text)
 	tm_t[[1]]$layer = c("labels", "text")
 	tm_d = do.call(tm_dots, args_dots)
 	tm_d[[1]]$layer = c("markers", "symbols")
-	
+
 	if (options$markers$markers.on.top.of.text) tm_t + tm_d else tm_d + tm_t
 }
-
-#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument `grob.dim`
-#' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
-#' @rdname opt_tm
-#' @export
-opt_tm_symbols = function(points.only = "ifany",
-						  point.per = "feature",
-						  icon.scale = 3,
-						  just = NA,
-						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
-	list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
-		 mapping.args = list(icon.scale = icon.scale,
-		 					just = just,
-		 					grob.dim = grob.dim))
-}
-
-#' @rdname opt_tm
-#' @export
-opt_tm_dots = opt_tm_symbols
 
 #' @inheritParams opt_tm_labels
 #' @param markers.on.top.of.text should markers be plot on top of the text (by default `FALSE`)
 #' @param dots.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
 #' @param dots.just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
-#' @rdname opt_tm
+#' @rdname tm_symbols
 #' @export
 opt_tm_markers = function(markers.on.top.of.text = FALSE,
 						  points.only = "ifany",
@@ -708,7 +689,7 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 						  just = "center",
 						  along.lines = TRUE,
 						  bg.padding = 0.4,
-						  clustering = TRUE, 
+						  clustering = TRUE,
 						  point.label = TRUE,
 						  point.label.gap = 0.4,
 						  point.label.method = "SANN",
@@ -736,11 +717,30 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 }
 
 
+#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument `grob.dim`
+#' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
+#' @rdname tm_symbols
+#' @export
+opt_tm_symbols = function(points.only = "ifany",
+						  point.per = "feature",
+						  icon.scale = 3,
+						  just = NA,
+						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
+	list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
+		 mapping.args = list(icon.scale = icon.scale,
+		 					just = just,
+		 					grob.dim = grob.dim))
+}
 
-#' @rdname opt_tm
+#' @rdname tm_symbols
+#' @export
+opt_tm_dots = opt_tm_symbols
+
+
+#' @rdname tm_symbols
 #' @export
 opt_tm_bubbles = opt_tm_symbols
 
-#' @rdname opt_tm
+#' @rdname tm_symbols
 #' @export
 opt_tm_squares = opt_tm_symbols

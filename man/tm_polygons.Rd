@@ -4,6 +4,7 @@
 \alias{tm_polygons}
 \alias{tm_fill}
 \alias{tm_borders}
+\alias{opt_tm_polygons}
 \title{Map layer: polygons}
 \usage{
 tm_polygons(
@@ -54,6 +55,8 @@ tm_polygons(
 tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
+
+opt_tm_polygons(polygons.only = "ifany")
 }
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details.}
@@ -110,11 +113,16 @@ features. Only used for \code{"view"} mode.}
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
+
+\item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 }
 \description{
 Map layer that draws polygons. Supported visual variables are: \code{fill} (the fill color),
 \code{col} (the border color), \code{lwd} (line width), \code{lty} (line type),
 \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
+
+The family of \verb{opt_*()} functions can be used to specify options in the different \verb{tm_*()}
+functions.
 }
 \details{
 The visual variable arguments (e.g. \code{col}) can be specified with either a data
@@ -179,4 +187,9 @@ tm_layout(frame = FALSE)
 # bivariate scale
 tm_shape(World) +
 	tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
+tm_shape(World) +
+  tm_polygons(
+
+   )
+
 }

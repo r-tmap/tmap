@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_layers_sf.R
 \name{tm_sf}
 \alias{tm_sf}
+\alias{opt_tm_sf}
 \title{Map layer: simple features}
 \usage{
 tm_sf(
@@ -46,6 +47,16 @@ tm_sf(
   group = NA,
   group.control = "check",
   ...
+)
+
+opt_tm_sf(
+  polygons.only = "yes",
+  lines.only = "yes",
+  points.only = "yes",
+  point.per = "feature",
+  points.icon.scale = 3,
+  points.just = NA,
+  points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 }
 \arguments{
@@ -95,6 +106,20 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (the group cannot be (de)selected).}
 
 \item{...}{passed on to \code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tm_lines]{tm_lines()}}, and \code{\link[=tm_dots]{tm_dots()}}}
+
+\item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{lines.only}{should only line geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted, or also other geometry types (like polygons)? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+
+\item{points.icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument \code{grob.dim}}
+
+\item{points.just}{justification of the points relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
+\item{points.grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 }
 \description{
 Map layer that draws simple features as they are. Supported visual variables

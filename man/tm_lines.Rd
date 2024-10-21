@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_layers_lines.R
 \name{tm_lines}
 \alias{tm_lines}
+\alias{opt_tm_lines}
 \title{Map layer: lines}
 \usage{
 tm_lines(
@@ -38,6 +39,8 @@ tm_lines(
   options = opt_tm_lines(),
   ...
 )
+
+opt_tm_lines(lines.only = "ifany")
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the col color. See details.}
@@ -87,6 +90,8 @@ features. Only used for \code{"view"} mode.}
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
+
+\item{lines.only}{should only line geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted, or also other geometry types (like polygons)? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 }
 \description{
 Map layer that draws lines. Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).

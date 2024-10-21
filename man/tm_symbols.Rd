@@ -6,6 +6,11 @@
 \alias{tm_bubbles}
 \alias{tm_squares}
 \alias{tm_markers}
+\alias{opt_tm_markers}
+\alias{opt_tm_symbols}
+\alias{opt_tm_dots}
+\alias{opt_tm_bubbles}
+\alias{opt_tm_squares}
 \title{Map layer: symbols}
 \usage{
 tm_symbols(
@@ -223,6 +228,58 @@ tm_markers(
   options = opt_tm_markers(),
   ...
 )
+
+opt_tm_markers(
+  markers.on.top.of.text = FALSE,
+  points.only = "ifany",
+  point.per = "feature",
+  shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
+  just = "center",
+  along.lines = TRUE,
+  bg.padding = 0.4,
+  clustering = TRUE,
+  point.label = TRUE,
+  point.label.gap = 0.4,
+  point.label.method = "SANN",
+  remove.overlap = FALSE,
+  dots.just = NA,
+  dots.icon.scale = 3,
+  dots.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
+)
+
+opt_tm_symbols(
+  points.only = "ifany",
+  point.per = "feature",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
+)
+
+opt_tm_dots(
+  points.only = "ifany",
+  point.per = "feature",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
+)
+
+opt_tm_bubbles(
+  points.only = "ifany",
+  point.per = "feature",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
+)
+
+opt_tm_squares(
+  points.only = "ifany",
+  point.per = "feature",
+  icon.scale = 3,
+  just = NA,
+  grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
+)
 }
 \arguments{
 \item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines the size. See details.}
@@ -302,6 +359,42 @@ the background color transparency. See Details.}
 the text. See details.}
 
 \item{angle, angle.scale, angle.legend, angle.chart, angle.free}{Rotation angle}
+
+\item{markers.on.top.of.text}{should markers be plot on top of the text (by default \code{FALSE})}
+
+\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+
+\item{shadow}{Shadow behind the text. Logical or color.}
+
+\item{shadow.offset.x, shadow.offset.y}{Shadow offset in line heights}
+
+\item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
+\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+
+\item{bg.padding}{The padding of the background in terms of line heights.}
+
+\item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
+
+\item{point.label}{logical that determines whether the labels are placed automatically.}
+
+\item{point.label.gap}{numeric that determines the gap between the point and label}
+
+\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
+
+\item{remove.overlap}{logical that determines whether the overlapping labels are removed}
+
+\item{dots.just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
+\item{dots.icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}}
+
+\item{dots.grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
+
+\item{icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument \code{grob.dim}}
+
+\item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 }
 \description{
 Map layer that draws symbols Supported visual variables are:

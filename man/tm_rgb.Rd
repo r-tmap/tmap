@@ -3,6 +3,7 @@
 \name{tm_rgb}
 \alias{tm_rgb}
 \alias{tm_rgba}
+\alias{opt_tm_rgb}
 \title{Map layer: rgb images}
 \usage{
 tm_rgb(
@@ -23,6 +24,8 @@ tm_rgba(
   col.free = NA,
   options = opt_tm_rgb()
 )
+
+opt_tm_rgb(interpolate = FALSE)
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
@@ -31,6 +34,8 @@ the col color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
+
+\item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:grid.raster]{grid}})}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},

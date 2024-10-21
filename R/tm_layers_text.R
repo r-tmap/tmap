@@ -1,33 +1,33 @@
 #' Map layer: text
-#' 
+#'
 #' Map layer that draws symbols Supported visual variables are: `text`
 #' (the text itself) `col` (color), `size` (font size), and `fontface` (font face).
-#' 
+#'
 #' The visual variable arguments (e.g. `col`) can be specified with either a
 #' data variable name (of the object specified in [tm_shape()]), or with a visual
 #' value (for `col`, a color is expected). Multiple values can be specified:
 #' in that case facets are created. These facets can be combined with other
 #' faceting data variables, specified with [tm_facets()].
-#' 
+#'
 #' The `.scale` arguments determine the used scale to map the data values to
-#' visual variable values. These can be specified with one of the available 
+#' visual variable values. These can be specified with one of the available
 #' `tm_scale_()` functions. The default scale that is used is specified by the
 #' tmap option `scales.var`.
-#' 
+#'
 #' The `.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options `legend.`.
-#' 
+#'
 #' The `.free` arguments determine whether scales are applied freely across facets,
 #' or shared. A logical value is required. They can also be specified with a
 #' vector of three logical values; these determine whether scales are applied
-#' freely per facet dimension. This is only useful when facets are applied 
+#' freely per facet dimension. This is only useful when facets are applied
 #' (see [tm_facets()]). There are maximally three facet dimensions: rows, columns,
 #' and pages. This only applies for a facet grid ([tm_facets_grid()]).
 #' For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the visual
 #' variable `col`, each row of facets will has its own scale, and therefore its
 #' own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()])
 #' there is only one facet dimension, so the `.free` argument requires only one logical value.
-#' 
+#'
 #' @param text,text.scale,text.legend,text.chart,text.free Visual variable that determines
 #'   the text. See details.
 #' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines
@@ -50,9 +50,9 @@
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
 #' @inheritParams tm_polygons
-#' @param options options passed on to the corresponding `opt_<layer_function>` function 
+#' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
-#' @example ./examples/tm_text.R 
+#' @example ./examples/tm_text.R
 #' @rdname tm_text
 #' @name tm_text
 #' @export
@@ -113,10 +113,10 @@ tm_text = function(text = tm_const(),
 				   group.control = "check",
 				   options = opt_tm_text(),
 				   ...) {
-	
+
 	#if (FALSE) {
 	args = list(...)
-	
+
 
 	if (any(v3_only("tm_text") %in% names(args))) {
 		v3_start_message()
@@ -129,15 +129,15 @@ tm_text = function(text = tm_const(),
 		} else {
 			style = args$style
 		}
-		
+
 		v3_list_init()
 		if (length(style) > 1) {
 			style = style[1]
 			.TMAP$v3_list$mult = TRUE
 		}
-		col.scale.args = c(list(n = v3_impute(args, "n", 5), 
-								style = style, 
-								style.args = v3_impute(args, "style.args", list())), 
+		col.scale.args = c(list(n = v3_impute(args, "n", 5),
+								style = style,
+								style.args = v3_impute(args, "style.args", list())),
 							if (style %in% c("cont", "log10")) {
 								c({
 									if (!is.null(args$breaks)) {
@@ -152,24 +152,24 @@ tm_text = function(text = tm_const(),
 								},
 								list(outliers.trunc = c(TRUE, FALSE)))
 							} else {
-								list(breaks = v3_impute(args, "breaks", NULL), 
-									 interval.closure = v3_impute(args, "interval.closure", "left"), 
+								list(breaks = v3_impute(args, "breaks", NULL),
+									 interval.closure = v3_impute(args, "interval.closure", "left"),
 									 drop.levels = v3_impute(args, "drop.levels", FALSE))
 							},
-							list(midpoint = v3_impute(args, "midpoint", NULL), 
-								 as.count = v3_impute(args, "as.count", NA), 
-								 values = v3_impute(args, "palette", NA, "values"), 
-								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
-								 values.range = v3_impute(args, "contrast", NA, "values.range"), 
-								 values.scale = 1, 
-								 value.na = v3_impute(args, "colorNA", NA, "value.na"), 
-								 value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
-								 value.neutral = NA, 
-								 labels = v3_impute(args, "labels", NULL), 
-								 label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
-								 label.null = NA, 
+							list(midpoint = v3_impute(args, "midpoint", NULL),
+								 as.count = v3_impute(args, "as.count", NA),
+								 values = v3_impute(args, "palette", NA, "values"),
+								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"),
+								 values.range = v3_impute(args, "contrast", NA, "values.range"),
+								 values.scale = 1,
+								 value.na = v3_impute(args, "colorNA", NA, "value.na"),
+								 value.null = v3_impute(args, "colorNULL", NA, "value.null"),
+								 value.neutral = NA,
+								 labels = v3_impute(args, "labels", NULL),
+								 label.na = v3_impute(args, "textNA", "Missing", "label.na"),
+								 label.null = NA,
 								 label.format = v3_impute(args, "legend.format", list(), "label.format")))
-			
+
 		col.scale.args$fun_pref = if (style == "cat") {
 			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "log10_pretty")) {
@@ -181,15 +181,15 @@ tm_text = function(text = tm_const(),
 		} else {
 			stop("unknown style")
 		}
-		
+
 		if ("style" %in% names(args)) {
 			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
 		} else {
 			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
 		}
-		
-		col.scale = do.call("tm_scale", args = col.scale.args)		
-		
+
+		col.scale = do.call("tm_scale", args = col.scale.args)
+
 		v3_list_init()
 		col.legend.args = alist(title = v3_impute(args, "title.col", NA, "title"),
 								show = v3_impute(args, "legend.col.show", NULL, "show"),
@@ -200,17 +200,17 @@ tm_text = function(text = tm_const(),
 
 		v3_tm_legend(fun = "tm_text", vv = "col", arg_list = v3_list_get())
 		col.legend = do.call("tm_legend", col.legend.args)
-		
+
 		v3_list_init()
 		text.scale = tm_scale_asis(value.neutral = v3_impute(args, "sizes.legend.text", NA, "value.neutral"))
 		v3_tm_scale(scale_fun = "asis", vv = "text", layer_fun = "tm_text", arg_list = v3_list_get())
-		
+
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			col.chart = tm_chart_histogram()
 			v3_tm_chart_hist(layer_fun = "tm_text", vv = "col", arg = "legend.hist")
 			# to do: histogram title
-		}	
-		
+		}
+
 		v3_list_init()
 		size.scale.args = list(values = tm_seq(v3_impute(args, "size.lowerbound", 0, "values = tm_seq(<size.lowerbound>, 1)"), 1, power = 1/v3_impute(args, "root", 3, "values = tm_seq(<size.lowerbound>, 1, power = 1/<root>)")),
 							   values.scale = v3_impute(args, "scale", 1, "values.scale"),
@@ -221,8 +221,8 @@ tm_text = function(text = tm_const(),
 							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"))
 		v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = "tm_text", arg_list = v3_list_get())
 		size.scale = do.call("tm_scale_continuous", size.scale.args)
-		
-		
+
+
 		v3_list_init()
 		size.legend.args = alist(title = v3_impute(args, "title.size", NA, "title"),
 							   show = v3_impute(args, "legend.size.show", NULL, "show"),
@@ -232,8 +232,8 @@ tm_text = function(text = tm_const(),
 							   reverse = v3_impute(args, "legend.size.reverse", FALSE, "reverse"))
 		v3_tm_legend(fun = "tm_text", vv = "size", arg_list = v3_list_get())
 		size.legend = do.call("tm_legend", size.legend.args)
-		
-			   
+
+
 
 		v4_opt_args = c("along.lines", "shadow", "just", "clustering", "point.label", "remove.overlap")
 		v3_opt_args = c("along.lines", "shadow", "just", "clustering", "auto.placement", "remove.overlap")
@@ -243,11 +243,11 @@ tm_text = function(text = tm_const(),
 			o4 = v4_opt_args[osel]
 			v3_opt(o3, o4, "tm_text")
 		}
-			
-		
+
+
 	#}
 	}
-	
+
 	tm_element_list(tm_element(
 		layer = "text",
 		trans.fun = tmapTransCentroid,
@@ -315,7 +315,7 @@ tm_text = function(text = tm_const(),
 						   				 legend = ymod.legend,
 						   				 chart = ymod.chart,
 						   				 free = ymod.free)),
-		
+
 		gpar = tmapGpar(fill = NA,
 						col = "__col",
 						shape = NA,
@@ -495,7 +495,7 @@ tm_labels_highlighted = function(text = tm_const(),
 #' @param point.label.gap numeric that determines the gap between the point and label
 #' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm.
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
-#' @rdname opt_tm
+#' @rdname tm_text
 #' @export
 opt_tm_text = function(points.only = "ifany",
 					   point.per = "feature",
@@ -505,7 +505,7 @@ opt_tm_text = function(points.only = "ifany",
 					   just = "center",
 					   along.lines = FALSE,
 					   bg.padding = 0.4,
-					   clustering = FALSE, 
+					   clustering = FALSE,
 					   point.label = FALSE,
 					   point.label.gap = 0,
 					   point.label.method = "SANN",
@@ -526,7 +526,7 @@ opt_tm_text = function(points.only = "ifany",
 		 					remove.overlap = remove.overlap))
 }
 
-#' @rdname opt_tm
+#' @rdname tm_text
 #' @export
 opt_tm_labels = function(points.only = "ifany",
 						 point.per = "feature",
@@ -536,7 +536,7 @@ opt_tm_labels = function(points.only = "ifany",
 						 just = "center",
 						 along.lines = TRUE,
 						 bg.padding = 0.4,
-						 clustering = TRUE, 
+						 clustering = TRUE,
 						 point.label = TRUE,
 						 point.label.gap = 0.4,
 						 point.label.method = "SANN",

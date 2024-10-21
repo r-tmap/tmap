@@ -1,24 +1,24 @@
 #' Map layer: polygons
-#' 
+#'
 #' Map layer that draws polygons. Supported visual variables are: `fill` (the fill color),
 #' `col` (the border color), `lwd` (line width), `lty` (line type),
 #' `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
-#' 
+#'
 #' The visual variable arguments (e.g. `col`) can be specified with either a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
 #' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
-#' 
+#'
 #' * The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
-#' 
+#'
 #' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
-#' 
+#'
 #' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
-#' 
+#'
 #' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
 #' logical values; these determine whether scales are applied freely per facet dimension.
@@ -29,7 +29,7 @@
 #' scale, and therefore its own legend. For facet wraps and stacks
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
-#' 
+#'
 #' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the border color. See details.
 #' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
@@ -51,7 +51,7 @@
 #'   (meaning only one group can be shown), `"check"` for check boxes
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
-#' @param options options passed on to the corresponding `opt_<layer_function>` function 
+#' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param popup.vars names of data variables that are shown in the popups
 #'   in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the
 #'   shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
@@ -68,9 +68,9 @@
 #' @param id name of the data variable that specifies the indices of the spatial
 #'   features. Only used for `"view"` mode.
 #' @param ... to catch deprecated arguments from version < 4.0
-#' @example ./examples/tm_polygons.R 
+#' @example ./examples/tm_polygons.R
 #' @export
-tm_polygons = function(fill = tm_const(), 
+tm_polygons = function(fill = tm_const(),
 					   fill.scale = tm_scale(),
 					   fill.legend = tm_legend(),
 					   fill.chart = tm_chart_none(),
@@ -114,17 +114,17 @@ tm_polygons = function(fill = tm_const(),
 					   ...) {
 	args = list(...)
 	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+
 	if (any(v3_only("tm_polygons") %in% names(args))) {
-		
+
 		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
 		} else {
 			"tm_polygons"
 		}
-		
+
 		v3_start_message()
-		
+
 
 		if (!("style" %in% names(args))) {
 			if (!"breaks" %in% names(args)) {
@@ -135,19 +135,19 @@ tm_polygons = function(fill = tm_const(),
 		} else {
 			style = args$style
 		}
-		
-		
+
+
 		v3_list_init()
 		if (length(style) > 1) {
 			style = style[1]
 			.TMAP$v3_list$mult = TRUE
 		}
-		
-		
-		
-		fill.scale.args = c(list(n = v3_impute(args, "n", 5), 
-								 style = style, 
-								 style.args = v3_impute(args, "style.args", list())), 
+
+
+
+		fill.scale.args = c(list(n = v3_impute(args, "n", 5),
+								 style = style,
+								 style.args = v3_impute(args, "style.args", list())),
 							if (style %in% c("cont", "log10")) {
 								c({
 									if (!is.null(args$breaks)) {
@@ -162,24 +162,24 @@ tm_polygons = function(fill = tm_const(),
 								},
 								list(outliers.trunc = c(TRUE, FALSE)))
 							} else {
-								list(breaks = v3_impute(args, "breaks", NULL), 
-									 interval.closure = v3_impute(args, "interval.closure", "left"), 
+								list(breaks = v3_impute(args, "breaks", NULL),
+									 interval.closure = v3_impute(args, "interval.closure", "left"),
 									 drop.levels = v3_impute(args, "drop.levels", FALSE))
 							},
-							list(midpoint = v3_impute(args, "midpoint", NULL), 
-								 as.count = v3_impute(args, "as.count", NA), 
-								 values = v3_impute(args, "palette", NA, "values"), 
-								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"), 
-								 values.range = v3_impute(args, "contrast", NA, "values.range"), 
-								 values.scale = 1, 
-								 value.na = v3_impute(args, "colorNA", NA, "value.na"), 
-								 value.null = v3_impute(args, "colorNULL", NA, "value.null"), 
-								 value.neutral = NA, 
-								 labels = v3_impute(args, "labels", NULL), 
-								 label.na = v3_impute(args, "textNA", "Missing", "label.na"), 
-								 label.null = NA, 
+							list(midpoint = v3_impute(args, "midpoint", NULL),
+								 as.count = v3_impute(args, "as.count", NA),
+								 values = v3_impute(args, "palette", NA, "values"),
+								 values.repeat = !v3_impute(args, "stretch.palette", TRUE, "values.repeat"),
+								 values.range = v3_impute(args, "contrast", NA, "values.range"),
+								 values.scale = 1,
+								 value.na = v3_impute(args, "colorNA", NA, "value.na"),
+								 value.null = v3_impute(args, "colorNULL", NA, "value.null"),
+								 value.neutral = NA,
+								 labels = v3_impute(args, "labels", NULL),
+								 label.na = v3_impute(args, "textNA", "Missing", "label.na"),
+								 label.null = NA,
 								 label.format = v3_impute(args, "legend.format", list(), "label.format")))
-			
+
 
 		fill.scale.args$fun_pref = if (style[1] == "cat") {
 			"categorical"
@@ -194,28 +194,28 @@ tm_polygons = function(fill = tm_const(),
 		} else {
 			stop("unknown style")
 		}
-		
+
 		if ("style" %in% names(args)) {
 			v3_tm_scale_instead_of_style(style[1], scale_fun = fill.scale.args$fun_pref, vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		} else {
 			v3_tm_scale(scale_fun = "", vv = "fill", layer_fun = layer_fun, arg_list = v3_list_get())
 		}
-		
-		fill.scale = do.call("tm_scale", args = fill.scale.args)		
-		
+
+		fill.scale = do.call("tm_scale", args = fill.scale.args)
+
 		if ("convert2density" %in% names(args) && args$convert2density) {
 			fill.scale$convert2density = TRUE
 			v3_convert2density(layer_fun)
 		}
-		
+
 		if ("col" %in% names(args_called) && (!layer_fun %in% c("tm_fill", "qtm"))) {
 			fill = col
 			col = tm_const()
 			v3_message_col_fill(layer_fun = layer_fun)
 		}
-		
 
-		
+
+
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
 			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
@@ -223,18 +223,18 @@ tm_polygons = function(fill = tm_const(),
 		if (identical(args$called_from, "tm_borders")) {
 			fill = NA
 		}
-		
+
 		if ("alpha" %in% names(args)) {
 			fill_alpha = args$alpha
 			v3_message_fill_alpha(layer_fun = layer_fun)
 		}
-		
+
 		if ("border.alpha" %in% names(args)) {
 			col_alpha = args$border.alpha
 			v3_message_col_alpha(layer_fun = layer_fun)
 		}
-		
-		
+
+
 		v3_list_init()
 		if ("legend.show" %in% names(args) && !args$legend.show) {
 			v3_tm_legend_hide(layer_fun, arg = "legend.show", vv = "fill")
@@ -247,18 +247,18 @@ tm_polygons = function(fill = tm_const(),
 									reverse = v3_impute(args, "legend.reverse", FALSE, "reverse"))
 			fill.legend = do.call("tm_legend", fill.legend.args)
 			v3_tm_legend(fun = layer_fun, vv = "fill", arg_list = v3_list_get())
-		}	
-		
+		}
+
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			fill.chart = tm_chart_histogram()
 			v3_tm_chart_hist(layer_fun = layer_fun, vv = "fill", arg = "legend.hist")
-			
+
 			# to do: histogram title
 		}
-		
+
 	}
-	
-	
+
+
 	tm_element_list(tm_element(
 		layer = "polygons",
 		trans.fun = tmapTransPolygons,
@@ -301,7 +301,7 @@ tm_polygons = function(fill = tm_const(),
 						   					  legend = col_alpha.legend,
 						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
-		
+
 		gpar = tmapGpar(fill = "__fill",
 						col = "__col",
 						shape = NA,
@@ -351,21 +351,21 @@ tm_borders = function(col = tm_const(), ...) {
 }
 
 #' Specify options to map layers
-#' 
+#'
 #' @description
 #' The family of `opt_*()` functions can be used to specify options in the different `tm_*()`
 #' functions.
-#' 
-#' @name opt_tm
-#' 
+#'
+#' @name opt_tm_polygons
+#' @rdname tm_polygons
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @export
 #' @examples
 #' tm_shape(World) +
 #'   tm_polygons(
-#'    
+#'
 #'    )
-#' 
+#'
 opt_tm_polygons = function(polygons.only = "ifany") {
 	list(trans.args = list(polygons.only = polygons.only),
 		 mapping.args = list())

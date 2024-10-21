@@ -4,6 +4,9 @@
 \alias{tm_cartogram}
 \alias{tm_cartogram_ncont}
 \alias{tm_cartogram_dorling}
+\alias{opt_tm_cartogram}
+\alias{opt_tm_cartogram_ncont}
+\alias{opt_tm_cartogram_dorling}
 \title{Map layer: cartogram}
 \usage{
 tm_cartogram(
@@ -38,6 +41,12 @@ tm_cartogram_dorling(
   options = opt_tm_cartogram_dorling(),
   ...
 )
+
+opt_tm_cartogram(type = "cont", itermax = 15, ...)
+
+opt_tm_cartogram_ncont(type = "ncont", expansion = 1, inplace = FALSE, ...)
+
+opt_tm_cartogram_dorling(type = "dorling", share = 5, itermax = 1000, ...)
 }
 \arguments{
 \item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines
@@ -86,6 +95,16 @@ is applied to the named variable.}
     \item{\code{id}}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
   }}
+
+\item{type}{cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms}
+
+\item{itermax, }{maximum number of iterations (see \code{\link[cartogram:cartogram_cont]{cartogram::cartogram_cont()}})}
+
+\item{expansion}{factor expansion, see \code{\link[cartogram:cartogram_ncont]{cartogram::cartogram_ncont()}} (argument \code{k})}
+
+\item{inplace}{should each polygon be modified in its original place? (\code{TRUE} by default)}
+
+\item{share}{share of the bounding box filled with the larger circle (see \code{\link[cartogram:cartogram_dorling]{cartogram::cartogram_dorling()}} argument \code{k})}
 }
 \description{
 Map layer that draws a cartogram

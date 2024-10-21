@@ -4,6 +4,8 @@
 \alias{tm_text}
 \alias{tm_labels}
 \alias{tm_labels_highlighted}
+\alias{opt_tm_text}
+\alias{opt_tm_labels}
 \title{Map layer: text}
 \usage{
 tm_text(
@@ -185,6 +187,38 @@ tm_labels_highlighted(
   options = opt_tm_labels(),
   ...
 )
+
+opt_tm_text(
+  points.only = "ifany",
+  point.per = "feature",
+  shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
+  just = "center",
+  along.lines = FALSE,
+  bg.padding = 0.4,
+  clustering = FALSE,
+  point.label = FALSE,
+  point.label.gap = 0,
+  point.label.method = "SANN",
+  remove.overlap = FALSE
+)
+
+opt_tm_labels(
+  points.only = "ifany",
+  point.per = "feature",
+  shadow = FALSE,
+  shadow.offset.x = 0.1,
+  shadow.offset.y = 0.1,
+  just = "center",
+  along.lines = TRUE,
+  bg.padding = 0.4,
+  clustering = TRUE,
+  point.label = TRUE,
+  point.label.gap = 0.4,
+  point.label.method = "SANN",
+  remove.overlap = FALSE
+)
 }
 \arguments{
 \item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines
@@ -236,6 +270,30 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
+
+\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+
+\item{shadow}{Shadow behind the text. Logical or color.}
+
+\item{shadow.offset.x, shadow.offset.y}{Shadow offset in line heights}
+
+\item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
+
+\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+
+\item{bg.padding}{The padding of the background in terms of line heights.}
+
+\item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
+
+\item{point.label}{logical that determines whether the labels are placed automatically.}
+
+\item{point.label.gap}{numeric that determines the gap between the point and label}
+
+\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
+
+\item{remove.overlap}{logical that determines whether the overlapping labels are removed}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{text}
