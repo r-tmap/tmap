@@ -1,22 +1,46 @@
 ---
 title: "Introducing tmap 4"
-author: "Martijn Tennekes"
-date: "`r Sys.Date()`"
 output: 
-  html_document:
-    toc: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 2
-link-citations: yes
-editor_options: 
-  chunk_output_type: console
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
 ```
+
+
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
@@ -473,29 +497,7 @@ For instance, legends will be placed outside of the maps by default, and there w
 In order to keep the layout as close as possible to **tmap v3**, there will be a style which will set the options back to the settings used by default in **tmap v3**.
 This can be set with just one command: `tmap_style("tmap_v3")`
 
-## Color palettes
-
-There will be a huge number of directly available color palettes. 
-We have not settled on the exact details, e.g. which palettes to include, and how they can be obtained.
-Ideas are welcome (https://github.com/r-tmap/tmap/issues/566).
-
-In the current development version, there is a function similar to `tmaptools::palette_explorer()`, which renders a long png in the viewer pane of RStudio or the browser:
-
-```{r, eval = FALSE, class.source='bg-success'}
-# tmap v4
-tmap_show_palettes()
-```
-
-[![](https://user-images.githubusercontent.com/2444081/122732106-3ad8da80-d27c-11eb-98fd-1aafd6d7a52b.png)](https://user-images.githubusercontent.com/2444081/122725374-352bc680-d275-11eb-9a1c-0a88e4a97848.png)
-
-(click on the image to see the full png)
-
-It is also possible to render this for color blindness simulation, e.g.: `tmap_show_palettes(color_vision_deficiency = "deutan")`.
-
-All default palettes that we use will be usable for color blind people.
-
-
 ## Suggestions
 
-Do you have any suggestions? Please let us know! Via https://github.com/r-tmap/tmap/issues, and please use the **tmap_v4** tag.
+Do you have any suggestions? Please let us know! Via https://github.com/r-tmap/tmap/issues.
 

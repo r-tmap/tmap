@@ -1,12 +1,13 @@
 ---
 title: "tmap: facets"
-author: "Martijn Tennekes"
 output: 
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
 template:
   math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
 ---
 
 ```{r, include = FALSE}
@@ -14,8 +15,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   fig.width=6, 
   fig.height=3,
-  comment = "#>",
-  fig.path = "man/figures"
+  comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
 knitr::knit_hooks$set(output = function(x, options) {
@@ -39,7 +39,6 @@ knitr::knit_hooks$set(output = function(x, options) {
  })
 
 ```
-
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)

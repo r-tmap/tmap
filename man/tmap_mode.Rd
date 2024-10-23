@@ -79,7 +79,6 @@ Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
 \itemize{
-\item \code{vignette("tmap_sneak_peek")}
 \item \code{\link[=tmap_last]{tmap_last()}} to show the last map
 \item \code{\link[=tm_view]{tm_view()}} for viewing options
 \item \code{\link[=tmap_leaflet]{tmap_leaflet()}} for obtaining a leaflet widget

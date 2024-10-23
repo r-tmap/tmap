@@ -1,5 +1,5 @@
 #' Set tmap mode to static plotting or interactive viewing
-#' 
+#'
 #' Set tmap mode to static plotting or interactive viewing.
 #' The global option `tmap.mode` determines the whether thematic maps are plot
 #' in the graphics device, or shown as an interactive leaflet map (see also [tmap_options()].
@@ -9,25 +9,25 @@
 #' toggle thematic map and print last map: it does the same as `ttm()` followed
 #' by [tmap_last()]; in order words, it shows the last map in the other mode.
 #' It is recommended to use `tmap_mode()` in scripts and `ttm()`/`ttmp()` in the console.
-#' 
+#'
 #' # mode = "plot"
-#' 
+#'
 #' Thematic maps are shown in the graphics device.
 #' This is the default mode, and supports all tmap's features,
 #' such as small multiples (see [tm_facets()]) and extensive layout settings (see [tm_layout()]).
 #' It is recommended to use [tmap_save()] for saving static maps.
-#' 
+#'
 #' # mode = "view"
-#' 
+#'
 #' Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
 #' Maps are fully interactive with tiles from OpenStreetMap or other map providers
 #' (see [tm_tiles()]). See also [tm_view()] for options related to the `"view"` mode.
 #' This mode generates a [leaflet::leaflet()] widget, which can also be directly
 #' obtained with [tmap_leaflet()].
-#' With R Markdown, it is possible to publish it to an HTML page. 
-#'  
+#' With R Markdown, it is possible to publish it to an HTML page.
+#'
 #' However, there are a couple of constraints in comparison to `"plot"`:
-#' 
+#'
 #' * The map is always projected according to the Web Mercator projection.
 #'   Although this projection is the de facto standard for interactive web-based mapping,
 #'   it lacks the equal-area property, which is important for many thematic maps,
@@ -37,12 +37,11 @@
 #' * Text labels are not supported (yet)
 #' * The layout options set with [tm_layout()]) regarding map format are not used.
 #'   However, the styling options still apply.
-#' 
-#' @param mode One of `"plot"` or `"view"`. See Details for more info. 
+#'
+#' @param mode One of `"plot"` or `"view"`. See Details for more info.
 #' @return The previous tmap mode before switching.
 #' @example ./examples/tmap_mode.R
-#' @seealso 
-#' * `vignette("tmap_sneak_peek")`
+#' @seealso
 #' * [tmap_last()] to show the last map
 #' * [tm_view()] for viewing options
 #' * [tmap_leaflet()] for obtaining a leaflet widget
@@ -52,10 +51,10 @@
 #' @export
 tmap_mode = function(mode = NULL) {
 	current.mode = getOption("tmap.mode")
-	
+
 	tOpt = get("tmapOptions", envir = .TMAP)
 	show.messages = tOpt$show.messages
-	
+
 	modes = get_modes()
 
 	if (is.null(mode)) {
@@ -69,13 +68,13 @@ tmap_mode = function(mode = NULL) {
 		if (show.messages) cli::cli_inform(c(i = "tmap mode set to {.val {mode}}."))
 	}
 	invisible(current.mode)
-}	
+}
 
 # tmap_graphics = function(mode = NULL) {
 # 	if (is.null(mode)) mode = getOption("tmap.mode")
 # 	get("tmapOptions", envir = .TMAP)$graphics[[mode]]
 # }
-# 
+#
 # tmap_graphics_name = function(mode = NULL) {
 # 	tmap_graphics(mode = mode)$name
 # }
@@ -85,13 +84,13 @@ get_modes = function() {
 }
 
 #' Set the design mode
-#' 
+#'
 #' When the so-called "design mode" is enabled, inner and outer margins,
 #' legend position, and aspect ratio are shown explicitly in plot mode.
 #' Also, information about aspect ratios is printed in the console.
 #' This function sets the global option `tmap.design.mode`.
 #' It can be used as toggle function without arguments.
-#' 
+#'
 #' @seealso [tmap_options()]
 #' @param design.mode Logical value that determines the design mode.
 #'   If omitted then the design mode is toggled.
@@ -103,7 +102,7 @@ tmap_design_mode = function(design.mode) {
 		if (!is.logical(design.mode)) stop("design.mode is not a logical")
 		design.mode[1]
 	}
-	
+
 	options(tmap.design.mode = dm)
 	message(
 		"design.mode: ", if (!dm) "OFF" else "ON",
@@ -111,10 +110,10 @@ tmap_design_mode = function(design.mode) {
 }
 
 #' Set the development mode
-#' 
+#'
 #' When the so-called "development mode" is enabled, helpful messages and timings
 #' are printed in the console
-#' 
+#'
 #' @param devel.mode logical value that determines the development mode.
 #'   If omitted then the development mode is toggled.
 #' @export
@@ -125,7 +124,7 @@ tmap_devel_mode = function(devel.mode) {
 		if (!is.logical(devel.mode)) stop("devel.mode is not a logical")
 		devel.mode[1]
 	}
-	
+
 	options(tmap.devel.mode = dm)
 	message("devel.mode: ", if (!dm) "OFF" else "ON")
 }
@@ -137,10 +136,10 @@ pm = function(message) {
 
 po = function(...) {
 	e = substitute(list(...))
-	nms = sapply(e, deparse)[-1]  
-	
+	nms = sapply(e, deparse)[-1]
+
 	x = list(...)
-	
+
 	for (i in seq_along(x)) {
 		cat("<==================== ", nms[i], "===============>\n")
 		print(x[[i]])
@@ -148,16 +147,16 @@ po = function(...) {
 			cat("</============================================>\n")
 		}
 	}
-	
+
 	invisible()
 }
 
 so = function(...) {
 	e = substitute(list(...))
-	nms = sapply(e, deparse)[-1]  
-	
+	nms = sapply(e, deparse)[-1]
+
 	x = list(...)
-	
+
 	for (i in seq_along(x)) {
 		cat("<==================== ", nms[i], "===============>\n")
 		str(x[[i]])
@@ -165,7 +164,7 @@ so = function(...) {
 			cat("</============================================>\n")
 		}
 	}
-	
+
 	invisible()
 }
 
@@ -173,12 +172,12 @@ so = function(...) {
 #' @export
 ttm = function() {
 	current.mode = getOption("tmap.mode")
-	
+
 	modes = get_modes()
-	
+
 	id = match(current.mode, modes) + 1L
 	if (id > length(modes)) id = 1L
-	
+
 	tmap_mode(modes[id])
 	invisible(current.mode)
 }

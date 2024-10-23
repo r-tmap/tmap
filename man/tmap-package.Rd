@@ -13,7 +13,6 @@ of graphics, and resembles the syntax of ggplot2.
 }
 \details{
 This page provides a brief overview of all package functions.
-See \code{vignette("tmap_sneak_peek")} for a short introduction with examples.
 }
 \section{Quick plotting method}{
 
@@ -120,7 +119,13 @@ Create icons:
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\code{vignette("tmap_sneak_peek")}, \url{https://r-tmap.github.io/tmap/}
+Useful links:
+\itemize{
+  \item \url{https://github.com/r-tmap/tmap}
+  \item \url{https://r-tmap.github.io/tmap/}
+  \item Report bugs at \url{https://github.com/r-tmap/tmap/issues}
+}
+
 }
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}
