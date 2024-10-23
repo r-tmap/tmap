@@ -51,34 +51,34 @@ data(World, metro)
 The next major update of **tmap** will be a massive one. 
 Although **tmap** is well-known and widely used in the R spatial community, there are a couple of bottlenecks that make it difficult to maintain and extend.
 The upcoming **tmap** version 4 (**tmap v4**) aims to overcome these shortcomings.
-It is still fully in the development, but now is a good time for a sneak peek.
 
 ## Extendability
 
 First and foremost, **tmap v4** will be fully extendable. More precisely, the following aspects can be extended:
 
-* Map layers: we are not limited anymore by the fixed set of `tm_polygons()`, `tm_lines()`, `tm_symbols()`, and `tm_raster()` (and their derivatives such as `tm_borders()` and `tm_dots()`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram()`. Other layers that are worthwhile to implement are `tm_donuts()`, `tm_hexagons()`, `tm_network()`, `tm_hillshade()`, etc.
+* Map layers: we are not limited anymore by the fixed set of `tm_polygons()`, `tm_lines()`, `tm_symbols()`, and `tm_raster()` (and their derivatives such as `tm_borders()` and `tm_dots()`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram()`.
 
-* Aesthetics: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons()`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
+* Visual variables: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new visual variables for `tm_polygons()`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
 
-* Graphics Engine: **tmap v3** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
+* Graphics Engine: **tmap** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
 
-* Spatial data classes: **tmap v3** is build on `sf` and `stars`. This will also be the case for **tmap v4**, but for developers, it will be easier to incorporate other classes as well, like `SpatRaster` and `SpatVector` from `terra`.
+* Spatial data classes: **tmap** is build on `sf` and `stars`, and supports `terra` objects natively. Moreover, for developers, it will be easier to incorporate other classes as well.
 
 
-## Aesthetics
+## Visual variables
 
-As mentioned before, we have added more aesthetics (visual variables), and it will be easier for developers to add new aesthetics. We have reordered the arguments that specify and configure the aesthetics which will be illustrated below.
+As mentioned before, we have added more visual variables, and it will be easier for developers to add new visual variables We have reordered the arguments that specify and configure the visual variables, which will be illustrated below.
 
-The arguments that specify aesthetics themselves will remain the same.
+The arguments that specify visual variables themselves will remain the same.
 E.g., the main aesthetic in `tm_polygons()` is `fill`, which defines the fill color of the polygons.
 
 However, the other arguments of the layer functions are organized differently. 
-Thus, each aesthetic will only have four arguments: 
+Thus, each aesthetic will only have five arguments: 
 
-- the aesthetic itself (`fill`)
+- the visual variable itself (`fill`)
 - the scale (`fill.scale`)
 - the legend (`fill.legend`)
+- the chart (`fill.chart`)
 - an argument that decides whether scales are applied freely across facets (`fill.free`)
 
 The scales and legends are discussed in the next sections.
@@ -99,9 +99,9 @@ tm_shape(World) +
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
-In **tmap v4**, `tm_polygons()` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional aesthetics.
+In **tmap v4**, `tm_polygons()` will have the visual variables `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional visual variables.
 A data variable can be mapped to each of them, using different scales (see next section for an overview).
-The next example uses `fill`, `lwd` (line width), and `lty` (line type) as aesthetics:
+The next example uses `fill`, `lwd` (line width), and `lty` (line type) as visual variables:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
@@ -130,7 +130,7 @@ tm_shape(World, crs = "+proj=eck4") +
 	)
 ```
 
-Besides these **visual mapping aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **(data-driven) transformation aesthetics**.
+Besides these **visual mapping visual variables**, which map data variables to visual variables, there is also another group of visual variables, namely **(data-driven) transformation visual variables**.
 They are used to transform spatial objects.
 We call it data-driven, because content data are used as input for this spatial transformation. 
 An example is the cartogram, which will be shown in the next section. 
@@ -155,7 +155,7 @@ tm_shape(World_carto, crs = "+proj=eck4") +
               title = "Happy Planet Index")
 ```
 
-In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual aesthetics from `tm_polygons()`:
+In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual visual variables from `tm_polygons()`:
 
 ```{r, class.source='bg-success', message=FALSE}
 # tmap v4
