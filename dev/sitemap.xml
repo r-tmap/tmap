@@ -1,9 +1,16 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap/dev/LICENSE-text.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/01_tmap_intro_v4.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/02_tmap_diff_v3.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/03_tmap_vv.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/04_tmap_scales.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/05_tmap_facets.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/06_tmap_legends.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/07_tmap_charts.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/08_tmap_basemaps.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/09_tmap_shiny.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/dev/articles/10_tmap_export.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/articles/index.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap-getstarted.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_sneak_peek.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/dev/articles/tmap_vv.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/authors.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/dev/news/index.html</loc></url>
