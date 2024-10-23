@@ -1,5 +1,5 @@
 ---
-title: "tmap v4: a sneak peek"
+title: "Introducing tmap 4"
 author: "Martijn Tennekes"
 date: "`r Sys.Date()`"
 output: 
@@ -10,10 +10,6 @@ output:
       smooth_scroll: false
     toc_depth: 2
 link-citations: yes
-vignette: >
-  \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{tmap v4: a sneak peek}
-  %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---

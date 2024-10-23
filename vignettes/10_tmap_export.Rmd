@@ -1,16 +1,28 @@
 ---
-title: "tmap: get started!"
+title: "tmap: exporting maps"
+author: "Martijn Tennekes"
+date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
+  html_document:
     toc: true
-vignette: >
-  %\VignetteIndexEntry{tmap: get started!}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+link-citations: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
+```
+
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, fig.width=6, fig.height=3)
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
 ```
 
 With the tmap package, thematic maps can be generated with great flexibility.

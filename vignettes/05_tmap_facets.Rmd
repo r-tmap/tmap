@@ -1,0 +1,263 @@
+---
+title: "tmap: facets"
+author: "Martijn Tennekes"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>",
+  fig.path = "man/figures"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
+```
+
+
+```{r echo=FALSE,message=FALSE,fig.height = 2}
+World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf) * 1e6, labels = c("Small", "Medium", "Large", "Extra Large"))					   
+World$HPI_class = cut(World$HPI, breaks = seq(10, 50, by = 10))
+World$well_being_class = cut(World$well_being, breaks = seq(2, 8, by = 2))
+World$footprint_class = cut(World$footprint, breaks = seq(0, 16, by = 4))
+
+metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1e6)
+
+
+
+Africa = World[World$continent == "Africa", ]
+```
+
+# Facetting shapes
+
+These tests focus on dealing with shapes when facets are created.
+Legends, scales will be studied in other tests.
+
+## Polygons
+
+### One facet
+
+```{r}
+tm_shape(World) +
+	tm_polygons("HPI")
+```
+
+
+### Multiple facets, specified with multiple variables
+
+```{r}
+# one polygon shape, two aes values
+tm_shape(World) +
+	tm_polygons(c("HPI", "income_grp"))
+```
+
+
+
+### Multiple facets, specified by a 'facet wrap'
+
+```{r}
+# split polygon shape (by)
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_facets(by = "continent")
+```
+
+### Multiple facets, specified by a 'facet wrap', with fixed coordinates
+
+```{r}
+# split polygon shape (by), with fixed coords
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_facets(by = "continent", free.coords = FALSE)
+```
+
+
+
+
+### Filter
+
+
+
+```{r}
+# filter polygons (filtered out will get value.null)
+tm_shape(World, filter = World$pop_est > 100e6) +
+	tm_polygons(c("blue", "red"))
+```
+
+
+```{r}
+tm_shape(World, filter = World$pop_est > 100e6) +
+	tm_polygons("HPI")
+```
+
+```{r}
+tm_shape(World, filter = World$pop_est > 100e6) +
+	tm_polygons(c("HPI", "economy"))
+```
+
+
+### Drop units
+
+
+```{r}
+# fixed aes, wrap
+tm_shape(World) +
+	tm_polygons("blue") +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+```
+
+```{r}
+# one aesthetics, different frees
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+```
+
+
+```{r}
+# multiple aesthetics, different frees
+tm_shape(World) +
+	tm_polygons("HPI", lty = "economy", fill.free = FALSE, lty.free = TRUE) +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+```
+
+
+```{r}
+# nothing to drop
+tm_shape(World) +
+	tm_polygons(c("HPI", "economy")) +
+	tm_facets(free.coords = FALSE, drop.units = TRUE)
+```
+
+
+### Drop empty facets
+```{r}
+# default drop empty (wrap) facets
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "income_grp")
+
+tm_shape(Africa) +
+	tm_polygons("HPI") +
+	tm_facets(by = "income_grp")
+```
+
+```{r}
+# keep empty (wrap) facets
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "income_grp", drop.empty.facets = FALSE)
+
+tm_shape(Africa) +
+	tm_polygons("HPI") +
+	tm_facets(by = "income_grp", drop.empty.facets = FALSE)
+```
+
+```{r}
+# default drop empty (xtab) facet: only if whole row or column is empty
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("income_grp", "well_being_class", drop.units = FALSE)
+```
+
+```{r}
+# keep empty (xtab) facets
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("income_grp", "well_being_class", drop.units = FALSE, drop.empty.facets = FALSE)
+```
+
+
+### Drop NA facets
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "footprint_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "footprint_class", drop.NA.facets = TRUE)
+```
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets(by = "footprint_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets(by = "footprint_class", drop.NA.facets = TRUE)
+```
+
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("footprint_class", "HPI_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("footprint_class", "HPI_class", drop.NA.facets = TRUE)
+```
+
+
+
+
+
+## Rasters
+
+```{r}
+# nothing to drop
+tm_shape(land) +
+	tm_raster("cover_cls")
+```
