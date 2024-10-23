@@ -26,3 +26,4 @@ ubuntu_17_installation.sh
 ^vignettes/tmap-getstarted.Rmd$
 ^tests/testthat/Rplots.pdf$
 ^\.covrignore$
+^vignettes$

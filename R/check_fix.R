@@ -4,7 +4,7 @@ check_fix = function(sfc, shp_name, reproj, messages) {
 	isLarge = (inherits(sfc, c("sfc_MULTIPOLYGON", "sfc_MULTILINESTRING", "sfc_GEOMETRYCOLLECTION")) && length(sfc) >= 5000)
 	if (isLarge && messages) message("Checking shape object \"", shp_name, " \". It is large, so it may take a while")
 
-	if (!all(st_is_valid(sfc))) {
+	if (!all(sf::st_is_valid(sfc))) {
 		checkAgain = FALSE
 		tryCatch({
 			if (messages) message("The shape object \"", shp_name, "\" is invalid", ifelse(reproj, " (after reprojection). ", ". "), "Trying to fix it...")
@@ -13,7 +13,7 @@ check_fix = function(sfc, shp_name, reproj, messages) {
 			if (messages) message("Unsuccesful attempt with sf::st_make_valid")
 			checkAgain = TRUE
 		})
-		if (checkAgain || !all(st_is_valid(sfc))) {
+		if (checkAgain || !all(sf::st_is_valid(sfc))) {
 			suppressMessages(sf::sf_use_s2(!s2))
 			.TMAP$set_s2 = s2
 			tryCatch({
