@@ -51,7 +51,7 @@ data(World, metro, rivers, land)
 
 ## Introductiuon
 
-Integration with **shiny** is straightforward. The functions `tmapOutput()` and `renderTmap()` are similar to `shiny::plotOutput()` and `shiny::renderPlot`` respectively.
+Integration with **shiny** is straightforward. The functions `tmapOutput()` and `renderTmap()` are similar to `shiny::plotOutput()` and `shiny::renderPlot()` respectively.
 
 As an example, let's create a shiny app where the user selects a variable for which a choropleth/categorical map is drawn. The choise set of variables is:
 
