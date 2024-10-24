@@ -1,13 +1,13 @@
 # NEED TO SYNC THIS WITH tmap_options
-# generate all options with: 
+# generate all options with:
 # args = intersect(names(tmap_options_mode("view")),names(tmap_options_mode("plot")))
 # cat(paste(args, collapse = ", "))
 
 
 #' Layout options
-#' 
+#'
 #' Set of tmap options that are directly related to the layout.
-#'  
+#'
 #' @param modes,crs,facet.max,facet.flip,raster.max.cells,show.messages,show.warnings,output.format,output.size,output.dpi,output.dpi.animation,value.const,value.na,value.null,value.blank,values.var,values.range,value.neutral,scales.var,scale.misc.args See [tmap_options()]
 #' @param label.format,label.na,scale,asp,bg.color,outer.bg.color,frame,frame.lwd,frame.r,frame.double.line,outer.margins,inner.margins,inner.margins.extra,meta.margins,meta.auto.margins,between.margin,component.offset,component.stack.margin See [tmap_options()]
 #' @param grid.mark.height,xylab.height,coords.height,xlab.show,xlab.text,xlab.size,xlab.color,xlab.rotation,xlab.space,xlab.fontface,xlab.fontfamily,xlab.side,ylab.show,ylab.text,ylab.size,ylab.color,ylab.rotation,ylab.space,ylab.fontface,ylab.fontfamily,ylab.side See [tmap_options()]
@@ -22,9 +22,9 @@
 #' @param earth.boundary,earth.boundary.color,earth.boundary.lwd,earth.datum,space.color,attr.color,max.categories,legend.hist.bg.color,legend.hist.bg.alpha,legend.hist.size,legend.hist.height,legend.hist.width,attr.outside,attr.outside.position,attr.outside.size,attr.position,attr.just,basemap.server,basemap.alpha,basemap.zoom,overlays,overlays.alpha,alpha,colorNA,symbol.size.fixed,dot.size.fixed,text.size.variable,bbox,check.and.fix,set.bounds,set.view,set.zoom.limits,name,basemap.show See [tmap_options()]
 #' @param title,main.title deprecated See [tm_title()]
 #' @param ... used to catch other deprecated arguments
-#' @example ./examples/tm_layout.R 
+#' @example ./examples/tm_layout.R
 #' @name tm_layout
-#' @export 
+#' @export
 tm_layout = function(
 		modes, crs, facet.max, facet.flip,
 		raster.max.cells, show.messages, show.warnings,
@@ -84,30 +84,36 @@ tm_layout = function(
 		text.size.variable, bbox, check.and.fix, set.bounds, set.view, set.zoom.limits, name, basemap.show,
 		title = NULL,
 		main.title = NULL,
+		view.legend.position = NULL,
 		...
-		
+
 	) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+
 	fun = if ("called_from" %in% names(args)) {
 		args$called_from
 	} else {
 		"tm_layout"
 	}
-	
+
 	if (!missing(modes) && is.character(modes)) {
 		title = modes
 		args$modes = NULL
 	}
-	
+
+	if (!is.null(view.legend.position)) {
+		args$legend.position = args$view.legend.position
+		args$legend.position = NULL
+	}
+
 	if (!is.null(title) || (!is.null(main.title))) {
 		title1 = if (!is.null(title)) {
 			title.args = args[substr(names(args), 1, 5) == "title"]
 			title.args$title = NULL
 			names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
-			
+
 			v3_title(fun)
-			
+
 			if (!("position" %in% names(title.args))) title.args$position = tm_pos_in("left", "top")
 			args$title = NULL
 			do.call(tm_title, c(list(text = title), title.args))
@@ -134,9 +140,9 @@ tm_layout = function(
 }
 
 #' View mode options
-#' 
+#'
 #' View mode options. These options are specific to the view mode.
-#' 
+#'
 #' @param use.WebGL use webGL layers with leafgl
 #' @param control.position position of the control attribute
 #' @param control.bases base layers
@@ -146,29 +152,37 @@ tm_layout = function(
 #'   In view mode, this is passed on to [setMaxBounds()][leaflet::setMaxBounds()]
 #' @param set.view numeric vector that determines the view.
 #'   Either a vector of three: `lng`, `lat`, and `zoom`, or a single value:
-#'    `zoom`. See [setView()][leaflet::setView()]. 
+#'    `zoom`. See [setView()][leaflet::setView()].
 #'    Only applicable if `bbox` is not specified
 #' @param set.zoom.limits numeric vector of two that set the minimum and maximum
 #'   zoom levels (see [tileOptions()][leaflet::tileOptions()]).
 #' @param leaflet.options options passed on to
 #'   [leafletOptions()][leaflet::leafletOptions()]
+#' @param view.legend.position deprecated. Use `legend.position`from `tm_layout()` instead.
 #' @export
 tm_view = function(use.WebGL,
-				   control.position, 
+				   control.position,
 				   control.bases,
 				   control.overlays,
 				   set.bounds,
 				   set.view,
 				   set.zoom.limits,
-				   leaflet.options) {
+				   leaflet.options,
+				   view.legend.position = NULL) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+
+	if (!is.null(view.legend.position)) {
+		args$legend.position = view.legend.position
+		args$view.legend.position = NULL
+	}
+
 	do.call(tm_options, args)
 }
 
 #' Plot mode options
-#' 
+#'
 #' Plot mode options. This option is specific to the plot mode.
-#' 
+#'
 #' @param use.gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
 #' @export
 tm_plot = function(use.gradient) {

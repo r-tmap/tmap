@@ -17,8 +17,8 @@ tm_facets(
   columns = NULL,
   pages = NULL,
   as.layers = FALSE,
-  nrows = NA,
-  ncols = NA,
+  nrow = NA,
+  ncol = NA,
   byrow = TRUE,
   orientation = NA,
   free.coords = NA,
@@ -36,9 +36,9 @@ tm_facets(
 
 tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 
-tm_facets_wrap(by = "VARS__", nrows = NA, ncols = NA, byrow = TRUE, ...)
+tm_facets_wrap(by = "VARS__", nrow = NA, ncol = NA, byrow = TRUE, ...)
 
-tm_facets_pagewise(by = "VARS__", nrows = 1, ncols = 1, byrow = TRUE, ...)
+tm_facets_pagewise(by = "VARS__", nrow = 1, ncol = 1, byrow = TRUE, ...)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 
@@ -59,9 +59,9 @@ tm_facets_flip(...)
 
 \item{as.layers}{show facets as layers?}
 
-\item{nrows}{Number of rows}
+\item{nrow}{Number of rows}
 
-\item{ncols}{Number of columns}
+\item{ncol}{Number of columns}
 
 \item{byrow}{Should facets be wrapped by row?}
 

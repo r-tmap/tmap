@@ -618,7 +618,10 @@ tmapMode = function(id, name, ...) {
 		tiles.alpha = 1,
 		tiles.zoom = NA,
 
-		attr.color = "black"
+		attr.color = "black",
+
+		# not in tmap4 -> backward comp?
+		view.legend.position = NA
 	),
 	style = "white",
 	specified = character()

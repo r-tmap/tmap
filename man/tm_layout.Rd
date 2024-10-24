@@ -260,6 +260,7 @@ tm_layout(
   basemap.show,
   title = NULL,
   main.title = NULL,
+  view.legend.position = NULL,
   ...
 )
 }

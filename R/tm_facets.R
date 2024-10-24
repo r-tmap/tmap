@@ -13,8 +13,8 @@
 #' @param columns Variable that specifies the columns (only for a facet grid)
 #' @param pages Variable that specifies the pages (only for a facet grid)
 #' @param as.layers show facets as layers?
-#' @param nrows Number of rows
-#' @param ncols Number of columns
+#' @param nrow Number of rows
+#' @param ncol Number of columns
 #' @param byrow Should facets be wrapped by row?
 #' @param orientation For facet stack: horizontal or vertical?
 #' @param free.coords Logical. If the `by` argument is specified, should each
@@ -53,8 +53,8 @@ tm_facets = function(by = NULL,
 					 columns = NULL,
 					 pages = NULL,
 					 as.layers = FALSE,
-					 nrows = NA,
-					 ncols = NA,
+					 nrow = NA,
+					 ncol = NA,
 					 byrow = TRUE,
 					 orientation = NA,
 					 free.coords = NA,
@@ -77,11 +77,9 @@ tm_facets = function(by = NULL,
 		v3_start_message()
 
 		v3_list_init()
-		drop.empty.facets = v3_impute(args, "showNA", NA, paste0("drop.empty.facets = ", !args$showNA))
+		drop.empty.facets = v3_impute(args, "showNA", TRUE, paste0("drop.empty.facets = ", !args$showNA))
 		na.text = v3_impute(args, "textNA", NA, "na.text")
-		ncols = v3_impute(args, "ncol", NA, "ncols")
-		nrows = v3_impute(args, "nrow", NA, "nrows")
-		drop.units = v3_impute(args, "drop.shapes", NA, "drop.units")
+		drop.units = v3_impute(args, "drop.shapes", TRUE, "drop.units")
 		v3_tm_facets(arg_list = v3_list_get())
 
 		if (any(substr(names(args), 1, 12) == "free.scales.")) {
@@ -117,8 +115,8 @@ tm_facets = function(by = NULL,
 		columns = columns,
 		as.layers = as.layers,
 		pages = pages,
-		nrows = nrows,
-		ncols = ncols,
+		nrows = nrow,
+		ncols = ncol,
 		orientation = orientation,
 		free.coords = free.coords,
 		drop.units = drop.units,
@@ -157,13 +155,13 @@ tm_facets_grid = function(rows = NULL,
 #' @param ... passed on to `tm_facets()`
 #' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
-						  nrows = NA,
-						  ncols = NA,
+						  nrow = NA,
+						  ncol = NA,
 						  byrow = TRUE,
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "wrap"), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "wrap"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm
 }
@@ -171,13 +169,13 @@ tm_facets_wrap = function(by = "VARS__",
 #' @export
 #' @rdname tm_facets
 tm_facets_pagewise = function(by = "VARS__",
-						  nrows = 1,
-						  ncols = 1,
+						  nrow = 1,
+						  ncol = 1,
 						  byrow = TRUE,
 						  ...) {
 	args = list(...)
-	calls = unique(c(names(match.call(expand.dots = TRUE)[-1]), "nrows", "ncols"))
-	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
+	calls = unique(c(names(match.call(expand.dots = TRUE)[-1]), "nrow", "ncol"))
+	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm
 }

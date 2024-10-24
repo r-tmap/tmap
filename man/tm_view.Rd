@@ -12,7 +12,8 @@ tm_view(
   set.bounds,
   set.view,
   set.zoom.limits,
-  leaflet.options
+  leaflet.options,
+  view.legend.position = NULL
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leaflet]{leafletOptions()}}
+
+\item{view.legend.position}{deprecated. Use \code{legend.position}from \code{tm_layout()} instead.}
 }
 \description{
 View mode options. These options are specific to the view mode.
