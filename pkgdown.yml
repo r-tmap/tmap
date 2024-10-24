@@ -12,7 +12,7 @@ articles:
   08_tmap_basemaps: 08_tmap_basemaps.html
   09_tmap_shiny: 09_tmap_shiny.html
   10_tmap_export: 10_tmap_export.html
-last_built: 2024-10-24T19:01Z
+last_built: 2024-10-24T20:41Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
