@@ -600,40 +600,25 @@ tmapMode = function(id, name, ...) {
 		qtm.minimap = FALSE,
 		qtm.mouse.coordinates = FALSE,
 
-		# not used/implemented in tmap4 (yet?)
-		#title = NA,
 		earth.boundary = FALSE,
 		earth.boundary.color = NULL,
 		earth.boundary.lwd = 1,
-		earth.datum = 4326,
+		earth.datum = "OGC:CRS84",
 		space.color = NULL,
-		attr.color = "black",
-		max.categories = 30,
-		legend.hist.bg.color = NA,
-		legend.hist.bg.alpha = 1,
-		legend.hist.size = 0.7,
-		legend.hist.height = 0.3,
-		legend.hist.width = 0.4,
-		#title.snap.to.legend = NA,
-		attr.outside = FALSE,
-		attr.outside.position = "bottom",
-		attr.outside.size = NA,
-		attr.position = c("right", "bottom"),
-		attr.just = c("left", "bottom"),
+
+		check.and.fix = FALSE,
+
 		basemap.show = FALSE,
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemap.alpha = 1,
 		basemap.zoom = NA,
+
+		tiles.show = FALSE,
+		tiles.server = "",
 		tiles.alpha = 1,
 		tiles.zoom = NA,
-		overlays = NULL,
-		overlays.alpha = 1,
-		alpha = NA,
-		colorNA = NA,
-		symbol.size.fixed = FALSE,
-		dot.size.fixed = TRUE,
-		text.size.variable = FALSE,
-		check.and.fix = FALSE
+
+		attr.color = "black"
 	),
 	style = "white",
 	specified = character()
