@@ -108,7 +108,6 @@ tm_shape(land) +
 			  col.chart = tm_chart_histogram())
 ```
 
-
 ### Categorical variable
 
 ```{r}
@@ -130,4 +129,3 @@ tm_shape(World) +
 	tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE),
 				fill.chart = tm_chart_heatmap())
 ```
-
