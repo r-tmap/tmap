@@ -40,7 +40,6 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```
 
-
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 library(shiny)
@@ -51,30 +50,26 @@ data(World, metro, rivers, land)
 
 ## Introductiuon
 
-Integration with **shiny** is straightforward. The functions `tmapOutput()` and `renderTmap()` are similar to `shiny::plotOutput()` and `shiny::renderPlot()` respectively.
+Integration of **tmap** with **shiny** is straightforward. 
+The functions `tmapOutput()` and `renderTmap()` are similar to `shiny::plotOutput()` and `shiny::renderPlot()`, respectively.
 
-As an example, let's create a shiny app where the user selects a variable for which a choropleth/categorical map is drawn. The choise set of variables is:
-
+As an example, let's create a shiny app where the user selects a variable for which a choropleth/categorical map is drawn. 
+The selected set of variables is:
 
 ```{r}
 (world_vars = setdiff(names(World), c("iso_a3", "name", "sovereignt", "geometry")))
 ```
 
-
-
-
 ### Plot mode
 
-We recommend to use `zindex` for each tmap layer (such as `tm_polygons()`) to make sure the position remains fixed.
+We recommend to use `zindex` for each tmap layer (such as `tm_polygons()`) to make sure their positions remain fixed.
 
 ```{r shinyplot, fig.cap = "Shiny app with tmap in plot mode"}
 #| fig.alt = "Shiny app with tmap in plot mode",
 #| out.width = 700,
 #| echo = FALSE
-
 knitr::include_graphics("../man/figures/shiny_plot.png")
 ```
-
 
 ```{r eval=FALSE}
 tmap_mode("plot")
@@ -93,20 +88,17 @@ shinyApp(
 )
 ```
 
-
-
 ### View mode
 
-For **view** mode, we can additionally make use of `tmapProxy()`. This enables users to update the map without a complete re-render; the zoom window will not be reset.
+For the **view** mode, we can additionally make the use of `tmapProxy()`. 
+This enables users to update the map without a complete re-render; the zoom window also will not be reset.
 
 ```{r shinyview, fig.cap = "Shiny app with tmap in view mode"}
 #| fig.alt = "Shiny app with tmap in plot mode",
 #| out.width = 700,
 #| echo = FALSE
-
 knitr::include_graphics("../man/figures/shiny_view.png")
 ```
-
 
 ```{r eval=FALSE}
 tmap_mode("view")
@@ -129,6 +121,6 @@ shinyApp(
 					tm_polygons(var, zindex = 401)
 			})
 		})
-	},options = list(launch.browser=TRUE)
+	}, options = list(launch.browser=TRUE)
 )
 ```

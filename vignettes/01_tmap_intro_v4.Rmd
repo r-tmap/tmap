@@ -40,8 +40,6 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```
 
-
-
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 data(World, metro)
@@ -51,28 +49,33 @@ data(World, metro)
 The next major update of **tmap** will be a massive one. 
 Although **tmap** is well-known and widely used in the R spatial community, there are a couple of bottlenecks that make it difficult to maintain and extend.
 The upcoming **tmap** version 4 (**tmap v4**) aims to overcome these shortcomings.
+This document provides an overview of the new features and improvements that will be available in **tmap v4**.
 
 ## Extendability
 
-First and foremost, **tmap v4** will be fully extendable. More precisely, the following aspects can be extended:
+First and foremost, **tmap v4** will be fully extendable. 
+More precisely, the following aspects can be extended:
 
-* Map layers: we are not limited anymore by the fixed set of `tm_polygons()`, `tm_lines()`, `tm_symbols()`, and `tm_raster()` (and their derivatives such as `tm_borders()` and `tm_dots()`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram()`.
+* Map layers: we are not limited anymore by the fixed set of `tm_polygons()`, `tm_lines()`, `tm_symbols()`, and `tm_raster()` (and their derivatives such as `tm_borders()` and `tm_dots()`), but any layer of interest can be developed as an extension of **tmap**. 
+We will illustrate this later with `tm_cartogram()`.
 
-* Visual variables: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new visual variables for `tm_polygons()`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
+* Visual variables: there will be many more visual variables (e.g., `fill` or `col`) available. 
+We will illustrate this in the next section, where we already implemented five new visual variables for `tm_polygons()`.
+Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
 
-* Graphics Engine: **tmap** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
+* Graphics engine: **tmap** contains two modes, `plot` and `view` (which are based on **grid** graphics and **leaflet** respectively) but the framework makes it possible to add other modes as well.
 
-* Spatial data classes: **tmap** is build on `sf` and `stars`, and supports `terra` objects natively. Moreover, for developers, it will be easier to incorporate other classes as well.
-
+* Spatial data classes: **tmap** is build on **sf** and **stars**, and supports **terra** objects natively.
+Moreover, for developers, it will be easier to incorporate other classes as well.
 
 ## Visual variables
 
-As mentioned before, we have added more visual variables, and it will be easier for developers to add new visual variables We have reordered the arguments that specify and configure the visual variables, which will be illustrated below.
+As mentioned before, we have added more visual variables, and it will be easier for developers to add new visual variables.
+Moreover, we have reordered the arguments that specify and configure the visual variables.
 
 The arguments that specify visual variables themselves will remain the same.
-E.g., the main aesthetic in `tm_polygons()` is `fill`, which defines the fill color of the polygons.
-
-However, the other arguments of the layer functions are organized differently. 
+For example, the main aesthetic in `tm_polygons()` is `fill`, which defines the fill color of the polygons.
+However, other arguments of the layer functions are organized differently. 
 Thus, each aesthetic will only have five arguments: 
 
 - the visual variable itself (`fill`)
@@ -88,7 +91,9 @@ Below you can see a basic comparison of the **tmap** version 3 and 4 syntax:
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(World) +
-  tm_polygons(fill = "HPI", palette = "Earth", title = "Happy Planet Index")
+	tm_polygons(fill = "HPI", 
+  				palette = "PRGn", 
+  				title = "Happy Planet Index")
 ```
 
 ```{r, class.source='bg-success'}
@@ -99,16 +104,17 @@ tm_shape(World) +
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
-In **tmap v4**, `tm_polygons()` will have the visual variables `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional visual variables.
+In **tmap v4**, `tm_polygons()` will have the visual variables of `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`.
+The other standard map layers will also have additional visual variables.
 A data variable can be mapped to each of them, using different scales (see next section for an overview).
-The next example uses `fill`, `lwd` (line width), and `lty` (line type) as visual variables:
+The next example uses `fill`, `lwd` (line width), and `lty` (line type) as visual variables, which was not possible in **tmap v3**:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 # ... not possible :(
 ```
 
-```{r fig.height = 6, fig.width=9, class.source='bg-success'}
+```{r fig.height = 6, fig.width=9, class.source='bg-success', message=FALSE}
 # tmap v4
 World$life_exp_class = cut(World$life_exp, breaks = seq(40, 85, by = 15))
 
@@ -134,11 +140,12 @@ Besides these **visual mapping visual variables**, which map data variables to v
 They are used to transform spatial objects.
 We call it data-driven, because content data are used as input for this spatial transformation. 
 An example is the cartogram, which will be shown in the next section. 
-The polygons are distorted such that the size will be (approximately) proportional to a data variable.
+Using the cartogram method, the polygons are distorted such that their sizes are (approximately) proportional to a data variable.
 
 ## Map layers (e.g. cartogram)
 
-It will be easy for developers to add new map layers as extension. We illustrate this by a new map layer, `tm_cartogram()`.
+It will be easy for developers to add new map layers as extension.
+We illustrate this by a new map layer, `tm_cartogram()`.
 
 Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
@@ -150,12 +157,12 @@ World_carto = World |>
   cartogram_cont(weight = "pop_est")
 
 tm_shape(World_carto, crs = "+proj=eck4") +
-  tm_polygons(fill, 
-              palette = "Earth", 
+  tm_polygons(fill = "HPI", 
+              palette = "PRGn", 
               title = "Happy Planet Index")
 ```
 
-In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual visual variables from `tm_polygons()`:
+In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual variables from `tm_polygons()`:
 
 ```{r, class.source='bg-success', message=FALSE}
 # tmap v4
@@ -169,9 +176,8 @@ tm_shape(World, crs = "+proj=eck4") +
 }
 ```
 
-
-A nice benefit of having cartograms directly in **tmap** is that it makes possible to use the available scaling functions. 
-For example, suppose we want to apply a log 10 scale in order to make the cartogram a bit more "balanced":
+A benefit of having cartograms directly in **tmap** is that it makes possible to use the available scaling functions. 
+For example, to achieve a more "balanced" cartogram, we can apply a logarithmic transformation (base 10):
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
@@ -182,11 +188,10 @@ World_carto = World |>
   cartogram_cont(weight = "pop_est_log10")
 
 tm_shape(World_carto) +
-  tm_polygons(fill, 
-              palette = "Earth", 
+  tm_polygons(fill = "HPI", 
+              palette = "PRGn", 
               title = "Happy Planet Index")
 ```
-
 
 ```{r, class.source='bg-success',message=FALSE}
 # tmap v4
@@ -204,9 +209,9 @@ tm_shape(World, crs = "+proj=eck4") +
 ## Scales
 
 Scales are used to map data variables to visual variables. 
-Scales are not new in **map v4**, but they are used more explicitly.
+Scales are not new in **tmap v4**, but now they are used more explicitly.
 
-The following table shows the scales that are currently available:
+The following table shows the currently available scales:
 
 | Scale					 	| Main Data Type 					| Example  			|
 |---					 	|---								|---				|
@@ -218,21 +223,19 @@ The following table shows the scales that are currently available:
 | `tm_scale_discrete()`   	| numerical (`integer`)  			| Number of children |
 
 The main data type (second column) is the data type for which the scale is supposed to be applied.
-Any scale can be applied to any data type (even though it might not make sense), with one exception: continuous (and log10) scales cannot be applied to visual variables that can only take a finite set of values.
-Examples are symbol shape and line type.
+Any scale can be applied to any data type (even though it might not make sense), with one exception: continuous (and log10) scales cannot be applied to visual variables that can only take a finite set of values, for example shapes of a symbol or types of lines.
 By default, `tm_scale_categorical()`, `tm_scale_ordinal()`, and `tm_scale_intervals()` are used for data of class `factor`, `ordered` and `numeric` respectively.
 Scales for date/time variables will be included as well.
 
 The main argument of each scale function is `values`, which are the values for the visual variables. 
 The following table shows which type of values are required for which visual variable:
 
-
 | Visual variable				| Type of values 				|
 |---							|---							|
 | `fill` and `col`  			| Color palette  				| 
 | `size` and `lwd`  			| (Exponential) value range 	|
-| `lty`   						| Line types, e.g. `"dashed"`	|
-| `shape`						| Shapes (probably similar as in **tmap v3**)	|
+| `lty`   						| Line type, e.g. `"dashed"`	|
+| `shape`						| Shapes (similar to **tmap v3**)	|
 | `fill_alpha` and `col_alpha`	| Value range					|
 
 The default values depend not only on the visual variable, but also on the scale and on whether data values are diverging.
@@ -255,11 +258,12 @@ tm_shape(Africa) +
 	tm_polygons(rep("life_exp", 5), style = c("cat", "cat", "pretty", "cont", "log10"),
 				palette = list("Set2", "YlOrBr", "YlOrBr", "YlOrBr", "YlOrBr"),
 				title = "") +
-	tm_layout(panel.labels = c("categorical scale", "ordinal scale", "intervals scale", "continuous scale", "log10 scale"),
+	tm_layout(panel.labels = c("categorical scale", "ordinal scale", "intervals scale",
+							   "continuous scale", "log10 scale"),
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 
-# discrete scale is not possible directly, but only  via interval breaks:
+# discrete scale is not possible directly, but only via interval breaks:
 tm_shape(Africa) +
 	tm_polygons("life_exp", style = "fixed",
 				palette = "YlOrBr",
@@ -275,36 +279,38 @@ tm_shape(Africa) +
 # tmap v4
 tm_shape(Africa) +
 	tm_polygons(rep("life_exp", 6), 
-				fill.scale = list(tm_scale_categorical(),
-								  tm_scale_ordinal(),
-								  tm_scale_intervals(),
-								  tm_scale_continuous(),
-								  tm_scale_continuous_log(),
-								  tm_scale_discrete()),
+				fill.scale = list(tm_scale_categorical(), tm_scale_ordinal(),
+								  tm_scale_intervals(), tm_scale_continuous(),
+								  tm_scale_continuous_log(), tm_scale_discrete()),
 				fill.legend = tm_legend(title = "", position = tm_pos_in("left", "top"))) +
-	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", "tm_scale_intervals", "tm_scale_continuous", "tm_scale_continuous_log", "tm_scale_discrete"), 
+	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", 
+							   "tm_scale_intervals", "tm_scale_continuous", 
+							   "tm_scale_continuous_log", "tm_scale_discrete"), 
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 ```
 
-
-## Multivariate Scales
+## Multivariate scales
 
 It will be possible to assign multiple variables for one aesthetic.
 This can be done with the function `tm_mv()` (which stands for multivariate).
 An example is the bivariate choropleth, which is not yet implemented, but will definitely be.
 
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap v3
+# ... not possible :(
+```
+
 ```{r, eval = TRUE, class.source='bg-success'}
 # tmap v4
 tm_shape(World) +
-  tm_symbols(
+  tm_polygons(
   	fill = tm_vars(c("well_being", "footprint"), multivariate = TRUE), 
     fill.scale = tm_scale_bivariate(scale1 =  tm_scale_intervals(breaks = c(2, 5, 6, 8)),
     								scale2 = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
   		   							values = "brewer.qualseq")
     )
 ```
-
 
 ## Legends
 
@@ -313,9 +319,10 @@ As you may have noticed in the previous examples, the legends look a bit differe
 ### Positioning
 
 Legends are currently placed outside the map by default in **tmap v4**.
-Why? Simply because there is often more space than inside the map.
+Why? 
+Simply because there is often more space than inside the map.
 
-Furthermore, it is possible to place legends on different locations across the map:
+Furthermore, it is possible to place legends on a few separate locations across the map:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
@@ -337,31 +344,31 @@ tm_shape(World) +
 **tmap v3** contains many (often complicated) options for rather simple things.
 These options are set globally via `tmap_options()` or within a single plot with `tm_layout()`.
 
-In **tmap v4**, the directly related to the layout are accessible via `tm_layout()`.
+In **tmap v4**, the options directly related to the layout are accessible via `tm_layout()`.
 However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left()`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(World) +
-  tm_symbols(fill = "HPI",
-             size = "pop_est",
-             shape = "income_grp") +
-tm_layout(legend.outside.position = "left", legend.outside.size = 0.2)
+	tm_symbols(fill = "HPI",
+               size = "pop_est",
+               shape = "income_grp") +
+	tm_layout(legend.outside.position = "left", legend.outside.size = 0.2)
 ```
 
 ```{r fig.height = 6, fig.width=9, class.source='bg-success'}
 # tmap v4
 tm_shape(World) +
-  tm_symbols(fill = "HPI",
-             size = "pop_est",
-             shape = "income_grp",
-  		     size.scale = tm_scale(value.neutral = 0.5)) +
-tm_place_legends_left(0.2)
+	tm_symbols(fill = "HPI",
+	           size = "pop_est",
+	           shape = "income_grp",
+	  		   size.scale = tm_scale(value.neutral = 0.5)) +
+	tm_place_legends_left(0.2)
 ```
 
 ### Combined legends
 
-Another new feature is possibility to combine legends directly, which was quite a hassle in **tmap v3**.
+Another new feature is the possibility to combine legends directly, which was quite a hassle in **tmap v3**.
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
@@ -395,24 +402,21 @@ tm_shape(metro) +
 The design of the legends is (and will further be) improved. 
 Most prominently, there is a `space` argument that determines the height of a legend item.
 More specifically, each legend item will be `1 + space` line-height. 
-This is also useful to make continuous legends better.
+This is also useful to make continuous legends look better.
 
 ## Facets
 
 In **tmap v4**, there are convenient wrappers `tm_facet_wrap()` and `tm_facet_grid()`, where the former wraps the facets, and the latter places the facets in a grid layout.
-
 Furthermore, each visual variable has a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
-
 In **tmap v3** this `free` argument could be set via `tm_facets()`, whereas in **tmap v4** this argument has been moved to the layer functions:
-
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
-tm_shape(World) +
+tm_shape(World, crs = "+proj=robin") +
     tm_borders() +
 tm_shape(World) +
     tm_polygons("life_exp") +
-tm_facets("continent", nrow = 1, free.scales.fill = FALSE, free.coords = FALSE)
+tm_facets("continent", nrow = 3, free.scales.fill = FALSE, free.coords = FALSE)
 ```
 
 ```{r, class.source='bg-success', fig.height=3}
@@ -424,10 +428,9 @@ tm_shape(World) +
 tm_facets_wrap("continent")
 ```
 
-
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
-tm_shape(World) +
+tm_shape(World, crs = "+proj=robin") +
     tm_borders() +
 tm_shape(World) +
     tm_polygons("life_exp") +
@@ -442,8 +445,7 @@ tm_shape(World) +
 tm_facets_stack("continent")
 ```
 
-
-New in **tmap v4** is that for facet grid, the `free` argument can be specified differently for rows and columns, as we will show in the next complex (sorry for that) example:
+New in **tmap v4** is that for facet grid, the `free` argument can be specified differently for rows and columns, as we will show in the next example:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
@@ -471,11 +473,7 @@ The scale for life expectancy is set to free for the columns.
 This means that the scale will be applied for each column separately, with a legend per column.
 The scale for GDP per capita is applied separately for each row.
 
-
-
-
-## Graphic Engines (modes)
-
+## Graphic engines (modes)
 
 Just like **tmap v3**, there will be a `"plot"` and a `"view"` mode.
 However, the framework used in **tmap v4** also facilitates developers to write plotting methods for other modes.
@@ -484,20 +482,20 @@ For instance, **CesiumJS** is a great JavaScript library for 3d globe visualizat
 It would be awesome to include this in **R**.
 When there is a low-level interface between **CesiumJS** and **R** (similar to the R package **leaflet** being an interface between the JS library **leaflet** and **R**), it will be relatively easy for developers to add a new mode for these 3d visualizations in **tmap v4**.
 
-
 ## Backward compatibility
 
 In this early development stage, **tmap v3** code will not work with **tmap v4**.
-However, when **tmap v4** will be stable, it will be backwards compatible.
+However, when **tmap v4** is stable, it will be backward compatible.
 Layer function arguments that are no longer used, such as `breaks` and `palette` will be deprecated, and internally redirected to the new scale functions.
 
 Furthermore, some of the options will have other options in **tmap v4**.
 For instance, legends will be placed outside of the maps by default, and there will be a small space between legend items as shown above.
 
-In order to keep the layout as close as possible to **tmap v3**, there will be a style which will set the options back to the settings used by default in **tmap v3**.
+In order to keep the layout as close as possible to **tmap v3**, there will be a style that set the options back to the settings used by default in **tmap v3**.
 This can be set with just one command: `tmap_style("tmap_v3")`
 
 ## Suggestions
 
-Do you have any suggestions? Please let us know! Via https://github.com/r-tmap/tmap/issues.
+Do you have any suggestions? 
+Please let us know via https://github.com/r-tmap/tmap/issues!
 

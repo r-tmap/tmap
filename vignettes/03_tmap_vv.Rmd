@@ -41,7 +41,6 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```
 
 
-
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 #devtools::load_all()
@@ -49,21 +48,23 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
-
-A **visual variable** describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in **ggplot2** these are called aesthetics). A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or be **data-driven** (more on this later). If it can *only* be specified with a constant value, it is called a **visual constant**. 
+A **visual variable** describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in **ggplot2** these are called aesthetics).
+A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or be **data-driven** (more on this later). 
+If it can *only* be specified with a constant value, it is called a **visual constant**. 
 
 The following table shows which visual variables are used in standard map layers.
 
 | Map layer			| Visual variables 		| Visual constant 		|
 |-					|---					|--						|
 | `tm_basemap()`  	| none					| `alpha`				|
-| `tm_polygons()`	| `fill` (fill color), `col` (border color), `lwd` (border line width) `lty` (border line type), `fill_alpha` (fill transparency), `col_alpha` (border color transparency)		| `linejoin` (line join) and `lineend` (line end) |
+| `tm_polygons()`	| `fill` (fill color), `col` (border color), `lwd` (border line width), `lty` (border line type), `fill_alpha` (fill transparency), `col_alpha` (border color transparency)		| `linejoin` (line join) and `lineend` (line end) |
 | `tm_symbols()`	| `fill` (fill color), `col` (border color), `size`, `shape`, `lwd` (border line width) `lty` (border line type), `fill_alpha` fill transparency, `col_alpha` border color transparency		| `linejoin` (line join) and `lineend` (line end) |
-| `tm_lines()`   	| `col` (color), `lwd` (line width) `lty` (line type), `alpha` transparency	| `linejoin` (line join) and `lineend` (line end) |
+| `tm_lines()`   	| `col` (color), `lwd` (line width), `lty` (line type), `alpha` transparency	| `linejoin` (line join) and `lineend` (line end) |
 | `tm_raster()`   	| `col` (color), `alpha` (transparency)	| |
 | `tm_text()`   	| `size`, `col` | |
 
-New in **tmap 4.0** is that users can write their own custom map layer functions; more on this in another vignette. Important for now is that map layers and their visual variables can be extended if needed.   
+New in **tmap 4.0** is that users can write their own custom map layer functions; more on this in another vignette.
+Important for now is that map layers and their visual variables can be extended if needed.   
 
 ### Constant visual values
 
@@ -74,9 +75,13 @@ tm_shape(World) +
 	tm_polygons("gold")
 ```
 
-All the visual variables mentioned in the previous table are used, but with constant values. For instance, polygon borders are drawn with width `lwd` and colored with `col`. Each of these visual variables has a default value, in case of the border width and color respectively `1` and `"black"`. The only visual variable for which we have specified a different value is `fill`, which we have set to `"gold"`.
+All the visual variables mentioned in the previous table are used, but with constant values. 
+For instance, polygon borders are drawn with width `lwd` and colored with `col`. 
+Each of these visual variables has a default value, in case of the border width and color respectively `1` and `"black"`. 
+The only visual variable for which we have specified a different value is `fill`, which we have set to `"gold"`.
 
-For those who are completely new to **tmap**: the function `tm_shape()` specifies the spatial data object, which can be any spatial data object from the packages `sf`, `stars`, `terra`, `sp`, and `raster`. The subsequent map layer functions (stacked with the `+` operator) specify how this spatial data is visualized.
+For those who are completely new to **tmap**: the function `tm_shape()` specifies the spatial data object, which can be any spatial data object from the packages `sf`, `stars`, `terra`, `sp`, and `raster`.
+The subsequent map layer functions (stacked with the `+` operator) specify how this spatial data is visualized.
 
 In the next example we have three layers: a basemap from OpenTopoMap, country polygon boundaries, and dots for metropolitan areas:
 
@@ -103,20 +108,29 @@ In this example, life expectancy per country is shown, or to put it more precise
 To understand this data mapping, consider the following schematic dataset:
 
 ```{r, echo=FALSE}
-df = data.frame(geom = c("polygon1", "polygon2", "polygon3", "polygon4", "..."), x1 = c("72", "58", "52", "73", "..."), vv1 = c("blue6", "blue3", "blue2", "blue7", "..."))
+df = data.frame(geom = c("polygon1", "polygon2", "polygon3", "polygon4", "..."),
+				x1 = c("72", "58", "52", "73", "..."),
+				vv1 = c("blue6", "blue3", "blue2", "blue7", "..."))
 print(df)
 ```
 
-The first column contains spatial geometries (in this case polygons, but they can also be points, lines, and raster tiles). The second column is the data variable that we would like to show. The third column contains the visual values, in this case colors.
+The first column contains spatial geometries (in this case polygons, but they can also be points, lines, and raster tiles). 
+The second column is the data variable that we would like to show. T
+The third column contains the visual values, in this case, colors.
 
-Important to note is that there are many ways to scale data values to visual values. In this example data values are put into 5 year intervals and a sequential discrete blue scale is used to show these. With the `tm_scale_*()` family of functions, users are free to create other scales. 
+Important to note is that there are many ways to scale data values to visual values. 
+In this example, data values are put into 5-year intervals, and a sequential discrete blue scale is used to show these. 
+With the `tm_scale_*()` family of functions, users are free to create other scales. 
 
 ```{r}
 tm_shape(World) +
-	tm_polygons("life_exp", fill.scale = tm_scale_continuous(values = "-carto.earth"), fill.legend = tm_legend("Life\nExpectancy"))
+	tm_polygons("life_exp", 
+				fill.scale = tm_scale_continuous(values = "-carto.earth"), 
+				fill.legend = tm_legend("Life\nExpectancy"))
 ```
 
-This map uses a continuous color scale with colors from CARTO. More on scales later.
+This map uses a continuous color scale with colors from CARTO.
+More on scales later.
 
 ## Transformation variables
 
@@ -130,11 +144,16 @@ tm_shape(World, crs = 8857) +
 ```
 
 We used two variables: `size` to deform the polygons using a continuous cartogram and `fill` to color the polygons.
-The former is an example of a *transformation variable*. In our example schematic dataset:
+The former is an example of a *transformation variable*.
+In our example dataset:
 
 ```{r, echo=FALSE}
-df = data.frame(geom = c("polygon1", "polygon2", "polygon3", "polygon4", "..."), x1 = c("491,775", "2,231,503", "34,859,364", "4,320,748", "..."), x_scaled = c("0.0007", "0.0033", "0.0554", "0.0067", "..."), geom_transformed = c("polygon1'", "polygon2'", "polygon3'", "polygon4'", "..."))
+df = data.frame(geom = c("polygon1", "polygon2", "polygon3", "polygon4", "..."), 
+				x1 = c("491,775", "2,231,503", "34,859,364", "4,320,748", "..."),
+				x_scaled = c("0.0007", "0.0033", "0.0554", "0.0067", "..."), 
+				geom_transformed = c("polygon1'", "polygon2'", "polygon3'", "polygon4'", "..."))
 print(df)
 ```
 
-The data variable `x1`, in the example `pop_est` (population estimation), is scaled to `x1_scaled` which is in this case a normalization using a continuous scale. Next, the geometries are distorted such that the areas are proportional to `x1_scaled` (as much as the cartogram algorithm is able to achieve).
+The data variable `x1`, in the example `pop_est` (population estimation), is scaled to `x1_scaled` which is, in this case, a normalization using a continuous scale. 
+Next, the geometries are distorted such that the areas are proportional to `x1_scaled` (as much as the cartogram algorithm is able to achieve).

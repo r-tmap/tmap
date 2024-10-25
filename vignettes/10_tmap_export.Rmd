@@ -47,35 +47,35 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
-With the tmap package, thematic maps can be generated with great flexibility.
-The syntax for creating plots is similar to that of `ggplot2`, but tailored to maps.
-This vignette is for those who want to get started with tmap within a couple of minutes.
+With the **tmap** package, thematic maps can be generated with great flexibility.
+The syntax for creating plots is similar to that of **ggplot2**, but tailored to maps.
+This vignette is for those who want to get started with **tmap** within a couple of minutes.
 
-For more context on R's geographic capabilities we recommend the online version of the book [Geocomputation with R](https://r.geocompx.org/). The [Making maps with R](https://r.geocompx.org/adv-map) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages. Other good resources are the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html).
-
+For more context on R's geographic capabilities we recommend the online version of the book [Geocomputation with R](https://r.geocompx.org/). 
+The [Making maps with R](https://r.geocompx.org/adv-map) chapter of the book provides many more context and abundant code examples of map making with **tmap** and other packages. 
+Other good resources are the vignettes of the [**sf** package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html).
 
 ### Hello World!
 
 A good place to start is to create a map of the world.
-After [installing](https://github.com/r-tmap/tmap#installation) tmap, the following lines of code should create the map shown below:
+After [installing](https://github.com/r-tmap/tmap#installation) **tmap**, the following lines of code should create the map shown below:
 
 ```{r}
 library(tmap)
-
 tm_shape(World) +
     tm_polygons("HPI")
 ```
 
-The object `World` is a spatial object of class `sf` from the [sf package](https://CRAN.R-project.org/package=sf); it is a `data.frame` with a special column that contains a geometry for each row, in this case polygons. 
-In order to plot it in tmap, you first need to specify it with `tm_shape()`.
-Layers can be added with the `+` operator, in this case `tm_polygons()`.
-There are many layer functions in tmap, which can easily be found in the documentation by their `tm_` prefix.
+The object `World` is a spatial object of class `sf` from the [**sf** package](https://CRAN.R-project.org/package=sf); it is a `data.frame` with a special column that contains a geometry for each row, in this case polygons. 
+In order to plot it in **tmap**, you first need to specify it with `tm_shape()`.
+Layers can be added with the `+` operator, in this case, `tm_polygons().`
+There are many layer functions in **tmap**, which can easily be found in the documentation by their `tm_` prefix.
 See also `?'tmap-element'`.
 
 ### Interactive maps
 
 Each map can be plotted as a static image or viewed interactively using `"plot"` and `"view"` modes, respectively.
-The mode can be set with the function `tmap_mode`, and toggling between the modes can be done with the 'switch' `ttm()` (which stands for toggle thematic map.
+The mode can be set with the function `tmap_mode`, and toggling between the modes can be done with the 'switch' `ttm()` (which stands for toggle thematic map).
 
 ```{r}
 tmap_mode("view")
