@@ -75,7 +75,6 @@ tm_shape(World) +
 	tm_polygons("HPI")
 ```
 
-
 ### Multiple facets, specified with multiple variables
 
 ```{r}
@@ -83,8 +82,6 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons(c("HPI", "income_grp"))
 ```
-
-
 
 ### Multiple facets, specified by a 'facet wrap'
 
@@ -104,19 +101,13 @@ tm_shape(World) +
 	tm_facets(by = "continent", free.coords = FALSE)
 ```
 
-
-
-
 ### Filter
-
-
 
 ```{r}
 # filter polygons (filtered out will get value.null)
 tm_shape(World, filter = World$pop_est > 100e6) +
 	tm_polygons(c("blue", "red"))
 ```
-
 
 ```{r}
 tm_shape(World, filter = World$pop_est > 100e6) +
@@ -128,9 +119,7 @@ tm_shape(World, filter = World$pop_est > 100e6) +
 	tm_polygons(c("HPI", "economy"))
 ```
 
-
 ### Drop units
-
 
 ```{r}
 # fixed aes, wrap
@@ -146,14 +135,12 @@ tm_shape(World) +
 	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
 ```
 
-
 ```{r}
 # multiple aesthetics, different frees
 tm_shape(World) +
 	tm_polygons("HPI", lty = "economy", fill.free = FALSE, lty.free = TRUE) +
 	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
 ```
-
 
 ```{r}
 # nothing to drop
@@ -162,8 +149,8 @@ tm_shape(World) +
 	tm_facets(free.coords = FALSE, drop.units = TRUE)
 ```
 
-
 ### Drop empty facets
+
 ```{r}
 # default drop empty (wrap) facets
 tm_shape(Africa) +
@@ -200,7 +187,6 @@ tm_shape(Africa) +
 	tm_facets_grid("income_grp", "well_being_class", drop.units = FALSE, drop.empty.facets = FALSE)
 ```
 
-
 ### Drop NA facets
 
 ```{r}
@@ -210,7 +196,6 @@ tm_shape(Africa) +
 	tm_facets(by = "footprint_class")
 ```
 
-
 ```{r}
 # drop NA facets 
 tm_shape(Africa) +
@@ -225,14 +210,12 @@ tm_shape(Africa) +
 	tm_facets(by = "footprint_class")
 ```
 
-
 ```{r}
 # drop NA facets 
 tm_shape(Africa) +
 	tm_polygons("pop_est_dens") +
 	tm_facets(by = "footprint_class", drop.NA.facets = TRUE)
 ```
-
 
 ```{r}
 # default keep NA facets (where by variable is NA)
@@ -241,17 +224,12 @@ tm_shape(Africa) +
 	tm_facets_grid("footprint_class", "HPI_class")
 ```
 
-
 ```{r}
 # drop NA facets 
 tm_shape(Africa) +
 	tm_polygons("pop_est_dens") +
 	tm_facets_grid("footprint_class", "HPI_class", drop.NA.facets = TRUE)
 ```
-
-
-
-
 
 ## Rasters
 
