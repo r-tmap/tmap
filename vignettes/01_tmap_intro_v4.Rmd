@@ -162,7 +162,7 @@ tm_shape(World_carto, crs = "+proj=eck4") +
               title = "Happy Planet Index")
 ```
 
-In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual visual variables from `tm_polygons()`:
+In **tmap v4**, there will be a direct function `tm_cartogram()` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual variables from `tm_polygons()`:
 
 ```{r, class.source='bg-success', message=FALSE}
 # tmap v4
@@ -368,7 +368,7 @@ tm_shape(World) +
 
 ### Combined legends
 
-Another new feature is possibility to combine legends directly, which was quite a hassle in **tmap v3**.
+Another new feature is the possibility to combine legends directly, which was quite a hassle in **tmap v3**.
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
@@ -485,13 +485,13 @@ When there is a low-level interface between **CesiumJS** and **R** (similar to t
 ## Backward compatibility
 
 In this early development stage, **tmap v3** code will not work with **tmap v4**.
-However, when **tmap v4** will be stable, it will be backwards compatible.
+However, when **tmap v4** will be stable, it will be backward compatible.
 Layer function arguments that are no longer used, such as `breaks` and `palette` will be deprecated, and internally redirected to the new scale functions.
 
 Furthermore, some of the options will have other options in **tmap v4**.
 For instance, legends will be placed outside of the maps by default, and there will be a small space between legend items as shown above.
 
-In order to keep the layout as close as possible to **tmap v3**, there will be a style which will set the options back to the settings used by default in **tmap v3**.
+In order to keep the layout as close as possible to **tmap v3**, there will be a style that set the options back to the settings used by default in **tmap v3**.
 This can be set with just one command: `tmap_style("tmap_v3")`
 
 ## Suggestions
