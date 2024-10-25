@@ -485,7 +485,7 @@ When there is a low-level interface between **CesiumJS** and **R** (similar to t
 ## Backward compatibility
 
 In this early development stage, **tmap v3** code will not work with **tmap v4**.
-However, when **tmap v4** will be stable, it will be backward compatible.
+However, when **tmap v4** is stable, it will be backward compatible.
 Layer function arguments that are no longer used, such as `breaks` and `palette` will be deprecated, and internally redirected to the new scale functions.
 
 Furthermore, some of the options will have other options in **tmap v4**.
