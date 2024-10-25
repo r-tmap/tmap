@@ -21,6 +21,7 @@
 #' @param mouse_coordinates.stack,mouse_coordinates.position,mouse_coordinates.show,panel.show,panel.labels,panel.label.size,panel.label.color,panel.label.fontface,panel.label.fontfamily,panel.label.bg.color,panel.label.height,panel.label.rot,qtm.scalebar,qtm.minimap,qtm.mouse.coordinates See [tmap_options()]
 #' @param earth.boundary,earth.boundary.color,earth.boundary.lwd,earth.datum,space.color,attr.color,max.categories,legend.hist.bg.color,legend.hist.bg.alpha,legend.hist.size,legend.hist.height,legend.hist.width,attr.outside,attr.outside.position,attr.outside.size,attr.position,attr.just,basemap.server,basemap.alpha,basemap.zoom,overlays,overlays.alpha,alpha,colorNA,symbol.size.fixed,dot.size.fixed,text.size.variable,bbox,check.and.fix,set.bounds,set.view,set.zoom.limits,name,basemap.show See [tmap_options()]
 #' @param title,main.title deprecated See [tm_title()]
+#' @param view.legend.position deprecated. Use `legend.position`from `tm_layout()` instead.
 #' @param ... used to catch other deprecated arguments
 #' @example ./examples/tm_layout.R
 #' @name tm_layout

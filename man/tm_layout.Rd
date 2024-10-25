@@ -296,6 +296,8 @@ tm_layout(
 \item{earth.boundary, earth.boundary.color, earth.boundary.lwd, earth.datum, space.color, attr.color, max.categories, legend.hist.bg.color, legend.hist.bg.alpha, legend.hist.size, legend.hist.height, legend.hist.width, attr.outside, attr.outside.position, attr.outside.size, attr.position, attr.just, basemap.server, basemap.alpha, basemap.zoom, overlays, overlays.alpha, alpha, colorNA, symbol.size.fixed, dot.size.fixed, text.size.variable, bbox, check.and.fix, set.bounds, set.view, set.zoom.limits, name, basemap.show}{See \code{\link[=tmap_options]{tmap_options()}}}
 
 \item{title, main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
+
+\item{view.legend.position}{deprecated. Use \code{legend.position}from \code{tm_layout()} instead.}
 }
 \description{
 Set of tmap options that are directly related to the layout.
