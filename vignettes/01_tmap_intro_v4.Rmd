@@ -344,26 +344,26 @@ tm_shape(World) +
 **tmap v3** contains many (often complicated) options for rather simple things.
 These options are set globally via `tmap_options()` or within a single plot with `tm_layout()`.
 
-In **tmap v4**, the directly related to the layout are accessible via `tm_layout()`.
+In **tmap v4**, the options directly related to the layout are accessible via `tm_layout()`.
 However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left()`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(World) +
-  tm_symbols(fill = "HPI",
-             size = "pop_est",
-             shape = "income_grp") +
-tm_layout(legend.outside.position = "left", legend.outside.size = 0.2)
+	tm_symbols(fill = "HPI",
+               size = "pop_est",
+               shape = "income_grp") +
+	tm_layout(legend.outside.position = "left", legend.outside.size = 0.2)
 ```
 
 ```{r fig.height = 6, fig.width=9, class.source='bg-success'}
 # tmap v4
 tm_shape(World) +
-  tm_symbols(fill = "HPI",
-             size = "pop_est",
-             shape = "income_grp",
-  		     size.scale = tm_scale(value.neutral = 0.5)) +
-tm_place_legends_left(0.2)
+	tm_symbols(fill = "HPI",
+	           size = "pop_est",
+	           shape = "income_grp",
+	  		   size.scale = tm_scale(value.neutral = 0.5)) +
+	tm_place_legends_left(0.2)
 ```
 
 ### Combined legends
@@ -402,24 +402,21 @@ tm_shape(metro) +
 The design of the legends is (and will further be) improved. 
 Most prominently, there is a `space` argument that determines the height of a legend item.
 More specifically, each legend item will be `1 + space` line-height. 
-This is also useful to make continuous legends better.
+This is also useful to make continuous legends look better.
 
 ## Facets
 
 In **tmap v4**, there are convenient wrappers `tm_facet_wrap()` and `tm_facet_grid()`, where the former wraps the facets, and the latter places the facets in a grid layout.
-
 Furthermore, each visual variable has a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
-
 In **tmap v3** this `free` argument could be set via `tm_facets()`, whereas in **tmap v4** this argument has been moved to the layer functions:
-
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
-tm_shape(World) +
+tm_shape(World, crs = "+proj=robin") +
     tm_borders() +
 tm_shape(World) +
     tm_polygons("life_exp") +
-tm_facets("continent", nrow = 1, free.scales.fill = FALSE, free.coords = FALSE)
+tm_facets("continent", nrow = 3, free.scales.fill = FALSE, free.coords = FALSE)
 ```
 
 ```{r, class.source='bg-success', fig.height=3}
@@ -431,10 +428,9 @@ tm_shape(World) +
 tm_facets_wrap("continent")
 ```
 
-
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
-tm_shape(World) +
+tm_shape(World, crs = "+proj=robin") +
     tm_borders() +
 tm_shape(World) +
     tm_polygons("life_exp") +
@@ -449,8 +445,7 @@ tm_shape(World) +
 tm_facets_stack("continent")
 ```
 
-
-New in **tmap v4** is that for facet grid, the `free` argument can be specified differently for rows and columns, as we will show in the next complex (sorry for that) example:
+New in **tmap v4** is that for facet grid, the `free` argument can be specified differently for rows and columns, as we will show in the next example:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
@@ -478,11 +473,7 @@ The scale for life expectancy is set to free for the columns.
 This means that the scale will be applied for each column separately, with a legend per column.
 The scale for GDP per capita is applied separately for each row.
 
-
-
-
-## Graphic Engines (modes)
-
+## Graphic engines (modes)
 
 Just like **tmap v3**, there will be a `"plot"` and a `"view"` mode.
 However, the framework used in **tmap v4** also facilitates developers to write plotting methods for other modes.
@@ -490,7 +481,6 @@ However, the framework used in **tmap v4** also facilitates developers to write 
 For instance, **CesiumJS** is a great JavaScript library for 3d globe visualizations.
 It would be awesome to include this in **R**.
 When there is a low-level interface between **CesiumJS** and **R** (similar to the R package **leaflet** being an interface between the JS library **leaflet** and **R**), it will be relatively easy for developers to add a new mode for these 3d visualizations in **tmap v4**.
-
 
 ## Backward compatibility
 
@@ -506,5 +496,6 @@ This can be set with just one command: `tmap_style("tmap_v3")`
 
 ## Suggestions
 
-Do you have any suggestions? Please let us know! Via https://github.com/r-tmap/tmap/issues.
+Do you have any suggestions? 
+Please let us know via https://github.com/r-tmap/tmap/issues!
 
