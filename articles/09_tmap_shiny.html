@@ -80,8 +80,10 @@
 <div class="section level2">
 <h2 id="introductiuon">Introductiuon<a class="anchor" aria-label="anchor" href="#introductiuon"></a>
 </h2>
-<p>Integration with <strong>shiny</strong> is straightforward. The functions <code><a href="../reference/renderTmap.html">tmapOutput()</a></code> and <code><a href="../reference/renderTmap.html">renderTmap()</a></code> are similar to <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">shiny::plotOutput()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html" class="external-link">shiny::renderPlot()</a></code> respectively.</p>
-<p>As an example, let’s create a shiny app where the user selects a variable for which a choropleth/categorical map is drawn. The choise set of variables is:</p>
+<p>Integration of <strong>tmap</strong> with <strong>shiny</strong> is straightforward.
+The functions <code><a href="../reference/renderTmap.html">tmapOutput()</a></code> and <code><a href="../reference/renderTmap.html">renderTmap()</a></code> are similar to <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">shiny::plotOutput()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html" class="external-link">shiny::renderPlot()</a></code>, respectively.</p>
+<p>As an example, let’s create a shiny app where the user selects a variable for which a choropleth/categorical map is drawn.
+The selected set of variables is:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">world_vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, <span class="st">"name"</span>, <span class="st">"sovereignt"</span>, <span class="st">"geometry"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "continent"    "area"         "pop_est"      "pop_est_dens" "economy"     </span></span>
@@ -90,7 +92,7 @@
 <div class="section level3">
 <h3 id="plot-mode">Plot mode<a class="anchor" aria-label="anchor" href="#plot-mode"></a>
 </h3>
-<p>We recommend to use <code>zindex</code> for each tmap layer (such as <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>) to make sure the position remains fixed.</p>
+<p>We recommend to use <code>zindex</code> for each tmap layer (such as <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>) to make sure their positions remain fixed.</p>
 <div class="figure">
 <span style="display:block;" id="fig:shinyplot"></span>
 <img src="../reference/figures/shiny_plot.png" alt="Shiny app with tmap in plot mode" width="700"><p class="caption">
@@ -116,7 +118,8 @@ Figure 1: Shiny app with tmap in plot mode
 <div class="section level3">
 <h3 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
 </h3>
-<p>For <strong>view</strong> mode, we can additionally make use of <code><a href="../reference/renderTmap.html">tmapProxy()</a></code>. This enables users to update the map without a complete re-render; the zoom window will not be reset.</p>
+<p>For the <strong>view</strong> mode, we can additionally make the use of <code><a href="../reference/renderTmap.html">tmapProxy()</a></code>.
+This enables users to update the map without a complete re-render; the zoom window also will not be reset.</p>
 <div class="figure">
 <span style="display:block;" id="fig:shinyview"></span>
 <img src="../reference/figures/shiny_view.png" alt="Shiny app with tmap in plot mode" width="700"><p class="caption">
@@ -144,7 +147,7 @@ Figure 2: Shiny app with tmap in view mode
 <span>                    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">var</span>, zindex <span class="op">=</span> <span class="fl">401</span><span class="op">)</span></span>
 <span>            <span class="op">}</span><span class="op">)</span></span>
 <span>        <span class="op">}</span><span class="op">)</span></span>
-<span>    <span class="op">}</span>,options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="op">}</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>

@@ -77,32 +77,33 @@
 
     
     
-<p>With the tmap package, thematic maps can be generated with great flexibility.
-The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps.
-This vignette is for those who want to get started with tmap within a couple of minutes.</p>
-<p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a>. The <a href="https://r.geocompx.org/adv-map" class="external-link">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages. Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><code>sf</code> package</a>.</p>
+<p>With the <strong>tmap</strong> package, thematic maps can be generated with great flexibility.
+The syntax for creating plots is similar to that of <strong>ggplot2</strong>, but tailored to maps.
+This vignette is for those who want to get started with <strong>tmap</strong> within a couple of minutes.</p>
+<p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a>.
+The <a href="https://r.geocompx.org/adv-map" class="external-link">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <strong>tmap</strong> and other packages.
+Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><strong>sf</strong> package</a>.</p>
 <div class="section level3">
 <h3 id="hello-world">Hello World!<a class="anchor" aria-label="anchor" href="#hello-world"></a>
 </h3>
 <p>A good place to start is to create a map of the world.
-After <a href="https://github.com/r-tmap/tmap#installation" class="external-link">installing</a> tmap, the following lines of code should create the map shown below:</p>
+After <a href="https://github.com/r-tmap/tmap#installation" class="external-link">installing</a> <strong>tmap</strong>, the following lines of code should create the map shown below:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="10_tmap_export_files/figure-html/unnamed-chunk-3-1.png"><!-- --></p>
-<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons.
-In order to plot it in tmap, you first need to specify it with <code><a href="../reference/tm_shape.html">tm_shape()</a></code>.
-Layers can be added with the <code>+</code> operator, in this case <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code>.
-There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix.
+<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf" class="external-link"><strong>sf</strong> package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons.
+In order to plot it in <strong>tmap</strong>, you first need to specify it with <code><a href="../reference/tm_shape.html">tm_shape()</a></code>.
+Layers can be added with the <code>+</code> operator, in this case, <code>tm_polygons().</code>
+There are many layer functions in <strong>tmap</strong>, which can easily be found in the documentation by their <code>tm_</code> prefix.
 See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="interactive-maps">Interactive maps<a class="anchor" aria-label="anchor" href="#interactive-maps"></a>
 </h3>
 <p>Each map can be plotted as a static image or viewed interactively using <code>"plot"</code> and <code>"view"</code> modes, respectively.
-The mode can be set with the function <code>tmap_mode</code>, and toggling between the modes can be done with the ‘switch’ <code><a href="../reference/tmap_mode.html">ttm()</a></code> (which stands for toggle thematic map.</p>
+The mode can be set with the function <code>tmap_mode</code>, and toggling between the modes can be done with the ‘switch’ <code><a href="../reference/tmap_mode.html">ttm()</a></code> (which stands for toggle thematic map).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"view"</span>.</span></span>

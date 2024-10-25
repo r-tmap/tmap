@@ -77,7 +77,9 @@
 
     
     
-<p>A <strong>visual variable</strong> describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in <strong>ggplot2</strong> these are called aesthetics). A visual variable can be specified using a constant value (e.g. <code>fill = "blue"</code>) or be <strong>data-driven</strong> (more on this later). If it can <em>only</em> be specified with a constant value, it is called a <strong>visual constant</strong>.</p>
+<p>A <strong>visual variable</strong> describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in <strong>ggplot2</strong> these are called aesthetics).
+A visual variable can be specified using a constant value (e.g. <code>fill = "blue"</code>) or be <strong>data-driven</strong> (more on this later).
+If it can <em>only</em> be specified with a constant value, it is called a <strong>visual constant</strong>.</p>
 <p>The following table shows which visual variables are used in standard map layers.</p>
 <table class="table">
 <colgroup>
@@ -99,7 +101,7 @@
 <tr class="even">
 <td><code><a href="../reference/tm_polygons.html">tm_polygons()</a></code></td>
 <td>
-<code>fill</code> (fill color), <code>col</code> (border color), <code>lwd</code> (border line width) <code>lty</code> (border line type), <code>fill_alpha</code> (fill transparency), <code>col_alpha</code> (border color transparency)</td>
+<code>fill</code> (fill color), <code>col</code> (border color), <code>lwd</code> (border line width), <code>lty</code> (border line type), <code>fill_alpha</code> (fill transparency), <code>col_alpha</code> (border color transparency)</td>
 <td>
 <code>linejoin</code> (line join) and <code>lineend</code> (line end)</td>
 </tr>
@@ -113,7 +115,7 @@
 <tr class="even">
 <td><code><a href="../reference/tm_lines.html">tm_lines()</a></code></td>
 <td>
-<code>col</code> (color), <code>lwd</code> (line width) <code>lty</code> (line type), <code>alpha</code> transparency</td>
+<code>col</code> (color), <code>lwd</code> (line width), <code>lty</code> (line type), <code>alpha</code> transparency</td>
 <td>
 <code>linejoin</code> (line join) and <code>lineend</code> (line end)</td>
 </tr>
@@ -132,7 +134,8 @@
 </tr>
 </tbody>
 </table>
-<p>New in <strong>tmap 4.0</strong> is that users can write their own custom map layer functions; more on this in another vignette. Important for now is that map layers and their visual variables can be extended if needed.</p>
+<p>New in <strong>tmap 4.0</strong> is that users can write their own custom map layer functions; more on this in another vignette.
+Important for now is that map layers and their visual variables can be extended if needed.</p>
 <div class="section level3">
 <h3 id="constant-visual-values">Constant visual values<a class="anchor" aria-label="anchor" href="#constant-visual-values"></a>
 </h3>
@@ -141,8 +144,12 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"gold"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="03_tmap_vv_files/figure-html/unnamed-chunk-3-1.png"><!-- --></p>
-<p>All the visual variables mentioned in the previous table are used, but with constant values. For instance, polygon borders are drawn with width <code>lwd</code> and colored with <code>col</code>. Each of these visual variables has a default value, in case of the border width and color respectively <code>1</code> and <code>"black"</code>. The only visual variable for which we have specified a different value is <code>fill</code>, which we have set to <code>"gold"</code>.</p>
-<p>For those who are completely new to <strong>tmap</strong>: the function <code><a href="../reference/tm_shape.html">tm_shape()</a></code> specifies the spatial data object, which can be any spatial data object from the packages <code>sf</code>, <code>stars</code>, <code>terra</code>, <code>sp</code>, and <code>raster</code>. The subsequent map layer functions (stacked with the <code>+</code> operator) specify how this spatial data is visualized.</p>
+<p>All the visual variables mentioned in the previous table are used, but with constant values.
+For instance, polygon borders are drawn with width <code>lwd</code> and colored with <code>col</code>.
+Each of these visual variables has a default value, in case of the border width and color respectively <code>1</code> and <code>"black"</code>.
+The only visual variable for which we have specified a different value is <code>fill</code>, which we have set to <code>"gold"</code>.</p>
+<p>For those who are completely new to <strong>tmap</strong>: the function <code><a href="../reference/tm_shape.html">tm_shape()</a></code> specifies the spatial data object, which can be any spatial data object from the packages <code>sf</code>, <code>stars</code>, <code>terra</code>, <code>sp</code>, and <code>raster</code>.
+The subsequent map layer functions (stacked with the <code>+</code> operator) specify how this spatial data is visualized.</p>
 <p>In the next example we have three layers: a basemap from OpenTopoMap, country polygon boundaries, and dots for metropolitan areas:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"maptiles"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -169,14 +176,21 @@
 <span><span class="co">#&gt; 3 polygon3  52 blue2</span></span>
 <span><span class="co">#&gt; 4 polygon4  73 blue7</span></span>
 <span><span class="co">#&gt; 5      ... ...   ...</span></span></code></pre>
-<p>The first column contains spatial geometries (in this case polygons, but they can also be points, lines, and raster tiles). The second column is the data variable that we would like to show. The third column contains the visual values, in this case colors.</p>
-<p>Important to note is that there are many ways to scale data values to visual values. In this example data values are put into 5 year intervals and a sequential discrete blue scale is used to show these. With the <code>tm_scale_*()</code> family of functions, users are free to create other scales.</p>
+<p>The first column contains spatial geometries (in this case polygons, but they can also be points, lines, and raster tiles).
+The second column is the data variable that we would like to show. T
+The third column contains the visual values, in this case, colors.</p>
+<p>Important to note is that there are many ways to scale data values to visual values.
+In this example, data values are put into 5-year intervals, and a sequential discrete blue scale is used to show these.
+With the <code>tm_scale_*()</code> family of functions, users are free to create other scales.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-carto.earth"</span><span class="op">)</span>, fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Life\nExpectancy"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, </span>
+<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-carto.earth"</span><span class="op">)</span>, </span>
+<span>                fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Life\nExpectancy"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="03_tmap_vv_files/figure-html/unnamed-chunk-7-1.png"><!-- --></p>
-<p>This map uses a continuous color scale with colors from CARTO. More on scales later.</p>
+<p>This map uses a continuous color scale with colors from CARTO.
+More on scales later.</p>
 </div>
 <div class="section level2">
 <h2 id="transformation-variables">Transformation variables<a class="anchor" aria-label="anchor" href="#transformation-variables"></a>
@@ -191,14 +205,16 @@
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
 <p><img src="03_tmap_vv_files/figure-html/unnamed-chunk-8-1.png"><!-- --></p>
 <p>We used two variables: <code>size</code> to deform the polygons using a continuous cartogram and <code>fill</code> to color the polygons.
-The former is an example of a <em>transformation variable</em>. In our example schematic dataset:</p>
+The former is an example of a <em>transformation variable</em>.
+In our example dataset:</p>
 <pre><code><span><span class="co">#&gt;       geom         x1 x_scaled geom_transformed</span></span>
 <span><span class="co">#&gt; 1 polygon1    491,775   0.0007        polygon1'</span></span>
 <span><span class="co">#&gt; 2 polygon2  2,231,503   0.0033        polygon2'</span></span>
 <span><span class="co">#&gt; 3 polygon3 34,859,364   0.0554        polygon3'</span></span>
 <span><span class="co">#&gt; 4 polygon4  4,320,748   0.0067        polygon4'</span></span>
 <span><span class="co">#&gt; 5      ...        ...      ...              ...</span></span></code></pre>
-<p>The data variable <code>x1</code>, in the example <code>pop_est</code> (population estimation), is scaled to <code>x1_scaled</code> which is in this case a normalization using a continuous scale. Next, the geometries are distorted such that the areas are proportional to <code>x1_scaled</code> (as much as the cartogram algorithm is able to achieve).</p>
+<p>The data variable <code>x1</code>, in the example <code>pop_est</code> (population estimation), is scaled to <code>x1_scaled</code> which is, in this case, a normalization using a continuous scale.
+Next, the geometries are distorted such that the areas are proportional to <code>x1_scaled</code> (as much as the cartogram algorithm is able to achieve).</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
