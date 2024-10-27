@@ -19,7 +19,8 @@ tmapMode = function(id, name, ...) {
 	list(
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid",
-								 use.gradient = FALSE),
+								 use.gradient = FALSE,
+								 crs = "auto"),
 					 view = list(name = "Leaflet",
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),

@@ -219,6 +219,8 @@ make_by_vars = function(dt, tmf, smeta) {
 
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+	if (identical(crs, "auto")) crs = auto_crs(shp)
+
 	dev = getOption("tmap.devel.mode")
 
 	if (dev) cat("-- stars object:", shp_name, "--\n")
@@ -335,6 +337,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+	if (identical(crs, "auto")) crs = auto_crs(shp)
+
 	reproj = (!is.null(crs) && sf::st_crs(shp) != crs)
 	if (reproj) shp = sf::st_transform(shp, crs = crs)
 
