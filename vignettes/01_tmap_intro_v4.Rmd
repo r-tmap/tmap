@@ -322,7 +322,9 @@ Legends are currently placed outside the map by default in **tmap v4**.
 Why? 
 Simply because there is often more space than inside the map.
 
-Furthermore, it is possible to place legends on a few separate locations across the map:
+You might also have noticed that the position of the legends in your maps may be different to the examples here. This is because the placement of the legend depends on the aspect ratio of the device and the map. **tmap** chooses the position that maximizes the map size. For example, if the map can be bigger with this arrangement, it will place the legend underneath rather than on the right hand side.
+
+Additionally, it is npw possible to place legends in different positions on the map:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
