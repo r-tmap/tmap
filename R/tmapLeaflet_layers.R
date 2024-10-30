@@ -223,21 +223,19 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		sid = which(is_num)
 		nid = which(!is_num)
 
-		gp2$shape[sid] = "circle" # as dummy
+		gp2$shape[sid] = paste0("icon", seq_along(sid))
 
 		# faster than symbols2 = do.call(makeSymbolIcons2, gp2)
-		symbols = local({
-			gp2df = as.data.table(gp2)
-			gp2dfU = unique(gp2df)
+		gp2df = as.data.table(gp2)
+		gp2dfU = unique(gp2df)
 
-			symb = do.call(makeSymbolIcons2, as.list(gp2dfU))
+		symbols = do.call(makeSymbolIcons2, as.list(gp2dfU))
 
-			gp2dfU[, id:=1L:.N]
-			gp2join = gp2df[gp2dfU, on=names(gp2df)]
-			ids = gp2join$id
+		gp2dfU[, id:=1L:.N]
+		gp2join = gp2df[gp2dfU, on=names(gp2df)]
+		ids = gp2join$id
 
-			lapply(symb, function(s) s[ids])
-		})
+		symbols = lapply(symb, function(s) s[ids])
 
 		symbols$iconWidth = rep(NA, length(symbols$iconUrl))
 		symbols$iconHeight = rep(NA, length(symbols$iconUrl))

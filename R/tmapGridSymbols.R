@@ -88,11 +88,18 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 													 width=unit(size, "lines"),
 													 height=unit(size, "lines")))
 				} else {
+					gpi = structure(lapply(gp, function(x) {
+						if (length(x) == 1L) {
+							x
+						} else {
+							x[i]
+						}
+					}), class = "gpar")
 					pointsGrob(x=grid::unit(coords[i,1] + justx * gp$size[i], "native"),
 							   y=grid::unit(coords[i,2] + justx * gp$size[i], "native"),
 							   size=unit(gp$size[i], "lines"),
 							   pch=shi,
-							   gp=gp)
+							   gp=gpi)
 				}
 			})
 			grb = gTree(children=do.call(gList, grobs), name=paste0("symbols_", id))
