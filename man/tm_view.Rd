@@ -17,7 +17,7 @@ tm_view(
 )
 }
 \arguments{
-\item{use.WebGL}{use webGL layers with leafgl}
+\item{use.WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
 
 \item{control.position}{position of the control attribute}
 

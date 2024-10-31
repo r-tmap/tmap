@@ -625,7 +625,7 @@ tmapValuesSubmit_lty = function(x, args) x
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
-	x = tmapVV(x)
+	if (!inherits(x, c("tmapStandard", "tmapSpecial"))) x = tmapVV(x)
 	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()
 		fun = paste0("submit_symbols_", gs)
@@ -643,12 +643,9 @@ tmapValuesSubmit_shape = function(x, args) {
 				just.override = TRUE
 			}
 		})
-
-
-
 		do.call(fun, args = list(x, args))
 	} else {
-		x
+		unlist(x)
 	}
 }
 
