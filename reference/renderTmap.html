@@ -122,10 +122,10 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://shiny.posit.co/" class="external-link">"shiny"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">world_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, <span class="st">"name"</span>, <span class="st">"sovereignt"</span>, <span class="st">"geometry"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
@@ -140,7 +140,7 @@
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
@@ -151,14 +151,14 @@
 <span class="r-in"><span>    <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>      <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu">renderTmap</span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, id <span class="op">=</span> <span class="st">"iso_a3"</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>          <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">world_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, zindex <span class="op">=</span> <span class="fl">401</span><span class="op">)</span></span></span>
+<span class="r-in"><span>          <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">world_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, zindex <span class="op">=</span> <span class="fl">401</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html" class="external-link">observe</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="va">var</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">var</span></span></span>
 <span class="r-in"><span>        <span class="fu">tmapProxy</span><span class="op">(</span><span class="st">"map"</span>, <span class="va">session</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>          <span class="fu">tm_remove_layer</span><span class="op">(</span><span class="fl">401</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, id <span class="op">=</span> <span class="st">"iso_a3"</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>            <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">var</span>, zindex <span class="op">=</span> <span class="fl">401</span><span class="op">)</span></span></span>
+<span class="r-in"><span>            <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">var</span>, zindex <span class="op">=</span> <span class="fl">401</span><span class="op">)</span></span></span>
 <span class="r-in"><span>        <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span>,options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
