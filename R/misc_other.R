@@ -5,9 +5,9 @@ islistof = function(x, class) {
 select_sf = function(shpTM, dt) {
 	shp = shpTM$shp
 	stid = shpTM$tmapID
-	
+
 	dtid = dt$tmapID__
-	
+
 	tid = intersect(stid, dtid)
 
 	d = data.table(sord = seq_along(tid), ord = dt$ord__[match(tid, dtid)], tid = tid)
@@ -17,9 +17,9 @@ select_sf = function(shpTM, dt) {
 		setkeyv(d, cols = "sord")
 	}
 	sid = match(d$tid, stid)
-	
+
 	shpSel = shp[sid] #sf::st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
-	
+
 	# assign prop_ vectors to data dt (to be used in plotting) e.g. prop_angle is determined in tmapTransCentroid when along.lines = TRUE
 	prop_vars = names(shpTM)[substr(names(shpTM), 1, 5) == "prop_"]
 	if (length(prop_vars)) {
@@ -28,14 +28,14 @@ select_sf = function(shpTM, dt) {
 			dt[[pname]] = shpTM[[p]][sid]
 		}
 	}
-	
+
 	dt = dt[match(d$tid, dtid), ]
 	list(shp = shpSel, dt = dt)
 }
 
 get_nby = function(fl) {
 	vapply(fl, function(f) {
-		if (is.integer(f)) f else length(f)	
+		if (is.integer(f)) f else length(f)
 	}, integer(1))
 }
 
@@ -58,24 +58,24 @@ get_i = function(ir, ic, ip, nby) {
 completeDT = function(DT, cols, defs = NULL){
 	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
 	res = DT[mDT, on=names(mDT)]
-	if (length(defs)) 
+	if (length(defs))
 		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
 	res[]
-} 
+}
 
 completeDT2 = function(DT, cols, defs = NULL){
 	mDT = do.call(CJ, cols)
 	res = DT[mDT, on=names(mDT)]
-	if (length(defs)) 
+	if (length(defs))
 		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
 	res[]
-} 
+}
 
 cont_breaks = function(breaks, n=101) {
 	x = round(seq(1, n, length.out=length(breaks)))
-	
+
 	unlist(lapply(1L:(length(breaks)-1L), function(i) {
-		y = seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
+		y = seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)
 		if (i!=1) y[-1] else y
 	}), use.names = FALSE)
 }
@@ -83,14 +83,14 @@ cont_breaks = function(breaks, n=101) {
 prettyCount = function(x, n, ...) {
 	x = na.omit(x)
 	if (!length(x)) return(x)
-	
+
 	if (!is.integer(x)) x = as.integer(x)
-	
+
 	mn = min(x)
 	mx = max(x)
-	
+
 	any0 = any(x==0)
-	
+
 	if (mn < 0) {
 		n = floor(n / 2)
 		pneg = -rev(prettyCount(-x[x<0], n = n, ...)) + 1L
@@ -100,21 +100,21 @@ prettyCount = function(x, n, ...) {
 	} else {
 		pneg = integer()
 	}
-	
+
 	if (any0) x = x[x!=0L]
-	
+
 	p = pretty(x - 1L, n = n, ...) + 1L
-	
+
 	p = p[(p %% 1) == 0]
 	p = p[p!=0L]
-	
+
 	if (length(x) < 2) {
 		if (any0) return(c(0L, p)) else return(p)
 	}
-	
+
 	step = p[2] - p[1]
 	if (p[length(p)] == mx) p = c(p, mx+step)
-	
+
 	if (any0) {
 		c(pneg, 0L, p)
 	} else {
@@ -147,9 +147,9 @@ get_asp_ratio = function (x, width = 700, height = 700, res = 100)  {
 	} else {
 		bbx = sf::st_bbox(x)
 		crs = sf::st_crs(x)
-		
+
 		ll = sf::st_is_longlat(crs)
-		
+
 		xlim = bbx[c(1, 3)]
 		ylim = bbx[c(2, 4)]
 		if (diff(xlim) == 0 || diff(ylim) == 0) {
@@ -173,39 +173,45 @@ leaflet2crs = function(x) {
 	if (!is.na(epsg)) {
 		sf::st_crs(epsg)
 	} else if (!is.null(x$proj4def)) {
-		sf::st_crs(x$proj4def)	
+		sf::st_crs(x$proj4def)
 	} else {
 		stop("Unable to extract crs from leafletCRS object")
 	}
 }
 
-leafletSimple  = structure(list(crsClass = "L.CRS.Simple", code = NULL, proj4def = NULL, 
+leafletSimple  = structure(list(crsClass = "L.CRS.Simple", code = NULL, proj4def = NULL,
 								projectedBounds = NULL, options = structure(list(), .Names = character(0))), class = "leaflet_crs")
 
 crs2leaflet = function(x) {
 	epsg = get_epsg(x)
-	if (epsg %in% c(3857, 4326, 3395)) {
-		structure(list(crsClass = paste0("L.CRS.EPSG", epsg), code = NULL, proj4def = NULL, 
+	if (!is.na(epsg) && (epsg %in% c(3857, 4326, 3395))) {
+		structure(list(crsClass = paste0("L.CRS.EPSG", epsg), code = NULL, proj4def = NULL,
 					   projectedBounds = NULL, options = structure(list(), .Names = character(0))), class = "leaflet_crs")
 	} else {
-		stop("Unable to extract leaflet crs from sf crs object")
+		leafletSimple
+		#stop("Unable to extract leaflet crs from sf crs object")
 	}
 }
 
 get_epsg = function (x) {
 	if (is.numeric(x)) {
 		x
-	} else if (inherits(x, "crs")) {
-		# from sf
-		if (is.na(x)) 
-			NA_integer_
-		else if (grepl("^EPSG:", x[["input"]])) 
-			as.integer(gsub("^EPSG:(\\d+)\\b.*$", "\\1", x[["input"]]))
-		else crs_parameters(x, with_units = FALSE)[["epsg"]]
 	} else if (inherits(x, "leaflet_crs")) {
 		if (grepl("EPSG", x$crsClass, fixed = TRUE)) {
 			substr(x$crsClass, 11, 14) # one of L.CRS.EPSG3857, L.CRS.EPSG4326, L.CRS.EPSG3395
 		} else {
+			NA_integer_
+		}
+	} else {
+		x = sf::st_crs(x)
+		# from sf
+		if (is.na(x))
+			NA_integer_
+		else if (grepl("^EPSG:", x[["input"]]))
+			as.integer(gsub("^EPSG:(\\d+)\\b.*$", "\\1", x[["input"]]))
+		else {
+			# not exported by sf:
+			# crs_parameters(x, with_units = FALSE)[["epsg"]]
 			NA_integer_
 		}
 	}
@@ -242,27 +248,27 @@ get_midpoint = function (coords) {
 	end = coords[end_index, ]
 	dist_remaining = dist_mid - dist_cum[start_index]
 	start + (end - start) * (dist_remaining/dist[start_index])
-	
+
 }
 
 # copied from tmap3, may need updating
 process_just = function(just, interactive) {
 	show.messages = get("tmapOptions", envir = .TMAP)$show.messages
 	show.warnings = get("tmapOptions", envir = .TMAP)$show.warnings
-	
+
 	n = length(just)
 	isnum = is_num_string(just)
-	
+
 	if (!all(isnum | (just %in% c("left", "right", "top", "bottom", "center", "centre"))) && show.warnings) {
 		warning("wrong specification of argument just", call. = FALSE)
 	}
-	
+
 	just[just == "centre"] = "center"
-	
+
 	if (interactive) {
 		just = just[1]
-		if (n > 1 && show.messages) message("In interactive mode, the just argument should be one element")	
-		
+		if (n > 1 && show.messages) message("In interactive mode, the just argument should be one element")
+
 		if (isnum[1]) {
 			justnum = as.numeric(just)
 			just = ifelse(justnum < .25, "left",
@@ -280,7 +286,7 @@ process_just = function(just, interactive) {
 				isnum = c(isnum, FALSE)
 			}
 		}
-		
+
 		x = ifelse(isnum[1], as.numeric(just[1]),
 					ifelse(just[1] == "left", 0,
 						   ifelse(just[1] == "right", 1,
@@ -289,7 +295,7 @@ process_just = function(just, interactive) {
 			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
 			x = 0.5
 		}
-		
+
 		y = ifelse(isnum[2], as.numeric(just[2]),
 				   ifelse(just[2] == "bottom", 0,
 						  ifelse(just[2] == "top", 1,
@@ -328,14 +334,14 @@ process_just = function(just, interactive) {
 	} else if (inherits(g, "polygon")) {
 		xs = split(x, g$id)
 		ys = split(y, g$id)
-		
+
 		polys = mapply(function(xi, yi) {
 			co = cbind(xi, yi)
 			sf::st_polygon(list(rbind(co, co[1,])))
 		}, xs, ys, SIMPLIFY = FALSE)
 		sf::st_union(sf::st_sfc(polys))
 	} # else return(NULL)
-	
+
 }
 
 polylineGrob2sfLines <- function(gL) {
@@ -345,7 +351,7 @@ polylineGrob2sfLines <- function(gL) {
 		ids = gL$id
 	}
 	coords = mapply(cbind, split(as.numeric(gL$x), ids), split(as.numeric(gL$y), ids), SIMPLIFY = FALSE)
-	
+
 	sf::st_sf(geometry = sf::st_sfc(sf::st_multilinestring(coords)))
 }
 
@@ -368,22 +374,22 @@ native_to_npc_to_native <- function(x, scale) {
 	####################################
 	### borrowed from pointLabel2
 	####################################
-	
+
 
 	asp = tmaptools::get_asp_ratio(bbx)# * 1.25
-	
+
 	#xyAspect <- diff(boundary[c(1,2)]) / diff(boundary[c(3,4)])
-	
+
 	toUnityCoords <- function(xy) {
 		if (asp > 1) {
-			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]) * asp, 
-				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2]))	
+			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]) * asp,
+				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2]))
 		} else {
-			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]), 
-				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2])/asp)	
+			list(x = (xy$x - bbx[1])/(bbx[3] - bbx[1]),
+				 y = (xy$y - bbx[2])/(bbx[4] - bbx[2])/asp)
 		}
-		
-		
+
+
 	}
 	toUserCoords <- function(xy) {
 		if (asp > 1) {
@@ -393,13 +399,13 @@ native_to_npc_to_native <- function(x, scale) {
 			list(x = bbx[1] + xy$x * (bbx[3] - bbx[1]),
 				 y = bbx[2] + xy$y * asp * (bbx[4] - bbx[2]))
 		}
-		
+
 	}
 	xy = grDevices::xy.coords(x, y, recycle = TRUE)
 	z  = toUnityCoords(xy)
 	x2 = z$x
 	y2 = z$y
-	
+
 	# CHANGED: width and height are specified by user
 	if (asp > 1) {
 		w2 <- ((w) / (bbx[3] - bbx[1])) * asp
@@ -408,35 +414,35 @@ native_to_npc_to_native <- function(x, scale) {
 		w2 <- ((w) / (bbx[3] - bbx[1]))
 		h2 <- ((h) / (bbx[4] - bbx[2])) / asp
 	}
-	
-	
+
+
 	####################################
 	####################################
 	####################################
-	
+
 
 	xs = c(x2 - w2/2, x2 + w2 / 2, x2 + w2 / 2, x2 - w2 / 2, x2 - w2/2)
 	ys = c(y2 - h2/2, y2 - h2 / 2, y2 + h2 / 2, y2 + h2 / 2, y2 - h2/2)
-	
+
 	a <- atan2(h2, w2)
 	#as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
 	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
-	
+
 	as2 <- as + rep(angles * pi / 180, each=4)
-	
+
 	dst <- rep(sqrt((w2/2)^2+(h2/2)^2), each=4)
-	
+
 	xs2 <- rep(x2, each=4) + cos(as2) * dst
 	ys2 <- rep(y2, each=4) + sin(as2) * dst
-	
+
 	id <- rep(1:length(x), each=4)
-	
+
 	#w2 <- w + (h-w) * abs(cos(angles*pi/180))
 	#h2 <- h + (w-h) * abs(sin(angles*pi/180))
-	
+
 	z2 <- grDevices::xy.coords(xs2, ys2, recycle = TRUE)
 	xy2 <- toUserCoords(z2)
-	
+
 	list(poly=polygonGrob(unit(xy2$x, "native"), grid::unit(xy2$y, "native"), id=id, gp=rg$gp))
 	#list(poly=rectGrob(unit(x, "native"), unit(y, "native"), width = unit(w, "native"), height=unit(h, "native"), gp = rg$gp))
 }
@@ -444,7 +450,7 @@ native_to_npc_to_native <- function(x, scale) {
 .get_direction_angle <- function(co) {
 	p1 <- co[1,]
 	p2 <- co[nrow(co),]
-	
+
 	a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
 	if (a < 0) a <- a + 360
 	a
@@ -461,7 +467,7 @@ native_to_npc_to_native <- function(x, scale) {
 	}
 	tgx <- convertX(tg$x, "native", valueOnly = TRUE)
 	tgy <- convertY(tg$y, "native", valueOnly = TRUE)
-	
+
 	if (inherits(tg, "polygon")) {
 		sel4 <- rep(sel, each=4)
 		tg$x <- unit(tgx + rep(shiftX, each=4), "native")[sel4]

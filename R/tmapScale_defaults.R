@@ -33,7 +33,7 @@ tmapValuesCheck_shape = function(x) {
 	 	if (isSymbol(x)) {
 	 		TRUE
 	 	} else {
-	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)))
+	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)) | vapply(x, is.numeric, FUN.VALUE = logical(1)))
 	 	}
 	} else FALSE
 }
@@ -136,7 +136,7 @@ tmapValuesCheck_fontface = function(x) {
 tmapValuesIsDiv_fill = function(x) {
 	m = getPalMeta(x[1])
 	ispal = !is.null(m)
-	
+
 	if (ispal) {
 		m$type == "div"
 	} else {
@@ -255,7 +255,7 @@ tmapValuesIsDiv_fontface = function(x) {
 #' @rdname tmap_internal
 tmapValuesRange_fill = function(x, n, isdiv) {
 	m = getPalMeta(x[1])
-	
+
 	if (!is.null(m)) {
 		NA # in c4a palette definition
 	} else c(0, 1)
@@ -378,36 +378,36 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		# cols4all can also take "div", but does not take into account tmap style
 		x = getAesOption("values.var", o, aes = aes, layer = NA, cls = x[1])
 	}
-	
-	m = if (length(x) > 1) NULL else getPalMeta(x[1])	
-	
+
+	m = if (length(x) > 1) NULL else getPalMeta(x[1])
+
 
 	scale_ids = function(ids, n) {
-		1 + ((ids - 1) / (n - 1)) * 100	
-	} 
-	
+		1 + ((ids - 1) / (n - 1)) * 100
+	}
+
 	map_ids = function(i, s, n) {
 		di = i[2] - i[1]
 		seq(i[1] + di * s[1], i[1] + di * s[2], length.out = n)
 	}
-	
-	
+
+
 	if (isdiv) {
 		cat0 = (are_breaks != any(dvalues==midpoint))
-		
+
 		nneg = max(0L, sum(dvalues < midpoint) - cat0) # max 0L needed when midpoint is outside range (and cat0 is true)
 		npos = max(0L, sum(dvalues > midpoint) - cat0)
-		
+
 		nmax = max(nneg, npos)
-		
+
 		ntot = 2L * nmax + cat0
-		
+
 		ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
 	} else {
 		ntot = n
 		ids = 1L:n
 	}
-	
+
 	if (!is.null(m)) {
 		if (x[1] != tolower(x[1])) message_c4a(x[1], info = m)
 		vvalues = getPal(x, n = ntot, range = range)[ids]
@@ -417,14 +417,14 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		if (range[1] != 0 || range[2] != 1) {
 			ids_scaled = scale_ids(ids, ntot)
 			if (isdiv) {
-				ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
-																1-rev(range), 
-																n = nneg + cat0), 
+				ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))],
+																1-rev(range),
+																n = nneg + cat0),
 														nneg) else NULL},
 									{if (cat0) ids_scaled[1L + nneg] else NULL},
-									if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
-															   range, 
-															   n = npos + cat0), 
+									if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)],
+															   range,
+															   n = npos + cat0),
 													   npos) else NULL)
 			} else {
 				ids_after_range = map_ids(ids_scaled[c(1L, ntot)], range, ntot)
@@ -434,8 +434,8 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 			vvalues = grDevices::colorRampPalette(x)(ntot)[ids]
 		}
 	}
-	
-	
+
+
 	if (isdiv) {
 		if (cat0) {
 			value.neutral = vvalues[1L + nneg]
@@ -449,7 +449,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	value.neutral = do.call(process_color, c(list(col = value.neutral), o$pc))
 	value.na = do.call(process_color, c(list(col = value.na), o$pc))
 	list(vvalues = vvalues, value.neutral = value.neutral, value.na = value.na)
-	
+
 }
 
 #' @export
@@ -494,14 +494,14 @@ tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		if (is.numeric(x)) {
 			x = tm_seq(x[1], x[length(x)], power = "lin")
 		}
-		
+
 		if (range[1] !=0 || range[2] != 1) {
 			p = if (is.numeric(x$power)) x$power else switch(x$power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
 			x$from = range[1] ^ (1/p)
 			x$to = range[2] ^ (1/p)
 		}
 		tmapSeq(x, n)
-		
+
 	}
 	value.neutral = vvalues[round((n+1)/2)]
 	list(vvalues = vvalues * scale, value.neutral = value.neutral * scale, value.na = value.na * scale)
@@ -588,7 +588,7 @@ tmapValuesSubmit_col = function(x, args) x
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesSubmit_fill = function(x, args) x	
+tmapValuesSubmit_fill = function(x, args) x
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
@@ -625,11 +625,12 @@ tmapValuesSubmit_lty = function(x, args) x
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
+	if (!inherits(x, c("tmapStandard", "tmapSpecial"))) x = tmapVV(x)
 	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()
 		fun = paste0("submit_symbols_", gs)
-		
-		# symbols just specification: 
+
+		# symbols just specification:
 		# copy-pasted from v3, but not the best place
 		# improvement of just needed (-> trans?)
 		args = within(args, {
@@ -642,12 +643,9 @@ tmapValuesSubmit_shape = function(x, args) {
 				just.override = TRUE
 			}
 		})
-		
-		
-		
 		do.call(fun, args = list(x, args))
 	} else {
-		x
+		unlist(x)
 	}
 }
 
@@ -797,11 +795,11 @@ tmapValuesColorize_angle = function(x, pc) x
 
 
 #' Specify a numeric sequence
-#' 
+#'
 #' Specify a numeric sequence, for numeric scales like [tm_scale_continuous()]. This function is needed when there is a non-linear relationship between the numeric data values and the visual variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
-#' 
+#'
 #' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting `power` to `"sqrt_perceptual"`
-#' 
+#'
 #' @param from,to The numeric range, default 0 and 1 respectively
 #' @param power The power component, or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`, `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
 #' @export
@@ -847,7 +845,7 @@ transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
 	}
 	x4 = x3 * scale
 	if (include.neutral) neutral = neutral * scale
-	
+
 	if (include.neutral) {
 		list(x = x4,
 			 neutral = neutral)
@@ -861,21 +859,21 @@ transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
-	
-	
+
+
 	# process values
 	#palid = tmapPalId(x[1])
-	
+
 	arecolors = valid_colors(x[1])
 	m = getPalMeta(x[1])
-	
+
 	ispalette = !is.null(m) && !arecolors # the latter in case of ambiguity (e.g. "blue")
-	
+
 	if (ispalette) if (x[1] != tolower(x[1])) message_c4a(x[1], info = m)
 
-	
+
 	values = if (!ispalette && !arecolors) {
-		rep(x, length.out = n) 
+		rep(x, length.out = n)
 	} else if (ispalette) {
 		getPal(x, n, rep = rep, range = range)
 	} else if (!rep && (length(x) < n)) {
@@ -883,22 +881,22 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	} else {
 		rep(x, length.out=n)
 	}
-	
+
 	nms = names(values)
 	values = do.call(process_color, c(list(col = values), o$pc))
 	names(values) = nms
 	value.neutral = do.call(process_color, c(list(col = values[1]), o$pc))
 	value.na = do.call(process_color, c(list(col = value.na), o$pc))
-	
-	
+
+
 	list(vvalues = values, value.neutral = value.neutral, value.na = value.na)
-	
+
 	# } else if (arenumbers) {
 	# 	values = if (length(scale$values) == 2) seq(scale$values[1], scale$values[2], length.out = n) else rep(scale$values, length.out = n)
 	# } else {
 	# 	values = rep(scale$values, length.out = n)
 	# }
-	
+
 }
 
 
@@ -1014,15 +1012,15 @@ tmapValuesCVV_fontface = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fontface(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
-# bivariate visual variables 
+# bivariate visual variables
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 	#palid = tmapPalId(x[1])
-	
+
 	meta = getPalMeta(x[1])
-	
+
 	if (!is.null(meta)) {
 		values = getPalBiv(x, m = m, n = n)
 	} else if (!is.matrix(x)) {
@@ -1033,7 +1031,7 @@ tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 				grDevices::colorRampPalette(xi)(n)
 			}, MARGIN = 1, simplify = FALSE))
 		}
-		
+
 		if (nrow(x) != m) {
 			x = do.call(cbind, apply(x, function(xi) {
 				grDevices::colorRampPalette(xi)(m)
@@ -1041,14 +1039,14 @@ tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {
 		}
 		values = x
 	}
-	
+
 	values[] = do.call(process_color, c(list(col = values), o$pc))
 	value.neutral = do.call(process_color, c(list(col = values[1]), o$pc))
 	value.na = do.call(process_color, c(list(col = value.na), o$pc))
-	
-	
+
+
 	list(vvalues = values, value.neutral = value.neutral, value.na = value.na)
-	
+
 }
 
 #' @export

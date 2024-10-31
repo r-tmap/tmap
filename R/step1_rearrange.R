@@ -159,7 +159,15 @@ step1_rearrange = function(tmel) {
 	crs_option = o$crs
 
 	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
-	crs_main = if (any_data_layer) get_crs(tms) else NA
+	crs_main = if (any_data_layer) get_crs(tms, is_auto = identical(crs_option, "auto")) else NA
+
+	if (identical(crs_option, "auto")) {
+		if (is.na(crs_main)) {
+			crs_option = auto_crs(TRUE)
+		} else {
+			crs_option = crs_main
+		}
+	}
 
 	if (inherits(crs_option, "leaflet_crs")) {
 		crs_leaflet = crs_option
@@ -260,8 +268,21 @@ get_main_ids = function(tmo) {
 }
 
 
-get_crs = function(tms) {
-	if (is.null(tms$crs)) sf::st_crs(tms$shp) else tms$crs
+get_crs = function(tms, is_auto) {
+	if (is.null(tms$crs)) {
+		crs = sf::st_crs(tms$shp)
+		is_ll = sf::st_is_longlat(crs)
+		if (is_ll) {
+			auto_crs(tms$shp)
+		} else {
+			crs
+		}
+	} else {
+		crs = tms$crs
+		if (identical(crs, "auto")) {
+			auto_crs(tms$shp)
+		} else crs
+	}
 }
 
 get_class = function(tms) {

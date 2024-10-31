@@ -181,6 +181,7 @@ step1_rearrange_facets = function(tmo, o) {
 							vars = character(0)
 						}
 					}
+
 					nvars = length(value) #m
 					nvari = vapply(value, length, integer(1))
 
@@ -196,7 +197,6 @@ step1_rearrange_facets = function(tmo, o) {
 						update_grp_vars(lev = flvar)
 						add_used_vars(vars)
 					} else {
-					#	if (aes == "shape") browser()
 						mfun = paste0("tmapValuesSubmit_", aes)
 						if (exists(mfun)) {
 							value = do.call(mfun, list(x = value, args = args))

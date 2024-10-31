@@ -21,6 +21,26 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
+impute_webgl = function(use.WebGL, dt, supported) {
+	if (!identical(use.WebGL, FALSE)) {
+		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))
+
+		vary = vary[setdiff(names(vary), c(supported, "tmapID__", "ord__"))]
+
+		if (any(vary)) {
+			if (is.na(use.WebGL)) {
+				use.WebGL = FALSE
+			} else {
+				warning("WegGL enabled: the only supported visual variables are: ", paste(supported, collapse = ", "), ". The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
+			}
+		} else {
+			use.WebGL = TRUE
+		}
+	}
+	use.WebGL
+}
+
+
 expand_coords_gp = function(coords, gp, ndt) {
 	expanded = (ncol(coords) == 3L)
 	if  (expanded) {
@@ -66,13 +86,20 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("polygons", pane, group)
 
+
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "col"))
+
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
+		shp3lines = suppressWarnings(sf::st_cast(shp3, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
 		lf %>%
-			leafgl::addGlPolygons(data = shp3, layerId = idt, color = gp3$col, opacity = gp3$col_alpha, fillColor = gp3$fill, fillOpacity = gp3$fill_alpha, weight = gp3$lwd, group = group, pane = pane, popup = popups2) %>%
+			leafgl::addGlPolygons(data = shp3, layerId = idt, # not working: color = gp3$col, opacity = gp3$col_alpha[1],
+								  fillColor = gp3$fill, fillOpacity = gp3$fill_alpha[1], #not working: weight = gp3$lwd[1],
+								  group = group, pane = pane, popup = popups2) %>%
+			leafgl::addGlPolylines(data = shp3lines, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd/4, pane = pane, group = group, layerId = idt) |>
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf %>%
@@ -130,12 +157,14 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
 
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = "col")
+
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		lf %>%
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd, pane = pane, group = group, layerId = idt) %>%
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd/4, pane = pane, group = group, layerId = idt) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 
@@ -208,11 +237,13 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"))
+
+
+
 
 
 	if (o$use.WebGL) {
-		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))[c("col", "shape", "lwd", "lty", "fill_alpha", "col_alpha")]
-		if (any(vary)) warning("WegGL enabled: the only supported visual variables are: fill and size. The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
 		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
@@ -223,35 +254,67 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		sid = which(is_num)
 		nid = which(!is_num)
 
-		gp2$shape[sid] = "circle" # as dummy
-		symbols = do.call(makeSymbolIcons2, gp2)
 
-		symbols$iconWidth = rep(NA, length(symbols$iconUrl))
-		symbols$iconHeight = rep(NA, length(symbols$iconUrl))
+		# ="circle" to make makeSymbolsIcons2 work
+		# shape_orig to let unique pick unique rows (one for each )
+		gp2$shape_orig = gp2$shape
+		gp2$shape[sid] = "circle"
+
+		# faster than symbols2 = do.call(makeSymbolIcons2, gp2)
+		gp2df = as.data.table(gp2)
+		gp2dfU = unique(gp2df)
+
+		k = nrow(gp2dfU)
+
+		symbols = do.call(makeSymbolIcons2, as.list(gp2dfU[,-(ncol(gp2dfU)),with=F]))
+
+		gp2dfU[, id:=1L:.N]
+		gp2join = gp2df[gp2dfU, id:= id, on=names(gp2df)]
+		ids = gp2join$id
+
+		coords_grps = split.data.frame(coords, ids)
+		idt_grps = split(idt, ids)
+		if (!is.null(hdt)) {
+			hdt_grps = split(hdt, ids)
+		} else {
+			hdt_grps = replicate(k, list(NULL))
+		}
+		popups_grps = split(popups, ids)
+
+
+		symbols$iconWidth = rep(NA, k)
+		symbols$iconHeight = rep(NA, k)
+
 
 		if (length(sid)) {
-			iconLib <- get("shapeLib", envir = .TMAP)[sn[sid]-999]
+			sym_shapes = suppressWarnings(as.numeric(gp2dfU$shape_orig))
+			sid2 = which(!is.na(sym_shapes))
+
+			iconLib <- get("shapeLib", envir = .TMAP)[sym_shapes[sid2]-999]
 			symbols_icons <- merge_icons(iconLib)
-			size = gp2$width[sid] / gp2$baseSize
 
-			size[sid] = size[sid] * args$icon.scale/3
+			size = gp2dfU$width[sid2] / gp2dfU$baseSize[sid2]
+			size = size * args$icon.scale/3
 
-			for (i in seq_along(sid)) {
-				symbols$iconUrl[sid[i]] = symbols_icons$iconUrl[i]
-				symbols$iconWidth[sid[i]] <- symbols_icons$iconWidth[i] * size[i]
-				symbols$iconHeight[sid[i]] <- symbols_icons$iconHeight[i] * size[i]
+			for (i in seq_along(sid2)) {
+				symbols$iconUrl[sid2[i]] = symbols_icons$iconUrl[i]
+				symbols$iconWidth[sid2[i]] <- symbols_icons$iconWidth[i] * size[i]
+				symbols$iconHeight[sid2[i]] <- symbols_icons$iconHeight[i] * size[i]
 				if (all(c("iconAnchorX", "iconAnchorY") %in% names(symbols_icons))) {
-					symbols$iconAnchorX[sid[i]] <- symbols_icons$iconAnchorX[i] * size[i]
-					symbols$iconAnchorY[sid[i]] <- symbols_icons$iconAnchorY[i] * size[i]
+					symbols$iconAnchorX[sid2[i]] <- symbols_icons$iconAnchorX[i] * size[i]
+					symbols$iconAnchorY[sid2[i]] <- symbols_icons$iconAnchorY[i] * size[i]
 
 				}
 			}
 		}
 
-
-		lf %>% leaflet::addMarkers(lng = coords[, 1], lat = coords[, 2],
-								  icon = symbols, group = group, layerId = idt, label = hdt, popup = popups, options = opt) %>%
-			assign_lf(facet_row, facet_col, facet_page)
+		for (i in 1L:k) {
+			lf = lf |>
+				leaflet::addMarkers(lng = coords_grps[[i]][, 1],
+									lat = coords_grps[[i]][, 2],
+									icon = lapply(symbols, "[", i), group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]], options = opt)
+		}
+		lf |> assign_lf(facet_row, facet_col, facet_page)
 
 	}
 

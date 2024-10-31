@@ -144,7 +144,7 @@ tm_layout = function(
 #'
 #' View mode options. These options are specific to the view mode.
 #'
-#' @param use.WebGL use webGL layers with leafgl
+#' @param use.WebGL use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default `TRUE` if no other visual variables are used.
 #' @param control.position position of the control attribute
 #' @param control.bases base layers
 #' @param control.overlays overlay layers

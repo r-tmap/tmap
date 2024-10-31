@@ -268,7 +268,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					xco <- sf::st_coordinates(lnsX_proj)
 					# co.x.lns
 					co.x <- lapply(unique(xco[,3]), function(i) {
-						lco <- xco[xco[,3]==i, 1:2]
+						lco <- xco[xco[,3]==i, 1:2,drop = FALSE]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
 						lco
@@ -293,7 +293,7 @@ tmapGridGridPrep = function(a, bs, id, o) {
 					lnsY_proj <- lnsY_proj[!lnsY_emp]
 					yco <- sf::st_coordinates(lnsY_proj)
 					co.y <- lapply(unique(yco[,3]), function(i) {
-						lco <- yco[yco[,3]==i, 1:2]
+						lco <- yco[yco[,3]==i, 1:2,drop=FALSE]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
 						lco
