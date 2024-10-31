@@ -255,7 +255,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"))
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"), checkif = list(shape = 21))
 
 
 	if (o$use.WebGL) {
