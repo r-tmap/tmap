@@ -21,17 +21,35 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
-impute_webgl = function(use.WebGL, dt, supported) {
+impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 	if (!identical(use.WebGL, FALSE)) {
 		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))
 
 		vary = vary[setdiff(names(vary), c(supported, "tmapID__", "ord__"))]
 
+		if (!is.null(checkif)) {
+			checks = vapply(seq_along(checkif), function(i) {
+				dt[[names(checkif)[i]]][1] == checkif[[i]]
+			}, FUN.VALUE = logical(1))
+		} else {
+			checks = TRUE
+		}
+
 		if (any(vary)) {
 			if (is.na(use.WebGL)) {
 				use.WebGL = FALSE
 			} else {
-				warning("WegGL enabled: the only supported visual variables are: ", paste(supported, collapse = ", "), ". The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Disable WebGL to show them.", call. = FALSE)
+				warning("WegGL enabled, but the only supported visual variables are: ", paste(supported, collapse = ", "), ". The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Set use.WebGL to FALSE to support them.", call. = FALSE)
+			}
+		} else if (any(!checks)) {
+			if (is.na(use.WebGL)) {
+				use.WebGL = FALSE
+			} else {
+				checkif = lapply(checkif, function(x) {
+					if (is.character(x)) paste0("\"", x, "\"") else x
+				})
+
+				warning("WegGL enabled, but the following visual variable only accept one value ", paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", "), ". Set use.WebGL to FALSE to support them.", call. = FALSE)
 			}
 		} else {
 			use.WebGL = TRUE
@@ -87,7 +105,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		submit_labels("polygons", pane, group)
 
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "col"))
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"))
 
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -95,11 +113,11 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		shp3lines = suppressWarnings(sf::st_cast(shp3, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
-		lf %>%
+		lf |>
 			leafgl::addGlPolygons(data = shp3, layerId = idt, # not working: color = gp3$col, opacity = gp3$col_alpha[1],
 								  fillColor = gp3$fill, fillOpacity = gp3$fill_alpha[1], #not working: weight = gp3$lwd[1],
 								  group = group, pane = pane, popup = popups2) %>%
-			leafgl::addGlPolylines(data = shp3lines, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd/4, pane = pane, group = group, layerId = idt) |>
+			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) else .} %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf %>%
@@ -157,14 +175,14 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = "col")
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = "col", checkif = list(lty = "solid"))
 
 	if (o$use.WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		lf %>%
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha, weight = gp3$lwd/4, pane = pane, group = group, layerId = idt) %>%
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 
@@ -238,9 +256,6 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	#po(sort(gp2$width, decreasing = T))
 
 	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"))
-
-
-
 
 
 	if (o$use.WebGL) {
