@@ -22,25 +22,46 @@ crs_ortho_visible = function(crs, projected = TRUE, max_cells = 1e5) {
 		# step 1a: arrange coordinates by lon
 		lonmin_id = which.min(co[,1])
 		lonmax_id = which.max(co[,1])
-		co2 = co[c(lonmin_id:nrow(co), 1:lonmax_id), ]
+
+		if (pole_n) {
+			co2 = co[c(lonmin_id:nrow(co), 1:lonmax_id), ]
+		} else {
+			co2 = co[c(lonmax_id:nrow(co), 1:lonmin_id), ]
+		}
 
 		# step 1b: replicate one before and one after
 		co_left = co2
 		co_left[,1] = co_left[,1] - 360
 		co_right = co2
 		co_right[,1] = co_right[,1] + 360
-		co3 = rbind(co_left, co2, co_right)
+
+		if (pole_n) {
+			co3 = rbind(co_left, co2, co_right)
+		} else {
+			co3 = rbind(co_right, co2, co_left)
+		}
+
 		co4 = co3[co3[,1] >= -360 & co3[,1] <= 360, ]
 
 		# step 1c; make sure to close the polygon
-		co4[1,1] = -360
-		co4[nrow(co4),1] = 360
+		if (pole_n) {
+			co4[1,1] = -360
+			co4[nrow(co4),1] = 360
+		} else {
+			co4[1,1] = 360
+			co4[nrow(co4),1] = -360
+		}
 		lat = co4[1,2]
 		co4[nrow(co4),2] = lat
 
 		# STEP 2: add block for the pole
+		if (pole_n) {
+			to_add = t(sapply(seq(360, -360, by = -45), c, 90))
+		} else {
+			to_add = t(sapply(seq(-360, 360, by = 45), c, -90))
+		}
 		co5 = rbind(co4,
-					t(sapply(seq(360, -360, by = -45), c, ifelse(pole_n, 90, -90))),
+					to_add,
 					co4[1,,drop=FALSE])
 
 		sfc = sf::st_sfc(sf::st_polygon(list(co5)), crs = sf::st_crs(sfc))
