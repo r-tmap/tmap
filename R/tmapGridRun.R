@@ -3,7 +3,12 @@ tmapGridRun = function(o, q, show, knit, args) {
 	if (show) {
 		mapply(function(gt,i) {
 			if (is.null(o$vp) && i != 1L) grid::grid.newpage()
-			grid::grid.draw(gt)
+			tryCatch({
+				grid::grid.draw(gt)
+			}, error = function(e) {
+				stop("Plot error. Try adding + tm_check_fix()", call. = FALSE)
+			})
+
 		}, gts, seq_along(gts), SIMPLIFY = FALSE)
 		if (!is.null(o$vp)) upViewport(1)
 	}

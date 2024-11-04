@@ -1,11 +1,4 @@
-end_of_the_world = function(crs, earth.datum) {
-	sf::st_bbox(stars::st_as_stars()) |>
-		sf::st_as_sfc() |>
-		sf::st_set_crs(NA) |>
-		sf::st_segmentize(1) |>
-		sf::st_set_crs(earth.datum) |>
-		sf::st_transform(crs)
-}
+
 
 tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	gts = get("gts", envir = .TMAP_GRID)
@@ -94,10 +87,14 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	rowid = g$rows_facet_ids[facet_row]
 	colid = g$cols_facet_ids[facet_col]
 
-	gt = gt |>
-		add_to_gt(boundary, row = rowid, col = colid) |>
-		add_to_gt(frame, row = rowid, col = colid)
+	if (o$earth.boundary) {
+		gt = gt |>
+			#add_to_gt(boundary, row = rowid, col = colid)
+			grid::addGrob(boundary, paste0("gt_facet_", rc_text))
+	}
 
+	gt = gt |>
+		add_to_gt(frame, row = rowid, col = colid)
 	gts[[facet_page]] = gt
 
 	assign("gts", gts, envir = .TMAP_GRID)

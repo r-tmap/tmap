@@ -1,8 +1,8 @@
 #' Shape (spatial object) specification
-#' 
+#'
 #' Specify a shape, which is a spatial object from one of these spatial object
 #' class packages: [`sf`][`sf::sf`], [`stars`][stars::st_as_stars()], or `terra`.
-#' 
+#'
 #' @param shp Spatial object
 #' @param name Name of the shape
 #' @param is.main Is `shp` the main shape, which determines the crs and
@@ -21,7 +21,6 @@
 #' @import classInt
 #' @import htmltools
 #' @import htmlwidgets
-#' @import widgetframe
 #' @import leaflet
 #' @import leafsync
 #' @import leafem
@@ -29,11 +28,12 @@
 #' @import stats
 #' @importFrom methods as
 #' @importFrom rlang missing_arg expr
+#' @importFrom s2 s2_buffer_cells as_s2_geography s2_intersects
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
 #' @import utils
-#' @example ./examples/tm_shape.R  
+#' @example ./examples/tm_shape.R
 #' @export
-tm_shape = function(shp, 
+tm_shape = function(shp,
 					bbox = NULL,
 					crs = NULL,
 					is.main = NA,
@@ -47,9 +47,9 @@ tm_shape = function(shp,
 		v3_instead_message(arg_old = "projection", arg_new = "crs", fun = "tm_shape")
 		crs = args$projection
 	}
-	
+
 	bbox_list = c(list(x = bbox), args[intersect(names(args), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
-	
+
 	if (missing(shp)) {
 		do.call(tm_options, args[intersect(names(args), c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
 	} else {
@@ -59,7 +59,7 @@ tm_shape = function(shp,
 								   bbox = bbox_list,
 								   unit = unit,
 								   filter = filter,
-								   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name), 
+								   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name),
 								   subclass = "tm_shape"))
 	}
 }

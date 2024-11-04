@@ -16,11 +16,15 @@ check_fix = function(sfc, shp_name, reproj, messages) {
 		if (checkAgain || !all(sf::st_is_valid(sfc))) {
 			suppressMessages(sf::sf_use_s2(!s2))
 			.TMAP$set_s2 = s2
-			tryCatch({
-				sfc = sf::st_make_valid(sfc)
+			sfc = tryCatch({
+				sf::st_make_valid(sfc)
 			}, error = function(e) {
 				suppressMessages(sf::sf_use_s2(s2))
-				stop("Unable to make ", shp_name, " valid", call. = FALSE)
+				warning("Unable to make ", shp_name, " valid. Invalid geometries are left out", call. = FALSE)
+				isv = which(sf::st_is_valid(sfc))
+				sfc = sfc[isv]
+				attr(sfc, "is_valid") = isv
+				sfc
 			})
 			if (messages) message("Shape ", shp_name, " has been fixed with s2 = ", !s2, ". If the map doesn't look correct, please run sf::sf_use_s2(", !s2, ") before running the tmap code again.")
 

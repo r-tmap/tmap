@@ -337,10 +337,23 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
-	if (identical(crs, "auto")) crs = auto_crs(shp)
+	if (identical(crs, "auto")) crs = auto_crs(shp) else crs = sf::st_crs(crs)
+	reproj = (!is.null(crs) && !is.na(crs) && sf::st_crs(shp) != crs)
 
-	reproj = (!is.null(crs) && sf::st_crs(shp) != crs)
-	if (reproj) shp = sf::st_transform(shp, crs = crs)
+	if (reproj) {
+		if (crs_is_ortho(crs)) {
+			tryCatch({
+				suppressWarnings({
+					shp4326 = sf::st_transform(shp, 4326)
+					visible = sf::st_make_valid(crs_ortho_visible(crs, projected = FALSE))
+					shp = suppressMessages(sf::st_intersection(shp4326, visible))
+				})
+			}, error = function(e) {
+				shp
+			})
+		}
+		shp = sf::st_transform(shp, crs = crs)
+	}
 
 	sfc = sf::st_geometry(shp)
 
@@ -350,6 +363,11 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 
 	if (o$check.and.fix) sfc = check_fix(sfc, shp_name, reproj, o$show.messages)
 
+	# if check_fix fails, is_valid contains the valid ids
+	isv = attr(sfc, "is_valid")
+	if (!is.null(isv)) {
+		shp = shp[isv,]
+	}
 	dt = data.table::as.data.table(sf::st_drop_geometry(shp))
 
 	dtcols = copy(names(dt))

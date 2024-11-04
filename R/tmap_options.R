@@ -743,6 +743,7 @@ styles = list(
 		space.color = "white",
 		legend.frame = TRUE,
 		legend.bg.color = "grey90",
+		frame = FALSE,
 		earth.boundary = TRUE,
 		basemap.server = "Esri.NatGeoWorldMap",
 		basemap.alpha = 1),

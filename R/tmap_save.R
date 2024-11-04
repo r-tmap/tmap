@@ -1,5 +1,5 @@
 #' Save tmap
-#' 
+#'
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
 #' @param tm tmap object
@@ -12,7 +12,7 @@
 #'   the option `"output.format"` in [tmap_options()]. If `NA` (the default),
 #'   the file is saved as "tmap01" in the default format, and the number incremented
 #'   if the file already exists.
-#' @param device graphic device to use. Either a device function 
+#' @param device graphic device to use. Either a device function
 #'   (e.g., [`png`][grDevices::png()] or [`cairo_pdf`][grDevices::cairo_pdf()])
 #'   or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff".
 #'   If `NULL`, the graphic device is guessed based on the `filename` argument.
@@ -39,7 +39,7 @@
 #'   of [`viewport`][grid::viewport()]s of multiple inset maps. The number of
 #'   viewports should be equal to the number of tmap objects specified with `insets_tm`.
 #' @param add.titles add titles to leaflet object.
-#' @param in.iframe should an interactive map be saved as an iframe? 
+#' @param in.iframe should an interactive map be saved as an iframe?
 #'   If so, two HTML files will be saved; one small parent HTML file with the
 #'   iframe container, and one large child HTML file with the actual widget.
 #'   See [widgetframe::saveWidgetframe()] for details. By default `FALSE`,
@@ -65,12 +65,12 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	.tmapOptions = get("tmapOptions", envir = .TMAP)
 	show.warnings =.tmapOptions$show.warnings
 	if (!missing(verbose) && show.warnings) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
-	
-	
-	
+
+
+
 	verbose = .tmapOptions$show.messages
-	
-	
+
+
 	lastcall = x = get("last_map", envir = .TMAP)
 	if (missing(tm)) {
 		tm = suppressWarnings(tmap_last())
@@ -83,11 +83,11 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	} else {
 		stop("Unknown format. tm should be either a tmap output, or a list of tmap outputs")
 	}
-	
+
 	tmap.mode = getOption("tmap.mode")
 	default_ext = ifelse(tmap.mode == "plot", .tmapOptions$output.format, "html")
 
-	
+
 	if (is.na(filename)) {
 		filename_default = paste("tmap01", default_ext, sep = ".")
 		if (!file.exists(filename_default)) {
@@ -98,41 +98,41 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 			filename = paste0("tmap", sprintf("%02d", fid), ".",  default_ext)
 		}
 	}
-	
+
 	if (is.na(dpi)) dpi = .tmapOptions$output.dpi
-		
+
 	on.exit({
 		assign("last_map", lastcall, envir = .TMAP)
 	})
-	
-	
-	
+
+
+
 	get_ext = function(filename, default_ext) {
 		pieces = strsplit(filename, "\\.")[[1]]
 		if (length(pieces)==1) return(default_ext)
 		tolower(pieces[length(pieces)])
 	}
-	
+
 	convert_to_inches = function(x, units) {
 		x = switch(units, px = x/dpi, `in` = x, cm = x/2.54, mm = x/2.54/10)
 	}
 	convert_to_pixels = function(x, units) {
 		x = switch(units, px = x, `in` = dpi*x, cm = dpi*x/2.54, mm = dpi*x/2.54/10)
 	}
-	
+
 	ext = get_ext(filename, default_ext)
-	
+
 	interactive = (ext=="html")
-	
+
 	options(tmap.mode=ifelse(interactive, "view", "plot"))
-	
+
 	if (interactive) {
 		if (is.arrange) {
 			lf = print_tmap_arrange(tm, show = FALSE, add.titles=add.titles)
 		} else {
 			lf = print.tmap(tm, show = FALSE)
 		}
-			
+
 		tryCatch({
 			wd = getwd()
 			on.exit(setwd(wd), add = TRUE)
@@ -140,6 +140,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 			base_filename = basename(filename)
 			setwd(wd_new)
 			if (in.iframe) {
+				if (!requireNamespace("widgetframe")) stop("widgetframe package required for option in.frame")
 				widgetframe::saveWidgetframe(lf, file=base_filename, selfcontained = selfcontained, ...)
 			} else {
 				htmlwidgets::saveWidget(lf, file=base_filename, selfcontained = selfcontained, ...)
@@ -147,14 +148,14 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		}, error = function(e) {
 			stop("Unable to save the interactive map. Note that saving interactive small multiples is not supported yet. The error message from htmlwidgets::saveWidget is ", call. = FALSE)
 		})
-		
+
 		options(tmap.mode=tmap.mode)
 		if (verbose) {
 			message("Interactive map saved to ", suppressWarnings(normalizePath(filename)))
 		}
 		return(invisible(filename))
 	}
-	
+
 	if (is.na(width) || is.na(height)) {
 		if (!is.na(width)) {
 			if (is.na(units)) units = choose_unit(width)
@@ -166,16 +167,16 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 			units = "px"
 			temp_size = 700
 		}
-		
+
 		if (is.arrange) {
 			sasp = 1
 		} else {
 			show.messages = tmap_options(show.messages = FALSE)
 			on.exit(tmap_options(show.messages))
-			sasp = get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)	
+			sasp = get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)
 			tmap_options(show.messages)
 		}
-		
+
 		if (is.na(width) && !is.na(height)) {
 			width = height * sasp
 		} else if (is.na(height)  && !is.na(width)) {
@@ -189,11 +190,11 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		if (is.na(units)) units = choose_unit(max(width, height))
 	}
 	units_target = ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
-	
+
 	if (units_target=="in") {
 	  width = convert_to_inches(width, units)
 	  height = convert_to_inches(height, units)
-	  
+
 	  if (ext=="pdf") {
 	    round_to_1_72 = function(x) x %/% (1/72) / 72
 	    width = round_to_1_72(width)
@@ -204,21 +205,21 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		height = convert_to_pixels(height, units)
 	}
 	old_dev = grDevices::dev.cur()
-	dev = plot_device(device = device, ext = ext, filename = filename, 
+	dev = plot_device(device = device, ext = ext, filename = filename,
 					   dpi = dpi, units_target = units_target)
-	
+
 	dev(filename = filename, width = width, height = height, ...)
 
 	on.exit(capture.output({
 			dev.off()
 			if (old_dev > 1) grDevices::dev.set(old_dev) # restore old device unless null device
 			}), add = TRUE)
-	
+
 	if (is.arrange) {
 		opts = attr(tm, "opts")
 		if (!is.na(outer.margins[1])) opts$outer.margins = outer.margins
 		if (!missing(asp)) opts$asp = asp
-		
+
 		attr(tm, "opts") = opts
 		print(tm)
 	} else {
@@ -242,7 +243,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	    stop("Insets and/or its viewports not in the correct format")
 	  }
 	}
-	
+
 	if (verbose) {
 		message("Map saved to ", suppressWarnings(normalizePath(filename)))
 		if (ext %in% c("png", "jpg", "jpeg", "bmp", "tiff")) {
@@ -257,12 +258,12 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 				wp = format(convert_to_pixels(width, "in"))
 				hp = format(convert_to_pixels(height, "in"))
 			}
-			message("Resolution: ", format(wp), " by ", format(hp), " pixels") 
-			message("Size: ", wi, " by ", hi, " inches (", format(dpi), " dpi)") 
+			message("Resolution: ", format(wp), " by ", format(hp), " pixels")
+			message("Size: ", wi, " by ", hi, " inches (", format(dpi), " dpi)")
 		} else {
 			wi = format(width)
 			hi = format(height)
-			message("Size: ", wi, " by ", hi, " inches") 
+			message("Size: ", wi, " by ", hi, " inches")
 		}
 	}
 	options(tmap.mode=tmap.mode)
@@ -270,11 +271,11 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 }
 
 plot_device = function(device, ext, filename, dpi, units_target){
-	
+
 	force(filename)
 	force(dpi)
 	force(units_target)
-	
+
 	if (is.function(device)) {
 		args = formals(device)
 		call_args = list()
@@ -309,9 +310,9 @@ plot_device = function(device, ext, filename, dpi, units_target){
 			units = units_target
 		)
 	devices = list(
-		ps = ps,	
+		ps = ps,
 		eps = ps,
-		tex = function(..., filename, width, height) 
+		tex = function(..., filename, width, height)
 			grDevices::pictex(..., file = filename, width = width, height = height),
 		pdf = function(..., filename, version = "1.4")
 			grDevices::pdf(..., file = filename, version = version),
