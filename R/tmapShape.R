@@ -346,6 +346,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 				suppressWarnings({
 					shp4326 = sf::st_transform(shp, 4326)
 					visible = crs_ortho_visible(crs, projected = FALSE)
+					if (!sf::st_is_valid(visible)) visible = sf::st_make_valid(visible)
 					shp = suppressMessages(sf::st_intersection(shp4326, visible))
 				})
 			}, error = function(e) {
