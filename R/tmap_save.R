@@ -140,7 +140,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 			base_filename = basename(filename)
 			setwd(wd_new)
 			if (in.iframe) {
-				if (!requireNamespace("widgetframe")) stop("widgetframe package required for option in.frame")
+				rlang::check_installed("widgetframe", reason = "for option in.frame.")
 				widgetframe::saveWidgetframe(lf, file=base_filename, selfcontained = selfcontained, ...)
 			} else {
 				htmlwidgets::saveWidget(lf, file=base_filename, selfcontained = selfcontained, ...)
