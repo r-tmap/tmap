@@ -41,17 +41,19 @@ tm_shape = function(shp,
 					unit = NULL,
 					filter = NULL,
 					...) {
-	args = as.list(match.call(expand.dots = TRUE)[-1])
+
+	args_called = names(rlang::call_match()[-1])
+	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
 
 	if ("projection" %in% names(args)) {
 		v3_instead_message(arg_old = "projection", arg_new = "crs", fun = "tm_shape")
 		crs = args$projection
 	}
 
-	bbox_list = c(list(x = bbox), args[intersect(names(args), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
+	bbox_list = c(list(x = bbox), args[intersect(args_called, c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
 
 	if (missing(shp)) {
-		do.call(tm_options, args[intersect(names(args), c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
+		do.call(tm_options, args[intersect(args_called, c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
 	} else {
 		tm_element_list(tm_element(shp = shp,
 								   is.main = is.main,

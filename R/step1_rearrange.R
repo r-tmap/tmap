@@ -269,6 +269,7 @@ get_main_ids = function(tmo) {
 
 
 get_crs = function(tms, is_auto) {
+	if (is.na(sf::st_crs(tms$shp))) return(sf::st_crs(NA))
 	if (is.null(tms$crs)) {
 		crs = sf::st_crs(tms$shp)
 		is_ll = sf::st_is_longlat(crs)

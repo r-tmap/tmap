@@ -29,7 +29,7 @@ impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 
 		if (!is.null(checkif)) {
 			checks = vapply(seq_along(checkif), function(i) {
-				dt[[names(checkif)[i]]][1] == checkif[[i]]
+				dt[[names(checkif)[i]]][1] %in% checkif[[i]]
 			}, FUN.VALUE = logical(1))
 		} else {
 			checks = TRUE
@@ -47,6 +47,15 @@ impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 			} else {
 				checkif = lapply(checkif, function(x) {
 					if (is.character(x)) paste0("\"", x, "\"") else x
+				})
+
+				checkif = lapply(checkif, function(x) {
+					if (length(x) == 1) {
+						x
+					} else {
+						k = length(x)
+						paste(paste(head(x, -1), collapse = ", "), tail(x, 1), sep = " or ")
+					}
 				})
 
 				warning("WegGL enabled, but the following visual variable only accept one value ", paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", "), ". Set use.WebGL to FALSE to support them.", call. = FALSE)
@@ -255,7 +264,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"), checkif = list(shape = 21))
+	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)))
 
 
 	if (o$use.WebGL) {
