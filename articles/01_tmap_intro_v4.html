@@ -420,7 +420,9 @@ However, to ease its use, there will be a bunch of handy shortcut functions, suc
 <span>               shape <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
 <span>               size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>value.neutral <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [plot mode] legend/component: Some components or legends are too high and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"ifelse(stack</span></span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">== 'vertical', 'high', 'wide')"</span> and are therefore rescaled. Set the tmap option</span></span>
+<span><span class="co">#&gt; `component.autoscale` to `FALSE` to disable rescaling.</span></span></code></pre></div>
 <p><img src="01_tmap_intro_v4_files/figure-html/unnamed-chunk-19-1.png"><!-- --></p>
 </div>
 <div class="section level3">
@@ -497,7 +499,9 @@ In <strong>tmap v3</strong> this <code>free</code> argument could be set via <co
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_stack</a></span><span class="op">(</span><span class="st">"continent"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Variable(s) "fill" only contains NAs. Legend disabled for tm_scale_intervals, unless breaks are specified</span></span>
 <span><span class="co">#&gt; Variable(s) "fill" only contains NAs. Legend disabled for tm_scale_intervals, unless breaks are specified</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="01_tmap_intro_v4_files/figure-html/unnamed-chunk-25-1.png"><!-- --></p>
 <p>New in <strong>tmap v4</strong> is that for facet grid, the <code>free</code> argument can be specified differently for rows and columns, as we will show in the next example:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -516,7 +520,9 @@ In <strong>tmap v3</strong> this <code>free</code> argument could be set via <co
 <span>               fill <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span><span class="st">"income_grp"</span>, <span class="st">"economy"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">0</span>, <span class="fl">0</span>,<span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="01_tmap_intro_v4_files/figure-html/unnamed-chunk-27-1.png"><!-- --></p>
 <p>What you see in the map is that life expectancy is shown as polygon fill in green, and GDP per capita as red bubbles.
 The maps are grouped by income group (rows) and economy (columns).

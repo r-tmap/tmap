@@ -100,7 +100,9 @@ Legends, scales will be studied in other tests.</p>
 <code class="sourceCode R"><span><span class="co"># one polygon shape, two aes values</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"income_grp"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="05_tmap_facets_files/figure-html/unnamed-chunk-5-1.png"><!-- --></p>
 </div>
 <div class="section level4">
@@ -138,7 +140,9 @@ Legends, scales will be studied in other tests.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, filter <span class="op">=</span> <span class="va">World</span><span class="op">$</span><span class="va">pop_est</span> <span class="op">&gt;</span> <span class="fl">100e6</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="05_tmap_facets_files/figure-html/unnamed-chunk-10-1.png"><!-- --></p>
 </div>
 <div class="section level4">
@@ -163,14 +167,18 @@ Legends, scales will be studied in other tests.</p>
 <span>    <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"continent"</span>, free.coords <span class="op">=</span> <span class="cn">FALSE</span>, drop.units <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The visual variable "lty" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span></span>
 <span><span class="co">#&gt; The visual variable "lty" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="05_tmap_facets_files/figure-html/unnamed-chunk-13-1.png"><!-- --></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># nothing to drop</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>free.coords <span class="op">=</span> <span class="cn">FALSE</span>, drop.units <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled. Set the tmap option 'component.autoscale'</span></span>
+<span><span class="co">#&gt; to FALSE to disable rescaling.</span></span></code></pre></div>
 <p><img src="05_tmap_facets_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
 </div>
 <div class="section level4">
