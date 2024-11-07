@@ -410,7 +410,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 	if (!is.null(m)) {
 		if (x[1] != tolower(x[1])) message_c4a(x[1], info = m)
-		vvalues = getPal(x, n = ntot, range = range)[ids]
+		vvalues = getPal(m$fullname, n = ntot, range = range)[ids]
 	} else {
 		pal =colorRampPalette(x)
 		if (is.na(range[1])) range = c(0, 1)

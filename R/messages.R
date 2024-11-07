@@ -14,7 +14,8 @@ message_reg = function(id) {
 
 message_comp_scale = function() {
 	if (!message_thrown("comp_scale")) {
-		message("[plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.")	
+		cli::cli_inform("{.field [plot mode]} fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.",
+						.frequency_id = "comp_scale")
 		message_reg("comp_scale")
 	}
 	NULL
@@ -22,37 +23,51 @@ message_comp_scale = function() {
 
 message_comp_high_wide = function(stack) {
 	if (!message_thrown("comp_scale")) {
-		message("[plot mode] legend/component: Some components or legends are too ", ifelse(stack == "vertical", "high", "wide"), " and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.")	
+		cli::cli_inform("{.field [plot mode]} legend/component: Some components or legends are too {.val ifelse(stack == 'vertical', 'high', 'wide')} and are therefore rescaled. Set the tmap option {.code component.autoscale} to {.code FALSE} to disable rescaling.",
+						.frequency_id = "comp_scale")
 		message_reg("comp_scale")
 	}
 	NULL
 }
 
-message_c4a = function(old_palette_name, info) {
+message_c4a = function(old_palette_name, info, fullname = FALSE) {
 	new1 = info$fullname
 	new2 = info$name
 	mess = 	paste0("c4a_", old_palette_name)
 
 	if (!message_thrown(mess)) {
-		message(paste0("[cols4all] color palettes: use palettes from the R package cols4all. Run 'cols4all::c4a_gui()' to explore them. The old palette name \"", old_palette_name, "\" is named \"", new2, "\" (in long format \"", new1, "\")"))
-		message_reg(mess)	
-	} 
+		if (fullname) {
+			cli::cli_inform(
+				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.code cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.str {new1}}",
+				.frequency_id = "cols4all"
+			)
+		} else {
+			cli::cli_inform(
+				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.code cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.str {new2}} (in long format {.str {new1}})",
+				.frequency_id = "cols4all"
+			)
+
+		}
+		message_reg(mess)
+	}
 }
 
 message_nothing_to_show = function(any_groups) {
 	if (any_groups) {
-		message("[nothing to show] no data layers defined after tm_shape")
+		cli::cli_inform("{.field [nothing to show]} no data layers defined after {.code tm_shape}",
+						.frequency_id = "nothing")
 	} else {
-		message("[nothing to show] no layers defined")
+		cli::cli_inform("{.field [nothing to show]} no data layers defined",
+						.frequency_id = "nothing")
 	}
 	NULL
 }
 
 message_wrapstack = function(horizontal = TRUE) {
 	if (horizontal) {
-		message("[facets] use tm_facets_hstack() instead of tm_facets_wrap() to put the legends next to and aligned with the facets")
+		cli::cli_inform("{.field [facets]} use {.code tm_facets_hstack()} instead of {.code tm_facets_wrap()} to put the legends next to and aligned with the facets")
 	} else {
-		message("[facets] use tm_facets_vstack() instead of tm_facets_wrap() to put the legends next to and aligned with the facets")
+		cli::cli_inform("{.field [facets]} use {.code tm_facets_vstack()} instead of {.code tm_facets_wrap()} to put the legends next to and aligned with the facets")
 	}
 	NULL
 }
@@ -61,10 +76,10 @@ message_pos_auto = function(type) {
 	if (!message_thrown("pos_auto")) {
 		fun = if (type == "autoout") "tm_pos_auto_out()" else "tm_pos_auto_in()"
 		fun2 = if (type == "autoout") "tm_pos_out()" else "tm_pos_in()"
-		message("[position] ", "use ", fun2, " instead of ", fun, ". The latter should be used with tmap_options().")
+		cli::cli_inform("{.field [position]} use {.val fun2} instead of {.val fun}. The latter should be used with {.code tmap_options()}.")
 		message_reg("pos_auto")
 	}
-	NULL	
+	NULL
 }
 
 error_dimvalues = function() {
