@@ -875,7 +875,7 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	values = if (!ispalette && !arecolors) {
 		rep(x, length.out = n)
 	} else if (ispalette) {
-		getPal(x, n, rep = rep, range = range)
+		getPal(m$fullname, n, rep = rep, range = range)
 	} else if (!rep && (length(x) < n)) {
 		grDevices::colorRampPalette(x)(n)
 	} else {

@@ -125,7 +125,7 @@ tm_layout = function(
 			main.title.args = args[substr(names(args), 1, 10) == "main.title"]
 			main.title.args$main.title = NULL
 			if ("main.title.position" %in% names(main.title.args)) {
-				main.title.args$main.title.position = tm_pos_out(main.title.args$main.title.position, "top")
+				main.title.args$main.title.position = tm_pos_out(main.title.args$main.title.position[1], "top")
 			}
 			names(main.title.args) = substr(names(main.title.args), 12, nchar(names(main.title.args)))
 			v3_main_title(fun)

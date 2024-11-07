@@ -127,7 +127,7 @@ tm_polygons = function(fill = tm_const(),
 
 
 		if (!("style" %in% names(args))) {
-			if (!"breaks" %in% names(args)) {
+			if (!"breaks" %in% names(args) || is.null(args$breaks)) {
 				style = "pretty"
 			} else {
 				style = "fixed"
