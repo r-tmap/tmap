@@ -259,8 +259,8 @@
 <span>  just <span class="op">=</span> <span class="st">"center"</span>,</span>
 <span>  along.lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  bg.padding <span class="op">=</span> <span class="fl">0.4</span>,</span>
-<span>  clustering <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  point.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  point.label <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
 <span>  remove.overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -388,7 +388,7 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 
 
 <dt id="arg-point-label">point.label<a class="anchor" aria-label="anchor" href="#arg-point-label"></a></dt>
-<dd><p>logical that determines whether the labels are placed automatically.</p></dd>
+<dd><p>logical that determines whether the labels are placed automatically. By default <code>FALSE</code> for <code>tm_text</code>, and <code>TRUE</code> for <code>tm_labels</code> if the number of labels is less than 500 (otherwise it will be too slow).</p></dd>
 
 
 <dt id="arg-point-label-gap">point.label.gap<a class="anchor" aria-label="anchor" href="#arg-point-label-gap"></a></dt>
