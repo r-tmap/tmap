@@ -87,7 +87,7 @@ tm_dots(
   fill_alpha.scale = tm_scale(),
   fill_alpha.legend = tm_legend(),
   fill_alpha.free = NA,
-  plot.order = tm_plot_order("size"),
+  plot.order = tm_plot_order("DATA"),
   zindex = NA,
   group = NA,
   group.control = "check",
