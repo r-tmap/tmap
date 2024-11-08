@@ -33,6 +33,10 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 	n = nrow(coords)
 
+	# by default point.label = NA for tm_labels
+	# for small n (< 500) it will be set to TRUE
+	if (is.na(args$point.label)) args$point.label = (n < 500)
+
 	if (cp$expanded) {
 		shpTM_match = match(shpTM$tmapID_expanded, shpTM$tmapID)
 		text = dt$text[shpTM_match]

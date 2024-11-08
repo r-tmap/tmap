@@ -378,7 +378,7 @@ the text. See details.}
 
 \item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
-\item{point.label}{logical that determines whether the labels are placed automatically.}
+\item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}, and \code{TRUE} for \code{tm_labels} if the number of labels is less than 500 (otherwise it will be too slow).}
 
 \item{point.label.gap}{numeric that determines the gap between the point and label}
 

@@ -491,7 +491,7 @@ tm_labels_highlighted = function(text = tm_const(),
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
 #' @param bg.padding The padding of the background in terms of line heights.
 #' @param clustering value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
-#' @param point.label logical that determines whether the labels are placed automatically.
+#' @param point.label logical that determines whether the labels are placed automatically. By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the number of labels is less than 500 (otherwise it will be too slow).
 #' @param point.label.gap numeric that determines the gap between the point and label
 #' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm.
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
@@ -536,8 +536,8 @@ opt_tm_labels = function(points.only = "ifany",
 						 just = "center",
 						 along.lines = TRUE,
 						 bg.padding = 0.4,
-						 clustering = TRUE,
-						 point.label = TRUE,
+						 clustering = FALSE,
+						 point.label = NA,
 						 point.label.gap = 0.4,
 						 point.label.method = "SANN",
 						 remove.overlap = FALSE) {
