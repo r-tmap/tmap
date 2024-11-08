@@ -1,9 +1,9 @@
 #' Legend charts
-#' 
+#'
 #' Legend charts are small charts that are added to the map, usually in addition to legends.
-#' 
-#' Note that these charts are different from charts drawn inside the map. Those are called glyphs (to be implemented). 
-#' 
+#'
+#' Note that these charts are different from charts drawn inside the map. Those are called glyphs (to be implemented).
+#'
 #' @param breaks The breaks of the bins (for histograms)
 #' @param plot.axis.x,plot.axis.y Should the x axis and y axis be plot?
 #' @param extra.ggplot2 Extra ggplot2 code
@@ -28,8 +28,9 @@ tm_chart_histogram = function(breaks,
 							  z,
 							  group.frame,
 							  resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "histogram"
@@ -49,8 +50,8 @@ tm_chart_bar = function( plot.axis.x,
 							  z,
 							  group.frame,
 							  resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "bar"
@@ -68,8 +69,8 @@ tm_chart_donut = function(position,
 							  z,
 							  group.frame,
 							  resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "donut"
@@ -86,8 +87,8 @@ tm_chart_violin = function(position,
 						   z,
 						   group.frame,
 						   resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "violin"
@@ -104,8 +105,8 @@ tm_chart_box = function(position,
 						   z,
 						   group.frame,
 						   resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "box"
@@ -116,7 +117,7 @@ tm_chart_box = function(position,
 #' @rdname tm_chart
 #' @export
 tm_chart_none = function() {
-	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))	
+	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))
 }
 
 
@@ -130,8 +131,8 @@ tm_chart_heatmap = function(position,
 						z,
 						group.frame,
 						resize.as.group) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
 	args$show = TRUE
 	args$type = "heatmap"

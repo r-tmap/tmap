@@ -91,13 +91,13 @@ qtm = function(shp,
 				format = NULL,
 				...) {
 
-	args = c(as.list(environment()), list(...))
+	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
 	shp_name = deparse(substitute(shp))[1]
-	called = names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 
-	if (any(v3_only("qtm") %in% names(args))) {
+	if (any(v3_only("qtm") %in% args_called)) {
 		v3_start_message()
-		args_called = list(args = args, called = called) |>
+		args_new = list(args = args, called = args_called) |>
 			v3_instead("symbols.size", "size", "qtm", extra_called = "shape") |>
 			v3_instead("symbols.col", "size", "qtm", extra_called = "shape") |>
 			v3_instead("dots.col", "fill", "qtm") |>
@@ -108,8 +108,8 @@ qtm = function(shp,
 			v3_instead("text.size", "text_size", "qtm") |>
 			v3_instead("text.col", "text_col", "qtm") |>
 			v3_instead("projection", "crs", "qtm")
-		args = args_called$args
-		called = args_called$called
+		args = args_new$args
+		args_called = args_new$called
 	}
 
 	o = tmap_options_mode()
@@ -133,7 +133,7 @@ qtm = function(shp,
 		nms_rst = intersect(names(args), funs_v4$tm_raster)
 		args_rst = args[nms_rst]
 
-		if (!any(c("col", "raster") %in% called)) {
+		if (!any(c("col", "raster") %in% args_called)) {
 			args_rst$col = tm_vars()
 		}
 
@@ -146,15 +146,15 @@ qtm = function(shp,
 		for (f in c("tm_polygons", "tm_lines", "tm_symbols")) {
 			nms_f = intersect(names(args), funs_v4[[f]])
 			args_f = args[nms_f]
-			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), called)
+			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
 			args_other = args[nms_other]
 			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
 			if (f == "tm_symbols") {
-				if (!"shape" %in% called) args_f$shape = NULL
-				if (!"col" %in% called) args_f$col = NULL
+				if (!"shape" %in% args_called) args_f$shape = NULL
+				if (!"col" %in% args_called) args_f$col = NULL
 			}
 			if (f == "tm_lines") {
-				if (!"col" %in% called) args_f$col = NULL
+				if (!"col" %in% args_called) args_f$col = NULL
 			}
 
 			if (f == "tm_polygons") {
@@ -169,14 +169,14 @@ qtm = function(shp,
 			options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
 			g = g + do.call(f, c(args_f, args_other, list(options = options)))
 		}
-		if ("text" %in% called) {
+		if ("text" %in% args_called) {
 			args[substr(names(args), 1, 3) %in% c("col", "siz")] = NULL
 			text_ = substr(names(args), 1, 5) == "text_"
 			names(args)[text_] = substr(names(args)[text_], 6, nchar(names(args)[text_]))
 
 			nms_f = intersect(names(args), funs_v4$tm_text)
 			args_f = args[nms_f]
-			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), called)
+			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
 			args_other = args[nms_other]
 			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
 			g = g + do.call(tm_text, c(args_f, args_other))
@@ -200,7 +200,7 @@ qtm = function(shp,
 	if (o$qtm.minimap) g = g + tm_minimap()
 	if (o$qtm.mouse.coordinates) g = g + tm_mouse_coordinates()
 
-	assign("last_map_new", match.call(), envir = .TMAP)
+	assign("last_map_new", rlang::call_match(), envir = .TMAP)
 	attr(g, "qtm_shortcut") = FALSE
 	g
 }

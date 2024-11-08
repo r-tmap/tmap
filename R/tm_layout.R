@@ -89,7 +89,7 @@ tm_layout = function(
 		...
 
 	) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	fun = if ("called_from" %in% names(args)) {
 		args$called_from
@@ -170,7 +170,7 @@ tm_view = function(use.WebGL,
 				   set.zoom.limits,
 				   leaflet.options,
 				   view.legend.position = NULL) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!is.null(view.legend.position)) {
 		args$legend.position = view.legend.position
@@ -187,7 +187,7 @@ tm_view = function(use.WebGL,
 #' @param use.gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
 #' @export
 tm_plot = function(use.gradient) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
 }
 

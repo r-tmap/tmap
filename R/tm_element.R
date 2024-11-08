@@ -1,7 +1,7 @@
 #' Internal methods for tmap extensions
-#' 
+#'
 #' Internal methods for tmap extensions
-#' 
+#'
 #' @param ... arguments
 #' @param subclass subclass
 #' @export
@@ -34,29 +34,29 @@ tm_element_list_sel = function(tml, subclass) {
 }
 
 #' Stacking of tmap elements
-#' 
+#'
 #' The plus operator allows you to stack tmap elements (functions with a prefix `tm_`)
-#' 
+#'
 #' @param e1 first tmap element
 #' @param e2 second tmap element
 #' @name tmap-element
 #' @export
 "+.tmap" = function(e1, e2) {
-	assign("last_map_new", match.call(), envir = .TMAP)
+	assign("last_map_new", rlang::call_match(), envir = .TMAP)
 	if (inherits(e2, "tm_legend")) {
 		names(e2) = paste0("legend.", names(e2))
-		
+
 		e2 = tm_element_list(do.call(tm_element, c(e2, list(calls = "v3_tm_legend", subclass = c("tm_legend_v3", "tm_options")))))
 	}
 	structure(c(e1, e2), class = "tmap")
 }
 
 #' Retrieve the last map to be modified or created
-#' 
+#'
 #' Retrieve the last map to be modified or created. Works in the same way
-#' as `ggplot2::last_plot()`, although there is a difference: 
+#' as `ggplot2::last_plot()`, although there is a difference:
 #' `tmap_last()` returns the last call instead of the stacked [`tmap-element`]s.
-#' 
+#'
 #' @return call
 #' @export
 #' @seealso [tmap_save()]
@@ -91,9 +91,9 @@ replace_last_tmap_by_correct_call = function(mc, lt) {
 }
 
 #' Print tm_element
-#' 
+#'
 #' @param x x
-#' @param ... passed on 
+#' @param ... passed on
 #' @export
 #' @name print.tm_element
 #' @keywords internal

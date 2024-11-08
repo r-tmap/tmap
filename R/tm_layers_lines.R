@@ -72,8 +72,8 @@ tm_lines = function(col = tm_const(),
 					options = opt_tm_lines(),
 					...) {
 
+	args_called = names(rlang::call_match()[-1])
 	args = list(...)
-	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 
 	if (any(v3_only("tm_lines") %in% names(args))) {
 		layer_fun = if ("called_from" %in% names(args)) {
@@ -189,7 +189,7 @@ tm_lines = function(col = tm_const(),
 							  labels = v3_impute(args, "lwd.legend.labels", NULL, "labels"),
 							  values.scale = v3_impute(args, "scale", 1, "values.scale"),
 							  fun_pref = "continuous")
-		if ("lwd" %in% names(args_called)) v3_tm_scale(scale_fun = "continuous", vv = "lwd", layer_fun = layer_fun, arg_list = v3_list_get())
+		if ("lwd" %in% args_called) v3_tm_scale(scale_fun = "continuous", vv = "lwd", layer_fun = layer_fun, arg_list = v3_list_get())
 		lwd.scale = do.call("tm_scale", args = lwd.scale.args)
 
 		v3_list_init()
@@ -202,7 +202,7 @@ tm_lines = function(col = tm_const(),
 								   format = v3_impute(args, "legend.format", list(), "format"),
 								   orientation = ifelse(v3_impute(args, "legend.lwd.is.portrait", FALSE), "portrait", "landscape"),
 								   reverse = v3_impute(args, "legend.lwd.reverse", FALSE))
-			if ("lwd" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "lwd", arg_list = v3_list_get())
+			if ("lwd" %in% args_called) v3_tm_legend(fun = layer_fun, vv = "lwd", arg_list = v3_list_get())
 			lwd.legend = do.call("tm_legend", lwd.legend.args)
 		}
 

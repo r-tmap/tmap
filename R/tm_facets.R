@@ -70,7 +70,7 @@ tm_facets = function(by = NULL,
 					 ...) {
 
 	args = list(...)
-	calls <- names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 
 	if (any(v3_only("tm_facets") %in% names(args))) {
 		layer_fun = "facets"
@@ -125,7 +125,7 @@ tm_facets = function(by = NULL,
 		sync = sync,
 		na.text = na.text,
 		scale.factor = scale.factor,
-		calls = calls,
+		calls = args_called,
 		subclass = "tm_facets"))
 
 	if (!is.null(free.scales)) {
@@ -143,9 +143,9 @@ tm_facets_grid = function(rows = NULL,
 						  pages = NULL,
 						  ...) {
 	args = list(...)
-	calls = names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages, type = "grid"), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = calls
+	tm[[1]]$calls = args_called
 	tm
 }
 
@@ -160,9 +160,9 @@ tm_facets_wrap = function(by = "VARS__",
 						  byrow = TRUE,
 						  ...) {
 	args = list(...)
-	calls = names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "wrap"), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = calls
+	tm[[1]]$calls = args_called
 	tm
 }
 
@@ -174,9 +174,10 @@ tm_facets_pagewise = function(by = "VARS__",
 						  byrow = TRUE,
 						  ...) {
 	args = list(...)
-	calls = unique(c(names(match.call(expand.dots = TRUE)[-1]), "nrow", "ncol"))
+	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
+
 	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = calls
+	tm[[1]]$calls = args_called
 	tm
 }
 
@@ -186,9 +187,9 @@ tm_facets_stack = function(by = "VARS__",
 						   orientation = NA,
 						  ...) {
 	args = list(...)
-	calls = names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 	tm = do.call("tm_facets", c(list(by = by, orientation = orientation, type = "stack"), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = calls
+	tm[[1]]$calls = args_called
 	tm
 }
 

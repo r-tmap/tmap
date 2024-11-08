@@ -1,7 +1,7 @@
 #' Map component: manual legend
-#' 
+#'
 #' Map component that adds a manual legend
-#' 
+#'
 #' @param ... visual variables and arguments passed on to `tm_legend()`.
 #'   By default, the argument `type` is set to `"Symbols"`, which means that the
 #'   supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`,
@@ -30,11 +30,12 @@ tm_add_legend = function(...,
 						 orientation = NULL,
 						 group = NA,
 						 group.control = "check",
-						 resize.as.group = FALSE, 
+						 resize.as.group = FALSE,
 						 z = as.integer(NA)) {
-	#args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (missing(labels)) stop("tm_add_legend: labels required", call. = FALSE)
-	args = c(as.list(environment()), list(...))
+
+	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
+
 	if (type %in% c("fill", "symbol", "line")) {
 		v3_add_legend(type, names(args))
 		if ("col" %in% names(args) && !c("fill" %in% names(args))) {
@@ -67,7 +68,7 @@ tmapAddedLegend = function(comp, o) {
 	}
 	res = do.call(fun, args = list())
 	gp = res[[1]]$gpar
-	
+
 	for (gpi in names(gp)) {
 		if (gpi %in% names(l)) {
 			gp[[gpi]] = l[[gpi]]
@@ -75,16 +76,16 @@ tmapAddedLegend = function(comp, o) {
 			gp[[gpi]] = getAesOption("value.const", o, aes = gpi, layer = comp$type)
 		}
 	}
-	
+
 	l$gp = gp
-	
+
 	l2 = within(l, {
 		nitems = length(labels)
 		dvalues = 1:nitems
 		vvalues = 1:nitems
 		vneutral = NA
 		na.show = FALSE
-		
+
 	})
 	l2
 }

@@ -989,7 +989,7 @@ tmap_options = function(...) {
 	} else {
 		## case 3: named options are set
 		## case 4: tmap_options is called without arguments
-		args = lapply(as.list(match.call()[-1]), eval, envir = e1)
+		args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	}
 
 	mode_opts = setdiff(unique(unlist(lapply(o$modes, names))), "name")
@@ -1161,13 +1161,10 @@ getAesValue = function(x, aes) {
 #' @rdname tmap_options
 #' @export
 tm_options = function(...) {
+	args_called = names(rlang::call_match(dots_expand = TRUE)[-1])
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	calls = names(match.call(expand.dots = TRUE)[-1])
-
-	e1 = parent.frame()
-	args = lapply(as.list(match.call()[-1]), eval, envir = e1)
-
-	tm_element_list(do.call(tm_element, c(args, list(calls = calls, subclass = "tm_options"))))
+	tm_element_list(do.call(tm_element, c(args, list(calls = args_called, subclass = "tm_options"))))
 
 }
 

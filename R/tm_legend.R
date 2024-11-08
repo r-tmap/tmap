@@ -1,7 +1,7 @@
 #' Legend
-#' 
+#'
 #' Legend specification
-#' 
+#'
 #' @param title Legend title
 #' @param show Show legend?
 #' @param orientation Orientation of the legend: `"portrait"` or `"landscape"`
@@ -48,7 +48,7 @@
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return OUTPUT_DESCRIPTION
 #' @rdname tm_legend
-#' @export 
+#' @export
 tm_legend = function(title,
 					 show,
 					 orientation,
@@ -92,7 +92,7 @@ tm_legend = function(title,
 					 margins,
 					 margin.item.text,
 					 ...) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("xlab" %in% (names(args)))) args$xlab = NA
@@ -103,19 +103,19 @@ tm_legend = function(title,
 
 #' @name tm_legend_hide
 #' @rdname tm_legend
-#' @export 
+#' @export
 tm_legend_hide = function() {
 	tm_legend(show = FALSE)
 }
 
 #' @name tm_legend_combine
 #' @rdname tm_legend
-#' @export 
+#' @export
 tm_legend_combine = function(variable) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = variable), class = c("tm_legend", "tm_component", "list"))
 }
 
-tm_legend_bivariate = function(xlab, 
+tm_legend_bivariate = function(xlab,
 							   ylab,
 							   xlab.color,
 							   xlab.size,
@@ -130,8 +130,8 @@ tm_legend_bivariate = function(xlab,
 							   ylab.padding,
 							   ylab.align,
 							   ...) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("xlab" %in% (names(args)))) args$xlab = NA
 	if (!("ylab" %in% (names(args)))) args$ylab = NA

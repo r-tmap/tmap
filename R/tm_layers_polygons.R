@@ -112,8 +112,9 @@ tm_polygons = function(fill = tm_const(),
 					   id = "",
 					   options = opt_tm_polygons(),
 					   ...) {
+
+	args_called = names(rlang::call_match()[-1])
 	args = list(...)
-	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 
 	if (any(v3_only("tm_polygons") %in% names(args))) {
 
@@ -208,7 +209,7 @@ tm_polygons = function(fill = tm_const(),
 			v3_convert2density(layer_fun)
 		}
 
-		if ("col" %in% names(args_called) && (!layer_fun %in% c("tm_fill", "qtm"))) {
+		if ("col" %in% args_called && (!layer_fun %in% c("tm_fill", "qtm"))) {
 			fill = col
 			col = tm_const()
 			v3_message_col_fill(layer_fun = layer_fun)
@@ -218,7 +219,7 @@ tm_polygons = function(fill = tm_const(),
 
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
-			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
+			if (!("col" %in% args_called)) v3_message_col_fill(layer_fun = layer_fun)
 		}
 		if (identical(args$called_from, "tm_borders")) {
 			fill = NA

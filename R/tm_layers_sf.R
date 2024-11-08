@@ -99,7 +99,7 @@ tm_sf = function(fill = tm_const(),
                   group.control = "check",
                   ...) {
 	args = list(...)
-	calls = names(match.call(expand.dots = TRUE)[-1])
+	args_called = names(rlang::call_match()[-1])
 
 	#paste(paste(names(formals(tm_polygons)), names(formals(tm_polygons)), sep = " = "), collapse = ", ")
 	tm = tm_polygons(
@@ -123,7 +123,7 @@ tm_sf = function(fill = tm_const(),
 		plot.order = plot.order.list$lines, options = options$lines)
 
 
-	if ("shape" %in% calls || "col" %in% calls) {
+	if ("shape" %in% args_called || "col" %in% args_called) {
 		tm + tm_symbols(size = size, size.scale = size.scale, size.legend = size.legend,
 						size.free = size.free, fill = fill, fill.scale = fill.scale,
 						fill.legend = fill.legend, fill.free = fill.free, col = col,

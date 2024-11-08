@@ -109,10 +109,10 @@ tm_symbols = function(size = tm_const(),
 					  ...) {
 
 	args = list(...)
-	args_called = as.list(match.call()[-1]) #lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	args_called = names(rlang::call_match()[-1])
 
 
-	res = v3_symbols(args, args_called)
+	res = v3_symbols(args, args_called, col)
 	if (!is.null(res)) {
 		fill = res$fill
 		col = res$col
@@ -208,7 +208,7 @@ tm_symbols = function(size = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-v3_symbols = function(args, args_called) {
+v3_symbols = function(args, args_called, arg_col = NULL) {
 	if (any(v3_only("tm_symbols") %in% names(args))) {
 		layer_fun = if ("called_from" %in% names(args)) {
 			args$called_from
@@ -291,8 +291,8 @@ v3_symbols = function(args, args_called) {
 		}
 		fill.scale = do.call("tm_scale", args = fill.scale.args)
 
-		if ("col" %in% names(args_called)) {
-			fill = args_called$col
+		if ("col" %in% args_called) {
+			fill = arg_col
 			isn_fill = is.null(fill)
 			v3_message_col_fill(layer_fun = layer_fun)
 			if (isn_fill) {
@@ -309,7 +309,7 @@ v3_symbols = function(args, args_called) {
 		if ("border.col" %in% names(args)) {
 			col = args$border.col
 			isn_col = is.null(col)
-			if (!("col" %in% names(args_called))) v3_message_col_fill(layer_fun = layer_fun)
+			if (!("col" %in% args_called)) v3_message_col_fill(layer_fun = layer_fun)
 			if (isn_col) {
 				if (!isn_fill) v3_message_vv_null(layer_fun = layer_fun)
 				col = NA
@@ -357,7 +357,7 @@ v3_symbols = function(args, args_called) {
 							   outliers.trunc = c(TRUE, FALSE),
 							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"),
 							   fun_pref = "continuous")
-		if ("size" %in% names(args_called)) v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = layer_fun, arg_list = v3_list_get())
+		if ("size" %in% args_called) v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = layer_fun, arg_list = v3_list_get())
 		size.scale = do.call("tm_scale", args = size.scale.args)
 
 		v3_list_init()
@@ -370,7 +370,7 @@ v3_symbols = function(args, args_called) {
 									format = v3_impute(args, "legend.format", list(), "format"),
 									orientation = ifelse(v3_impute(args, "legend.size.is.portrait", FALSE), "portrait", "landscape"),
 									reverse = v3_impute(args, "legend.size.reverse", FALSE))
-			if ("size" %in% names(args_called)) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
+			if ("size" %in% args_called) v3_tm_legend(fun = layer_fun, vv = "size", arg_list = v3_list_get())
 			size.legend = do.call("tm_legend", size.legend.args)
 		}
 
@@ -402,8 +402,8 @@ v3_symbols = function(args, args_called) {
 								label.format = v3_impute(args, "legend.format", list(), "label.format"),
 								fun_pref = "intervals")
 		shape.scale = do.call("tm_scale", args = shape.scale.args)
-		if ("shape" %in% names(args_called)) {
-			if ("shapes.style" %in% names(args)) {
+		if ("shape" %in% args_called) {
+			if ("shapes.style" %in% args) {
 				v3_tm_scale_instead_of_style(shapes.style, scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
 			} else {
 				v3_tm_scale(scale_fun = shape.scale.args$fun_pref, vv = "shape", layer_fun = layer_fun, arg_list = v3_list_get())
@@ -420,7 +420,7 @@ v3_symbols = function(args, args_called) {
 									 format = v3_impute(args, "legend.format", list(), "format"),
 									 orientation = ifelse(v3_impute(args, "legend.shape.is.portrait", TRUE), "portrait", "landscape"),
 									 reverse = v3_impute(args, "legend.shape.reverse", FALSE))
-			if ("shape" %in% names(args_called))v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
+			if ("shape" %in% args_called)v3_tm_legend(fun = layer_fun, vv = "shape", arg_list = v3_list_get())
 			shape.legend = do.call("tm_legend", shape.legend.args)
 		}
 

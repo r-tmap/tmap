@@ -19,7 +19,6 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 				  options = opt_tm_rgb(),
 				  ...) {
 	args = list(...)
-	args_called = as.list(match.call()[-1])
 
 	if (any(v3_only("tm_rgb") %in% names(args)) || is.numeric(col.scale)) {
 		v3_start_message()
