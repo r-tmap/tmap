@@ -173,14 +173,11 @@ See <code><a href="tmap_format.html">tmap_format()</a></code> for details.</p></
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>arguments passed on to the <code>tm_*</code> functions. The prefix of these
-arguments should be with the layer function name without <code>"tm_"</code> and a period.
-For instance, the palette for polygon fill color is called <code>fill.palette</code>.
-The following prefixes are supported: <code>shape.</code>, <code>fill.</code>, <code>borders.</code>, <code>polygons.</code>,
-<code>symbols.</code>, <code>dots.</code>, <code>lines.</code>, <code>raster.</code>, <code>text.</code>, <code>layout.</code>, <code>grid.</code>,
-<code>facets.</code>, and <code>view.</code>. Arguments that have a unique name, i.e. that does
-not exist in any other layer function, e.g. <code>convert2density</code>, can also be
-called without prefix.</p></dd>
+<dd><p>arguments associated with the visual variables are passed on
+to the layer functions <code><a href="tm_polygons.html">tm_polygons()</a></code>, <code><a href="tm_lines.html">tm_lines()</a></code>, <code><a href="tm_symbols.html">tm_symbols()</a></code>,
+and <code><a href="tm_text.html">tm_text()</a></code>.
+For instance, <code>fill.scale</code> is the scale specifications of the fill color
+of polygons (see <code><a href="tm_polygons.html">tm_polygons()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
