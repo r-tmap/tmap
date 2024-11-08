@@ -2,7 +2,11 @@
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesCheck_col = function(x) {
-	((!is.null(getPalMeta(x[1])) && length(x) == 1L)  || all(valid_colors(x))) && !is.numeric(x)
+	res = ((!is.null(getPalMeta(x[1])) && length(x) == 1L)  || all(valid_colors(x))) && !is.numeric(x)
+	if (!res && length(x) == 1) {
+		attr(res, "info") = " See cols4all::c4a_palettes() for all palette names"
+	}
+	res
 }
 
 #' @export

@@ -29,7 +29,7 @@ getPalBiv = function(name, m = NA, n = NA, rep = TRUE) {
 	cols4all::c4a(name, m = m, n = n, nm_invalid = {if (rep) "repeat" else "interpolate"})
 }
 
-getPalMeta = function(name) {
+getPalMeta = function(name, no.match = "null") {
 	if (name %in% c("cat", "seq", "div")) {
 		name = cols4all::c4a_options("defaults")$defaults[[name]]
 	}
@@ -39,7 +39,7 @@ getPalMeta = function(name) {
 		info = cols4all::c4a_info(name, verbose = FALSE)
 		message_c4a(oldname, info, fullname = info$series == "brewer")
 	} else {
-		info = cols4all::c4a_info(name, no.match = "null", verbose = FALSE)
+		info = cols4all::c4a_info(name, no.match = no.match, verbose = FALSE)
 	}
 	info
 }

@@ -87,14 +87,11 @@ See \code{\link[=tmap_style]{tmap_style()}} for details.}
 \item{format}{Layout options (see \code{\link[=tm_layout]{tm_layout()}}) that define the format.
 See \code{\link[=tmap_format]{tmap_format()}} for details.}
 
-\item{...}{arguments passed on to the \verb{tm_*} functions. The prefix of these
-arguments should be with the layer function name without \code{"tm_"} and a period.
-For instance, the palette for polygon fill color is called \code{fill.palette}.
-The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.},
-\code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.},
-\code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does
-not exist in any other layer function, e.g. \code{convert2density}, can also be
-called without prefix.}
+\item{...}{arguments associated with the visual variables are passed on
+to the layer functions \code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tm_lines]{tm_lines()}}, \code{\link[=tm_symbols]{tm_symbols()}},
+and \code{\link[=tm_text]{tm_text()}}.
+For instance, \code{fill.scale} is the scale specifications of the fill color
+of polygons (see \code{\link[=tm_polygons]{tm_polygons()}}).}
 }
 \value{
 A \code{\link{tmap-element}}

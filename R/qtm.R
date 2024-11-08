@@ -52,14 +52,11 @@
 #'   See [tmap_style()] for details.
 #' @param format Layout options (see [tm_layout()]) that define the format.
 #'   See [tmap_format()] for details.
-#' @param ... arguments passed on to the `tm_*` functions. The prefix of these
-#'   arguments should be with the layer function name without `"tm_"` and a period.
-#'   For instance, the palette for polygon fill color is called `fill.palette`.
-#'   The following prefixes are supported: `shape.`, `fill.`, `borders.`, `polygons.`,
-#'    `symbols.`, `dots.`, `lines.`, `raster.`, `text.`, `layout.`, `grid.`,
-#'     `facets.`, and `view.`. Arguments that have a unique name, i.e. that does
-#'     not exist in any other layer function, e.g. `convert2density`, can also be
-#'     called without prefix.
+#' @param ... arguments associated with the visual variables are passed on
+#'   to the layer functions [tm_polygons()], [tm_lines()], [tm_symbols()],
+#'   and [tm_text()].
+#'   For instance, `fill.scale` is the scale specifications of the fill color
+#'   of polygons (see [tm_polygons()]).
 #' @return A [`tmap-element`]
 #' @example ./examples/qtm.R
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
@@ -91,9 +88,9 @@ qtm = function(shp,
 				format = NULL,
 				...) {
 
-	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
+	args = lapply(as.list(rlang::call_match(defaults = TRUE, dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	shp_name = deparse(substitute(shp))[1]
-	args_called = names(rlang::call_match()[-1])
+	args_called = names(rlang::call_match(dots_expand = TRUE)[-1])
 
 	if (any(v3_only("qtm") %in% args_called)) {
 		v3_start_message()
@@ -129,6 +126,11 @@ qtm = function(shp,
 
 	is_rst = inherits(shp, c("stars", "SpatRaster"))
 
+	prefix = list(tm_polygons = "fill",
+				  tm_lines = "lines",
+				  tm_symbols = c("symbols", "dots"),
+				  tm_raster = "raster")
+
 	if (is_rst) {
 		nms_rst = intersect(names(args), funs_v4$tm_raster)
 		args_rst = args[nms_rst]
@@ -143,12 +145,15 @@ qtm = function(shp,
 
 		g = g + do.call(tm_raster, c(args_rst, args_rst_v3))
 	} else {
+
 		for (f in c("tm_polygons", "tm_lines", "tm_symbols")) {
 			nms_f = intersect(names(args), funs_v4[[f]])
 			args_f = args[nms_f]
+
 			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
-			args_other = args[nms_other]
-			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
+			v3_nms = intersect(nms_other, unlist(lapply(prefix[[f]], function(p) paste(p, setdiff(v3_only(f), "scale"), sep = "."))))
+			args_v3 = args[v3_nms]
+			names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
 			if (f == "tm_symbols") {
 				if (!"shape" %in% args_called) args_f$shape = NULL
 				if (!"col" %in% args_called) args_f$col = NULL
@@ -157,31 +162,21 @@ qtm = function(shp,
 				if (!"col" %in% args_called) args_f$col = NULL
 			}
 
-			if (f == "tm_polygons") {
-				if (length(args_other)) {
-					# v3 confusion: tm_polygons used col while qtm used fill, therefore, tm_polygons will be called will col
-					args_f$border.col = args_f$col
-					args_f$col = args$fill
-					args_f$fill = NULL
-				}
-			}
 			args_f$called_from = "qtm"
 			options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
-			g = g + do.call(f, c(args_f, args_other, list(options = options)))
+			g = g + do.call(f, c(args_f, args_v3, list(options = options)))
 		}
 		if ("text" %in% args_called) {
-			args[substr(names(args), 1, 3) %in% c("col", "siz")] = NULL
-			text_ = substr(names(args), 1, 5) == "text_"
-			names(args)[text_] = substr(names(args)[text_], 6, nchar(names(args)[text_]))
+			args_txt = args[substr(names(args), 1, 5) == "text_" | names(args) == "text"]
+			names(args_txt) = sub("text_", "", names(args_txt))
 
-			nms_f = intersect(names(args), funs_v4$tm_text)
-			args_f = args[nms_f]
-			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
-			args_other = args[nms_other]
-			names(args_other) = sub("^[^.]+[.]", "", names(args_other))
-			g = g + do.call(tm_text, c(args_f, args_other))
+			v3_nms = substr(names(args), 1, 5) == "text."
+			args_v3 = args[v3_nms]
+			names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
+
+			args_f$called_from = "qtm"
+			g = g + do.call(tm_text, c(args_txt, args_v3))
 		}
-
 	}
 
 	nms_fct = intersect(names(args), names(formals(tm_facets)))
