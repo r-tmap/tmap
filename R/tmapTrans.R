@@ -112,7 +112,13 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			shp = sf::st_sfc()
 			tmapID = integer(0L)
 		} else {
-			geom_types = sf::st_geometry_type(shp)
+			geom_all = sf::st_geometry_type(shp, by_geometry = FALSE)
+			if (geom_all == "GEOMETRY") {
+				geom_types = sf::st_geometry_type(shp)
+			} else {
+				geom_types = rep(geom_all, length(shp))
+			}
+
 
 			if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
 				if (args$point.per=="feature" && any(geom_types == "MULTIPOINT")) {
@@ -139,7 +145,13 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 				}
 			}
 
-			geom_types2 = sf::st_geometry_type(shp)
+			geom_all2 = sf::st_geometry_type(shp, by_geometry = FALSE)
+			if (geom_all2 == "GEOMETRY") {
+				geom_types2 = sf::st_geometry_type(shp)
+			} else {
+				geom_types2 = rep(geom_all, length(shp))
+			}
+
 			ids_poly = which(geom_types2 %in% c("POLYGON", "MULTIPOLYGON"))
 			ids_line = which(geom_types2 %in% c("LINESTRING", "MULTILINESTRING"))
 			ids_point = which(geom_types2 %in% c("POINT", "MULTIPOINT"))
