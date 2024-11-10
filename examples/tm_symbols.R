@@ -1,8 +1,12 @@
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 Africa = World[World$continent == "Africa", ]
 
+# to do: update land
+library(sf)
+st_crs(land) = 4326
+
 tm_shape(land) +
-	tm_raster("cover_cls", 
+	tm_raster("cover_cls",
 			  col.scale = tm_scale(
 			  	values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]
 			  ),
@@ -10,10 +14,10 @@ tm_shape(land) +
 	tm_shape(rivers) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
 			 col = cols4all::c4a("brewer.pastel1")[2]) +
-	tm_shape(Africa, is.main = TRUE) + 
+	tm_shape(Africa, is.main = TRUE) +
 	tm_borders() +
 	tm_shape(metroAfrica) +
-	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
+	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020",
 			   size.scale = tm_scale_intervals(
 			   	   breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
 			   	   values.range = c(0.2,2)
@@ -30,15 +34,15 @@ tm_shape(land) +
 
 \dontrun{
 	if (require(rnaturalearth)) {
-		
+
 		airports <- ne_download(scale=10, type="airports", returnclass = "sf")
 		airplane <- tmap_icons(system.file("img/airplane.png", package = "tmap"))
-		
-		
-		
+
+
+
 		current.mode <- tmap_mode("view")
-		
-		tm_shape(NLD_prov, crs = 4326) + tm_polygons() + 
+
+		tm_shape(NLD_prov, crs = 4326) + tm_polygons() +
 		tm_shape(airports) +
 			tm_symbols(shape=airplane, size="natlscale",
 					   legend.size.show = FALSE, scale=1, border.col = NULL,

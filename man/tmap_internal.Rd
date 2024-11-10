@@ -521,37 +521,37 @@ tmapScaleAuto(
   ...
 )
 
-tmapValuesCheck_col(x)
+tmapValuesCheck_col(x, is_var = TRUE)
 
-tmapValuesCheck_fill(x)
+tmapValuesCheck_fill(x, is_var = TRUE)
 
-tmapValuesCheck_bgcol(x)
+tmapValuesCheck_bgcol(x, is_var = TRUE)
 
-tmapValuesCheck_shape(x)
+tmapValuesCheck_shape(x, is_var = TRUE)
 
-tmapValuesCheck_size(x)
+tmapValuesCheck_size(x, is_var = TRUE)
 
-tmapValuesCheck_area(x)
+tmapValuesCheck_area(x, is_var = TRUE)
 
-tmapValuesCheck_lwd(x)
+tmapValuesCheck_lwd(x, is_var = TRUE)
 
-tmapValuesCheck_lty(x)
+tmapValuesCheck_lty(x, is_var = TRUE)
 
-tmapValuesCheck_xmod(x)
+tmapValuesCheck_xmod(x, is_var = TRUE)
 
-tmapValuesCheck_angle(x)
+tmapValuesCheck_angle(x, is_var = TRUE)
 
-tmapValuesCheck_col_alpha(x)
+tmapValuesCheck_col_alpha(x, is_var = TRUE)
 
-tmapValuesCheck_fill_alpha(x)
+tmapValuesCheck_fill_alpha(x, is_var = TRUE)
 
-tmapValuesCheck_bgcol_alpha(x)
+tmapValuesCheck_bgcol_alpha(x, is_var = TRUE)
 
-tmapValuesCheck_area(x)
+tmapValuesCheck_area(x, is_var = TRUE)
 
-tmapValuesCheck_text(x)
+tmapValuesCheck_text(x, is_var = TRUE)
 
-tmapValuesCheck_fontface(x)
+tmapValuesCheck_fontface(x, is_var = TRUE)
 
 tmapValuesIsDiv_fill(x)
 
@@ -858,7 +858,7 @@ tmapValuesBVV_col(x, value.na, m, n, scale, rep, o)
 
 tmapValuesBVV_bgcol(x, value.na, m, n, scale, rep, o)
 
-tmapValuesCheck_num(x)
+tmapValuesCheck_num(x, is_var = TRUE)
 
 tmapValuesIsDiv_num(x)
 
@@ -886,7 +886,7 @@ tmapValuesColorize_num(x, pc)
 
 tmapValuesCVV_num(x, value.na, n, range, scale, rep, o)
 
-tmapValuesCheck_skip(x)
+tmapValuesCheck_skip(x, is_var)
 
 tmapValuesIsDiv_skip(x)
 

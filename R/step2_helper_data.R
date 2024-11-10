@@ -167,7 +167,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 			check_fun = paste0("tmapValuesCheck_", nm)
-			check = do.call(check_fun, list(x = val1))
+			check = do.call(check_fun, list(x = val1, is_var = TRUE))
 			if (!check) {
 				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
 				info = attr(check, "info")

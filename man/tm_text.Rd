@@ -327,7 +327,7 @@ there is only one facet dimension, so the \code{.free} argument requires only on
 }
 \examples{
 tm_shape(World, bbox = World) +
-	tm_text("name", size="pop_est", col="continent", 
+	tm_text("name", size="pop_est", col="continent",
 			col.scale = tm_scale_categorical(values = "seaborn.dark"),
 			col.legend = tm_legend_hide(),
 			size.scale = tm_scale_continuous(values.scale = 4),
@@ -346,8 +346,12 @@ tm_shape(metro) +
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 Africa = World[World$continent == "Africa", ]
 
+# to do: update land
+library(sf)
+st_crs(land) = 4326
+
 tm_shape(land) +
-	tm_raster("cover_cls", 
+	tm_raster("cover_cls",
 			  col.scale = tm_scale(
 			  	  values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]
 			  ),
@@ -355,10 +359,10 @@ tm_shape(land) +
 tm_shape(rivers) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
 			 col = cols4all::c4a("brewer.pastel1")[2]) +
-    tm_shape(Africa, is.main = TRUE) + 
+    tm_shape(Africa, is.main = TRUE) +
 	tm_borders() +
     tm_shape(metroAfrica) +
-	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020", 
+	tm_symbols(fill = "red", shape = "pop2020", size = "pop2020",
 			   size.scale = tm_scale_intervals(
 			   	    breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
 			   	    values.range = c(0.2,2)
@@ -372,15 +376,15 @@ tm_shape(rivers) +
 	tm_labels("name")
 
 tm_shape(metroAfrica) +
-	tm_markers(text = "name", 
-			   dots_fill = "red", 
+	tm_markers(text = "name",
+			   dots_fill = "red",
 			   dots_size = 0.3)
 
 tm_shape(metroAfrica) +
-	tm_markers(text = "name", 
+	tm_markers(text = "name",
 			   dots_shape = marker_icon(),
 			   dots_col = NA,
-			   dots_fill = "red", 
+			   dots_fill = "red",
 			   dots_size = 2,
 			   ymod = -0.25,
 			   options = opt_tm_markers(point.label = FALSE, remove.overlap = TRUE))

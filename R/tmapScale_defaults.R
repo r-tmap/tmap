@@ -1,32 +1,51 @@
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_col = function(x) {
-	res = ((!is.null(getPalMeta(x[1])) && length(x) == 1L)  || all(valid_colors(x))) && !is.numeric(x)
-	if (!res && length(x) == 1) {
-		attr(res, "info") = " See cols4all::c4a_palettes() for all palette names"
+tmapValuesCheck_col = function(x, is_var = TRUE) {
+	isnum = is.numeric(x)
+	if (isnum) {
+		structure(FALSE,
+				  info = {if (is_var) "Variable should be data varible name or color name" else " Values should be numeric (between -50 and 50)."}
+		)
+	} else {
+		is_c4a = !is.null(getPalMeta(x[1])) && length(x) == 1L && !valid_colors(x[1])
+		if (is_c4a) {
+			if (is_var) {
+				structure(FALSE,
+						  info = " Variable should be a data variable name or a single color (not a color palette).")
+			} else {
+				TRUE
+			}
+		} else {
+			all_cols = all(valid_colors(x))
+			if (!all_cols) {
+				structure(FALSE,
+						  info = if (is_var) " Variable should a data variable name or a single color." else " Values should be color names or a color palette (run  cols4all::c4a_palettes() for available ones.")
+			} else {
+				TRUE
+			}
+		}
 	}
-	res
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_fill = function(x) {
-	tmapValuesCheck_col(x)
+tmapValuesCheck_fill = function(x, is_var = TRUE) {
+	tmapValuesCheck_col(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_bgcol = function(x) {
-	tmapValuesCheck_col(x)
+tmapValuesCheck_bgcol = function(x, is_var = TRUE) {
+	tmapValuesCheck_col(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_shape = function(x) {
+tmapValuesCheck_shape = function(x, is_var = TRUE) {
 	isSymbol = function(s) {
 		inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
 	}
@@ -47,7 +66,7 @@ tmapValuesCheck_shape = function(x) {
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_size = function(x) {
+tmapValuesCheck_size = function(x, is_var = TRUE) {
 	inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
 }
 
@@ -55,21 +74,21 @@ tmapValuesCheck_size = function(x) {
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_area = function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_area = function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_lwd = function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_lwd = function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_lty = function(x) {
+tmapValuesCheck_lty = function(x, is_var = TRUE) {
 	# to do
 	TRUE
 }
@@ -77,17 +96,26 @@ tmapValuesCheck_lty = function(x) {
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x) {
-	# to do
-	res = all(x >= -50 & x <= 50)
-	if (!res) attr(res, "info") = " Values found that are outside the [-50,50] range. Note that the default scale for xmod and ymod is tm_scale_asis."
-	res
+tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x, is_var = TRUE) {
+	if (!is.numeric(x)) {
+		structure(FALSE,
+				  info = {if (is_var) " It is neither a data variable name nor a numeric (between -50 and 50)." else " Values should be numeric (between -50 and 50)."}
+				  )
+	} else {
+		res = all(x >= -50 & x <= 50)
+		if (!res) {
+			structure(FALSE,
+					  info = {if (is_var) " Variable should be in the [-50,50] range." else " Values found that are outside the [-50,50] range. Note that the default scale for xmod and ymod is tm_scale_asis."})
+		} else {
+			TRUE
+		}
+	}
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_angle = function(x) {
+tmapValuesCheck_angle = function(x, is_var = TRUE) {
 	# to do
 	is.numeric(x)
 }
@@ -95,42 +123,42 @@ tmapValuesCheck_angle = function(x) {
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_col_alpha= function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_col_alpha= function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_fill_alpha = function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_fill_alpha = function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_bgcol_alpha= function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_bgcol_alpha= function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_area = function(x) {
-	tmapValuesCheck_size(x)
+tmapValuesCheck_area = function(x, is_var = TRUE) {
+	tmapValuesCheck_size(x, is_var)
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_text = function(x) {
+tmapValuesCheck_text = function(x, is_var = TRUE) {
 	TRUE
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_fontface = function(x) {
+tmapValuesCheck_fontface = function(x, is_var = TRUE) {
 	(is.numeric(x) && (all(x %in% 1:5))) || (is.character(x) && (all(x %in% c("plain", "bold", "italic", "oblique", "bold.italic", "cyrillic", "cyrillic.oblique", "EUC"))))
 }
 
@@ -1104,7 +1132,7 @@ tmapValuesCVV_num = tmapValuesCVV_size
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
-tmapValuesCheck_skip = function(x) TRUE
+tmapValuesCheck_skip = function(x, is_var) TRUE
 #' @export
 #' @keywords internal
 #' @rdname tmap_internal
