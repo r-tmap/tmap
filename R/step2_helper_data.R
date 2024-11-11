@@ -172,7 +172,12 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
 				info = attr(check, "info")
 
-				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer[1], "\" are incorrect.", info, call. = FALSE)
+				fn_call <-  call(paste0("tm_", layer[1]))
+				cli::cli_abort(c(
+					"Visual values used for the variable {.val {unm}} are incorrect.",
+					i = info),
+					call = fn_call
+				)
 			}
 
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))
