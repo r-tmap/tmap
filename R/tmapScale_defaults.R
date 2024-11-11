@@ -58,7 +58,9 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 	 	} else {
 	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)) | vapply(x, is.numeric, FUN.VALUE = logical(1)))
 	 	}
-	} else FALSE
+	} else {
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see tm_symbols - details section)." else "  Values should be symbols (see tm_symbols - details section)."})
+	}
 }
 
 
@@ -67,7 +69,13 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesCheck_size = function(x, is_var = TRUE) {
-	inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
+	res = inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
+
+	if (!res) {
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a numeric value." else "  Values should be numeric."})
+	} else {
+		TRUE
+	}
 }
 
 
@@ -89,8 +97,13 @@ tmapValuesCheck_lwd = function(x, is_var = TRUE) {
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesCheck_lty = function(x, is_var = TRUE) {
-	# to do
-	TRUE
+	if (all(x %in% c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")) ||
+		(is.numeric(x) && all(x %in% 0:6)) ||
+		(all(grepl("^[1-9A-F]{1,8}$", x)))) {
+		TRUE
+	} else {
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a line type (see documentation of graphics::par - lty)." else "  Values should be a line type (see documentation of graphics::par - lty). numeric."})
+	}
 }
 
 #' @export
@@ -117,7 +130,11 @@ tmapValuesCheck_xmod = tmapValuesCheck_ymod = function(x, is_var = TRUE) {
 #' @rdname tmap_internal
 tmapValuesCheck_angle = function(x, is_var = TRUE) {
 	# to do
-	is.numeric(x)
+	if (!is.numeric(x)) {
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a numeric value." else "  Values should be numeric."})
+	} else {
+		TRUE
+	}
 }
 
 #' @export
@@ -159,7 +176,12 @@ tmapValuesCheck_text = function(x, is_var = TRUE) {
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesCheck_fontface = function(x, is_var = TRUE) {
-	(is.numeric(x) && (all(x %in% 1:5))) || (is.character(x) && (all(x %in% c("plain", "bold", "italic", "oblique", "bold.italic", "cyrillic", "cyrillic.oblique", "EUC"))))
+
+	if 	((is.numeric(x) && (all(x %in% 1:5))) || (is.character(x) && (all(x %in% c("plain", "bold", "italic", "oblique", "bold.italic", "cyrillic", "cyrillic.oblique", "EUC"))))) {
+		TRUE
+	} else {
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a font face (see documentation of graphics::par font)." else "  Values should be a font face (see documentation of graphics::par - font). numeric."})
+	}
 }
 
 #' @export
