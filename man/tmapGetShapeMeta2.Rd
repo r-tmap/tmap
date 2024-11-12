@@ -9,7 +9,7 @@ tmapGetShapeMeta2(shp, smeta, o)
 \arguments{
 \item{shp}{the shape}
 
-\item{smeta}{meta (from tmapGetShapeMeta1)}
+\item{smeta}{meta (from \code{tmapGetShapeMeta1()})}
 
 \item{o}{the list of options}
 }

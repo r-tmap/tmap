@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_tip.R
 \name{tmap_tip}
 \alias{tmap_tip}
-\title{Print a rnadom tip to the console}
+\title{Print a random tip to the console}
 \usage{
 tmap_tip()
 }
@@ -10,5 +10,5 @@ tmap_tip()
 A message
 }
 \description{
-Print a rnadom tip to the console
+Print a random tip to the console
 }

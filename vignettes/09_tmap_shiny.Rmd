@@ -1,12 +1,14 @@
 ---
 title: "tmap: shiny integration"
+description: >
+  Include interactive maps in Shiny applications
 output: 
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
 template:
   math-rendering: mathjax
-bibliography: '`r system.file("tmap.bib", package="tmap")`'
+bibliography: '`r system.file("tmap.bib", package = "tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
 ---
 
@@ -25,7 +27,7 @@ knitr::knit_hooks$set(output = function(x, options) {
    }
    x <- unlist(strsplit(x, "\n"))
    more <- "..."
-   if (length(lines)==1) {        # first n lines
+   if (length(lines) == 1) {        # first n lines
      if (length(x) > lines) {
        # truncate the output, but add ....
        x <- c(head(x, lines), more)
@@ -48,7 +50,7 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
-## Introductiuon
+## Introduction
 
 Integration of **tmap** with **shiny** is straightforward. 
 The functions `tmapOutput()` and `renderTmap()` are similar to `shiny::plotOutput()` and `shiny::renderPlot()`, respectively.

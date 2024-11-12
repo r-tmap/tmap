@@ -23,7 +23,7 @@
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
 
@@ -32,7 +32,7 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, stack, jus
 #' @rdname tm_title
 tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
 	)))))
@@ -43,7 +43,7 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 #' @name tm_title_in
 tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
 	)))))
@@ -81,7 +81,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @export
 tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_credits", "tm_component")))))
 }
 
@@ -132,7 +132,7 @@ tm_compass <- function(north,
 					   margins,
 					   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
 }
 
@@ -185,7 +185,7 @@ tm_scalebar = function(breaks,
 	}
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
 
@@ -195,10 +195,10 @@ tm_scalebar = function(breaks,
 #' @inheritDotParams tm_scalebar
 #' @export
 tm_scale_bar = function(...) {
-	message("As of version 4.0, 'tm_scale_bar()' is deprecated. Please use 'tm_scalebar()' instead.", call. = FALSE)
+	cli::cli_inform(c(
+		"{.fn tm_scale_bar} is deprecated. Please use {.fn tm_scalebar()} instead."
+	))
 	tm_scalebar(...)
-	# can also be
-	# stop("As of version 4.0, tm_scale_bar has been renamed to tm_scalebar and is therefore deprecated. tm_scalebar also has new argument names.", call. = FALSE)
 }
 
 #' Map component: mouse coordinates
@@ -213,7 +213,7 @@ tm_mouse_coordinates <- function(stack,
 								 position,
 								 z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
 }
 
@@ -237,7 +237,7 @@ tm_minimap <- function(server,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
 }
 
@@ -248,8 +248,10 @@ tm_minimap <- function(server,
 #' used instead of `tm_scale_bar()` (now deprecated), because of the potential
 #' confusion with the `tm_scale_*()` scaling functions (like [tm_scale_continuous()]).
 #'
-#' @param file either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
-#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo. If multiple logos are specified by a vector or list, the heights can be specified accordingly.
+#' @param file either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other.
+#'   To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
+#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo.
+#'   If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param margins margins
 #' @param between.margin between.margin
 #' @param stack stack
@@ -275,6 +277,6 @@ tm_logo = function(file,
 				   resize.as.group,
 				   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
 }

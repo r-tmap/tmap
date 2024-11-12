@@ -22,7 +22,8 @@ tm_scale_rgba(
 \arguments{
 \item{value.na}{value for missing values}
 
-\item{stretch}{should each (r, g, b) band be stretched? Possible values: \code{"percent"} (same as \code{TRUE})  and \code{"histogram"}. In the first case, the values are stretched to \verb{probs[1]...probs[2]}. In the secodn case, a histogram equalization is performed}
+\item{stretch}{should each (r, g, b) band be stretched? Possible values: \code{"percent"} (same as \code{TRUE})  and \code{"histogram"}.
+In the first case, the values are stretched to \verb{probs[1]...probs[2]}. In the second case, a histogram equalization is performed}
 
 \item{probs}{probability (quantile) values when \code{stretch = "percent"}}
 

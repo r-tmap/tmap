@@ -134,9 +134,9 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 					if (length(ids_multiline)) {
 						shp[ids_multiline] = local({
 							shp_ml = sf_expand(shp[ids_multiline])
-							lengths <- st_length(shp_ml)
+							lengths <- sf::st_length(shp_ml)
 							id_max <- vapply(split(lengths, f=shp_ml$split__id), which.max, integer(1))
-							id_max2 <- vapply(1L:length(ids_multiline), function(i) {
+							id_max2 <- vapply(seq_along(ids_multiline), function(i) {
 								which(shp_ml$split__id==i)[id_max[i]]
 							}, integer(1))
 							sf::st_geometry(shp_ml[id_max2, ])

@@ -578,12 +578,12 @@ process_meta = function(o, d, cdt, aux) {
 
 		legend.position = NA
 
-		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
+		if (!is.logical(set.bounds)) if (length(set.bounds) !=4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 
 
 		if (!is.na(set.view[1])) {
 			if (!is.numeric(set.view)) stop("set.view is not numeric")
-			if (!length(set.view) %in% c(1,3)) stop("set.view does not have length 1 or 3")
+			if (!length(set.view) %in% c(1, 3)) stop("set.view does not have length 1 or 3")
 		}
 		if (!is.na(set.zoom.limits[1])) {
 			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")

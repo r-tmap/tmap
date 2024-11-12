@@ -62,7 +62,7 @@ tmapGetShapeMeta1 = function(shp, o) {
 #' Internal method that extracts meta data from shape objects
 #'
 #' @param shp the shape
-#' @param smeta meta (from tmapGetShapeMeta1)
+#' @param smeta meta (from `tmapGetShapeMeta1()`)
 #' @param o the list of options
 #' @export
 #' @keywords internal

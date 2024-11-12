@@ -155,7 +155,9 @@ step1_rearrange_facets = function(tmo, o) {
 								vars = shpvars[value$x]
 							}
 						} else if (!is.na(value$n)) {
-							if (length(shpvars) < value$n) stop("tm_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
+							if (length(shpvars) < value$n) {
+								stop("tm_vars defined for n = ", value$n, " while there are only ", length(shpvars), " variables", call. = FALSE)
+							}
 							vars = shpvars[1L:value$n]
 						} else {
 							vars = shpvars

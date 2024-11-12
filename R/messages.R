@@ -14,8 +14,12 @@ message_reg = function(id) {
 
 message_comp_scale = function() {
 	if (!message_thrown("comp_scale")) {
-		cli::cli_inform("{.field [plot mode]} fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled. Set the tmap option 'component.autoscale' to FALSE to disable rescaling.",
-						.frequency_id = "comp_scale")
+		cli::cli_inform(c(
+			"{.field [plot mode]} fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled.",
+			i = "Set the tmap option {.code component.autoscale =  FALSE} to disable rescaling."
+			),
+			.frequency_id = "comp_scale"
+		)
 		message_reg("comp_scale")
 	}
 	NULL
@@ -23,8 +27,12 @@ message_comp_scale = function() {
 
 message_comp_high_wide = function(stack) {
 	if (!message_thrown("comp_scale")) {
-		cli::cli_inform("{.field [plot mode]} legend/component: Some components or legends are too {.val ifelse(stack == 'vertical', 'high', 'wide')} and are therefore rescaled. Set the tmap option {.code component.autoscale} to {.code FALSE} to disable rescaling.",
-						.frequency_id = "comp_scale")
+		cli::cli_inform(c(
+			"{.field [plot mode]} legend/component: Some components or legends are too {.val {ifelse(stack == 'vertical', 'high', 'wide')}} and are therefore rescaled.",
+			"i" = "Set the tmap option {.code component.autoscale = FALSE} to disable rescaling."
+			),
+			.frequency_id = "comp_scale"
+		)
 		message_reg("comp_scale")
 	}
 	NULL
@@ -54,7 +62,7 @@ message_c4a = function(old_palette_name, info, fullname = FALSE) {
 
 message_nothing_to_show = function(any_groups) {
 	if (any_groups) {
-		cli::cli_inform("{.field [nothing to show]} no data layers defined after {.code tm_shape}",
+		cli::cli_inform("{.field [nothing to show]} no data layers defined after {.fn tm_shape}",
 						.frequency_id = "nothing")
 	} else {
 		cli::cli_inform("{.field [nothing to show]} no data layers defined",
@@ -65,9 +73,9 @@ message_nothing_to_show = function(any_groups) {
 
 message_wrapstack = function(horizontal = TRUE) {
 	if (horizontal) {
-		cli::cli_inform("{.field [facets]} use {.code tm_facets_hstack()} instead of {.code tm_facets_wrap()} to put the legends next to and aligned with the facets")
+		cli::cli_inform("{.field [facets]} use {.fn tm_facets_hstack} instead of {.fn tm_facets_wrap} to put the legends next to and aligned with the facets.")
 	} else {
-		cli::cli_inform("{.field [facets]} use {.code tm_facets_vstack()} instead of {.code tm_facets_wrap()} to put the legends next to and aligned with the facets")
+		cli::cli_inform("{.field [facets]} use {.fn tm_facets_vstack} instead of {.fn tm_facets_wrap} to put the legends next to and aligned with the facets.")
 	}
 	NULL
 }
@@ -76,13 +84,16 @@ message_pos_auto = function(type) {
 	if (!message_thrown("pos_auto")) {
 		fun = if (type == "autoout") "tm_pos_auto_out()" else "tm_pos_auto_in()"
 		fun2 = if (type == "autoout") "tm_pos_out()" else "tm_pos_in()"
-		cli::cli_inform("{.field [position]} use {.val fun2} instead of {.val fun}. The latter should be used with {.code tmap_options()}.")
+		cli::cli_inform("{.field [position]} use {.val {fun2}} instead of {.val {fun}}. The latter should be used with {.fn tmap_options}.")
 		message_reg("pos_auto")
 	}
 	NULL
 }
 
 error_dimvalues = function() {
-	stop("tm_vars(): \"dimvalues\" has been used, but the shape object does not contain any dimensions; please use \"x\" to specify variables", call. = FALSE)
+	cli::cli_abort(
+		"{.val dimvalues} has been used, but the shape object does not contain any dimensions; please use {.arg x} to specify variables",
+		call = call("tm_vars")
+	)
 }
 

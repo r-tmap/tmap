@@ -45,7 +45,7 @@ stm_bbox = function(shpTM, tmapID, crs) {
 		shp = shpTM$shp
 		shpID = shpTM$tmapID
 
-		if (length(tmapID) ==0 ) return(sf::st_bbox(as.numeric(NA)))
+		if (length(tmapID) == 0) return(sf::st_bbox(NA_real_))
 		# filter the shape?
 		do_filter = (length(tmapID) != length(shpID)) || (!all(tmapID == shpID))
 
@@ -119,5 +119,3 @@ bb_ll_valid = function(bbx) {
 	bbx[4] = min(bbx[4], 90)
 	bbx
 }
-
-

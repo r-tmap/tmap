@@ -46,8 +46,7 @@
 #' @param margin.item.text PARAM_DESCRIPTION
 #' @param ... passed on (?)
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
-#' @return OUTPUT_DESCRIPTION
-#' @rdname tm_legend
+#' @return A tm_legend component
 #' @export
 tm_legend = function(title,
 					 show,
@@ -97,18 +96,16 @@ tm_legend = function(title,
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("xlab" %in% (names(args)))) args$xlab = NA
 	if (!("ylab" %in% (names(args)))) args$ylab = NA
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
 
-#' @name tm_legend_hide
 #' @rdname tm_legend
 #' @export
 tm_legend_hide = function() {
 	tm_legend(show = FALSE)
 }
 
-#' @name tm_legend_combine
 #' @rdname tm_legend
 #' @export
 tm_legend_combine = function(variable) {
@@ -135,7 +132,7 @@ tm_legend_bivariate = function(xlab,
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("xlab" %in% (names(args)))) args$xlab = NA
 	if (!("ylab" %in% (names(args)))) args$ylab = NA
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$orientation = "portrait"
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }

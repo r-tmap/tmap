@@ -146,7 +146,7 @@ tm_legend_combine(variable)
 \item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
 }
 \value{
-OUTPUT_DESCRIPTION
+A tm_legend component
 }
 \description{
 Legend specification
