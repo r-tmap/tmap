@@ -15,12 +15,15 @@ checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/w
 <!-- badges: end -->
 
 **tmap** is an R package for drawing thematic maps. The API is based on
-\[*A Layered Grammar of Graphics*\]\[4\] and resembles the syntax of
-\[`ggplot2`\]\[3\], a popular R-library for drawing charts.
+[*A Layered Grammar of
+Graphics*](https://vita.had.co.nz/papers/layered-grammar.pdf) and
+resembles the syntax of
+[**ggplot2**](https://cran.r-project.org/package=ggplot2), a popular
+R-library for drawing charts.
 
 ## Installation
 
-Installation of tmap (version 4) is straightforward:
+Installation of **tmap** (version 4) is straightforward:
 
 ``` r
 # install.packages("remotes")
@@ -34,7 +37,7 @@ pak::pak("r-tmap/tmap")
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-The old version of `tmap` (version 3) is available on
+The old version of **tmap** (version 3) is available on
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap),
 but we recommend to use version 4, which will be on CRAN soon.
 
@@ -56,7 +59,7 @@ issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 
 Plot a World map of the happy planet index (HPI) per country. The object
 `World` is an example spatial data (`sf`) object that is contained in
-`tmap`:
+**tmap**:
 
 ``` r
 tm_shape(World) +
@@ -81,4 +84,6 @@ tm_shape(World, crs = "+proj=robin") +
 
 # Book chapter about tmap
 
-<https://r.geocompx.org/adv-map>
+The book [Geocomputation with R](https://r.geocompx.org/) provides a
+chapter on [Making maps with R](https://r.geocompx.org/adv-map),
+including a section on **tmap**.
