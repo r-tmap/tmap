@@ -219,7 +219,7 @@ Both `tm_scale_categorical()` and `tm_scale_ordinal()` tread data as categorical
 
 The other shown scales can only be applied to numeric data. Note that in this example the breaks of `tm_scale_intervals()` are similar to the tick marks of `tm_scale_continous()`. However, when using class intervals only a few colors are used (in this case 6 plus a color for missing values) whereas in a continuous scale a gradient of colors is used. The advantage of using class intervals is that it is relatively easy to read data values from the map, e.g. the value of South Africa is 55 to 60, while the advantage of using a continuous color scale is that the colors in the map are more accurate (because they are unrounded).
 
-For `tm_scale_intervals()` it is possible to chose how to determine the breaks (with the argument `style`). For `tm_scale_continous()` it is possible to use a transformation function: in this case the built-in log transformation is used (which is pretty useless for this particular example because of the data range).
+For `tm_scale_intervals()` it is possible to chose how to determine the breaks (with the argument `style`). For `tm_scale_continuous()` it is possible to use a transformation function: in this case the built-in log transformation is used (which is pretty useless for this particular example because of the data range).
 
 Finally, `tm_scale_discrete()` uses a discrete linear scale. Note that this is different than `tm_scale_ordinal()`, which does not use colors for values that are not present (as categories), for instance 53.
 
