@@ -14,7 +14,7 @@ tm_add_legend(
   group = NA,
   group.control = "check",
   resize.as.group = FALSE,
-  z = as.integer(NA)
+  z = NA_integer_
 )
 }
 \arguments{

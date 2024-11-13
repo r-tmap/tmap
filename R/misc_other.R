@@ -164,7 +164,7 @@ get_asp_ratio = function (x, width = 700, height = 700, res = 100)  {
 # get aspect ratios of a list of bounding boxes
 get_asp = function(bbxl) {
 	vapply(bbxl, function(bbxi) {
-		if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
+		if (is.na(bbxi)) NA_real_ else get_asp_ratio(bbxi)
 	}, FUN.VALUE = numeric(1))
 }
 

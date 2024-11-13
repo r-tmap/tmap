@@ -12,8 +12,10 @@
 
 * New family of functions `tm_chart_*()` to do charting (See `?tm_chart`) (#581)
 
+* New [vignettes](https://r-tmap.github.io/tmap/articles/) available to explain how to upgrade your code to tmap v4
+
 # tmap 3.3-4
-- (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x (release planned at the end of 2023)
+- (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x
 - fixed bug (some stars appeared upside down in plot mode)
 - fixed newly introduced shiny bug (#767)
 
@@ -48,7 +50,7 @@
 - interactive maps in origin CRS working: `tmap_options(projection = 0, basemaps = NULL)`
 - added `tm_mouse_coordinates()` to show mouse coordinates in view mode
 - added `tmap_design_mode()` to toggle the design mode.
-- made backgrond symbol grob shapes transparent
+- made background symbol grob shapes transparent
 - added in.iframe and `selfcontained` to `tmap_save()`
 - improved `tm_add_legend()`: added `type = "title"` for title only legend elements
 - added `ttmp()` which shows the last map in the other mode. 

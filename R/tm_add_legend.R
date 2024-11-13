@@ -31,8 +31,8 @@ tm_add_legend = function(...,
 						 group = NA,
 						 group.control = "check",
 						 resize.as.group = FALSE,
-						 z = as.integer(NA)) {
-	if (missing(labels)) stop("tm_add_legend: labels required", call. = FALSE)
+						 z = NA_integer_) {
+	rlang::check_required(labels)
 
 	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
 

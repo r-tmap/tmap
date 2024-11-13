@@ -20,9 +20,11 @@ tm_logo(
 )
 }
 \arguments{
-\item{file}{either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.}
+\item{file}{either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other.
+To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.}
 
-\item{height}{height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo. If multiple logos are specified by a vector or list, the heights can be specified accordingly.}
+\item{height}{height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo.
+If multiple logos are specified by a vector or list, the heights can be specified accordingly.}
 
 \item{margins}{margins}
 

@@ -31,7 +31,7 @@ tm_chart_histogram = function(breaks,
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "histogram"
 	args$summary = "binned"
@@ -40,19 +40,19 @@ tm_chart_histogram = function(breaks,
 
 #' @rdname tm_chart
 #' @export
-tm_chart_bar = function( plot.axis.x,
-							  plot.axis.y,
-							  extra.ggplot2,
-							  position,
-							  width,
-							  height,
-							  stack,
-							  z,
-							  group.frame,
-							  resize.as.group) {
+tm_chart_bar = function(plot.axis.x,
+						plot.axis.y,
+						extra.ggplot2,
+						position,
+						width,
+						height,
+						stack,
+						z,
+						group.frame,
+						resize.as.group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "bar"
 	args$summary = "binned"
@@ -63,15 +63,15 @@ tm_chart_bar = function( plot.axis.x,
 #' @rdname tm_chart
 #' @export
 tm_chart_donut = function(position,
-							  width,
-							  height,
-							  stack,
-							  z,
-							  group.frame,
-							  resize.as.group) {
+						  width,
+						  height,
+						  stack,
+						  z,
+						  group.frame,
+						  resize.as.group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "donut"
 	args$summary = "binned"
@@ -89,7 +89,7 @@ tm_chart_violin = function(position,
 						   resize.as.group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "violin"
 	args$summary = "raw_nna"
@@ -99,15 +99,15 @@ tm_chart_violin = function(position,
 #' @rdname tm_chart
 #' @export
 tm_chart_box = function(position,
-						   width,
-						   height,
-						   stack,
-						   z,
-						   group.frame,
-						   resize.as.group) {
+					    width,
+					    height,
+					    stack,
+					    z,
+					    group.frame,
+					    resize.as.group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "box"
 	args$summary = "raw_nna"
@@ -125,15 +125,15 @@ tm_chart_none = function() {
 #' @rdname tm_chart
 #' @export
 tm_chart_heatmap = function(position,
-						width,
-						height,
-						stack,
-						z,
-						group.frame,
-						resize.as.group) {
+							width,
+							height,
+							stack,
+							z,
+							group.frame,
+							resize.as.group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("z" %in% (names(args)))) args$z = as.integer(NA)
+	if (!("z" %in% (names(args)))) args$z = NA_integer_
 	args$show = TRUE
 	args$type = "heatmap"
 	args$summary = "binned2D"
