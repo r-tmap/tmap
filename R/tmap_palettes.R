@@ -17,12 +17,12 @@ pals_v3 = c(BrBG = "brewer.br_bg", PiYG = "brewer.pi_yg", PRGn = "brewer.prgn",
 			cividis = "matplotlib.cividis")
 
 
-getPal = function(name, n = NA, rep = TRUE, range = NA) {
+getPal = function(name, n = NA, rep = TRUE, range = NA, reversed = FALSE) {
 	if (name %in% c("cat", "seq", "div")) {
 		name = cols4all::c4a_options("defaults")$defaults[[name]]
 	}
 
-	cols4all::c4a(name, n = n, nm_invalid = {if (rep) "repeat" else "interpolate"}, range = range)
+	cols4all::c4a(name, n = n, nm_invalid = {if (rep) "repeat" else "interpolate"}, range = range, reverse = reversed)
 }
 
 getPalBiv = function(name, m = NA, n = NA, rep = TRUE) {
