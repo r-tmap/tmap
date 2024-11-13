@@ -61,7 +61,8 @@ impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 				warning("WegGL enabled, but the following visual variable only accept one value ", paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", "), ". Set use.WebGL to FALSE to support them.", call. = FALSE)
 			}
 		} else {
-			use.WebGL = TRUE
+			n = nrow(dt)
+			use.WebGL = (n >= 500)
 		}
 	}
 	use.WebGL
@@ -122,9 +123,13 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		shp3lines = suppressWarnings(sf::st_cast(shp3, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		popups2 = popups[shp3$id]
+
+		# opacity channel from fill (e.g. "#FF000099") is ignored by addGlPolygons
+		fill_alpha = split_alpha_channel(gp3$fill[1], alpha = gp3$fill_alpha[1])$opacity
+
 		lf |>
-			leafgl::addGlPolygons(data = shp3, layerId = idt, # not working: color = gp3$col, opacity = gp3$col_alpha[1],
-								  fillColor = gp3$fill, fillOpacity = gp3$fill_alpha[1], #not working: weight = gp3$lwd[1],
+			leafgl::addGlPolygons(data = shp3, layerId = idt,
+								  fillColor = gp3$fill, fillOpacity = fill_alpha,
 								  group = group, pane = pane, popup = popups2) %>%
 			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) else .} %>%
 			assign_lf(facet_row, facet_col, facet_page)
