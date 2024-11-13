@@ -45,16 +45,11 @@ knitr::knit_hooks$set(output = function(x, options) {
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
 <!-- badges: end -->
 
-
-
-
-**tmap** is an R package for drawing thematic maps. The API is based on [*A Layered Grammar of Graphics*][4] and resembles the syntax of [`ggplot2`][3], a popular R-library for drawing charts.
-
+**tmap** is an R package for drawing thematic maps. The API is based on [*A Layered Grammar of Graphics*][4] and resembles the syntax of [**ggplot2**][3], a popular R-library for drawing charts.
 
 ## Installation
 
-Installation of tmap (version 4) is straightforward:
-
+Installation of **tmap** (version 4) is straightforward:
 
 ```{r eval=FALSE}
 # install.packages("remotes")
@@ -68,7 +63,7 @@ pak::pak("r-tmap/tmap")
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-The old version of `tmap` (version 3) is available on [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap), but we recommend to use version 4, which will be on CRAN soon.
+The old version of **tmap** (version 3) is available on [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap), but we recommend to use version 4, which will be on CRAN soon.
 
 For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
 
@@ -87,15 +82,16 @@ See https://www.kyngchaos.com/. Please address installation issues in this [issu
 library(tmap)
 ```
 
-Plot a World map of the happy planet index (HPI) per country. The object `World` is an example spatial data (`sf`) object that is contained in `tmap`:
+Plot a World map of the happy planet index (HPI) per country.
+The object `World` is an example spatial data (`sf`) object that is contained in **tmap**:
 
 ```{r fig.height=3, fig.width=8}
 tm_shape(World) +
 	tm_polygons(fill = "HPI")
 ```
 
-This map can be enhanced in several ways. For instance:
-
+This map can be enhanced in several ways. 
+For instance:
 
 ```{r}
 tm_shape(World, crs = "+proj=robin") +
@@ -109,5 +105,8 @@ tm_shape(World, crs = "+proj=robin") +
 
 # Book chapter about tmap
 
+The book [Geocomputation with R](https://r.geocompx.org/) provides a chapter on [Making maps with R](https://r.geocompx.org/adv-map), including a section on **tmap**.
 
-https://r.geocompx.org/adv-map
+
+[3]: https://cran.r-project.org/package=ggplot2
+[4]: https://vita.had.co.nz/papers/layered-grammar.pdf
