@@ -75,11 +75,11 @@
 </div>
 <!-- badges: start -->
 
-<p><strong>tmap</strong> is an R package for drawing thematic maps. The API is based on [<em>A Layered Grammar of Graphics</em>][4] and resembles the syntax of [<code>ggplot2</code>][3], a popular R-library for drawing charts.</p>
+<p><strong>tmap</strong> is an R package for drawing thematic maps. The API is based on <a href="https://vita.had.co.nz/papers/layered-grammar.pdf" class="external-link"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="https://cran.r-project.org/package=ggplot2" class="external-link"><strong>ggplot2</strong></a>, a popular R-library for drawing charts.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Installation of tmap (version 4) is straightforward:</p>
+<p>Installation of <strong>tmap</strong> (version 4) is straightforward:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
@@ -90,7 +90,7 @@
 <span></span>
 <span><span class="co"># Or from r-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The old version of <code>tmap</code> (version 3) is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>, but we recommend to use version 4, which will be on CRAN soon.</p>
+<p>The old version of <strong>tmap</strong> (version 3) is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>, but we recommend to use version 4, which will be on CRAN soon.</p>
 <p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
 <p><strong>Windows</strong> No additional installation required.</p>
 <p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompx.org/post/2020/installing-r-spatial-packages-linux/" class="external-link uri">https://geocompx.org/post/2020/installing-r-spatial-packages-linux/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/150" class="external-link">issue</a>.</p>
@@ -100,7 +100,7 @@
 <div class="section level1">
 <h1 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h1>
-<p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data (<code>sf</code>) object that is contained in <code>tmap</code>:</p>
+<p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data (<code>sf</code>) object that is contained in <strong>tmap</strong>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
@@ -119,7 +119,7 @@
 <div class="section level1">
 <h1 id="book-chapter-about-tmap">Book chapter about tmap<a class="anchor" aria-label="anchor" href="#book-chapter-about-tmap"></a>
 </h1>
-<p><a href="https://r.geocompx.org/adv-map" class="external-link uri">https://r.geocompx.org/adv-map</a></p>
+<p>The book <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a> provides a chapter on <a href="https://r.geocompx.org/adv-map" class="external-link">Making maps with R</a>, including a section on <strong>tmap</strong>.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
