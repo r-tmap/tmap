@@ -60,7 +60,7 @@ the edges of the image.}
 
 \item{restart.delay}{not used anymore.}
 
-\item{...}{arguments passed on to \code{\link[av:av_encode_video]{av::av_encode_video()}}}
+\item{...}{arguments passed on to \code{\link[av:encoding]{av::av_encode_video()}}}
 }
 \description{
 Create a gif animation or video from a tmap plot.
