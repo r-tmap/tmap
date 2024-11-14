@@ -66,7 +66,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 		pH = convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*frame.lwd
 		pW = convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*frame.lwd
 
-		if (o$frame.double.line) {
+		if (o$frame.double_line) {
 			bgcol = substr(o$bg.color, 1, 7) # remove transparency
 			grid::grobTree(
 				rndrectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=bgcol, fill=NA, lwd=4*frame.lwd, lineend="square"), r = r, name = "outer_frame"),

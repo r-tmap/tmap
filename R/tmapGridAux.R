@@ -145,9 +145,9 @@ tmapGridGridPrep = function(a, bs, id, o) {
 
 
 
-	#alpha <- labels.inside.frame <- labels.rot <- NULL
+	#alpha <- labels.inside_frame <- labels.rot <- NULL
 	a2 = within(a, {
-		if (labels.inside.frame && !identical(labels.pos, c("left", "bottom"))) warning("label.pos not implemented yet for labels.inside.frame==TRUE (only c(\"left\", \"bottom\"))")
+		if (labels.inside_frame && !identical(labels.pos, c("left", "bottom"))) warning("label.pos not implemented yet for labels.inside_frame==TRUE (only c(\"left\", \"bottom\"))")
 		show <- TRUE
 		if (is.na(col)) col <- ifelse(o$attr.color.light, darker(o$attr.color, .5), lighter(o$attr.color, .5))
 		if (is.na(labels.col)) labels.col <- ifelse(o$attr.color.light, darker(o$attr.color, .2), lighter(o$attr.color, .2))
@@ -159,14 +159,14 @@ tmapGridGridPrep = function(a, bs, id, o) {
 
 		crs <- sf::st_crs(crs)
 
-		if (!labels.inside.frame && any(o$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
+		if (!labels.inside_frame && any(o$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
 		if (!"scientific" %in% names(labels.format)) labels.format$scientific <- FALSE
 		if (!"digits" %in% names(labels.format)) labels.format$digits <- NA
 
 		labels.show <- rep(labels.show, length.out = 2)
 		ticks <- rep(ticks, length.out = 2)
 
-		add.labels = labels.inside.frame & labels.show
+		add.labels = labels.inside_frame & labels.show
 
 
 	})
@@ -544,7 +544,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 
 
 
-	if (a$labels.inside.frame && any(a$ticks) && o$show.warnings) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
+	if (a$labels.inside_frame && any(a$ticks) && o$show.warnings) warning("Grid ticks are not supported when labels.inside_frame = TRUE", call. = FALSE)
 
 
 	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
@@ -561,7 +561,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 
 	# find margins due to grid labels
 	if (!is.na(o$frame)) {
-		if (o$frame.double.line) {
+		if (o$frame.double_line) {
 			fw <- (6 * grid::convertWidth(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fW
 			fh <- (6 * grid::convertHeight(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fH
 		} else {

@@ -1,7 +1,7 @@
 add_to_gt = function(gt, grb, row, col) {
 	vp = grid::viewport(layout.pos.col = col, layout.pos.row = row)
 	gtr = grid::grobTree(grb, vp = vp)
-	
+
 	grid::addGrob(gt, gtr, gPath = grid::gPath("gt_main"))
 }
 
@@ -20,15 +20,15 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 		if (is.na(gp$fill_alpha[1]) && !is.na(gp$col_alpha[1])) sel = "col"
 		if (!is.na(gp$fill_alpha[1]) && is.na(gp$col_alpha[1])) sel = "fill"
 	}
-	
-	
+
+
 	# get alpha value (sel: "all" means fill and col, "fill" and "col" mean fill and col only respectively)
 	alpha = if (sel == "fill") {
 		if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1
 	} else {
 		if (!is.na(gp$col_alpha[1])) gp$col_alpha else 1
 	}
-	
+
 	# create a list of gp elements
 	lst = c(list(fill = {if (sel == "col") NA else gp$fill},
 			   col = {if (sel == "fill") NA else gp$col},
@@ -42,28 +42,28 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			   fontface = {if (!all(is.na(gp$cex))) gp$fontface else getAesOption("value.blank", o, aes = "fontface", layer = type)},
 			   fontfamily = {if (!all(is.na(gp$fontfamily))) gp$fontfamily else ""},
 			   shape = {if (!all(is.na(gp$shape))) gp$shape else getAesOption("value.const", o, aes = "shape", layer = type)}))
-	
-	# 
+
+	#
 	if (!is.null(id)) {
 		lst = lapply(lst, "[", id)
 	}
-	
-	lst_isnum = c(fill = FALSE, 
-				  col = FALSE, 
-				  alpha = TRUE, 
-				  lty = FALSE, 
-				  lwd = TRUE, 
-				  lineend = FALSE, 
-				  linejoin = FALSE, 
-				  size = TRUE, 
-				  cex = TRUE, 
+
+	lst_isnum = c(fill = FALSE,
+				  col = FALSE,
+				  alpha = TRUE,
+				  lty = FALSE,
+				  lwd = TRUE,
+				  lineend = FALSE,
+				  linejoin = FALSE,
+				  size = TRUE,
+				  cex = TRUE,
 				  fontface = FALSE,
 				  fontfamily = FALSE,
 				  shape = TRUE)
-	
+
 	lst = mapply(function(lsti, isnum) {
 		if (!is.character(lsti)) return(lsti)
-		
+
 		if (nchar(lsti[1]) > 50) {
 			x = cont_split(lsti)
 			x = lapply(x, function(i) {
@@ -74,18 +74,18 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			if (pick_middle) {
 				x = sapply(x, function(i) {
 					if (all(is.na(i))) NA else {
-						sq = (o$nvv/2) + (rep(0:5,each=2) * c(1,-1))[-1] # priority for middle values
+						sq = (o$continuous.nclass_per_legend_break/2) + (rep(0:5,each=2) * c(1,-1))[-1] # priority for middle values
 						i[sq[which(!is.na(i)[sq])[1]]]
 					}
 				})
 			}
 			return(x)
-			
+
 		} else {
 			return(lsti)
 		}
 	}, lst, lst_isnum[names(lst)], SIMPLIFY = FALSE)
-	
+
 	if (!is.null(split_to_n)) {
 		split_gp(lst, split_to_n)
 	} else {
@@ -101,19 +101,19 @@ split_gp = function(gp, n) {
 	})
 	lapply(lst, function(lsti) {
 		do.call(grid::gpar, lsti)
-	})	
-} 
+	})
+}
 
 
 determine_scale = function(label, rot, row, col, g, scale = 1) {
-	
+
 	w = sum(g$colsIn[col])
 	h = sum(g$rowsIn[row])
-	
+
 	labwidth = graphics::strwidth(label, units = "inches")
 	labheight = graphics::strheight(label, units = "inches")
-	
-	
+
+
 	scale = min(scale, {if (rot %in% c(0, 180)) {
 		min(w / labwidth, h / labheight)
 	} else {
@@ -125,12 +125,12 @@ frc = function(row, col) paste0(sprintf("%02d", row), "_", sprintf("%02d", col))
 
 impute_gp = function(gp, dt) {
 	dtn = setdiff(names(dt), c("tmapID__", paste0("by", 1L:3L, "__")))
-	
+
 	cols = paste0("__", dtn)
 	gp1 = sapply(gp, "[[", 1)
 	gpids = which(gp1 %in% cols)
 	#gp[gpids] = as.list(dt[, dtn, with = FALSE])
-	
+
 	for (i in gpids) gp[i] = as.list(dt[, dtn[match(gp1[i], cols)], with = FALSE])
 	gp
 }
@@ -184,15 +184,15 @@ unit_add_sides = function(x, y) {
 # u is unit vector, tot = is the total size (width or height). The null units are distributed such that the total equals tot
 distr_space_over_nulls = function(u, tot, stretchID = NA) {
 	u0 = grid::unitType(u) == "null"
-	
+
 	un = grid::convertUnit(u, unitTo = "inch", valueOnly = TRUE)
 	tn = as.numeric(tot)
-	
+
 	un_not0 = sum(un[!u0])
 	un_dist_over0 = tn - un_not0
 
 	normalize = function(x, s = 1) (x / sum(x)) * s
-	
+
 	if (un_dist_over0 < 0) {
 		un[u0] = 0
 		if (!is.na(stretchID)) un[stretchID] = max(0, un[stretchID] + un_dist_over0)
@@ -233,32 +233,32 @@ swap_pch_15_20 = function(gp) {
 		gp$fill_alpha[pch15_20] = fill_alpha
 	}
 	gp
-}	
+}
 
 
 # zero_one_to_hex = function(x) {
 # 	# using indexing
 # 	u = unique(x)
-# 	
+#
 # 	x255 = round(u * 255)
-# 	
+#
 # 	nc = c(0:9, LETTERS[1:6])
-# 	
+#
 # 	y1 = (x255 %/% 16) + 1
 # 	y2 = (x255 - (y1 - 1) * 16) + 1
-# 	
+#
 # 	r = paste0(nc[y1], nc[y2])
 # 	r[match(x, u)]
 # }
 
 # 255 to 2digit hex number
 num_to_hex = function(x) {
-	
+
 	nc = c(0:9, LETTERS[1:6])
-	
+
 	y1 = (x %/% 16) + 1
 	y2 = (x - (y1 - 1) * 16) + 1
-	
+
 	paste0(nc[y1], nc[y2])
 }
 
@@ -275,7 +275,7 @@ merge_alpha = function(dt, name) {
 		d1 = d[1,]
 		col = d1[[name]]
 		alpha = d1[[name_a]]
-		
+
 		if (nchar(col) == 9) {
 			a = hex_to_num(substr(col, 8, 9)) * alpha
 			cl = substr(col, 1, 7)
@@ -286,7 +286,7 @@ merge_alpha = function(dt, name) {
 		ac = paste0(cl, num_to_hex(round(a)))
 		rep(ac, nrow(d))
 	}
-	
+
 	dt[, ca:=f(.SD), by = c(name, name_a), .SDcols = c(name, name_a)]
 }
 

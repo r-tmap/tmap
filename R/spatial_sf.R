@@ -38,7 +38,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 		sfc = sf::st_zm(sfc)
 	}
 
-	if (o$check.and.fix) sfc = check_fix(sfc, shp_name, reproj, o$show.messages)
+	if (o$check_and_fix) sfc = check_fix(sfc, shp_name, reproj, o$show.messages)
 
 	# if check_fix fails, is_valid contains the valid ids
 	isv = attr(sfc, "is_valid")

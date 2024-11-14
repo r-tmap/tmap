@@ -18,10 +18,10 @@
 #' @param position position
 #' @param width,height width and height of the title box.
 #' @param group.frame group.frame
-#' @param resize.as.group resize.as.group
+#' @param resize_as_group resize_as_group
 #' @param z z
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
@@ -76,10 +76,10 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @param width width
 #' @param height height
 #' @param group.frame group.frame
-#' @param resize.as.group resize.as.group
+#' @param resize_as_group resize_as_group
 #' @param z z
 #' @export
-tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group, z) {
+tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_credits", "tm_component")))))
@@ -253,28 +253,28 @@ tm_minimap <- function(server,
 #' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo.
 #'   If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param margins margins
-#' @param between.margin between.margin
+#' @param between_margin between_margin
 #' @param stack stack
 #' @param position position
 #' @param frame frame
 #' @param frame.lwd frame.lwd
 #' @param frame.r frame.r
 #' @param group.frame group.frame
-#' @param resize.as.group resize.as.group
+#' @param resize_as_group resize_as_group
 #' @param z z
 #' @example ./examples/tm_logo.R
 #' @export
 tm_logo = function(file,
 				   height,
 				   margins,
-				   between.margin,
+				   between_margin,
 				   stack,
 				   position,
 				   frame,
 				   frame.lwd,
 				   frame.r,
 				   group.frame,
-				   resize.as.group,
+				   resize_as_group,
 				   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_

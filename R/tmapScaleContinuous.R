@@ -131,7 +131,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		domain_t = do.call(tr$fun, c(list(x = tr$domain), trargs))
 
 		if (!vnum) {
-			breaks = cont_breaks(limits_t, n=o$precision)
+			breaks = cont_breaks(limits_t, n=o$continuous.nclasses)
 			if (is.null(labels)) {
 				ncont = n
 			} else {
@@ -142,7 +142,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 					ncont = length(labels)
 				}
 			}
-			q = num2breaks(x = x_t, n = o$precision, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
+			q = num2breaks(x = x_t, n = o$continuous.nclasses, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
 
 			breaks = q$brks
 			nbrks = length(breaks)
@@ -194,7 +194,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			#### discretisize
 
 			# number of visual values in legend item (belonging to one label)
-			nvv = o$nvv
+			nvv = o$continuous.nclass_per_legend_break
 
 
 			VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
@@ -277,7 +277,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 				res1 = round(seq(i-floor(s1/2), i, length.out=(nvv/2)+1L))
 				res2 = round(seq(i, i+ceiling(s2/2), length.out=(nvv/2)+1L))[2:(nvv/2)]
 				res = c(res1, res2)
-				res[res<1 | res>o$precision] = NA
+				res[res<1 | res>o$continuous.nclasses] = NA
 				res
 			}, id, head(id_step, -1), id_step[-1], SIMPLIFY = FALSE)
 			vvalues = lapply(id_lst, function(i) {

@@ -773,7 +773,7 @@ tmapGridCompWidth.tm_logo = function(comp, o) {
 	marW = comp$margins[c(2,4)] * o$lin
 	ws = c(marW[1], 
 		   comp$width[1] * o$lin, 
-		   {if (k > 1) unlist(lapply(comp$width[-1], function(w) c(comp$between.margin, w) * o$lin)) else NULL},
+		   {if (k > 1) unlist(lapply(comp$width[-1], function(w) c(comp$between_margin, w) * o$lin)) else NULL},
 		   marW[2])
 	
 	sides = switch(comp$position$align.h, left = "second", right = "first", "both")

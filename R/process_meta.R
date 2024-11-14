@@ -123,15 +123,15 @@ process_meta = function(o, d, cdt, aux) {
 			nrows = 1L
 			ncols = 1L
 
-			between.marginH = between.margin * lineH
-			between.marginW = between.margin * lineW
+			between_marginH = between_margin * lineH
+			between_marginW = between_margin * lineW
 
 
 			#overall scale down factor for facets
-			width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols)
+			width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between_marginW) / ncols)
 			width_for1 = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (sum(panel.wrap.size[c(2,4)]))))
 
-			height_forn = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows)
+			height_forn = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between_marginH) / nrows)
 			height_for1 = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (sum(panel.wrap.size[c(1,3)]))))
 
 			scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)
@@ -250,7 +250,7 @@ process_meta = function(o, d, cdt, aux) {
 
 
 			grid.labels.show = rep(grid.labels.show, length.out = 2) # also happens in tmapGridGridPrep
-			if (grid.show && any(grid.labels.show) && !grid.labels.inside.frame) {
+			if (grid.show && any(grid.labels.show) && !grid.labels.inside_frame) {
 				proj = sf::st_crs(bbx)
 				if (!is.na(o$grid.crs)) {
 					bbx_orig <- bbx
@@ -288,8 +288,8 @@ process_meta = function(o, d, cdt, aux) {
 				grid.margins = rep(0, 4)
 			}
 
-			between.marginH = between.margin * lineH
-			between.marginW = between.margin * lineW
+			between_marginH = between_margin * lineH
+			between_marginW = between_margin * lineW
 
 			fixedMargins = outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
 		} else { #if (gs == "Leaflet") {
@@ -298,8 +298,8 @@ process_meta = function(o, d, cdt, aux) {
 			grid.margins = rep(0, 4)
 			fixedMargins = rep(0, 4)
 			panel.wrap.size = rep(0, 4)
-			between.marginH = 0
-			between.marginW = 0
+			between_marginH = 0
+			between_marginW = 0
 		}
 
 
@@ -312,7 +312,7 @@ process_meta = function(o, d, cdt, aux) {
 		# masp: multiples (facets) area
 
 		# determine where to place automatic legends (i.e. legends with local legend.position = NA and with legend.position = tm_pos_auto_out() enabled)
-		# this is also neede to find out which margins are taken from meta.auto.margins
+		# this is also neede to find out which margins are taken from meta.auto_margins
 
 		legend.position.sides = legend.position
 		legend.position.all = legend.position
@@ -341,8 +341,8 @@ process_meta = function(o, d, cdt, aux) {
 
 					if (type == "page" || (nrow(legs_auto) && n == 1)) {
 
-						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)]))
-						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
+						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto_margins[c(2,4)]))
+						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto_margins[c(1,3)]))
 
 
 						av_width = mx_width - legWmax * devsize[1]
@@ -427,7 +427,7 @@ process_meta = function(o, d, cdt, aux) {
 
 
 				if (nrow(cdt2) == 0) {
-					meta.auto.margins = c(0, 0, 0, 0)
+					meta.auto_margins = c(0, 0, 0, 0)
 				} else {
 					if (type == "stack") {
 						# workaround: stacking mode is determined later (step4 L156), because it requires ncols and nrows
@@ -435,7 +435,7 @@ process_meta = function(o, d, cdt, aux) {
 
 						cdt2[is.na(by1__), by1__:=1]
 
-						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
+						meta.auto_margins = pmin(meta.auto_margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]
 
 							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
@@ -450,7 +450,7 @@ process_meta = function(o, d, cdt, aux) {
 							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1])
 						})))
 					} else {
-						meta.auto.margins = pmin(meta.auto.margins,
+						meta.auto_margins = pmin(meta.auto_margins,
 												 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
 												   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
 												   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
@@ -458,37 +458,37 @@ process_meta = function(o, d, cdt, aux) {
 					}
 
 					# add margins (compensate for legend frames)
-					# the final calculations of these margins are computed in tmapGridLegend (this is just to compute the meta.auto.margins)
+					# the final calculations of these margins are computed in tmapGridLegend (this is just to compute the meta.auto_margins)
 					# those calculations are take the component.offset into account
 
-					sel_tb = c(3,1)[meta.auto.margins[c(3,1)]!=0]
-					sel_lr = c(2,4)[meta.auto.margins[c(2,4)]!=0]
-					if (length(sel_tb)) meta.auto.margins[sel_tb] = meta.auto.margins[sel_tb] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[2]
-					if (length(sel_lr)) meta.auto.margins[sel_lr] = meta.auto.margins[sel_lr] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[1]
+					sel_tb = c(3,1)[meta.auto_margins[c(3,1)]!=0]
+					sel_lr = c(2,4)[meta.auto_margins[c(2,4)]!=0]
+					if (length(sel_tb)) meta.auto_margins[sel_tb] = meta.auto_margins[sel_tb] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[2]
+					if (length(sel_lr)) meta.auto_margins[sel_lr] = meta.auto_margins[sel_lr] + 2 * (o$frame.lwd * o$scale / 144) / o$devsize[1]
 				}
 			}
 
 			if (meta.automatic && any(margins.used)) {
-				meta.auto.margins = rep(meta.auto.margins, length.out = 4)
+				meta.auto_margins = rep(meta.auto_margins, length.out = 4)
 				if (all(!margins.used[c(1,3)]) && n == 1) {
 					# auto adjust left/right
 					meta.margins[c(2,4)] =  local({
-						xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto.margins[margins.used]))
+						xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto_margins[margins.used]))
 						tmp = rep(0, 4)
-						tmp[margins.used] = meta.auto.margins[margins.used]
+						tmp[margins.used] = meta.auto_margins[margins.used]
 						tmp[c(2,4)] + (xtra / 2)
 					})
 				} else if (all(!margins.used[c(2,4)]) && n == 1) {
 					# auto adjust top/bottom
 					meta.margins[c(1,3)] =  local({
-						xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto.margins[margins.used]))
+						xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto_margins[margins.used]))
 						# divide extra vertical space between used margins
 						tmp = rep(0, 4)
-						tmp[margins.used] = meta.auto.margins[margins.used]
+						tmp[margins.used] = meta.auto_margins[margins.used]
 						tmp[c(1,3)] + (xtra / 2)
 					})
 				} else {
-					meta.margins[margins.used] = meta.auto.margins[margins.used]
+					meta.margins[margins.used] = meta.auto_margins[margins.used]
 				}
 
 				# redo calculations
@@ -529,8 +529,8 @@ process_meta = function(o, d, cdt, aux) {
 					nr = ceiling(n / nc)
 
 					# calculate available width and height. They can be negative, at this stage this is avoided my taking at least a small number
-					width = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between.marginW) / nc)
-					height = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nr * sum(panel.wrap.size[c(1,3)])) - (nr - 1) * between.marginH) / nr)
+					width = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between_marginW) / nc)
+					height = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nr * sum(panel.wrap.size[c(1,3)])) - (nr - 1) * between_marginH) / nr)
 
 					a = (width / height) * dasp
 					b = ifelse(a<pasp, pasp/a, a/pasp)
@@ -544,10 +544,10 @@ process_meta = function(o, d, cdt, aux) {
 		}
 
 		#overall scale down factor for facets
-		width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols)
+		width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between_marginW) / ncols)
 		width_for1 = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (sum(panel.wrap.size[c(2,4)]))))
 
-		height_forn = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows)
+		height_forn = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between_marginH) / nrows)
 		height_for1 = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (sum(panel.wrap.size[c(1,3)]))))
 
 		scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)

@@ -683,7 +683,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 
 			# plot grid labels
-			if (o$grid.show && !o$grid.labels.inside.frame) {
+			if (o$grid.show && !o$grid.labels.inside_frame) {
 				if (o$grid.labels.show[2] && ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols))) {
 					do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 				}

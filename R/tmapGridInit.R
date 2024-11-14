@@ -13,7 +13,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 			  grid.buffers.top = grid.buffers[3],
 			  grid.margins.top = grid.margins[3],
 
-			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], panel.wrap.margin[3], 0, panel.wrap.margin[1], panel.wrap.size[1], between.marginH), o$nrows -1) else NULL},
+			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], panel.wrap.margin[3], 0, panel.wrap.margin[1], panel.wrap.size[1], between_marginH), o$nrows -1) else NULL},
 			                          panel.wrap.size[3], panel.wrap.margin[3], 0, panel.wrap.margin[1], panel.wrap.size[1],
 
 			  grid.margins.bottom = grid.margins[1],
@@ -44,7 +44,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 			  grid.buffers.left = grid.buffers[2],
 			  grid.margins.left = grid.margins[2],
 
-			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], panel.wrap.margin[2], 0, panel.wrap.margin[4], panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
+			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], panel.wrap.margin[2], 0, panel.wrap.margin[4], panel.wrap.size[4], between_marginW), o$ncols -1) else NULL},
 			                          panel.wrap.size[2], panel.wrap.margin[2], 0, panel.wrap.margin[4], panel.wrap.size[4],
 
 			  grid.margins.left = grid.margins[4],

@@ -193,7 +193,7 @@ qtm = function(shp,
 
 	if (o$qtm.scalebar) g = g + tm_scalebar()
 	if (o$qtm.minimap) g = g + tm_minimap()
-	if (o$qtm.mouse.coordinates) g = g + tm_mouse_coordinates()
+	if (o$qtm.mouse_coordinates) g = g + tm_mouse_coordinates()
 
 	assign("last_map_new", rlang::call_match(), envir = .TMAP)
 	attr(g, "qtm_shortcut") = FALSE

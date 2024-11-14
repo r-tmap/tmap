@@ -1,10 +1,10 @@
 preprocess_meta_step1 = function(o) {
 	within(o, {
 
-		pc = list(sepia.intensity=color.sepia.intensity, saturation=color.saturation, color.vision.deficiency.sim=color.vision.deficiency.sim)
-		color.sepia.intensity = NULL
+		pc = list(sepia_intensity=color.sepia_intensity, saturation=color.saturation, color_vision_deficiency_sim=color_vision_deficiency_sim)
+		color.sepia_intensity = NULL
 		color.saturation = NULL
-		color.vision.deficiency.sim = NULL
+		color_vision_deficiency_sim = NULL
 
 		# title.size = title.size * scale
 		# legend.title.size = legend.title.size * scale
@@ -42,10 +42,10 @@ preprocess_meta_step1 = function(o) {
 			}
 		}
 		#
-		# 		between.margin.in <- convertHeight(unit(between.margin, "lines") * scale, "inch", valueOnly=TRUE)
+		# 		between_margin.in <- convertHeight(unit(between_margin, "lines") * scale, "inch", valueOnly=TRUE)
 		#
-		# 		between.margin.y <-convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$nrow
-		# 		between.margin.x <-convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
+		# 		between_margin.y <-convertHeight(unit(between_margin.in, "inch"), "npc", valueOnly=TRUE) * gf$nrow
+		# 		between_margin.x <-convertWidth(unit(between_margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
 		#
 
 		outer.margins <- rep(outer.margins, length.out = 4)
@@ -75,7 +75,7 @@ preprocess_meta_step1 = function(o) {
 
 		earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
 
-		if (is.na(bg.color) && pc$sepia.intensity != 0) bg.color = "#FFFFFF"
+		if (is.na(bg.color) && pc$sepia_intensity != 0) bg.color = "#FFFFFF"
 		bg.color = do.call("process_color", c(list(col=bg.color), pc))
 
 		if (!is.null(outer.bg.color)) outer.bg.color = do.call("process_color", c(list(col=outer.bg.color), pc))

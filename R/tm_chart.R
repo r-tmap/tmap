@@ -13,7 +13,7 @@
 #' @param stack stack with other map components?
 #' @param z stacking order
 #' @param group.frame group.frame
-#' @param resize.as.group resize.as.group
+#' @param resize_as_group resize_as_group
 #' @example examples/tm_chart.R
 #' @name tm_chart
 #' @export
@@ -27,7 +27,7 @@ tm_chart_histogram = function(breaks,
 							  stack,
 							  z,
 							  group.frame,
-							  resize.as.group) {
+							  resize_as_group) {
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
@@ -49,7 +49,7 @@ tm_chart_bar = function(plot.axis.x,
 						stack,
 						z,
 						group.frame,
-						resize.as.group) {
+						resize_as_group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -68,7 +68,7 @@ tm_chart_donut = function(position,
 						  stack,
 						  z,
 						  group.frame,
-						  resize.as.group) {
+						  resize_as_group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -86,7 +86,7 @@ tm_chart_violin = function(position,
 						   stack,
 						   z,
 						   group.frame,
-						   resize.as.group) {
+						   resize_as_group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -104,7 +104,7 @@ tm_chart_box = function(position,
 					    stack,
 					    z,
 					    group.frame,
-					    resize.as.group) {
+					    resize_as_group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -130,7 +130,7 @@ tm_chart_heatmap = function(position,
 							stack,
 							z,
 							group.frame,
-							resize.as.group) {
+							resize_as_group) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_

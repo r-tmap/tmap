@@ -14,7 +14,7 @@
 #' @param stack PARAM_DESCRIPTION
 #' @param z PARAM_DESCRIPTION
 #' @param group.frame PARAM_DESCRIPTION
-#' @param resize.as.group PARAM_DESCRIPTION
+#' @param resize_as_group PARAM_DESCRIPTION
 #' @param title.color Color of the legend title
 #' @param title.size Size of the legend title
 #' @param title.fontface Font face of the legend title
@@ -60,7 +60,7 @@ tm_legend = function(title,
 					 stack,
 					 z,
 					 group.frame,
-					 resize.as.group,
+					 resize_as_group,
 					 title.color,
 					 title.size,
 					 title.fontface,

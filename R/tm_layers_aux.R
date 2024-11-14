@@ -142,21 +142,21 @@ tm_graticules = function(x = NA,
 #'   instead of using negative coordinates for west and south (so it assumes that
 #'   the coordinates are positive in the north-east direction).
 #' @param labels.margin.x Margin between tick labels of x axis and the frame.
-#'   Note that when `labels.inside.frame = FALSE` and `ticks = TRUE`,
+#'   Note that when `labels.inside_frame = FALSE` and `ticks = TRUE`,
 #'   the ticks will be adjusted accordingly.
 #' @param labels.margin.y Margin between tick labels of y axis and the frame.
-#'   Note that when `labels.inside.frame = FALSE` and `ticks = TRUE`,
+#'   Note that when `labels.inside_frame = FALSE` and `ticks = TRUE`,
 #'   the ticks will be adjusted accordingly.
 #' @param labels.space.x Space that is used for the labels and ticks for the x-axis
-#'   when `labels.inside.frame = FALSE`. By default, it is determined automatically
+#'   when `labels.inside_frame = FALSE`. By default, it is determined automatically
 #'   using the widths and heights of the tick labels. The unit of this parameter is text line height.
 #' @param labels.space.y Space that is used for the labels and ticks for the y-axis
-#'   when `labels.inside.frame = FALSE`. By default, it is determined automatically
+#'   when `labels.inside_frame = FALSE`. By default, it is determined automatically
 #'   using the widths and heights of the tick labels. The unit of this parameter is text line height.
-#' @param labels.inside.frame Show labels inside the frame? By default `FALSE`.
-#' @param ticks If `labels.inside.frame = FALSE`, should ticks can be drawn between the labels and the frame?
+#' @param labels.inside_frame Show labels inside the frame? By default `FALSE`.
+#' @param ticks If `labels.inside_frame = FALSE`, should ticks can be drawn between the labels and the frame?
 #'   Either one value for both `x` and `y` axis, or a vector two: the first for `x` and latter for `y`.
-#' @param lines If `labels.inside.frame = FALSE`, should grid lines can be drawn?
+#' @param lines If `labels.inside_frame = FALSE`, should grid lines can be drawn?
 #' @param ndiscr Number of points to discretize a parallel or meridian
 #'   (only applicable for curved grid lines)
 #' @param zindex zindex of the pane in view mode. By default, it is set to the
@@ -195,8 +195,8 @@ tm_grid = function(x = NA,
 				   labels.margin.y = 0,
 				   labels.space.x = NA,
 				   labels.space.y = NA,
-				   labels.inside.frame = FALSE,
-				   ticks = labels.show & !labels.inside.frame,
+				   labels.inside_frame = FALSE,
+				   ticks = labels.show & !labels.inside_frame,
 				   lines = TRUE,
 				   ndiscr = 100,
 				   zindex = NA,

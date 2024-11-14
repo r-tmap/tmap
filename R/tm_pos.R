@@ -58,14 +58,14 @@
 #' `tm_pos_out()` sets the position of the component(s) outside the map.
 #'
 #' The amount of space that the top and bottom rows, and left and right columns
-#' occupy is determined by the [tm_layout()] arguments `meta.margins` and `meta.auto.margins`.
+#' occupy is determined by the [tm_layout()] arguments `meta.margins` and `meta.auto_margins`.
 #' The former sets the relative space of the bottom, left, top, and right side.
 #' In case these are set to `NA`, the space is set automatically based on 1)
-#' the maximum relative space specified by `meta.auto.margins` and 2)
+#' the maximum relative space specified by `meta.auto_margins` and 2)
 #' the presence and size of components in each cell.
 #' For instance, if there is one landscape oriented legend in the center-bottom cell,
 #' then the relative space of the bottom row is set to the height of that legend
-#' (given that it is smaller than the corresponding value of `meta.auto.margins`),
+#' (given that it is smaller than the corresponding value of `meta.auto_margins`),
 #' while the other four sides are set to 0.
 #'
 #' `tm_pos_auto_out()` is more complex: the `cell.h` and `cell.v` arguments should be set

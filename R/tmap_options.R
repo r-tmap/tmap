@@ -37,7 +37,7 @@ tmapMode = function(id, name, ...) {
 					 			set.zoom.limits = NA,
 					 			qtm.scalebar = TRUE,
 					 			qtm.minimap = FALSE,
-					 			qtm.mouse.coordinates = TRUE,
+					 			qtm.mouse_coordinates = TRUE,
 					 			leaflet.options = list())),
 
 		crs = NA,
@@ -48,7 +48,7 @@ tmapMode = function(id, name, ...) {
 		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
 
 		# spatial object class specific options
-		raster.max.cells = 1e7, # was max.raster
+		raster.max_cells = 1e7, # was max.raster
 
 		# general
 		show.messages = TRUE,
@@ -206,8 +206,8 @@ tmapMode = function(id, name, ...) {
 							   			unit = "rank")), # NA means take data range, 0 means include 0
 
 
-		nvv = 50, # the number of continuous legend breaks within one 'unit' (label). Should be even
-		precision = 101, # the number of classes of a continuous scale. Should be oddÒ
+		continuous.nclass_per_legend_break = 50, # the number of continuous legend breaks within one 'unit' (label).
+		continuous.nclasses = 101, # the number of classes of a continuous scale. Should be odd
 
 		# labels
 		label.format = list(
@@ -241,7 +241,7 @@ tmapMode = function(id, name, ...) {
 		frame = TRUE,
 		frame.lwd = 1,
 		frame.r = 2,
-		frame.double.line = FALSE,
+		frame.double_line = FALSE,
 
 
 		# margins
@@ -249,11 +249,11 @@ tmapMode = function(id, name, ...) {
 		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
 		inner.margins.extra = c(0, 0, 0, 0),
 		meta.margins = NA,
-		meta.auto.margins = c(0.4, 0.4, 0.4, 0.4),
-		between.margin = 0.5,
+		meta.auto_margins = c(0.4, 0.4, 0.4, 0.4),
+		between_margin = 0.5,
 		panel.margin = c(xtab = 0.4, 0),
 		component.offset = c(inside = 0.75, INSIDE = 0, outside = 0, OUTSIDE = 0),
-		component.stack.margin = 0,
+		component.stack_margin = 0,
 		grid.mark.height = 2,
 		xylab.height = 1.25,
 		coords.height = 1.25,
@@ -291,9 +291,9 @@ tmapMode = function(id, name, ...) {
 		# general visual settings
 
 		# colors
-		color.sepia.intensity = 0,
+		color.sepia_intensity = 0,
 		color.saturation = 1,
-		color.vision.deficiency.sim = "none",
+		color_vision_deficiency_sim = "none",
 
 		# text
 		text.fontface = "plain",
@@ -319,7 +319,7 @@ tmapMode = function(id, name, ...) {
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
 		legend.group.frame = TRUE,
-		legend.resize.as.group = FALSE,
+		legend.resize_as_group = FALSE,
 		legend.reverse = FALSE,
 		legend.na.show = NA,
 		legend.title.color = NULL,
@@ -411,7 +411,7 @@ tmapMode = function(id, name, ...) {
 						 heatmap.max = 10),
 		chart.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
 		chart.group.frame = TRUE,
-		chart.resize.as.group = FALSE,
+		chart.resize_as_group = FALSE,
 		chart.reverse = FALSE,
 		chart.na.show = NA,
 		chart.title.color = NULL,
@@ -454,7 +454,7 @@ tmapMode = function(id, name, ...) {
 		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 		title.width = NA,
 		title.group.frame = TRUE,
-		title.resize.as.group = FALSE,
+		title.resize_as_group = FALSE,
 
 		credits.show = FALSE,
 		credits.size = .7,
@@ -472,7 +472,7 @@ tmapMode = function(id, name, ...) {
 		credits.width = NA,
 		credits.heigth = NA,
 		credits.group.frame = TRUE,
-		credits.resize.as.group = FALSE,
+		credits.resize_as_group = FALSE,
 
 		compass.north=0,
 		compass.type="arrow",
@@ -496,11 +496,11 @@ tmapMode = function(id, name, ...) {
 		compass.frame.lwd = 1,
 		compass.frame.r = 2,
 		compass.group.frame = TRUE,
-		compass.resize.as.group = FALSE,
+		compass.resize_as_group = FALSE,
 
 		logo.height = 3,
 		logo.margins = c(0.2, 0.2, 0.2, 0.2),
-		logo.between.margin = 0.2,
+		logo.between_margin = 0.2,
 		logo.show = FALSE,
 		logo.stack = "vertical",
 		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
@@ -508,7 +508,7 @@ tmapMode = function(id, name, ...) {
 		logo.frame.lwd = 1,
 		logo.frame.r = 2,
 		logo.group.frame = TRUE,
-		logo.resize.as.group = FALSE,
+		logo.resize_as_group = FALSE,
 
 		scalebar.show = FALSE,
 		scalebar.breaks=NULL,
@@ -530,7 +530,7 @@ tmapMode = function(id, name, ...) {
 		scalebar.frame.lwd = 1,
 		scalebar.frame.r = 2,
 		scalebar.group.frame = TRUE,
-		scalebar.resize.as.group = FALSE,
+		scalebar.resize_as_group = FALSE,
 
 		grid.show = FALSE,
 		grid.labels.pos = c("left", "bottom"),
@@ -552,8 +552,8 @@ tmapMode = function(id, name, ...) {
 		grid.labels.margin.y=0,
 		grid.labels.space.x=NA,
 		grid.labels.space.y=NA,
-		grid.labels.inside.frame=FALSE,
-		grid.ticks = TRUE, #labels.show & !labels.inside.frame,
+		grid.labels.inside_frame=FALSE,
+		grid.ticks = TRUE, #labels.show & !labels.inside_frame,
 		grid.lines = TRUE,
 		grid.ndiscr = 100,
 
@@ -565,7 +565,7 @@ tmapMode = function(id, name, ...) {
 		# mouse.frame.lwd = 1,
 		# mouse.frame.r = 2,
 		# mouse.group.frame = TRUE,
-		# mouse.resize.as.group = FALSE,
+		# mouse.resize_as_group = FALSE,
 		#
 
 		mouse_coordinates.stack = "vertical",
@@ -599,7 +599,7 @@ tmapMode = function(id, name, ...) {
 
 		qtm.scalebar = FALSE,
 		qtm.minimap = FALSE,
-		qtm.mouse.coordinates = FALSE,
+		qtm.mouse_coordinates = FALSE,
 
 		earth.boundary = FALSE,
 		earth.boundary.color = NULL,
@@ -607,7 +607,7 @@ tmapMode = function(id, name, ...) {
 		earth.datum = "OGC:CRS84",
 		space.color = NULL,
 
-		check.and.fix = FALSE,
+		check_and_fix = FALSE,
 
 		basemap.show = FALSE,
 		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
@@ -811,10 +811,10 @@ styles = list(
 				  				  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.dark2", ord = "brewer.yl_or_br")),
 				  attr.color = "black"),
 	bw = list(color.saturation = 0),
-	classic = list(color.sepia.intensity = .7,
+	classic = list(color.sepia_intensity = .7,
 				   text.fontfamily = "serif",
 				   frame = TRUE,
-				   frame.double.line = TRUE,
+				   frame.double_line = TRUE,
 				   compass.type = "rose"),
 	watercolor = list(value.const = list(fill = "#D95F02",
 					  				   fill.dots = "red",
@@ -932,7 +932,7 @@ complete_value_list = function(x, o) {
 #' | `facet.max`		| Maximum number of facets |
 #' | `facet.flip`		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
 #' | `free.scales`		| For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions |
-#' | `raster.max.cells`	| Maximum number of raster grid cells  |
+#' | `raster.max_cells`	| Maximum number of raster grid cells  |
 #' | `show.messages`	| Show messages? |
 #' | `show.warnings`	| Show warnings? |
 #' | `output.format`	| Output format |
@@ -1244,7 +1244,7 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 #' @rdname tmap_options
 #' @export
 tm_check_fix = function() {
-	tm_options(check.and.fix = TRUE)
+	tm_options(check_and_fix = TRUE)
 }
 
 

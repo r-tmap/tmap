@@ -483,7 +483,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 			} else {
 				ids_after_range = map_ids(ids_scaled[c(1L, ntot)], range, ntot)
 			}
-			vvalues = grDevices::colorRampPalette(x)(o$precision)[ids_after_range]
+			vvalues = grDevices::colorRampPalette(x)(o$continuous.nclasses)[ids_after_range]
 		} else {
 			vvalues = grDevices::colorRampPalette(x)(ntot)[ids]
 		}
