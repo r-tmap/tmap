@@ -19,7 +19,7 @@ tm_legend(
   stack,
   z,
   group.frame,
-  resize.as.group,
+  resize_as_group,
   title.color,
   title.size,
   title.fontface,
@@ -81,7 +81,7 @@ tm_legend_combine(variable)
 
 \item{group.frame}{PARAM_DESCRIPTION}
 
-\item{resize.as.group}{PARAM_DESCRIPTION}
+\item{resize_as_group}{PARAM_DESCRIPTION}
 
 \item{title.color}{Color of the legend title}
 

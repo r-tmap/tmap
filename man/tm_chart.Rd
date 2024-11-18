@@ -22,7 +22,7 @@ tm_chart_histogram(
   stack,
   z,
   group.frame,
-  resize.as.group
+  resize_as_group
 )
 
 tm_chart_bar(
@@ -35,10 +35,10 @@ tm_chart_bar(
   stack,
   z,
   group.frame,
-  resize.as.group
+  resize_as_group
 )
 
-tm_chart_donut(position, width, height, stack, z, group.frame, resize.as.group)
+tm_chart_donut(position, width, height, stack, z, group.frame, resize_as_group)
 
 tm_chart_violin(
   position,
@@ -47,10 +47,10 @@ tm_chart_violin(
   stack,
   z,
   group.frame,
-  resize.as.group
+  resize_as_group
 )
 
-tm_chart_box(position, width, height, stack, z, group.frame, resize.as.group)
+tm_chart_box(position, width, height, stack, z, group.frame, resize_as_group)
 
 tm_chart_none()
 
@@ -61,7 +61,7 @@ tm_chart_heatmap(
   stack,
   z,
   group.frame,
-  resize.as.group
+  resize_as_group
 )
 }
 \arguments{
@@ -83,7 +83,7 @@ tm_chart_heatmap(
 
 \item{group.frame}{group.frame}
 
-\item{resize.as.group}{resize.as.group}
+\item{resize_as_group}{resize_as_group}
 }
 \description{
 Legend charts are small charts that are added to the map, usually in addition to legends.

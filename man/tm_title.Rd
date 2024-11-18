@@ -24,7 +24,7 @@ tm_title(
   width,
   height,
   group.frame,
-  resize.as.group,
+  resize_as_group,
   z
 )
 
@@ -65,7 +65,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{group.frame}{group.frame}
 
-\item{resize.as.group}{resize.as.group}
+\item{resize_as_group}{resize_as_group}
 
 \item{z}{z}
 

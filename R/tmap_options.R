@@ -1,974 +1,342 @@
-#' Internal method for submitting a new mode
-#'
-#' Internal method for submitting a new mode
-#'
-#' @param id id of the mode: please use lowercase and one-word. This will be used with [tmap_mode()].
-#' @param name name of the mode: please use title case. This will be used to recognize internal functions, e.g. `tmapLeafletInit`
-#' @param ... mode specific options
-#' @export
-#' @keywords internal
-tmapMode = function(id, name, ...) {
-	modes = tmap_options("modes")$modes
-
-	modes[[id]] = c(list(name = name), list(...))
-	tmap_options(modes = modes)
-}
-
-
-.defaultTmapOptions = structure(
-	list(
-		# mode specific options or default values
-		modes = list(plot = list(name = "Grid",
-								 use.gradient = FALSE,
-								 crs = "auto"),
-					 view = list(name = "Leaflet",
-					 			use.WebGL = NA,
-					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-					 			crs = list(dimensions = 3857, 4326),
-					 			facet.max = 16,
-					 			#legend.bg.alpha = 0.8,
-					 			#view.legend.position = c("right", "top"),
-					 			control.position = c("left", "top"),
-					 			control.collapse = TRUE,
-					 			panel.show = FALSE,
-					 			basemap.show = TRUE,
-					 			set.bounds = FALSE,
-					 			set.view = NA,
-					 			set.zoom.limits = NA,
-					 			qtm.scalebar = TRUE,
-					 			qtm.minimap = FALSE,
-					 			qtm.mouse_coordinates = TRUE,
-					 			leaflet.options = list())),
-
-		crs = NA,
-
-		# facets
-		facet.max = 64, # was max.facets
-		facet.flip = FALSE,
-		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
-
-		# spatial object class specific options
-		raster.max_cells = 1e7, # was max.raster
-
-		# general
-		show.messages = TRUE,
-		show.warnings = TRUE,
-
-		# output
-		output.format = "png",
-		output.size = 49,
-		output.dpi = 300,
-		output.dpi.animation = 100,
-
-		# default visual variable values
-		value.const = list(fill.polygons = "grey85",
-						 fill.symbols = "grey60",
-						 fill.dots = "black",
-						 col.polygons = "grey25",
-						 col.symbols = "grey25",
-						 col.raster = "grey40",
-						 col.text = "black",
-						 col = "black",
-						 bgcol.labels_highlighted = "white",
-						 bgcol = "#00000000",
-						 lwd = 1,
-						 lty = "solid",
-						 text = "Abc",
-						 text.labels = "",
-						 fontface = "plain",
-						 shape.symbols = 21,
-						 shape.bubbles = 21,
-						 shape.squares = 22,
-						 shape.dots = 19,
-						 shape.markers = marker_icon(),
-						 size.symbols = 1,
-						 size.bubbles = 1.3333,
-						 size.squares = 1.3333,
-						 size.dots = .15,
-						 size.text = 1,
-						 fill_alpha = 1,
-						 col_alpha = 1,
-						 bgcol_alpha = 1,
-						 angle = 0,
-						 num = 1),
-		value.na = list(
-			fill = "grey75",
-			col = "grey75",
-			col.raster = "#00000000",
-			bgcol = "grey75",
-			lty = "solid",
-			lwd = NA,
-			text = "Unknown",
-			fontface = "plain",
-			fill_alpha = 1,
-			col_alpha = 1,
-			bgcol_alpha = 1,
-			col_alpha.raster = 0,
-			angle = 0
-		),
-		value.null = list(
-			fill = "grey95",
-			col = "grey95",
-			col.polygons = "grey40",
-			bgcol = "grey95",
-			lty = "solid",
-			lwd = 0.2,
-			text = "",
-			fontface = "plain",
-			fill_alpha = 1,
-			col_alpha = 1,
-			bgcol_alpha = 1,
-			size = 0.2,
-			angle = 0,
-			num = 0
-		),
-		value.blank = list(
-			fill = "#00000000",
-			col = "#00000000",
-			bgcol = "#00000000",
-			lty = "blank",
-			lwd = 0,
-			text = "",
-			fontface = "plain",
-			fill_alpha = 0,
-			col_alpha = 0,
-			bgcol_alpha = 0,
-			angle = 0,
-			num = 0
-		),
-		values.var = list(fill = list(seq = "-hcl.blues3", div = "pu_gn_div",
-									  unord = "cols4all.area7", ord = "-hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
-						  col = list(seq = "-hcl.blues3", div = "pu_gn_div",
-						  		   unord = "cols4all.line7", ord = "-hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
-						  fill.dots = list(seq = "-hcl.blues3", div = "pu_gn_div",
-						  				unord = "cols4all.line7", ord = "-hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
-						  bgcol = list(seq = "-hcl.blues3", div = "pu_gn_div",
-						  		   unord = "cols4all.area7", ord = "-hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "pu_gn_bivs"),
-						  size = tm_seq(0, 1, power = "sqrt"),
-						  size.bubbles = tm_seq(0, 1, power = "sqrt"),
-						  lwd = c(0, 3),
-						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
-						  text = LETTERS,
-						  fontface = c("plain", "italic", "bold"),
-						  fill_alpha = c(0.25, 1),
-						  col_alpha = c(0.25, 1),
-						  bgcol_alpha = c(0.25, 1),
-						  shape = 21:25,
-						  area = c(0, 1),
-						  xmod = c(0, 1),
-						  ymod = c(0, 1),
-						  angle = c(0, 360),
-						  num = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0, 1),
-							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
-							col_alpha = NA, shape = NA, angle = NA, num = c(0,1)), # NA = automatic, NULL is not applicable
-		value.neutral = list(size = 0.75,
-							 lwd = 2,
-							 lty = "solid",
-							 fill_alpha = 1,
-							 col_alpha = 1,
-							 bgcol_alpha = 1,
-							 text = "Abc",
-							 fontface = "plain",
-							 angle = 0,
-							 num = 1),
-		values.scale = list(
-			1,
-			lwd.lines = 1,
-			size.symbols = 1,
-			size.bubbles = 1.3333,
-			size.squares = 1.3333
-		),
-
-		# scales
-		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  bgcol = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
-						  lty = list(fact = "categorical", num = "intervals"),
-						  shape = list(fact = "categorical", num = "intervals"),
-						  size = list(fact = "continuous", num = "continuous"),
-						  fill_alpha = list(fact = "categorical", num = "intervals"),
-						  col_alpha = list(fact = "categorical", num = "intervals"),
-						  bgcol_alpha = list(fact = "categorical", num = "intervals"),
-						  area = list(fact = "categorical", num = "continuous"),
-						  xmod = list(fact = "asis", num = "asis"),
-						  ymod = list(fact = "asis", num = "asis"),
-						  angle = list(fact = "asis", num = "asis"),
-						  text = list(fact = "asis", num = "asis"),
-						  fontface = list(fact = "categorical", num = "categorical")),
-
-		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5),
-												 outliers.trunc = c(FALSE, FALSE),
-												 trans = "identity",
-												 limits = list(fill = NA, col = NA, 0)),
-							   rank = list(n = 5,
-							   			unit = "rank")), # NA means take data range, 0 means include 0
-
-
-		continuous.nclass_per_legend_break = 50, # the number of continuous legend breaks within one 'unit' (label).
-		continuous.nclasses = 101, # the number of classes of a continuous scale. Should be odd
-
-		# labels
-		label.format = list(
-			fun = NULL,
-			scientific = FALSE,
-			digits = NA,
-			big.num.abbr = c(mln = 6, bln = 9),
-			prefix = "",
-			suffix = "",
-			text.separator = "to",
-			text.less.than = c("Less", "than"),
-			text.or.more = c("or", "more"),
-			text.align = NA,
-			text.to.columns = FALSE,
-			html.escape = TRUE
-		),
-		label.na = "Missing",
-
-
-		###############################3
-		# tm_layout options
-		###############################3
-		scale = 1,
-		asp = NA,
-
-		# background
-		bg.color = NA,
-		outer.bg.color = NA,
-
-		# frame
-		frame = TRUE,
-		frame.lwd = 1,
-		frame.r = 2,
-		frame.double_line = FALSE,
-
-
-		# margins
-		outer.margins = rep(0.02, 4),
-		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
-		inner.margins.extra = c(0, 0, 0, 0),
-		meta.margins = NA,
-		meta.auto_margins = c(0.4, 0.4, 0.4, 0.4),
-		between_margin = 0.5,
-		panel.margin = c(xtab = 0.4, 0),
-		component.offset = c(inside = 0.75, INSIDE = 0, outside = 0, OUTSIDE = 0),
-		component.stack_margin = 0,
-		grid.mark.height = 2,
-		xylab.height = 1.25,
-		coords.height = 1.25,
-
-		# xlab, ylab
-		xlab.show = FALSE,
-		xlab.text = "",
-		xlab.size = 1,
-		xlab.color = "black",
-		xlab.rotation = 0,
-		xlab.space = 0,
-		xlab.fontface = "plain",
-		xlab.fontfamily = "",
-		xlab.side = "bottom",
-
-		ylab.show = FALSE,
-		ylab.text = "",
-		ylab.size = 1,
-		ylab.color = "black",
-		ylab.rotation = 0,
-		ylab.space = 0,
-		ylab.fontface = "plain",
-		ylab.fontfamily = "",
-		ylab.side = "left",
-
-
-		# panel
-		panel.type = NA, # "wrap" or "xtab",
-		panel.wrap.pos = "top", # or "left", "right", "bottom"
-		panel.xtab.pos = c("left", "top"),
-
-		# data
-		unit = "metric",
-
-		# general visual settings
-
-		# colors
-		color.sepia_intensity = 0,
-		color.saturation = 1,
-		color_vision_deficiency_sim = "none",
-
-		# text
-		text.fontface = "plain",
-		text.fontfamily = "",
-
-
-		component.position = list('in' = list(pos.h = "left", pos.v = "top",
-												align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
-								  out = list(cell.h = "right", cell.v = "center",
-								  			   pos.h = "left", pos.v = "top",
-								  			   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
-
-		component.autoscale = TRUE,
-
-		# legend
-		legend.show = TRUE,
-		legend.design = "standard",
-		legend.orientation = "portrait",
-		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
-										  pos.h = "left", pos.v = "top",
-										  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
-		legend.width = NA,
-		legend.height = NA,
-		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
-		legend.group.frame = TRUE,
-		legend.resize_as_group = FALSE,
-		legend.reverse = FALSE,
-		legend.na.show = NA,
-		legend.title.color = NULL,
-		legend.title.size = 0.9,
-		legend.title.fontface = NULL,
-		legend.title.fontfamily = NULL,
-		legend.xlab.color = NULL,
-		legend.xlab.size = 0.9,
-		legend.xlab.fontface = NULL,
-		legend.xlab.fontfamily = NULL,
-		legend.ylab.color = NULL,
-		legend.ylab.size = 0.9,
-		legend.ylab.fontface = NULL,
-		legend.ylab.fontfamily = NULL,
-		legend.text.color = NULL,
-		legend.text.size = 0.7,
-		legend.text.fontface = NULL,
-		legend.text.fontfamily = NULL,
-		legend.frame = TRUE,
-		legend.frame.lwd = 1,
-		legend.frame.r = 2,
-		legend.bg.color = NA,
-		legend.bg.alpha = 1,
-		legend.only = FALSE,
-		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2, bivariate = 1.2),
-										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 3, bivariate = 1.2),
-										item.r = 2,
-										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0, lines = 0.2, text = 0.2, bivariate = 0),
-										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA, bivariate = NA),
-										item.na.width = c(rect = NA, symbols = NA, gradient = 1.2, lines = NA, text = NA, bivariate = NA),
-										item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 1, lines = 0.2, text = 0.2, bivariate = 0.2),
-										item.shape = 107,
-										title.padding  = c(0, 0, 0.25, 0),
-										xlab.padding = c(0, 0, 0.25, 0),
-										ylab.padding = c(0, 0, 0.25, 0),
-										title.align = c(bivariate = "right", "left"),
-										xlab.align = "left",
-										ylab.align = "center",
-										ticks = list(rect = list(), symbols = list(), gradient = list(c(1, 1.5)), lines = list(), text = list(), bivariate = list()),
-										ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE, text = FALSE, bivariate = TRUE),
-										ticks.col = NA,
-										ticks.lwd = 1.5,
-										margins = c(0.4, 0.4, 0.4, 0.4),
-										margin.item.text = 0.25),
-		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2, lines = 1, text = 1),
-										 item.width = c(rect = 6, symbols = 3, gradient = 6, lines = 6, text = 6),
-										 item.r = 2,
-										 item.space = c(rect = 0.2, symbols = 0.3, gradient = 0, lines = 0.2, text = 0.2),
-										 item.na.height = c(rect = NA, symbols = NA, gradient = 2, lines = NA, text = NA),
-										 item.na.width = c(rect = NA, symbols = NA, gradient = 4, lines = NA, text = NA),
-										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3, lines = 0.2, text = 0.2),
-										 item.shape = 107,
-
-										 title.padding  = c(0, 0, 0.25, 0),
-										 xlab.padding = c(0, 0, 0.25, 0),
-										 ylab.padding = c(0, 0, 0.25, 0),
-										 title.align = c(bivariate = "right", "left"),
-										 xlab.align = "left",
-										 ylab.align = "center",
-										 ticks = list(rect = list(), symbols = list(), gradient = list(c(1, 1.2)), lines = list(), text = list()),
-										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, lines = FALSE, text = FALSE),
-										 ticks.col = NA,
-										 ticks.lwd = 1.5,
-										 margins = c(0.4, 0.4, 0.4, 0.4),
-										 margin.item.text = 0.25),
-
-		# charts
-		chart.show = TRUE,
-		chart.plot.axis.x = FALSE,
-		chart.plot.axis.y = TRUE,
-		chart.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom",
-										  pos.h = "left", pos.v = "top",
-										  align.h = "left", align.v = "bottom", just.h = "left", just.v = "top"),
-		chart.width = c(histogram.min = 10,
-						histogram.max = 20,
-						bar.min = 10,
-						bar.max = 20,
-						donut.min = 10,
-						donut.max = 10,
-						heatmap.min = 10,
-						heatmap.max = 15),
-		chart.height = c(histogram.min = 10,
-						 histogram.max = 10,
-						 bar.min = 10,
-						 bar.max = 10,
-						 donut.min = 10,
-						 donut.max = 10,
-						 heatmap.min = 10,
-						 heatmap.max = 10),
-		chart.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
-		chart.group.frame = TRUE,
-		chart.resize_as_group = FALSE,
-		chart.reverse = FALSE,
-		chart.na.show = NA,
-		chart.title.color = NULL,
-		chart.title.size = 0.9,
-		chart.title.fontface = NULL,
-		chart.title.fontfamily = NULL,
-		chart.xlab.color = NULL,
-		chart.xlab.size = 0.9,
-		chart.xlab.fontface = NULL,
-		chart.xlab.fontfamily = NULL,
-		chart.ylab.color = NULL,
-		chart.ylab.size = 0.9,
-		chart.ylab.fontface = NULL,
-		chart.ylab.fontfamily = NULL,
-		chart.text.color = NULL,
-		chart.text.size = 0.7,
-		chart.text.fontface = NULL,
-		chart.text.fontfamily = NULL,
-		chart.frame = TRUE,
-		chart.frame.lwd = 1,
-		chart.frame.r = 2,
-		chart.bg.color = NA,
-		chart.bg.alpha = 1,
-		chart.object.color = "#DDDDDD",
-
-		# components
-		title.show = FALSE,
-		title.size = 1.3,
-		title.color = NULL,
-		title.fontface = NULL,
-		title.fontfamily = NULL,
-		title.bg.color = NA,
-		title.bg.alpha = 1,
-		title.padding = c(0.25, 0.25, 0.25, 0.25),
-
-		title.frame = NA,
-		title.frame.lwd = 1,
-		title.frame.r = 2,
-		title.stack = "vertical",
-		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-		title.width = NA,
-		title.group.frame = TRUE,
-		title.resize_as_group = FALSE,
-
-		credits.show = FALSE,
-		credits.size = .7,
-		credits.color = NA,
-		credits.fontface = NA,
-		credits.fontfamily = NA,
-		credits.bg.color = NA,
-		credits.bg.alpha = 1,
-		credits.padding = c(0.25, 0.25, 0.25, 0.25),
-		credits.frame = NA,
-		credits.frame.lwd = 1,
-		credits.frame.r = 2,
-		credits.stack = "vertical",
-		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		credits.width = NA,
-		credits.heigth = NA,
-		credits.group.frame = TRUE,
-		credits.resize_as_group = FALSE,
-
-		compass.north=0,
-		compass.type="arrow",
-		compass.text.size=.8,
-		compass.size=NA,
-		compass.show.labels=1,
-		compass.cardinal.directions=c("N", "E", "S", "W"),
-		compass.text.color=NA,
-		compass.color.dark=NA,
-		compass.color.light=NA,
-		compass.lwd=1,
-		compass.bg.color=NA,
-		compass.bg.alpha=1,
-		compass.margins = c(0.25, 0.25, 0.25, 0.25),
-
-		# standard arguments:
-		compass.show = FALSE,
-		compass.stack = "vertical",
-		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		compass.frame = NA,
-		compass.frame.lwd = 1,
-		compass.frame.r = 2,
-		compass.group.frame = TRUE,
-		compass.resize_as_group = FALSE,
-
-		logo.height = 3,
-		logo.margins = c(0.2, 0.2, 0.2, 0.2),
-		logo.between_margin = 0.2,
-		logo.show = FALSE,
-		logo.stack = "vertical",
-		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		logo.frame = NA,
-		logo.frame.lwd = 1,
-		logo.frame.r = 2,
-		logo.group.frame = TRUE,
-		logo.resize_as_group = FALSE,
-
-		scalebar.show = FALSE,
-		scalebar.breaks=NULL,
-		scalebar.width=40,
-		scalebar.text.size = .5,
-		scalebar.text.color=NA,
-		scalebar.color.dark="black",
-		scalebar.color.light="white",
-		scalebar.lwd=1,
-		scalebar.bg.color=NA,
-		scalebar.bg.alpha=1,
-		scalebar.size = NULL,
-		scalebar.margins = c(0.01,0.01,0.01,0.01),
-
-		# standard arguments:
-		scalebar.stack = "vertical",
-		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		scalebar.frame = NA,
-		scalebar.frame.lwd = 1,
-		scalebar.frame.r = 2,
-		scalebar.group.frame = TRUE,
-		scalebar.resize_as_group = FALSE,
-
-		grid.show = FALSE,
-		grid.labels.pos = c("left", "bottom"),
-		grid.x=NA,
-		grid.y=NA,
-		grid.n.x=NA,
-		grid.n.y=NA,
-		grid.crs=NA,
-		grid.col=NA,
-		grid.lwd=1,
-		grid.alpha=NA,
-		grid.labels.show=TRUE,
-		grid.labels.size=.6,
-		grid.labels.col=NA,
-		grid.labels.rot = c(0, 0),
-		grid.labels.format = list(big.mark = ","),
-		grid.labels.cardinal = FALSE,
-		grid.labels.margin.x=0,
-		grid.labels.margin.y=0,
-		grid.labels.space.x=NA,
-		grid.labels.space.y=NA,
-		grid.labels.inside_frame=FALSE,
-		grid.ticks = TRUE, #labels.show & !labels.inside_frame,
-		grid.lines = TRUE,
-		grid.ndiscr = 100,
-
-
-		# standard arguments:
-		# mouse.stack = "vertical",
-		# mouse.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-		# mouse.frame = FALSE,
-		# mouse.frame.lwd = 1,
-		# mouse.frame.r = 2,
-		# mouse.group.frame = TRUE,
-		# mouse.resize_as_group = FALSE,
-		#
-
-		mouse_coordinates.stack = "vertical",
-		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		mouse_coordinates.show = FALSE,
-
-		minimap.server = NA,
-		minimap.toggle = TRUE,
-		minimap.stack = "vertical",
-		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
-		minimap.show = FALSE,
-
-		panel.show = NA, # depends on type: TRUE for facets
-		panel.labels = NA,
-		panel.label.size = 1,
-		panel.label.color = "black",
-		panel.label.fontface = NULL,
-		panel.label.fontfamily = NULL,
-		panel.label.bg.color = "grey80",
-		panel.label.frame = TRUE,
-		panel.label.frame.lwd = 1,
-		panel.label.frame.r = 2,
-		panel.label.height = 1,
-		panel.label.rot = c(90, 0),
-
-		#
-		bbox = NULL,
-		set.bounds = FALSE,
-		set.view = NA,
-		set.zoom.limits = NA,
-
-		qtm.scalebar = FALSE,
-		qtm.minimap = FALSE,
-		qtm.mouse_coordinates = FALSE,
-
-		earth.boundary = FALSE,
-		earth.boundary.color = NULL,
-		earth.boundary.lwd = 1,
-		earth.datum = "OGC:CRS84",
-		space.color = NULL,
-
-		check_and_fix = FALSE,
-
-		basemap.show = FALSE,
-		basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
-		basemap.alpha = 1,
-		basemap.zoom = NA,
-
-		tiles.show = FALSE,
-		tiles.server = "",
-		tiles.alpha = 1,
-		tiles.zoom = NA,
-
-		attr.color = "black",
-
-		# not in tmap4 -> backward comp?
-		view.legend.position = NA
-	),
-	style = "white",
-	specified = character()
-)
-
-styles = list(
-	v3 = list(
-		modes = list(view = list(legend.bg.alpha = 0.8)),
-		value.na = list(
-			fill = "grey75",
-			col = "grey75",
-			col.raster = "#00000000",
-			lty = "solid",
-			lwd = NA,
-			text = "Unknown",
-			fontface = "plain",
-			fill_alpha = 1,
-			col_alpha = 1,
-			col_alpha.raster = 0
-		),
-		value.null = list(
-			fill = "grey95",
-			col = "grey95",
-			col.polygons = "grey40",
-			lty = "solid",
-			lwd = 0.2,
-			text = "",
-			fontface = "plain",
-			fill_alpha = 1,
-			col_alpha = 1,
-			size = 0.2
-		),
-		value.blank = list(
-			fill = "#00000000",
-			col = "#00000000",
-			lty = "blank",
-			lwd = 0,
-			text = "",
-			fontface = "plain",
-			fill_alpha = 0,
-			col_alpha = 0
-		),
-		values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br"),
-						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
-		frame.lwd = 1,
-		frame.r = 0,
-		title.position = tm_pos_in(pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-		title.size = 1.3,
-		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-		legend.text.size = 0.7,
-		legend.title.size = 0.9,
-		legend.frame = FALSE,
-		legend.frame.r = 0,
-		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 1, bivariate = 1),
-												 item.width = c(rect = 1, symbols = 1, gradient = 1.2, bivariate = 1),
-												 item.r = 0,
-												 item.space = c(rect = 0, symbols = 0, gradient = 0, bivariate = 0),
-												 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2, bivariate = 1),
-												 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2, bivariate = 1),
-												 item.na.space = c(rect = 0, symbols = 0, gradient = 0, bivariate = 0),
-												 title.padding  = c(0, 0, 0.25, 0),
-												 ticks = list(rect = list(), symbols = list(), gradient = list(), bivariate = list()),
-												 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE, bivariate = TRUE),
-												 ticks.col = NA,
-												 ticks.lwd = 1.5,
-												 margins = c(0.4, 0.4, 0.4, 0.4),
-												 margin.item.text = 0.25),
-		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
-												  item.width = c(rect = 6, symbols = 3, gradient = 6),
-												  item.r = 0,
-												  item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
-												  item.na.height = c(rect = NA, symbols = NA, gradient = 2),
-												  item.na.width = c(rect = NA, symbols = NA, gradient = 6),
-												  item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
-												  title.padding  = c(0, 0, 0.25, 0),
-												  ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
-												  ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
-												  ticks.col = NA,
-												  ticks.lwd = 1.5,
-												  margins = c(0.4, 0.4, 0.4, 0.4),
-												  margin.item.text = 0.25)
-	),
-	gray = list(
-		bg.color = "grey85",
-		value.const = list(fill = "grey70",
-						   fill.dots = "black",
-						   fill = "grey50",
-						   col.polygons = "grey20",
-						   col = "black")
-	),
-	grey = list(
-		bg.color = "grey85",
-		value.const = list(fill = "grey70",
-						   fill.dots = "black",
-						   fill = "grey50",
-						   col.polygons = "grey20",
-						   col = "black")
-	),
-	natural = list(
-		bg.color = "lightskyblue1",
-		value.const = list(fill.polygons = "darkolivegreen3",
-						   fill.dots = "firebrick",
-						   fill = "tomato2",
-						   col.lines = "steelblue",
-						   col.text = "white",
-						   col = "black"),
-		value.na = list(
-			fill = "white",
-			col = "white",
-			col.raster = "white"),
-		value.null = list(
-			fill = "grey70",
-			col = "grey70",
-			col.polygons = "grey70"),
-		values.var = list(fill = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn"),
-						  col = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn")),
-		attr.color = "black",
-		space.color = "white",
-		legend.frame = TRUE,
-		legend.bg.color = "grey90",
-		frame = FALSE,
-		earth.boundary = TRUE,
-		basemap.server = "Esri.NatGeoWorldMap",
-		basemap.alpha = 1),
-	cobalt = list(bg.color = "#002240",
-				  outer.bg.color = "#002240",
-				  value.const = list(fill.polygons = "#0088FF",
-				  				   fill = "#FF9D00",
-				  				   col.lines = "#FFEE80",
-				  				   col.text = "white",
-				  				   col = "#002240",
-				  				   bgcol.labels_highlighted = "#002240",
-				  				   bgcol = "#00000000"),
-				  value.na = list(
-				  	fill = "grey60",
-				  	col = "grey60",
-				  	col.raster = "grey60"),
-				  value.null = list(
-				  	fill = "grey40",
-				  	col = "grey40",
-				  	col.polygons = "grey40"),
-				  values.var = list(fill = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn"),
-				  				  col = list(seq = "brewer.yl_gn", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_gn")),
-				  attr.color = "white",
-				  chart.text.color = "white",
-				  chart.title.color = "white",
-				  basemap.server = "CartoDB.DarkMatter",
-				  basemap.alpha = .5),
-	albatross = list(bg.color = "#00007F",
-					 value.const = list(fill.polygons = "#4C4C88",
-					 				   fill = "#BFBFFF",
-					 				   col.lines = "#BFBFFF",
-					 				   col.text = "#FFE700",
-					 				   col = "#00004C",
-					 				   bgcol.labels_highlighted = "#00007F",
-					 				   bgcol = "#00000000"),
-					 value.na = list(
-					 	fill = "grey60",
-					 	col = "grey60",
-					 	col.raster = "grey60"),
-					 value.null = list(
-					 	fill = "#4C4C88",
-					 	col = "#4C4C88",
-					 	col.polygons = "#4C4C88"),
-					 values.var = list(fill = list(seq = "brewer.yl_or_rd", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_rd"),
-					 				  col = list(seq = "brewer.yl_or_rd", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_rd")),
-					 attr.color = "#BFBFFF",
-					 basemap.server = "CartoDB.DarkMatter",
-					 basemap.alpha = .5),
-	beaver = list(bg.color = "#FFFFFF",
-				  value.const = list(fill.polygons = "#FFE200",
-				  				   fill = "#A30000",
-				  				   col.lines = "#A30000",
-				  				   col = "#00004C",
-				  				   bgcol.labels_highlighted = "#FFFFFF",
-				  				   bgcol = "#00000000"),
-				  value.na = list(
-				  	fill = "grey80",
-				  	col = "grey80",
-				  	col.raster = "grey80"),
-				  value.null = list(
-				  	fill = "grey95",
-				  	col = "grey95",
-				  	col.polygons = "grey95"),
-				  values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.dark2", ord = "brewer.yl_or_br"),
-				  				  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.dark2", ord = "brewer.yl_or_br")),
-				  attr.color = "black"),
-	bw = list(color.saturation = 0),
-	classic = list(color.sepia_intensity = .7,
-				   text.fontfamily = "serif",
-				   frame = TRUE,
-				   frame.double_line = TRUE,
-				   compass.type = "rose"),
-	watercolor = list(value.const = list(fill = "#D95F02",
-					  				   fill.dots = "red",
-					  				   col.lines = "red",
-					  				   col = "black",
-					  				   bgcol.labels_highlighted = "white",
-					  				   bgcol = "#00000000"),
-					  value.na = list(
-					  	fill = "grey80",
-					  	col = "grey80",
-					  	col.raster = "grey80"),
-					  value.null = list(
-					  	fill = "#FDCDAC",
-					  	col = "#FDCDAC",
-					  	col.polygons = "#FDCDAC"),
-					  values.var = list(fill = list(seq = "brewer.greens", div = "brewer.pi_yg", unord = "brewer.pastel1", ord = "brewer.greens"),
-					  				  col = list(seq = "brewer.greens", div = "brewer.pi_yg", unord = "brewer.pastel1", ord = "brewer.greens")),
-					  basemap.server = "Stadia.StamenWatercolor")
-)
-
-.defaultTmapStyles = list(
-	gray = styles$gray,
-	grey = styles$grey,
-	natural = styles$natural,
-	cobalt = styles$cobalt,
-	albatross = styles$albatross,
-	beaver = styles$beaver,
-	bw = styles$bw,
-	classic = styles$classic,
-	watercolor = styles$watercolor,
-	v3 = styles$v3,
-	gray_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$gray))], styles$gray),
-	grey_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$grey))], styles$grey),
-	natural_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$natural))], styles$natural),
-	cobalt_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$cobalt))], styles$cobalt),
-	albatross_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$albatross))], styles$albatross),
-	beaver_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$beaver))], styles$beaver),
-	bw_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$bw))], styles$bw),
-	classic_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$classic))], styles$classic),
-	watercolor_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$watercolor))], styles$watercolor)
-)
-
-.defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
-										legend.position=tm_pos_in("left", "bottom"),
-										attr.position=c("right", "bottom"),
-										scale=.8,
-										title.size = 1.3),
-							World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
-											  legend.position=tm_pos_in("left", "bottom"),
-											  attr.position=c("right", "bottom"),
-											  scale=.8),
-							NLD = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
-													Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
-													Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
-													Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
-									   frame=FALSE,
-									   inner.margins=c(.02, .2, .06, .02),
-									   legend.position=tm_pos_in("left", "top"),
-									   attr.position=c("left", "bottom")),
-							NLD_wide = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
-														 Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
-														 Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
-														 Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
-											frame=FALSE,
-											inner.margins=c(.02, .3, .06, .02),
-											legend.position=tm_pos_in("left", "top"),
-											attr.position=c("left", "bottom")))
-
-
-# add/merge options x to the full option set o: x can be style options
-complete_options = function(x, o) {
-	nmx = names(x)
-	nmo = names(o)
-	if (length(x) == 0L) return(o)
-	if (is.null(nmo) || is.null(nmx)) return(x)
-	d = setdiff(nmx, nmo)
-	e = intersect(nmx, nmo)
-	if (length(d)) o = c(o, x[d])
-	if (length(e)) {
-		for (i in e) {
-			if (i %in% c("value.const", "value.na", "value.null", "value.blank", "values.var")) {
-				# special case to cover the following issue
-				#    if o = list(value.const = list(fill = "red", fill.polygons = "blue", fill.dots = "black)), and
-				#       x = list(value.const = list(fill = "white", fill.polygons = "grey"))
-				#    the new option set should be x (so dot fill color should be white)
-				o[[i]] = complete_value_list(x[[i]], o[[i]])
-			} else {
-				o[[i]] = complete_options(x[[i]], o[[i]])
-			}
-
-		}
-	}
-	o
-}
-
-complete_value_list = function(x, o) {
-	aes_x = gsub("\\..*", "", names(x))
-	aes_o = gsub("\\..*", "", names(o))
-
-	aes_o_not_x = setdiff(aes_o, aes_x)
-
-	c(x, o[aes_o %in% aes_o_not_x])
+# NEED TO SYNC THIS WITH tmap_options
+# generate all options with:
+# args = intersect(names(tmap_options_mode("view")),names(tmap_options_mode("plot")))
+# cat(paste(args, collapse = ", "))
+# x = sapply(args, function(a) paste0("#' @param ", a, " `r opt_inf(\"", a, "\")`"))
+# cat(paste(x, collapse = "\n"))
+opt_inf = function(a) {
+	"test123"
 }
 
 #' tmap options
 #'
 #' tmap options
 #'
-#' @param ... See details
-#' @details
-#' | option         	| description |
-#' | ------         	| ----------- |
-#' | `modes`		    |  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
-#' | `crs`		    	|  Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].|
-#' | `facet.max`		| Maximum number of facets |
-#' | `facet.flip`		| Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()] |
-#' | `free.scales`		| For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions |
-#' | `raster.max_cells`	| Maximum number of raster grid cells  |
-#' | `show.messages`	| Show messages? |
-#' | `show.warnings`	| Show warnings? |
-#' | `output.format`	| Output format |
-#' | `output.size`		| Output size |
-#' | `output.dpi`		| Output dpi |
-#' | `output.dpi.animation`		| Output dpi for animations |
-#' | `value.const`		| Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per visual variable a value. |
-#' | `value.na`			| Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.|
-#' | `value.null`		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
-#' | `value.blank`		| Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per visual variable a value. |
-#' | `values.var`		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
-#' | `values.range`		| Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
-#' | `value.neutral`	| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
-#' | `scales.var`		| Default scales. |
-#' | `label.format`		| Format for the labels (was `legend.format` in tmap v3). |
-#' | `label.na`			| Default label for missing values. |
-#' See [tm_layout()] for layout specific options.
+#' @param ... List of tmap options to be set, or option names (characters) to be returned (see details)
+#' @param crs Map crs (see [tm_shape()]). `NA` means the crs is specified in [tm_shape()]. The crs that is used by the transformation functions is defined in [tm_shape()].
+#' @param facet.max Maximum number of facets
+#' @param facet.flip Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()]
+#' @param free.scales For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
+#' @param raster.max_cells Maximum number of raster grid cells
+#' @param show.messages Show messages?
+#' @param show.warnings Show warnings?
+#' @param output.format Output format
+#' @param output.size Output size
+#' @param output.dpi Output dpi
+#' @param output.dpi.animation Output dpi for animations
+#' @param value.const Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per visual variable a value.
+#' @param value.na Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.
+#' @param value.null Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.
+#' @param value.blank Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per visual variable a value.
+#' @param values.var Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.
+#' @param values.range Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
+#' @param value.neutral Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.
+#' @param values.scale Default scales (as in object sizes) for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
+#' @param scales.var Default scale functions per visual variable and type of data variable. A list is required with per visual variable per data type.
+#' @param scale.misc.args Default values of scale function-specific arguments. A list is required with per scale function and optional per visual variable.
+#' @param continuous.nclass_per_legend_break The number of continuous legend breaks within one 'unit' (label).  The dafault value is 50.
+#' @param continuous.nclasses the number of classes of a continuous scale. Should be odd.  The dafault value is 101.
+#' @param label.format Format for the labels (was `legend.format` in tmap v3).
+#' @param label.na Default label for missing values.
+#' @param scale Overall scale of the map
+#' @param asp Aspect ratio of each map. When `asp` is set to `NA` (default) the aspect ratio will be adjusted to the used shapes. When set to 0 the aspect ratio is
+#'   adjusted to the size of the device divided by the number of columns and rows.
+#' @param bg.color Background color of the map.
+#' @param outer.bg.color Background color of map outside the frame.
+#' @param frame `r opt_inf("frame")`
+#' @param frame.lwd `r opt_inf("frame.lwd")`
+#' @param frame.r `r opt_inf("frame.r")`
+#' @param frame.double_line `r opt_inf("frame.double_line")`
+#' @param outer.margins `r opt_inf("outer.margins")`
+#' @param inner.margins `r opt_inf("inner.margins")`
+#' @param inner.margins.extra `r opt_inf("inner.margins.extra")`
+#' @param meta.margins `r opt_inf("meta.margins")`
+#' @param meta.auto_margins `r opt_inf("meta.auto_margins")`
+#' @param between_margin `r opt_inf("between_margin")`
+#' @param panel.margin `r opt_inf("panel.margin")`
+#' @param component.offset `r opt_inf("component.offset")`
+#' @param component.stack_margin `r opt_inf("component.stack_margin")`
+#' @param grid.mark.height `r opt_inf("grid.mark.height")`
+#' @param xylab.height `r opt_inf("xylab.height")`
+#' @param coords.height `r opt_inf("coords.height")`
+#' @param xlab.show `r opt_inf("xlab.show")`
+#' @param xlab.text `r opt_inf("xlab.text")`
+#' @param xlab.size `r opt_inf("xlab.size")`
+#' @param xlab.color `r opt_inf("xlab.color")`
+#' @param xlab.rotation `r opt_inf("xlab.rotation")`
+#' @param xlab.space `r opt_inf("xlab.space")`
+#' @param xlab.fontface `r opt_inf("xlab.fontface")`
+#' @param xlab.fontfamily `r opt_inf("xlab.fontfamily")`
+#' @param xlab.side `r opt_inf("xlab.side")`
+#' @param ylab.show `r opt_inf("ylab.show")`
+#' @param ylab.text `r opt_inf("ylab.text")`
+#' @param ylab.size `r opt_inf("ylab.size")`
+#' @param ylab.color `r opt_inf("ylab.color")`
+#' @param ylab.rotation `r opt_inf("ylab.rotation")`
+#' @param ylab.space `r opt_inf("ylab.space")`
+#' @param ylab.fontface `r opt_inf("ylab.fontface")`
+#' @param ylab.fontfamily `r opt_inf("ylab.fontfamily")`
+#' @param ylab.side `r opt_inf("ylab.side")`
+#' @param panel.type `r opt_inf("panel.type")`
+#' @param panel.wrap.pos `r opt_inf("panel.wrap.pos")`
+#' @param panel.xtab.pos `r opt_inf("panel.xtab.pos")`
+#' @param unit `r opt_inf("unit")`
+#' @param color.sepia_intensity `r opt_inf("color.sepia_intensity")`
+#' @param color.saturation `r opt_inf("color.saturation")`
+#' @param color_vision_deficiency_sim `r opt_inf("color_vision_deficiency_sim")`
+#' @param text.fontface `r opt_inf("text.fontface")`
+#' @param text.fontfamily `r opt_inf("text.fontfamily")`
+#' @param component.position `r opt_inf("component.position")`
+#' @param component.autoscale `r opt_inf("component.autoscale")`
+#' @param legend.show `r opt_inf("legend.show")`
+#' @param legend.design `r opt_inf("legend.design")`
+#' @param legend.orientation `r opt_inf("legend.orientation")`
+#' @param legend.position `r opt_inf("legend.position")`
+#' @param legend.width `r opt_inf("legend.width")`
+#' @param legend.height `r opt_inf("legend.height")`
+#' @param legend.stack `r opt_inf("legend.stack")`
+#' @param legend.group.frame `r opt_inf("legend.group.frame")`
+#' @param legend.resize_as_group `r opt_inf("legend.resize_as_group")`
+#' @param legend.reverse `r opt_inf("legend.reverse")`
+#' @param legend.na.show `r opt_inf("legend.na.show")`
+#' @param legend.title.color `r opt_inf("legend.title.color")`
+#' @param legend.title.size `r opt_inf("legend.title.size")`
+#' @param legend.title.fontface `r opt_inf("legend.title.fontface")`
+#' @param legend.title.fontfamily `r opt_inf("legend.title.fontfamily")`
+#' @param legend.xlab.color `r opt_inf("legend.xlab.color")`
+#' @param legend.xlab.size `r opt_inf("legend.xlab.size")`
+#' @param legend.xlab.fontface `r opt_inf("legend.xlab.fontface")`
+#' @param legend.xlab.fontfamily `r opt_inf("legend.xlab.fontfamily")`
+#' @param legend.ylab.color `r opt_inf("legend.ylab.color")`
+#' @param legend.ylab.size `r opt_inf("legend.ylab.size")`
+#' @param legend.ylab.fontface `r opt_inf("legend.ylab.fontface")`
+#' @param legend.ylab.fontfamily `r opt_inf("legend.ylab.fontfamily")`
+#' @param legend.text.color `r opt_inf("legend.text.color")`
+#' @param legend.text.size `r opt_inf("legend.text.size")`
+#' @param legend.text.fontface `r opt_inf("legend.text.fontface")`
+#' @param legend.text.fontfamily `r opt_inf("legend.text.fontfamily")`
+#' @param legend.frame `r opt_inf("legend.frame")`
+#' @param legend.frame.lwd `r opt_inf("legend.frame.lwd")`
+#' @param legend.frame.r `r opt_inf("legend.frame.r")`
+#' @param legend.bg.color `r opt_inf("legend.bg.color")`
+#' @param legend.bg.alpha `r opt_inf("legend.bg.alpha")`
+#' @param legend.only `r opt_inf("legend.only")`
+#' @param legend.settings.standard.portrait `r opt_inf("legend.settings.standard.portrait")`
+#' @param legend.settings.standard.landscape `r opt_inf("legend.settings.standard.landscape")`
+#' @param chart.show `r opt_inf("chart.show")`
+#' @param chart.plot.axis.x `r opt_inf("chart.plot.axis.x")`
+#' @param chart.plot.axis.y `r opt_inf("chart.plot.axis.y")`
+#' @param chart.position `r opt_inf("chart.position")`
+#' @param chart.width `r opt_inf("chart.width")`
+#' @param chart.height `r opt_inf("chart.height")`
+#' @param chart.stack `r opt_inf("chart.stack")`
+#' @param chart.group.frame `r opt_inf("chart.group.frame")`
+#' @param chart.resize_as_group `r opt_inf("chart.resize_as_group")`
+#' @param chart.reverse `r opt_inf("chart.reverse")`
+#' @param chart.na.show `r opt_inf("chart.na.show")`
+#' @param chart.title.color `r opt_inf("chart.title.color")`
+#' @param chart.title.size `r opt_inf("chart.title.size")`
+#' @param chart.title.fontface `r opt_inf("chart.title.fontface")`
+#' @param chart.title.fontfamily `r opt_inf("chart.title.fontfamily")`
+#' @param chart.xlab.color `r opt_inf("chart.xlab.color")`
+#' @param chart.xlab.size `r opt_inf("chart.xlab.size")`
+#' @param chart.xlab.fontface `r opt_inf("chart.xlab.fontface")`
+#' @param chart.xlab.fontfamily `r opt_inf("chart.xlab.fontfamily")`
+#' @param chart.ylab.color `r opt_inf("chart.ylab.color")`
+#' @param chart.ylab.size `r opt_inf("chart.ylab.size")`
+#' @param chart.ylab.fontface `r opt_inf("chart.ylab.fontface")`
+#' @param chart.ylab.fontfamily `r opt_inf("chart.ylab.fontfamily")`
+#' @param chart.text.color `r opt_inf("chart.text.color")`
+#' @param chart.text.size `r opt_inf("chart.text.size")`
+#' @param chart.text.fontface `r opt_inf("chart.text.fontface")`
+#' @param chart.text.fontfamily `r opt_inf("chart.text.fontfamily")`
+#' @param chart.frame `r opt_inf("chart.frame")`
+#' @param chart.frame.lwd `r opt_inf("chart.frame.lwd")`
+#' @param chart.frame.r `r opt_inf("chart.frame.r")`
+#' @param chart.bg.color `r opt_inf("chart.bg.color")`
+#' @param chart.bg.alpha `r opt_inf("chart.bg.alpha")`
+#' @param chart.object.color `r opt_inf("chart.object.color")`
+#' @param title.show `r opt_inf("title.show")`
+#' @param title.size `r opt_inf("title.size")`
+#' @param title.color `r opt_inf("title.color")`
+#' @param title.fontface `r opt_inf("title.fontface")`
+#' @param title.fontfamily `r opt_inf("title.fontfamily")`
+#' @param title.bg.color `r opt_inf("title.bg.color")`
+#' @param title.bg.alpha `r opt_inf("title.bg.alpha")`
+#' @param title.padding `r opt_inf("title.padding")`
+#' @param title.frame `r opt_inf("title.frame")`
+#' @param title.frame.lwd `r opt_inf("title.frame.lwd")`
+#' @param title.frame.r `r opt_inf("title.frame.r")`
+#' @param title.stack `r opt_inf("title.stack")`
+#' @param title.position `r opt_inf("title.position")`
+#' @param title.width `r opt_inf("title.width")`
+#' @param title.group.frame `r opt_inf("title.group.frame")`
+#' @param title.resize_as_group `r opt_inf("title.resize_as_group")`
+#' @param credits.show `r opt_inf("credits.show")`
+#' @param credits.size `r opt_inf("credits.size")`
+#' @param credits.color `r opt_inf("credits.color")`
+#' @param credits.fontface `r opt_inf("credits.fontface")`
+#' @param credits.fontfamily `r opt_inf("credits.fontfamily")`
+#' @param credits.bg.color `r opt_inf("credits.bg.color")`
+#' @param credits.bg.alpha `r opt_inf("credits.bg.alpha")`
+#' @param credits.padding `r opt_inf("credits.padding")`
+#' @param credits.frame `r opt_inf("credits.frame")`
+#' @param credits.frame.lwd `r opt_inf("credits.frame.lwd")`
+#' @param credits.frame.r `r opt_inf("credits.frame.r")`
+#' @param credits.stack `r opt_inf("credits.stack")`
+#' @param credits.position `r opt_inf("credits.position")`
+#' @param credits.width `r opt_inf("credits.width")`
+#' @param credits.heigth `r opt_inf("credits.heigth")`
+#' @param credits.group.frame `r opt_inf("credits.group.frame")`
+#' @param credits.resize_as_group `r opt_inf("credits.resize_as_group")`
+#' @param compass.north `r opt_inf("compass.north")`
+#' @param compass.type `r opt_inf("compass.type")`
+#' @param compass.text.size `r opt_inf("compass.text.size")`
+#' @param compass.size `r opt_inf("compass.size")`
+#' @param compass.show.labels `r opt_inf("compass.show.labels")`
+#' @param compass.cardinal.directions `r opt_inf("compass.cardinal.directions")`
+#' @param compass.text.color `r opt_inf("compass.text.color")`
+#' @param compass.color.dark `r opt_inf("compass.color.dark")`
+#' @param compass.color.light `r opt_inf("compass.color.light")`
+#' @param compass.lwd `r opt_inf("compass.lwd")`
+#' @param compass.bg.color `r opt_inf("compass.bg.color")`
+#' @param compass.bg.alpha `r opt_inf("compass.bg.alpha")`
+#' @param compass.margins `r opt_inf("compass.margins")`
+#' @param compass.show `r opt_inf("compass.show")`
+#' @param compass.stack `r opt_inf("compass.stack")`
+#' @param compass.position `r opt_inf("compass.position")`
+#' @param compass.frame `r opt_inf("compass.frame")`
+#' @param compass.frame.lwd `r opt_inf("compass.frame.lwd")`
+#' @param compass.frame.r `r opt_inf("compass.frame.r")`
+#' @param compass.group.frame `r opt_inf("compass.group.frame")`
+#' @param compass.resize_as_group `r opt_inf("compass.resize_as_group")`
+#' @param logo.height `r opt_inf("logo.height")`
+#' @param logo.margins `r opt_inf("logo.margins")`
+#' @param logo.between_margin `r opt_inf("logo.between_margin")`
+#' @param logo.show `r opt_inf("logo.show")`
+#' @param logo.stack `r opt_inf("logo.stack")`
+#' @param logo.position `r opt_inf("logo.position")`
+#' @param logo.frame `r opt_inf("logo.frame")`
+#' @param logo.frame.lwd `r opt_inf("logo.frame.lwd")`
+#' @param logo.frame.r `r opt_inf("logo.frame.r")`
+#' @param logo.group.frame `r opt_inf("logo.group.frame")`
+#' @param logo.resize_as_group `r opt_inf("logo.resize_as_group")`
+#' @param scalebar.show `r opt_inf("scalebar.show")`
+#' @param scalebar.breaks `r opt_inf("scalebar.breaks")`
+#' @param scalebar.width `r opt_inf("scalebar.width")`
+#' @param scalebar.text.size `r opt_inf("scalebar.text.size")`
+#' @param scalebar.text.color `r opt_inf("scalebar.text.color")`
+#' @param scalebar.color.dark `r opt_inf("scalebar.color.dark")`
+#' @param scalebar.color.light `r opt_inf("scalebar.color.light")`
+#' @param scalebar.lwd `r opt_inf("scalebar.lwd")`
+#' @param scalebar.bg.color `r opt_inf("scalebar.bg.color")`
+#' @param scalebar.bg.alpha `r opt_inf("scalebar.bg.alpha")`
+#' @param scalebar.size `r opt_inf("scalebar.size")`
+#' @param scalebar.margins `r opt_inf("scalebar.margins")`
+#' @param scalebar.stack `r opt_inf("scalebar.stack")`
+#' @param scalebar.position `r opt_inf("scalebar.position")`
+#' @param scalebar.frame `r opt_inf("scalebar.frame")`
+#' @param scalebar.frame.lwd `r opt_inf("scalebar.frame.lwd")`
+#' @param scalebar.frame.r `r opt_inf("scalebar.frame.r")`
+#' @param scalebar.group.frame `r opt_inf("scalebar.group.frame")`
+#' @param scalebar.resize_as_group `r opt_inf("scalebar.resize_as_group")`
+#' @param grid.show `r opt_inf("grid.show")`
+#' @param grid.labels.pos `r opt_inf("grid.labels.pos")`
+#' @param grid.x `r opt_inf("grid.x")`
+#' @param grid.y `r opt_inf("grid.y")`
+#' @param grid.n.x `r opt_inf("grid.n.x")`
+#' @param grid.n.y `r opt_inf("grid.n.y")`
+#' @param grid.crs `r opt_inf("grid.crs")`
+#' @param grid.col `r opt_inf("grid.col")`
+#' @param grid.lwd `r opt_inf("grid.lwd")`
+#' @param grid.alpha `r opt_inf("grid.alpha")`
+#' @param grid.labels.show `r opt_inf("grid.labels.show")`
+#' @param grid.labels.size `r opt_inf("grid.labels.size")`
+#' @param grid.labels.col `r opt_inf("grid.labels.col")`
+#' @param grid.labels.rot `r opt_inf("grid.labels.rot")`
+#' @param grid.labels.format `r opt_inf("grid.labels.format")`
+#' @param grid.labels.cardinal `r opt_inf("grid.labels.cardinal")`
+#' @param grid.labels.margin.x `r opt_inf("grid.labels.margin.x")`
+#' @param grid.labels.margin.y `r opt_inf("grid.labels.margin.y")`
+#' @param grid.labels.space.x `r opt_inf("grid.labels.space.x")`
+#' @param grid.labels.space.y `r opt_inf("grid.labels.space.y")`
+#' @param grid.labels.inside_frame `r opt_inf("grid.labels.inside_frame")`
+#' @param grid.ticks `r opt_inf("grid.ticks")`
+#' @param grid.lines `r opt_inf("grid.lines")`
+#' @param grid.ndiscr `r opt_inf("grid.ndiscr")`
+#' @param mouse_coordinates.stack `r opt_inf("mouse_coordinates.stack")`
+#' @param mouse_coordinates.position `r opt_inf("mouse_coordinates.position")`
+#' @param mouse_coordinates.show `r opt_inf("mouse_coordinates.show")`
+#' @param minimap.server `r opt_inf("minimap.server")`
+#' @param minimap.toggle `r opt_inf("minimap.toggle")`
+#' @param minimap.stack `r opt_inf("minimap.stack")`
+#' @param minimap.position `r opt_inf("minimap.position")`
+#' @param minimap.show `r opt_inf("minimap.show")`
+#' @param panel.show `r opt_inf("panel.show")`
+#' @param panel.labels `r opt_inf("panel.labels")`
+#' @param panel.label.size `r opt_inf("panel.label.size")`
+#' @param panel.label.color `r opt_inf("panel.label.color")`
+#' @param panel.label.fontface `r opt_inf("panel.label.fontface")`
+#' @param panel.label.fontfamily `r opt_inf("panel.label.fontfamily")`
+#' @param panel.label.bg.color `r opt_inf("panel.label.bg.color")`
+#' @param panel.label.frame `r opt_inf("panel.label.frame")`
+#' @param panel.label.frame.lwd `r opt_inf("panel.label.frame.lwd")`
+#' @param panel.label.frame.r `r opt_inf("panel.label.frame.r")`
+#' @param panel.label.height `r opt_inf("panel.label.height")`
+#' @param panel.label.rot `r opt_inf("panel.label.rot")`
+#' @param bbox `r opt_inf("bbox")`
+#' @param set.bounds `r opt_inf("set.bounds")`
+#' @param set.view `r opt_inf("set.view")`
+#' @param set.zoom.limits `r opt_inf("set.zoom.limits")`
+#' @param qtm.scalebar `r opt_inf("qtm.scalebar")`
+#' @param qtm.minimap `r opt_inf("qtm.minimap")`
+#' @param qtm.mouse_coordinates `r opt_inf("qtm.mouse_coordinates")`
+#' @param earth.boundary `r opt_inf("earth.boundary")`
+#' @param earth.boundary.color `r opt_inf("earth.boundary.color")`
+#' @param earth.boundary.lwd `r opt_inf("earth.boundary.lwd")`
+#' @param earth.datum `r opt_inf("earth.datum")`
+#' @param space.color `r opt_inf("space.color")`
+#' @param check_and_fix `r opt_inf("check_and_fix")`
+#' @param basemap.show `r opt_inf("basemap.show")`
+#' @param basemap.server `r opt_inf("basemap.server")`
+#' @param basemap.alpha `r opt_inf("basemap.alpha")`
+#' @param basemap.zoom `r opt_inf("basemap.zoom")`
+#' @param tiles.show `r opt_inf("tiles.show")`
+#' @param tiles.server `r opt_inf("tiles.server")`
+#' @param tiles.alpha `r opt_inf("tiles.alpha")`
+#' @param tiles.zoom `r opt_inf("tiles.zoom")`
+#' @param attr.color `r opt_inf("attr.color")`
+#' @param title,main.title deprecated See [tm_title()]
+#' @param view.legend.position deprecated. Use `legend.position` instead.
 #' @name tmap_options
 #' @rdname tmap_options
 #' @export
-tmap_options = function(...) {
+tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, show.messages, show.warnings, output.format, output.size, output.dpi, output.dpi.animation, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize_as_group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.group.frame, chart.resize_as_group, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.show, title.size, title.color, title.fontface, title.fontfamily, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, title.group.frame, title.resize_as_group, credits.show, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.heigth, credits.group.frame, credits.resize_as_group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.show, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize_as_group, logo.height, logo.margins, logo.between_margin, logo.show, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, logo.group.frame, logo.resize_as_group, scalebar.show, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize_as_group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, set.bounds, set.view, set.zoom.limits, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth.boundary, earth.boundary.color, earth.boundary.lwd, earth.datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
+						title = NULL,
+						main.title = NULL,
+						view.legend.position) {
 	o = get("tmapOptions", envir = .TMAP)
 	nms = names(o)
 	show.warnings = o$show.warnings
+
+	## case 1: option list is given. E.g. opts = list(crs = 3035, panel.show = TRUE); tmap_options(opts)
+	## case 2: option name is given. E.g. tmap_options("crs", "panel.show")
+	## case 3: named options are set. E.g. tmap_options(crs = 3035, panel.show = TRUE)
+	## case 4: tmap_options is called without arguments
+
 
 	# get current style name (default: white), and set new style name (with "(modified)")
 	sty_cur = getOption("tmap.style")
 	sty_new = if (substr(sty_cur, nchar(sty_cur) - 9, nchar(sty_cur)) == "(modified)") sty_cur else paste(sty_cur, "(modified)")
 
-	e1 = parent.frame()
+	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	set_new_style = FALSE
 
-	lst = list(...)
-	if (length(lst) >= 1 && is.null(names(lst))) {
-		arg = lst[[1]]
+	#lst = list(...)
+	if (length(args) >= 1 && is.null(names(args[1]))) {
+		arg = args[[1]]
 		if (is.list(arg)) {
+			if (length(args) > 1 && show.warnings) warning("Only the first argument is used; the other arguments are ignored.")
 			## case 1: option list is given
 			args = arg
 
@@ -978,18 +346,13 @@ tmap_options = function(...) {
 				set_new_style = TRUE
 			}
 
-			if (length(lst) > 1 && show.warnings) warning("Only the first argument is used; the other arguments are ignored.")
 		} else {
 			## case 2: option name is given
-			args = sapply(lst, "[", 1)
+			args = sapply(args, "[", 1)
 			if (!all(args %in% nms) && show.warnings) warning("The following options do not exist: ", paste(setdiff(args, nms), collapse = ", "))
 			args = intersect(args, nms)
 			return(o[args])
 		}
-	} else {
-		## case 3: named options are set
-		## case 4: tmap_options is called without arguments
-		args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	}
 
 	mode_opts = setdiff(unique(unlist(lapply(o$modes, names))), "name")
@@ -1008,6 +371,9 @@ tmap_options = function(...) {
 		return(o)
 	} else {
 		# case 1 and 3
+		if (is.null(names(args))) {
+			stop("Option list is unnamed")
+		}
 		backup = o[names(args)]
 		o[names(args)] = args # check_named_items(args, backup)
 
@@ -1051,31 +417,7 @@ tmap_option = function(name, type = NULL) {
 	get_option_class(tmap_options()[[name]], class = type, spatial_class = FALSE)
 }
 
-get_option_class = function(o, class = NULL, spatial_class = TRUE) {
-	is_spatial = !spatial_class || (any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp", "dimensions")))
-	if (!is.null(class) && is_spatial) { # && is.list(o)
-		mtch = which(names(o) %in% class)
-		if (!length(mtch)) mtch = which(names(o) == "")[1]
-		o = o[[mtch]]
-	}
-	o
-}
 
-#
-#
-# tmap_options_class = function(class) {
-# 	o = tmap_options()
-# 	o = lapply(o, function(o) {
-# 		if (is.list(o) && any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp"))) {
-# 			mtch = which(names(o) %in% class)
-# 			if (!length(mtch)) mtch = which(names(o) == "")[1]
-# 			o[[mtch]]
-# 		} else {
-# 			o
-# 		}
-# 	})
-# 	o
-# }
 
 tmap_graphics_name = function(mode) {
 	if (missing(mode)) mode = getOption("tmap.mode")
@@ -1086,235 +428,7 @@ tmapOption = function(...) {
 	structure(list(...), class = "tmapOption")
 }
 
-# getTmapOption = function(x, o) {
-# 	x = unlist(x)
-# 	y = o
-# 	for (i in 1:length(x)) {
-# 		if (x[i] %in% names(y)) {
-# 			y = y[[x[i]]]
-# 		} else {
-# 			# string match (e.g. "fill.polygons" will be mapped to "fill")
-# 			namesy_equal_nchar = vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1))
-# 			w = which(names(y) == namesy_equal_nchar)
-# 			if (length(w) == 0) return(NULL)
-# 			y = y[[w[which.max(nchar(namesy_equal_nchar[w]))]]]
-# 		}
-# 	}
-# 	y
-# }
 
-
-getAesOption = function(x, o, aes, layer, cls = NULL) {
-	y = o[[x]]
-	al = paste(aes, layer, sep = ".")
-
-
-
-	if (any(al %in% names(y))) {
-		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
-		z = y[[al[id]]]
-	} else if (aes %in% names(y)) {
-		# take matching visual variable (regardless what layer)
-		z = y[[aes]]
-	} else if (is.list(y)) {
-		# check if there are non-named list items, if so take the first one
-		eid = which(names(y) == "")[1]
-		if (!is.na(eid)) {
-			z = y[[eid]]
-		} else {
-			return(NA)
-		}
-	} else {
-		return(y)
-	}
-
-	if (!is.null(cls) && is.list(z)) {
-		mid = vapply(names(z), FUN = "%in%", FUN.VALUE = logical(1), cls)
-		if (any(mid)) {
-			z = z[[which(mid)[1]]]
-		}
-	}
-	z
-}
-
-getAesValue = function(x, aes) {
-	nms = names(x)
-
-	if (is.null(nms)) {
-		x
-	} else if (any(nms %in% c("fill", "col", "size", "shape", "lwd", "lty", "fontsize", "fontface"))) {
-		if (aes %in% nms) {
-			x[[aes]]
-		} else {
-			if (any(nms == "")) {
-				x[[which(nms == "")[1]]]
-			} else {
-				x
-			}
-		}
-	} else {
-		x
-	}
-}
-
-
-#' @rdname tmap_options
-#' @export
-tm_options = function(...) {
-	args_called = names(rlang::call_match(dots_expand = TRUE)[-1])
-	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-
-	tm_element_list(do.call(tm_element, c(args, list(calls = args_called, subclass = "tm_options"))))
-
-}
-
-#' @rdname tm_extra_innner_margin
-#' @name tm_place_legends_right
-#' @export
-tm_place_legends_right = function(width = NA) {
-	if (is.na(width)) {
-		tm_options(legend.position = tm_pos_out("right", "center"))
-	} else {
-		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_pos_out("right", "center"))
-	}
-}
-
-#' @rdname tm_extra_innner_margin
-#' @name tm_place_legends_left
-#' @param width width
-#' @export
-tm_place_legends_left = function(width = NA) {
-	if (is.na(width)) {
-		tm_options(legend.position = tm_pos_out("left", "center"))
-	} else {
-		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_pos_out("right", "center"))
-	}
-}
-
-#' @rdname tm_extra_innner_margin
-#' @name tm_place_legends_bottom
-#' @param height height
-#' @export
-tm_place_legends_bottom = function(height = NA) {
-	if (is.na(height)) {
-		tm_options(legend.position = tm_pos_out("center", "bottom"))
-	} else {
-		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_pos_out("center", "bottom"))
-	}
-}
-
-#' @rdname tm_extra_innner_margin
-#' @name tm_place_legends_top
-#' @export
-tm_place_legends_top = function(height = NA) {
-	if (is.na(height)) {
-		tm_options(legend.position = tm_pos_out("center", "top"))
-	} else {
-		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_pos_out("center", "top"))
-	}
-}
-
-#' @rdname tm_extra_innner_margin
-#' @name tm_place_legends_inside
-#' @param pos.h,pos.v position (horizontal and vertical)
-#' @export
-tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
-	if (is.null(pos.h) || is.null(pos.v)) {
-		if (!is.null(pos.h)) {
-			warning("tm_place_legends_inside also requires pos.v", call. = FALSE)
-		} else if (!is.null(pos.v)) {
-			warning("tm_place_legends_inside also requires pos.h", call. = FALSE)
-		}
-		tm_options(legend.position = tm_pos_auto_in())
-	} else {
-		tm_options(legend.position = tm_pos_in(pos.h = pos.h, pos.v = pos.v))
-	}
-}
-
-#' tmap layout: helper functions
-#'
-#' @param left,right,top,bottom extra margins
-#' @export
-#' @rdname tm_extra_innner_margin
-#' @name tm_extra_innner_margin
-tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
-	tm_options(inner.margins.extra = c(bottom, left, top, right))
-}
-
-#' @rdname tmap_options
-#' @export
-tm_check_fix = function() {
-	tm_options(check_and_fix = TRUE)
-}
-
-
-#' @rdname tm_layout
-#' @param style name of the style
-#' @export
-#' @order 1
-tm_style = function(style, ...) {
-	args = list(...)
-
-	.tmapOptions = get("tmapOptions", envir = .TMAP)
-	check_style(style)
-
-	args$style = style
-	args$called_from = "tm_style"
-	#structure(list(tm_layout=args), class = "tm")
-	do.call(tm_layout, args)
-}
-
-#' @rdname tm_layout
-#' @order 2
-#' @param format name of the format
-#' @export
-tm_format = function(format, ...) {
-	args = list(...)
-
-	.tmapFormats = get("tmapFormats", envir = .TMAP)
-
-	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
-
-	formatArgs = .tmapFormats[[format]]
-	if (length(args)) {
-		formatArgs[names(args)] = args
-	}
-	formatArgs$style = NA
-
-
-
-	if ("title" %in% names(formatArgs)) {
-		v3_use_component("title", "tm_title", "tm_format")
-		title = formatArgs$title
-		formatArgs$title = NULL
-		do.call(tm_options, formatArgs) + tm_title(text = title)
-	} else {
-		do.call(tm_options, formatArgs)
-	}
-
-}
-
-# get options with a prefic
-get_prefix_opt = function(prefix, class, o) {
-	if (missing(prefix)) prefix = substr(class, 4, nchar(class))
-	ot = o[names(o)[substr(names(o), 1, nchar(prefix)) == prefix]]
-	names(ot) = substr(names(ot), nchar(prefix)+2, nchar(names(ot)))
-	ot
-}
-
-# (partly) named vector: get 1st name match or otherwise 1st non-named argument
-# used in tm_scale_continuous, but similar function should exists for options? (todo: check)
-get_vector_id = function(x, id) {
-	if (is.null(names(x))) {
-		x[1]
-	} else if (id %in% names(x)) {
-		unname(x[id][1L])
-	} else if (any("" %in% names(x))) {
-		unname(x[which(names(x) == "")[1]])
-	} else {
-		x[1]
-	}
-}
 
 
 #' Internal tmap function to add a default value for the layer functions
@@ -1387,3 +501,23 @@ tmap_options_save <- function(style) {
 	if (show.messages) message("current tmap options saved as style \"", style, "\"")
 	invisible(.tmapOptions)
 }
+
+
+
+#' Internal method for submitting a new mode
+#'
+#' Internal method for submitting a new mode
+#'
+#' @param id id of the mode: please use lowercase and one-word. This will be used with [tmap_mode()].
+#' @param name name of the mode: please use title case. This will be used to recognize internal functions, e.g. `tmapLeafletInit`
+#' @param ... mode specific options
+#' @export
+#' @keywords internal
+tmapMode = function(id, name, ...) {
+	modes = tmap_options("modes")$modes
+
+	modes[[id]] = c(list(name = name), list(...))
+	tmap_options(modes = modes)
+}
+
+

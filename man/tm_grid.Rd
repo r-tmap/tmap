@@ -24,8 +24,8 @@ tm_grid(
   labels.margin.y = 0,
   labels.space.x = NA,
   labels.space.y = NA,
-  labels.inside.frame = FALSE,
-  ticks = labels.show & !labels.inside.frame,
+  labels.inside_frame = FALSE,
+  ticks = labels.show & !labels.inside_frame,
   lines = TRUE,
   ndiscr = 100,
   zindex = NA,
@@ -97,27 +97,27 @@ instead of using negative coordinates for west and south (so it assumes that
 the coordinates are positive in the north-east direction).}
 
 \item{labels.margin.x}{Margin between tick labels of x axis and the frame.
-Note that when \code{labels.inside.frame = FALSE} and \code{ticks = TRUE},
+Note that when \code{labels.inside_frame = FALSE} and \code{ticks = TRUE},
 the ticks will be adjusted accordingly.}
 
 \item{labels.margin.y}{Margin between tick labels of y axis and the frame.
-Note that when \code{labels.inside.frame = FALSE} and \code{ticks = TRUE},
+Note that when \code{labels.inside_frame = FALSE} and \code{ticks = TRUE},
 the ticks will be adjusted accordingly.}
 
 \item{labels.space.x}{Space that is used for the labels and ticks for the x-axis
-when \code{labels.inside.frame = FALSE}. By default, it is determined automatically
+when \code{labels.inside_frame = FALSE}. By default, it is determined automatically
 using the widths and heights of the tick labels. The unit of this parameter is text line height.}
 
 \item{labels.space.y}{Space that is used for the labels and ticks for the y-axis
-when \code{labels.inside.frame = FALSE}. By default, it is determined automatically
+when \code{labels.inside_frame = FALSE}. By default, it is determined automatically
 using the widths and heights of the tick labels. The unit of this parameter is text line height.}
 
-\item{labels.inside.frame}{Show labels inside the frame? By default \code{FALSE}.}
+\item{labels.inside_frame}{Show labels inside the frame? By default \code{FALSE}.}
 
-\item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?
+\item{ticks}{If \code{labels.inside_frame = FALSE}, should ticks can be drawn between the labels and the frame?
 Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.}
 
-\item{lines}{If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?}
+\item{lines}{If \code{labels.inside_frame = FALSE}, should grid lines can be drawn?}
 
 \item{ndiscr}{Number of points to discretize a parallel or meridian
 (only applicable for curved grid lines)}

@@ -8,14 +8,14 @@ tm_logo(
   file,
   height,
   margins,
-  between.margin,
+  between_margin,
   stack,
   position,
   frame,
   frame.lwd,
   frame.r,
   group.frame,
-  resize.as.group,
+  resize_as_group,
   z
 )
 }
@@ -28,7 +28,7 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{margins}{margins}
 
-\item{between.margin}{between.margin}
+\item{between_margin}{between_margin}
 
 \item{stack}{stack}
 
@@ -42,7 +42,7 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{group.frame}{group.frame}
 
-\item{resize.as.group}{resize.as.group}
+\item{resize_as_group}{resize_as_group}
 
 \item{z}{z}
 }

@@ -73,21 +73,21 @@ first is the rotation angle (in degrees) of the tick labels on the x axis
 and the second is the rotation angle of the tick labels on the y axis.
 Only \code{0}, \code{90}, \code{180}, and \code{270} are valid values.}
     \item{\code{labels.margin.x}}{Margin between tick labels of x axis and the frame.
-Note that when \code{labels.inside.frame = FALSE} and \code{ticks = TRUE},
+Note that when \code{labels.inside_frame = FALSE} and \code{ticks = TRUE},
 the ticks will be adjusted accordingly.}
     \item{\code{labels.margin.y}}{Margin between tick labels of y axis and the frame.
-Note that when \code{labels.inside.frame = FALSE} and \code{ticks = TRUE},
+Note that when \code{labels.inside_frame = FALSE} and \code{ticks = TRUE},
 the ticks will be adjusted accordingly.}
     \item{\code{labels.space.x}}{Space that is used for the labels and ticks for the x-axis
-when \code{labels.inside.frame = FALSE}. By default, it is determined automatically
+when \code{labels.inside_frame = FALSE}. By default, it is determined automatically
 using the widths and heights of the tick labels. The unit of this parameter is text line height.}
     \item{\code{labels.space.y}}{Space that is used for the labels and ticks for the y-axis
-when \code{labels.inside.frame = FALSE}. By default, it is determined automatically
+when \code{labels.inside_frame = FALSE}. By default, it is determined automatically
 using the widths and heights of the tick labels. The unit of this parameter is text line height.}
-    \item{\code{labels.inside.frame}}{Show labels inside the frame? By default \code{FALSE}.}
-    \item{\code{ticks}}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?
+    \item{\code{labels.inside_frame}}{Show labels inside the frame? By default \code{FALSE}.}
+    \item{\code{ticks}}{If \code{labels.inside_frame = FALSE}, should ticks can be drawn between the labels and the frame?
 Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.}
-    \item{\code{lines}}{If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?}
+    \item{\code{lines}}{If \code{labels.inside_frame = FALSE}, should grid lines can be drawn?}
     \item{\code{ndiscr}}{Number of points to discretize a parallel or meridian
 (only applicable for curved grid lines)}
     \item{\code{zindex}}{zindex of the pane in view mode. By default, it is set to the
