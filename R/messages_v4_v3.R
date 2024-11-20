@@ -24,13 +24,13 @@ v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_fo
 
 v3_title = function(fun) {
 	id = paste0(fun, "title")
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_main_title = function(fun) {
 	id = paste0(fun, "main.title")
 
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of the {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_convert2density = function(layer_fun) {
@@ -319,6 +319,14 @@ v3_tm_rgb = function(r, g, b) {
 	cli::cli_inform(
 		"{.field [v3->v4]} {.fn tm_rgb}: instead of using r = {r}, g = {g} and b = {b} , please use col = tm_vars(c({r}, {g}, {b}), multivariate = TRUE)",
 		.frequency_id = "tm-rgb"
+	)
+}
+
+
+v3_opt = function(fun, old, new) {
+	cli::cli_inform(
+		"{.field [v3->v4]} {.fn {fun}}: use {new} instead of {old}",
+		.frequency_id = "tm-opt"
 	)
 }
 

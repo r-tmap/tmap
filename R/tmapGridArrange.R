@@ -11,7 +11,7 @@ tmapGridArrange = function(tms, nx, ncol, nrow, opts, knit, show, args, options)
 	if (!is.null(opts$asp) || !is.null(opts$outer.margins)) {
 		layout_args <- list(asp=opts$asp, outer.margins=opts$outer.margins)
 		layout_args <- layout_args[!vapply(layout_args, is.null, logical(1))]
-		tml <- do.call(tm_layout, layout_args)
+		tml <- do.call(tm_options, layout_args)
 	} else {
 		tml <- NULL
 	}

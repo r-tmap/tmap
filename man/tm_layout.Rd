@@ -279,8 +279,6 @@ tm_layout(
   tiles.zoom,
   attr.color,
   title = NULL,
-  main.title = NULL,
-  view.legend.position = NULL,
   ...
 )
 }
@@ -826,9 +824,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{attr.color}{The color of the attr.}
 
-\item{title, main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
-
-\item{view.legend.position}{deprecated. Use \code{legend.position} instead.}
+\item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 }
 \description{
 Set of tmap options that are directly related to the layout.

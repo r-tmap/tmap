@@ -56,12 +56,12 @@ value greater than 50. Else, the units are inches (\code{"in"}).}
 \item{dpi}{dots per inch. Only applicable for raster graphics. By default it
 is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link[=tmap_options]{tmap_options()}}.}
 
-\item{outer.margins}{overrides the outer.margins argument of \code{\link[=tm_layout]{tm_layout()}} (unless set to \code{NA})}
+\item{outer.margins}{overrides the outer.margins argument of \code{\link[=tm_options]{tm_options()}} (unless set to \code{NA})}
 
-\item{asp}{if specified, it overrides the asp argument of \code{\link[=tm_layout]{tm_layout()}}.
+\item{asp}{if specified, it overrides the asp argument of \code{\link[=tm_options]{tm_options()}}.
 \strong{Tip}: set to \code{0} if map frame should be placed on the edges of the image.}
 
-\item{scale}{overrides the scale argument of \code{\link[=tm_layout]{tm_layout()}} (unless set to \code{NA})}
+\item{scale}{overrides the scale argument of \code{\link[=tm_options]{tm_options()}} (unless set to \code{NA})}
 
 \item{insets_tm}{tmap object of an inset map, or a list of tmap objects of
 multiple inset maps. The number of tmap objects should be equal to the number

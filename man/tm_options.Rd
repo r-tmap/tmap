@@ -299,8 +299,14 @@ tm_options(
   attr.color,
   title = NULL,
   main.title = NULL,
-  view.legend.position,
-  style
+  main.title.size = NULL,
+  main.title.color = NULL,
+  main.title.fontface = NULL,
+  main.title.fontfamily = NULL,
+  main.title.position = NULL,
+  view.legend.position = NULL,
+  style,
+  ...
 )
 }
 \arguments{
@@ -889,11 +895,17 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{attr.color}{The color of the attr.}
 
-\item{title, main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
+\item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
+
+\item{main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
+
+\item{main.title.size, main.title.color, main.title.fontface, main.title.fontfamily, main.title.position}{deprecated. Use the \code{title.} options instead.}
 
 \item{view.legend.position}{deprecated. Use \code{legend.position} instead.}
 
 \item{style}{style see \code{tm_style()}}
+
+\item{...}{List of tmap options to be set, or option names (characters) to be returned (see details)}
 }
 \description{
 tmap options

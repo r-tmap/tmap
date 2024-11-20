@@ -28,10 +28,10 @@
 #'   value greater than 50. Else, the units are inches (`"in"`).
 #' @param dpi dots per inch. Only applicable for raster graphics. By default it
 #'   is set to 300, but this can be changed using the option `"output.dpi"` in [tmap_options()].
-#' @param outer.margins overrides the outer.margins argument of [tm_layout()] (unless set to `NA`)
-#' @param asp if specified, it overrides the asp argument of [tm_layout()].
+#' @param outer.margins overrides the outer.margins argument of [tm_options()] (unless set to `NA`)
+#' @param asp if specified, it overrides the asp argument of [tm_options()].
 #'   **Tip**: set to `0` if map frame should be placed on the edges of the image.
-#' @param scale overrides the scale argument of [tm_layout()] (unless set to `NA`)
+#' @param scale overrides the scale argument of [tm_options()] (unless set to `NA`)
 #' @param insets_tm tmap object of an inset map, or a list of tmap objects of
 #'   multiple inset maps. The number of tmap objects should be equal to the number
 #'   of viewports specified with `insets_vp`.
@@ -227,7 +227,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		if (!is.na(outer.margins[1])) args$outer.margins = outer.margins
 		if (!missing(asp)) args$asp = asp
 		if (!is.na(scale)) args$scale = scale
-		print(tm + do.call("tm_layout", args))
+		print(tm + do.call("tm_options", args))
 	}
 
 	if (!is.arrange && !missing(insets_tm) && !missing(insets_vp)) {
@@ -235,10 +235,10 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	  if (inherits(insets_tm, "list") && inherits(insets_vp, "list")) {
 	    if (length(insets_tm) != length(insets_vp)) stop("Number of insets unequal to number of viewports")
 	    mapply(function(tm_i, vp_i) {
-	      print(tm_i + do.call("tm_layout", args_inset), vp=vp_i)
+	      print(tm_i + do.call("tm_options", args_inset), vp=vp_i)
 	    }, insets_tm, insets_vp)
 	  } else if (inherits(insets_tm, "tmap") && inherits(insets_vp, "viewport")) {
-	    print(insets_tm + do.call("tm_layout", args_inset), insets_vp)
+	    print(insets_tm + do.call("tm_options", args_inset), insets_vp)
 	  } else {
 	    stop("Insets and/or its viewports not in the correct format")
 	  }
