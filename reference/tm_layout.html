@@ -324,8 +324,6 @@
 <span>  <span class="va">tiles.zoom</span>,</span>
 <span>  <span class="va">attr.color</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  main.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  view.legend.position <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -1415,12 +1413,8 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The color of the attr.</p></dd>
 
 
-<dt id="arg-title-main-title">title, main.title<a class="anchor" aria-label="anchor" href="#arg-title-main-title"></a></dt>
+<dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>deprecated See <code><a href="tm_title.html">tm_title()</a></code></p></dd>
-
-
-<dt id="arg-view-legend-position">view.legend.position<a class="anchor" aria-label="anchor" href="#arg-view-legend-position"></a></dt>
-<dd><p>deprecated. Use <code>legend.position</code> instead.</p></dd>
 
 </dl></div>
 
@@ -1459,6 +1453,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <span class="r-in"><span>  <span class="fu">tm_style</span><span class="op">(</span><span class="st">"albatross_v3"</span>, frame.lwd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_format</span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"The World"</span>, position <span class="op">=</span> <span class="fu"><a href="tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[v3-&gt;v4]</span> `tm_options()`: use 'tm_title()' instead of `tm_options(title = )`</span>
 <span class="r-plt img"><img src="tm_layout-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
