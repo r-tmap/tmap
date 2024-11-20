@@ -29,7 +29,7 @@ opt_tm_rgb(interpolate = FALSE)
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
-the col color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivariate = TRUE}}
+the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivariate = TRUE}}
 
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 

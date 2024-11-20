@@ -61,17 +61,15 @@ opt_tm_polygons(polygons.only = "ifany")
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the border color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
 
 \item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details.}
 
 \item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{Visual
-variable that determines the fill color alpha transparency See details.}
+\item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{Visual variable that determines the fill color transparency. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable
-that determines the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
 
 \item{linejoin, lineend}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
 

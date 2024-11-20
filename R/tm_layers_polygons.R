@@ -30,14 +30,12 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #'
-#' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
-#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the border color. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free Visual
-#'   variable that determines the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
-#'   that determines the border color alpha transparency. See details.
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r .doc_vv("fill_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.

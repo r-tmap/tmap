@@ -51,7 +51,7 @@ tm_shape(World) +
 		tm_style("classic") +
 		tm_layout(bg.color="lightblue",
 				  inner.margins=c(.04,.03, .02, .01), 
-				  earth.boundary = TRUE, 
+				  earth_boundary = TRUE, 
 				  space.color="grey90") +
 		tm_legend(position = c("left", "bottom"), 
 				  frame = TRUE,
@@ -62,7 +62,7 @@ tm_shape(World, projection="+proj=robin") +
 	tm_polygons("HPI", palette="div", n=7, 
 				title = "Happy Planet Index") +
 	tm_credits("Robinson projection", position = c("right", "BOTTOM")) +
-	tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
+	tm_style("natural", earth_boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 	tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 # Not working yet
 \dontrun{

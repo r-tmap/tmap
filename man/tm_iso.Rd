@@ -13,9 +13,9 @@ tm_iso(
 )
 }
 \arguments{
-\item{col}{Visual variable that determines the color of the lines}
+\item{col}{Visual variable that determines the color. See details.}
 
-\item{text}{Visual variable that determines the text}
+\item{text}{Visual variable that determines the text. See details.}
 
 \item{...}{passed on to \code{\link[=tm_lines]{tm_lines()}} and \code{\link[=tm_labels_highlighted]{tm_labels_highlighted()}}. For the text color and alpha transparency of the text labels, please use \code{text_col} and \code{text_alpha} instead of \code{col} and \code{col_alpha}.}
 

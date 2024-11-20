@@ -43,7 +43,7 @@
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
-		output.dpi.animation = 100,
+		animation.dpi = 100,
 
 		# default visual variable values
 		value.const = list(fill.polygons = "grey85",
@@ -455,7 +455,7 @@
 		credits.stack = "vertical",
 		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		credits.width = NA,
-		credits.heigth = NA,
+		credits.height = NA,
 		credits.group.frame = TRUE,
 		credits.resize_as_group = FALSE,
 
@@ -586,10 +586,10 @@
 		qtm.minimap = FALSE,
 		qtm.mouse_coordinates = FALSE,
 
-		earth.boundary = FALSE,
-		earth.boundary.color = NULL,
-		earth.boundary.lwd = 1,
-		earth.datum = "OGC:CRS84",
+		earth_boundary = FALSE,
+		earth_boundary.color = NULL,
+		earth_boundary.lwd = 1,
+		earth_datum = "OGC:CRS84",
 		space.color = NULL,
 
 		check_and_fix = FALSE,
@@ -729,7 +729,7 @@ styles = list(
 		legend.frame = TRUE,
 		legend.bg.color = "grey90",
 		frame = FALSE,
-		earth.boundary = TRUE,
+		earth_boundary = TRUE,
 		basemap.server = "Esri.NatGeoWorldMap",
 		basemap.alpha = 1),
 	cobalt = list(bg.color = "#002240",

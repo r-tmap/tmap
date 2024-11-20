@@ -28,16 +28,11 @@
 #' own legend. For facet wraps and stacks ([tm_facets_wrap()] and [tm_facets_stack()])
 #' there is only one facet dimension, so the `.free` argument requires only one logical value.
 #'
-#' @param text,text.scale,text.legend,text.chart,text.free Visual variable that determines
-#'   the text. See details.
-#' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines
-#'   the font size. See details.
-#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
-#'   the col color. See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable that determines
-#'   the border color alpha transparency. See Details.
-#' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free Visual variable that determines
-#'   the font face. See Details.
+#' @param text,text.scale,text.legend,text.chart,text.free `r .doc_vv("text")`
+#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
+#' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free `r .doc_vv("fontface")`
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
 #' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
 #'   the background color. See Details.

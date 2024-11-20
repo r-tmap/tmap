@@ -13,7 +13,7 @@ preprocess_meta_step1 = function(o) {
 		# panel.label.size = panel.label.size * scale
 
 		space.color = ifelse(is.null(space.color), bg.color, space.color[1])
-		earth.boundary.color = ifelse(is.null(earth.boundary.color), attr.color, earth.boundary.color[1])
+		earth_boundary.color = ifelse(is.null(earth_boundary.color), attr.color, earth_boundary.color[1])
 		legend.text.color =  ifelse(is.null(legend.text.color), attr.color, legend.text.color[1])
 		legend.title.color = ifelse(is.null(legend.title.color), attr.color, legend.title.color[1])
 		title.color = ifelse(is.null(title.color), attr.color, title.color[1])
@@ -73,7 +73,7 @@ preprocess_meta_step1 = function(o) {
 		panel.label.color = do.call("process_color", c(list(col=panel.label.color), pc))
 		panel.label.bg.color = do.call("process_color", c(list(col=panel.label.bg.color), pc))
 
-		earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
+		earth_boundary.color = do.call("process_color", c(list(col=earth_boundary.color), pc))
 
 		if (is.na(bg.color) && pc$sepia_intensity != 0) bg.color = "#FFFFFF"
 		bg.color = do.call("process_color", c(list(col=bg.color), pc))
@@ -90,17 +90,17 @@ preprocess_meta_step1 = function(o) {
 				do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))				}
 		}
 		if (!is.na(title.bg.color)) title.bg.color = do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), pc))
-		if (!is.na(earth.boundary.color)) earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
+		if (!is.na(earth_boundary.color)) earth_boundary.color = do.call("process_color", c(list(col=earth_boundary.color), pc))
 		space.color = do.call("process_color", c(list(col=space.color), pc))
 
-		earth.bounds = if (is.logical(earth.boundary)) {
+		earth.bounds = if (is.logical(earth_boundary)) {
 			c(-180, -90, 180, 90)
 		} else {
-			as.vector(bb(earth.boundary))
+			as.vector(bb(earth_boundary))
 		}
-		earth.boundary = !isFALSE(earth.boundary)
+		earth_boundary = !isFALSE(earth_boundary)
 
-		earth.boundary.lwd = earth.boundary.lwd * scale
+		earth_boundary.lwd = earth_boundary.lwd * scale
 		#frame.lwd = frame.lwd * scale
 
 		# set font face and family

@@ -221,20 +221,15 @@ opt_tm_labels(
 )
 }
 \arguments{
-\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines
-the text. See details.}
+\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines the text. See details.}
 
-\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines
-the font size. See details.}
+\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines the size. See details.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
-the col color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines
-the border color alpha transparency. See Details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
 
-\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines
-the font face. See Details.}
+\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines the font face. See details.}
 
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 

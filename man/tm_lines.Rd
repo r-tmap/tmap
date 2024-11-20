@@ -43,13 +43,13 @@ tm_lines(
 opt_tm_lines(lines.only = "ifany")
 }
 \arguments{
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the col color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
 
 \item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details.}
 
 \item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
 
 \item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 

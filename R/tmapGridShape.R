@@ -14,15 +14,15 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	colid = g$cols_facet_ids[facet_col]
 
 	bg = if (is.na(o$frame) || is.na(o$bg.color)) {
-		if (o$earth.boundary) {
-			eotw = end_of_the_world(o$crs, earth.datum = o$earth.datum)
+		if (o$earth_boundary) {
+			eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
 			sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world")
 		} else {
 			NULL
 		}
 	} else {
-		if (o$earth.boundary) {
-			eotw = end_of_the_world(o$crs, earth.datum = o$earth.datum)
+		if (o$earth_boundary) {
+			eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
 			grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=0, lineend="square"), r = o$frame.r, name = "inner_rect"),
 						sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world"))
 		} else {
@@ -54,12 +54,12 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	frame.col = if (identical(o$frame, FALSE)) NA else if (identical(o$frame, TRUE)) o$attr.color else o$frame
 	r = o$frame.r * o$scale
 
-	boundary = if (o$earth.boundary) {
+	boundary = if (o$earth_boundary) {
 		fbbx = bb_asp(bbx, g$fasp)
 
-		eotw = end_of_the_world(o$crs, earth.datum = o$earth.datum)
+		eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
 
-		sf::st_as_grob(eotw, gp = grid::gpar(fill = NA, col = o$earth.boundary.color, lwd = o$earth.boundary.lwd), name = "outer_world", vp = grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)]))
+		sf::st_as_grob(eotw, gp = grid::gpar(fill = NA, col = o$earth_boundary.color, lwd = o$earth_boundary.lwd), name = "outer_world", vp = grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)]))
 	} else NULL
 
 	frame = if (!(is.na(frame.col))) {
@@ -87,7 +87,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	rowid = g$rows_facet_ids[facet_row]
 	colid = g$cols_facet_ids[facet_col]
 
-	if (o$earth.boundary) {
+	if (o$earth_boundary) {
 		gt = gt |>
 			#add_to_gt(boundary, row = rowid, col = colid)
 			grid::addGrob(boundary, paste0("gt_facet_", rc_text))

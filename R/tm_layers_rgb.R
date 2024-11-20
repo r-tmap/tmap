@@ -6,7 +6,7 @@
 #' fourth is the alpha transparency channel.
 #'
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
-#'   the col color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
+#'   the color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_rgb.R

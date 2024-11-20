@@ -40,16 +40,15 @@
 #'  To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the \code{shape} argument.
 #'  For small multiples, a list of these shape specification(s) should be provided.
 #'
-#' @param fill,fill.scale,fill.legend,fill.chart,fill.free Visual variable that determines the fill color. See details.
-#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the col color. See details.
-#' @param size,size.scale,size.legend,size.chart,size.free Visual variable that determines the size. See details.
-#' @param shape,shape.scale,shape.legend,shape.chart,shape.free Visual variable that determines the shape. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free Visual variable that determines the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.chart,lty.free Visual variable that determines the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.chart,fill_alpha.free Visual variable that determines
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
+#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")`
+#' @param shape,shape.scale,shape.legend,shape.chart,shape.free `r .doc_vv("shape")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.chart,fill_alpha.free `r .doc_vv("fill_alpha")`
 #'   the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable that determines
-#'   the border color alpha transparency. See details.
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
@@ -675,7 +674,7 @@ tm_markers = function(text = tm_const(),
 
 #' @inheritParams opt_tm_labels
 #' @param markers.on.top.of.text should markers be plot on top of the text (by default `FALSE`)
-#' @param dots.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
+#' @param dots.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.height}
 #' @param dots.just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @rdname tm_symbols

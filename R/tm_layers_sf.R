@@ -31,22 +31,14 @@
 #' [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires
 #' only one logical value.
 #'
-#' @param fill,fill.scale,fill.legend,fill.free Visual variable that determines
-#'   the fill color. See details.
-#' @param col,col.scale,col.legend,col.free Visual variable that determines
-#'   the col color. See details.
-#' @param size,size.scale,size.legend,size.free Visual variable that determines
-#'   the size. See details.
-#' @param shape,shape.scale,shape.legend,shape.free Visual variable that determines
-#'   the shape. See details.
-#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines
-#'   the line width. See details.
-#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines
-#'   the line type. See details.
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free Visual
-#'   variable that determines the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable
-#'   that determines the border color alpha transparency. See details.
+#' @param fill,fill.scale,fill.legend,fill.free  `r .doc_vv("fill")`
+#' @param col,col.scale,col.legend,col.free  `r .doc_vv("col")`
+#' @param size,size.scale,size.legend,size.free  `r .doc_vv("size")`
+#' @param shape,shape.scale,shape.legend,shape.free  `r .doc_vv("shape")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.free  `r .doc_vv("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.free  `r .doc_vv("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free  `r .doc_vv("fill_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free  `r .doc_vv("col_alpha")`
 #' @param linejoin,lineend line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order.list Specification in which order the spatial features are drawn.
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.

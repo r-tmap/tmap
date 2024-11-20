@@ -15,7 +15,7 @@ tm_options(
   output.format,
   output.size,
   output.dpi,
-  output.dpi.animation,
+  animation.dpi,
   value.const,
   value.na,
   value.null,
@@ -177,7 +177,7 @@ tm_options(
   credits.stack,
   credits.position,
   credits.width,
-  credits.heigth,
+  credits.height,
   credits.group.frame,
   credits.resize_as_group,
   compass.north,
@@ -282,10 +282,10 @@ tm_options(
   qtm.scalebar,
   qtm.minimap,
   qtm.mouse_coordinates,
-  earth.boundary,
-  earth.boundary.color,
-  earth.boundary.lwd,
-  earth.datum,
+  earth_boundary,
+  earth_boundary.color,
+  earth_boundary.lwd,
+  earth_datum,
   space.color,
   check_and_fix,
   basemap.show,
@@ -324,7 +324,7 @@ tm_options(
 
 \item{output.dpi}{Output dpi}
 
-\item{output.dpi.animation}{Output dpi for animations}
+\item{animation.dpi}{Output dpi for animations}
 
 \item{value.const}{Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per visual variable a value.}
 
@@ -363,531 +363,531 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{outer.bg.color}{Background color of map outside the frame.}
 
-\item{frame}{test123}
+\item{frame}{The frame of the .}
 
-\item{frame.lwd}{test123}
+\item{frame.lwd}{The line width of the frame. See \code{graphics::par}, option 'lwd'.}
 
-\item{frame.r}{test123}
+\item{frame.r}{The r (radius) of the frame.}
 
-\item{frame.double_line}{test123}
+\item{frame.double_line}{The double line of the frame. TRUE of FALSE.}
 
-\item{outer.margins}{test123}
+\item{outer.margins}{The margins of the outer space (outside the frame. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{inner.margins}{test123}
+\item{inner.margins}{The margins of the inner space (inside the frame). A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{inner.margins.extra}{test123}
+\item{inner.margins.extra}{The extra arguments of the margins of the inner space (inside the frame). A list of arguments.}
 
-\item{meta.margins}{test123}
+\item{meta.margins}{The margins of the meta. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{meta.auto_margins}{test123}
+\item{meta.auto_margins}{The auto_margins of the meta.}
 
-\item{between_margin}{test123}
+\item{between_margin}{The between_margin of the .}
 
-\item{panel.margin}{test123}
+\item{panel.margin}{The margin of the panel.}
 
-\item{component.offset}{test123}
+\item{component.offset}{The offset of the component.}
 
-\item{component.stack_margin}{test123}
+\item{component.stack_margin}{The stack_margin of the component.}
 
-\item{grid.mark.height}{test123}
+\item{grid.mark.height}{The height of the mark of the grid.}
 
-\item{xylab.height}{test123}
+\item{xylab.height}{The height of the xylab.}
 
-\item{coords.height}{test123}
+\item{coords.height}{The height of the coords.}
 
-\item{xlab.show}{test123}
+\item{xlab.show}{The visibility of the xlab. TRUE or FALSE.}
 
-\item{xlab.text}{test123}
+\item{xlab.text}{The text of the xlab.}
 
-\item{xlab.size}{test123}
+\item{xlab.size}{The size of the xlab.}
 
-\item{xlab.color}{test123}
+\item{xlab.color}{The color of the xlab.}
 
-\item{xlab.rotation}{test123}
+\item{xlab.rotation}{The rotation of the xlab.}
 
-\item{xlab.space}{test123}
+\item{xlab.space}{The space of the xlab. In terms of number of line heights.}
 
-\item{xlab.fontface}{test123}
+\item{xlab.fontface}{The font face of the xlab. See \code{graphics::par}, option 'font'.}
 
-\item{xlab.fontfamily}{test123}
+\item{xlab.fontfamily}{The font family of the xlab. See \code{graphics::par}, option 'family'.}
 
-\item{xlab.side}{test123}
+\item{xlab.side}{The side of the xlab.}
 
-\item{ylab.show}{test123}
+\item{ylab.show}{The visibility of the ylab. TRUE or FALSE.}
 
-\item{ylab.text}{test123}
+\item{ylab.text}{The text of the ylab.}
 
-\item{ylab.size}{test123}
+\item{ylab.size}{The size of the ylab.}
 
-\item{ylab.color}{test123}
+\item{ylab.color}{The color of the ylab.}
 
-\item{ylab.rotation}{test123}
+\item{ylab.rotation}{The rotation of the ylab.}
 
-\item{ylab.space}{test123}
+\item{ylab.space}{The space of the ylab. In terms of number of line heights.}
 
-\item{ylab.fontface}{test123}
+\item{ylab.fontface}{The font face of the ylab. See \code{graphics::par}, option 'font'.}
 
-\item{ylab.fontfamily}{test123}
+\item{ylab.fontfamily}{The font family of the ylab. See \code{graphics::par}, option 'family'.}
 
-\item{ylab.side}{test123}
+\item{ylab.side}{The side of the ylab.}
 
-\item{panel.type}{test123}
+\item{panel.type}{The type of the panel.}
 
-\item{panel.wrap.pos}{test123}
+\item{panel.wrap.pos}{The pos of the wrap of the panel.}
 
-\item{panel.xtab.pos}{test123}
+\item{panel.xtab.pos}{The pos of the xtab of the panel.}
 
-\item{unit}{test123}
+\item{unit}{The unit of the .}
 
-\item{color.sepia_intensity}{test123}
+\item{color.sepia_intensity}{The sepia_intensity of the color.}
 
-\item{color.saturation}{test123}
+\item{color.saturation}{The saturation of the color.}
 
-\item{color_vision_deficiency_sim}{test123}
+\item{color_vision_deficiency_sim}{The color_vision_deficiency_sim of the .}
 
-\item{text.fontface}{test123}
+\item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
 
-\item{text.fontfamily}{test123}
+\item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
 
-\item{component.position}{test123}
+\item{component.position}{The position of the component.}
 
-\item{component.autoscale}{test123}
+\item{component.autoscale}{The autoscale of the component.}
 
-\item{legend.show}{test123}
+\item{legend.show}{The visibility of the legend. TRUE or FALSE.}
 
-\item{legend.design}{test123}
+\item{legend.design}{The design of the legend.}
 
-\item{legend.orientation}{test123}
+\item{legend.orientation}{The orientation of the legend.}
 
-\item{legend.position}{test123}
+\item{legend.position}{The position of the legend.}
 
-\item{legend.width}{test123}
+\item{legend.width}{The width of the legend.}
 
-\item{legend.height}{test123}
+\item{legend.height}{The height of the legend.}
 
-\item{legend.stack}{test123}
+\item{legend.stack}{The stack of the legend.}
 
-\item{legend.group.frame}{test123}
+\item{legend.group.frame}{The frame of the group of the legend.}
 
-\item{legend.resize_as_group}{test123}
+\item{legend.resize_as_group}{The resize_as_group of the legend.}
 
-\item{legend.reverse}{test123}
+\item{legend.reverse}{The reverse of the legend.}
 
-\item{legend.na.show}{test123}
+\item{legend.na.show}{The visibility of the na of the legend. TRUE or FALSE.}
 
-\item{legend.title.color}{test123}
+\item{legend.title.color}{The color of the title of the legend.}
 
-\item{legend.title.size}{test123}
+\item{legend.title.size}{The size of the title of the legend.}
 
-\item{legend.title.fontface}{test123}
+\item{legend.title.fontface}{The font face of the title of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{legend.title.fontfamily}{test123}
+\item{legend.title.fontfamily}{The font family of the title of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{legend.xlab.color}{test123}
+\item{legend.xlab.color}{The color of the xlab of the legend.}
 
-\item{legend.xlab.size}{test123}
+\item{legend.xlab.size}{The size of the xlab of the legend.}
 
-\item{legend.xlab.fontface}{test123}
+\item{legend.xlab.fontface}{The font face of the xlab of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{legend.xlab.fontfamily}{test123}
+\item{legend.xlab.fontfamily}{The font family of the xlab of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{legend.ylab.color}{test123}
+\item{legend.ylab.color}{The color of the ylab of the legend.}
 
-\item{legend.ylab.size}{test123}
+\item{legend.ylab.size}{The size of the ylab of the legend.}
 
-\item{legend.ylab.fontface}{test123}
+\item{legend.ylab.fontface}{The font face of the ylab of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{legend.ylab.fontfamily}{test123}
+\item{legend.ylab.fontfamily}{The font family of the ylab of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{legend.text.color}{test123}
+\item{legend.text.color}{The color of the text of the legend.}
 
-\item{legend.text.size}{test123}
+\item{legend.text.size}{The size of the text of the legend.}
 
-\item{legend.text.fontface}{test123}
+\item{legend.text.fontface}{The font face of the text of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{legend.text.fontfamily}{test123}
+\item{legend.text.fontfamily}{The font family of the text of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{legend.frame}{test123}
+\item{legend.frame}{The frame of the legend.}
 
-\item{legend.frame.lwd}{test123}
+\item{legend.frame.lwd}{The line width of the frame of the legend. See \code{graphics::par}, option 'lwd'.}
 
-\item{legend.frame.r}{test123}
+\item{legend.frame.r}{The r (radius) of the frame of the legend.}
 
-\item{legend.bg.color}{test123}
+\item{legend.bg.color}{The color of the bg of the legend.}
 
-\item{legend.bg.alpha}{test123}
+\item{legend.bg.alpha}{The alpha transparency of the bg of the legend.}
 
-\item{legend.only}{test123}
+\item{legend.only}{The only of the legend.}
 
-\item{legend.settings.standard.portrait}{test123}
+\item{legend.settings.standard.portrait}{The portrait of the standard of the settings of the legend.}
 
-\item{legend.settings.standard.landscape}{test123}
+\item{legend.settings.standard.landscape}{The landscape of the standard of the settings of the legend.}
 
-\item{chart.show}{test123}
+\item{chart.show}{The visibility of the chart. TRUE or FALSE.}
 
-\item{chart.plot.axis.x}{test123}
+\item{chart.plot.axis.x}{The x of the axis of the plot of the chart.}
 
-\item{chart.plot.axis.y}{test123}
+\item{chart.plot.axis.y}{The y of the axis of the plot of the chart.}
 
-\item{chart.position}{test123}
+\item{chart.position}{The position of the chart.}
 
-\item{chart.width}{test123}
+\item{chart.width}{The width of the chart.}
 
-\item{chart.height}{test123}
+\item{chart.height}{The height of the chart.}
 
-\item{chart.stack}{test123}
+\item{chart.stack}{The stack of the chart.}
 
-\item{chart.group.frame}{test123}
+\item{chart.group.frame}{The frame of the group of the chart.}
 
-\item{chart.resize_as_group}{test123}
+\item{chart.resize_as_group}{The resize_as_group of the chart.}
 
-\item{chart.reverse}{test123}
+\item{chart.reverse}{The reverse of the chart.}
 
-\item{chart.na.show}{test123}
+\item{chart.na.show}{The visibility of the na of the chart. TRUE or FALSE.}
 
-\item{chart.title.color}{test123}
+\item{chart.title.color}{The color of the title of the chart.}
 
-\item{chart.title.size}{test123}
+\item{chart.title.size}{The size of the title of the chart.}
 
-\item{chart.title.fontface}{test123}
+\item{chart.title.fontface}{The font face of the title of the chart. See \code{graphics::par}, option 'font'.}
 
-\item{chart.title.fontfamily}{test123}
+\item{chart.title.fontfamily}{The font family of the title of the chart. See \code{graphics::par}, option 'family'.}
 
-\item{chart.xlab.color}{test123}
+\item{chart.xlab.color}{The color of the xlab of the chart.}
 
-\item{chart.xlab.size}{test123}
+\item{chart.xlab.size}{The size of the xlab of the chart.}
 
-\item{chart.xlab.fontface}{test123}
+\item{chart.xlab.fontface}{The font face of the xlab of the chart. See \code{graphics::par}, option 'font'.}
 
-\item{chart.xlab.fontfamily}{test123}
+\item{chart.xlab.fontfamily}{The font family of the xlab of the chart. See \code{graphics::par}, option 'family'.}
 
-\item{chart.ylab.color}{test123}
+\item{chart.ylab.color}{The color of the ylab of the chart.}
 
-\item{chart.ylab.size}{test123}
+\item{chart.ylab.size}{The size of the ylab of the chart.}
 
-\item{chart.ylab.fontface}{test123}
+\item{chart.ylab.fontface}{The font face of the ylab of the chart. See \code{graphics::par}, option 'font'.}
 
-\item{chart.ylab.fontfamily}{test123}
+\item{chart.ylab.fontfamily}{The font family of the ylab of the chart. See \code{graphics::par}, option 'family'.}
 
-\item{chart.text.color}{test123}
+\item{chart.text.color}{The color of the text of the chart.}
 
-\item{chart.text.size}{test123}
+\item{chart.text.size}{The size of the text of the chart.}
 
-\item{chart.text.fontface}{test123}
+\item{chart.text.fontface}{The font face of the text of the chart. See \code{graphics::par}, option 'font'.}
 
-\item{chart.text.fontfamily}{test123}
+\item{chart.text.fontfamily}{The font family of the text of the chart. See \code{graphics::par}, option 'family'.}
 
-\item{chart.frame}{test123}
+\item{chart.frame}{The frame of the chart.}
 
-\item{chart.frame.lwd}{test123}
+\item{chart.frame.lwd}{The line width of the frame of the chart. See \code{graphics::par}, option 'lwd'.}
 
-\item{chart.frame.r}{test123}
+\item{chart.frame.r}{The r (radius) of the frame of the chart.}
 
-\item{chart.bg.color}{test123}
+\item{chart.bg.color}{The color of the bg of the chart.}
 
-\item{chart.bg.alpha}{test123}
+\item{chart.bg.alpha}{The alpha transparency of the bg of the chart.}
 
-\item{chart.object.color}{test123}
+\item{chart.object.color}{The color of the object of the chart.}
 
-\item{title.show}{test123}
+\item{title.show}{The visibility of the title. TRUE or FALSE.}
 
-\item{title.size}{test123}
+\item{title.size}{The size of the title.}
 
-\item{title.color}{test123}
+\item{title.color}{The color of the title.}
 
-\item{title.fontface}{test123}
+\item{title.fontface}{The font face of the title. See \code{graphics::par}, option 'font'.}
 
-\item{title.fontfamily}{test123}
+\item{title.fontfamily}{The font family of the title. See \code{graphics::par}, option 'family'.}
 
-\item{title.bg.color}{test123}
+\item{title.bg.color}{The color of the bg of the title.}
 
-\item{title.bg.alpha}{test123}
+\item{title.bg.alpha}{The alpha transparency of the bg of the title.}
 
-\item{title.padding}{test123}
+\item{title.padding}{The padding of the title.}
 
-\item{title.frame}{test123}
+\item{title.frame}{The frame of the title.}
 
-\item{title.frame.lwd}{test123}
+\item{title.frame.lwd}{The line width of the frame of the title. See \code{graphics::par}, option 'lwd'.}
 
-\item{title.frame.r}{test123}
+\item{title.frame.r}{The r (radius) of the frame of the title.}
 
-\item{title.stack}{test123}
+\item{title.stack}{The stack of the title.}
 
-\item{title.position}{test123}
+\item{title.position}{The position of the title.}
 
-\item{title.width}{test123}
+\item{title.width}{The width of the title.}
 
-\item{title.group.frame}{test123}
+\item{title.group.frame}{The frame of the group of the title.}
 
-\item{title.resize_as_group}{test123}
+\item{title.resize_as_group}{The resize_as_group of the title.}
 
-\item{credits.show}{test123}
+\item{credits.show}{The visibility of the credits. TRUE or FALSE.}
 
-\item{credits.size}{test123}
+\item{credits.size}{The size of the credits.}
 
-\item{credits.color}{test123}
+\item{credits.color}{The color of the credits.}
 
-\item{credits.fontface}{test123}
+\item{credits.fontface}{The font face of the credits. See \code{graphics::par}, option 'font'.}
 
-\item{credits.fontfamily}{test123}
+\item{credits.fontfamily}{The font family of the credits. See \code{graphics::par}, option 'family'.}
 
-\item{credits.bg.color}{test123}
+\item{credits.bg.color}{The color of the bg of the credits.}
 
-\item{credits.bg.alpha}{test123}
+\item{credits.bg.alpha}{The alpha transparency of the bg of the credits.}
 
-\item{credits.padding}{test123}
+\item{credits.padding}{The padding of the credits.}
 
-\item{credits.frame}{test123}
+\item{credits.frame}{The frame of the credits.}
 
-\item{credits.frame.lwd}{test123}
+\item{credits.frame.lwd}{The line width of the frame of the credits. See \code{graphics::par}, option 'lwd'.}
 
-\item{credits.frame.r}{test123}
+\item{credits.frame.r}{The r (radius) of the frame of the credits.}
 
-\item{credits.stack}{test123}
+\item{credits.stack}{The stack of the credits.}
 
-\item{credits.position}{test123}
+\item{credits.position}{The position of the credits.}
 
-\item{credits.width}{test123}
+\item{credits.width}{The width of the credits.}
 
-\item{credits.heigth}{test123}
+\item{credits.height}{The height of the credits.}
 
-\item{credits.group.frame}{test123}
+\item{credits.group.frame}{The frame of the group of the credits.}
 
-\item{credits.resize_as_group}{test123}
+\item{credits.resize_as_group}{The resize_as_group of the credits.}
 
-\item{compass.north}{test123}
+\item{compass.north}{The north of the compass.}
 
-\item{compass.type}{test123}
+\item{compass.type}{The type of the compass.}
 
-\item{compass.text.size}{test123}
+\item{compass.text.size}{The size of the text of the compass.}
 
-\item{compass.size}{test123}
+\item{compass.size}{The size of the compass.}
 
-\item{compass.show.labels}{test123}
+\item{compass.show.labels}{The labels of the show of the compass.}
 
-\item{compass.cardinal.directions}{test123}
+\item{compass.cardinal.directions}{The directions of the cardinal of the compass.}
 
-\item{compass.text.color}{test123}
+\item{compass.text.color}{The color of the text of the compass.}
 
-\item{compass.color.dark}{test123}
+\item{compass.color.dark}{The dark of the color of the compass.}
 
-\item{compass.color.light}{test123}
+\item{compass.color.light}{The light of the color of the compass.}
 
-\item{compass.lwd}{test123}
+\item{compass.lwd}{The line width of the compass. See \code{graphics::par}, option 'lwd'.}
 
-\item{compass.bg.color}{test123}
+\item{compass.bg.color}{The color of the bg of the compass.}
 
-\item{compass.bg.alpha}{test123}
+\item{compass.bg.alpha}{The alpha transparency of the bg of the compass.}
 
-\item{compass.margins}{test123}
+\item{compass.margins}{The margins of the compass. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{compass.show}{test123}
+\item{compass.show}{The visibility of the compass. TRUE or FALSE.}
 
-\item{compass.stack}{test123}
+\item{compass.stack}{The stack of the compass.}
 
-\item{compass.position}{test123}
+\item{compass.position}{The position of the compass.}
 
-\item{compass.frame}{test123}
+\item{compass.frame}{The frame of the compass.}
 
-\item{compass.frame.lwd}{test123}
+\item{compass.frame.lwd}{The line width of the frame of the compass. See \code{graphics::par}, option 'lwd'.}
 
-\item{compass.frame.r}{test123}
+\item{compass.frame.r}{The r (radius) of the frame of the compass.}
 
-\item{compass.group.frame}{test123}
+\item{compass.group.frame}{The frame of the group of the compass.}
 
-\item{compass.resize_as_group}{test123}
+\item{compass.resize_as_group}{The resize_as_group of the compass.}
 
-\item{logo.height}{test123}
+\item{logo.height}{The height of the logo.}
 
-\item{logo.margins}{test123}
+\item{logo.margins}{The margins of the logo. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{logo.between_margin}{test123}
+\item{logo.between_margin}{The between_margin of the logo.}
 
-\item{logo.show}{test123}
+\item{logo.show}{The visibility of the logo. TRUE or FALSE.}
 
-\item{logo.stack}{test123}
+\item{logo.stack}{The stack of the logo.}
 
-\item{logo.position}{test123}
+\item{logo.position}{The position of the logo.}
 
-\item{logo.frame}{test123}
+\item{logo.frame}{The frame of the logo.}
 
-\item{logo.frame.lwd}{test123}
+\item{logo.frame.lwd}{The line width of the frame of the logo. See \code{graphics::par}, option 'lwd'.}
 
-\item{logo.frame.r}{test123}
+\item{logo.frame.r}{The r (radius) of the frame of the logo.}
 
-\item{logo.group.frame}{test123}
+\item{logo.group.frame}{The frame of the group of the logo.}
 
-\item{logo.resize_as_group}{test123}
+\item{logo.resize_as_group}{The resize_as_group of the logo.}
 
-\item{scalebar.show}{test123}
+\item{scalebar.show}{The visibility of the scalebar. TRUE or FALSE.}
 
-\item{scalebar.breaks}{test123}
+\item{scalebar.breaks}{The break values of the scalebar.}
 
-\item{scalebar.width}{test123}
+\item{scalebar.width}{The width of the scalebar.}
 
-\item{scalebar.text.size}{test123}
+\item{scalebar.text.size}{The size of the text of the scalebar.}
 
-\item{scalebar.text.color}{test123}
+\item{scalebar.text.color}{The color of the text of the scalebar.}
 
-\item{scalebar.color.dark}{test123}
+\item{scalebar.color.dark}{The dark of the color of the scalebar.}
 
-\item{scalebar.color.light}{test123}
+\item{scalebar.color.light}{The light of the color of the scalebar.}
 
-\item{scalebar.lwd}{test123}
+\item{scalebar.lwd}{The line width of the scalebar. See \code{graphics::par}, option 'lwd'.}
 
-\item{scalebar.bg.color}{test123}
+\item{scalebar.bg.color}{The color of the bg of the scalebar.}
 
-\item{scalebar.bg.alpha}{test123}
+\item{scalebar.bg.alpha}{The alpha transparency of the bg of the scalebar.}
 
-\item{scalebar.size}{test123}
+\item{scalebar.size}{The size of the scalebar.}
 
-\item{scalebar.margins}{test123}
+\item{scalebar.margins}{The margins of the scalebar. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{scalebar.stack}{test123}
+\item{scalebar.stack}{The stack of the scalebar.}
 
-\item{scalebar.position}{test123}
+\item{scalebar.position}{The position of the scalebar.}
 
-\item{scalebar.frame}{test123}
+\item{scalebar.frame}{The frame of the scalebar.}
 
-\item{scalebar.frame.lwd}{test123}
+\item{scalebar.frame.lwd}{The line width of the frame of the scalebar. See \code{graphics::par}, option 'lwd'.}
 
-\item{scalebar.frame.r}{test123}
+\item{scalebar.frame.r}{The r (radius) of the frame of the scalebar.}
 
-\item{scalebar.group.frame}{test123}
+\item{scalebar.group.frame}{The frame of the group of the scalebar.}
 
-\item{scalebar.resize_as_group}{test123}
+\item{scalebar.resize_as_group}{The resize_as_group of the scalebar.}
 
-\item{grid.show}{test123}
+\item{grid.show}{The visibility of the grid. TRUE or FALSE.}
 
-\item{grid.labels.pos}{test123}
+\item{grid.labels.pos}{The pos of the labels of the grid.}
 
-\item{grid.x}{test123}
+\item{grid.x}{The x of the grid.}
 
-\item{grid.y}{test123}
+\item{grid.y}{The y of the grid.}
 
-\item{grid.n.x}{test123}
+\item{grid.n.x}{The x of the n of the grid.}
 
-\item{grid.n.y}{test123}
+\item{grid.n.y}{The y of the n of the grid.}
 
-\item{grid.crs}{test123}
+\item{grid.crs}{The coordinate reference system (CRS) of the grid.}
 
-\item{grid.col}{test123}
+\item{grid.col}{The color of the grid.}
 
-\item{grid.lwd}{test123}
+\item{grid.lwd}{The line width of the grid. See \code{graphics::par}, option 'lwd'.}
 
-\item{grid.alpha}{test123}
+\item{grid.alpha}{The alpha transparency of the grid.}
 
-\item{grid.labels.show}{test123}
+\item{grid.labels.show}{The visibility of the labels of the grid. TRUE or FALSE.}
 
-\item{grid.labels.size}{test123}
+\item{grid.labels.size}{The size of the labels of the grid.}
 
-\item{grid.labels.col}{test123}
+\item{grid.labels.col}{The color of the labels of the grid.}
 
-\item{grid.labels.rot}{test123}
+\item{grid.labels.rot}{The rot of the labels of the grid.}
 
-\item{grid.labels.format}{test123}
+\item{grid.labels.format}{The format of the labels of the grid.}
 
-\item{grid.labels.cardinal}{test123}
+\item{grid.labels.cardinal}{The cardinal of the labels of the grid.}
 
-\item{grid.labels.margin.x}{test123}
+\item{grid.labels.margin.x}{The x of the margin of the labels of the grid.}
 
-\item{grid.labels.margin.y}{test123}
+\item{grid.labels.margin.y}{The y of the margin of the labels of the grid.}
 
-\item{grid.labels.space.x}{test123}
+\item{grid.labels.space.x}{The x of the space of the labels of the grid.}
 
-\item{grid.labels.space.y}{test123}
+\item{grid.labels.space.y}{The y of the space of the labels of the grid.}
 
-\item{grid.labels.inside_frame}{test123}
+\item{grid.labels.inside_frame}{The inside_frame of the labels of the grid.}
 
-\item{grid.ticks}{test123}
+\item{grid.ticks}{The ticks of the grid.}
 
-\item{grid.lines}{test123}
+\item{grid.lines}{The lines of the grid.}
 
-\item{grid.ndiscr}{test123}
+\item{grid.ndiscr}{The ndiscr of the grid.}
 
-\item{mouse_coordinates.stack}{test123}
+\item{mouse_coordinates.stack}{The stack of the mouse_coordinates.}
 
-\item{mouse_coordinates.position}{test123}
+\item{mouse_coordinates.position}{The position of the mouse_coordinates.}
 
-\item{mouse_coordinates.show}{test123}
+\item{mouse_coordinates.show}{The visibility of the mouse_coordinates. TRUE or FALSE.}
 
-\item{minimap.server}{test123}
+\item{minimap.server}{The server of the minimap.}
 
-\item{minimap.toggle}{test123}
+\item{minimap.toggle}{The toggle of the minimap.}
 
-\item{minimap.stack}{test123}
+\item{minimap.stack}{The stack of the minimap.}
 
-\item{minimap.position}{test123}
+\item{minimap.position}{The position of the minimap.}
 
-\item{minimap.show}{test123}
+\item{minimap.show}{The visibility of the minimap. TRUE or FALSE.}
 
-\item{panel.show}{test123}
+\item{panel.show}{The visibility of the panel. TRUE or FALSE.}
 
-\item{panel.labels}{test123}
+\item{panel.labels}{The labels of the panel.}
 
-\item{panel.label.size}{test123}
+\item{panel.label.size}{The size of the label of the panel.}
 
-\item{panel.label.color}{test123}
+\item{panel.label.color}{The color of the label of the panel.}
 
-\item{panel.label.fontface}{test123}
+\item{panel.label.fontface}{The font face of the label of the panel. See \code{graphics::par}, option 'font'.}
 
-\item{panel.label.fontfamily}{test123}
+\item{panel.label.fontfamily}{The font family of the label of the panel. See \code{graphics::par}, option 'family'.}
 
-\item{panel.label.bg.color}{test123}
+\item{panel.label.bg.color}{The color of the bg of the label of the panel.}
 
-\item{panel.label.frame}{test123}
+\item{panel.label.frame}{The frame of the label of the panel.}
 
-\item{panel.label.frame.lwd}{test123}
+\item{panel.label.frame.lwd}{The line width of the frame of the label of the panel. See \code{graphics::par}, option 'lwd'.}
 
-\item{panel.label.frame.r}{test123}
+\item{panel.label.frame.r}{The r (radius) of the frame of the label of the panel.}
 
-\item{panel.label.height}{test123}
+\item{panel.label.height}{The height of the label of the panel.}
 
-\item{panel.label.rot}{test123}
+\item{panel.label.rot}{The rot of the label of the panel.}
 
-\item{bbox}{test123}
+\item{bbox}{The bounding box of the .}
 
-\item{set.bounds}{test123}
+\item{set.bounds}{The bounds of the set.}
 
-\item{set.view}{test123}
+\item{set.view}{The view of the set.}
 
-\item{set.zoom.limits}{test123}
+\item{set.zoom.limits}{The limits of the zoom of the set.}
 
-\item{qtm.scalebar}{test123}
+\item{qtm.scalebar}{The scalebar of the qtm.}
 
-\item{qtm.minimap}{test123}
+\item{qtm.minimap}{The minimap of the qtm.}
 
-\item{qtm.mouse_coordinates}{test123}
+\item{qtm.mouse_coordinates}{The mouse_coordinates of the qtm.}
 
-\item{earth.boundary}{test123}
+\item{earth_boundary}{The earth_boundary of the .}
 
-\item{earth.boundary.color}{test123}
+\item{earth_boundary.color}{The color of the earth_boundary.}
 
-\item{earth.boundary.lwd}{test123}
+\item{earth_boundary.lwd}{The line width of the earth_boundary. See \code{graphics::par}, option 'lwd'.}
 
-\item{earth.datum}{test123}
+\item{earth_datum}{The earth_datum of the .}
 
-\item{space.color}{test123}
+\item{space.color}{The color of the space.}
 
-\item{check_and_fix}{test123}
+\item{check_and_fix}{The check_and_fix of the .}
 
-\item{basemap.show}{test123}
+\item{basemap.show}{The visibility of the basemap. TRUE or FALSE.}
 
-\item{basemap.server}{test123}
+\item{basemap.server}{The server of the basemap.}
 
-\item{basemap.alpha}{test123}
+\item{basemap.alpha}{The alpha transparency of the basemap.}
 
-\item{basemap.zoom}{test123}
+\item{basemap.zoom}{The zoom of the basemap.}
 
-\item{tiles.show}{test123}
+\item{tiles.show}{The visibility of the tiles. TRUE or FALSE.}
 
-\item{tiles.server}{test123}
+\item{tiles.server}{The server of the tiles.}
 
-\item{tiles.alpha}{test123}
+\item{tiles.alpha}{The alpha transparency of the tiles.}
 
-\item{tiles.zoom}{test123}
+\item{tiles.zoom}{The zoom of the tiles.}
 
-\item{attr.color}{test123}
+\item{attr.color}{The color of the attr.}
 
 \item{title, main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 

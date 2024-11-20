@@ -28,10 +28,8 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #'
-#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines the color.
-#'   See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free Visual variable
-#'   that determines the alpha transparency. See details.
+#' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
 #' @inheritParams tm_polygons
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0

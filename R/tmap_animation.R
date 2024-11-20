@@ -16,7 +16,7 @@
 #'   `tm` is a `tmap` object. If not specified in the latter case, it will be
 #'   determined by the aspect ratio of the map.
 #' @param dpi dots per inch. By default 100, but this can be set with the option
-#'   `output.dpi.animation` in [tmap_options()].
+#'   `animation.dpi` in [tmap_options()].
 #' @param delay delay time between images (in 1/100th of a second). See also `fps`
 #' @param fps frames per second, calculated as `100 / delay`. If `fps` is specified,
 #'   the `delay` will be set to `100/fps`.
@@ -61,7 +61,7 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 		rlang::check_installed("av", reason = "for ffmpeg animations")
 	}
 	
-	if (is.na(dpi)) dpi <- .tmapOptions$output.dpi.animation
+	if (is.na(dpi)) dpi <- .tmapOptions$animation.dpi
 	
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")

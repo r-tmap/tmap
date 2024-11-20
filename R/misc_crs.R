@@ -101,7 +101,7 @@ crs_ortho_visible = function(crs, projected = TRUE, max_cells = 1e5) {
 	if (projected) sf::st_transform(sfc, crs) else sfc
 }
 
-end_of_the_world = function(crs, earth.datum) {
+end_of_the_world = function(crs, earth_datum) {
 	wkt = sf::st_crs(crs)$wkt
 
 	# orthographic
@@ -119,7 +119,7 @@ end_of_the_world = function(crs, earth.datum) {
 			sf::st_as_sfc() |>
 			sf::st_set_crs(NA) |>
 			sf::st_segmentize(1) |>
-			sf::st_set_crs(earth.datum) |>
+			sf::st_set_crs(earth_datum) |>
 			sf::st_transform(crs)
 	}
 

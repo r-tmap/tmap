@@ -38,7 +38,7 @@ Required when \code{tm} is a list, and recommended to specify in advance when
 determined by the aspect ratio of the map.}
 
 \item{dpi}{dots per inch. By default 100, but this can be set with the option
-\code{output.dpi.animation} in \code{\link[=tmap_options]{tmap_options()}}.}
+\code{animation.dpi} in \code{\link[=tmap_options]{tmap_options()}}.}
 
 \item{delay}{delay time between images (in 1/100th of a second). See also \code{fps}}
 

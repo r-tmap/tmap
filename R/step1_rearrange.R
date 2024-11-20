@@ -239,7 +239,7 @@ step1_rearrange = function(tmel) {
 
 
 	# disable s2 in case earth.boundaries are drawn
-	if (o$earth.boundary && sf::sf_use_s2()) {
+	if (o$earth_boundary && sf::sf_use_s2()) {
 		suppressMessages(sf::sf_use_s2(FALSE))
 		.TMAP$set_s2 = TRUE
 	}

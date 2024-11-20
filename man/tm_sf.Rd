@@ -60,29 +60,21 @@ opt_tm_sf(
 )
 }
 \arguments{
-\item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines
-the fill color. See details.}
+\item{fill, fill.scale, fill.legend, fill.free}{Visual variable that determines the fill color. See details.}
 
-\item{col, col.scale, col.legend, col.free}{Visual variable that determines
-the col color. See details.}
+\item{col, col.scale, col.legend, col.free}{Visual variable that determines the color. See details.}
 
-\item{size, size.scale, size.legend, size.free}{Visual variable that determines
-the size. See details.}
+\item{size, size.scale, size.legend, size.free}{Visual variable that determines the size. See details.}
 
-\item{shape, shape.scale, shape.legend, shape.free}{Visual variable that determines
-the shape. See details.}
+\item{shape, shape.scale, shape.legend, shape.free}{Visual variable that determines the shape. See details.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.free}{Visual variable that determines
-the line width. See details.}
+\item{lwd, lwd.scale, lwd.legend, lwd.free}{Visual variable that determines the line width. See details.}
 
-\item{lty, lty.scale, lty.legend, lty.free}{Visual variable that determines
-the line type. See details.}
+\item{lty, lty.scale, lty.legend, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.free}{Visual
-variable that determines the fill color alpha transparency See details.}
+\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.free}{Visual variable that determines the fill color transparency. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable
-that determines the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free}{Visual variable that determines the color transparency. See details.}
 
 \item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 

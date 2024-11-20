@@ -286,7 +286,7 @@ opt_tm_squares(
 
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the col color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
 
 \item{shape, shape.scale, shape.legend, shape.chart, shape.free}{Visual variable that determines the shape. See details.}
 
@@ -294,11 +294,10 @@ opt_tm_squares(
 
 \item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details.}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free}{Visual variable that determines
+\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free}{Visual variable that determines the fill color transparency. See details.
 the fill color alpha transparency See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines
-the border color alpha transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
@@ -339,11 +338,9 @@ features. Only used for \code{"view"} mode.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
-\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines
-the text. See details.}
+\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines the text. See details.}
 
-\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines
-the font face. See Details.}
+\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines the font face. See details.}
 
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 
@@ -388,7 +385,7 @@ the text. See details.}
 
 \item{dots.just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
-\item{dots.icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}}
+\item{dots.icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.height}}
 
 \item{dots.grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 

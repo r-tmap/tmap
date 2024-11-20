@@ -49,8 +49,7 @@ opt_tm_cartogram_ncont(type = "ncont", expansion = 1, inplace = FALSE, ...)
 opt_tm_cartogram_dorling(type = "dorling", share = 5, itermax = 1000, ...)
 }
 \arguments{
-\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines
-the font size. See details.}
+\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines the size. See details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
@@ -61,13 +60,11 @@ See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
   Arguments passed on to \code{\link[=tm_polygons]{tm_polygons}}
   \describe{
     \item{\code{fill,fill.scale,fill.legend,fill.chart,fill.free}}{Visual variable that determines the fill color. See details.}
-    \item{\code{col,col.scale,col.legend,col.chart,col.free}}{Visual variable that determines the border color. See details.}
+    \item{\code{col,col.scale,col.legend,col.chart,col.free}}{Visual variable that determines the color. See details.}
     \item{\code{lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free}}{Visual variable that determines the line width. See details.}
     \item{\code{lty,lty.scale,lty.legend,lty.chart,lty.free}}{Visual variable that determines the line type. See details.}
-    \item{\code{fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free}}{Visual
-variable that determines the fill color alpha transparency See details.}
-    \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free}}{Visual variable
-that determines the border color alpha transparency. See details.}
+    \item{\code{fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free}}{Visual variable that determines the fill color transparency. See details.}
+    \item{\code{col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free}}{Visual variable that determines the color transparency. See details.}
     \item{\code{linejoin,lineend}}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
     \item{\code{zindex}}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order.
