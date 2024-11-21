@@ -52,15 +52,15 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_view</span><span class="op">(</span></span>
-<span>  <span class="va">use.WebGL</span>,</span>
+<span>  <span class="va">use_WebGL</span>,</span>
 <span>  <span class="va">control.position</span>,</span>
 <span>  <span class="va">control.bases</span>,</span>
 <span>  <span class="va">control.overlays</span>,</span>
-<span>  <span class="va">set.bounds</span>,</span>
-<span>  <span class="va">set.view</span>,</span>
-<span>  <span class="va">set.zoom.limits</span>,</span>
+<span>  <span class="va">set_bounds</span>,</span>
+<span>  <span class="va">set_view</span>,</span>
+<span>  <span class="va">set_zoom_limits</span>,</span>
 <span>  <span class="va">leaflet.options</span>,</span>
-<span>  view.legend.position <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -68,7 +68,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-use-webgl">use.WebGL<a class="anchor" aria-label="anchor" href="#arg-use-webgl"></a></dt>
+<dl><dt id="arg-use-webgl">use_WebGL<a class="anchor" aria-label="anchor" href="#arg-use-webgl"></a></dt>
 <dd><p>use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default <code>TRUE</code> if no other visual variables are used.</p></dd>
 
 
@@ -84,20 +84,20 @@
 <dd><p>overlay layers</p></dd>
 
 
-<dt id="arg-set-bounds">set.bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
+<dt id="arg-set-bounds">set_bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
 <dd><p>logical that determines whether maximum bounds are set,
 or a bounding box. Not applicable in plot mode.
 In view mode, this is passed on to setMaxBounds()</p></dd>
 
 
-<dt id="arg-set-view">set.view<a class="anchor" aria-label="anchor" href="#arg-set-view"></a></dt>
+<dt id="arg-set-view">set_view<a class="anchor" aria-label="anchor" href="#arg-set-view"></a></dt>
 <dd><p>numeric vector that determines the view.
 Either a vector of three: <code>lng</code>, <code>lat</code>, and <code>zoom</code>, or a single value:
 <code>zoom</code>. See setView().
 Only applicable if <code>bbox</code> is not specified</p></dd>
 
 
-<dt id="arg-set-zoom-limits">set.zoom.limits<a class="anchor" aria-label="anchor" href="#arg-set-zoom-limits"></a></dt>
+<dt id="arg-set-zoom-limits">set_zoom_limits<a class="anchor" aria-label="anchor" href="#arg-set-zoom-limits"></a></dt>
 <dd><p>numeric vector of two that set the minimum and maximum
 zoom levels (see tileOptions()).</p></dd>
 
@@ -107,8 +107,8 @@ zoom levels (see tileOptions()).</p></dd>
 <a href="https://rstudio.github.io/leaflet/reference/leaflet.html" class="external-link">leafletOptions()</a></p></dd>
 
 
-<dt id="arg-view-legend-position">view.legend.position<a class="anchor" aria-label="anchor" href="#arg-view-legend-position"></a></dt>
-<dd><p>deprecated. Use <code>legend.position</code>from <code><a href="tm_layout.html">tm_layout()</a></code> instead.</p></dd>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>to catch deprecated arguments</p></dd>
 
 </dl></div>
 
