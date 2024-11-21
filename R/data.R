@@ -31,6 +31,7 @@
 #'
 #' For some variables data were available from multiple years, but availability was different across countries. In those cases, the most recent values were taken.
 #' @rdname World
+#' @docType data
 #' @format NULL
 #' @source NED: Natural Earth Data <https://www.naturalearthdata.com/>
 #' @source HPI: Happy Planet Index <https://happyplanetindex.org/>
@@ -54,6 +55,7 @@
 #' Statistics Netherlands (CBS) and Kadaster Nederland as source.
 #'
 #' @rdname Netherlands
+#' @docType data
 #' @format NULL
 #' @source <https://www.cbs.nl/> for `NLD_prov` and `NLD_muni`.
 #' @references Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, <https://www.cbs.nl/>.
@@ -61,6 +63,7 @@
 "NLD_prov"
 
 #' @rdname Netherlands
+#' @docType data
 #' @format NULL
 "NLD_muni"
 
