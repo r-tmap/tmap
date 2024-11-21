@@ -372,6 +372,8 @@ An example is the bivariate choropleth, which is not yet implemented, but will d
 <span>                                    scale2 <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                                    values <span class="op">=</span> <span class="st">"brewer.qualseq"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Values have found that are higher than the highest break. They are</span></span>
+<span><span class="co">#&gt; assigned to the highest interval</span></span>
 <span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "0 to 3" =&gt; "0"</span></span></code></pre></div>
 <p><img src="01_tmap_intro_v4_files/figure-html/unnamed-chunk-15-1.png"><!-- --></p>
 </div>
@@ -419,10 +421,7 @@ However, to ease its use, there will be a bunch of handy shortcut functions, suc
 <span>               size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>               shape <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
 <span>               size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>value.neutral <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
-<span><span class="co">#&gt; therefore rescaled.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_extra_innner_margin.html">tm_place_legends_left</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="01_tmap_intro_v4_files/figure-html/unnamed-chunk-19-1.png"><!-- --></p>
 </div>
 <div class="section level3">
