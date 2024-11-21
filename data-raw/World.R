@@ -217,8 +217,7 @@ W4 <- W3 %>%
 	dplyr::select(iso_a3, name, sovereignt, continent, area, pop_est, pop_est_dens, economy, income_grp, gdp_cap_est,
 				  life_exp, well_being, footprint, HPI,
 				  inequality, gender, press, geometry) %>%
-	mutate(sovereignt = factor(sovereignt),
-		   continent = factor(continent),
+	mutate(continent = factor(continent),
 		   economy = factor(economy),
 		   income_grp = factor(income_grp)) |>
 	arrange(name)
