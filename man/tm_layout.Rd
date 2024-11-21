@@ -257,9 +257,9 @@ tm_layout(
   panel.label.height,
   panel.label.rot,
   bbox,
-  set.bounds,
-  set.view,
-  set.zoom.limits,
+  set_bounds,
+  set_view,
+  set_zoom_limits,
   qtm.scalebar,
   qtm.minimap,
   qtm.mouse_coordinates,
@@ -782,11 +782,11 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{bbox}{The bounding box of the .}
 
-\item{set.bounds}{The bounds of the set.}
+\item{set_bounds}{The set_bounds of the .}
 
-\item{set.view}{The view of the set.}
+\item{set_view}{The set_view of the .}
 
-\item{set.zoom.limits}{The limits of the zoom of the set.}
+\item{set_zoom_limits}{The set_zoom_limits of the .}
 
 \item{qtm.scalebar}{The scalebar of the qtm.}
 

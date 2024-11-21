@@ -18,7 +18,7 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	} else {
 		opt = leaflet::tileOptions(maxNativeZoom = tiles$max.native.zoom, pane = pane)
 	}
-	if (!is.na(o$set.zoom.limits[2])) opt$maxZoom = o$set.zoom.limits[2]
+	if (!is.na(o$set_zoom_limits[2])) opt$maxZoom = o$set_zoom_limits[2]
 
 	for (s in tiles$server) lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
 

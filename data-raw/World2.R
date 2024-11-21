@@ -155,7 +155,7 @@ income_inequality =  WDI(indicator = "SI.POV.GINI") |>
 	dplyr::filter(year == max(year)) |>
 	ungroup() |>
 	transmute(a3 = iso3c,
-			  income_inequality = SI.POV.GINI)
+			  inequality = SI.POV.GINI)
 
 ##################
 ## gender inequality
@@ -177,7 +177,7 @@ gender_inequality = df |>
 	dplyr::filter(Year == max(Year)) |>
 	ungroup() |>
 	transmute(a3 = Code,
-			  gender_inequality = gii)
+			  gender = gii)
 
 ##################
 ## press freedom
@@ -191,7 +191,7 @@ rsf_source <- read_csv2(tmpfile)
 
 rsf = rsf_source |>
 	transmute(a3 = ISO,
-			  press_freedom = Score)
+			  press = Score)
 
 
 
@@ -213,44 +213,52 @@ W4 <- W3 %>%
 	rename(iso_a3 = a3) |>
 	dplyr::select(iso_a3, name, sovereignt, continent, area, pop_est, pop_est_dens, economy, income_grp, gdp_cap_est,
 				  life_exp, well_being, footprint, HPI,
-				  income_inequality, gender_inequality, press_freedom, geometry) %>%
+				  inequality, gender, press, geometry) %>%
 	mutate(sovereignt = factor(sovereignt),
 		   continent = factor(continent),
 		   economy = factor(economy),
 		   income_grp = factor(income_grp)) |>
 	arrange(name)
 
-World = W4
-save(World, file="data/World.rda", compress="xz")
 
 
 # checking data join results:
-tm_shape(World) +
+tm_shape(W4) +
 	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "rd_yl_gn"))
+
+tm_shape(W4) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "classic_orange_white_blue_light", value.na = "#000000"),id= "name", hover=FALSE)
+
+
 # compare with interactive map: https://happyplanetindex.org/countries/
 
 # missings:
-World[is.na(World$HPI), ]
+W4[is.na(W4$HPI), ]
 
 
-tm_shape(World) +
+tm_shape(W4) +
 	tm_polygons("gender_inequality", fill.scale = tm_scale_intervals(breaks = seq(0,1,by =.1), values = "yl_or_rd"))
-# compare with https://ourworldindata.org/grapher/gender-inequality-index-from-the-human-development-report
+# compare with https://ourW4indata.org/grapher/gender-inequality-index-from-the-human-development-report
 
 # missings
-World[is.na(World$gender_inequality), ]
+W4[is.na(W4$gender_inequality), ]
 
 
-tm_shape(World) +
+tm_shape(W4) +
 	tm_polygons("income_inequality")
 
 # missings
-World[is.na(World$income_inequality), ]
+W4[is.na(W4$income_inequality), ]
 
 
-tm_shape(World) +
+tm_shape(W4) +
 	tm_polygons("press_freedom")
 
 # missings
-World[is.na(World$press_freedom), ]
+W4[is.na(W4$press_freedom), ]
 
+
+
+
+World = W4
+save(World, file="data/World.rda", compress="xz")

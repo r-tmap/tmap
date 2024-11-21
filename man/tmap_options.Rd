@@ -284,9 +284,9 @@ tmap_options(
   panel.label.height,
   panel.label.rot,
   bbox,
-  set.bounds,
-  set.view,
-  set.zoom.limits,
+  set_bounds,
+  set_view,
+  set_zoom_limits,
   qtm.scalebar,
   qtm.minimap,
   qtm.mouse_coordinates,
@@ -311,8 +311,7 @@ tmap_options(
   main.title.color = NULL,
   main.title.fontface = NULL,
   main.title.fontfamily = NULL,
-  main.title.position = NULL,
-  view.legend.position = NULL
+  main.title.position = NULL
 )
 
 tmap_options_mode(mode = NA, default.options = FALSE)
@@ -869,11 +868,11 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{bbox}{The bounding box of the .}
 
-\item{set.bounds}{The bounds of the set.}
+\item{set_bounds}{The set_bounds of the .}
 
-\item{set.view}{The view of the set.}
+\item{set_view}{The set_view of the .}
 
-\item{set.zoom.limits}{The limits of the zoom of the set.}
+\item{set_zoom_limits}{The set_zoom_limits of the .}
 
 \item{qtm.scalebar}{The scalebar of the qtm.}
 
@@ -916,8 +915,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 
 \item{main.title.size, main.title.color, main.title.fontface, main.title.fontfamily, main.title.position}{deprecated. Use the \code{title.} options instead.}
-
-\item{view.legend.position}{deprecated. Use \code{legend.position} instead.}
 
 \item{mode}{mode, e.g. \code{"plot"} or \code{"view"}}
 

@@ -483,7 +483,7 @@ tm_shape(land) +
 			tm_symbols(shape=airplane, size="natlscale",
 					   legend.size.show = FALSE, scale=1, border.col = NULL,
 					   id="name", popup.vars = TRUE)
-			#tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
+			#tm_view(set_view = c(lon = 15, lat = 48, zoom = 4))
 		tmap_mode(current.mode)
 	}
 }

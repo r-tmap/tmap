@@ -14,12 +14,12 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 	# leaflet options
 	
 	if (o$crs_leaflet$crsClass == "L.CRS.Simple") {
-		if (is.na(o$set.zoom.limits)[1]) o$set.zoom.limits[1] = -1000
+		if (is.na(o$set_zoom_limits)[1]) o$set_zoom_limits[1] = -1000
 	}	
 	leaflet_opts = do.call(leaflet::leafletOptions, c(list(crs=o$crs_leaflet), o$leaflet.options))
 	
-	if (!is.na(o$set.zoom.limits[1])) leaflet_opts$minZoom = o$set.zoom.limits[1]
-	if (!is.na(o$set.zoom.limits[2])) leaflet_opts$maxZoom = o$set.zoom.limits[2]
+	if (!is.na(o$set_zoom_limits[1])) leaflet_opts$minZoom = o$set_zoom_limits[1]
+	if (!is.na(o$set_zoom_limits[2])) leaflet_opts$maxZoom = o$set_zoom_limits[2]
 
 	leaflet_opts$attributionControl = TRUE
 	
@@ -118,16 +118,16 @@ tmapLeafletAux = function(o, q) {
 
 
 view_set_bounds = function(lf, bbx, o) {
-	if (!is.logical(o$set.bounds)) {
-		lims = unname(o$set.bounds)
+	if (!is.logical(o$set_bounds)) {
+		lims = unname(o$set_bounds)
 	} else {
 		lims = unname(bbx)
 	}
-	if (!(identical(o$set.bounds, FALSE))) {
+	if (!(identical(o$set_bounds, FALSE))) {
 		lf = lf %>% leaflet::setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
 	
-	if (is.na(o$set.view[1])) {
+	if (is.na(o$set_view[1])) {
 		
 		# check if zoom is used from tm_basemap, and if so, use that
 		zm = NA
@@ -140,21 +140,21 @@ view_set_bounds = function(lf, bbx, o) {
 		}
 		
 		if (!is.na(zm)) {
-			set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), zm)
-		} else if (!is.na(o$set.zoom.limits[2])) { # 2nd is checked to bypass (-1000, NA) used for simple CRS
-			set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.zoom.limits[1])
+			set_view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), zm)
+		} else if (!is.na(o$set_zoom_limits[2])) { # 2nd is checked to bypass (-1000, NA) used for simple CRS
+			set_view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set_zoom_limits[1])
 		} else {
-			set.view = NULL
+			set_view = NULL
 		}
-	} else if (length(o$set.view) == 1) {
-		set.view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set.view)
+	} else if (length(o$set_view) == 1) {
+		set_view = c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), o$set_view)
 	} else {
-		set.view = o$set.view
+		set_view = o$set_view
 	}
 	
-	if (!is.null(set.view)) {
-		names(set.view) = NULL
-		lf = lf %>% setView(set.view[1], set.view[2], set.view[3])
+	if (!is.null(set_view)) {
+		names(set_view) = NULL
+		lf = lf %>% setView(set_view[1], set_view[2], set_view[3])
 	}
 		
 	if (!is.null(o$center)) lf = lf %>% addMarkers(o$center$lon, o$center$lat, label = o$center$query)

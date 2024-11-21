@@ -18,7 +18,7 @@ utils::globalVariables(c(
   "outer.margins", "pages", "panel.label.height",
   "panel.labels", "panel.type", "panel.wrap.pos", "panel.xtab.pos", "pos.h",
   "pos.h.id", "pos.v", "pos.v.id", "red", "rows", "s1", "s2", "s3", "s4",
-  "scale.factor", "set.bounds",
+  "scale.factor", "set_bounds",
   "split_geometry_collection", "stack_auto", "t1",
   "t2", "t3", "t4", "text.fontface", "text.fontfamily", "title.bg.alpha",
   "tmapID__", "vneutral",

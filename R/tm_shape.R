@@ -53,7 +53,7 @@ tm_shape = function(shp,
 	bbox_list = c(list(x = bbox), args[intersect(args_called, c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
 
 	if (missing(shp)) {
-		do.call(tm_options, args[intersect(args_called, c("bbox", "crs", "set.bounds", "set.view", "set.zoom.limits"))])
+		do.call(tm_options, args[intersect(args_called, c("bbox", "crs", "set_bounds", "set_view", "set_zoom_limits"))])
 	} else {
 		tm_element_list(tm_element(shp = shp,
 								   is.main = is.main,

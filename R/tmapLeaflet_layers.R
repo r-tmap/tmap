@@ -21,9 +21,11 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
-impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
-	if (!identical(use.WebGL, FALSE)) {
-		vary = vapply(dt, function(x)any(x!=x[1]), FUN.VALUE = logical(1))
+impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, popup) {
+	if (!identical(use_WebGL, FALSE)) {
+		vary = vapply(dt, function(x) {
+			any(is.na(x)) || any(x!=x[1])
+		}, FUN.VALUE = logical(1))
 
 		vary = vary[setdiff(names(vary), c(supported, "tmapID__", "ord__"))]
 
@@ -36,14 +38,14 @@ impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 		}
 
 		if (any(vary)) {
-			if (is.na(use.WebGL)) {
-				use.WebGL = FALSE
+			if (is.na(use_WebGL)) {
+				use_WebGL = FALSE
 			} else {
-				warning("WegGL enabled, but the only supported visual variables are: ", paste(supported, collapse = ", "), ". The visual variable(s) ", paste(names(vary)[vary], collapse = ", "), " are not supported. Set use.WebGL to FALSE to support them.", call. = FALSE)
+				message_webgl_vars(supported, vary)
 			}
 		} else if (any(!checks)) {
-			if (is.na(use.WebGL)) {
-				use.WebGL = FALSE
+			if (is.na(use_WebGL)) {
+				use_WebGL = FALSE
 			} else {
 				checkif = lapply(checkif, function(x) {
 					if (is.character(x)) paste0("\"", x, "\"") else x
@@ -58,14 +60,21 @@ impute_webgl = function(use.WebGL, dt, supported, checkif = NULL) {
 					}
 				})
 
-				warning("WegGL enabled, but the following visual variable only accept one value ", paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", "), ". Set use.WebGL to FALSE to support them.", call. = FALSE)
+				message_webgl_checks(checks, checkif)
+
 			}
-		} else {
+		} else if (type != "symbols" && hover) {
+			if (!is.na(use_WebGL)) {
+				message_webgl_hover(type)
+			} else {
+				use_WebGL = FALSE
+			}
+		} else if ((is.na(use_WebGL))) {
 			n = nrow(dt)
-			use.WebGL = (n >= 500)
+			use_WebGL = (n >= 500)
 		}
 	}
-	use.WebGL
+	use_WebGL
 }
 
 
@@ -98,6 +107,13 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	shp = res$shp
 	dt = res$dt
 
+	if (!is.null(idt)) {
+		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
+	}
+	if (!is.null(hdt)) {
+		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+	}
+
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
@@ -115,9 +131,9 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		submit_labels("polygons", pane, group)
 
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"), type = "polygons", hover = !is.null(hdt), popup = !is.null(pdt))
 
-	if (o$use.WebGL) {
+	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
 		shp3lines = suppressWarnings(sf::st_cast(shp3, "LINESTRING"))
@@ -128,7 +144,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		fill_alpha = split_alpha_channel(gp3$fill[1], alpha = gp3$fill_alpha[1])$opacity
 
 		lf |>
-			leafgl::addGlPolygons(data = shp3, layerId = idt,
+			leafgl::addGlPolygons(data = shp3, layerId = idt, label = hdt,
 								  fillColor = gp3$fill, fillOpacity = fill_alpha,
 								  group = group, pane = pane, popup = popups2) %>%
 			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) else .} %>%
@@ -169,10 +185,17 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 
 	rc_text = frc(facet_row, facet_col)
 
-	res = select_sf(shpTM, dt)
+	res = select_sf(shpTM, dt[!is.na(dt$lwd), ])
 	shp = res$shp
 	names(shp) = NULL # also required for other layers?
 	dt = res$dt
+
+	if (!is.null(idt)) {
+		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
+	}
+	if (!is.null(hdt)) {
+		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+	}
 
 	if (is.null(pdt)) {
 		popups = NULL
@@ -189,14 +212,14 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = "col", checkif = list(lty = "solid"))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt))
 
-	if (o$use.WebGL) {
+	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
 		lf %>%
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) %>%
+			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt, label = hdt, popup= popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 
@@ -231,6 +254,13 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	res = select_sf(shpTM, dt[!is.na(dt$size), ])
 	shp = res$shp
 	dt = res$dt
+
+	if (!is.null(idt)) {
+		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
+	}
+	if (!is.null(hdt)) {
+		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+	}
 
 	if (is.null(pdt)) {
 		popups = NULL
@@ -269,11 +299,11 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
-	o$use.WebGL = impute_webgl(o$use.WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)), type = "symbols", hover = !is.null(hdt), popup = !is.null(pdt))
 
 
-	if (o$use.WebGL) {
-		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group) %>%
+	if (o$use_WebGL) {
+		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 
@@ -348,7 +378,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 	}
 
 
-	# if (o$use.WebGL) {
+	# if (o$use_WebGL) {
 	# 	lf %>%
 	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) %>%
 	# 		assign_lf(facet_row, facet_col, facet_page)

@@ -95,12 +95,12 @@ step2_data = function(tm) {
 			hover.data = if (tml$hover == "") {
 				NULL
 			} else {
-				as.character(dt[[tml$hover]])
+				data.table(hover = as.character(dt[[tml$hover]]), tmapID__ = dt$tmapID__)
 			}
 			id.data = if (tml$id == "") {
 				NULL
 			} else {
-				as.character(dt[[tml$id]])
+				data.table(id = as.character(dt[[tml$id]]), tmapID__ = dt$tmapID__)
 			}
 
 			format_called = attr(tml$popup.format, "called")

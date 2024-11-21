@@ -5,19 +5,19 @@
 \title{View mode options}
 \usage{
 tm_view(
-  use.WebGL,
+  use_WebGL,
   control.position,
   control.bases,
   control.overlays,
-  set.bounds,
-  set.view,
-  set.zoom.limits,
+  set_bounds,
+  set_view,
+  set_zoom_limits,
   leaflet.options,
-  view.legend.position = NULL
+  ...
 )
 }
 \arguments{
-\item{use.WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
+\item{use_WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
 
 \item{control.position}{position of the control attribute}
 
@@ -25,22 +25,22 @@ tm_view(
 
 \item{control.overlays}{overlay layers}
 
-\item{set.bounds}{logical that determines whether maximum bounds are set,
+\item{set_bounds}{logical that determines whether maximum bounds are set,
 or a bounding box. Not applicable in plot mode.
 In view mode, this is passed on to \link[leaflet:map-methods]{setMaxBounds()}}
 
-\item{set.view}{numeric vector that determines the view.
+\item{set_view}{numeric vector that determines the view.
 Either a vector of three: \code{lng}, \code{lat}, and \code{zoom}, or a single value:
 \code{zoom}. See \link[leaflet:map-methods]{setView()}.
 Only applicable if \code{bbox} is not specified}
 
-\item{set.zoom.limits}{numeric vector of two that set the minimum and maximum
+\item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
 zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leaflet]{leafletOptions()}}
 
-\item{view.legend.position}{deprecated. Use \code{legend.position}from \code{tm_layout()} instead.}
+\item{...}{to catch deprecated arguments}
 }
 \description{
 View mode options. These options are specific to the view mode.
