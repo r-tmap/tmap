@@ -125,7 +125,10 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 
-	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+
+	interactive = (!is.null(pdt) || !is.null(hdt))
+
+	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("polygons", pane, group)
@@ -207,7 +210,9 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 
-	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	interactive = (!is.null(pdt) || !is.null(hdt))
+
+	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
@@ -290,7 +295,9 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		submit_labels("symbols", pane, group)
 
 
-	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	interactive = (!is.null(pdt) || !is.null(hdt))
+
+	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
 	gp2 = gp_to_lpar(gp, mfun = "Symbols", size_factor = 14) # 14 based on similarity with plot mode and consistency with tmap3
 	#gp = gp2leafgp(gp)
@@ -522,8 +529,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	idt = dt$tmapID__[shpTM_match] |>
 		submit_labels("text", pane, group)
 
-
-	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	opt = leaflet::pathOptions(interactive = FALSE, pane = pane)
 
 
 
