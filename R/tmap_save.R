@@ -238,7 +238,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	      print(tm_i + do.call("tm_options", args_inset), vp=vp_i)
 	    }, insets_tm, insets_vp)
 	  } else if (inherits(insets_tm, "tmap") && inherits(insets_vp, "viewport")) {
-	    print(insets_tm + do.call("tm_options", args_inset), insets_vp)
+	    print(insets_tm + do.call("tm_options", args_inset), vp = insets_vp)
 	  } else {
 	    stop("Insets and/or its viewports not in the correct format")
 	  }
