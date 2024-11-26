@@ -275,7 +275,7 @@ if (FALSE) {
 	W4[is.na(W4$press), ]
 }
 
-W4$iso_a3[W4$name == "N. Cyprus"] = "CYN" # just to make unique iso a3 codes
+W4$iso_a3[W4$name == "N. Cyprus"] = "XNC" # just to make unique iso a3 codes
 
 
 attr(W4, "agr")[] = c("identity", "identity", "constant", "constant", "aggregate",
@@ -285,6 +285,9 @@ attr(W4, "agr")[] = c("identity", "identity", "constant", "constant", "aggregate
 
 
 World = W4
+
+ccodes = geodata::country_codes()
+setdiff(World$iso_a3, ccodes$ISO3)
 
 
 save(World, file="data/World.rda", compress="xz")

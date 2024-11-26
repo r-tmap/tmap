@@ -29,7 +29,7 @@ World dataset, class \code{\link[sf:sf]{sf}}
    \code{iso_a3} \tab NED \tab ISO 3166-1 alpha-3 three-letter country code (see below) \cr
    \code{name} \tab NED \tab Country name \cr
    \code{sovereignt} \tab NED \tab Sovereignt country name \cr
-   \code{continent} \tab NED \tab Continent \cr
+   \code{continent} \tab NED \tab Continent (primary; some countries are transcontinental) \cr
    \code{area} \tab NED \tab Area in km2 \cr
    \code{pop_est} \tab NED \tab Population estimation \cr
    \code{pop_est_dens} \tab NED \tab Population estimation per km2 \cr
@@ -50,7 +50,7 @@ See sources for more in-depth information of the variables.
 
 This dataset, created Noveber 2024, is an update from the old version, which has been created around 2016. All variables from the old version are included, but updated. Furthermore, gender ineuqlity and press freedom have been added.
 
-ISO country-code: XKX is used for Kosovo (conform European Union and World Bank) (was UNK in the old version. CYN is used for Northern Cyprus (as in the old version).
+ISO country-code: two countries have user-assigned codes, namely: XKX is used for Kosovo (conform European Union and World Bank) (was UNK in the old version); XNC is used for Northern Cyprus (was CYN in the old version).
 
 For some variables data were available from multiple years, but availability was different across countries. In those cases, the most recent values were taken.
 }
