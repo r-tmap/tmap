@@ -1,6 +1,17 @@
 tmapLeafletRun = function(o, q, show, knit, args) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
-	
+
+	# switchable zoom levels
+	zids = which(!is.na(q$group.zoom_levels))
+	if (length(zids)) {
+		lfs = lapply(lfs, function(lfp) {
+			lapply(lfp, function(lf) {
+				for (zid in zids) lf = leaflet::groupOptions(lf, group = q$group[zid], zoomLevels = q$group.zoom_levels[[zid]])
+				lf
+			})
+		})
+	}
+
 	lfs2 = lapply(lfs, function(lfsi) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
 			lf = lfsi[[1]]
@@ -20,7 +31,7 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 					})
 					L = L[!vapply(L, is.null, FUN.VALUE = logical(1))]
 				}
-				# to do: update group and type arguments 
+				# to do: update group and type arguments
 				.TMAP_LEAFLET$layerIds = L
 				.TMAP_LEAFLET$layerIds2 = NULL
 			}
@@ -37,7 +48,7 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 				asplit(matrix(1:(o$nrows*0$ncols), ncol = 0$ncols, byrow = TRUE), 2)
 			}
 			marg = paste0(o$between_margin, "em")
-			
+
 			#print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE, between = list(x = marg, y = marg)))))
 			do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE)))
 		}
@@ -52,7 +63,7 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 			x
 		}
 	})
-	
+
 	if (length(lfs2) == 1) lfs2 = lfs2[[1]]
 	if (show && !knit && !.TMAP$in.shiny) {
 		print(lfs2)

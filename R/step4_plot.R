@@ -638,6 +638,29 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		q$pane[q$lid2 > 0] = pane_name(q$lid[q$lid2 > 0])
 
 
+		# via tm_group, control and zoom levels can be set
+		# these are stored in tmap options view_group_{name}, and merged with q:
+		og = o[substr(names(o), 1, 10) == "view_group"]
+		ogdf = 	data.frame(name = vapply(og, "[[",FUN.VALUE = character(1), "name", USE.NAMES = FALSE),
+						   control = vapply(og, function(x) {
+						   	as.character(x[["control"]])
+						   } , FUN.VALUE = character(1), USE.NAMES = FALSE),
+						   zoom_levels = I(unname(lapply(og, "[[", "zoom_levels"))))
+		q$group.control = mapply(function(gi, v) {
+			id = which(ogdf$name == gi)
+			if (!length(id)) return(v)
+			v2 = ogdf$control[id]
+			if (is.na(v2)) return(v) else return(v2)
+		}, q$group, q$group.control, USE.NAMES = FALSE, SIMPLIFY = TRUE)
+		q$group.zoom_levels = mapply(function(gi, v) {
+			id = which(ogdf$name == gi)
+			if (!length(id)) return(NA)
+			return(ogdf$zoom_levels[[id]])
+		}, q$group, q$group.control, USE.NAMES = FALSE, SIMPLIFY = FALSE)
+		q$group.control[!is.na(q$group.zoom_levels)] = "none" # see leaflet::groupOptions
+
+
+
 		# q data frame:
 		# gid = tmap-group counter
 		# glid = layer counter inside tmap-group
@@ -645,6 +668,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		# lid2 = same as lid, but 1,2,3,...
 		# pane = pane name (for view mode)
 		# group = group name (for selecting layers in view mode)
+		# group.control = leaflet::addLayerControl: check, radio or none (view mode)
+		# group.zoom_levels = leaflet::groupOptions: zoom levels displayed at
 
 		do.call(FUNaux, list(o = o, q = q))
 
