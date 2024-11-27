@@ -12,9 +12,7 @@ pals_v3 = c(BrBG = "brewer.br_bg", PiYG = "brewer.pi_yg", PRGn = "brewer.prgn",
 			OrRd = "brewer.or_rd", PuBu = "brewer.pu_bu", PuBuGn = "brewer.pu_bu_gn",
 			PuRd = "brewer.pu_rd", Purples = "brewer.purples", RdPu = "brewer.rd_pu",
 			Reds = "brewer.reds", YlGn = "brewer.yl_gn", YlGnBu = "brewer.yl_gn_bu",
-			YlOrBr = "brewer.yl_or_br", YlOrRd = "brewer.yl_or_rd", viridis = "matplotlib.viridis",
-			magma = "matplotlib.magma", plasma = "matplotlib.plasma", inferno = "matplotlib.inferno",
-			cividis = "matplotlib.cividis")
+			YlOrBr = "brewer.yl_or_br", YlOrRd = "brewer.yl_or_rd")
 
 
 getPal = function(name, n = NA, rep = TRUE, range = NA, reversed = FALSE) {

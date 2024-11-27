@@ -427,6 +427,7 @@ tmapValuesRange_fontface = function(x, n, isdiv) {
 #' @keywords internal
 #' @rdname tmap_internal
 tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o, aes = "fill") {
+
 	#palid = tmapPalId(x[1])
 	if (x[1] %in% c("seq", "div", "unord", "ord", "biv")) {
 		# cols4all can also take "div", but does not take into account tmap style
@@ -929,7 +930,7 @@ tmapValuesCVV_fill = function(x, value.na, n, range, scale, rep, o) {
 	values = if (!ispalette && !arecolors) {
 		rep(x, length.out = n)
 	} else if (ispalette) {
-		getPal(m$fullname, n, rep = rep, range = range)
+		getPal(m$fullname, n, rep = rep, range = range, reversed = m$reverse)
 	} else if (!rep && (length(x) < n)) {
 		grDevices::colorRampPalette(x)(n)
 	} else {
