@@ -614,12 +614,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
 					group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
 					group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
-					data.frame(gid = ig, glid = 1:nl, lid = lid, group = group, group.control = group.control, lid2 = 0, pane = "", new = TRUE)
+					data.frame(gid = rep(ig, nl), glid = 1:nl, lid = lid, group = group, group.control = group.control, lid2 = rep(0, nl), pane = rep("", nl), new = rep(TRUE, nl), group.zoom_levels = I(rep(list(NA),nl)))
 				})
 			} else {
 				NULL
 			}},
-			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE)) else NULL}))
+			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE, group.zoom_levels = I(NA))) else NULL}))
 
 		#q$lid[q$lid != 0] = q$lid[q$lid != 0] + 400L
 
