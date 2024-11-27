@@ -28,7 +28,7 @@ update_grp_vars = function(lev = NULL, m = NULL) {
 	assign("vn", vn, envir = .TMAP)
 }
 
-add_used_vars = function(v, convert2density = FALSE) {
+add_used_vars = function(v, convert2density = FALSE, is_title = FALSE) {
 	if (convert2density) {
 		c2d_vars = get("c2d_vars", envir = .TMAP)
 		c2d_vars = unique(c(c2d_vars, v))
@@ -37,6 +37,13 @@ add_used_vars = function(v, convert2density = FALSE) {
 
 	used_vars = get("used_vars", envir = .TMAP)
 	used_vars = unique(c(used_vars, v))
+
+	if (is.null(attr(used_vars, "is_title"))) {
+		attr(used_vars, "is_title") = is_title
+	} else {
+		attr(used_vars, "is_title") = attr(used_vars, "is_title") || is_title
+	}
+
 	assign("used_vars", used_vars, envir = .TMAP)
 }
 
@@ -226,16 +233,37 @@ step1_rearrange_facets = function(tmo, o) {
 				# get first non-empty split_stars_dim, the dimension specificied by tm_vars_dim
 				split_stars_dim = get_split_stars_dim(mapping.aes)
 
+		        if (length(hover) > 1) {
+		          stop("hover should have length <= 1", call. = FALSE)
+		        }
 
+				if (is.na(hover)) {
+					hover = id
+				} else if (is.logical(hover)) {
+					hover = ifelse(hover, id, "")
+				}
 
+				if (hover != "" && !hover %in% smeta$vars) rlang::arg_match0(hover, smeta$vars, arg_nm = "hover", error_call = NULL)
+				if (hover != "") add_used_vars(hover, is_title = TRUE)
+				if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)
+				if (id != "") add_used_vars(id, is_title = TRUE)
 
 				if (isTRUE(popup.vars)) {
 					popup.vars = smeta$vars
 				} else if (isFALSE(popup.vars)) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
-					popup.vars = setdiff(get("used_vars", envir = .TMAP), c("AREA", "LENGTH", "MAP_COLORS"))
-					if (!length(popup.vars)) popup.vars = smeta$vars
+					popup.vars = smeta$vars
+						# local({
+						# 	uvars = get("used_vars", envir = .TMAP)
+						# 	is_title = attr(uvars, "is_title") # TRUE if id or hover is set
+						#
+						# 	if (length(uvars) && is_title) {
+						# 		setdiff(uvars, c("AREA", "LENGTH", "MAP_COLORS"))
+						# 	} else {
+						# 		unname(smeta$vars)
+						# 	}
+						# })
 				}
 
 				if (!all(popup.vars %in% smeta$vars)) {
@@ -262,20 +290,6 @@ step1_rearrange_facets = function(tmo, o) {
 				}
 				names(popup.format) = popup.vars
 				attr(popup.format, "called") = popup.called
-        if (length(hover) > 1) {
-          stop("hover should have length <= 1", call. = FALSE)
-        }
-
-				if (is.na(hover)) {
-					hover = id
-				} else if (is.logical(hover)) {
-					hover = ifelse(hover, id, "")
-				}
-
-				if (hover != "" && !hover %in% smeta$vars) rlang::arg_match0(hover, smeta$vars, arg_nm = "hover", error_call = NULL)
-				if (hover != "") add_used_vars(hover)
-				if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)
-				if (id != "") add_used_vars(id)
 
 			})
 		})

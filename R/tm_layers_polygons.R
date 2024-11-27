@@ -346,6 +346,8 @@ tm_borders = function(col = tm_const(), ...) {
 		args$fill = NA
 	}
 	args$called_from = "tm_borders"
+	args$popup.vars = FALSE
+	args$hover = FALSE
 	do.call(tm_polygons, c(list(col = col), args))
 }
 
