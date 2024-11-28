@@ -619,7 +619,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			} else {
 				NULL
 			}},
-			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE, group.zoom_levels = I(NA))) else NULL}))
+			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE, group.zoom_levels = I(rep(list(NA),length(aux))))) else NULL}))
 
 		#q$lid[q$lid != 0] = q$lid[q$lid != 0] + 400L
 
