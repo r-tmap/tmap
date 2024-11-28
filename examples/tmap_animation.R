@@ -27,7 +27,7 @@ m3 <- lapply(seq(50, 85, by = 5), function(age) {
 	tm_shape(World) +
 		tm_polygons("at_most", palette = c("gray95", "gold"), legend.show = FALSE) +
 		tm_shape(World_sel) +
-		tm_text("name", size = "AREA", root = 5, remove.overlap = TRUE) +
+		tm_text("name", size = "AREA", root = 5, remove_overlap = TRUE) +
 		tm_layout(main.title = paste0("Life expectency at most ", age), frame = FALSE)
 })
 

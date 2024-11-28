@@ -230,8 +230,8 @@ tm_text = function(text = tm_const(),
 
 
 
-		v4_opt_args = c("along.lines", "shadow", "just", "clustering", "point.label", "remove.overlap")
-		v3_opt_args = c("along.lines", "shadow", "just", "clustering", "auto.placement", "remove.overlap")
+		v4_opt_args = c("along_lines", "shadow", "just", "clustering", "point.label", "remove_overlap")
+		v3_opt_args = c("along_lines", "shadow", "just", "clustering", "auto.placement", "remove_overlap")
 		osel = which(v3_opt_args %in% names(args))
 		if (length(osel)) {
 			o3 = v3_opt_args[osel]
@@ -478,76 +478,81 @@ tm_labels_highlighted = function(text = tm_const(),
 	tm
 }
 
-#' @param points.only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
-#' @param point.per specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.
+#' @param points_only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param point_per specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.
+#' @param on_surface In case of polygons, centroids are computed. Should the points be on the surface? If `TRUE`, which is slower than the default `FALSE`, centroids outside the surface are replaced with points computed with [sf::st_point_on_surface()].
 #' @param shadow Shadow behind the text. Logical or color.
 #' @param shadow.offset.x,shadow.offset.y Shadow offset in line heights
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
-#' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
+#' @param along_lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
 #' @param bg.padding The padding of the background in terms of line heights.
 #' @param clustering value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
 #' @param point.label logical that determines whether the labels are placed automatically. By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the number of labels is less than 500 (otherwise it will be too slow).
 #' @param point.label.gap numeric that determines the gap between the point and label
 #' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm.
-#' @param remove.overlap logical that determines whether the overlapping labels are removed
+#' @param remove_overlap logical that determines whether the overlapping labels are removed
 #' @rdname tm_text
 #' @export
-opt_tm_text = function(points.only = "ifany",
-					   point.per = "feature",
+opt_tm_text = function(points_only = "ifany",
+					   point_per = "feature",
+					   on_surface = FALSE,
 					   shadow = FALSE,
 					   shadow.offset.x = 0.1,
 					   shadow.offset.y = 0.1,
 					   just = "center",
-					   along.lines = FALSE,
+					   along_lines = FALSE,
 					   bg.padding = 0.4,
 					   clustering = FALSE,
 					   point.label = FALSE,
 					   point.label.gap = 0,
 					   point.label.method = "SANN",
-					   remove.overlap = FALSE) {
-	list(trans.args = list(points.only = points.only,
-						   point.per = point.per,
-						   along.lines = along.lines),
+					   remove_overlap = FALSE) {
+	list(trans.args = list(points_only = points_only,
+						   point_per = point_per,
+						   on_surface = on_surface,
+						   along_lines = along_lines),
 		 mapping.args = list(shadow = shadow,
 		 					shadow.offset.x = shadow.offset.x,
 		 					shadow.offset.y = shadow.offset.y,
 		 					just = just,
-		 					along.lines = along.lines,
+		 					along_lines = along_lines,
 		 					bg.padding = bg.padding,
 		 					clustering = clustering,
 		 					point.label = point.label,
 		 					point.label.gap = point.label.gap,
 		 					point.label.method = point.label.method,
-		 					remove.overlap = remove.overlap))
+		 					remove_overlap = remove_overlap))
 }
 
 #' @rdname tm_text
 #' @export
-opt_tm_labels = function(points.only = "ifany",
-						 point.per = "feature",
+opt_tm_labels = function(points_only = "ifany",
+						 point_per = "feature",
+						 on_surface = FALSE,
 						 shadow = FALSE,
 						 shadow.offset.x = 0.1,
 						 shadow.offset.y = 0.1,
 						 just = "center",
-						 along.lines = TRUE,
+						 along_lines = TRUE,
 						 bg.padding = 0.4,
 						 clustering = FALSE,
 						 point.label = NA,
 						 point.label.gap = 0.4,
 						 point.label.method = "SANN",
-						 remove.overlap = FALSE) {
-	list(trans.args = list(points.only = points.only,
-						   point.per = point.per,
-						   along.lines = along.lines),
+						 remove_overlap = FALSE) {
+	list(trans.args = list(points_only = points_only,
+						   point_per = point_per,
+						   on_surface = on_surface,
+						   along_lines = along_lines),
 		 mapping.args = list(shadow = shadow,
 		 					shadow.offset.x = shadow.offset.x,
 		 					shadow.offset.y = shadow.offset.y,
 		 					just = just,
-		 					along.lines = along.lines,
+		 					along_lines = along_lines,
 		 					bg.padding = bg.padding,
 		 					clustering = clustering,
 		 					point.label = point.label,
 		 					point.label.gap = point.label.gap,
 		 					point.label.method = point.label.method,
-		 					remove.overlap = remove.overlap))
+		 					remove_overlap = remove_overlap))
 }

@@ -284,7 +284,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	coords = sf::st_coordinates(shp)
 
-	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	# in case shp is a multipoint (point_per == "segment"), expand gp:
 	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
 	coords = cp$coords
 	gp = cp$gp
@@ -518,7 +518,7 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 
 	coords = sf::st_coordinates(shp)
 
-	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	# in case shp is a multipoint (point_per == "segment"), expand gp:
 	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
 	coords = cp$coords
 	gp = cp$gp

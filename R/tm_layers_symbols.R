@@ -669,47 +669,52 @@ tm_markers = function(text = tm_const(),
 	tm_d = do.call(tm_dots, args_dots)
 	tm_d[[1]]$layer = c("markers", "symbols")
 
-	if (options$markers$markers.on.top.of.text) tm_t + tm_d else tm_d + tm_t
+	if (options$markers$markers_on_top_of_text) tm_t + tm_d else tm_d + tm_t
 }
 
 #' @inheritParams opt_tm_labels
-#' @param markers.on.top.of.text should markers be plot on top of the text (by default `FALSE`)
+#' @param markers_on_top_of_text should markers be plot on top of the text (by default `FALSE`)
 #' @param dots.icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.height}
 #' @param dots.just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param dots.grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @rdname tm_symbols
 #' @export
-opt_tm_markers = function(markers.on.top.of.text = FALSE,
-						  points.only = "ifany",
-						  point.per = "feature",
+opt_tm_markers = function(markers_on_top_of_text = FALSE,
+						  points_only = "ifany",
+						  point_per = "feature",
+						  on_surface = FALSE,
 						  shadow = FALSE,
 						  shadow.offset.x = 0.1,
 						  shadow.offset.y = 0.1,
 						  just = "center",
-						  along.lines = TRUE,
+						  along_lines = TRUE,
 						  bg.padding = 0.4,
 						  clustering = TRUE,
 						  point.label = TRUE,
 						  point.label.gap = 0.4,
 						  point.label.method = "SANN",
-						  remove.overlap = FALSE,
+						  remove_overlap = FALSE,
 						  dots.just = NA,
 						  dots.icon.scale = 3,
 						  dots.grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
-	list(markers = list(markers.on.top.of.text = markers.on.top.of.text),
-		 text = opt_tm_labels(points.only = points.only,
+	list(markers = list(markers_on_top_of_text = markers_on_top_of_text),
+		 text = opt_tm_labels(points_only = points_only,
+		 					 point_per = point_per,
+		 					 on_surface = on_surface,
 		 					 shadow = shadow,
 		 					 shadow.offset.x = shadow.offset.x,
 		 					 shadow.offset.y = shadow.offset.y,
 		 					 just = just,
-		 					 along.lines = along.lines,
+		 					 along_lines = along_lines,
 		 					 bg.padding = bg.padding,
 		 					 clustering = clustering,
 		 					 point.label = point.label,
 		 					 point.label.gap = point.label.gap,
 		 					 point.label.method = point.label.method,
-		 					 remove.overlap = remove.overlap),
-		 dots = opt_tm_dots(points.only = points.only,
+		 					 remove_overlap = remove_overlap),
+		 dots = opt_tm_dots(points_only = points_only,
+		 				   point_per = point_per,
+		 				   on_surface = on_surface,
 		 				   icon.scale = dots.icon.scale,
 		 				   just = dots.just,
 		 				   grob.dim = dots.grob.dim))
@@ -720,12 +725,13 @@ opt_tm_markers = function(markers.on.top.of.text = FALSE,
 #' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @rdname tm_symbols
 #' @export
-opt_tm_symbols = function(points.only = "ifany",
-						  point.per = "feature",
+opt_tm_symbols = function(points_only = "ifany",
+						  point_per = "feature",
+						  on_surface = FALSE,
 						  icon.scale = 3,
 						  just = NA,
 						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
-	list(trans.args = list(points.only = points.only, point.per = point.per, along.lines = FALSE),
+	list(trans.args = list(points_only = points_only, point_per = point_per, on_surface = on_surface, along_lines = FALSE),
 		 mapping.args = list(icon.scale = icon.scale,
 		 					just = just,
 		 					grob.dim = grob.dim))

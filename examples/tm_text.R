@@ -59,4 +59,4 @@ tm_shape(metroAfrica) +
 			   dots_fill = "red",
 			   dots_size = 2,
 			   ymod = -0.25,
-			   options = opt_tm_markers(point.label = FALSE, remove.overlap = TRUE))
+			   options = opt_tm_markers(point.label = FALSE, remove_overlap = TRUE))

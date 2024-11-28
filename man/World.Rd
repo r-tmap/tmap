@@ -38,7 +38,7 @@ World dataset, class \code{\link[sf:sf]{sf}}
    \code{gdp_cap_est} \tab NED \tab GDP per capita (estimated) \cr
    \code{life_exp} \tab HPI \tab Life expectancy. The average number of years an infant born in that country is expected to live \cr
    \code{well_being} \tab HPI \tab Well being. Self-reported from 0 (worst) to 10 (best) \cr
-   \code{footprint} \tab HPI \tab Carbon footprint. Per capita greenhouse gas emissions associated with consumption and economic activity \cr
+   \code{footprint} \tab HPI \tab Carbon footprint. Per capita greendwelling gas emissions associated with consumption and economic activity \cr
    \code{HPI} \tab HPI \tab Happy Planet Indicator. An index of human well-being and environmental impact that was introduced by the New Economics Foundation in 2006. Approximate formula: \code{(life_exp * well_being) / footprint} \cr
    \code{inequality} \tab WB \tab Income inequality: Gini coefficient (World Bank variable SI.POV.GINI) A value of 0 represents perfect equality, while 100 implies perfect inequality \cr
    \code{gender} \tab UNDP/OWiD \tab Gender Inequality Index (GII) Composite metric using reproductive health, empowerment and the labour market. A low value indicates low inequality between women and men, and vice-versa \cr

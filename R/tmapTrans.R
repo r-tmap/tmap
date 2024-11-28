@@ -102,7 +102,7 @@ sf_expand <- function(shp, cast = c("MULTILINESTRING", "MULTIPOLYGON", "MULTIPOI
 tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
-		if (is_stars && args$points.only == "no") {
+		if (is_stars && args$points_only == "no") {
 			### stars
 
 			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
@@ -121,15 +121,15 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 
 
 			if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
-				if (args$point.per=="feature" && any(geom_types == "MULTIPOINT")) {
+				if (args$point_per=="feature" && any(geom_types == "MULTIPOINT")) {
 					shp = sf_expand(shp, cast = "MULTIPOINT")
 					tmapID = tmapID[shp$split__id]
 					shp = sf::st_geometry(shp)
-				} else if (args$point.per=="segment") {
+				} else if (args$point_per=="segment") {
 					shp = sf_expand(shp)
 					tmapID = tmapID[shp$split__id]
 					shp = sf::st_geometry(shp)
-				} else if (args$point.per == "largest") {
+				} else if (args$point_per == "largest") {
 					ids_multiline = which(geom_types == "MULTILINESTRING")
 					if (length(ids_multiline)) {
 						shp[ids_multiline] = local({
@@ -156,12 +156,12 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			ids_line = which(geom_types2 %in% c("LINESTRING", "MULTILINESTRING"))
 			ids_point = which(geom_types2 %in% c("POINT", "MULTIPOINT"))
 
-			if (args$points.only == "yes" || (args$points.only == "ifany" && length(ids_point))) {
+			if (args$points_only == "yes" || (args$points_only == "ifany" && length(ids_point))) {
 				shp = shp[ids_point]
 				tmapID = tmapID[ids_point]
 			} else {
 				if (length(ids_line)) {
-					if (args$along.lines) {
+					if (args$along_lines) {
 						res = get_midpoint_angle(shp[ids_line])
 						shp[ids_line] = res$shp
 						prop_angle = rep(0, length(shp))
@@ -174,10 +174,25 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 					}
 				}
 				if (length(ids_poly)) {
-					shp[ids_poly] = suppressWarnings({
-						sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point.per == "largest"))
+					ctds = suppressWarnings({
+						sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point_per == "largest"))
 					})
 
+					if (args$on_surface) {
+						ctds_in = unlist(mapply(function(x,y) {
+							length(st_contains(y,x)[[1]]) > 0L
+						}, ctds, shp[ids_poly], SIMPLIFY = FALSE, USE.NAMES = FALSE))
+
+
+						if (!all(ctds_in)) {
+							shp[ids_poly[!ctds_in]] = sf::st_point_on_surface(shp[ids_poly[!ctds_in]])
+							shp[ids_poly[ctds_in]] = ctds[ctds_in]
+						} else {
+							shp[ids_poly] = ctds
+						}
+					} else {
+						shp[ids_poly] = ctds
+					}
 				}
 			}
 
@@ -194,7 +209,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 
 			# in case of expansion: cast to multipoint (expanded again in step4)
 
-			if (args$point.per=="segment" || (args$point.per=="feature" && any(geom_types == "MULTIPOINT"))) {
+			if (args$point_per=="segment" || (args$point_per=="feature" && any(geom_types == "MULTIPOINT"))) {
 				tmapID_expanded = tmapID
 				u = sort(unique(tmapID))
 				tmapID_1n = match(tmapID, u)
@@ -202,7 +217,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 				shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
 				tmapID = u
 
-				if (length(ids_line) && args$along.lines) {
+				if (length(ids_line) && args$along_lines) {
 					prop_angle = split(prop_angle, f = tmapID_1n)
 				}
 
@@ -215,7 +230,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 	})
 }
 # args:
-# - points.only: "yes", "no", "ifany"
+# - points_only: "yes", "no", "ifany"
 #
 # prop_ vectors, e.g. prop_angle can be added to shpTM. These are later put into dt (and used in step 4 (plotting))
 

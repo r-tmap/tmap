@@ -145,9 +145,9 @@ Semi-transparent overlay maps (for example annotation labels) can be added with 
 
 ```{r}
 tmap_mode("view")
-tm_basemap("Stamen.Watercolor") +
+tm_basemap("Stadia.StamenWatercolor") +
 tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
-tm_tiles("Stamen.TonerLabels")
+tm_tiles("Stadia.StamenTonerLabels")
 ```
 
 

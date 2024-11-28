@@ -189,35 +189,37 @@ tm_labels_highlighted(
 )
 
 opt_tm_text(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
   just = "center",
-  along.lines = FALSE,
+  along_lines = FALSE,
   bg.padding = 0.4,
   clustering = FALSE,
   point.label = FALSE,
   point.label.gap = 0,
   point.label.method = "SANN",
-  remove.overlap = FALSE
+  remove_overlap = FALSE
 )
 
 opt_tm_labels(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
   just = "center",
-  along.lines = TRUE,
+  along_lines = TRUE,
   bg.padding = 0.4,
   clustering = FALSE,
   point.label = NA,
   point.label.gap = 0.4,
   point.label.method = "SANN",
-  remove.overlap = FALSE
+  remove_overlap = FALSE
 )
 }
 \arguments{
@@ -266,9 +268,11 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
-\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+\item{points_only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
-\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+\item{point_per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+
+\item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:geos_unary]{sf::st_point_on_surface()}}.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -276,7 +280,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
-\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+\item{along_lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
 
 \item{bg.padding}{The padding of the background in terms of line heights.}
 
@@ -288,7 +292,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
 
-\item{remove.overlap}{logical that determines whether the overlapping labels are removed}
+\item{remove_overlap}{logical that determines whether the overlapping labels are removed}
 }
 \description{
 Map layer that draws symbols Supported visual variables are: \code{text}
@@ -382,5 +386,5 @@ tm_shape(metroAfrica) +
 			   dots_fill = "red",
 			   dots_size = 2,
 			   ymod = -0.25,
-			   options = opt_tm_markers(point.label = FALSE, remove.overlap = TRUE))
+			   options = opt_tm_markers(point.label = FALSE, remove_overlap = TRUE))
 }

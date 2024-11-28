@@ -28,7 +28,7 @@ tm_shape(land) +
 			   	   values = c(21, 23, 22, 21, 23, 22)
 			   	),
 			   shape.legend = tm_legend_combine("size")) +
-	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
+	tm_labels("name", options = opt_tm_labels(remove_overlap = FALSE))
 
 ## to do: replace this example:
 

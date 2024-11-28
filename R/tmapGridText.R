@@ -26,7 +26,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 	coords = sf::st_coordinates(shp)
 
-	# in case shp is a multipoint (point.per == "segment"), expand gp:
+	# in case shp is a multipoint (point_per == "segment"), expand gp:
 	cp = expand_coords_gp(coords, gp, ndt = nrow(dt))
 	coords = cp$coords
 	gp = cp$gp
@@ -90,7 +90,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	with_shadow = (!identical(args$shadow, FALSE))
 
 
-	if (with_bg || with_shadow || args$remove.overlap || args$point.label) {
+	if (with_bg || with_shadow || args$remove_overlap || args$point.label) {
 		# grobs are processed seperately because of the order: backgrond1, shadow1, text1, background2, shadow2, text2, etc.
 		# becaues it is less efficient when there is no background/shadow (majority of use cases), this is a separate routine
 
@@ -111,7 +111,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			grobTextShList = NULL
 		}
 
-		if (with_bg || args$remove.overlap) {
+		if (with_bg || args$remove_overlap) {
 			tGH = vapply(grobTextList, function(grb) {
 				grb$rot = 0
 				convertHeight(grobHeight(grb), "inch", valueOnly = TRUE)
@@ -147,7 +147,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			grobTextBGList = NULL
 		}
 
-		#if (args$auto.placement || args$remove.overlap) {
+		#if (args$auto.placement || args$remove_overlap) {
 		# grobs to sf
 		s = do.call(c,lapply(grobTextBGList, .grob2Poly))
 		#}
@@ -193,7 +193,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			}
 		}
 
-		if (args$remove.overlap) {
+		if (args$remove_overlap) {
 			im = sf::st_intersects(s, sparse = FALSE)
 			sel = rep(TRUE, length(s))
 			rs = rowSums(im)
@@ -208,7 +208,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			sel = TRUE
 		}
 
-		if (!with_bg && args$remove.overlap) {
+		if (!with_bg && args$remove_overlap) {
 			grobTextBGList = NULL
 		}
 

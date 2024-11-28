@@ -20,7 +20,7 @@ select_sf = function(shpTM, dt) {
 
 	shpSel = shp[sid] #sf::st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
 
-	# assign prop_ vectors to data dt (to be used in plotting) e.g. prop_angle is determined in tmapTransCentroid when along.lines = TRUE
+	# assign prop_ vectors to data dt (to be used in plotting) e.g. prop_angle is determined in tmapTransCentroid when along_lines = TRUE
 	prop_vars = names(shpTM)[substr(names(shpTM), 1, 5) == "prop_"]
 	if (length(prop_vars)) {
 		for (p in prop_vars) {

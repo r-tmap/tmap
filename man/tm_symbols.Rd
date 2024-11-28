@@ -230,52 +230,57 @@ tm_markers(
 )
 
 opt_tm_markers(
-  markers.on.top.of.text = FALSE,
-  points.only = "ifany",
-  point.per = "feature",
+  markers_on_top_of_text = FALSE,
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   shadow = FALSE,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
   just = "center",
-  along.lines = TRUE,
+  along_lines = TRUE,
   bg.padding = 0.4,
   clustering = TRUE,
   point.label = TRUE,
   point.label.gap = 0.4,
   point.label.method = "SANN",
-  remove.overlap = FALSE,
+  remove_overlap = FALSE,
   dots.just = NA,
   dots.icon.scale = 3,
   dots.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
 opt_tm_symbols(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
 opt_tm_dots(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
 opt_tm_bubbles(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
 opt_tm_squares(
-  points.only = "ifany",
-  point.per = "feature",
+  points_only = "ifany",
+  point_per = "feature",
+  on_surface = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -357,11 +362,13 @@ the text. See details.}
 
 \item{angle, angle.scale, angle.legend, angle.chart, angle.free}{Rotation angle}
 
-\item{markers.on.top.of.text}{should markers be plot on top of the text (by default \code{FALSE})}
+\item{markers_on_top_of_text}{should markers be plot on top of the text (by default \code{FALSE})}
 
-\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+\item{points_only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
-\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+\item{point_per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+
+\item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:geos_unary]{sf::st_point_on_surface()}}.}
 
 \item{shadow}{Shadow behind the text. Logical or color.}
 
@@ -369,7 +376,7 @@ the text. See details.}
 
 \item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
-\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
+\item{along_lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
 
 \item{bg.padding}{The padding of the background in terms of line heights.}
 
@@ -381,7 +388,7 @@ the text. See details.}
 
 \item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
 
-\item{remove.overlap}{logical that determines whether the overlapping labels are removed}
+\item{remove_overlap}{logical that determines whether the overlapping labels are removed}
 
 \item{dots.just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
@@ -464,7 +471,7 @@ tm_shape(land) +
 			   	   values = c(21, 23, 22, 21, 23, 22)
 			   	),
 			   shape.legend = tm_legend_combine("size")) +
-	tm_labels("name", options = opt_tm_labels(remove.overlap = FALSE))
+	tm_labels("name", options = opt_tm_labels(remove_overlap = FALSE))
 
 ## to do: replace this example:
 

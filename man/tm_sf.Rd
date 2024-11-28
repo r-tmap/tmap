@@ -52,8 +52,8 @@ tm_sf(
 opt_tm_sf(
   polygons.only = "yes",
   lines.only = "yes",
-  points.only = "yes",
-  point.per = "feature",
+  points_only = "yes",
+  point_per = "feature",
   points.icon.scale = 3,
   points.just = NA,
   points.grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -103,9 +103,9 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{lines.only}{should only line geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted, or also other geometry types (like polygons)? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
-\item{points.only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+\item{points_only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
-\item{point.per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+\item{point_per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
 
 \item{points.icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument \code{grob.dim}}
 
