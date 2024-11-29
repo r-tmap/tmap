@@ -235,35 +235,37 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opt_tm_text</span><span class="op">(</span></span>
-<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
-<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  shadow <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  shadow.offset.x <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  shadow.offset.y <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  just <span class="op">=</span> <span class="st">"center"</span>,</span>
-<span>  along.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  along_lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  bg.padding <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
-<span>  remove.overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  remove_overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opt_tm_labels</span><span class="op">(</span></span>
-<span>  points.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
-<span>  point.per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
+<span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  shadow <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  shadow.offset.x <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  shadow.offset.y <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  just <span class="op">=</span> <span class="st">"center"</span>,</span>
-<span>  along.lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  along_lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  bg.padding <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  point.label <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
-<span>  remove.overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  remove_overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -350,12 +352,16 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 <dd><p>to catch deprecated arguments from version &lt; 4.0</p></dd>
 
 
-<dt id="arg-points-only">points.only<a class="anchor" aria-label="anchor" href="#arg-points-only"></a></dt>
+<dt id="arg-points-only">points_only<a class="anchor" aria-label="anchor" href="#arg-points-only"></a></dt>
 <dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
 
-<dt id="arg-point-per">point.per<a class="anchor" aria-label="anchor" href="#arg-point-per"></a></dt>
+<dt id="arg-point-per">point_per<a class="anchor" aria-label="anchor" href="#arg-point-per"></a></dt>
 <dd><p>specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of <code>"feature"</code>, <code>"segment"</code> or <code>"largest"</code>. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.</p></dd>
+
+
+<dt id="arg-on-surface">on_surface<a class="anchor" aria-label="anchor" href="#arg-on-surface"></a></dt>
+<dd><p>In case of polygons, centroids are computed. Should the points be on the surface? If <code>TRUE</code>, which is slower than the default <code>FALSE</code>, centroids outside the surface are replaced with points computed with <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">sf::st_point_on_surface()</a></code>.</p></dd>
 
 
 <dt id="arg-shadow">shadow<a class="anchor" aria-label="anchor" href="#arg-shadow"></a></dt>
@@ -370,7 +376,7 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 <dd><p>justification of the text relative to the point coordinates. Either one of the following values: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.</p></dd>
 
 
-<dt id="arg-along-lines">along.lines<a class="anchor" aria-label="anchor" href="#arg-along-lines"></a></dt>
+<dt id="arg-along-lines">along_lines<a class="anchor" aria-label="anchor" href="#arg-along-lines"></a></dt>
 <dd><p>logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.</p></dd>
 
 
@@ -394,7 +400,7 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 <dd><p>the optimization method, either <code>"SANN"</code> for simulated annealing (the default) or <code>"GA"</code> for a genetic algorithm.</p></dd>
 
 
-<dt id="arg-remove-overlap">remove.overlap<a class="anchor" aria-label="anchor" href="#arg-remove-overlap"></a></dt>
+<dt id="arg-remove-overlap">remove_overlap<a class="anchor" aria-label="anchor" href="#arg-remove-overlap"></a></dt>
 <dd><p>logical that determines whether the overlapping labels are removed</p></dd>
 
 </dl></div>
@@ -491,7 +497,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>         dots_fill <span class="op">=</span> <span class="st">"red"</span>,</span></span>
 <span class="r-in"><span>         dots_size <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>         ymod <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span>,</span></span>
-<span class="r-in"><span>         options <span class="op">=</span> <span class="fu"><a href="tm_symbols.html">opt_tm_markers</a></span><span class="op">(</span>point.label <span class="op">=</span> <span class="cn">FALSE</span>, remove.overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>         options <span class="op">=</span> <span class="fu"><a href="tm_symbols.html">opt_tm_markers</a></span><span class="op">(</span>point.label <span class="op">=</span> <span class="cn">FALSE</span>, remove_overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_text-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
