@@ -120,10 +120,8 @@ tm_shape(World) +
 ```{r}
 tmap_mode("plot")
 
-NLD_muni$perc_men <- NLD_muni$pop_men / NLD_muni$population * 100
-
-tm_shape(NLD_muni) +
-    tm_polygons("perc_men", palette = "RdYlBu") +
+tm_shape(NLD_dist) +
+    tm_polygons("pop_65plus", palette = "RdYlBu") +
     tm_facets(by = "province")
 ```
 

@@ -2,35 +2,39 @@ library(cbsodataR)
 library(sf)
 library(tidyverse)
 
-wb24 = cbs_get_data(id = "85984NED")
-wb23 = cbs_get_data(id = "85618NED")
+
+## Demographic data on municipality (gemeente), district, (wijk) and neighbourhood (buurt) level
+##
+## Source CBS
+## https://www.cbs.nl/nl-nl/maatwerk/2024/11/kerncijfers-wijken-en-buurten-2022
+## https://www.cbs.nl/nl-nl/cijfers/detail/85318NED
+##
+## Note: numbers from 2022 taken (rather than 2023 or 2024) because of availability: as of sept-2024 these are final figures
+
 wb22 = cbs_get_data(id = "85318NED")
 
-#https://geodata.cbs.nl/files/Wijkenbuurtkaart/WijkBuurtkaart_2023_v2.zip
-dir = tempdir()
-
-sort(sapply(wb22, function(x)sum(is.na(x))))
-
-
-
-
-gemeentegrenzen <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2017/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=gemeente_gegeneraliseerd&outputFormat=json")
-
-gm22 = st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=gemeente_gegeneraliseerd&outputFormat=json")
-
-pv22 = st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=provincie_gegeneraliseerd&outputFormat=json")
-
-
-#number of wijken in 2022: sum(substr(wb22$WijkenEnBuurten, 1, 2) == "WK")
-
-wks = list()
-for (start in seq(0, 3000, by = 1000)) {
-	wks = c(wks, list(st_read(paste0("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=wijk_gegeneraliseerd&outputFormat=json&startindex=", start))))
+# number of missings per variable:
+if (FALSE) {
+	sort(sapply(wb22, function(x)sum(is.na(x))))
 }
-wk22 = do.call(rbind, wks)
 
-sel = c(#statcode = "code",
-	#statnaam = "name",
+
+## Download geospatial data from PDOK (a platform for Dutch geospatial data)
+gm22 = st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=gemeente_gegeneraliseerd&outputFormat=json")
+pv22 = st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=provincie_gegeneraliseerd&outputFormat=json")
+wk22 = local({
+	# PDOK has a restriction of 1000 features per download
+	# number of districts in 2022: sum(substr(wb22$WijkenEnBuurten, 1, 2) == "WK")
+	wks = list()
+	for (start in seq(0, 3000, by = 1000)) {
+		wks = c(wks, list(st_read(paste0("https://service.pdok.nl/cbs/gebiedsindelingen/2022/wfs/v1_0?request=GetFeature&service=WFS&version=2.0.0&typeName=wijk_gegeneraliseerd&outputFormat=json&startindex=", start))))
+	}
+    do.call(rbind, wks)
+})
+
+
+# selection of variables
+sel = c(
 	WijkenEnBuurten = "code",
 	OppervlakteTotaal_111 = "area",
 	MateVanStedelijkheid_116 = "urbanity",
@@ -50,6 +54,7 @@ sel = c(#statcode = "code",
 	k_40PersonenMetLaagsteInkomen_73 = "income_low",
 	k_20PersonenMetHoogsteInkomen_74 = "income_high")
 
+# some data manipulation
 wb22b = wb22 |>
 	select(all_of(names(sel))) |>
 	rename_at(vars(names(sel)), ~sel) |>
@@ -60,6 +65,7 @@ wb22b = wb22 |>
 		   pop_45_64 = round(population_45_64 / population * 100),
 		   pop_65plus = round(population_65_plus / population * 100),
 		   edu_appl_sci = round(edu_high / (edu_low + edu_middle + edu_high) * 100),
+		   area = units::as_units(area / 100, "km2"),
 		   edu_high = NULL,
 		   edu_middle = NULL,
 		   edu_low = NULL,
@@ -71,6 +77,7 @@ wb22b = wb22 |>
 		   urbanity = factor(urbanity, levels = 1:5, labels = c("extremely urbanised", "strongly urbanised", "moderately urbanised", "hardly urbanised", "not urbanised"))) |>
 	relocate(starts_with("pop_"), .after = population)
 
+# Create datasets
 NLD_prov = pv22 |>
 	rename(code = statcode,
 		   name = statnaam) |>
@@ -83,8 +90,8 @@ NLD_dist = wk22 |>
 	select(code, name) |>
 	mutate(name = stringi::stri_trans_general(name, "Latin-ASCII")) |>
 	left_join(wb22b, by = "code") |>
-	mutate(prov_code = NLD_prov$code[unlist(st_intersects(st_point_on_surface(geometry), NLD_prov))]) |>
-	relocate(prov_code, .after = name)
+	mutate(province = NLD_prov$name[unlist(st_intersects(st_point_on_surface(geometry), NLD_prov))]) |>
+	relocate(province, .after = name)
 
 NLD_muni = gm22 |>
 	rename(code = statcode,
@@ -92,10 +99,30 @@ NLD_muni = gm22 |>
 	select(code, name) |>
 	mutate(name = stringi::stri_trans_general(name, "Latin-ASCII")) |>
 	left_join(wb22b, by = "code") |>
-	mutate(prov_code = NLD_prov$code[unlist(st_intersects(st_point_on_surface(geometry), NLD_prov))]) |>
-	relocate(prov_code, .after = name)
+	mutate(province = NLD_prov$name[unlist(st_intersects(st_point_on_surface(geometry), NLD_prov))]) |>
+	relocate(province, .after = name)
 
-# set precision to 1: round coordinates by meters
+
+# recalculate total area per muni, because it includes water (other than rivers):
+if (FALSE) {
+	sum(NLD_muni$area)
+	sum(NLD_dist$area)
+	sum(st_area(NLD_dist))
+	sum(st_area(NLD_muni))
+}
+NLD_muni$area = local({
+	aggr_area_from_dist = NLD_dist |>
+		st_drop_geometry() |>
+		mutate(code_muni = substr(code, 3, 6)) |>
+		group_by(code_muni) |>
+		summarize(area_sum = sum(area)) |>
+		ungroup() |>
+		mutate(code = paste0("GM", code_muni))
+	aggr_area_from_dist$area_sum[match(NLD_muni$code, aggr_area_from_dist$code)]
+})
+
+
+# Set precision to 1: round coordinates by meters (to reduce file size)
 NLD_prov$geometry = NLD_prov |> st_geometry() |> st_sfc(precision = 1) %>% st_as_binary %>% st_as_sfc
 st_crs(NLD_prov) = st_crs(wk22)
 

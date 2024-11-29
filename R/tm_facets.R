@@ -47,6 +47,7 @@
 #' @param along deprecated Please use `tm_facets_pagewisse()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
 #' @param ... used to catch deprecated arguments
+#' @example ./examples/tm_facets.R
 #' @export
 tm_facets = function(by = NULL,
 					 rows = NULL,

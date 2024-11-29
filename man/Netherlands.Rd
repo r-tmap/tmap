@@ -17,39 +17,39 @@ NLD_muni
 NLD_dist
 }
 \description{
-Datasets of the Netherlands at three levels: \code{NLD_prov} (12) provinces, \code{NLD_muni} (345) municipalities and \code{NLD_dist} districts (3340), all class \code{\link[sf:sf]{sf}}
+Datasets of the Netherlands for 2022 at three levels: \code{NLD_prov} (12) provinces, \code{NLD_muni} (345) municipalities and \code{NLD_dist} (3340) districts , all class \code{\link[sf:sf]{sf}}
 }
 \details{
-The variables for \code{NLD_muni} and \code{NLD_dist} are identical. The data variables are:\tabular{ll}{
-   variable \tab description \cr
-   \code{code} \tab Code \cr
-   \code{name} \tab Name \cr
-   \code{prov_code} \tab Province code (corresponds to \code{code} column of \code{NLD_prov}) \cr
-   \code{area} \tab Total area in km2 \cr
+The data variables for \code{NLD_muni} and \code{NLD_dist} are identical:\tabular{ll}{
+   \strong{Variable} \tab \strong{Description} \cr
+   \code{code} \tab Code. Format is "GMaaaa" (municipality/'\strong{g}e\strong{m}eente') and "WKaaaabb" (district/\strong{w}ij\strong{k}). Here, "aaaa" represents the municipality id number, and "bb" the additional district number. \cr
+   \code{name} \tab Name. \cr
+   \code{province} \tab Province name. \cr
+   \code{area} \tab Total area in km2. This area corresponds to the area of the polygons (including inland waters, excluding coastal waters), but is more precise because it is based on non-simplified geometries. \cr
    \code{urbanity} \tab Level of urbanity. Five classes, determined by the number of addresses per km2 (break values are 2500, 1500, 1000, and 500). \cr
-   \code{population} \tab The total population count at 2022-01-01 \cr
-   \code{pop_0_14} \tab Percentage (rounded) of people between 0 and 15 \cr
-   \code{pop_15_24} \tab Percentage (rounded) of people between 15 and 25 \cr
-   \code{pop_25_44} \tab Percentage (rounded) of people between 25 and 45 \cr
-   \code{pop_45_64} \tab Percentage (rounded) of people between 45 and 65 \cr
-   \code{pop_65plus} \tab Percentage (rounded) of people of 65 and older \cr
-   \code{dwelling_total} \tab Number of dwellings \cr
-   \code{dwelling_value} \tab Average dwelling value (Dutch: WOZ-value) \cr
-   \code{dwelling_ownership} \tab Percentage of dwellings owned by the residents \cr
-   \code{employment_rate} \tab Share of the employed population within the total population from 15-75 years old (working and non-working) \cr
+   \code{population} \tab The total population count at 2022-01-01. \cr
+   \code{pop_0_14} \tab Percentage (rounded) of people between 0 and 15. \cr
+   \code{pop_15_24} \tab Percentage (rounded) of people between 15 and 25. \cr
+   \code{pop_25_44} \tab Percentage (rounded) of people between 25 and 45. \cr
+   \code{pop_45_64} \tab Percentage (rounded) of people between 45 and 65. \cr
+   \code{pop_65plus} \tab Percentage (rounded) of people of 65 and older. \cr
+   \code{dwelling_total} \tab Number of dwellings. \cr
+   \code{dwelling_value} \tab Average dwelling value (Dutch: WOZ-value). \cr
+   \code{dwelling_ownership} \tab Percentage of dwellings owned by the residents. \cr
+   \code{employment_rate} \tab Share of the employed population within the total population from 15 to 75 years old. \cr
    \code{income_low} \tab Percentage of individuals in private households belonging to the lowest 40\% of personal income nationwide. \cr
    \code{income_high} \tab Percentage of individuals in private households belonging to the highest 20\% of personal income nationwide. \cr
    \code{edu_appl_sci} \tab Percentage of people aged 15 to 75 with a university of applied sciences (Dutch: HBO) or university (Dutch: WO) degree. \cr
 }
 
 
-See source for more in-depth information of the variables.
+See source for detailed information about the variables.
 
 This dataset, created Noveber 2024, is an update from the datasets \code{NLD_muni} and \code{NLD_prov} used in tmap <= 3, which has been created around 2016. Note that the number of municipalities have been reduced (due to mergings). All old variables are included, except for variables related to ethnicity. Many new variable have been added, and moreover, district (Dutch: wijk) level data have added: \code{NLD_dist}.
 
-The CRS (coordinate reference system) used is the Rijksdriekhoekstelsel New, EPSG 28992. Coordinates have been rounded to meters to reduce filesize.
+The CRS (coordinate reference system) used is the Rijksdriekhoekstelsel New, EPSG 28992. Coordinates have been rounded to meters to reduce file size.
 }
 \references{
-Statistics Netherlands (2022), The Hague/Heerlen, Netherlands, \url{https://www.cbs.nl/}.
+Statistics Netherlands (2024), The Hague/Heerlen, Netherlands, \url{https://www.cbs.nl/}.
 }
 \keyword{datasets}

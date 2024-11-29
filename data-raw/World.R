@@ -42,8 +42,6 @@ co2 = co[setdiff(2:80, 48), ]
 co2 = rbind(co2, co2[1,])
 W$geometry[[15]][[1]][[1]] = co2[,1:2]
 
-all(st_is_valid(W))
-
 # also problems with Fiji (1) and Russia (19) because they cross the 180 meridian
 split_multipolyon_at_180 = function(mp) {
 	co = st_coordinates(mp)
@@ -59,7 +57,7 @@ split_multipolyon_at_180 = function(mp) {
 		st_polygon(list(c))
 	}), list(crs = 4326)))
 
-	m180 = st_sfc(st_linestring(cbind(180, c(80,0,-80))), crs = 4326)
+	m180 = st_sfc(st_linestring(cbind(180, c(88,0,-88))), crs = 4326)
 	sfc1b = st_split(sfc1, m180)
 
 	colist2 = unlist(lapply(sfc1b, function(x) {
@@ -80,10 +78,29 @@ split_multipolyon_at_180 = function(mp) {
 
 	st_multipolygon(colist2)
 }
-W1 = split_multipolyon_at_180(W$geometry[[1]])
 
 W$geometry[[1]] = split_multipolyon_at_180(W$geometry[[1]])
 W$geometry[[19]] = split_multipolyon_at_180(W$geometry[[19]])
+
+# Manually fix Antarctica
+mp = W$geometry[[160]]
+co = st_coordinates(mp)
+colist = unname(split.data.frame(co[,1:2], co[,4]))
+col = colist[[8]]
+
+mn = which.min(col[,1])
+x1 = unname(col[mn, 1])
+x2 = unname(col[mn+1, 1])
+
+col = rbind(cbind(X = 180, Y = -86), col[1:mn, ], cbind(X = c(-180, 180), Y = -86))
+colist[[8]] = col
+
+colist2 = lapply(colist, function(x) {
+	list(x)
+})
+
+res = st_multipolygon(colist2)
+W$geometry[[160]] = st_multipolygon(colist2)
 
 
 ##################

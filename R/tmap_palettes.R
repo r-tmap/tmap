@@ -28,6 +28,7 @@ getPalBiv = function(name, m = NA, n = NA, rep = TRUE) {
 }
 
 getPalMeta = function(name, no.match = "null") {
+	if (!is.character(name)) return(NULL)
 	if (name %in% c("cat", "seq", "div")) {
 		name = cols4all::c4a_options("defaults")$defaults[[name]]
 	}

@@ -25,7 +25,7 @@ World dataset, class \code{\link[sf:sf]{sf}}
 }
 \details{
 \tabular{lll}{
-   variable \tab Source \tab description \cr
+   \strong{Variable} \tab \strong{Source} \tab \strong{Description} \cr
    \code{iso_a3} \tab NED \tab ISO 3166-1 alpha-3 three-letter country code (see below) \cr
    \code{name} \tab NED \tab Country name \cr
    \code{sovereignt} \tab NED \tab Sovereignt country name \cr
@@ -46,7 +46,7 @@ World dataset, class \code{\link[sf:sf]{sf}}
 }
 
 
-See sources for more in-depth information of the variables.
+See sources for more detailed information about the variables.
 
 This dataset, created Noveber 2024, is an update from the old version, which has been created around 2016. All variables from the old version are included, but updated. Furthermore, gender ineuqlity and press freedom have been added.
 

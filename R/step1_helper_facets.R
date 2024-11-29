@@ -136,7 +136,7 @@ step1_rearrange_facets = function(tmo, o) {
 					split_stars_dim = ""
 
 					#value_orig = value # just for the case of L156
-					if (length(value) && is.na(value[[1]][1]) && !inherits(value, c("tmapOption", "tmapVars", "tmapAsIs", "tmapSpecial"))) {
+					if (!inherits(value, c("tmapOption", "tmapVars", "tmapAsIs", "tmapSpecial")) && length(value) && is.na(value[[1]][1])) {
 						# NA -> value.blank
 						value = tmapVV(getAesOption("value.blank", o, aes = aes, layer = layer))
 					}
