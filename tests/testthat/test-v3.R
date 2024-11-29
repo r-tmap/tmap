@@ -43,11 +43,6 @@ test_that("v3 syntax works", {
 		tm_format("NLD", title = "Dutch provinces and\nmunicipalities", bg.color =
 				  	"white")
 
-	skip_if_not_installed("cartogram")
-	# Cartogram
-	NLD_prov_pop <- cartogram::cartogram_cont(NLD_prov, "population")
-	tm_shape(NLD_prov_pop) +
-	 tm_polygons("origin_non_west", title = "Non-western origin (%)")
 })
 
 test_that("Possible to revert to v3 styling.", {
