@@ -97,6 +97,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 				limits = range(x1, na.rm = TRUE)
 			} else {
 				limits = range(c(x1, 0), na.rm = TRUE)
+				if (limits[1] < tr$domain[1]) limits[1] = tr$domain[1]
+				if (limits[2] > tr$domain[2]) limits[2] = tr$domain[2]
 			}
 			if (ticks.specified) limits = range(c(limits, ticks))
 		}
