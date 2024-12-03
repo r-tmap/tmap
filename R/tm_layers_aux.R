@@ -1,10 +1,10 @@
 #' Map layer: basemap / overlay tiles
-#' 
+#'
 #' Map layer that draws tiles from a tile server. `tm_basemap()` draws the tile
 #' layer as basemap, i.e. as bottom layer. In contrast, `tm_tiles()` draws the
 #' tile layer as overlay layer, where the stacking order corresponds with the
 #' order in which this layer is called, just like other map layers.
-#' 
+#'
 #' @param server Name of the provider or an URL. The list of available providers
 #'   can be obtained with `providers` (tip: in RStudio, type `providers$` to see
 #'   the options). See <https://leaflet-extras.github.io/leaflet-providers/preview/>
@@ -32,9 +32,18 @@
 #' @rdname tm_basemap
 #' @name tm_basemap
 #' @example ./examples/tm_basemap.R
-tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
+tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
+	if (is.null(server)) {
+		disable = TRUE
+	} else {
+		if (is.na(server[1])) {
+			server = NULL # complete_options is used in step1 to find the default
+		}
+		disable = FALSE
+	}
+
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "basemap"),
+		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "basemap", disable = disable),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
@@ -45,9 +54,18 @@ tm_basemap = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom 
 #' @export
 #' @rdname tm_basemap
 #' @name tm_tiles
-tm_tiles = function(server = NULL, alpha = NULL, zoom = NULL, max.native.zoom = 1, zindex = NA, group = NA, group.control = "check") {
+tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 1, zindex = NA, group = NA, group.control = "check") {
+	if (is.null(server)) {
+		disable = TRUE
+	} else {
+		if (is.na(server[1])) {
+			server = NULL # complete_options is used in step1 to find the default
+		}
+		disable = FALSE
+	}
+
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "overlay"),
+		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "overlay", disable = disable),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
@@ -61,11 +79,11 @@ leaflet::providers
 
 
 #' Coordinate grid / graticule lines
-#' 
+#'
 #' Draw latitude and longitude graticules. It creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
-#' layer that can be drawn anywhere between other layers. See [tm_grid()] for 
+#' layer that can be drawn anywhere between other layers. See [tm_grid()] for
 #' drawing horizontal lines.
-#' 
+#'
 #' @inheritParams tm_grid
 #' @inheritDotParams tm_grid
 #' @export
@@ -86,15 +104,15 @@ tm_graticules = function(x = NA,
 }
 
 #' Coordinate grid / graticule lines
-#' 
+#'
 #' @description
 #' * `tm_grid()` draws horizontal and vertical lines according to the
 #'   coordinate system of the (master) shape object.
-#' 
+#'
 #' Creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
 #' layer that can be drawn anywhere between other layers. See [tm_graticules()]
 #' to draw latitude and longitude graticules.
-#' 
+#'
 #' @param x X coordinates for vertical grid lines. If `NA`, it is specified
 #'   with a pretty scale and `n.x`.
 #' @param y Y coordinates for horizontal grid lines. If `NA`, it is specified
@@ -109,7 +127,7 @@ tm_graticules = function(x = NA,
 #' @param col Color of the grid lines.
 #' @param lwd Line width of the grid lines
 #' @param alpha Alpha transparency of the grid lines. Number between 0 and 1.
-#'   By default, the alpha transparency of `col` is taken. 
+#'   By default, the alpha transparency of `col` is taken.
 #' @param labels.show Show tick labels. Either one value for both `x` and `y` axis,
 #'   or a vector two: the first for `x` and latter for `y`.
 #' @param labels.pos position of the labels. Vector of two: the horizontal

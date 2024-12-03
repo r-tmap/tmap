@@ -212,9 +212,40 @@ step1_rearrange = function(tmel) {
 			l$args = complete_options(l$args, ot)
 			l
 		}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
+
+		# disable aux layers (so far only working for tm_basemap/tm_tiles):
+		sel_aux = local({
+			cls1 = vapply(aux, function(ai) {
+				class(ai)[1]
+			}, FUN.VALUE = character(1))
+			dis = vapply(aux, function(ai) {
+				"disable" %in% names(ai$args) && ai$args$disable
+			}, FUN.VALUE = logical(1))
+			clsu = unique(cls1)
+			sel_aux = rep(TRUE, length(aux))
+			for (cl in clsu) {
+				ids = which(cls1 == cl)
+				d = dis[ids]
+				if (any(d)) {
+					latest = tail(which(d), 1)
+					ids_dis = 1:latest
+					sel_aux[ids[ids_dis]] = FALSE
+				}
+			}
+			sel_aux
+		})
+		if (all((!sel_aux))) {
+			is_aux = FALSE
+			aux = list()
+		} else if (any(!sel_aux)) {
+			aux = aux[sel_aux]
+		}
 	} else {
 		aux = list()
 	}
+
+
+
 
 
 	is_comp = sapply(oth, inherits, "tm_component")

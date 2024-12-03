@@ -14,6 +14,13 @@ tm_vars = function(x = NA, dimvalues = NULL, n = NA, multivariate = FALSE) {
 
 # process visual variable specification. Can either be tmapVars (output of tm_vars) or a list of values.
 tmapVV = function(x) {
+	if (is.null(x)) {
+		x = structure(list("value.blank"), class = "tmapOption")
+
+	} else if (is.na(x)) {
+		x = structure(list("value.const"), class = "tmapOption")
+	}
+
 	if (inherits(x, c("tmapOption", "tmapVars"))) return(x)
 
 	# if (inherits(x, "tm_shape_vars")) return(structure(list(ids = x$ids, n = x$n), class = "tmapShpVars"))
