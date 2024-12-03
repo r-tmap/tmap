@@ -17,7 +17,7 @@ tmapVV = function(x) {
 	if (is.null(x)) {
 		x = structure(list("value.blank"), class = "tmapOption")
 
-	} else if (is.na(x)) {
+	} else if (!is.list(x) && length(x) == 1 && is.na(x)) {
 		x = structure(list("value.const"), class = "tmapOption")
 	}
 

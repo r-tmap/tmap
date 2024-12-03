@@ -235,7 +235,7 @@ step1_rearrange = function(tmel) {
 			sel_aux
 		})
 		if (all((!sel_aux))) {
-			is_aux = FALSE
+			#is_aux = FALSE
 			aux = list()
 		} else if (any(!sel_aux)) {
 			aux = aux[sel_aux]

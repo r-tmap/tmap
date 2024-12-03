@@ -6,7 +6,7 @@
 \title{Map layer: basemap / overlay tiles}
 \usage{
 tm_basemap(
-  server = NULL,
+  server = NA,
   alpha = NULL,
   zoom = NULL,
   max.native.zoom = 17,
@@ -16,7 +16,7 @@ tm_basemap(
 )
 
 tm_tiles(
-  server = NULL,
+  server = NA,
   alpha = NULL,
   zoom = NULL,
   max.native.zoom = 1,

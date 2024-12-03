@@ -13,7 +13,6 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 	rlang::check_installed("maptiles")
 
-
 	crs = sf::st_crs(bs[[1]])
 
 	isproj = !sf::st_is_longlat(crs)
@@ -364,8 +363,11 @@ tmapGridGridPrep = function(a, bs, id, o) {
 tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	g = get("g", envir = .TMAP_GRID)
 
-	dt = g$bmaps_dts[[id]][[bi]]
-	shpTM = g$bmaps_shpTHs[[id]][[bi]]
+	# id is on aux level
+	id2 = which(names(g$bmaps_dts) == as.character(id))
+
+	dt = g$bmaps_dts[[id2]][[bi]]
+	shpTM = g$bmaps_shpTHs[[id2]][[bi]]
 	gp = list()
 
 	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, interpolate = FALSE)
