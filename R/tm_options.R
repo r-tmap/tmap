@@ -52,7 +52,7 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 
 
 
-	if (!is.null(args$title) || (!is.null(args$main.title))) {
+	if (!is.null(args[["title"]]) || (!is.null(args[["main.title"]]))) {
 		title1 = if (!is.null(args$title)) {
 			title.args = args[substr(names(args), 1, 5) == "title"]
 			title.args$title = NULL
@@ -66,7 +66,7 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 		} else {
 			NULL
 		}
-		title2 = if (!is.null(args$main.title)) {
+		title2 = if (!is.null(args[["main.title"]])) {
 			main.title.args = args[substr(names(args), 1, 10) == "main.title"]
 			main.title.args$main.title = NULL
 			if ("main.title.position" %in% names(main.title.args)) {

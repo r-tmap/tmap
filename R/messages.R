@@ -116,3 +116,9 @@ message_webgl_checks = function(checks, checkif) {
 	cli::cli_inform("{.field [view mode]} WegGL enabled, but the following visual variable only accept one value {.arg {vals}}. Set {.code use_WebGL = FALSE} to support them.")
 
 }
+
+message_qtm_empty = function() {
+	cli::cli_inform(
+		"{.field [qtm]} nothing to show. Either specify {.arg shp} or {.arg basemap}."
+	)
+}

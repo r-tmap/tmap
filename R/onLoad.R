@@ -23,7 +23,6 @@
 
 
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
-	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
 
 	.TMAP$round_to = as.vector(sapply((-9):9, function(i) {
 			sapply(c(1, 2.5, 5), function(j) {

@@ -62,7 +62,7 @@
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
 #'   Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
-qtm = function(shp,
+qtm = function(shp = NULL,
 				fill = tm_const(),
 				col = tm_const(),
 				size = tm_const(),
@@ -79,8 +79,8 @@ qtm = function(shp,
 				title = NULL,
 				crs = NULL,
 				bbox = NULL,
-				basemaps = NULL,
-				overlays = NULL,
+				basemaps = NA,
+				overlays = NA,
 				zindex = NA,
 				group = NA,
 				group.control = "check",
@@ -112,82 +112,88 @@ qtm = function(shp,
 	o = tmap_options_mode()
 	show.warnings = o$show.warnings
 
-	if (missing(shp) || is.character(shp)) {
-		viewargs = args[intersect(names(args), names(formals(tm_view)))]
-		if (!missing(shp)) viewargs$bbox = shp
-		g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
-		attr(g, "qtm_shortcut") = TRUE
-		class(g) = "tmap"
-		return(g)
-	}
+	# if (missing(shp) || is.character(shp)) {
+	# 	viewargs = args[intersect(names(args), names(formals(tm_view)))]
+	# 	if (!missing(shp)) viewargs$bbox = shp
+	# 	g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
+	# 	attr(g, "qtm_shortcut") = TRUE
+	# 	class(g) = "tmap"
+	# 	return(g)
+	# }
 
-	nms_shp = intersect(names(args), names(formals(tm_shape)))
-	g = do.call(tm_shape, args[nms_shp])
 
-	is_rst = inherits(shp, c("stars", "SpatRaster"))
+	if (!missing(shp)) {
+		nms_shp = intersect(names(args), names(formals(tm_shape)))
+		g = do.call(tm_shape, args[nms_shp])
 
-	prefix = list(tm_polygons = "fill",
-				  tm_lines = "lines",
-				  tm_symbols = c("symbols", "dots"),
-				  tm_raster = "raster")
+		is_rst = inherits(shp, c("stars", "SpatRaster"))
 
-	if (is_rst) {
-		nms_rst = intersect(names(args), funs_v4$tm_raster)
-		args_rst = args[nms_rst]
+		prefix = list(tm_polygons = "fill",
+					  tm_lines = "lines",
+					  tm_symbols = c("symbols", "dots"),
+					  tm_raster = "raster")
 
-		if (!any(c("col", "raster") %in% args_called)) {
-			args_rst$col = tm_vars()
+		if (is_rst) {
+			nms_rst = intersect(names(args), funs_v4$tm_raster)
+			args_rst = args[nms_rst]
+
+			if (!any(c("col", "raster") %in% args_called)) {
+				args_rst$col = tm_vars()
+			}
+
+			nms_rst_v3 = names(args)[substr(names(args), 1, 7) == "raster."]
+			args_rst_v3 = args[nms_rst_v3]
+			names(args_rst_v3) = substr(names(args_rst_v3), 8, nchar(names(args_rst_v3)))
+
+			g = g + do.call(tm_raster, c(args_rst, args_rst_v3))
+		} else {
+
+			for (f in c("tm_polygons", "tm_lines", "tm_symbols")) {
+				nms_f = intersect(names(args), funs_v4[[f]])
+				args_f = args[nms_f]
+
+				nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
+				v3_nms = intersect(nms_other, unlist(lapply(prefix[[f]], function(p) paste(p, setdiff(v3_only(f), "scale"), sep = "."))))
+				args_v3 = args[v3_nms]
+				names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
+				if (f == "tm_symbols") {
+					if (!"shape" %in% args_called) args_f$shape = NULL
+					if (!"col" %in% args_called) args_f$col = NULL
+				}
+				if (f == "tm_lines") {
+					if (!"col" %in% args_called) args_f$col = NULL
+				}
+
+				args_f$called_from = "qtm"
+				options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
+				g = g + do.call(f, c(args_f, args_v3, list(options = options)))
+			}
+			if ("text" %in% args_called) {
+				args_txt = args[substr(names(args), 1, 5) == "text_" | names(args) == "text"]
+				names(args_txt) = sub("text_", "", names(args_txt))
+
+				v3_nms = substr(names(args), 1, 5) == "text."
+				args_v3 = args[v3_nms]
+				names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
+
+				args_f$called_from = "qtm"
+				g = g + do.call(tm_text, c(args_txt, args_v3))
+			}
 		}
 
-		nms_rst_v3 = names(args)[substr(names(args), 1, 7) == "raster."]
-		args_rst_v3 = args[nms_rst_v3]
-		names(args_rst_v3) = substr(names(args_rst_v3), 8, nchar(names(args_rst_v3)))
-
-		g = g + do.call(tm_raster, c(args_rst, args_rst_v3))
+		nms_fct = intersect(names(args), names(formals(tm_facets)))
+		if (length(nms_fct)) {
+			g = g + do.call(tm_facets, args[nms_fct])
+		}
 	} else {
-
-		for (f in c("tm_polygons", "tm_lines", "tm_symbols")) {
-			nms_f = intersect(names(args), funs_v4[[f]])
-			args_f = args[nms_f]
-
-			nms_other = intersect(setdiff(names(args), c(nms_f, nms_shp, "basemaps", "overlays", "style", "format")), args_called)
-			v3_nms = intersect(nms_other, unlist(lapply(prefix[[f]], function(p) paste(p, setdiff(v3_only(f), "scale"), sep = "."))))
-			args_v3 = args[v3_nms]
-			names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
-			if (f == "tm_symbols") {
-				if (!"shape" %in% args_called) args_f$shape = NULL
-				if (!"col" %in% args_called) args_f$col = NULL
-			}
-			if (f == "tm_lines") {
-				if (!"col" %in% args_called) args_f$col = NULL
-			}
-
-			args_f$called_from = "qtm"
-			options = opt_tm_sf()[[c(tm_polygons = "polygons", tm_lines = "lines", tm_symbols = "points")[f]]]
-			g = g + do.call(f, c(args_f, args_v3, list(options = options)))
-		}
-		if ("text" %in% args_called) {
-			args_txt = args[substr(names(args), 1, 5) == "text_" | names(args) == "text"]
-			names(args_txt) = sub("text_", "", names(args_txt))
-
-			v3_nms = substr(names(args), 1, 5) == "text."
-			args_v3 = args[v3_nms]
-			names(args_v3) = sub("^[^.]+[.]", "", names(args_v3))
-
-			args_f$called_from = "qtm"
-			g = g + do.call(tm_text, c(args_txt, args_v3))
-		}
+		g = NULL
 	}
 
-	nms_fct = intersect(names(args), names(formals(tm_facets)))
-	if (length(nms_fct)) {
-		g = g + do.call(tm_facets, args[nms_fct])
-	}
 
-	if (!is.null(args$basemaps)) {
+	if ("basemaps" %in% args_called || o$basemap.show) {
 		g = g + do.call(tm_basemap, list(server = args$basemaps))
 	}
-	if (!is.null(args$overlays)) {
+	if ("tiles" %in% args_called || o$tiles.show) {
 		g = g + do.call(tm_tiles, list(server = args$overlays))
 	}
 
@@ -195,7 +201,12 @@ qtm = function(shp,
 	if (o$qtm.minimap) g = g + tm_minimap()
 	if (o$qtm.mouse_coordinates) g = g + tm_mouse_coordinates()
 
-	assign("last_map_new", rlang::call_match(), envir = .TMAP)
-	attr(g, "qtm_shortcut") = FALSE
-	g
+	if (is.null(g)) {
+		message_qtm_empty()
+		invisible(NULL)
+	} else {
+		assign("last_map_new", rlang::call_match(), envir = .TMAP)
+		attr(g, "qtm_shortcut") = FALSE
+		g
+	}
 }

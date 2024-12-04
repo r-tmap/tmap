@@ -158,42 +158,11 @@ tm_check_fix = function() {
 tm_style = function(style, ...) {
 	args = list(...)
 
-	.tmapOptions = get("tmapOptions", envir = .TMAP)
 	check_style(style)
 
 	args$style = style
 	args$called_from = "tm_style"
-	#structure(list(tm_layout=args), class = "tm")
 	do.call(tm_options, args)
 }
 
-#' @rdname tm_layout
-#' @order 2
-#' @param format name of the format
-#' @export
-tm_format = function(format, ...) {
-	args = list(...)
-
-	.tmapFormats = get("tmapFormats", envir = .TMAP)
-
-	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
-
-	formatArgs = .tmapFormats[[format]]
-	if (length(args)) {
-		formatArgs[names(args)] = args
-	}
-	formatArgs$style = NA
-
-
-
-	if ("title" %in% names(formatArgs)) {
-		v3_use_component("title", "tm_title", "tm_format")
-		title = formatArgs$title
-		formatArgs$title = NULL
-		do.call(tm_options, formatArgs) + tm_title(text = title)
-	} else {
-		do.call(tm_options, formatArgs)
-	}
-
-}
 
