@@ -2,13 +2,10 @@
 % Please edit documentation in R/tm_layout.R
 \name{tm_style}
 \alias{tm_style}
-\alias{tm_format}
 \alias{tm_layout}
 \title{Layout options}
 \usage{
 tm_style(style, ...)
-
-tm_format(format, ...)
 
 tm_layout(
   scale,
@@ -286,8 +283,6 @@ tm_layout(
 \item{style}{name of the style}
 
 \item{...}{List of tmap options to be set, or option names (characters) to be returned (see details)}
-
-\item{format}{name of the format}
 
 \item{scale}{Overall scale of the map}
 

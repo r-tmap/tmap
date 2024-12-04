@@ -5,7 +5,7 @@
 \title{Quick thematic map plot}
 \usage{
 qtm(
-  shp,
+  shp = NULL,
   fill = tm_const(),
   col = tm_const(),
   size = tm_const(),
@@ -22,8 +22,8 @@ qtm(
   title = NULL,
   crs = NULL,
   bbox = NULL,
-  basemaps = NULL,
-  overlays = NULL,
+  basemaps = NA,
+  overlays = NA,
   zindex = NA,
   group = NA,
   group.control = "check",

@@ -199,7 +199,7 @@
 \alias{tmapTransCartogram}
 \title{Internal methods for tmap extensions}
 \format{
-An object of class \code{environment} of length 7.
+An object of class \code{environment} of length 6.
 
 An object of class \code{environment} of length 0.
 

@@ -1,19 +1,11 @@
-#' Get or add format options
+#' Deprecated: format
 #'
-#' Format options are tmap options that are shape dependent.
-#' With `tmap_format()` the predefined formats can be retrieved.
-#' The values for a specific format can be retrieved with `tmap_format(format)`,
-#' where format is the name of the format. The function `tmap_format_add()` is used to add a format.
+#' In tmap < 4.0 it was possible to set shape-specific options, such as margins and legend position. However, this has become superfluous because in tmap > 4.0 legends are by default placed outside the map area. If needed, a shape-specific set of options can be stored as a style with tmap_options_save.
 #'
-#' @param format Name of the format. Run `tmap_format()` to see the choices.
-#' @return The function `tmap_format()` returns the names of the available formats.
-#'   When `format` is defined, it returns the option list corresponding the that format.
-#' @seealso
-#' * [tm_layout()] for predefined styles
-#' * `tmap_style_catalogue` (not migrated to v4 yet) to create a style catalogue of all available styles.
-#' * [tmap_options()] for tmap options
-#' @example ./examples/tmap_format.R
-#' @rdname tmap_format
+#' @param format Name of the format
+#' @param ... not used
+#' @param name Name of the format
+#' @rdname tmap-deprecated
 #' @export
 tmap_format = function(format) {
 	if (format == "World") {
@@ -31,10 +23,7 @@ tmap_format = function(format) {
 	x
 }
 
-#' @rdname tmap_format
-#' @name tmap_format_add
-#' @param ...  Options from [tm_layout()] or [tm_view()]. Can also be a list of those options.
-#' @param name Name of the new format.
+#' @rdname tmap-deprecated
 #' @export
 tmap_format_add = function(..., name) {
 	v3_tmap_format_add(name)
@@ -42,10 +31,7 @@ tmap_format_add = function(..., name) {
 }
 
 
-
-#' @rdname tm_layout
-#' @order 2
-#' @param format name of the format
+#' @rdname tmap-deprecated
 #' @export
 tm_format = function(format, ...) {
 	if (format == "World") {
