@@ -53,8 +53,6 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_style</span><span class="op">(</span><span class="va">style</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tm_format</span><span class="op">(</span><span class="va">format</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">tm_layout</span><span class="op">(</span></span>
 <span>  <span class="va">scale</span>,</span>
 <span>  <span class="va">asp</span>,</span>
@@ -338,10 +336,6 @@
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>List of tmap options to be set, or option names (characters) to be returned (see details)</p></dd>
-
-
-<dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>name of the format</p></dd>
 
 
 <dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
@@ -1451,9 +1445,12 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"pop_est_dens"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      fill.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Population density"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_style</span><span class="op">(</span><span class="st">"albatross_v3"</span>, frame.lwd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">tm_format</span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tmap-deprecated.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"The World"</span>, position <span class="op">=</span> <span class="fu"><a href="tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[v3-&gt;v4]</span> `tm_options()`: use 'tm_title()' instead of `tm_options(title = )`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[deprecated]</span> `tm_format("World")` is deprecated as of tmap 4.0. Instead, please</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> use `tm_layout(inner.margins=c(0, 0.05, 0.025, 0.01),</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> legend.position=tm_pos_in("left", "bottom"), component.position=c("right",</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> "bottom"), scale=.8, title.size = 1.3)`</span>
 <span class="r-plt img"><img src="tm_layout-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
