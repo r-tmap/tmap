@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap/404.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/LICENSE-text.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/00_grammar_of_graphics.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/01_tmap_intro_v4.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/02_tmap_diff_v3.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/03_tmap_vv.html</loc></url>

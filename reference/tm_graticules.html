@@ -22,7 +22,8 @@ drawing horizontal lines."><meta property="og:image" content="https://r-tmap.git
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01_tmap_intro_v4.html">Introducing tmap 4</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/00_grammar_of_graphics.html">grammar of graphics applied</a></li>
+    <li><a class="dropdown-item" href="../articles/01_tmap_intro_v4.html">Introducing tmap 4</a></li>
     <li><a class="dropdown-item" href="../articles/02_tmap_diff_v3.html">tmap: diff(v4, v3)</a></li>
     <li><a class="dropdown-item" href="../articles/03_tmap_vv.html">tmap: visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/04_tmap_scales.html">tmap: scales</a></li>
@@ -233,33 +234,33 @@ for no control (the group cannot be (de)selected).</p></dd>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_grid.html">tm_grid</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-1.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_grid.html">tm_grid</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-2.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_grid.html">tm_grid</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">3035</span>, labels.inside.frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-3.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_grid.html">tm_grid</a></span><span class="op">(</span>labels.inside.frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-4.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_graticules</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-5.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_graticules</span><span class="op">(</span>labels.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-6.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="va">World</span><span class="op">)</span></span></span>
@@ -272,12 +273,12 @@ for no control (the group cannot be (de)selected).</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">tmap v3 code detected</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[v3-&gt;v4]</span> `qtm()`: use `col = NA` instead of `borders = NULL`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[v3-&gt;v4]</span> `qtm()`: use `col = NA` instead of `borders = NULL`.</span>
-<span class="r-plt img"><img src="tm_graticules-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-7.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, shape.crs <span class="op">=</span> <span class="st">"+proj=robin"</span>, style <span class="op">=</span> <span class="st">"natural"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_graticules</span><span class="op">(</span>ticks <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>frame<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_graticules-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_graticules-8.png" alt="" width="1050" height="1699"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"plot"</span>.</span>
