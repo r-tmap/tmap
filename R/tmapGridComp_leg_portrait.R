@@ -226,25 +226,29 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 }
 
+add_user_specified_values = function(gp, usr) {
+	if (!length(usr)) return(gp)
+
+	for (v in names(usr)) {
+		fun = paste0("tmapValuesCheck_", v)
+		val = usr[[v]]
+		if (!do.call(fun, list(x = val, is_var = TRUE))) stop("Values assigned to visual variable ", v, " in tm_legend incorrect")
+		gp[[v]] = val
+	}
+	gp
+}
+
+
 
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
+	# replace gp visual values with user-specified used (e.g. tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(col = "red")))
+	comp$gp = add_user_specified_values(comp$gp, comp[intersect(names(comp), names(comp$gp))])
+
 	textS = comp$text.size * comp$scale #* o$scale
 
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale
-
-
-	if (comp$type == "Bivariate") {
-		gp = comp$gp
-
-		g = grid::rectGrob(gp=grid::gpar(fill = "pink"))
-
-		#g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
-
-		return(g)
-
-	}
 
 	n = if (comp$type == "bivariate") attr(comp$gp$fill, "n") else 1
 	m = if (comp$type == "bivariate") attr(comp$gp$fill, "m") else 1

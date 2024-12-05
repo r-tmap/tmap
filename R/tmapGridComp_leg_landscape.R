@@ -142,6 +142,11 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 #' @export
 tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
+
+	# replace gp visual values with user-specified used (e.g. tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(col = "red")))
+	comp$gp = add_user_specified_values(comp$gp, comp[intersect(names(comp), names(comp$gp))])
+
+
 	textS = comp$text.size * comp$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale
 

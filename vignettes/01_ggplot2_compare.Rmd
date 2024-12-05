@@ -1,0 +1,101 @@
+---
+title: "A comparison with ggplot2"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
+```
+
+
+## Choropleth
+
+```{r}
+library(ggplot2)
+library(cols4all)
+
+ggplot(World) +
+	geom_sf(aes(fill = HPI), color = "grey20", linewidth = .4) +
+	scale_fill_continuous_c4a_div("pu_gn", mid = 35) +
+	coord_sf(crs = "+proj=eqearth") +
+	theme_void()
+```
+
+
+```{r}
+tm_shape(World, crs = "+proj=eqearth") +
+	tm_polygons(fill = "HPI",
+				col = "grey20",
+				lwd = 1,
+				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35))
+```
+
+Note the different line width values. The unit of a line width is different. tmap follows the lwd parameter (see [graphics::par]) whereas in ggplot2 `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth)
+
+
+## Mimicing ggplot2 layout
+
+Using tmap to match the style of ggplot2 exactly:
+
+```{r}
+tm_shape(World, crs = "+proj=eqearth") +
+	tm_polygons(fill = "HPI",
+				col = "grey20",
+				lwd = 1,
+				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
+				fill.legend = tm_legend(reverse = TRUE, 
+										frame = FALSE, 
+										item.height = 2.25, 
+										item.width = 1.8, 
+										position = tm_pos_out(pos.v = "center"), 
+										na.show = FALSE, 
+										ticks = list(c(0, 0.1), c(0.9, 1)), 
+										ticks.col = "white", 
+										col = "white")) +
+	tm_layout(frame = FALSE, outer.margins = 0)
+```
+
+

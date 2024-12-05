@@ -37,14 +37,14 @@
 #' @param item.na.width PARAM_DESCRIPTION
 #' @param item.na.space PARAM_DESCRIPTION
 #' @param item.shape PARAM_DESCRIPTION
-#' @param ticks PARAM_DESCRIPTION
+#' @param ticks List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.
 #' @param ticks.disable.na PARAM_DESCRIPTION
 #' @param ticks.col PARAM_DESCRIPTION
 #' @param ticks.lwd PARAM_DESCRIPTION
 #' @param title.align PARAM_DESCRIPTION
 #' @param margins PARAM_DESCRIPTION
 #' @param margin.item.text PARAM_DESCRIPTION
-#' @param ... passed on (?)
+#' @param ... visual values, e.g. col, fill, lwd, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return A tm_legend component
 #' @export

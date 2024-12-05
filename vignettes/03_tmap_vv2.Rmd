@@ -1,0 +1,95 @@
+---
+title: "tmap: visual variables (take 2)"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
+```
+
+
+
+### About the data
+
+A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(World)
+```
+
+We specify this object with `tm_shape` (see other vignette) and for convenience assign it to `s`:
+
+```{r}
+s = tm_shape(World, crs = "+proj=eqearth")
+```
+
+
+## Constant values
+
+```{r}
+s + tm_polygons(fill = "#ffce00", # fill color
+				col = "black",    # line color
+				lwd = 0.5,        # line width
+				lty = "dashed")   # line type
+```
+
+For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
+
+## Visual variables
+
+
+```{r}
+s + tm_polygons(fill = "press")
+```
+
+```{r}
+s + tm_polygons(fill = "grey90") +
+  tm_bubbles(size = "pop_est",
+  		   fill = "well_being",
+  		   shape = "income_grp",
+  		   size.scale = tm_scale(values.scale = 3))
+
+```

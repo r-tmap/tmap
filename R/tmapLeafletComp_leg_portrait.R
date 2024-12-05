@@ -21,12 +21,15 @@ tmapLeafletCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 }
 
 tmapLeaflet_legend_comp = function(comp, o) {
+	# replace gp visual values with user-specified used (e.g. tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(col = "red")))
+	comp$gp = add_user_specified_values(comp$gp, comp[intersect(names(comp), names(comp$gp))])
+
 	within(comp, {
 		if ("biv" %in% names(attributes(gp$fill))) {
 			warning("Bivariate legend not implemented for view mode", call. = FALSE)
 			show = FALSE
 		}
-		
+
 		nuq = vapply(comp$gp, length, FUN.VALUE = integer(1))
 		varying = names(nuq)[which(nuq>1)]
 
@@ -44,11 +47,12 @@ tmapLeaflet_legend_comp = function(comp, o) {
 		} else {
 			"symbols"
 		}
-		
+
 		bg.color = do.call("process_color", c(list(col=bg.color), o$pc))
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
-		
+
+
 		gp2 = gp_to_lpar(gp, mfun = comp$mfun, shape = comp$item.shape, size_factor = 14)
 	})
 }
