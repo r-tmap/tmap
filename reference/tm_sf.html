@@ -34,10 +34,12 @@ specified with tm_facets()."><meta property="og:image" content="https://r-tmap.g
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/00_grammar_of_graphics.html">grammar of graphics applied</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/00_grammar_of_graphics.html">Grammar of Graphics`</a></li>
+    <li><a class="dropdown-item" href="../articles/01_ggplot2_compare.html">A comparison with ggplot2</a></li>
     <li><a class="dropdown-item" href="../articles/01_tmap_intro_v4.html">Introducing tmap 4</a></li>
     <li><a class="dropdown-item" href="../articles/02_tmap_diff_v3.html">tmap: diff(v4, v3)</a></li>
     <li><a class="dropdown-item" href="../articles/03_tmap_vv.html">tmap: visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/03_tmap_vv2.html">tmap: visual variables (take 2)</a></li>
     <li><a class="dropdown-item" href="../articles/04_tmap_scales.html">tmap: scales</a></li>
     <li><a class="dropdown-item" href="../articles/05_tmap_facets.html">tmap: facets</a></li>
     <li><a class="dropdown-item" href="../articles/06_tmap_legends.html">tmap: legends</a></li>
@@ -257,6 +259,7 @@ only one logical value.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">World</span><span class="op">$</span><span class="va">geometry</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span><span class="op">]</span> <span class="op">&lt;-</span> </span></span>
 <span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">geometry</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>st_centroid does not give correct centroids for longitude/latitude data</span>
 <span class="r-in"><span><span class="va">World</span><span class="op">$</span><span class="va">geometry</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"South America"</span><span class="op">]</span> <span class="op">&lt;-</span> </span></span>
 <span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_cast.html" class="external-link">st_cast</a></span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">geometry</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"South America"</span><span class="op">]</span>, </span></span>
 <span class="r-in"><span>    <span class="st">"MULTILINESTRING"</span>, group_or_split <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
