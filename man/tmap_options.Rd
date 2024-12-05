@@ -314,7 +314,7 @@ tmap_options(
   main.title.position = NULL
 )
 
-tmap_options_mode(mode = NA, default.options = FALSE)
+tmap_options_mode(mode = NA, style = NULL, default.options = FALSE)
 
 tmap_options_diff()
 
@@ -918,9 +918,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{mode}{mode, e.g. \code{"plot"} or \code{"view"}}
 
-\item{default.options}{return the default options or the current options?}
-
 \item{style}{style, see \code{\link[=tmap_style]{tmap_style()}} for available styles}
+
+\item{default.options}{return the default options or the current options?}
 }
 \description{
 tmap options

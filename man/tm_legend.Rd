@@ -127,7 +127,7 @@ tm_legend_combine(variable)
 
 \item{item.shape}{PARAM_DESCRIPTION}
 
-\item{ticks}{PARAM_DESCRIPTION}
+\item{ticks}{List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.}
 
 \item{ticks.disable.na}{PARAM_DESCRIPTION}
 
@@ -141,7 +141,7 @@ tm_legend_combine(variable)
 
 \item{margin.item.text}{PARAM_DESCRIPTION}
 
-\item{...}{passed on (?)}
+\item{...}{visual values, e.g. col, fill, lwd, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
 
 \item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
 }

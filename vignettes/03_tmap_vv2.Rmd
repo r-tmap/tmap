@@ -82,7 +82,7 @@ For advanced users: the default constant values are specified for combinations o
 
 
 ```{r}
-s + tm_polygons(fill = "press")
+s + tm_polygons(fill = "press")   # data variable (column in World)
 ```
 
 ```{r}
