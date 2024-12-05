@@ -4,5 +4,17 @@ template:
   bslib:
     primary: "#5f8640"
 
+figures:
+  dev: ragg::agg_png
+  dpi: 144
+  dev.args: []
+  fig.ext: png
+  fig.width: 7.2916667
+  fig.height: ~
+  fig.retina: 2
+  fig.asp: 1.618
+  bg: NA
+  other.parameters: []
+
 development:
   version_tooltip: "tmap v4 documentation"

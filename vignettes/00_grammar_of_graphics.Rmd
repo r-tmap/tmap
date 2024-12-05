@@ -1,0 +1,194 @@
+---
+title: "grammar of graphics applied"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
+```
+
+```{r, echo = FALSE}
+plot_tmap_grammar = function(asp = 5/7, scale = 0.7) {
+	library(grid)
+	grid.newpage()
+	
+	if (asp < 1) {
+		pushViewport(viewport(width = unit(asp, "snpc"), height = unit(1, "npc"), gp = gpar(cex = scale)))
+	} else {
+		pushViewport(viewport(width = unit(1, "snpc"), height = unit(1/asp, "npc"), gp = gpar(cex = scale)))
+	}
+	
+	grid.rect()
+	
+	cellplot = function (r, c, e, ...) {
+	    grid::pushViewport(grid::viewport(layout.pos.row = r, layout.pos.col = c, 
+	        clip = TRUE, ...))
+	    e
+	    grid::upViewport()
+	}
+	
+	
+	hs = local({
+		tmp = rep(c(2,1), 14)
+		tmp / sum(tmp)
+	})
+	
+	ws = local({
+		tmp = c(0.5, 4, 0.5, 
+				1, 5, 
+				1, 3)
+		tmp / sum(tmp)
+	})
+	
+	pushViewport(viewport(layout = grid.layout(ncol = length(ws), nrow = length(hs), widths = ws, heights = hs)))
+	
+	text_block = function(r, c, text, x = 0.2) {
+		cellplot(r, c, {
+			grid.rect(gp = gpar(fill = "grey90"))
+			grid.text(text, x = x, just = "left")
+		})
+	}
+	text_block_reg_it = function(r, c, text_reg, text_it, xmid = 0.3) {
+		cellplot(r, c, {
+			grid.rect(gp = gpar(fill = "grey90"))
+			grid.text(text_reg, x = xmid, just = "right")
+			grid.text(text_it, x = xmid, just = "left", gp = gpar(fontface = "italic"))
+		})
+	}
+	text_only = function(r, c, text) {
+		cellplot(r, c, {
+			grid.text(text)
+		})
+	}
+	text_only_from_left = function(r, c, text, x = 0.2) {
+		cellplot(r, c, {
+			grid.text(text, x = x, just = "left")
+		})
+	}
+	
+	text_only_list = function(r, c, texts) {
+		n = length(texts)
+		cellplot(r, c, {
+			pushViewport(viewport(layout = grid.layout(nrow = n+2, heights = unit(c(0.5, rep(1.5, n), 0.5), units = c("null", rep("lines", n), "null")))))
+			for (i in 1:n) {
+				cellplot(i+1, 1, {
+					grid.text(texts[i], x = 0.2, just = "left")		
+				})
+			}
+			upViewport()
+		})
+	}
+	brackets = function(r, c) {
+		m = 0.05
+		cellplot(r, c, {
+			grid.lines(c(0.3, 0.6, 0.6, 0.3), c(m, m, 1-m, 1-m), gp = gpar(lwd = 2))
+			grid.lines(c(0.6, 0.8), c(0.5, 0.5), gp = gpar(lwd = 2))
+		})
+	}
+	
+	col_block1 = 1:2
+	col_block2 = 2:3
+	
+	text_block(1, col_block1, "tm_shape")
+	text_block_reg_it(3, col_block2, "tm_", "layer_1", xmid = 0.2)
+	text_block_reg_it(5, col_block2, "tm_", "layer_2", xmid = 0.2)
+	text_only(6, col_block2, "...")
+	text_block_reg_it(7, col_block2, "tm_", "layer_k", xmid = 0.2)
+	text_block(9, col_block2, "tm_facets")
+	text_block_reg_it(11, col_block1, "tm_", "layer_aux_1")
+	text_block_reg_it(13, col_block1, "tm_", "layer_aux_2")
+	text_only(14, col_block1, "...")
+	text_block_reg_it(15, col_block1, "tm_", "layer_aux_k")
+	
+	text_block_reg_it(17, col_block1, "tm_", "component_1")
+	text_block_reg_it(19, col_block1, "tm_", "component_2")
+	text_only(20, col_block1, "...")
+	text_block_reg_it(21, col_block1, "tm_", "component_k")
+	text_block(23, col_block1, "tm_style")
+	text_block(25, col_block1, "tm_layout")
+	#text_block(25, col_block1, "tm_options")
+	#text_block(25, col_block1, "tm_view")
+	
+	
+	
+	
+	text_only_list(1, 7, "tm_shape")
+	text_only_list(3:7, 7, c("tm_polygons", "tm_symbols", "tm_lines", "tm_text", "tm_raster", "..."))
+	text_only_list(9, 7, c("tm_facets_wrap", "tm_facets_grid"))
+	text_only_list(11:15, 7, c("tm_basemap", "tm_tiles", "tm_grid", "tm_graticules", "..."))
+	text_only_list(17:21, 7, c("tm_compass", "tm_scalebar", "tm_credits", "tm_logo", "..."))
+	text_only_list(23, 7, c("tm_style"))
+	text_only_list(25, 7, c("tm_layout", "tm_view", "tm_plot", "tm_options"))
+	
+	text_only_from_left(1, 5, "Data and coordinates")
+	brackets(3:7, 4)
+	text_only_from_left(3:7, 5, "Data-driven map layers")
+	brackets(11:15, 4)
+	text_only_from_left(9, 5, "Facets (small multiples)")
+	text_only_from_left(11:15, 5, "Auxiliary map layers")
+	brackets(17:21, 4)
+	text_only_from_left(17:21, 5, "Map components")
+	text_only_from_left(23, 5, "Overall style")
+	text_only_from_left(25, 5, "Layout options")
+}
+```
+
+tmap is based on the Grammar of Graphics [@wilkinson2005] in a similar way as ggplot2 [@ggplot2]. 
+
+```{r echo=FALSE, fig.width = 5, fig.height=7}
+plot_tmap_grammar(asp = 5/7, scale = .8)
+```
+
+
+
+# Differences with ggplot2
+
+* In ggplot2, the visual variables are defined on plot level (by default), but in tmap on layer level. This makes sense, since in non-spatial visualizations the x and y variables, the most important ones, are shared among the plot layers. However, in spatial visualizations the x and y variables are not considered data-driven but rather geometry-driven. The other visual variables, such as fill and border color, line width, and symbol shape.
+* This also applies to the scale funtions: e.g. in ggplot2, the `scale_fill_continuous()` is defined for the visual variable fill for the whole plot. In tmap, the scale functions are mapped 1 to 1 to the visual variables per layer: `tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())`
+
+
+
+

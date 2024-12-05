@@ -343,7 +343,7 @@ tm_fill = function(...) {
 tm_borders = function(col = tm_const(), ...) {
 	args = list(...)
 	if (!("fill" %in% names(args))) {
-		args$fill = NA
+		args["fill"] = list(NULL)
 	}
 	args$called_from = "tm_borders"
 	args$popup.vars = FALSE
