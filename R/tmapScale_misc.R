@@ -37,7 +37,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 			if ((!is.na(ona) && "value.na" %in% scale$called) || is.null(m)) {
 				ona
 			} else{
-				cols4all::c4a_na(values)
+				getPalNA(as.character(values[1]))
 			}
 		} else {
 			value.na

@@ -50,8 +50,7 @@
 #' @param group.control group.control
 #' @param style Layout options (see [tm_layout()]) that define the style.
 #'   See [tmap_style()] for details.
-#' @param format Layout options (see [tm_layout()]) that define the format.
-#'   See [tmap_format()] for details.
+#' @param format Deprecated, see [tm_format()] for alternatives
 #' @param ... arguments associated with the visual variables are passed on
 #'   to the layer functions [tm_polygons()], [tm_lines()], [tm_symbols()],
 #'   and [tm_text()].
@@ -112,14 +111,14 @@ qtm = function(shp = NULL,
 	o = tmap_options_mode()
 	show.warnings = o$show.warnings
 
-	# if (missing(shp) || is.character(shp)) {
-	# 	viewargs = args[intersect(names(args), names(formals(tm_view)))]
-	# 	if (!missing(shp)) viewargs$bbox = shp
-	# 	g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
-	# 	attr(g, "qtm_shortcut") = TRUE
-	# 	class(g) = "tmap"
-	# 	return(g)
-	# }
+	if (missing(shp) || is.character(shp)) {
+		viewargs = args[intersect(names(args), names(formals(tm_view)))]
+		if (!missing(shp)) viewargs$bbox = shp
+		g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
+		attr(g, "qtm_shortcut") = TRUE
+		class(g) = "tmap"
+		return(g)
+	}
 
 
 	if (!missing(shp)) {
@@ -195,6 +194,9 @@ qtm = function(shp = NULL,
 	}
 	if ("tiles" %in% args_called || o$tiles.show) {
 		g = g + do.call(tm_tiles, list(server = args$overlays))
+	}
+	if ("style" %in% args_called) {
+		g = g + tm_style(args$style)
 	}
 
 	if (o$qtm.scalebar) g = g + tm_scalebar()

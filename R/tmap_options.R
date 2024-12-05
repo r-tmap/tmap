@@ -401,11 +401,22 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 
 #' @name tmap_options_mode
 #' @param mode mode, e.g. `"plot"` or `"view"`
+#' @param style style. If specified, the style specific options are returned
 #' @param default.options return the default options or the current options?
 #' @rdname tmap_options
 #' @export
-tmap_options_mode = function(mode = NA, default.options = FALSE) {
-	o = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)
+tmap_options_mode = function(mode = NA, style = NULL, default.options = FALSE) {
+	if (default.options) {
+		o = .defaultTmapOptions
+	} else {
+		o = get("tmapOptions", envir = .TMAP)
+
+		if (!is.null(style)) {
+			check_style(style)
+			s = get("tmapStyles", envir = .TMAP)[[style]]
+			o = complete_options(s, o)
+		}
+	}
 
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	opt2 = o$modes[[mode]]

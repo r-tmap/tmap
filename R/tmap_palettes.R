@@ -23,6 +23,13 @@ getPal = function(name, n = NA, rep = TRUE, range = NA, reversed = FALSE) {
 	cols4all::c4a(name, n = n, nm_invalid = {if (rep) "repeat" else "interpolate"}, range = range, reverse = reversed)
 }
 
+getPalNA = function(name) {
+	if (name %in% c("cat", "seq", "div")) {
+		name = cols4all::c4a_options("defaults")$defaults[[name]]
+	}
+	cols4all::c4a_na(name)
+}
+
 getPalBiv = function(name, m = NA, n = NA, rep = TRUE) {
 	cols4all::c4a(name, m = m, n = n, nm_invalid = {if (rep) "repeat" else "interpolate"})
 }
