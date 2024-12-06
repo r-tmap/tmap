@@ -42,17 +42,8 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```
 
-
-```{r, echo = FALSE, message = FALSE}
+```{r, message = FALSE}
 library(tmap)
-#devtools::load_all()
-data(World, metro, rivers, land)
-#tmap_design_mode()
-devtools::install_github("rogerbeecham/gridmappr")
-library(gridmappr)
-```
-
-```{r}
 library(geofacet)
 library(dplyr)
 library(sf)
