@@ -1,5 +1,5 @@
 ---
-title: "A comparison with ggplot2"
+title: "tmap versus: ggplot2"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -76,9 +76,9 @@ tm_shape(World, crs = "+proj=eqearth") +
 Note the different line width values. The unit of a line width is different. tmap follows the lwd parameter (see [graphics::par]) whereas in ggplot2 `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth)
 
 
-## Mimicing ggplot2 layout
+## Mimicking ggplot2 layout
 
-Using tmap to match the style of ggplot2 exactly:
+Using tmap to match the style of ggplot2:
 
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +

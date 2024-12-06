@@ -1,5 +1,5 @@
 ---
-title: "tmap: visual variables (take 2)"
+title: "tmap basics: visual variables"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -85,11 +85,21 @@ For advanced users: the default constant values are specified for combinations o
 s + tm_polygons(fill = "press")   # data variable (column in World)
 ```
 
+
 ```{r}
-s + tm_polygons(fill = "grey90") +
-  tm_bubbles(size = "pop_est",
-  		   fill = "well_being",
-  		   shape = "income_grp",
-  		   size.scale = tm_scale(values.scale = 3))
+s + 
+  tm_polygons(fill = "grey90") +   # fill color ()
+  tm_bubbles(size = "pop_est",     # data variable, mapped to symbol size
+  		     fill = "well_being",  # data variable, mapped to symbol fill color
+  		     shape = "income_grp") # data variable, mapped to symbol shape
 
 ```
+
+## Facets
+
+```{r, fig.height = 8}
+s + tm_polygons(fill = c("well_being", "life_exp"))   # two data variables (columns in World)
+```
+
+(More on facets later)
+

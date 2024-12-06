@@ -1,0 +1,106 @@
+---
+title: "tmap example: gridmaps"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width=6, 
+  fig.height=3,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+#devtools::load_all()
+data(World, metro, rivers, land)
+#tmap_design_mode()
+devtools::install_github("rogerbeecham/gridmappr")
+library(gridmappr)
+```
+
+```{r}
+library(geofacet)
+library(dplyr)
+library(sf)
+```
+
+
+## Get grid layout of Dutch provinces
+
+```{r}
+nl_prov_grid1 = geofacet::nl_prov_grid1
+class(nl_prov_grid1) = "data.frame"
+
+nl_prov_grid1 = nl_prov_grid1 |>
+	mutate(name = ifelse(name == "Friesland", "Fryslan", name)) |>
+	select(-code)
+```
+
+
+## Join with NLD datasets in tmap
+
+```{r}
+NLD_prov2 = NLD_prov |>
+	left_join(nl_prov_grid1,
+			  by = "name")
+
+NLD_muni2 = NLD_muni |>
+	left_join(NLD_prov2 |>
+			  	st_drop_geometry() |>
+			  	select(name, row, col), by = c("province" = "name"))
+
+NLD_dist2 = NLD_dist |>
+	left_join(NLD_prov2 |>
+			  	st_drop_geometry() |>
+			  	select(name, row, col), by = c("province" = "name"))
+```
+
+## The map
+
+```{r, fig.height = 9}
+tm_shape(NLD_dist2) +
+	tm_fill("edu_appl_sci", fill.legend = tm_legend("Percentage")) +
+	tm_facets_grid(rows = "row", columns = "col") +
+tm_shape(NLD_muni2) +
+	tm_borders(lwd = 1) +
+	tm_facets_grid(rows = "row", columns = "col") +
+tm_shape(NLD_prov2) +
+	tm_borders(lwd = 2) +
+	tm_facets_grid(rows = "row", columns = "col") +
+tm_layout(panel.show = FALSE) +
+	tm_title("Population share (age 15-75) with scientific (incl. applied) degree")
+```

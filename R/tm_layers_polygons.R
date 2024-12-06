@@ -332,7 +332,7 @@ tm_fill = function(...) {
 	args = list(...)
 	# tricks to make backward comp. work
 	if (!("col" %in% names(args))) {
-		args$col = NA
+		args["col"] = list(NULL)
 	}
 	args$called_from = if (names(args)[1] == "") "tm_fill" else  "tm_polygons"
 	do.call(tm_polygons, args)
