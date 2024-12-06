@@ -180,7 +180,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 
 					if (args$on_surface) {
 						ctds_in = unlist(mapply(function(x,y) {
-							length(st_contains(y,x)[[1]]) > 0L
+							length(sf::st_contains(y,x)[[1]]) > 0L
 						}, ctds, shp[ids_poly], SIMPLIFY = FALSE, USE.NAMES = FALSE))
 
 

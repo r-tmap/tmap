@@ -143,9 +143,15 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 #' @export
 tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 
+	icons = all(comp$gp$shape >= 1000)
+
 	# replace gp visual values with user-specified used (e.g. tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(col = "red")))
 	comp$gp = add_user_specified_values(comp$gp, comp[intersect(names(comp), names(comp$gp))])
 
+	# icons replaced by 'normal' shapes: apply icon.scale
+	if (icons && all(comp$gp$shape < 1000) && !is.null(comp$layer_args$icon.scale)) {
+		comp$gp$size = comp$gp$size * comp$layer_args$icon.scale
+	}
 
 	textS = comp$text.size * comp$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale

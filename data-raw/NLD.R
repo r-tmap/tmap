@@ -59,11 +59,11 @@ wb22b = wb22 |>
 	select(all_of(names(sel))) |>
 	rename_at(vars(names(sel)), ~sel) |>
 	mutate(code = str_replace_all(code, " ", ""),
-		   pop_0_14 = round(population_0_14 / population * 100),
-		   pop_15_24 = round(population_15_24 / population * 100),
-		   pop_25_44 = round(population_25_44 / population * 100),
-		   pop_45_64 = round(population_45_64 / population * 100),
-		   pop_65plus = round(population_65_plus / population * 100),
+		   pop_0_14 = ifelse(population == 0, NA, round(population_0_14 / population * 100)),
+		   pop_15_24 = ifelse(population == 0, NA, round(population_15_24 / population * 100)),
+		   pop_25_44 = ifelse(population == 0, NA, round(population_25_44 / population * 100)),
+		   pop_45_64 = ifelse(population == 0, NA, round(population_45_64 / population * 100)),
+		   pop_65plus = ifelse(population == 0, NA, round(population_65_plus / population * 100)),
 		   edu_appl_sci = round(edu_high / (edu_low + edu_middle + edu_high) * 100),
 		   area = units::as_units(area / 100, "km2"),
 		   edu_high = NULL,
@@ -131,6 +131,12 @@ st_crs(NLD_dist) = st_crs(wk22)
 
 NLD_muni$geometry = NLD_muni |> st_geometry() |> st_sfc(precision = 1) %>% st_as_binary %>% st_as_sfc
 st_crs(NLD_muni) = st_crs(wk22)
+
+if (FALSE) {
+	# checks
+	all(sapply(NLD_dist, function(x) if (!is.list(x)) sum(is.infinite(x)) else 0) == 0)
+	all(sapply(NLD_dist, function(x) if (!is.list(x)) sum(is.nan(x)) else 0) == 0)
+}
 
 
 save(NLD_dist, file="data/NLD_dist.rda", compress="xz")

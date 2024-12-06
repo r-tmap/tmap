@@ -42,12 +42,16 @@ tm_shape(land) +
 
 		current.mode <- tmap_mode("view")
 
-		tm_shape(NLD_prov, crs = 4326) + tm_polygons() +
+		tm_shape(NLD_prov, crs = 4326) +
+			tm_polygons() +
 		tm_shape(airports) +
-			tm_symbols(shape=airplane, size="natlscale",
-					   legend.size.show = FALSE, scale=1, border.col = NULL,
-					   id="name", popup.vars = TRUE)
-			#tm_view(set_view = c(lon = 15, lat = 48, zoom = 4))
+			tm_symbols(shape = airplane,
+					   size = "natlscale",
+					   size.legend = tm_legend_hide(),
+					   id = "name"
+					   ) +
+			tm_text(text = "name")
+
 		tmap_mode(current.mode)
 	}
 }
