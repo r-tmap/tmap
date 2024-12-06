@@ -2,20 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  00_grammar_of_graphics: 00_grammar_of_graphics.html
-  01_ggplot2_compare: 01_ggplot2_compare.html
-  01_tmap_intro_v4: 01_tmap_intro_v4.html
-  02_tmap_diff_v3: 02_tmap_diff_v3.html
-  03_tmap_vv: 03_tmap_vv.html
-  03_tmap_vv2: 03_tmap_vv2.html
-  04_tmap_scales: 04_tmap_scales.html
-  05_tmap_facets: 05_tmap_facets.html
-  06_tmap_legends: 06_tmap_legends.html
-  07_tmap_charts: 07_tmap_charts.html
-  08_tmap_basemaps: 08_tmap_basemaps.html
-  09_tmap_shiny: 09_tmap_shiny.html
-  10_tmap_export: 10_tmap_export.html
-last_built: 2024-12-05T15:03Z
+  01_basics_vv: 01_basics_vv.html
+  02_theory_gg: 02_theory_gg.html
+  03_versus_ggplot2: 03_versus_ggplot2.html
+  04_examples_gridmaps: 04_examples_gridmaps.html
+last_built: 2024-12-06T10:30Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

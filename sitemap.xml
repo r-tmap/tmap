@@ -1,19 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap/404.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/LICENSE-text.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/00_grammar_of_graphics.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/01_ggplot2_compare.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/01_tmap_intro_v4.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/02_tmap_diff_v3.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/03_tmap_vv.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/03_tmap_vv2.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/04_tmap_scales.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/05_tmap_facets.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/06_tmap_legends.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/07_tmap_charts.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/08_tmap_basemaps.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/09_tmap_shiny.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/articles/10_tmap_export.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/01_basics_vv.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/02_theory_gg.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/03_versus_ggplot2.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/04_examples_gridmaps.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/authors.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/index.html</loc></url>
