@@ -27,7 +27,7 @@ Installation of **tmap** (version 4) is straightforward:
 
 ``` r
 # install.packages("remotes")
-install_github("r-tmap/tmap")
+remotes::install_github("r-tmap/tmap")
 
 # On Linux, with pak
 # install.packages("pak")
