@@ -62,7 +62,8 @@ Suggests:
     terra,
     testthat (>= 3.2.0),
     tidyr,
-    widgetframe
+    widgetframe,
+    geofacet
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
 Config/testthat/edition: 3
