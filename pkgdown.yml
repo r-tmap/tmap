@@ -6,7 +6,7 @@ articles:
   02_theory_gg: 02_theory_gg.html
   03_versus_ggplot2: 03_versus_ggplot2.html
   04_examples_gridmaps: 04_examples_gridmaps.html
-last_built: 2024-12-06T14:51Z
+last_built: 2024-12-07T21:54Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
