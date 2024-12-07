@@ -50,8 +50,11 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
+## Choropleth Map comparision
 
-## Choropleth
+An example of how the default output of `tmap` compares with `ggplot2`. 
+
+This is the default output of `ggplot2`:
 
 ```{r}
 library(ggplot2)
@@ -65,6 +68,8 @@ ggplot(World) +
 ```
 
 
+This is the default output of `tmap`:
+
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +
 	tm_polygons(fill = "HPI",
@@ -73,12 +78,17 @@ tm_shape(World, crs = "+proj=eqearth") +
 				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35))
 ```
 
-Note the different line width values. The unit of a line width is different. tmap follows the lwd parameter (see [graphics::par]) whereas in ggplot2 `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth)
+Note the different line width values: 
+
+- `linewidth = .4` in `ggplot2`
+- `lwd = 1` in `tmap`
+
+The unit of a line width is different. `tmap` follows the `lwd` parameter (see [`graphics::par`](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/par)) whereas in `ggplot2` `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth). 
 
 
 ## Mimicking ggplot2 layout
 
-Using tmap to match the style of ggplot2:
+We can use `tmap` to match the style of `ggplot2`:
 
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +
