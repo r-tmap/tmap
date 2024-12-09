@@ -27,9 +27,10 @@ The functions tm_scale_continuous_&amp;lt;x&amp;gt;() use transformation functio
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01_basics_vv.html">tmap basics: visual variables</a></li>
-    <li><a class="dropdown-item" href="../articles/02_theory_gg.html">tmap theory: Grammar of Graphics`</a></li>
-    <li><a class="dropdown-item" href="../articles/03_versus_ggplot2.html">tmap versus: ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/04_examples_gridmaps.html">tmap example: gridmaps</a></li>
+    <li><a class="dropdown-item" href="../articles/02_basics_scales.html">tmap basics: scales</a></li>
+    <li><a class="dropdown-item" href="../articles/11_examples_gridmaps.html">tmap example: gridmaps</a></li>
+    <li><a class="dropdown-item" href="../articles/21_theory_gg.html">tmap theory: Grammar of Graphics`</a></li>
+    <li><a class="dropdown-item" href="../articles/31_versus_ggplot2.html">tmap versus: ggplot2</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -190,7 +191,7 @@ The functions <code>tm_scale_continuous_&lt;x&gt;()</code> use transformation fu
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span></span>
 <span class="r-in"><span>    fill.scale <span class="op">=</span> <span class="fu">tm_scale_continuous</span><span class="op">(</span>values <span class="op">=</span> <span class="st">"scico.roma"</span>, midpoint <span class="op">=</span> <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_scale_continuous-1.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tm_scale_continuous-1.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span></span>
@@ -198,7 +199,7 @@ The functions <code>tm_scale_continuous_&lt;x&gt;()</code> use transformation fu
 <span class="r-in"><span>    size.scale <span class="op">=</span> <span class="fu">tm_scale_continuous</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      values.scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Population in 1950"</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_scale_continuous-2.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tm_scale_continuous-2.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span></span>
@@ -211,7 +212,7 @@ The functions <code>tm_scale_continuous_&lt;x&gt;()</code> use transformation fu
 <span class="r-in"><span>        <span class="st">"1,000,000 - 10,000,000"</span>, <span class="st">"10,000,000 or more"</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>      outliers.trunc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Population in 1950"</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_scale_continuous-3.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tm_scale_continuous-3.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span><span class="co"># Note that for this type of legend, we recommend tm_scale_intervals()</span></span></span>
 </code></pre></div>
     </div>

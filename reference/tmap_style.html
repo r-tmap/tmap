@@ -25,9 +25,10 @@ The default style (i.e. when loading the package) is "white".'><meta property="o
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01_basics_vv.html">tmap basics: visual variables</a></li>
-    <li><a class="dropdown-item" href="../articles/02_theory_gg.html">tmap theory: Grammar of Graphics`</a></li>
-    <li><a class="dropdown-item" href="../articles/03_versus_ggplot2.html">tmap versus: ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/04_examples_gridmaps.html">tmap example: gridmaps</a></li>
+    <li><a class="dropdown-item" href="../articles/02_basics_scales.html">tmap basics: scales</a></li>
+    <li><a class="dropdown-item" href="../articles/11_examples_gridmaps.html">tmap example: gridmaps</a></li>
+    <li><a class="dropdown-item" href="../articles/21_theory_gg.html">tmap theory: Grammar of Graphics`</a></li>
+    <li><a class="dropdown-item" href="../articles/31_versus_ggplot2.html">tmap versus: ggplot2</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -97,7 +98,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tmap_style-1.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tmap_style-1.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt"</span>
@@ -105,7 +106,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tmap_style-2.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tmap_style-2.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># for backwards compatibility, the styles of tmap versions 1-3 are also included:</span></span></span>
 <span class="r-in"><span></span></span>
@@ -115,7 +116,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tmap_style-3.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tmap_style-3.png" alt="" width="1194" height="1932"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt_v3"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt_v3"</span>
@@ -123,7 +124,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tmap_style-4.png" alt="" width="1050" height="1699"></span>
+<span class="r-plt img"><img src="tmap_style-4.png" alt="" width="1194" height="1932"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

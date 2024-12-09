@@ -3,10 +3,11 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   01_basics_vv: 01_basics_vv.html
-  02_theory_gg: 02_theory_gg.html
-  03_versus_ggplot2: 03_versus_ggplot2.html
-  04_examples_gridmaps: 04_examples_gridmaps.html
-last_built: 2024-12-07T21:54Z
+  02_basics_scales: 02_basics_scales.html
+  11_examples_gridmaps: 11_examples_gridmaps.html
+  21_theory_gg: 21_theory_gg.html
+  31_versus_ggplot2: 31_versus_ggplot2.html
+last_built: 2024-12-09T15:15Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
