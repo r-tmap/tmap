@@ -349,7 +349,12 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		} else {
 			hdt_grps = replicate(k, list(NULL))
 		}
-		popups_grps = split(popups, ids)
+
+		if (is.null(popups)) {
+			popups_grps =  rep(list(NULL), k)
+		} else {
+			popups_grps = split(popups, ids)
+		}
 
 
 		symbols$iconWidth = rep(NA, k)
@@ -380,9 +385,16 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 		for (i in 1L:k) {
 			lf = lf |>
+				# leaflet::addCircleMarkers(lng = coords_grps[[i]][, 1],
+				# 						  lat = coords_grps[[i]][, 2],
+				# 						  #icon = lapply(symbols, "[", i),
+				# 						  group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]],
+				# 						  options = opt)
 				leaflet::addMarkers(lng = coords_grps[[i]][, 1],
 									lat = coords_grps[[i]][, 2],
-									icon = lapply(symbols, "[", i), group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]], options = opt)
+									icon = lapply(symbols, "[", i),
+									group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]],
+									options = opt)
 		}
 		lf |> assign_lf(facet_row, facet_col, facet_page)
 
