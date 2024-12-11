@@ -54,6 +54,7 @@
 <span>  <span class="va">set_bounds</span>,</span>
 <span>  <span class="va">set_view</span>,</span>
 <span>  <span class="va">set_zoom_limits</span>,</span>
+<span>  <span class="va">use_circle_markers</span>,</span>
 <span>  <span class="va">leaflet.options</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -95,6 +96,10 @@ Only applicable if <code>bbox</code> is not specified</p></dd>
 <dt id="arg-set-zoom-limits">set_zoom_limits<a class="anchor" aria-label="anchor" href="#arg-set-zoom-limits"></a></dt>
 <dd><p>numeric vector of two that set the minimum and maximum
 zoom levels (see tileOptions()).</p></dd>
+
+
+<dt id="arg-use-circle-markers">use_circle_markers<a class="anchor" aria-label="anchor" href="#arg-use-circle-markers"></a></dt>
+<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code>tm_dots</code> and <code>tm_symbols</code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
 
 
 <dt id="arg-leaflet-options">leaflet.options<a class="anchor" aria-label="anchor" href="#arg-leaflet-options"></a></dt>
