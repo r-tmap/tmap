@@ -9,7 +9,7 @@ figures:
   dpi: 144
   dev.args: []
   fig.ext: png
-  out.width: "100%",
+  out.width: "100%"
   fig.width: 7.2916667
   fig.height: ~
   fig.retina: 2
