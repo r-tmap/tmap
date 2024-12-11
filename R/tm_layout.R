@@ -39,6 +39,7 @@ tm_layout = function(
 #'    Only applicable if `bbox` is not specified
 #' @param set_zoom_limits numeric vector of two that set the minimum and maximum
 #'   zoom levels (see [tileOptions()][leaflet::tileOptions()]).
+#' @param use_circle_markers If `TRUE` (default) circle shaped symbols (e.g. `tm_dots` and `tm_symbols`) will be rendered as [addCircleMarkers()][leaflet::addCircleMarkers()] instead of [addMarkers()][leaflet::addMarkers()]. The former is faster, the latter can support any symbol since it is based on icons
 #' @param leaflet.options options passed on to
 #'   [leafletOptions()][leaflet::leafletOptions()]
 #' @param ... to catch deprecated arguments
@@ -50,6 +51,7 @@ tm_view = function(use_WebGL,
 				   set_bounds,
 				   set_view,
 				   set_zoom_limits,
+				   use_circle_markers,
 				   leaflet.options,
 				   ...) {
 

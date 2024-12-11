@@ -87,10 +87,11 @@ step2_data = function(tm) {
 			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 
 
-			popup.data = if (!length(tml$popup.vars)) {
-				NULL
+			if (!length(tml$popup.vars)) {
+				popup.data = NULL
 			} else {
-				copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
+				popup.data = copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
+				if (!is.null(names(tml$popup.vars))) popup.data = data.table::setnames(popup.data, old = unname(tml$popup.vars), new = names(tml$popup.vars))
 			}
 			hover.data = if (tml$hover == "") {
 				NULL

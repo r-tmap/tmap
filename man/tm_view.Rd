@@ -12,6 +12,7 @@ tm_view(
   set_bounds,
   set_view,
   set_zoom_limits,
+  use_circle_markers,
   leaflet.options,
   ...
 )
@@ -36,6 +37,8 @@ Only applicable if \code{bbox} is not specified}
 
 \item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
 zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
+
+\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots} and \code{tm_symbols}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leaflet]{leafletOptions()}}

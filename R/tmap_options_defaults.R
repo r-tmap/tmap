@@ -23,6 +23,7 @@
 					 			qtm.scalebar = TRUE,
 					 			qtm.minimap = FALSE,
 					 			qtm.mouse_coordinates = TRUE,
+					 			use_circle_markers = TRUE,
 					 			leaflet.options = list())),
 
 		crs = NA,
@@ -69,7 +70,7 @@
 						   size.symbols = 1,
 						   size.bubbles = 1.3333,
 						   size.squares = 1.3333,
-						   size.dots = .15,
+						   size.dots = .3,
 						   size.text = 1,
 						   fill_alpha = 1,
 						   col_alpha = 1,
