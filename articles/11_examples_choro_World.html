@@ -78,7 +78,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="about-the-data">About the data<a class="anchor" aria-label="anchor" href="#about-the-data"></a>
 </h2>
@@ -108,13 +108,17 @@
 <li>A different color scheme. Run <code><a href="https://mtennekes.github.io/cols4all/reference/c4a_gui.html" class="external-link">cols4all::c4a_gui()</a></code> to explore them. For this application, we were looking for: a diverging, color-blind friendly palette with sufficient contrast with black (to see the border lines)</li>
 <li>A custom legend title</li>
 <li>The option <code>earth_boundary</code> is enabled, which shows the earth boundaries. Note that this feature is only available for certain map projections (for advanced users: families of pseudo-cylindrical and orthographic projections).</li>
+<li>The legend box is placed on top of the map, on the left bottom.</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>        fill <span class="op">=</span> <span class="st">"gender"</span>,</span>
 <span>        fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-tableau.classic_orange_blue"</span><span class="op">)</span>,</span>
-<span>        fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Gender Inequality Index (GII)"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span></span>
+<span>            <span class="st">"Gender Inequality Index (GII)"</span>, </span>
+<span>            position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_on_top</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"left"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>, </span>
+<span>            bg.color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_options.html">tm_options</a></span><span class="op">(</span>earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="11_examples_choro_World_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 </div>
