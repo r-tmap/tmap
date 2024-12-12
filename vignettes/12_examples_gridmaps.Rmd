@@ -15,8 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width=6, 
-  fig.height=3,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -47,6 +48,7 @@ library(tmap)
 library(geofacet)
 library(dplyr)
 library(sf)
+tmap_options(scale = 0.75)
 ```
 
 
@@ -84,7 +86,9 @@ NLD_dist2 = NLD_dist |>
 
 ```{r, fig.height = 9}
 tm_shape(NLD_dist2) +
-	tm_fill("edu_appl_sci", fill.legend = tm_legend("Percentage")) +
+	tm_fill("dwelling_value", 
+			fill.scale = tm_scale_intervals(breaks = c(50, 250, 350, 500, 750, 1600), as.count = FALSE),
+			fill.legend = tm_legend("", position = tm_pos_on_top("left", "top"), frame = FALSE)) +
 	tm_facets_grid(rows = "row", columns = "col") +
 tm_shape(NLD_muni2) +
 	tm_borders(lwd = 1) +
@@ -93,5 +97,6 @@ tm_shape(NLD_prov2) +
 	tm_borders(lwd = 2) +
 	tm_facets_grid(rows = "row", columns = "col") +
 tm_layout(panel.show = FALSE) +
-	tm_title("Population share (age 15-75) with scientific (incl. applied) degree")
+	tm_title("Average dwelling value (in thousand Euros)")
 ```
+

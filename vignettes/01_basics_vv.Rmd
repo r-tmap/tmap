@@ -15,8 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width=6, 
-  fig.height=3,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -45,9 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
-#devtools::load_all()
-data(World, metro, rivers, land)
-#tmap_design_mode()
+tmap_options(scale = 0.75)
 ```
 
 

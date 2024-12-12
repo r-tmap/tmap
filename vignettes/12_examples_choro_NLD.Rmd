@@ -47,7 +47,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 library(tmap)
 library(dplyr)
 library(sf)
-tmap_options(scale = 0.5)
+tmap_options(scale = 0.75)
 ```
 
 
@@ -61,7 +61,7 @@ In tmap, there are two example data sets of the Netherlands:
 
 The first two datasets contain demographic data of the Netherlands as of 2022. The third dataset only contains metadata (names and codes) and will only be used to plot province borders. 
 
-```{r, out.width="100%", fig.height = 6}
+```{r, out.width="100%", fig.height = 3.5}
 tmap_arrange(
 	qtm(NLD_dist, title = "NLD_dist: 3340 districts"),
 	qtm(NLD_muni, title = "NLD_mini: 345 municipalities"),
