@@ -110,7 +110,7 @@ Improve the titles and remove (duplicate) legend titles
 s + 
   tm_polygons(
     fill = c("well_being", "life_exp"),
-    fill.legend = tm_legend(""))
+    fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
 ```
 

@@ -137,6 +137,8 @@ step1_rearrange = function(tmel) {
 		# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
 		# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
 		ids = get_main_ids(tmo)
+		is_main_defined = !is.na(ids[1])
+		if (!is_main_defined) ids = 1L
 
 		tms = tmo[[ids[1]]]$tms
 
@@ -155,43 +157,6 @@ step1_rearrange = function(tmel) {
 
 	}
 
-	# crs in options refers to which crs is used in the plot, not necessarily in the transformation (step 3)
-	crs_option = o$crs
-
-	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
-	crs_main = if (any_data_layer) get_crs(tms, is_auto = identical(crs_option, "auto")) else NA
-
-	if (identical(crs_option, "auto")) {
-		if (is.na(crs_main)) {
-			crs_option = auto_crs(TRUE)
-		} else {
-			crs_option = crs_main
-		}
-	}
-
-	if (inherits(crs_option, "leaflet_crs")) {
-		crs_leaflet = crs_option
-		crs = leaflet2crs(crs_leaflet)
-	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
-		crs = crs_main
-		crs_leaflet = leafletSimple
-	} else if (is.na(crs_option[1])) {
-		crs = sf::st_crs(4326)
-		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
-	} else {
-		crs = crs_option
-		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
-	}
-
-	if (any_data_layer) {
-		main_class = get_class(tms)
-	} else {
-		main_class = "stars" # basemaps
-	}
-
-	if (dev) timing_add(s2 = "facet meta")
-
-
 	# add basemaps
 	if (o$basemap.show && !.TMAP$proxy) {
 		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
@@ -200,8 +165,8 @@ step1_rearrange = function(tmel) {
 		}
 	}
 
+	# check for disabled aux layers (so far only working for tm_basemap/tm_tiles):
 	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
-
 	if (any(is_aux)) {
 
 		aux = mapply(function(l, i) {
@@ -243,6 +208,54 @@ step1_rearrange = function(tmel) {
 	} else {
 		aux = list()
 	}
+
+
+	# crs in options refers to which crs is used in the plot, not necessarily in the transformation (step 3)
+	crs_option = o$crs
+
+	if (!is_main_defined && (is.na(crs_option[1]) || identical(crs_option, "auto"))) {
+		# if basemaps present: set crs_option to 4326
+		is_basemap = vapply(oth, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1))
+		if (any(is_basemap)) {
+			crs_option = list(dimensions = 3857, 4326)
+		}
+	}
+
+	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
+	crs_main = if (any_data_layer) get_crs(tms, is_auto = identical(crs_option, "auto")) else NA
+
+	if (identical(crs_option, "auto")) {
+		if (is.na(crs_main)) {
+			crs_option = auto_crs(TRUE)
+		} else {
+			crs_option = crs_main
+		}
+	}
+
+	if (inherits(crs_option, "leaflet_crs")) {
+		crs_leaflet = crs_option
+		crs = leaflet2crs(crs_leaflet)
+	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
+		crs = crs_main
+		crs_leaflet = leafletSimple
+	} else if (is.na(crs_option[1])) {
+		crs = sf::st_crs(4326)
+		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
+	} else {
+		crs = crs_option
+		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
+	}
+
+	if (any_data_layer) {
+		main_class = get_class(tms)
+	} else {
+		main_class = "stars" # basemaps
+	}
+
+	if (dev) timing_add(s2 = "facet meta")
+
+	po(crs,crs_option,crs_main, crs_leaflet)
+
 
 
 
@@ -295,7 +308,7 @@ get_main_ids = function(tmo) {
 		identical(tmg$tms$is.main, TRUE)
 	}, FUN.VALUE = logical(1), USE.NAMES = FALSE)
 
-	if (any(is_main)) which(is_main) else 1L
+	if (any(is_main)) which(is_main) else NA_integer_
 }
 
 
