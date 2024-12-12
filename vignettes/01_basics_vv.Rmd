@@ -52,7 +52,7 @@ data(World, metro, rivers, land)
 
 
 
-### About the data
+## About the data
 
 A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
 

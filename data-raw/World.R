@@ -92,7 +92,7 @@ mn = which.min(col[,1])
 x1 = unname(col[mn, 1])
 x2 = unname(col[mn+1, 1])
 
-col = rbind(cbind(X = 180, Y = -86), col[1:mn, ], cbind(X = c(-180, 180), Y = -86))
+col = rbind(cbind(X = 180, Y = -90), col[1:mn, ], cbind(X = c(-180, 180), Y = -90))
 colist[[8]] = col
 
 colist2 = lapply(colist, function(x) {

@@ -1,0 +1,88 @@
+---
+title: "tmap example: choropleth (World)"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, message = FALSE}
+library(tmap)
+library(dplyr)
+library(sf)
+tmap_options(scale = 0.5)
+```
+
+
+## About the data
+
+A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(World)
+```
+
+We will create a choropleth of the Gender Inequality Index (GII) per country.
+
+## The choropleth: step 1
+
+```{r, fig.height = 5}
+tm_shape(World) +
+    tm_polygons(fill = "gender")
+	
+```
+
+## The choropleth: step 2
+
+A few improvements:
+
+* A suitable map projection. This one 'Equal Earth' is equal-area, i.e. the polygon area sizes are proportianal to the real-world country area sizes.
+* A different color scheme. Run `cols4all::c4a_gui()` to explore them. For this application, we were looking for: a diverging, color-blind friendly palette with sufficient contrast with black (to see the border lines)
+* A custom legend title
+* The option `earth_boundary` is enabled, which shows the earth boundaries. Note that this feature is only available for certain map projections (for advanced users: families of pseudo-cylindrical and orthographic projections).
+
+```{r, fig.height = 5}
+tm_shape(World, crs = "+proj=eqearth") +
+    tm_polygons(
+        fill = "gender",
+        fill.scale = tm_scale_intervals(values = "-tableau.classic_orange_blue"),
+        fill.legend = tm_legend("Gender Inequality Index (GII)")) +
+	tm_options(earth_boundary = TRUE, frame = FALSE)
+```

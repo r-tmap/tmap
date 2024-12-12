@@ -1,5 +1,5 @@
 ---
-title: "tmap example: choropleth"
+title: "tmap example: choropleth (Netherlands)"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -15,8 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width=6, 
-  fig.height=3,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -50,7 +51,7 @@ tmap_options(scale = 0.5)
 ```
 
 
-### About the data
+## About the data
 
 In tmap, there are two example data sets of the Netherlands:
 
@@ -60,7 +61,7 @@ In tmap, there are two example data sets of the Netherlands:
 
 The first two datasets contain demographic data of the Netherlands as of 2022. The third dataset only contains metadata (names and codes) and will only be used to plot province borders. 
 
-```{r, out.width="100%"}
+```{r, out.width="100%", fig.height = 6}
 tmap_arrange(
 	qtm(NLD_dist, title = "NLD_dist: 3340 districts"),
 	qtm(NLD_muni, title = "NLD_mini: 345 municipalities"),
@@ -78,22 +79,55 @@ names(NLD_dist)
 
 We will create a chroropleth about the variable `"edu_appl_sci"`, which contains the percentage of 15-75 year old people who have a university degree (Dutch: WO) or applied sciences degree (Dutch: HBO), per district as of 1st October 2022.
 
-## The choropleth
+## Choropleth: step 1
 
-```{r, fig.height = 8, out.width="100%"}
+```{r, fig.height = 8}
+tm_shape(NLD_dist) +
+    tm_polygons(fill = "edu_appl_sci") # data variable -> fill color
+```
+
+## Choropleth: step 2
+
+We remove the district borders, because they are too dense in urban areas. Instead, we add borders of municipalities and provinces op top:
+
+```{r, fig.height = 8}
+tm_shape(NLD_dist) +
+    tm_polygons(
+        fill = "edu_appl_sci",
+        col = NULL) +           # disable border lines
+tm_shape(NLD_muni) +
+	tm_borders(lwd = 1) +       # municipality border line width 1
+tm_shape(NLD_prov) +
+	tm_borders(lwd = 3)         # province border line width 3
+```
+
+## Choropleth: step 3
+
+A few improvements and embellishments:
+
+* A different color scheme. Run `cols4all::c4a_gui()` to explore them. For this application, we were looking for: a diverging, color-blind friendly palette with sufficient contrast with black (to see the border lines)
+* Legend: position top left, title removed (because we will use tm_title instead)
+* Title added with tm_title. Note that `z = 0` makes sure the title is on top
+* Map components added: compass, scalebar, and credits text
+
+```{r, fig.height = 8}
 tm_shape(NLD_dist) +
     tm_polygons(
         fill = "edu_appl_sci",
         fill.scale = tm_scale_continuous(values = "-orange_blue_diverging"),
         fill.legend = tm_legend("", position = tm_pos_in("left", "top")),
-        col = NULL # disable border lines
+        col = NULL
     ) + 
 tm_shape(NLD_muni) +
 	tm_borders(lwd = 1) +
 tm_shape(NLD_prov) +
 	tm_borders(lwd = 3) + 
-tm_title("Proportion of Population Aged 15–75 with a University or Applied Sciences Degree by District (as of October 1, 2022)", width = 15, position = tm_pos_in("left", "top"), z = 0) +
+tm_title("Proportion of Population Aged 15–75 with a University or Applied Sciences Degree by District (as of October 1, 2022)", 
+    width = 15, 
+    position = tm_pos_in("left", "top"), 
+    z = 0) +
 tm_compass(position = tm_pos_in("left", "bottom")) +
 tm_scalebar(position = tm_pos_in("left", "bottom")) +
-tm_credits("© Data: Statistics Netherlands, Software: R-tmap", position = tm_pos_in("left", "bottom"))
+tm_credits("© Data: Statistics Netherlands, Software: R-tmap",
+    position = tm_pos_in("left", "bottom"))
 ```
