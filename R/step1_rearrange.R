@@ -215,7 +215,7 @@ step1_rearrange = function(tmel) {
 
 	if (!is_main_defined && (is.na(crs_option[1]) || identical(crs_option, "auto"))) {
 		# if basemaps present: set crs_option to 4326
-		is_basemap = vapply(oth, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1))
+		is_basemap = vapply(aux, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1))
 		if (any(is_basemap)) {
 			crs_option = list(dimensions = 3857, 4326)
 		}
