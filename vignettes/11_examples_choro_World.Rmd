@@ -81,12 +81,12 @@ A few improvements:
 
 ```{r, fig.height = 5}
 tm_shape(World, crs = "+proj=eqearth") +
-    tm_polygons(
-        fill = "gender",
-        fill.scale = tm_scale_intervals(values = "-tableau.classic_orange_blue"),
-        fill.legend = tm_legend(
-            "Gender Inequality Index (GII)", 
-        	position = tm_pos_on_top(pos.h = "left", pos.v = "bottom"), 
-            bg.color = "white")) +
-	tm_options(earth_boundary = TRUE, frame = FALSE)
+  tm_polygons(
+    fill = "gender",
+    fill.scale = tm_scale_intervals(values = "-tableau.classic_orange_blue"),
+    fill.legend = tm_legend(
+     "Gender Inequality Index (GII)", 
+    position = tm_pos_on_top(pos.h = "left", pos.v = "bottom"), 
+    bg.color = "white")) +
+tm_options(earth_boundary = TRUE, frame = FALSE)
 ```

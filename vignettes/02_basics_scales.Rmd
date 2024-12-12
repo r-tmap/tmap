@@ -15,8 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width=6, 
-  fig.height=3,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -45,9 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
-#devtools::load_all()
-data(World, metro, rivers, land)
-#tmap_design_mode()
+tmap_options(scale = 0.75)
 ```
 
 
@@ -71,7 +70,7 @@ s = tm_shape(World, crs = "+proj=eqearth")
 
 Each visual variable, e.g. `fill` in `tm_polygons` can represent a data variable:
 
-```{r}
+```{r, fig.height = 3.5}
 s + tm_polygons(fill = "HPI")
 ```
 
@@ -80,33 +79,40 @@ A *scale* defines how to map the data values to visual values. Numeric data vari
 ```{r, eval = FALSE}
 s + tm_polygons(
   fill = "HPI",
-  fill.scale = tm_scale_intervals(style = "fisher",      # a method to specify the classes
-                                  n = 7,                 # number of classes
-                                  midpoint = 38,         # data value mapped to the middle palette color
-                                  values = "pu_gn_div"   # color palette; run cols4all::c4a_gui() to explore color palettes
-                                  ))
+  fill.scale = tm_scale_intervals(
+    style = "fisher",      # a method to specify the classes
+    n = 7,                 # number of classes
+    midpoint = 38,         # data value mapped to the middle palette color
+    values = "pu_gn_div"   # color palette; run cols4all::c4a_gui() to explore color palettes
+  ))
 ```
 
 
 An alternative for numeric data variables is the continuous scale:
 
-```{r}
-s + tm_polygons(fill = "HPI",
-				fill.scale = tm_scale_continuous(limits = c(10, 60),
-												 values = "scico.hawaii"))
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons(
+    fill = "HPI",
+    fill.scale = tm_scale_continuous(
+      limits = c(10, 60),
+      values = "scico.hawaii"))
 ```
 
 
 ## Scales: categorical data
 
-
-```{r}
-s + tm_polygons(fill = "economy",
-				fill.scale = tm_scale_categorical())
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons(
+    fill = "economy",
+    fill.scale = tm_scale_categorical())
 ```
 
-```{r}
-s + tm_polygons(fill = "income_grp",
-				fill.scale = tm_scale_ordinal(values = "matplotlib.summer"))
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons(
+    fill = "income_grp",
+    fill.scale = tm_scale_ordinal(values = "matplotlib.summer"))
 ```
 

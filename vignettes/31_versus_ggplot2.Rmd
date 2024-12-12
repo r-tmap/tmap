@@ -91,19 +91,19 @@ We can use `tmap` to match the style of `ggplot2`:
 
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +
-	tm_polygons(fill = "HPI",
-				col = "grey20",
-				lwd = 1,
-				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
-				fill.legend = tm_legend(reverse = TRUE, 
-										frame = FALSE, 
-										item.height = 2.25, 
-										item.width = 1.8, 
-										position = tm_pos_out(pos.v = "center"), 
-										na.show = FALSE, 
-										ticks = list(c(0, 0.1), c(0.9, 1)), 
-										ticks.col = "white", 
-										col = "white")) +
+  tm_polygons(fill = "HPI",
+		      col = "grey20",
+			  lwd = 1,
+			  fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
+			  fill.legend = tm_legend(reverse = TRUE, 
+									  frame = FALSE, 
+									  item.height = 2.25, 
+									  item.width = 1.8, 
+								      position = tm_pos_out(pos.v = "center"), 
+								      na.show = FALSE, 
+									  ticks = list(c(0, 0.1), c(0.9, 1)), 
+									  ticks.col = "white", 
+									  col = "white")) +
 	tm_layout(frame = FALSE, outer.margins = 0)
 ```
 

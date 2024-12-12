@@ -61,7 +61,7 @@ plot_tmap_grammar = function(asp = 5/7, scale = 0.7) {
 		pushViewport(viewport(width = unit(1, "snpc"), height = unit(1/asp, "npc"), gp = gpar(cex = scale)))
 	}
 	
-	grid.rect()
+	#grid.rect()
 	
 	cellplot = function (r, c, e, ...) {
 	    grid::pushViewport(grid::viewport(layout.pos.row = r, layout.pos.col = c, 

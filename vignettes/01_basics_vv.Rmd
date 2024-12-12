@@ -68,11 +68,13 @@ s = tm_shape(World, crs = "+proj=eqearth")
 
 ## Constant values
 
-```{r}
-s + tm_polygons(fill = "#ffce00", # fill color
-				col = "black",    # line color
-				lwd = 0.5,        # line width
-				lty = "dashed")   # line type
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons(
+    fill = "#ffce00", # fill color
+    col = "black",    # line color
+    lwd = 0.5,        # line width
+    lty = "dashed")   # line type
 ```
 
 For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
@@ -80,24 +82,36 @@ For advanced users: the default constant values are specified for combinations o
 ## Visual variables
 
 
-```{r}
+```{r, fig.height = 3.5}
 s + tm_polygons(fill = "press")   # data variable (column in World)
 ```
 
 
-```{r}
+```{r, fig.height = 5}
 s + 
   tm_polygons(fill = "grey90") +   # fill color ()
-  tm_bubbles(size = "pop_est",     # data variable, mapped to symbol size
-  		     fill = "well_being",  # data variable, mapped to symbol fill color
-  		     shape = "income_grp") # data variable, mapped to symbol shape
+  tm_bubbles(
+    size = "pop_est",     # data variable, mapped to symbol size
+    fill = "well_being",  # data variable, mapped to symbol fill color
+    shape = "income_grp") # data variable, mapped to symbol shape
 
 ```
 
 ## Facets
 
 ```{r, fig.height = 8}
-s + tm_polygons(fill = c("well_being", "life_exp"))   # two data variables (columns in World)
+s + 
+  tm_polygons(fill = c("well_being", "life_exp"))
+```
+
+Improve the titles and remove (duplicate) legend titles
+
+```{r, fig.height = 8}
+s + 
+  tm_polygons(
+    fill = c("well_being", "life_exp"),
+    fill.legend = tm_legend(""))
+tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
 ```
 
 (More on facets later)
