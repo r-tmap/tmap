@@ -46,6 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 library(tmap)
 library(dplyr)
 library(sf)
+tmap_options(scale = 0.5)
 ```
 
 
@@ -94,6 +95,5 @@ tm_shape(NLD_prov) +
 tm_title("Proportion of Population Aged 15–75 with a University or Applied Sciences Degree by District (as of October 1, 2022)", width = 15, position = tm_pos_in("left", "top"), z = 0) +
 tm_compass(position = tm_pos_in("left", "bottom")) +
 tm_scalebar(position = tm_pos_in("left", "bottom")) +
-tm_credits("© Data: Statistics Netherlands, Software: R-tmap", position = tm_pos_in("left", "bottom")) +
-	tm_layout(scale = 0.5)
+tm_credits("© Data: Statistics Netherlands, Software: R-tmap", position = tm_pos_in("left", "bottom"))
 ```

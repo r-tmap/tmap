@@ -6,7 +6,7 @@ template:
 
 figures:
   dev: ragg::agg_png
-  dpi: 144
+  dpi: 300
   dev.args: []
   fig.ext: png
   fig.width: 7.2916667
