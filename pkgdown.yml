@@ -4,11 +4,12 @@ pkgdown_sha: ~
 articles:
   01_basics_vv: 01_basics_vv.html
   02_basics_scales: 02_basics_scales.html
-  11_examples_choropleth: 11_examples_choropleth.html
+  11_examples_choro_World: 11_examples_choro_World.html
+  12_examples_choro_NLD: 12_examples_choro_NLD.html
   12_examples_gridmaps: 12_examples_gridmaps.html
   21_theory_gg: 21_theory_gg.html
   31_versus_ggplot2: 31_versus_ggplot2.html
-last_built: 2024-12-12T10:18Z
+last_built: 2024-12-12T11:31Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
