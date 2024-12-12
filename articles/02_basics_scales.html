@@ -94,37 +94,42 @@
 <p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code> can represent a data variable:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-5-1.png"><!-- --></p>
+<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>A <em>scale</em> defines how to map the data values to visual values. Numeric data variables (e.g. <code>"HPI"</code> which stands for Happy Planex Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with <code>tm_scale_intervals</code>, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"fisher"</span>,      <span class="co"># a method to specify the classes</span></span>
-<span>                                  n <span class="op">=</span> <span class="fl">7</span>,                 <span class="co"># number of classes</span></span>
-<span>                                  midpoint <span class="op">=</span> <span class="fl">38</span>,         <span class="co"># data value mapped to the middle palette color</span></span>
-<span>                                  values <span class="op">=</span> <span class="st">"pu_gn_div"</span>   <span class="co"># color palette; run cols4all::c4a_gui() to explore color palettes</span></span>
-<span>                                  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
+<span>    style <span class="op">=</span> <span class="st">"fisher"</span>,      <span class="co"># a method to specify the classes</span></span>
+<span>    n <span class="op">=</span> <span class="fl">7</span>,                 <span class="co"># number of classes</span></span>
+<span>    midpoint <span class="op">=</span> <span class="fl">38</span>,         <span class="co"># data value mapped to the middle palette color</span></span>
+<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>   <span class="co"># color palette; run cols4all::c4a_gui() to explore color palettes</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>An alternative for numeric data variables is the continuous scale:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>                                                 values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
-<span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
-<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-7-1.png"><!-- --></p>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>      limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span><span class="op">)</span>,</span>
+<span>      values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="scales-categorical-data">Scales: categorical data<a class="anchor" aria-label="anchor" href="#scales-categorical-data"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-8-1.png"><!-- --></p>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
-<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-9-1.png"><!-- --></p>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="02_basics_scales_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
