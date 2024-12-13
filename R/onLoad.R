@@ -33,16 +33,13 @@
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 .TMAP = new.env(FALSE, parent = globalenv())
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 .TMAP_LEAFLET = new.env(FALSE, parent = globalenv())
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 .TMAP_GRID = new.env(FALSE, parent = globalenv())

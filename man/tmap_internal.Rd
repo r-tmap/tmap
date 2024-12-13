@@ -11,6 +11,7 @@
 \alias{.TMAP_LEAFLET}
 \alias{.TMAP_GRID}
 \alias{toTitleCase}
+\alias{tmap_internal}
 \alias{tm_element}
 \alias{tm_element_list}
 \alias{tmapChartBinned}
@@ -954,4 +955,5 @@ tmapTransCartogram(shpTM, size, ord__, plot.order, args, scale)
 \description{
 Internal methods for tmap extensions
 }
+\keyword{datasets}
 \keyword{internal}

@@ -1,5 +1,4 @@
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)
