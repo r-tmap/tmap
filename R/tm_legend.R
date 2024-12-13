@@ -5,29 +5,25 @@
 #' @param title Legend title
 #' @param show Show legend?
 #' @param orientation Orientation of the legend: `"portrait"` or `"landscape"`
-#' @param design PARAM_DESCRIPTION
+#' @param design Legend design `"standard"`.
 #' @param reverse Should the legend be reversed?
-#' @param na.show PARAM_DESCRIPTION
+#' @param na.show Show `NA` values in legend?
 #' @param position PARAM_DESCRIPTION
 #' @param width Width of the legend
 #' @param height Height of the legend
-#' @param stack PARAM_DESCRIPTION
-#' @param z PARAM_DESCRIPTION
-#' @param group.frame PARAM_DESCRIPTION
+#' @inheritParams tm_title
 #' @param resize_as_group PARAM_DESCRIPTION
 #' @param title.color Color of the legend title
 #' @param title.size Size of the legend title
 #' @param title.fontface Font face of the legend title
 #' @param title.fontfamily Font family of the legend title
-#' @param title.padding PARAM_DESCRIPTION
+#' @param title.padding Padding of the legend title
+#' @param title.align Title alignment
 #' @param text.color Color of the legend text
 #' @param text.size Size of the legend text
 #' @param text.fontface Font face of the legend text
 #' @param text.fontfamily Font family of the legend text
-#' @param format PARAM_DESCRIPTION
-#' @param frame PARAM_DESCRIPTION
-#' @param frame.lwd PARAM_DESCRIPTION
-#' @param frame.r PARAM_DESCRIPTION
+#' @param format Use the format argument of the `tm_scale_*()` functions instead.
 #' @param bg.color Background color of the legend
 #' @param bg.alpha Background transparency of the legend
 #' @param item.height PARAM_DESCRIPTION
@@ -41,10 +37,9 @@
 #' @param ticks.disable.na PARAM_DESCRIPTION
 #' @param ticks.col PARAM_DESCRIPTION
 #' @param ticks.lwd PARAM_DESCRIPTION
-#' @param title.align PARAM_DESCRIPTION
 #' @param margins PARAM_DESCRIPTION
 #' @param margin.item.text PARAM_DESCRIPTION
-#' @param ... visual values, e.g. col, fill, lwd, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
+#' @param ... visual values, e.g. `col`, `fill`, `lwd`, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return A tm_legend component
 #' @export
@@ -66,6 +61,7 @@ tm_legend = function(title,
 					 title.fontface,
 					 title.fontfamily,
 					 title.padding,
+					 title.align,
 					 text.color,
 					 text.size,
 					 text.fontface,
@@ -87,7 +83,6 @@ tm_legend = function(title,
 					 ticks.disable.na,
 					 ticks.col,
 					 ticks.lwd,
-					 title.align,
 					 margins,
 					 margin.item.text,
 					 ...) {

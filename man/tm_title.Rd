@@ -53,13 +53,13 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{frame.lwd}{frame line width}
 
-\item{frame.r}{frame.r}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
 \item{bg.color}{Background color}
 
 \item{bg.alpha}{Background transparency}
 
-\item{position}{position}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
 \item{width, height}{width and height of the title box.}
 

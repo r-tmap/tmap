@@ -32,13 +32,13 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{stack}{stack}
 
-\item{position}{position}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
 \item{frame}{frame}
 
-\item{frame.lwd}{frame.lwd}
+\item{frame.lwd}{frame line width}
 
-\item{frame.r}{frame.r}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
 \item{group.frame}{group.frame}
 
@@ -47,9 +47,7 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 \item{z}{z}
 }
 \description{
-Map component that adds a scale bar. As of version 4.0, \code{tm_scalebar()} is
-used instead of \code{tm_scale_bar()} (now deprecated), because of the potential
-confusion with the \verb{tm_scale_*()} scaling functions (like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}).
+Map component that adds a logo.
 }
 \examples{
 data(World)

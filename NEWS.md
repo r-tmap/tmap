@@ -9,6 +9,8 @@ of new features. Although we did our best to make changes backwards compatible, 
 
 * New family of functions `tm_chart_*()` to do charting (See `?tm_chart`) (#581)
 
+* Default styles have been updated and palettes now use the cols4all package for enhanced accessibility (#906)
+
 ## New syntax
 
 * tmap now uses [visual variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html)
@@ -21,21 +23,35 @@ of new features. Although we did our best to make changes backwards compatible, 
 
 * In view mode, `hover` is now independent from `id` (#851).
 
+* `tm_credits()` now works in view mode (#806).
+
+* Popup variables have been revamped.
+
 ## Deprecated functions and arguments
 
 We introduced messages to make it easier for you to upgrade your code (#961, #928, #854)
 
-* `tm_scale_bar()` -> `tm_scalebar()`
+Functions
+ * `tm_scale_bar()` -> `tm_scalebar()`
  *  As of version 4.0, `tm_scalebar()` is used instead of `tm_scale_bar()` because of the potential confusion with the `tm_scale_*()` scaling functions (like `tm_scale_continuous()`).
+ * `tm_format()` and friends are now deprecated (#976).
 
-* Arguments
-  * `projection` -> `crs` (in `tm_shape()`, `tm_grid()`)
+Arguments
+ * `projection` -> `crs` (in `tm_shape()`, `tm_grid()`)
+
+## For developers
+
+* The internal structure of a tmap object is not compatible with tmap v3. Therefore, some tests may fail.
+
+* tmap exports many functions to make it easier to create an extension (#866) See`?tmap_internal`.
 
 ## Other fixes and improvements
 
 * tmap now requires R 3.6 and above.
 
+* datasets were reviewed and use a more recent crs. (#967, #665)
 
+* Usage of the cli package for messages.
 
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x

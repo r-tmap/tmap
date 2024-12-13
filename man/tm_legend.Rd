@@ -25,6 +25,7 @@ tm_legend(
   title.fontface,
   title.fontfamily,
   title.padding,
+  title.align,
   text.color,
   text.size,
   text.fontface,
@@ -46,7 +47,6 @@ tm_legend(
   ticks.disable.na,
   ticks.col,
   ticks.lwd,
-  title.align,
   margins,
   margin.item.text,
   ...
@@ -63,11 +63,11 @@ tm_legend_combine(variable)
 
 \item{orientation}{Orientation of the legend: \code{"portrait"} or \code{"landscape"}}
 
-\item{design}{PARAM_DESCRIPTION}
+\item{design}{Legend design \code{"standard"}.}
 
 \item{reverse}{Should the legend be reversed?}
 
-\item{na.show}{PARAM_DESCRIPTION}
+\item{na.show}{Show \code{NA} values in legend?}
 
 \item{position}{PARAM_DESCRIPTION}
 
@@ -75,11 +75,11 @@ tm_legend_combine(variable)
 
 \item{height}{Height of the legend}
 
-\item{stack}{PARAM_DESCRIPTION}
+\item{stack}{stack}
 
-\item{z}{PARAM_DESCRIPTION}
+\item{z}{z}
 
-\item{group.frame}{PARAM_DESCRIPTION}
+\item{group.frame}{group.frame}
 
 \item{resize_as_group}{PARAM_DESCRIPTION}
 
@@ -91,7 +91,9 @@ tm_legend_combine(variable)
 
 \item{title.fontfamily}{Font family of the legend title}
 
-\item{title.padding}{PARAM_DESCRIPTION}
+\item{title.padding}{Padding of the legend title}
+
+\item{title.align}{Title alignment}
 
 \item{text.color}{Color of the legend text}
 
@@ -101,13 +103,13 @@ tm_legend_combine(variable)
 
 \item{text.fontfamily}{Font family of the legend text}
 
-\item{format}{PARAM_DESCRIPTION}
+\item{format}{Use the format argument of the \verb{tm_scale_*()} functions instead.}
 
-\item{frame}{PARAM_DESCRIPTION}
+\item{frame}{frame}
 
-\item{frame.lwd}{PARAM_DESCRIPTION}
+\item{frame.lwd}{frame line width}
 
-\item{frame.r}{PARAM_DESCRIPTION}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
 \item{bg.color}{Background color of the legend}
 
@@ -135,13 +137,11 @@ tm_legend_combine(variable)
 
 \item{ticks.lwd}{PARAM_DESCRIPTION}
 
-\item{title.align}{PARAM_DESCRIPTION}
-
 \item{margins}{PARAM_DESCRIPTION}
 
 \item{margin.item.text}{PARAM_DESCRIPTION}
 
-\item{...}{visual values, e.g. col, fill, lwd, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
+\item{...}{visual values, e.g. \code{col}, \code{fill}, \code{lwd}, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
 
 \item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
 }

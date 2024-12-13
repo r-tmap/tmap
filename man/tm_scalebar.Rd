@@ -29,7 +29,7 @@ tm_scalebar(
 
 \item{width}{width}
 
-\item{text.size}{text.size}
+\item{text.size}{text size}
 
 \item{text.color}{text.color}
 
@@ -37,23 +37,23 @@ tm_scalebar(
 
 \item{color.light}{color.light}
 
-\item{lwd}{lwd}
+\item{lwd}{linewidth}
 
-\item{position}{position}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{bg.color}{bg.color}
+\item{bg.color}{Background color}
 
-\item{bg.alpha}{bg.alpha}
+\item{bg.alpha}{Background transparency}
 
-\item{size}{size}
+\item{size}{Deprecated (use \code{text.size} instead)}
 
 \item{stack}{stack}
 
 \item{frame}{frame}
 
-\item{frame.lwd}{frame.lwd}
+\item{frame.lwd}{frame line width}
 
-\item{frame.r}{frame.r}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
 \item{margins}{margins}
 

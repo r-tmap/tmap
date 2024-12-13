@@ -12,10 +12,10 @@
 #' @param just just
 #' @param frame frame
 #' @param frame.lwd frame line width
-#' @param frame.r frame.r
+#' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
-#' @param position position
+#' @param position  Vector of two values, specifying the x and y coordinates. The first is either `"left"` or `"right"`, the second either `"top"` or `"bottom"`.
 #' @param width,height width and height of the title box.
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
@@ -40,7 +40,6 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 
 #' @export
 #' @rdname tm_title
-#' @name tm_title_in
 tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
@@ -59,25 +58,16 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #'
 #' Map component that adds a text, typically used as credits
 #'
-#' @param text text of the title
-#' @param size font size of the title
+#' @param text text of the  credit title
+#' @param size font size of the credit title
 #' @param color color
 #' @param padding padding
-#' @param fontface font face
-#' @param fontfamily font family
 #' @param stack stack
 #' @param just just
-#' @param frame frame
 #' @param frame.lwd frame.lwd
-#' @param frame.r frame.r
-#' @param bg.color bg.color
-#' @param bg.alpha bg.alpha
-#' @param position position
-#' @param width width
-#' @param height height
+#' @inheritParams tm_title
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
-#' @param z z
 #' @export
 tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -91,7 +81,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, j
 #' Map component that adds a compass
 #'
 #' @param north north
-#' @param type type
+#' @param type Compass type
 #' @param text.size text.size
 #' @param size size
 #' @param show.labels show.labels
@@ -100,16 +90,10 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, j
 #' @param color.dark color.dark
 #' @param color.light color.light
 #' @param lwd lwd
-#' @param position position
-#' @param bg.color bg.color
-#' @param bg.alpha bg.alpha
+#' @inheritParams tm_title
 #' @param stack stack
 #' @param just just
-#' @param frame frame
-#' @param frame.lwd frame.lwd
-#' @param frame.r frame.r
 #' @param margins margins
-#' @param z z
 #' @export
 tm_compass <- function(north,
 					   type,
@@ -142,24 +126,16 @@ tm_compass <- function(north,
 #'
 #' @param breaks breaks
 #' @param width width
-#' @param text.size text.size
+#' @param text.size text size
 #' @param text.color text.color
 #' @param color.dark color.dark
 #' @param color.light color.light
-#' @param lwd lwd
-#' @param position position
-#' @param bg.color bg.color
-#' @param bg.alpha bg.alpha
-#' @param size size
+#' @param lwd linewidth
+#' @inheritParams tm_title
+#' @param size Deprecated (use `text.size` instead)
 #' @param stack stack
-#' @param frame frame
-#' @param frame.lwd frame.lwd
-#' @param frame.r frame.r
 #' @param margins margins
-#' @param z z
 #' @export
-#' @rdname tm_scalebar
-#' @name tm_scalebar
 tm_scalebar = function(breaks,
 						width,
 						text.size,
@@ -195,7 +171,7 @@ tm_scalebar = function(breaks,
 #' @keywords internal
 tm_scale_bar = function(...) {
 	cli::cli_inform(c(
-		"{.fn tm_scale_bar} is deprecated. Please use {.fn tm_scalebar()} instead."
+		"!" = "{.fn tm_scale_bar} is deprecated. Please use {.fn tm_scalebar} instead."
 	))
 	tm_scalebar(...)
 }
@@ -218,16 +194,17 @@ tm_mouse_coordinates <- function(stack,
 
 #' Map component: minimap
 #'
-#' Map component that adds a minimap in view mode
+#' Map component that adds a [minimap][leaflet::addMiniMap()] in view mode.
 #'
-#' @param server name of the provider or an URL (see \code{\link{tm_tiles}}). By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps. Note the latter does not happen when \code{server} is specified.
+#' @param server name of the provider or an URL (see \code{\link{tm_tiles}}).
+#'   By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
+#'   Note the latter does not happen when `server` is specified.
 #' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
-#' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. The first is either "left" or "right", the second either "top" or "bottom".
+#' @param position position of the minimap. Vector of two values, specifying the x and y coordinates. The first is either `"left"` or `"right"`, the second either `"top"` or `"bottom"`.
 #' @param stack stack
 #' @param position position
 #' @param z z
-#' @param ... arguments passed on to \code{\link[leaflet:addMiniMap]{addMiniMap}}.
-#' @seealso \code{\link[leaflet:addMiniMap]{addMiniMap}}
+#' @inheritDotParams leaflet::addMiniMap
 #' @export
 tm_minimap <- function(server,
 					   toggle,
@@ -243,9 +220,7 @@ tm_minimap <- function(server,
 
 #' Map component: logo
 #'
-#' Map component that adds a scale bar. As of version 4.0, `tm_scalebar()` is
-#' used instead of `tm_scale_bar()` (now deprecated), because of the potential
-#' confusion with the `tm_scale_*()` scaling functions (like [tm_scale_continuous()]).
+#' Map component that adds a logo.
 #'
 #' @param file either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other.
 #'   To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
@@ -254,10 +229,7 @@ tm_minimap <- function(server,
 #' @param margins margins
 #' @param between_margin between_margin
 #' @param stack stack
-#' @param position position
-#' @param frame frame
-#' @param frame.lwd frame.lwd
-#' @param frame.r frame.r
+#' @inheritParams tm_title
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
 #' @param z z
