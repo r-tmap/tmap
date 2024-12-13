@@ -1,18 +1,41 @@
 # tmap 4.0 (development version)
 
-* For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`. 
+tmap v4 is a major release and has been rewritten from scratch. It contains a ton 
+of new features. Although we did our best to make changes backwards compatible, some things may not work as expected.
 
-* Similarly, `border.col` is now `col`.
-
-* tmap now requires R 3.6 and above.
-
-* In view mode, `hover` is now independent from `id` (#851).
+## New features
 
 * `tm_vars()` is a new function for multivariate scale (#819)
 
 * New family of functions `tm_chart_*()` to do charting (See `?tm_chart`) (#581)
 
-* New [vignettes](https://r-tmap.github.io/tmap/articles/) available to explain how to upgrade your code to tmap v4
+## New syntax
+
+* tmap now uses [visual variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html)
+  * For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`. 
+  * Similarly, `border.col` is now `col`.
+
+* New [vignettes](https://r-tmap.github.io/tmap/articles/) available to explain how to upgrade your code to tmap v4.
+
+## View mode
+
+* In view mode, `hover` is now independent from `id` (#851).
+
+## Deprecated functions and arguments
+
+We introduced messages to make it easier for you to upgrade your code (#961, #928, #854)
+
+* `tm_scale_bar()` -> `tm_scalebar()`
+ *  As of version 4.0, `tm_scalebar()` is used instead of `tm_scale_bar()` because of the potential confusion with the `tm_scale_*()` scaling functions (like `tm_scale_continuous()`).
+
+* Arguments
+  * `projection` -> `crs` (in `tm_shape()`, `tm_grid()`)
+
+## Other fixes and improvements
+
+* tmap now requires R 3.6 and above.
+
+
 
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x
