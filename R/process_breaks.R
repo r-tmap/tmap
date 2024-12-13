@@ -3,7 +3,17 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 	n <- length(vec)
 
 	if (!is.null(fun)) {
+		if (as.count) {
+			steps <- (vec[-1] - vec[-n])
+			vec <- c(vec, vec - 1L, vec + 1L) # needed for: {1, 2, ... 9}
+			digits <- 0
+		}
 		x <- do.call(fun, list(vec))
+		if (as.count) {
+			x1 <- x[1:(n-1)]
+			x2 <- x[(n+2):(2*n)]
+			x1p1 <- x[(2*n+1):(3*n-1)]
+		}
 	} else if (all(is.infinite(vec))) {
 		x <- as.character(vec)
 	} else {
