@@ -116,57 +116,6 @@ In case small multiples are shown, a list is returned.</p></li>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">map</span> <span class="op">=</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">tmap_leaflet</span><span class="op">(</span><span class="va">map</span>, show <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $dimensions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3857</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_option ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $dimensions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3857</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_main ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coordinate Reference System:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   User input: WGS 84 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   wkt:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GEOGCRS["WGS 84",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     DATUM["World Geodetic System 1984",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             LENGTHUNIT["metre",1]]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     PRIMEM["Greenwich",0,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     CS[ellipsoidal,2],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         AXIS["latitude",north,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ORDER[1],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         AXIS["longitude",east,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ORDER[2],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ID["EPSG",4326]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $crsClass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "L.CRS.EPSG3857"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $code</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $proj4def</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $projectedBounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> named list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "leaflet_crs"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
