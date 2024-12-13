@@ -254,7 +254,7 @@ step1_rearrange = function(tmel) {
 
 	if (dev) timing_add(s2 = "facet meta")
 
-	po(crs,crs_option,crs_main, crs_leaflet)
+	#po(crs,crs_option,crs_main, crs_leaflet)
 
 
 
