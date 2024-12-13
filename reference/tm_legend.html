@@ -67,6 +67,7 @@
 <span>  <span class="va">title.fontface</span>,</span>
 <span>  <span class="va">title.fontfamily</span>,</span>
 <span>  <span class="va">title.padding</span>,</span>
+<span>  <span class="va">title.align</span>,</span>
 <span>  <span class="va">text.color</span>,</span>
 <span>  <span class="va">text.size</span>,</span>
 <span>  <span class="va">text.fontface</span>,</span>
@@ -88,7 +89,6 @@
 <span>  <span class="va">ticks.disable.na</span>,</span>
 <span>  <span class="va">ticks.col</span>,</span>
 <span>  <span class="va">ticks.lwd</span>,</span>
-<span>  <span class="va">title.align</span>,</span>
 <span>  <span class="va">margins</span>,</span>
 <span>  <span class="va">margin.item.text</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -116,7 +116,7 @@
 
 
 <dt id="arg-design">design<a class="anchor" aria-label="anchor" href="#arg-design"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>Legend design <code>"standard"</code>.</p></dd>
 
 
 <dt id="arg-reverse">reverse<a class="anchor" aria-label="anchor" href="#arg-reverse"></a></dt>
@@ -124,7 +124,7 @@
 
 
 <dt id="arg-na-show">na.show<a class="anchor" aria-label="anchor" href="#arg-na-show"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>Show <code>NA</code> values in legend?</p></dd>
 
 
 <dt id="arg-position">position<a class="anchor" aria-label="anchor" href="#arg-position"></a></dt>
@@ -140,15 +140,15 @@
 
 
 <dt id="arg-stack">stack<a class="anchor" aria-label="anchor" href="#arg-stack"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>stack</p></dd>
 
 
 <dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>z</p></dd>
 
 
 <dt id="arg-group-frame">group.frame<a class="anchor" aria-label="anchor" href="#arg-group-frame"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>group.frame</p></dd>
 
 
 <dt id="arg-resize-as-group">resize_as_group<a class="anchor" aria-label="anchor" href="#arg-resize-as-group"></a></dt>
@@ -172,7 +172,11 @@
 
 
 <dt id="arg-title-padding">title.padding<a class="anchor" aria-label="anchor" href="#arg-title-padding"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>Padding of the legend title</p></dd>
+
+
+<dt id="arg-title-align">title.align<a class="anchor" aria-label="anchor" href="#arg-title-align"></a></dt>
+<dd><p>Title alignment</p></dd>
 
 
 <dt id="arg-text-color">text.color<a class="anchor" aria-label="anchor" href="#arg-text-color"></a></dt>
@@ -192,19 +196,19 @@
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>Use the format argument of the <code>tm_scale_*()</code> functions instead.</p></dd>
 
 
 <dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>frame</p></dd>
 
 
 <dt id="arg-frame-lwd">frame.lwd<a class="anchor" aria-label="anchor" href="#arg-frame-lwd"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>frame line width</p></dd>
 
 
 <dt id="arg-frame-r">frame.r<a class="anchor" aria-label="anchor" href="#arg-frame-r"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>Radius of the rounded frame corners. 0 means no rounding.</p></dd>
 
 
 <dt id="arg-bg-color">bg.color<a class="anchor" aria-label="anchor" href="#arg-bg-color"></a></dt>
@@ -259,10 +263,6 @@
 <dd><p>PARAM_DESCRIPTION</p></dd>
 
 
-<dt id="arg-title-align">title.align<a class="anchor" aria-label="anchor" href="#arg-title-align"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
-
-
 <dt id="arg-margins">margins<a class="anchor" aria-label="anchor" href="#arg-margins"></a></dt>
 <dd><p>PARAM_DESCRIPTION</p></dd>
 
@@ -272,7 +272,7 @@
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>visual values, e.g. col, fill, lwd, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)</p></dd>
+<dd><p>visual values, e.g. <code>col</code>, <code>fill</code>, <code>lwd</code>, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)</p></dd>
 
 
 <dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>

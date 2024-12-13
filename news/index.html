@@ -43,14 +43,45 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.0" id="tmap-40-development-version">tmap 4.0 (development version)<a class="anchor" aria-label="anchor" href="#tmap-40-development-version"></a></h2>
-<ul><li><p>For consistency with ggplot2, <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code> now recognizes the <code>fill</code> argument instead of <code>col</code>.</p></li>
-<li><p>Similarly, <code>border.col</code> is now <code>col</code>.</p></li>
-<li><p>tmap now requires R 3.6 and above.</p></li>
-<li><p>In view mode, <code>hover</code> is now independent from <code>id</code> (<a href="https://github.com/r-tmap/tmap/issues/851" class="external-link">#851</a>).</p></li>
-<li><p><code><a href="../reference/tm_vars.html">tm_vars()</a></code> is a new function for multivariate scale (<a href="https://github.com/r-tmap/tmap/issues/819" class="external-link">#819</a>)</p></li>
+<p>tmap v4 is a major release and has been rewritten from scratch. It contains a ton of new features. Although we did our best to make changes backwards compatible, some things may not work as expected.</p>
+<div class="section level3">
+<h3 id="new-features-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-4-0"></a></h3>
+<ul><li><p><code><a href="../reference/tm_vars.html">tm_vars()</a></code> is a new function for multivariate scale (<a href="https://github.com/r-tmap/tmap/issues/819" class="external-link">#819</a>)</p></li>
 <li><p>New family of functions <code>tm_chart_*()</code> to do charting (See <code><a href="../reference/tm_chart.html">?tm_chart</a></code>) (<a href="https://github.com/r-tmap/tmap/issues/581" class="external-link">#581</a>)</p></li>
-<li><p>New <a href="https://r-tmap.github.io/tmap/articles/">vignettes</a> available to explain how to upgrade your code to tmap v4</p></li>
+<li><p>Default styles have been updated and palettes now use the cols4all package for enhanced accessibility (<a href="https://github.com/r-tmap/tmap/issues/906" class="external-link">#906</a>)</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="new-syntax-4-0">New syntax<a class="anchor" aria-label="anchor" href="#new-syntax-4-0"></a></h3>
+<ul><li>tmap now uses <a href="https://r-tmap.github.io/tmap/articles/01_basics_vv.html">visual variables</a>
+<ul><li>For consistency with ggplot2, <code><a href="../reference/tm_polygons.html">tm_polygons()</a></code> now recognizes the <code>fill</code> argument instead of <code>col</code>.</li>
+<li>Similarly, <code>border.col</code> is now <code>col</code>.</li>
+</ul></li>
+<li>New <a href="https://r-tmap.github.io/tmap/articles/">vignettes</a> available to explain how to upgrade your code to tmap v4.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="view-mode-4-0">View mode<a class="anchor" aria-label="anchor" href="#view-mode-4-0"></a></h3>
+<ul><li><p>In view mode, <code>hover</code> is now independent from <code>id</code> (<a href="https://github.com/r-tmap/tmap/issues/851" class="external-link">#851</a>).</p></li>
+<li><p><code><a href="../reference/tm_credits.html">tm_credits()</a></code> now works in view mode (<a href="https://github.com/r-tmap/tmap/issues/806" class="external-link">#806</a>).</p></li>
+<li><p>Popup variables have been revamped.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="deprecated-functions-and-arguments-4-0">Deprecated functions and arguments<a class="anchor" aria-label="anchor" href="#deprecated-functions-and-arguments-4-0"></a></h3>
+<p>We introduced messages to make it easier for you to upgrade your code (<a href="https://github.com/r-tmap/tmap/issues/961" class="external-link">#961</a>, <a href="https://github.com/r-tmap/tmap/issues/928" class="external-link">#928</a>, <a href="https://github.com/r-tmap/tmap/issues/854" class="external-link">#854</a>)</p>
+<p>Functions * <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> -&gt; <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code> * As of version 4.0, <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code> is used instead of <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> because of the potential confusion with the <code>tm_scale_*()</code> scaling functions (like <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code>). * <code><a href="../reference/tmap-deprecated.html">tm_format()</a></code> and friends are now deprecated (<a href="https://github.com/r-tmap/tmap/issues/976" class="external-link">#976</a>).</p>
+<p>Arguments * <code>projection</code> -&gt; <code>crs</code> (in <code><a href="../reference/tm_shape.html">tm_shape()</a></code>, <code><a href="../reference/tm_grid.html">tm_grid()</a></code>)</p>
+</div>
+<div class="section level3">
+<h3 id="for-developers-4-0">For developers<a class="anchor" aria-label="anchor" href="#for-developers-4-0"></a></h3>
+<ul><li><p>The internal structure of a tmap object is not compatible with tmap v3. Therefore, some tests may fail.</p></li>
+<li><p>tmap exports many functions to make it easier to create an extension (<a href="https://github.com/r-tmap/tmap/issues/866" class="external-link">#866</a>) See<code><a href="../reference/tmap_internal.html">?tmap_internal</a></code>.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-fixes-and-improvements-4-0">Other fixes and improvements<a class="anchor" aria-label="anchor" href="#other-fixes-and-improvements-4-0"></a></h3>
+<ul><li><p>tmap now requires R 3.6 and above.</p></li>
+<li><p>datasets were reviewed and use a more recent crs. (<a href="https://github.com/r-tmap/tmap/issues/967" class="external-link">#967</a>, <a href="https://github.com/r-tmap/tmap/issues/665" class="external-link">#665</a>)</p></li>
+<li><p>Usage of the cli package for messages.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.3-4" id="tmap-33-4">tmap 3.3-4<a class="anchor" aria-label="anchor" href="#tmap-33-4"></a></h2><p class="text-muted">CRAN release: 2023-09-12</p>
 <ul><li>(!) last version of tmap 3.x. Next CRAN version will be tmap 4.x</li>
