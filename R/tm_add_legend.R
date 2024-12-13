@@ -51,7 +51,6 @@ tm_add_legend = function(...,
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 toTitleCase = function(x) {
 	paste0(toupper(substr(x,1,1)), tolower(substr(x,2, nchar(x))))

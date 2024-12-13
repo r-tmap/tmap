@@ -1,5 +1,4 @@
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapUsrCls = function(x) {
 	structure(x, class = "tmapUsrCls")
@@ -8,7 +7,6 @@ tmapUsrCls = function(x) {
 
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 format_aes_results = function(values, ord = NULL, legend, chart) {
 	legnr = vector(mode = "integer", length = length(values))
@@ -51,7 +49,6 @@ legend_save = function(legend) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 chart_save = function(legend) {
 	if (!exists("charts", envir = .TMAP)) charts_init()
@@ -62,7 +59,6 @@ chart_save = function(legend) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 data_type = function(x) {
 	if (all(is.na(x))) {
@@ -91,7 +87,6 @@ data_type_grp = function(x) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 data_class = function(x, check_for_color_class = FALSE) {
 	# if (all(is.na(x))) {
@@ -130,7 +125,6 @@ data_class = function(x, check_for_color_class = FALSE) {
 
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapScale = function(aes, value, scale, legend, chart, free) {
 	if (is.null(legend)) legend = tm_legend_hide()
@@ -138,7 +132,6 @@ tmapScale = function(aes, value, scale, legend, chart, free) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE, ...) {
 	args = list(...)

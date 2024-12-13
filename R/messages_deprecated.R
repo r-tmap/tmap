@@ -24,7 +24,7 @@ v3_tmap_format = function(format) {
 	}
 
 	cli::cli_inform(c(
-		"{.field [deprecated]} {.code tmap_format(\"{format}\")} is deprecated as of tmap 4.0. {ct}"
+		"{.field [deprecated]} {.code tmap_format({.str {format}})} is deprecated as of tmap 4.0. {ct}"
 	),
 	.frequency_id = id,
 	.frequency = "always"
