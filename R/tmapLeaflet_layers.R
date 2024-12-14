@@ -329,7 +329,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 										 fillColor = gp2$fillColor,
 										 fillOpacity = gp2$fillOpacity,
 										 radius = gp2$width * multiplier,
-										 #options = opt,
+										 options = opt,
 										 group = group, label = hdt, popup = popups) |>
 			assign_lf(facet_row, facet_col, facet_page)
 

@@ -45,9 +45,12 @@ tm_shape = function(shp,
 	args_called = names(rlang::call_match()[-1])
 	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
 
-	if ("projection" %in% names(args)) {
+	if ("projection" %in% args_called) {
 		v3_instead_message(arg_old = "projection", arg_new = "crs", fun = "tm_shape")
 		crs = args$projection
+	}
+	if (any(c("crs", "projection") %in% args_called) && is.na(is.main)) {
+		is.main = TRUE
 	}
 
 	bbox_list = c(list(x = bbox), args[intersect(args_called, c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])

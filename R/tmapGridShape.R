@@ -15,14 +15,14 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 	bg = if (is.na(o$frame) || is.na(o$bg.color)) {
 		if (o$earth_boundary) {
-			eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
+			eotw = end_of_the_world(o$crs_step4, earth_datum = o$earth_datum)
 			sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world")
 		} else {
 			NULL
 		}
 	} else {
 		if (o$earth_boundary) {
-			eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
+			eotw = end_of_the_world(o$crs_step4, earth_datum = o$earth_datum)
 			grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=0, lineend="square"), r = o$frame.r, name = "inner_rect"),
 						sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world"))
 		} else {
@@ -57,7 +57,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	boundary = if (o$earth_boundary) {
 		fbbx = bb_asp(bbx, g$fasp)
 
-		eotw = end_of_the_world(o$crs, earth_datum = o$earth_datum)
+		eotw = end_of_the_world(o$crs_step4, earth_datum = o$earth_datum)
 
 		sf::st_as_grob(eotw, gp = grid::gpar(fill = NA, col = o$earth_boundary.color, lwd = o$earth_boundary.lwd), name = "outer_world", vp = grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)]))
 	} else NULL

@@ -167,4 +167,8 @@ tm_style = function(style, ...) {
 	do.call(tm_options, args)
 }
 
-
+#' @rdname tm_layout
+#' @export
+tm_crs = function(crs) {
+	tm_options(crs = crs)
+}

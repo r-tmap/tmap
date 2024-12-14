@@ -1,0 +1,153 @@
+---
+title: "tmap basics: visual variables"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+## About the data
+
+A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(World)
+```
+
+
+```{r, fig.height=15}
+tmap_arrange(
+	tm_shape(World, crs = 4326) + tm_polygons("red"),
+	tm_shape(World, crs = "+proj=robin") + tm_polygons("red"),
+	tm_shape(World, crs = "+proj=eqearth") + tm_polygons("red"),
+	tm_shape(World, crs = "+proj=eck4") + tm_polygons("red"),
+	ncol = 1
+)
+```
+
+## CRS
+
+The abbreviation CRS stands for **Coordinate Reference System**. It defines how real locations on earth are projected on a two-dimensional surface (the plotting device or paper).
+
+Latitude and longitudes define the positions on the earth modeled as a ellipsoid (almost a sphere). Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.
+
+```{r, fig.width=6,fig.height=6}
+tm_shape(World, 
+		 crs = "+proj=ortho +lat_0=20 +lon_0=0", 
+		 bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs = 4326)) +
+	tm_polygons() +
+	tm_style("natural") + 
+	tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
+	tm_xlab("Longitudes", size = 1.5) +
+	tm_ylab("Latitudes", size = 1.5)
+```
+
+In `tmap` and most other spatial data packages in R (`sf`, `stars`, `terra`) this is named `crs` (so small case).
+
+## Unprojected coordinates: latitude longitude
+
+A CRS that takes the latitude/longitude coordinates as they are, without projection, is called **unprojected**. 
+
+There are a few ellipsoid models of the earth, but the most popular one is WGS84, on which many navigation systems, including GPS, is based.
+
+These latitude/longitude coordinates can be accessed via the EPSG number (which is an identifier for a standard CRS) 4326. The formal definition of this CRS can be obtained via `sf::st_crs(4326)`.
+
+The CRS of the dataset `World` is also defined as 4326.
+
+```{r, fig.height = 5}
+tm_shape(World) +
+tm_polygons("gold") +
+	tm_grid(n.x = 16, n.y = 8) +
+	tm_title("Latitude/longitude (4326) coordinates")
+```
+
+This map may look usable, we do not recommend it for thematic maps, because the further away areas are from the equator, the larger they are plotted:
+
+```{r, fig.height = 5}
+# calculate inflation number
+World$area_lat_lon = World |> sf::st_set_crs(NA) |> sf::st_area()
+World$inflation = ((World$area_lat_lon / (360*180)) * 510072000) / units::drop_units(World$area)
+
+tm_shape(World) +
+tm_polygons(
+  fill = "inflation",
+  fill.scale = tm_scale_intervals(breaks = c(0.4, 0.75, 0.95, 1.25, 3, 4), style = "kmeans", values = "-brewer.rd_yl_bu", midpoint = 1)) +
+tm_grid(n.x = 16, n.y = 8) +
+tm_title("Plotted areas / real areas")
+```
+
+
+## Projections
+
+For world maps, we recommend to use projections, because area sizes are proportional to real area sizes.
+
+There are a couple of called 'pseudo cylindrical' projections, e.g. "Robinson":
+
+```{r, fig.height = 5}
+tm_shape(World) +
+	tm_polygons() +
+tm_layout(earth_boundary = TRUE, frame = FALSE) +
+tm_crs("+proj=robin")
+```
+
+## Transformations
+
+
+```{r, fig.height = 5}
+tm_shape(World, crs = "+proj=robin") +
+	tm_cartogram(size = "pop_est")
+```
+
+
+```{r, fig.height = 5}
+tm_shape(World, crs = "+proj=robin") +
+	tm_cartogram(size = "pop_est") +
+	tm_basemap(NULL) +
+	tm_crs("+proj=ortho +lat_0=0 +lon_0=0")
+```
+
