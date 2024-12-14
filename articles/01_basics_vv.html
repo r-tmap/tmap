@@ -98,35 +98,7 @@
 <span>    fill <span class="op">=</span> <span class="st">"#ffce00"</span>, <span class="co"># fill color</span></span>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,    <span class="co"># line color</span></span>
 <span>    lwd <span class="op">=</span> <span class="fl">0.5</span>,        <span class="co"># line width</span></span>
-<span>    lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span>   <span class="co"># line type</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
-<span><span class="co">#&gt; $crsClass</span></span>
-<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $code</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $proj4def</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $projectedBounds</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $options</span></span>
-<span><span class="co">#&gt; named list()</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span>   <span class="co"># line type</span></span></code></pre></div>
 <p><img src="01_basics_vv_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>For advanced users: the default constant values are specified for combinations of visual variables and layer type. See <code>tmap_options("value.const")</code></p>
 </div>
@@ -134,35 +106,7 @@
 <h2 id="visual-variables">Visual variables<a class="anchor" aria-label="anchor" href="#visual-variables"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"press"</span><span class="op">)</span>   <span class="co"># data variable (column in World)</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
-<span><span class="co">#&gt; $crsClass</span></span>
-<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $code</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $proj4def</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $projectedBounds</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $options</span></span>
-<span><span class="co">#&gt; named list()</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"press"</span><span class="op">)</span>   <span class="co"># data variable (column in World)</span></span></code></pre></div>
 <p><img src="01_basics_vv_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
@@ -170,35 +114,7 @@
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
 <span>    size <span class="op">=</span> <span class="st">"pop_est"</span>,     <span class="co"># data variable, mapped to symbol size</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"well_being"</span>,  <span class="co"># data variable, mapped to symbol fill color</span></span>
-<span>    shape <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span> <span class="co"># data variable, mapped to symbol shape</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
-<span><span class="co">#&gt; $crsClass</span></span>
-<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $code</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $proj4def</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $projectedBounds</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $options</span></span>
-<span><span class="co">#&gt; named list()</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    shape <span class="op">=</span> <span class="st">"income_grp"</span><span class="op">)</span> <span class="co"># data variable, mapped to symbol shape</span></span></code></pre></div>
 <p><img src="01_basics_vv_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -206,35 +122,7 @@
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
-<span><span class="co">#&gt; $crsClass</span></span>
-<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $code</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $proj4def</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $projectedBounds</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $options</span></span>
-<span><span class="co">#&gt; named list()</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="01_basics_vv_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 <p>Improve the titles and remove (duplicate) legend titles</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -242,35 +130,7 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Well Being"</span>, <span class="st">"Life Expectancy"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
-<span><span class="co">#&gt; $crsClass</span></span>
-<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $code</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $proj4def</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $projectedBounds</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $options</span></span>
-<span><span class="co">#&gt; named list()</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "+proj=eqearth"</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Well Being"</span>, <span class="st">"Life Expectancy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="01_basics_vv_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 <p>(More on facets later)</p>
 </div>

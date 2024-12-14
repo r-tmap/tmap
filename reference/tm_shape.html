@@ -106,66 +106,10 @@ bounding box of the map? By default, <code>TRUE</code> if it is the first <code>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=ortho +lat_0=-10 +lon_0=-30"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=ortho +lat_0=-10 +lon_0=-30"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=ortho +lat_0=-10 +lon_0=-30"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $crsClass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "L.CRS.Simple"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $code</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $proj4def</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $projectedBounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> named list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "leaflet_crs"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=ortho +lat_0=-10 +lon_0=-30"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=ortho +lat_0=-10 +lon_0=-30"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tm_shape-1.png" alt="" width="2188" height="3539"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span>, filter <span class="op">=</span> <span class="va">World</span><span class="op">$</span><span class="va">continent</span><span class="op">==</span><span class="st">"Africa"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=robin"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=robin"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $crsClass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "L.CRS.Simple"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $code</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $proj4def</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $projectedBounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> named list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "leaflet_crs"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=robin"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=robin"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tm_shape-2.png" alt="" width="2188" height="3539"></span>
 </code></pre></div>
     </div>

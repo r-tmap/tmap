@@ -10,7 +10,7 @@ articles:
   12_examples_gridmaps: 12_examples_gridmaps.html
   21_theory_gg: 21_theory_gg.html
   31_versus_ggplot2: 31_versus_ggplot2.html
-last_built: 2024-12-14T10:15Z
+last_built: 2024-12-14T10:33Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
