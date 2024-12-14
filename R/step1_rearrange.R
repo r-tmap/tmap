@@ -259,7 +259,7 @@ step1_rearrange = function(tmel) {
 
 	if (dev) timing_add(s2 = "facet meta")
 
-	po(crs_step4, crs_step3, crs_leaflet)
+	#po(crs_step4, crs_step3, crs_leaflet)
 
 
 
@@ -283,7 +283,7 @@ step1_rearrange = function(tmel) {
 	o$crs_step3 = crs_step3 # step 3, transformation
 
 
-	po(crs_step3, crs_step4)
+	#po(crs_step3, crs_step4)
 
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately

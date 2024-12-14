@@ -218,8 +218,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	cmp = tm$cmp
 	prx = tm$prx
 
-	if (length(tmx) && ("bbx" %in% names(tmx[[o$main]]))) {
-		bbm = tmx[[o$main]]$bbx
+	if (length(tmx) && ("bbx" %in% names(tmx[[o$main[1]]]))) {
+		bbm = tmx[[o$main[1]]]$bbx
 	} else {
 		bbm = NULL
 	}
@@ -361,8 +361,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		grps = c("by1", "by2", "by3")[o$free.coords]
 
 		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
-		if (o$main %in% grp_ids) {
-			tmain = tmx[[which(grp_ids == o$main)]][[1]]
+		if (o$main[1] %in% grp_ids) {
+			tmain = tmx[[which(grp_ids == o$main[1])]][[1]]
 			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 		} else {
 			if (is.null(bbm)) {
