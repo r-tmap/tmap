@@ -39,7 +39,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/01_basics_vv.html">tmap basics: visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/01_advanced_crs.html">tmap basics: visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/01_basics_vv.html">tmap basics: visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/02_basics_scales.html">tmap basics: scales</a></li>
     <li><a class="dropdown-item" href="../articles/11_examples_choro_World.html">tmap example: choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/12_examples_choro_NLD.html">tmap example: choropleth (Netherlands)</a></li>
@@ -125,7 +126,195 @@
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="st">"row"</span>, columns <span class="op">=</span> <span class="st">"col"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Average dwelling value (in thousand Euros)"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Average dwelling value (in thousand Euros)"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span><span class="co">#&gt;   User input: Amersfoort / RD New </span></span>
+<span><span class="co">#&gt;   wkt:</span></span>
+<span><span class="co">#&gt; PROJCRS["Amersfoort / RD New",</span></span>
+<span><span class="co">#&gt;     BASEGEOGCRS["Amersfoort",</span></span>
+<span><span class="co">#&gt;         DATUM["Amersfoort",</span></span>
+<span><span class="co">#&gt;             ELLIPSOID["Bessel 1841",6377397.155,299.1528128,</span></span>
+<span><span class="co">#&gt;                 LENGTHUNIT["metre",1]]],</span></span>
+<span><span class="co">#&gt;         PRIMEM["Greenwich",0,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
+<span><span class="co">#&gt;         ID["EPSG",4289]],</span></span>
+<span><span class="co">#&gt;     CONVERSION["RD New",</span></span>
+<span><span class="co">#&gt;         METHOD["Oblique Stereographic",</span></span>
+<span><span class="co">#&gt;             ID["EPSG",9809]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Latitude of natural origin",52.1561605555556,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8801]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Longitude of natural origin",5.38763888888889,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8802]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Scale factor at natural origin",0.9999079,</span></span>
+<span><span class="co">#&gt;             SCALEUNIT["unity",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8805]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False easting",155000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8806]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False northing",463000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8807]]],</span></span>
+<span><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span><span class="co">#&gt;         AXIS["easting (X)",east,</span></span>
+<span><span class="co">#&gt;             ORDER[1],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;         AXIS["northing (Y)",north,</span></span>
+<span><span class="co">#&gt;             ORDER[2],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;     USAGE[</span></span>
+<span><span class="co">#&gt;         SCOPE["Engineering survey, topographic mapping."],</span></span>
+<span><span class="co">#&gt;         AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],</span></span>
+<span><span class="co">#&gt;         BBOX[50.75,3.2,53.7,7.22]],</span></span>
+<span><span class="co">#&gt;     ID["EPSG",28992]]</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span><span class="co">#&gt;   User input: Amersfoort / RD New </span></span>
+<span><span class="co">#&gt;   wkt:</span></span>
+<span><span class="co">#&gt; PROJCRS["Amersfoort / RD New",</span></span>
+<span><span class="co">#&gt;     BASEGEOGCRS["Amersfoort",</span></span>
+<span><span class="co">#&gt;         DATUM["Amersfoort",</span></span>
+<span><span class="co">#&gt;             ELLIPSOID["Bessel 1841",6377397.155,299.1528128,</span></span>
+<span><span class="co">#&gt;                 LENGTHUNIT["metre",1]]],</span></span>
+<span><span class="co">#&gt;         PRIMEM["Greenwich",0,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
+<span><span class="co">#&gt;         ID["EPSG",4289]],</span></span>
+<span><span class="co">#&gt;     CONVERSION["RD New",</span></span>
+<span><span class="co">#&gt;         METHOD["Oblique Stereographic",</span></span>
+<span><span class="co">#&gt;             ID["EPSG",9809]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Latitude of natural origin",52.1561605555556,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8801]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Longitude of natural origin",5.38763888888889,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8802]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Scale factor at natural origin",0.9999079,</span></span>
+<span><span class="co">#&gt;             SCALEUNIT["unity",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8805]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False easting",155000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8806]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False northing",463000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8807]]],</span></span>
+<span><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span><span class="co">#&gt;         AXIS["easting (X)",east,</span></span>
+<span><span class="co">#&gt;             ORDER[1],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;         AXIS["northing (Y)",north,</span></span>
+<span><span class="co">#&gt;             ORDER[2],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;     USAGE[</span></span>
+<span><span class="co">#&gt;         SCOPE["Engineering survey, topographic mapping."],</span></span>
+<span><span class="co">#&gt;         AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],</span></span>
+<span><span class="co">#&gt;         BBOX[50.75,3.2,53.7,7.22]],</span></span>
+<span><span class="co">#&gt;     ID["EPSG",28992]]</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; $crsClass</span></span>
+<span><span class="co">#&gt; [1] "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $code</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $proj4def</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $projectedBounds</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $options</span></span>
+<span><span class="co">#&gt; named list()</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span><span class="co">#&gt;   User input: Amersfoort / RD New </span></span>
+<span><span class="co">#&gt;   wkt:</span></span>
+<span><span class="co">#&gt; PROJCRS["Amersfoort / RD New",</span></span>
+<span><span class="co">#&gt;     BASEGEOGCRS["Amersfoort",</span></span>
+<span><span class="co">#&gt;         DATUM["Amersfoort",</span></span>
+<span><span class="co">#&gt;             ELLIPSOID["Bessel 1841",6377397.155,299.1528128,</span></span>
+<span><span class="co">#&gt;                 LENGTHUNIT["metre",1]]],</span></span>
+<span><span class="co">#&gt;         PRIMEM["Greenwich",0,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
+<span><span class="co">#&gt;         ID["EPSG",4289]],</span></span>
+<span><span class="co">#&gt;     CONVERSION["RD New",</span></span>
+<span><span class="co">#&gt;         METHOD["Oblique Stereographic",</span></span>
+<span><span class="co">#&gt;             ID["EPSG",9809]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Latitude of natural origin",52.1561605555556,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8801]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Longitude of natural origin",5.38763888888889,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8802]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Scale factor at natural origin",0.9999079,</span></span>
+<span><span class="co">#&gt;             SCALEUNIT["unity",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8805]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False easting",155000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8806]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False northing",463000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8807]]],</span></span>
+<span><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span><span class="co">#&gt;         AXIS["easting (X)",east,</span></span>
+<span><span class="co">#&gt;             ORDER[1],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;         AXIS["northing (Y)",north,</span></span>
+<span><span class="co">#&gt;             ORDER[2],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;     USAGE[</span></span>
+<span><span class="co">#&gt;         SCOPE["Engineering survey, topographic mapping."],</span></span>
+<span><span class="co">#&gt;         AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],</span></span>
+<span><span class="co">#&gt;         BBOX[50.75,3.2,53.7,7.22]],</span></span>
+<span><span class="co">#&gt;     ID["EPSG",28992]]</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span><span class="co">#&gt;   User input: Amersfoort / RD New </span></span>
+<span><span class="co">#&gt;   wkt:</span></span>
+<span><span class="co">#&gt; PROJCRS["Amersfoort / RD New",</span></span>
+<span><span class="co">#&gt;     BASEGEOGCRS["Amersfoort",</span></span>
+<span><span class="co">#&gt;         DATUM["Amersfoort",</span></span>
+<span><span class="co">#&gt;             ELLIPSOID["Bessel 1841",6377397.155,299.1528128,</span></span>
+<span><span class="co">#&gt;                 LENGTHUNIT["metre",1]]],</span></span>
+<span><span class="co">#&gt;         PRIMEM["Greenwich",0,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
+<span><span class="co">#&gt;         ID["EPSG",4289]],</span></span>
+<span><span class="co">#&gt;     CONVERSION["RD New",</span></span>
+<span><span class="co">#&gt;         METHOD["Oblique Stereographic",</span></span>
+<span><span class="co">#&gt;             ID["EPSG",9809]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Latitude of natural origin",52.1561605555556,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8801]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Longitude of natural origin",5.38763888888889,</span></span>
+<span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8802]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["Scale factor at natural origin",0.9999079,</span></span>
+<span><span class="co">#&gt;             SCALEUNIT["unity",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8805]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False easting",155000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8806]],</span></span>
+<span><span class="co">#&gt;         PARAMETER["False northing",463000,</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1],</span></span>
+<span><span class="co">#&gt;             ID["EPSG",8807]]],</span></span>
+<span><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span><span class="co">#&gt;         AXIS["easting (X)",east,</span></span>
+<span><span class="co">#&gt;             ORDER[1],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;         AXIS["northing (Y)",north,</span></span>
+<span><span class="co">#&gt;             ORDER[2],</span></span>
+<span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
+<span><span class="co">#&gt;     USAGE[</span></span>
+<span><span class="co">#&gt;         SCOPE["Engineering survey, topographic mapping."],</span></span>
+<span><span class="co">#&gt;         AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],</span></span>
+<span><span class="co">#&gt;         BBOX[50.75,3.2,53.7,7.22]],</span></span>
+<span><span class="co">#&gt;     ID["EPSG",28992]]</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="12_examples_gridmaps_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
