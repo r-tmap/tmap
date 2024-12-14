@@ -1,5 +1,5 @@
 ---
-title: "tmap basics: visual variables"
+title: "tmap advanced: map projections (CRS)"
 output: 
   bookdown::html_vignette2:
 pkgdown:

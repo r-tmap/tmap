@@ -218,8 +218,19 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	cmp = tm$cmp
 	prx = tm$prx
 
-	if (length(tmx) && ("bbx" %in% names(tmx[[o$main[1]]]))) {
-		bbm = tmx[[o$main[1]]]$bbx
+	# shortcut if no data layers are used, but only a tm_shape
+	if (length(tmx)) {
+		bbx_def = vapply(o$main, function(mid) {
+			"bbx" %in% names(tmx[[mid]])
+		}, FUN.VALUE = logical(1))
+		if (any(bbx_def)) {
+			bbxs = lapply(o$main[which(bbx_def)], FUN = function(mid) {
+				tmx[[mid]]$bbx
+			})
+			bbm = stm_merge_bbox(bbxs)
+		} else {
+			bbm = NULL
+		}
 	} else {
 		bbm = NULL
 	}
@@ -337,12 +348,13 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		dt[which(sel),]
 	}
 
-	# function to get bbox per facet
+	# function to get bbox per facet, also take into account bbm (for groups without data-layers)
 	get_bbox = function(by1, by2, by3) {
 		bbxs = lapply(tmain, function(tmi) {
 			shpTM = get_shpTM(tmi$shpDT, by1, by2, by3)
 			mdt = get_dt(tmi$mapping_dt, by1, by2, by3)
 			bbxs2 = lapply(shpTM, stm_bbox, tmapID = mdt$tmapID__, crs = crs)
+			if (!is.null(bbm)) bbxs2 = c(list(bbm), bbxs2)
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})
@@ -361,8 +373,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		grps = c("by1", "by2", "by3")[o$free.coords]
 
 		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
-		if (o$main[1] %in% grp_ids) {
-			tmain = tmx[[which(grp_ids == o$main[1])]][[1]]
+		mains_in_grp = intersect(o$main[!bbx_def], grp_ids)
+		if (length(mains_in_grp)) {
+			lookup = match(mains_in_grp, grp_ids)
+			tmain = unlist(unlist(tmx[lookup], recursive = FALSE, use.names = FALSE), recursive = FALSE, use.names = FALSE)
 			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 		} else {
 			if (is.null(bbm)) {
