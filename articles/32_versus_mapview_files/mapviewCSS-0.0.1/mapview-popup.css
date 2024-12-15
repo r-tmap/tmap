@@ -1,0 +1,102 @@
+/* table class css */
+table.mapview-popup {
+    overflow: scroll;
+    width: auto;
+    height: auto;
+    border-collapse: collapse;
+}
+
+/*
+table.mapview-popup tr:first-child td {
+    background: #A8E6A8;
+}
+*/
+
+table.mapview-popup tr:nth-child(even) {
+    background: #D1E0FF;
+}
+
+table.mapview-popup tr:nth-child(odd) {
+    background: #ebf1ff;
+}
+
+table.mapview-popup, th, td {
+	border-bottom: 1px solid #ffffff;
+}
+
+/*
+table.tab tr:hover {
+    background: #00ffff;
+}
+*/
+
+
+/* general leaflet popup css '*/
+.leaflet-popup-content {
+	margin: 1px 1px 1px 1px;
+	line-height: 1.5;
+	overflow-y: auto;
+	overflow-x: scoll;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: -20px;
+	padding: 3px 0 0 0;
+	text-align: center;
+	width: 18px;
+	height: 14px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	font-weight: bold;
+	color: #c3c3c3;
+	text-decoration: none;
+	background: transparent;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+	color: #999;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+	padding: 1px;
+	-webkit-border-radius: 0;
+	        border-radius: 0;
+	background: #ffffff; /*#4c4c4c;*/
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+}
+
+
+div::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+div::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+div::-webkit-scrollbar-thumb {
+  background: #666666;
+  border: 0 none #ffffff;
+  border-radius: 0;
+}
+div::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+div::-webkit-scrollbar-thumb:active {
+  background: #333333;
+}
+div::-webkit-scrollbar-track {
+  background: #e1e1e1;
+  border: 0 none #ffffff;
+  border-radius: 50px;
+}
+div::-webkit-scrollbar-track:hover {
+  background: #e1e1e1;
+}
+div::-webkit-scrollbar-track:active {
+  background: #e1e1e1;
+}
+div::-webkit-scrollbar-corner {
+  background: transparent;
+}
