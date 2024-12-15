@@ -51,30 +51,16 @@ tmap_options(scale = 0.75)
 
 
 
-## About the data
+## Latitude longitude coordinates
 
-A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+A spatial data object contained in tmap is called `World`. It is an `sf` data frame with a row for each country. The geometry column contains multipolygons:
+
 
 ```{r}
-names(World)
+World$geometry
 ```
 
-
-```{r, fig.height=15}
-tmap_arrange(
-	tm_shape(World, crs = 4326) + tm_polygons("red"),
-	tm_shape(World, crs = "+proj=robin") + tm_polygons("red"),
-	tm_shape(World, crs = "+proj=eqearth") + tm_polygons("red"),
-	tm_shape(World, crs = "+proj=eck4") + tm_polygons("red"),
-	ncol = 1
-)
-```
-
-## CRS
-
-The abbreviation CRS stands for **Coordinate Reference System**. It defines how real locations on earth are projected on a two-dimensional surface (the plotting device or paper).
-
-Latitude and longitudes define the positions on the earth modeled as a ellipsoid (almost a sphere). Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.
+The used coordinates are latitudes and longitudes. Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.
 
 ```{r, fig.width=6,fig.height=6}
 tm_shape(World, 
@@ -83,71 +69,98 @@ tm_shape(World,
 	tm_polygons() +
 	tm_style("natural") + 
 	tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
-	tm_xlab("Longitudes", size = 1.5) +
-	tm_ylab("Latitudes", size = 1.5)
+	tm_xlab("Longitudes", size = 1.3) +
+	tm_ylab("Latitudes", size = 1.3)
 ```
 
-In `tmap` and most other spatial data packages in R (`sf`, `stars`, `terra`) this is named `crs` (so small case).
 
-## Unprojected coordinates: latitude longitude
+The latitude and longitude coordinates are specified using the WGS84 geodetic datum, an ellipsoid model of the earth. There are other standards, but WGS84 is by far the most popular and also used by GPS.
 
-A CRS that takes the latitude/longitude coordinates as they are, without projection, is called **unprojected**. 
+Besides using latitude longitude coordinates as refences for real locations on earth, they can obviously also be used to draw maps:
 
-There are a few ellipsoid models of the earth, but the most popular one is WGS84, on which many navigation systems, including GPS, is based.
-
-These latitude/longitude coordinates can be accessed via the EPSG number (which is an identifier for a standard CRS) 4326. The formal definition of this CRS can be obtained via `sf::st_crs(4326)`.
-
-The CRS of the dataset `World` is also defined as 4326.
-
-```{r, fig.height = 5}
+```{r, fig.height = 4}
 tm_shape(World) +
 tm_polygons("gold") +
 	tm_grid(n.x = 16, n.y = 8) +
 	tm_title("Latitude/longitude (4326) coordinates")
 ```
 
-This map may look usable, we do not recommend it for thematic maps, because the further away areas are from the equator, the larger they are plotted:
 
-```{r, fig.height = 5}
-# calculate inflation number
-World$area_lat_lon = World |> sf::st_set_crs(NA) |> sf::st_area()
-World$inflation = ((World$area_lat_lon / (360*180)) * 510072000) / units::drop_units(World$area)
 
-tm_shape(World) +
-tm_polygons(
-  fill = "inflation",
-  fill.scale = tm_scale_intervals(breaks = c(0.4, 0.75, 0.95, 1.25, 3, 4), style = "kmeans", values = "-brewer.rd_yl_bu", midpoint = 1)) +
-tm_grid(n.x = 16, n.y = 8) +
-tm_title("Plotted areas / real areas")
+However, this is not a good map because areas near the poles are too large (and therefore overemphasized).
+
+```{r, fig.height = 4}
+# split multi-polygon countries (otherwise Alaska is still too large)
+World_to_polygons = sf::st_cast(World, "POLYGON")
+World_to_polygons$area = sf::st_area(World_to_polygons)
+
+tm_shape(World_to_polygons) +
+tm_cartogram_ncont(size = "area", options = opt_tm_cartogram_ncont(expansion = 0.4)) +
+	tm_title("Polygons shrinked to real area sizes")
 ```
 
 
-## Projections
+Therefore, mathematicians thought about other ways how to 'flatten down the earth'. Bring in CRS... 
 
-For world maps, we recommend to use projections, because area sizes are proportional to real area sizes.
 
-There are a couple of called 'pseudo cylindrical' projections, e.g. "Robinson":
 
-```{r, fig.height = 5}
-tm_shape(World) +
-	tm_polygons() +
-tm_layout(earth_boundary = TRUE, frame = FALSE) +
-tm_crs("+proj=robin")
+## CRS (mnap projection)
+
+The abbreviation CRS stands for **Coordinate Reference System**. It defines how real locations on earth are projected on a two-dimensional surface (the plotting device or paper).
+
+Latitudes longitudes can also be seen as a CRS, but *unprojected*.
+
+In `tmap` and most other spatial data packages in R (`sf`, `stars`, `terra`) the CRS is named in many functions and function arguments `crs` (so small case).
+
+The WGS84 latitude longitude coordinate system can be obtained with EPSG (a library of standards CRSs) number 4326. The formal definition of this CRS can be obtained via `sf::st_crs(4326)`.
+
+For world maps there are several map projections that are useful: plotted areas are (almost) proportional to the real areas, while the polygon shapes are not distorted too much. These projections, belong to the family of "pseudo-cylindrical" projections (see https://r-tmap.github.io/tmap-book/geodata.html#crs
+). Some of these have been widely used in cartography for decades, e.g. in The Times Atlas of The World.
+
+
+
+```{r, fig.height=11}
+world_projs = 
+  c("wintri", 
+     "robin", 
+    paste0("eck", 1:6), 
+    "moll", 
+    paste0("wag", 1:7), "eqearth")
+
+tms = lapply(world_projs, function(p) {
+	tm_shape(World, crs = paste0("+proj=", p)) + tm_polygons() + tm_style("natural") + tm_layout(panel.labels = p)
+})
+do.call(tmap_arrange, c(tms, list(ncol= 3)))
 ```
 
-## Transformations
+The panel names are abbreviations for: Winkel Tripel, Robinson, Eckert I to VI, Mollweide, Wagner I to VII and Equal Earth.
+The can be used as follows:
+
+```{r fig.height=3}
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_crs("+proj=eck4") +
+tm_title("Happy Planet Index") +
+tm_layout(earth_boundary = TRUE, frame = FALSE)
+```
 
 
-```{r, fig.height = 5}
+
+## Geometric transformations: use `tm_shape`
+
+The `crs` can be defined in `tm_shape`. This is useful for thematic maps where the geometry is changed. For instance cartograms:
+
+```{r, fig.height = 3}
 tm_shape(World, crs = "+proj=robin") +
 	tm_cartogram(size = "pop_est")
 ```
 
+## Otherwise: use `tm_crs`
 
-```{r, fig.height = 5}
-tm_shape(World, crs = "+proj=robin") +
-	tm_cartogram(size = "pop_est") +
-	tm_basemap(NULL) +
-	tm_crs("+proj=ortho +lat_0=0 +lon_0=0")
+In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function `tm_crs`:
+
+```{r, fig.height = 3.5}
+tm_shape(World) +
+	tm_polygons(fill = "life_exp") +
+	tm_crs(crs = "+proj=robin")
 ```
-

@@ -122,7 +122,7 @@ qtm = function(shp = NULL,
 
 
 	if (!missing(shp)) {
-		nms_shp = intersect(names(args), names(formals(tm_shape)))
+		nms_shp = intersect(args_called, names(formals(tm_shape)))
 		g = do.call(tm_shape, args[nms_shp])
 
 		is_rst = inherits(shp, c("stars", "SpatRaster"))

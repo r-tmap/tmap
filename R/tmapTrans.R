@@ -348,8 +348,12 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	s = shpTM$shp
 
-	if (sf::st_is_longlat(s)) {
-		stop("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
+	# bypass cartogram error; use warning instead
+	isll = sf::st_is_longlat(s)
+	if (isll) {
+		llcrs = sf::st_crs(s)
+		warning("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
+		s = sf::st_set_crs(s, NA)
 	}
 
 	message("Cartogram in progress...")
@@ -376,6 +380,9 @@ tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	ord2 = ord__[match(shpTM$tmapID, shp$tmapID__)]
 
 	o = order(ord2, decreasing = FALSE)
+
+	# set lat/long crs again
+	if (isll) shp2 = sf::st_set_crs(shp2, llcrs)
 
 	list(shp = shp2[o], tmapID = shp$tmapID__[o])
 }
