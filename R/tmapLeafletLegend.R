@@ -34,7 +34,7 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20
 				  size = TRUE,
 				  shape = TRUE)
 
-	lst = mapply(function(lsti, isnum) {
+	lst = mapply(function(lsti, nm, isnum) {
 		if (!is.character(lsti)) return(lsti)
 
 		if (nchar(lsti[1]) > 50) {
@@ -44,7 +44,19 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20
 				i
 			})
 			if (isnum) x = lapply(x, as.numeric)
-			if (pick_middle) {
+			if (nm %in% c("fillColor", "color")) {
+				# create ramp of 10
+				not1 = which(vapply(x, length, FUN.VALUE = integer(1)) != 1L)
+				if (length(not1) != length(x)) {
+					# add NA
+					xNA = x[[length(x)]]
+				} else {
+					xNA = NULL
+				}
+				x[not1[-1]] = lapply(x[not1[-1]], tail, -1)
+				x = na.omit(unlist(x[not1]))
+				x = c(x[seq(1, length(x), length.out = length(not1) * 2 + 1)], xNA)
+			} else if (pick_middle) {
 				x = sapply(x, function(i) {
 					if (all(is.na(i))) NA else {
 						sq = c(5,6,4,7,3,8,2,9,1,10) # priority for middle values
@@ -57,7 +69,7 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20
 		} else {
 			return(lsti)
 		}
-	}, lst, lst_isnum[names(lst)], SIMPLIFY = FALSE)
+	}, lst, names(lst), lst_isnum[names(lst)], SIMPLIFY = FALSE)
 
 	pch2shp = c("rect", "circle", "triangle", "plus", "cross", "diamond", "triangle",
 				"cross", "star", "diamond", "circle", "polygon", "plus", "cross",
@@ -91,7 +103,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 
 	lab = cmp$labels
-	val = cmp$dvalues
+	val = c(cmp$dvalues)
 	title = if (nonempty_text(cmp$title)) expr_to_char(cmp$title) else NULL
 
 	if (!is.null(title) && !is.null(cmp$title.color)) {
@@ -116,6 +128,9 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		#message("Text based legends not supported in view mode")
 		lf
 	} else if (cmp$type == "gradient") {
+		nbins = length(val)
+		val = c(val, cmp$limits)
+
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
 
@@ -124,6 +139,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			pal = head(cmp$gp2[[vary]], -1)
 			colNA = tail(cmp$gp2[[vary]], 1)
 			textNA = lab[length(lab)]
+			val = c(val, NA)
 		} else {
 			pal = cmp$gp2[[vary]]
 			colNA = NA
@@ -150,13 +166,14 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   width = {if (orientation == "vertical") 20 else 200},
 										   pal=pal,
 										   values=val,
-										   numberFormat = function(x) {
-										   	prettyNum(trns(x), format = "f", big.mark = ",", digits =
-										   			  	3, scientific = FALSE)
-										   },
-										   #na.label = textNA,
+										   # numberFormat = function(x) {
+										   # 	prettyNum(trns(x), format = "f", big.mark = ",", digits =
+										   # 			  	3, scientific = FALSE)
+										   # },
+										   bins = nbins,
+										   naLabel = textNA,
 										   title=title,
-										   fillOpacity=cmp$gp3$alpha,
+										   fillOpacity=cmp$gp2$fillOpacity,
 										   layerId = layerId,
 										   className = leg_className)
 

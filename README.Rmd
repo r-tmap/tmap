@@ -8,6 +8,9 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>",
   fig.path = "man/figures/README-"
 )
@@ -85,7 +88,7 @@ library(tmap)
 Plot a World map of the happy planet index (HPI) per country.
 The object `World` is an example spatial data (`sf`) object that is contained in **tmap**:
 
-```{r fig.height=3, fig.width=8}
+```{r fig.height=3.5}
 tm_shape(World) +
 	tm_polygons(fill = "HPI")
 ```
@@ -93,7 +96,7 @@ tm_shape(World) +
 This map can be enhanced in several ways. 
 For instance:
 
-```{r}
+```{r fig.height=4.5}
 tm_shape(World, crs = "+proj=robin") +
 	tm_polygons(fill = "HPI",
 				fill.scale = tm_scale_continuous(values = "matplotlib.rd_yl_bu"),

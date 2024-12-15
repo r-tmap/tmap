@@ -83,7 +83,8 @@ s + tm_polygons(
     style = "fisher",      # a method to specify the classes
     n = 7,                 # number of classes
     midpoint = 38,         # data value mapped to the middle palette color
-    values = "pu_gn_div"   # color palette; run cols4all::c4a_gui() to explore color palettes
+    values = "pu_gn_div"   # color palette; 
+                           # run cols4all::c4a_gui() to explore color palettes
   ))
 ```
 
