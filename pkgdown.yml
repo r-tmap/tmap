@@ -10,7 +10,7 @@ articles:
   21_theory_gg: 21_theory_gg.html
   31_versus_ggplot2: 31_versus_ggplot2.html
   41_advanced_crs: 41_advanced_crs.html
-last_built: 2024-12-14T20:55Z
+last_built: 2024-12-15T13:30Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
