@@ -11,7 +11,7 @@ articles:
   31_versus_ggplot2: 31_versus_ggplot2.html
   32_versus_mapview: 32_versus_mapview.html
   41_advanced_crs: 41_advanced_crs.html
-last_built: 2024-12-16T11:28Z
+last_built: 2024-12-16T15:07Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
