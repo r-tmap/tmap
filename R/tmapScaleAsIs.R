@@ -45,18 +45,3 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 		list(vals = values, ids = 1L, legend = legend, chart = chart, bypass_ord = bypass_ord)
 	}
 }
-
-most_common_num = function(x) {
-	mean(x, na.rm = TRUE)
-}
-
-most_common_cat = function(x) {
-	cls = class(x)[1]
-	tab = table(x)
-	nm = names(tab)[which.max(tab)]
-	tryCatch({
-		methods::as(nm, cls)
-	}, error = function(e) {
-		nm
-	})
-}

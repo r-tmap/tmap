@@ -51,22 +51,10 @@ tmap_options(scale = 1)
 
 ## Mapview
 
-Mapview is an excellent R package for interactive maps. When to use which package? This is what ChatGPT answered:
+Mapview is an excellent R package for interactive maps. Although the packages have a lot in common, the focus is different:
 
-| Use Case                                  | Recommended Package |
-|-------------------------------------------|----------------------|
-| High-quality thematic maps for publication | `tmap`              |
-| Quick exploratory visualization of spatial data | `mapview`          |
-| Need both static and interactive maps      | `tmap`              |
-| Debugging or inspecting spatial datasets   | `mapview`           |
-| Comparing multiple variables or time steps | `tmap` (facets)     |
-| Large datasets for interactive exploration | `mapview`           |
-
-Pretty accurate I would say. In addition:
-* tmap has a more sophisticated/complex syntax that is based on the [grammar of graphics](21_theory_gg) and is therefore popular for education purposes
-* mapview is a front runner in terms of interactive features and is probably a bit faster.
-
-Worth noting is that the development teams of tmap and mapview collaborate a lot, which also holds for R-spatial developers in general.
+* tmap focusses on thematic mapping with a syntax that is based on the [grammar of graphics](21_theory_gg) and is therefore popular for education purposes;
+* mapview focusses on fast exploration of spatial data and has more interactive features.
 
 ## Modes / platforms
 
@@ -76,8 +64,7 @@ Worth noting is that the development teams of tmap and mapview collaborate a lot
 tmap "view" (with `tm_view(use_WebGL = FALSE)`) is similar to mapview "leaflet"
 tmap "view" (with `tm_view(use_WebGL = TRUE)`) is similar to mapview "leafgl"
 
-tmap does not offer a mode using Mapbox yet
-
+tmap does not offer a mode using Mapbox yet.
 
 ## Default maps
 
@@ -100,7 +87,7 @@ qtm(World) # qmt stands for 'quick thematic map'
 
 
 ```{r fig.height = 3.5}
-mapview(World, z = "HPI")
+mapview(World, zcol = "HPI")
 ```
 
 ```{r fig.height = 3.5}
