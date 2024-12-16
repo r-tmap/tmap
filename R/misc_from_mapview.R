@@ -21,7 +21,7 @@ get_ide = function () {
 }
 
 ## need to assign global variable .vsc
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(".vsc"))
+utils::globalVariables(c(".vsc"))
 
 is_vscode = function() {
 	exists(".vsc") && exists("attach", envir = .vsc)

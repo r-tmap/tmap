@@ -8,7 +8,6 @@
 #' @param design Legend design `"standard"`.
 #' @param reverse Should the legend be reversed?
 #' @param na.show Show `NA` values in legend?
-#' @param position PARAM_DESCRIPTION
 #' @param width Width of the legend
 #' @param height Height of the legend
 #' @inheritParams tm_title
@@ -34,9 +33,9 @@
 #' @param item.na.space PARAM_DESCRIPTION
 #' @param item.shape PARAM_DESCRIPTION
 #' @param ticks List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.
-#' @param ticks.disable.na PARAM_DESCRIPTION
-#' @param ticks.col PARAM_DESCRIPTION
-#' @param ticks.lwd PARAM_DESCRIPTION
+#' @param ticks.disable.na Remove ticks for NA values
+#' @param ticks.col Legend ticks color
+#' @param ticks.lwd Legend ticks line widths
 #' @param margins PARAM_DESCRIPTION
 #' @param margin.item.text PARAM_DESCRIPTION
 #' @param ... visual values, e.g. `col`, `fill`, `lwd`, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
