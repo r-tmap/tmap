@@ -325,9 +325,6 @@
 <span>  <span class="va">panel.label.height</span>,</span>
 <span>  <span class="va">panel.label.rot</span>,</span>
 <span>  <span class="va">bbox</span>,</span>
-<span>  <span class="va">set_bounds</span>,</span>
-<span>  <span class="va">set_view</span>,</span>
-<span>  <span class="va">set_zoom_limits</span>,</span>
 <span>  <span class="va">qtm.scalebar</span>,</span>
 <span>  <span class="va">qtm.minimap</span>,</span>
 <span>  <span class="va">qtm.mouse_coordinates</span>,</span>
@@ -346,6 +343,17 @@
 <span>  <span class="va">tiles.alpha</span>,</span>
 <span>  <span class="va">tiles.zoom</span>,</span>
 <span>  <span class="va">attr.color</span>,</span>
+<span>  <span class="va">use_gradient</span>,</span>
+<span>  <span class="va">use_browser</span>,</span>
+<span>  <span class="va">use_WebGL</span>,</span>
+<span>  <span class="va">control.position</span>,</span>
+<span>  <span class="va">control.bases</span>,</span>
+<span>  <span class="va">control.overlays</span>,</span>
+<span>  <span class="va">set_bounds</span>,</span>
+<span>  <span class="va">set_view</span>,</span>
+<span>  <span class="va">set_zoom_limits</span>,</span>
+<span>  <span class="va">use_circle_markers</span>,</span>
+<span>  <span class="va">leaflet.options</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  main.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  main.title.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -1457,18 +1465,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The bounding box of the .</p></dd>
 
 
-<dt id="arg-set-bounds">set_bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
-<dd><p>The set_bounds of the .</p></dd>
-
-
-<dt id="arg-set-view">set_view<a class="anchor" aria-label="anchor" href="#arg-set-view"></a></dt>
-<dd><p>The set_view of the .</p></dd>
-
-
-<dt id="arg-set-zoom-limits">set_zoom_limits<a class="anchor" aria-label="anchor" href="#arg-set-zoom-limits"></a></dt>
-<dd><p>The set_zoom_limits of the .</p></dd>
-
-
 <dt id="arg-qtm-scalebar">qtm.scalebar<a class="anchor" aria-label="anchor" href="#arg-qtm-scalebar"></a></dt>
 <dd><p>The scalebar of the qtm.</p></dd>
 
@@ -1539,6 +1535,51 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-attr-color">attr.color<a class="anchor" aria-label="anchor" href="#arg-attr-color"></a></dt>
 <dd><p>The color of the attr.</p></dd>
+
+
+<dt id="arg-use-gradient">use_gradient<a class="anchor" aria-label="anchor" href="#arg-use-gradient"></a></dt>
+<dd><p>Use gradient fill using <a href="https://rdrr.io/r/grid/patterns.html" class="external-link">linearGradient()</a></p></dd>
+
+
+<dt id="arg-use-browser">use_browser<a class="anchor" aria-label="anchor" href="#arg-use-browser"></a></dt>
+<dd><p>If <code>TRUE</code> it opens an external browser, and <code>FALSE</code> (default) it opens the internal IDEs (e.g. RStudio) browser.</p></dd>
+
+
+<dt id="arg-use-webgl">use_WebGL<a class="anchor" aria-label="anchor" href="#arg-use-webgl"></a></dt>
+<dd><p>use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default <code>TRUE</code> if no other visual variables are used.</p></dd>
+
+
+<dt id="arg-control-position">control.position<a class="anchor" aria-label="anchor" href="#arg-control-position"></a></dt>
+<dd><p>position of the control attribute</p></dd>
+
+
+<dt id="arg-control-bases">control.bases<a class="anchor" aria-label="anchor" href="#arg-control-bases"></a></dt>
+<dd><p>base layers</p></dd>
+
+
+<dt id="arg-control-overlays">control.overlays<a class="anchor" aria-label="anchor" href="#arg-control-overlays"></a></dt>
+<dd><p>overlay layers</p></dd>
+
+
+<dt id="arg-set-bounds">set_bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
+<dd><p>The set_bounds of the .</p></dd>
+
+
+<dt id="arg-set-view">set_view<a class="anchor" aria-label="anchor" href="#arg-set-view"></a></dt>
+<dd><p>The set_view of the .</p></dd>
+
+
+<dt id="arg-set-zoom-limits">set_zoom_limits<a class="anchor" aria-label="anchor" href="#arg-set-zoom-limits"></a></dt>
+<dd><p>The set_zoom_limits of the .</p></dd>
+
+
+<dt id="arg-use-circle-markers">use_circle_markers<a class="anchor" aria-label="anchor" href="#arg-use-circle-markers"></a></dt>
+<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code>tm_dots</code> and <code>tm_symbols</code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
+
+
+<dt id="arg-leaflet-options">leaflet.options<a class="anchor" aria-label="anchor" href="#arg-leaflet-options"></a></dt>
+<dd><p>options passed on to
+<a href="https://rstudio.github.io/leaflet/reference/leaflet.html" class="external-link">leafletOptions()</a></p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
