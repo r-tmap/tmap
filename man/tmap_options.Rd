@@ -284,9 +284,6 @@ tmap_options(
   panel.label.height,
   panel.label.rot,
   bbox,
-  set_bounds,
-  set_view,
-  set_zoom_limits,
   qtm.scalebar,
   qtm.minimap,
   qtm.mouse_coordinates,
@@ -305,6 +302,17 @@ tmap_options(
   tiles.alpha,
   tiles.zoom,
   attr.color,
+  use_gradient,
+  use_browser,
+  use_WebGL,
+  control.position,
+  control.bases,
+  control.overlays,
+  set_bounds,
+  set_view,
+  set_zoom_limits,
+  use_circle_markers,
+  leaflet.options,
   title = NULL,
   main.title = NULL,
   main.title.size = NULL,
@@ -868,12 +876,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{bbox}{The bounding box of the .}
 
-\item{set_bounds}{The set_bounds of the .}
-
-\item{set_view}{The set_view of the .}
-
-\item{set_zoom_limits}{The set_zoom_limits of the .}
-
 \item{qtm.scalebar}{The scalebar of the qtm.}
 
 \item{qtm.minimap}{The minimap of the qtm.}
@@ -909,6 +911,29 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{tiles.zoom}{The zoom of the tiles.}
 
 \item{attr.color}{The color of the attr.}
+
+\item{use_gradient}{Use gradient fill using \link[grid:patterns]{linearGradient()}}
+
+\item{use_browser}{If \code{TRUE} it opens an external browser, and \code{FALSE} (default) it opens the internal IDEs (e.g. RStudio) browser.}
+
+\item{use_WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
+
+\item{control.position}{position of the control attribute}
+
+\item{control.bases}{base layers}
+
+\item{control.overlays}{overlay layers}
+
+\item{set_bounds}{The set_bounds of the .}
+
+\item{set_view}{The set_view of the .}
+
+\item{set_zoom_limits}{The set_zoom_limits of the .}
+
+\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots} and \code{tm_symbols}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
+
+\item{leaflet.options}{options passed on to
+\link[leaflet:leaflet]{leafletOptions()}}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 

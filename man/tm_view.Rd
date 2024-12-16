@@ -5,6 +5,7 @@
 \title{View mode options}
 \usage{
 tm_view(
+  use_browser,
   use_WebGL,
   control.position,
   control.bases,
@@ -18,6 +19,8 @@ tm_view(
 )
 }
 \arguments{
+\item{use_browser}{If \code{TRUE} it opens an external browser, and \code{FALSE} (default) it opens the internal IDEs (e.g. RStudio) browser.}
+
 \item{use_WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
 
 \item{control.position}{position of the control attribute}

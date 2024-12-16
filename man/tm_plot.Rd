@@ -4,10 +4,10 @@
 \alias{tm_plot}
 \title{Plot mode options}
 \usage{
-tm_plot(use.gradient)
+tm_plot(use_gradient)
 }
 \arguments{
-\item{use.gradient}{Use gradient fill using \link[grid:patterns]{linearGradient()}}
+\item{use_gradient}{Use gradient fill using \link[grid:patterns]{linearGradient()}}
 }
 \description{
 Plot mode options. This option is specific to the plot mode.

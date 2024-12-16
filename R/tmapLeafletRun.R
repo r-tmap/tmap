@@ -66,7 +66,59 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 
 	if (length(lfs2) == 1) lfs2 = lfs2[[1]]
 	if (show && !knit && !.TMAP$in.shiny) {
-		print(lfs2)
+
+		# borrowed from mapview
+		viewer = getOption("viewer")
+		ide = get_ide()
+		if (!is.null(viewer)) {
+			viewerFunc = function(url) {
+				paneHeight = lfs2$sizingPolicy$viewer$paneHeight
+				if (identical(paneHeight, "maximize")) {
+					paneHeight = -1
+				}
+				if (ide == "vscode") {
+					# VSCode's viewer can't ignore cross-origin requests. Need to serve the
+					# map so assests can be read, e.g. .fgb files.
+					server <- servr::httd(
+						dir = get_url_dir(url),
+						verbose = FALSE,
+						browser = FALSE
+					)
+					url <- server$url
+
+				}
+				viewer(url, height = paneHeight)
+			}
+		} else {
+			viewerFunc = function(url) {
+				dir = get_url_dir(url)
+				switch(ide,
+					   "rstudio" = if (o$use_browser) {
+					   	fl = file.path(dir, "index.html")
+					   	utils::browseURL(fl)
+					   } else {
+					   	servr::httd(
+					   		dir = dir,
+					   		verbose = FALSE
+					   	)
+					   },
+					   "vscode" = servr::httd(
+					   	dir = dir,
+					   	verbose = FALSE
+					   ),
+					   # default
+					   servr::httd(
+					   	dir = dir,
+					   	verbose = FALSE
+					   )
+				)
+			}
+		}
+
+		htmltools::html_print(
+			htmltools::as.tags(lfs2, standalone = TRUE)
+			, viewer = if (interactive()) viewerFunc
+		)
 	}
 	lfs2
 }

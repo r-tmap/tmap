@@ -41,6 +41,7 @@ Imports:
     sf (>= 0.9-3),
     stars (>= 0.4-2),
     stats,
+    servr,
     s2,
     tmaptools (>= 3.1),
     units (>= 0.6-1)
@@ -64,7 +65,8 @@ Suggests:
     tidyr,
     widgetframe,
     geofacet,
-    mapview
+    mapview,
+    rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
 Config/testthat/edition: 3

@@ -440,7 +440,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 		nvv = o$continuous.nclass_per_legend_break
 
-		if (o$use.gradient) {
+		if (o$use_gradient) {
 			id1 = which(!is.na(fill_list[[1]]))[1]
 			id2 = tail(which(!is.na(fill_list[[nlev2]])), 1)
 
