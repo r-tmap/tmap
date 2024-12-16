@@ -131,11 +131,11 @@ tm_legend_combine(variable)
 
 \item{ticks}{List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.}
 
-\item{ticks.disable.na}{PARAM_DESCRIPTION}
+\item{ticks.disable.na}{Remove ticks for NA values}
 
-\item{ticks.col}{PARAM_DESCRIPTION}
+\item{ticks.col}{Legend ticks color}
 
-\item{ticks.lwd}{PARAM_DESCRIPTION}
+\item{ticks.lwd}{Legend ticks line widths}
 
 \item{margins}{PARAM_DESCRIPTION}
 
