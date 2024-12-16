@@ -33,6 +33,7 @@ process_color <- function(col, alpha=NA, sepia_intensity=0, saturation=1, color_
 
 	new_cols <- do.call("rgb", c(unname(as.data.frame(res)), list(maxColorValue=255)))
 
+	rlang::check_installed("colorspace")
 	# color blind sim
 	sim_colors = switch(color_vision_deficiency_sim,
 		deutan = colorspace::deutan,

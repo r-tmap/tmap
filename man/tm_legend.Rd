@@ -69,7 +69,7 @@ tm_legend_combine(variable)
 
 \item{na.show}{Show \code{NA} values in legend?}
 
-\item{position}{PARAM_DESCRIPTION}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
 \item{width}{Width of the legend}
 

@@ -8,7 +8,6 @@
 #' @param design Legend design `"standard"`.
 #' @param reverse Should the legend be reversed?
 #' @param na.show Show `NA` values in legend?
-#' @param position PARAM_DESCRIPTION
 #' @param width Width of the legend
 #' @param height Height of the legend
 #' @inheritParams tm_title
