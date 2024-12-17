@@ -20,15 +20,17 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 				  ...) {
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_rgb"
+	}
+
 	if (any(v3_only("tm_rgb") %in% names(args)) || is.numeric(col.scale)) {
 		v3_start_message()
 
 		# second condition needed to catch tm_rgb(1, 2, 3)
-		layer_fun = if ("called_from" %in% names(args)) {
-			args$called_from
-		} else {
-			"tm_rgb"
-		}
+
 
 		if (all(c("r", "g", "b") %in% names(args))) {
 			v3_tm_rgb(args$r, args$g, args$b)
@@ -43,6 +45,14 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 		v3_start_message()
 
 	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_rgb"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
+	}
+
 
 
 	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.chart = col.chart, col.free = col.free, options = options))

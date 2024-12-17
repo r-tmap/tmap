@@ -114,13 +114,15 @@ tm_polygons = function(fill = tm_const(),
 	args_called = names(rlang::call_match()[-1])
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_polygons"
+	}
+
 	if (any(v3_only("tm_polygons") %in% names(args))) {
 
-		layer_fun = if ("called_from" %in% names(args)) {
-			args$called_from
-		} else {
-			"tm_polygons"
-		}
+
 
 		v3_start_message()
 
@@ -255,6 +257,13 @@ tm_polygons = function(fill = tm_const(),
 			# to do: histogram title
 		}
 
+	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_polygons"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
 	}
 
 
