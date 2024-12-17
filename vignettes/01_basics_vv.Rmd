@@ -50,7 +50,7 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
-
+## Introduction
 
 ### About the data
 
@@ -67,7 +67,7 @@ s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
 
-## Constant values
+### Constant values
 
 ```{r}
 s + tm_polygons(fill = "#ffce00", # fill color
@@ -79,6 +79,12 @@ s + tm_polygons(fill = "#ffce00", # fill color
 For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
 
 ## Visual variables
+
+A visual variable describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in **ggplot2** these are called aesthetics). 
+A visual variable can be specified using a constant value (e.g. \code{fill = "blue"}) or be **data-driven** (more on this later). If it can only be specified with a constant value, it is called a **visual constant**.
+
+The following table shows which visual variables are used in standard map layers.
+
 
 
 ```{r}
@@ -95,11 +101,27 @@ s +
 
 ```
 
+## Scales
+
+
 ## Facets
 
 ```{r, fig.height = 8}
 s + tm_polygons(fill = c("well_being", "life_exp"))   # two data variables (columns in World)
 ```
 
-(More on facets later)
+<!-- (More on facets later) -->
+
+## Legends
+
+
+## Map modes 
+
+## Base maps
+
+## Layout
+
+## Exporting maps
+<!-- Plot and view -->
+
 
