@@ -127,7 +127,7 @@ tm_symbols = function(size = tm_const(),
 	}
 
 	# unused arguments: typos?
-	unused = setdiff(names(args), v3_only("tm_symbols"))
+	unused = setdiff(names(args), c(v3_only("tm_symbols"), "called_from"))
 
 	if (length(unused)) {
 		layer_fun = if ("called_from" %in% names(args)) {

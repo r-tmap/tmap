@@ -217,7 +217,7 @@ tm_lines = function(col = tm_const(),
 	}
 
 	# unused arguments: typos?
-	unused = setdiff(names(args), v3_only("tm_lines"))
+	unused = setdiff(names(args), c(v3_only("tm_lines"), "called_from"))
 
 	if (length(unused)) {
 		message_layer_unused_args(layer_fun, unused)

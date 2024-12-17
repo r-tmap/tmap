@@ -166,7 +166,7 @@ tm_raster = function(col = tm_vars(),
 	}
 
 	# unused arguments: typos?
-	unused = setdiff(names(args), v3_only("tm_raster"))
+	unused = setdiff(names(args), c(v3_only("tm_raster"), "called_from"))
 
 	if (length(unused)) {
 		message_layer_unused_args(layer_fun, unused)
