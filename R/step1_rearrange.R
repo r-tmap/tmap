@@ -342,6 +342,8 @@ get_class = function(tms) {
 }
 
 process_position = function(position, o) {
+	if (is.null(position)) return(NULL)
+
 	# special case: position, in case c("left", "top") is used
 	if (is.character(position)) position = str2pos(position)
 	if (is.numeric(position)) position = num2pos(position)
