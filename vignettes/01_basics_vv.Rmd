@@ -15,10 +15,16 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+<<<<<<< HEAD
   warning = FALSE,
   message = FALSE,
   fig.width=6, 
   fig.height=3,
+=======
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+>>>>>>> upstream/master
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -47,9 +53,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r setup, echo = FALSE, message = FALSE}
 library(tmap)
-#devtools::load_all()
-data(World, metro, rivers, land)
-#tmap_design_mode()
+tmap_options(scale = 0.75)
 ```
 
 ## Introduction
@@ -61,7 +65,7 @@ data(World, metro, rivers, land)
 A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A **visual variable**
 changes the appearance of a spatial object, e.g. fill color or line width.
 
-### About the data
+## About the data
 
 A spatial data object contained in **tmap** is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
 
@@ -105,6 +109,7 @@ s + tm_polygons(fill = "press")
 Add to `s` a layer of polygons with a constant fill color. Then add a layer of
 symbols defining `size`, `fill` and `shape` with data variables in `World`
 
+<<<<<<< HEAD
 ```{r symbols}
 s + 
   tm_polygons(fill = "grey90") +   # fill color ()
@@ -130,10 +135,20 @@ s + tm_polygons(fill = "#ffce00", # fill color
 				col = "black",    # line color
 				lwd = 0.5,        # line width
 				lty = "dashed")   # line type
+=======
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons(
+    fill = "#ffce00", # fill color
+    col = "black",    # line color
+    lwd = 0.5,        # line width
+    lty = "dashed")   # line type
+>>>>>>> upstream/master
 ```
 
 For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
 
+<<<<<<< HEAD
 
 ## Facets
 
@@ -141,6 +156,41 @@ A facet map is created by specifying two data variables (columns in `World`) to 
 
 ```{r facet}
 s + tm_polygons(fill = c("well_being", "life_exp")) 
+=======
+## Visual variables
+
+
+```{r, fig.height = 3.5}
+s + tm_polygons(fill = "press")   # data variable (column in World)
+```
+
+
+```{r, fig.height = 5}
+s + 
+  tm_polygons(fill = "grey90") +   # fill color ()
+  tm_bubbles(
+    size = "pop_est",     # data variable, mapped to symbol size
+    fill = "well_being",  # data variable, mapped to symbol fill color
+    shape = "income_grp") # data variable, mapped to symbol shape
+
+```
+
+## Facets
+
+```{r, fig.height = 8}
+s + 
+  tm_polygons(fill = c("well_being", "life_exp"))
+```
+
+Improve the titles and remove (duplicate) legend titles
+
+```{r, fig.height = 8}
+s + 
+  tm_polygons(
+    fill = c("well_being", "life_exp"),
+    fill.legend = tm_legend("")) +
+tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
+>>>>>>> upstream/master
 ```
 
 <!-- (More on facets later) -->
