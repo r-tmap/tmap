@@ -185,7 +185,8 @@ leafletSimple  = structure(list(crsClass = "L.CRS.Simple", code = NULL, proj4def
 crs2leaflet = function(x) {
 	epsg = get_epsg(x)
 	if (!is.na(epsg) && (epsg %in% c(3857, 4326, 3395))) {
-		structure(list(crsClass = paste0("L.CRS.EPSG", epsg), code = NULL, proj4def = NULL,
+		epsg2 = 3857 # somehow L.CRS.EPSG4326 doesn't work well (?)
+		structure(list(crsClass = paste0("L.CRS.EPSG", epsg2), code = NULL, proj4def = NULL,
 					   projectedBounds = NULL, options = structure(list(), .Names = character(0))), class = "leaflet_crs")
 	} else {
 		leafletSimple

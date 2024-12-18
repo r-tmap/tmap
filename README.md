@@ -66,7 +66,7 @@ tm_shape(World) +
     tm_polygons(fill = "HPI")
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 This map can be enhanced in several ways. For instance:
 
@@ -80,7 +80,7 @@ tm_shape(World, crs = "+proj=robin") +
                 )
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 # Book chapter about tmap
 

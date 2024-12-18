@@ -12,23 +12,24 @@ tm_scale_bar(...)
   \describe{
     \item{\code{breaks}}{breaks}
     \item{\code{width}}{width}
-    \item{\code{text.size}}{text.size}
+    \item{\code{text.size}}{text size}
     \item{\code{text.color}}{text.color}
     \item{\code{color.dark}}{color.dark}
     \item{\code{color.light}}{color.light}
-    \item{\code{lwd}}{lwd}
-    \item{\code{position}}{position}
-    \item{\code{bg.color}}{bg.color}
-    \item{\code{bg.alpha}}{bg.alpha}
-    \item{\code{size}}{size}
+    \item{\code{lwd}}{linewidth}
+    \item{\code{size}}{Deprecated (use \code{text.size} instead)}
     \item{\code{stack}}{stack}
-    \item{\code{frame}}{frame}
-    \item{\code{frame.lwd}}{frame.lwd}
-    \item{\code{frame.r}}{frame.r}
     \item{\code{margins}}{margins}
+    \item{\code{frame}}{frame}
+    \item{\code{frame.lwd}}{frame line width}
+    \item{\code{frame.r}}{Radius of the rounded frame corners. 0 means no rounding.}
+    \item{\code{bg.color}}{Background color}
+    \item{\code{bg.alpha}}{Background transparency}
+    \item{\code{position}}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
     \item{\code{z}}{z}
   }}
 }
 \description{
-This function was renamed to \code{\link[=tm_scalebar]{tm_scalebar()}} in tmap v4.0
+This function was renamed to \code{\link[=tm_scalebar]{tm_scalebar()}} in tmap v4.0.
 }
+\keyword{internal}

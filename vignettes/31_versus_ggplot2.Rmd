@@ -15,8 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width=6, 
-  fig.height=3,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -45,13 +46,14 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
-#devtools::load_all()
-data(World, metro, rivers, land)
-#tmap_design_mode()
+tmap_options(scale = 1)
 ```
 
+## Choropleth Map comparision
 
-## Choropleth
+An example of how the default output of `tmap` compares with `ggplot2`. 
+
+This is the default output of `ggplot2`:
 
 ```{r}
 library(ggplot2)
@@ -65,6 +67,8 @@ ggplot(World) +
 ```
 
 
+This is the default output of `tmap`:
+
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +
 	tm_polygons(fill = "HPI",
@@ -73,29 +77,35 @@ tm_shape(World, crs = "+proj=eqearth") +
 				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35))
 ```
 
-Note the different line width values. The unit of a line width is different. tmap follows the lwd parameter (see [graphics::par]) whereas in ggplot2 `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth)
+Note the different line width values: 
+
+- `linewidth = .4` in `ggplot2`
+- `lwd = 1` in `tmap`
+
+The unit of a line width is different. `tmap` follows the `lwd` parameter (see [`graphics::par`](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/par)) whereas in `ggplot2` `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth). 
 
 
 ## Mimicking ggplot2 layout
 
-Using tmap to match the style of ggplot2:
+We can use `tmap` to match the style of `ggplot2`:
 
 ```{r}
 tm_shape(World, crs = "+proj=eqearth") +
-	tm_polygons(fill = "HPI",
-				col = "grey20",
-				lwd = 1,
-				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
-				fill.legend = tm_legend(reverse = TRUE, 
-										frame = FALSE, 
-										item.height = 2.25, 
-										item.width = 1.8, 
-										position = tm_pos_out(pos.v = "center"), 
-										na.show = FALSE, 
-										ticks = list(c(0, 0.1), c(0.9, 1)), 
-										ticks.col = "white", 
-										col = "white")) +
-	tm_layout(frame = FALSE, outer.margins = 0)
+  tm_polygons(
+  	fill = "HPI",
+    col = "grey20",
+    lwd = 1,
+    fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
+    fill.legend = tm_legend(reverse = TRUE, 
+      frame = FALSE, 
+      item.height = 2.25, 
+      item.width = 1.8, 
+	  position = tm_pos_out(pos.v = "center"), 
+	  na.show = FALSE, 
+      ticks = list(c(0, 0.1), c(0.9, 1)), 
+      ticks.col = "white", 
+      col = "white")) +
+tm_layout(frame = FALSE, outer.margins = 0)
 ```
 
 

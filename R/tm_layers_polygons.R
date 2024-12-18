@@ -10,16 +10,16 @@
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
 #'
-#' * The `*.scale` arguments determine the used scale to map the data values to
+#' - The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #'
-#' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
+#' - The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
 #'
-#' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
+#' - The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
 #'
-#' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
+#' - The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
 #' logical values; these determine whether scales are applied freely per facet dimension.
 #' This is only useful when facets are applied (see [tm_facets()]).
@@ -114,13 +114,15 @@ tm_polygons = function(fill = tm_const(),
 	args_called = names(rlang::call_match()[-1])
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_polygons"
+	}
+
 	if (any(v3_only("tm_polygons") %in% names(args))) {
 
-		layer_fun = if ("called_from" %in% names(args)) {
-			args$called_from
-		} else {
-			"tm_polygons"
-		}
+
 
 		v3_start_message()
 
@@ -255,6 +257,13 @@ tm_polygons = function(fill = tm_const(),
 			# to do: histogram title
 		}
 
+	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_polygons"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
 	}
 
 

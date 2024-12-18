@@ -27,15 +27,15 @@ tm_credits(
 )
 }
 \arguments{
-\item{text}{text of the title}
+\item{text}{text of the  credit title}
 
-\item{size}{font size of the title}
+\item{size}{font size of the credit title}
 
 \item{color}{color}
 
 \item{padding}{padding}
 
-\item{fontface}{font face}
+\item{fontface}{font face, bold, italic}
 
 \item{fontfamily}{font family}
 
@@ -47,17 +47,15 @@ tm_credits(
 
 \item{frame.lwd}{frame.lwd}
 
-\item{frame.r}{frame.r}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
-\item{bg.color}{bg.color}
+\item{bg.color}{Background color}
 
-\item{bg.alpha}{bg.alpha}
+\item{bg.alpha}{Background transparency}
 
-\item{position}{position}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{width}{width}
-
-\item{height}{height}
+\item{width, height}{width and height of the title box.}
 
 \item{group.frame}{group.frame}
 

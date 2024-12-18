@@ -1,5 +1,4 @@
 do_trans = function(tdt, FUN, shpDT, plot.order, args, scale) {
-	#browser()
 
 	shpDT = copy(shpDT)
 
@@ -96,9 +95,7 @@ sf_expand <- function(shp, cast = c("MULTILINESTRING", "MULTIPOLYGON", "MULTIPOI
 #' @param args args
 #' @param scale scale
 #' @export
-#' @name tmapTransCentroid
 #' @rdname tmap_internal
-#' @keywords internal
 tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -236,9 +233,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 
 
 #' @export
-#' @name tmapTransRaster
 #' @rdname tmap_internal
-#' @keywords internal
 tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object (of class dimensions) expected for tm_raster", call. = FALSE)
 	shpTM
@@ -246,9 +241,7 @@ tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 
 
 #' @export
-#' @name tmapTransPolygons
 #' @rdname tmap_internal
-#' @keywords internal
 tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -301,9 +294,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 # - polygons.only: "yes", "no", "ifany"
 
 #' @export
-#' @name tmapTransLines
 #' @rdname tmap_internal
-#' @keywords internal
 tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
@@ -353,14 +344,16 @@ tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 # - lines.only: "yes", "no", "ifany"
 
 #' @export
-#' @name tmapTransCartogram
 #' @rdname tmap_internal
-#' @keywords internal
 tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	s = shpTM$shp
 
-	if (sf::st_is_longlat(s)) {
-		stop("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
+	# bypass cartogram error; use warning instead
+	isll = sf::st_is_longlat(s)
+	if (isll) {
+		llcrs = sf::st_crs(s)
+		warning("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
+		s = sf::st_set_crs(s, NA)
 	}
 
 	message("Cartogram in progress...")
@@ -387,6 +380,9 @@ tmapTransCartogram = function(shpTM, size, ord__, plot.order, args, scale) {
 	ord2 = ord__[match(shpTM$tmapID, shp$tmapID__)]
 
 	o = order(ord2, decreasing = FALSE)
+
+	# set lat/long crs again
+	if (isll) shp2 = sf::st_set_crs(shp2, llcrs)
 
 	list(shp = shp2[o], tmapID = shp$tmapID__[o])
 }

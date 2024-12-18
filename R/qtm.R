@@ -34,7 +34,7 @@
 #'   The parameters `symbols.size`, `text.size`, and `lines.lwd` can be scaled
 #'   separately with respectively `symbols.scale`, `text.scale`, and
 #'   `lines.scale`. See also `...`.
-#' @param title main title. For legend titles, use `X.style`, where X is the
+#' @param title main title. For legend titles, use `X.legend`, where X is the
 #'   layer name (see `...`).
 #' @param crs Either a [`crs`][sf::st_crs()] object or a character value
 #'   (`PROJ.4` character string). By default, the projection is used that is
@@ -122,7 +122,7 @@ qtm = function(shp = NULL,
 
 
 	if (!missing(shp)) {
-		nms_shp = intersect(names(args), names(formals(tm_shape)))
+		nms_shp = intersect(args_called, names(formals(tm_shape)))
 		g = do.call(tm_shape, args[nms_shp])
 
 		is_rst = inherits(shp, c("stars", "SpatRaster"))
@@ -197,6 +197,9 @@ qtm = function(shp = NULL,
 	}
 	if ("style" %in% args_called) {
 		g = g + tm_style(args$style)
+	}
+	if ("title" %in% args_called) {
+		g = g + tm_title(args$title)
 	}
 
 	if (o$qtm.scalebar) g = g + tm_scalebar()

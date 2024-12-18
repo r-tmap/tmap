@@ -4,6 +4,7 @@
 \alias{tm_pos}
 \alias{tm_pos_in}
 \alias{tm_pos_out}
+\alias{tm_pos_on_top}
 \alias{tm_pos_auto_out}
 \alias{tm_pos_auto_in}
 \title{Set the position of map components}
@@ -13,6 +14,8 @@ tm_pos(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 tm_pos_in(pos.h, pos.v, align.h, align.v, just.h, just.v)
 
 tm_pos_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
+
+tm_pos_on_top(pos.h, pos.v, align.h, align.v, just.h, just.v)
 
 tm_pos_auto_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
@@ -47,9 +50,10 @@ Only used in case \code{pos.h} and \code{pos.v} are numbers.}
 \description{
 Set the position of map components, such as legends, title, compass, scale bar, etc.
 \code{tm_pos()} is the function to position these components:
-\code{tm_pos_out()} places the components outside the map area and \code{tm_pos_in()} inside the map area.
+\code{tm_pos_out()} places the components outside the map area, \code{tm_pos_in()} inside the map area, and \code{tm_pos_on_top()} on top of the map
 Each \code{position} argument of a map layer or component should be specified with
-one of these functions. The functions \code{tm_pos_auto_out()} and \code{tm_pos_auto_in()}
+one of these functions.
+The functions \code{tm_pos_auto_out()} and \code{tm_pos_auto_in()}
 are used to set the components automatically, and should be used
 via \code{\link[=tmap_options]{tmap_options()}}. See Details how the positioning works.
 }
@@ -82,6 +86,10 @@ these are all drawn in this center-center cell).
 
 \code{tm_pos_out()} sets the position of the component(s) outside the map.
 
+\code{tm_pos_on_top()} is the same as \code{tm_pos_out}, but with the cell set to the center cell
+It may be therefore seem similar to \code{tm_pos_in()}, but with an essential difference:
+\code{tm_pos_in()} takes the map frame into account whereas \code{tm_pos_on_top()} does not.
+#'
 The amount of space that the top and bottom rows, and left and right columns
 occupy is determined by the \code{\link[=tm_layout]{tm_layout()}} arguments \code{meta.margins} and \code{meta.auto_margins}.
 The former sets the relative space of the bottom, left, top, and right side.

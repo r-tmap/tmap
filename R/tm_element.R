@@ -5,17 +5,14 @@
 #' @param ... arguments
 #' @param subclass subclass
 #' @export
-#' @name tm_element
-#' @rdname tmap_internal
+#' @name tmap_internal
 #' @keywords internal
 tm_element = function(..., subclass = NULL) {
 	structure(list(...), class = c(subclass, "tm_element", "list"))
 }
 
 #' @export
-#' @name tm_element_list
 #' @rdname tmap_internal
-#' @keywords internal
 tm_element_list = function(...) {
 	structure(list(...), class = "tmap")
 }

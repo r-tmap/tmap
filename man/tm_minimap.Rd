@@ -7,7 +7,9 @@
 tm_minimap(server, toggle, stack, position, z, ...)
 }
 \arguments{
-\item{server}{name of the provider or an URL (see \code{\link{tm_tiles}}). By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps. Note the latter does not happen when \code{server} is specified.}
+\item{server}{name of the provider or an URL (see \code{\link{tm_tiles}}).
+By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
+Note the latter does not happen when \code{server} is specified.}
 
 \item{toggle}{should the minimap have a button to minimise it? By default \code{TRUE}.}
 
@@ -17,11 +19,47 @@ tm_minimap(server, toggle, stack, position, z, ...)
 
 \item{z}{z}
 
-\item{...}{arguments passed on to \code{\link[leaflet:addMiniMap]{addMiniMap}}.}
+\item{...}{
+  Arguments passed on to \code{\link[leaflet:addMiniMap]{leaflet::addMiniMap}}
+  \describe{
+    \item{\code{map}}{a map widget object}
+    \item{\code{width}}{The width of the minimap in pixels. Defaults to 150.}
+    \item{\code{height}}{The height of the minimap in pixels. Defaults to 150.}
+    \item{\code{collapsedWidth}}{The width of the toggle marker and the minimap
+when collapsed, in pixels. Defaults to 19.}
+    \item{\code{collapsedHeight}}{The height of the toggle marker and the minimap
+when collapsed, in pixels. Defaults to 19.}
+    \item{\code{zoomLevelOffset}}{The offset applied to the zoom in the minimap compared
+to the zoom of the main map. Can be positive or negative, defaults to -5.}
+    \item{\code{zoomLevelFixed}}{Overrides the offset to apply a fixed zoom level to
+the minimap regardless of the main map zoom.
+Set it to any valid zoom level, if unset zoomLevelOffset is used instead.}
+    \item{\code{centerFixed}}{Applies a fixed position to the minimap regardless of
+the main map's view / position. Prevents panning the minimap, but does
+allow zooming (both in the minimap and the main map).
+If the minimap is zoomed, it will always zoom around the centerFixed point.
+You can pass in a LatLng-equivalent object. Defaults to false.}
+    \item{\code{zoomAnimation}}{Sets whether the minimap should have an animated zoom.
+(Will cause it to lag a bit after the movement of the main map.)
+Defaults to false.}
+    \item{\code{toggleDisplay}}{Sets whether the minimap should have a button to minimise it.
+Defaults to false.}
+    \item{\code{autoToggleDisplay}}{Sets whether the minimap should hide automatically,
+if the parent map bounds does not fit within the minimap bounds.
+Especially useful when 'zoomLevelFixed' is set.}
+    \item{\code{minimized}}{Sets whether the minimap should start in a minimized position.}
+    \item{\code{aimingRectOptions}}{Sets the style of the aiming rectangle by passing in
+a Path.Options (\url{https://web.archive.org/web/20220702182250/https://leafletjs.com/reference-1.3.4.html#path-options}) object.
+(Clickable will always be overridden and set to false.)}
+    \item{\code{shadowRectOptions}}{Sets the style of the aiming shadow rectangle by passing in
+a Path.Options (\url{https://web.archive.org/web/20220702182250/https://leafletjs.com/reference-1.3.4.html#path-option}) object.
+(Clickable will always be overridden and set to false.)}
+    \item{\code{strings}}{Overrides the default strings allowing for translation.}
+    \item{\code{tiles}}{URL for tiles or one of the pre-defined providers.}
+    \item{\code{mapOptions}}{Sets Leaflet options for the MiniMap map.
+It does not override the MiniMap default map options but extends them.}
+  }}
 }
 \description{
-Map component that adds a minimap in view mode
-}
-\seealso{
-\code{\link[leaflet:addMiniMap]{addMiniMap}}
+Map component that adds a \link[leaflet:addMiniMap]{minimap} in view mode.
 }

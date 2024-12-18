@@ -5,6 +5,7 @@
 \title{View mode options}
 \usage{
 tm_view(
+  use_browser,
   use_WebGL,
   control.position,
   control.bases,
@@ -12,11 +13,14 @@ tm_view(
   set_bounds,
   set_view,
   set_zoom_limits,
+  use_circle_markers,
   leaflet.options,
   ...
 )
 }
 \arguments{
+\item{use_browser}{If \code{TRUE} it opens an external browser, and \code{FALSE} (default) it opens the internal IDEs (e.g. RStudio) browser.}
+
 \item{use_WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
 
 \item{control.position}{position of the control attribute}
@@ -36,6 +40,8 @@ Only applicable if \code{bbox} is not specified}
 
 \item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
 zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
+
+\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots} and \code{tm_symbols}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leaflet]{leafletOptions()}}

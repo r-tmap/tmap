@@ -24,13 +24,13 @@ v3_use_component = function(arg = "title", comp = "tm_title", container = "tm_fo
 
 v3_title = function(fun) {
 	id = paste0(fun, "title")
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use {.fn tm_title} instead of {.code {fun}(title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_main_title = function(fun) {
 	id = paste0(fun, "main.title")
 
-	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use 'tm_title()' instead of {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
+	cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: use {.fn tm_title} instead of {.code {fun}(main.title = )}", .frequency_id = id, .frequency = "always")
 }
 
 v3_convert2density = function(layer_fun) {
@@ -197,7 +197,7 @@ v3_list_text = function(olds, news) {
 v3_tm_legend = function(fun, vv, arg_list) {
 	if (length(arg_list$old)) {
 		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		cli::cli_inform(paste0("{.field [v3->v4]} {.fn {fun}}: migrate the argument(s) related to the legend of the visual variable {.var {vv}} namely ", al, " to '{vv}.legend = tm_legend(<HERE>)'"))
+		cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: migrate the argument(s) related to the legend of the visual variable {.var {vv}} namely {al} to '{vv}.legend = tm_legend(<HERE>)'")
 	}
 	NULL
 }

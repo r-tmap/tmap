@@ -126,6 +126,23 @@ tm_symbols = function(size = tm_const(),
 		fill.chart = res$fill.chart
 	}
 
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_symbols"))
+
+	if (length(unused)) {
+		layer_fun = if ("called_from" %in% names(args)) {
+			args$called_from
+		} else {
+			"tm_symbols"
+		}
+
+		message_layer_unused_args(layer_fun, unused)
+	}
+
+
+
+
+
 	tm_element_list(tm_element(
 		layer = "symbols",
 		trans.fun = tmapTransCentroid,

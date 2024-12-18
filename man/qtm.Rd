@@ -59,7 +59,7 @@ The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can b
 separately with respectively \code{symbols.scale}, \code{text.scale}, and
 \code{lines.scale}. See also \code{...}.}
 
-\item{title}{main title. For legend titles, use \code{X.style}, where X is the
+\item{title}{main title. For legend titles, use \code{X.legend}, where X is the
 layer name (see \code{...}).}
 
 \item{crs}{Either a \code{\link[sf:st_crs]{crs}} object or a character value

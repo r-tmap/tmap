@@ -96,7 +96,6 @@ expand_coords_gp = function(coords, gp, ndt) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -185,7 +184,6 @@ lty2dash = function(lty) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	lf = get_lf(facet_row, facet_col, facet_page)
@@ -252,7 +250,6 @@ makeSymbolIcons2  = function (shape, color, fillColor = color, opacity, fillOpac
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)
@@ -295,13 +292,18 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		shpTM_match = TRUE
 	}
 
-	idt = (if (is.null(idt))dt$tmapID__[shpTM_match] else idt[shpTM_match]) |>
+	idt = (if (is.null(idt))sprintf("%07d", dt$tmapID__)[shpTM_match] else idt[shpTM_match]) |>
 		submit_labels("symbols", pane, group)
 
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
 	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
+
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)), type = "symbols", hover = !is.null(hdt), popup = !is.null(pdt))
+
+	use_circleMarkers = o$use_circle_markers && all(gp$shape %in% c(1, 16, 19, 20, 21))
+
 
 	gp2 = gp_to_lpar(gp, mfun = "Symbols", size_factor = 14) # 14 based on similarity with plot mode and consistency with tmap3
 	#gp = gp2leafgp(gp)
@@ -310,12 +312,27 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
-	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)), type = "symbols", hover = !is.null(hdt), popup = !is.null(pdt))
-
 
 	if (o$use_WebGL) {
-		lf %>% leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
+		lf |>  leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
+	} else if (use_circleMarkers) {
+		gp2$strokeWidth[gp2$shape %in% c("solid-circle-md", "solid-circle-bg", "solid-circle-sm")] = 0
+		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
+		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
+
+		lf |>  leaflet::addCircleMarkers(data = sf::st_sf(shp),
+										 color = gp2$color,
+										 opacity = gp2$opacity,
+										 weight = gp2$strokeWidth,
+										 dashArray = gp2[["stroke-dasharray"]],
+										 fillColor = gp2$fillColor,
+										 fillOpacity = gp2$fillOpacity,
+										 radius = gp2$width * multiplier,
+										 options = opt,
+										 group = group, label = hdt, popup = popups) |>
+			assign_lf(facet_row, facet_col, facet_page)
+
 	} else {
 
 		sn = suppressWarnings(as.numeric(gp2$shape))
@@ -349,7 +366,12 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		} else {
 			hdt_grps = replicate(k, list(NULL))
 		}
-		popups_grps = split(popups, ids)
+
+		if (is.null(popups)) {
+			popups_grps =  rep(list(NULL), k)
+		} else {
+			popups_grps = split(popups, ids)
+		}
 
 
 		symbols$iconWidth = rep(NA, k)
@@ -379,10 +401,14 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		}
 
 		for (i in 1L:k) {
+			opt$zIndexOffset = i * 1e5
 			lf = lf |>
 				leaflet::addMarkers(lng = coords_grps[[i]][, 1],
 									lat = coords_grps[[i]][, 2],
-									icon = lapply(symbols, "[", i), group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]], options = opt)
+									icon = lapply(symbols, "[", i),
+									group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]],
+									options = opt
+									)
 		}
 		lf |> assign_lf(facet_row, facet_col, facet_page)
 
@@ -414,7 +440,6 @@ split_alpha_channel <- function(x, alpha) {
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 
@@ -498,7 +523,6 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 }
 
 #' @export
-#' @keywords internal
 #' @rdname tmap_internal
 tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	args = list(...)

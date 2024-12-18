@@ -2,9 +2,10 @@
 #'
 #' Set the position of map components, such as legends, title, compass, scale bar, etc.
 #' `tm_pos()` is the function to position these components:
-#' `tm_pos_out()` places the components outside the map area and `tm_pos_in()` inside the map area.
+#' `tm_pos_out()` places the components outside the map area, `tm_pos_in()` inside the map area, and `tm_pos_on_top()` on top of the map
 #' Each `position` argument of a map layer or component should be specified with
-#' one of these functions. The functions `tm_pos_auto_out()` and `tm_pos_auto_in()`
+#' one of these functions.
+#' The functions `tm_pos_auto_out()` and `tm_pos_auto_in()`
 #' are used to set the components automatically, and should be used
 #' via [tmap_options()]. See Details how the positioning works.
 #'
@@ -57,6 +58,10 @@
 #'
 #' `tm_pos_out()` sets the position of the component(s) outside the map.
 #'
+#' `tm_pos_on_top()` is the same as `tm_pos_out`, but with the cell set to the center cell
+#' It may be therefore seem similar to `tm_pos_in()`, but with an essential difference:
+#' `tm_pos_in()` takes the map frame into account whereas `tm_pos_on_top()` does not.
+#' #'
 #' The amount of space that the top and bottom rows, and left and right columns
 #' occupy is determined by the [tm_layout()] arguments `meta.margins` and `meta.auto_margins`.
 #' The former sets the relative space of the bottom, left, top, and right side.
@@ -123,6 +128,17 @@ tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 #' @rdname tm_pos
 tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$type = "out"
+	structure(args, class = "tm_pos")
+}
+
+#' @export
+#' @name tm_pos_on_top
+#' @rdname tm_pos
+tm_pos_on_top = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$cell.h = "center"
+	args$cell.v = "center"
 	args$type = "out"
 	structure(args, class = "tm_pos")
 }

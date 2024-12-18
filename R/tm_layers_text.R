@@ -112,6 +112,11 @@ tm_text = function(text = tm_const(),
 	#if (FALSE) {
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_text"
+	}
 
 	if (any(v3_only("tm_text") %in% names(args))) {
 		v3_start_message()
@@ -178,9 +183,9 @@ tm_text = function(text = tm_const(),
 		}
 
 		if ("style" %in% names(args)) {
-			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+			v3_tm_scale_instead_of_style(style, scale_fun = col.scale.args$fun_pref, vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
 		} else {
-			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = "tm_text", arg_list = v3_list_get())
+			v3_tm_scale(scale_fun = "", vv = "col", layer_fun = layer_fun, arg_list = v3_list_get())
 		}
 
 		col.scale = do.call("tm_scale", args = col.scale.args)
@@ -193,16 +198,16 @@ tm_text = function(text = tm_const(),
 								orientation = ifelse(v3_impute(args, "legend.col.is.portrait", TRUE, "orientation"), "portrait", "landscape"),
 								reverse = v3_impute(args, "legend.col.reverse", FALSE, "reverse"))
 
-		v3_tm_legend(fun = "tm_text", vv = "col", arg_list = v3_list_get())
+		v3_tm_legend(fun = layer_fun, vv = "col", arg_list = v3_list_get())
 		col.legend = do.call("tm_legend", col.legend.args)
 
 		v3_list_init()
 		text.scale = tm_scale_asis(value.neutral = v3_impute(args, "sizes.legend.text", NA, "value.neutral"))
-		v3_tm_scale(scale_fun = "asis", vv = "text", layer_fun = "tm_text", arg_list = v3_list_get())
+		v3_tm_scale(scale_fun = "asis", vv = "text", layer_fun = layer_fun, arg_list = v3_list_get())
 
 		if ("legend.hist" %in% names(args) && args$legend.hist) {
 			col.chart = tm_chart_histogram()
-			v3_tm_chart_hist(layer_fun = "tm_text", vv = "col", arg = "legend.hist")
+			v3_tm_chart_hist(layer_fun = layer_fun, vv = "col", arg = "legend.hist")
 			# to do: histogram title
 		}
 
@@ -214,7 +219,7 @@ tm_text = function(text = tm_const(),
 							   ticks = v3_impute(args, "breaks", NULL, "ticks"),
 							   midpoint = v3_impute(args, "midpoint", NULL),
 							   labels = v3_impute(args, "sizes.legend.labels", NULL, "labels"))
-		v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = "tm_text", arg_list = v3_list_get())
+		v3_tm_scale(scale_fun = "continuous", vv = "size", layer_fun = layer_fun, arg_list = v3_list_get())
 		size.scale = do.call("tm_scale_continuous", size.scale.args)
 
 
@@ -241,6 +246,13 @@ tm_text = function(text = tm_const(),
 
 
 	#}
+	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_text"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
 	}
 
 	tm_element_list(tm_element(

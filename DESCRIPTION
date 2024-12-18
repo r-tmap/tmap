@@ -48,24 +48,20 @@ Suggests:
     av,
     cartogram,
     colorspace,
-    dplyr,
     ggplot2,
     gifski,
     knitr,
     maptiles,
-    osmdata,
     png,
-    rmapshaper,
-    rmarkdown,
-    bookdown,
+    servr,
     shiny,
     terra,
     testthat (>= 3.2.0),
-    tidyr,
     widgetframe,
-    geofacet
+    rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
+Config/Needs/website: bookdown, geofacet, rmarkdown, mapview
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

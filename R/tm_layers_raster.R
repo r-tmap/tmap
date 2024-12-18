@@ -55,13 +55,14 @@ tm_raster = function(col = tm_vars(),
 	args_called = names(rlang::call_match()[-1])
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_raster"
+	}
 
 	if (any(v3_only("tm_raster") %in% names(args))) {
-		layer_fun = if ("called_from" %in% names(args)) {
-			args$called_from
-		} else {
-			"tm_raster"
-		}
+
 
 		v3_start_message()
 		if (!("style" %in% names(args))) {
@@ -163,6 +164,15 @@ tm_raster = function(col = tm_vars(),
 			# to do: histogram title
 		}
 	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_raster"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
+	}
+
+
 
 	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
 	col.legend$called = "col.legend" %in% args_called

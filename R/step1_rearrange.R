@@ -74,8 +74,14 @@ step1_rearrange = function(tmel) {
 	#sapply(oth, inherits, "tm_legend")
 
 	is_opt = sapply(oth, inherits, "tm_options")
+	crs_opt_called = FALSE
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
+
+		if ("crs" %in% o2$calls) {
+			crs_opt_called = TRUE
+			o$crs = "" # to prevent merging list(dimensions = ... , ...) with leaflet crs
+		}
 
 		cls = class(o2)[1]
 		if (substr(cls, nchar(cls)-2,nchar(cls)) == "_v3") cls = substr(cls, 1, nchar(cls) - 3)
@@ -137,6 +143,8 @@ step1_rearrange = function(tmel) {
 		# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
 		# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
 		ids = get_main_ids(tmo)
+		is_main_defined = !is.na(ids[1])
+		if (!is_main_defined) ids = 1L
 
 		tms = tmo[[ids[1]]]$tms
 
@@ -155,43 +163,6 @@ step1_rearrange = function(tmel) {
 
 	}
 
-	# crs in options refers to which crs is used in the plot, not necessarily in the transformation (step 3)
-	crs_option = o$crs
-
-	# get main crs (used in step 3, not necessarily in the plot (e.g. view mode will use 4326/3857))
-	crs_main = if (any_data_layer) get_crs(tms, is_auto = identical(crs_option, "auto")) else NA
-
-	if (identical(crs_option, "auto")) {
-		if (is.na(crs_main)) {
-			crs_option = auto_crs(TRUE)
-		} else {
-			crs_option = crs_main
-		}
-	}
-
-	if (inherits(crs_option, "leaflet_crs")) {
-		crs_leaflet = crs_option
-		crs = leaflet2crs(crs_leaflet)
-	} else if (any_data_layer && (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0))) {
-		crs = crs_main
-		crs_leaflet = leafletSimple
-	} else if (is.na(crs_option[1])) {
-		crs = sf::st_crs(4326)
-		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
-	} else {
-		crs = crs_option
-		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
-	}
-
-	if (any_data_layer) {
-		main_class = get_class(tms)
-	} else {
-		main_class = "stars" # basemaps
-	}
-
-	if (dev) timing_add(s2 = "facet meta")
-
-
 	# add basemaps
 	if (o$basemap.show && !.TMAP$proxy) {
 		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
@@ -200,8 +171,8 @@ step1_rearrange = function(tmel) {
 		}
 	}
 
+	# check for disabled aux layers (so far only working for tm_basemap/tm_tiles):
 	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
-
 	if (any(is_aux)) {
 
 		aux = mapply(function(l, i) {
@@ -245,6 +216,53 @@ step1_rearrange = function(tmel) {
 	}
 
 
+	crs_step4 = o$crs
+
+	crs_opt_defined = !is.na(crs_step4[1])
+
+	# if basemaps are used AND tm_options(crs = ...) is not used AND tm_shape(crs = ... / is.main = TRUE) is not used:
+	basemaps_defined = length(aux) && any(vapply(aux, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1)))
+	if ((is.na(crs_step4[1]) || identical(crs_step4, "auto")) && basemaps_defined && !crs_opt_called) {
+		crs_step4 = list(dimensions = 3857, 4326)
+	}
+
+	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto")) else NA
+
+	if (identical(crs_step4, "auto")) {
+		if (is.na(crs_step3[1])) {
+			crs_step4 = auto_crs(TRUE)
+		} else {
+			crs_step4 = crs_step3
+		}
+	}
+
+	if (inherits(crs_step3, "leaflet_crs")) crs_step3 = leaflet2crs(crs_step3)
+
+	if (inherits(crs_step4, "leaflet_crs")) {
+		crs_leaflet = crs_step4
+		crs_step4 = sf::st_crs(4326) #leaflet2crs(crs_leaflet)
+	} else if (any_data_layer && (is.na(crs_step4[1]) || (is.numeric(crs_step4) && crs_step4 == 0))) {#  || (is_main_defined && !crs_opt_called))) {
+		crs_step4 = if (inherits(crs_step3, "leaflet_crs")) leaflet2crs(crs_step3) else crs_step3
+		crs_leaflet = leafletSimple
+	} else if (is.na(crs_step4[1])) {
+		crs_step4 = sf::st_crs(4326)
+		crs_leaflet = crs2leaflet(get_option_class(crs_step4, "dimensions"))
+	} else {
+		crs_leaflet = crs2leaflet(get_option_class(crs_step4, "dimensions"))
+	}
+
+	if (any_data_layer) {
+		main_class = get_class(tms)
+	} else {
+		main_class = "stars" # basemaps
+	}
+
+	if (dev) timing_add(s2 = "facet meta")
+
+	#po(crs_step4, crs_step3, crs_leaflet)
+
+
+
 
 
 
@@ -260,10 +278,12 @@ step1_rearrange = function(tmel) {
 	# to be used later
 	o$main = ids # to determine total bounding box in step 4
 	o$main_class = main_class # inner.margins are class specific (preprecess_meta)
-	o$crs = crs # in step 3, when other shapes are transformed to this crs
+	o$crs_step4 = crs_step4 # in step 3, when other shapes are transformed to this crs (prepare for plotting in step4)
 	o$crs_leaflet = crs_leaflet
-	o$crs_main = crs_main
+	o$crs_step3 = crs_step3 # step 3, transformation
 
+
+	#po(crs_step3, crs_step4)
 
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately
@@ -295,7 +315,7 @@ get_main_ids = function(tmo) {
 		identical(tmg$tms$is.main, TRUE)
 	}, FUN.VALUE = logical(1), USE.NAMES = FALSE)
 
-	if (any(is_main)) which(is_main) else 1L
+	if (any(is_main)) which(is_main) else NA_integer_
 }
 
 

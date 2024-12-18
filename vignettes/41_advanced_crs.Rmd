@@ -1,0 +1,163 @@
+---
+title: "tmap advanced: map projections (CRS)"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+## Latitude longitude coordinates
+
+A spatial data object contained in tmap is called `World`. It is an `sf` data frame with a row for each country. The geometry column contains multipolygons:
+
+
+```{r}
+World$geometry
+```
+
+The used coordinates are latitudes and longitudes. Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.
+
+```{r, fig.width=6,fig.height=6}
+tm_shape(World, 
+    bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs = 4326)) +
+  tm_polygons() +
+tm_style("natural") + 
+tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
+tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1) +
+tm_crs("+proj=ortho +lat_0=20 +lon_0=0")
+```
+
+
+The latitude and longitude coordinates are specified using the WGS84 geodetic datum, an ellipsoid model of the earth. There are other standards, but WGS84 is by far the most popular and also used by GPS.
+
+Besides using latitude longitude coordinates as refences for real locations on earth, they can obviously also be used to draw maps:
+
+```{r, fig.height = 4}
+tm_shape(World) +
+  tm_polygons("gold") +
+tm_grid(n.x = 16, n.y = 8) +
+tm_title("Latitude/longitude (4326) coordinates")
+```
+
+
+
+However, this is not a good map because areas near the poles are too large (and therefore overemphasized).
+
+```{r, fig.height = 4}
+# split multi-polygon countries (otherwise Alaska is still too large)
+World_to_polygons = sf::st_cast(World, "POLYGON")
+World_to_polygons$area = sf::st_area(World_to_polygons)
+
+tm_shape(World_to_polygons) +
+  tm_cartogram_ncont(size = "area", fill = "gold", options = opt_tm_cartogram_ncont(expansion = 0.4)) +
+tm_title("Polygons shrinked to real area sizes")
+```
+
+
+Therefore, mathematicians thought about other ways how to 'flatten down the earth'. Bring in CRS... 
+
+
+
+## CRS (map projection)
+
+The abbreviation CRS stands for **Coordinate Reference System**. It defines how real locations on earth are projected on a two-dimensional surface (the plotting device or paper).
+
+Latitudes longitudes (WGS84) can also be seen as a CRS, but an *unprojected* one.
+
+In `tmap` and most other spatial data packages in R (`sf`, `stars`, `terra`) the CRS is named in many functions and function arguments `crs` (so small case). The most important function is `sf::st_crs()`, via which the CRS can be set and retrieved. Even though the definition of a CRS is complex, most common CRSs can be created with shortcuts. EPSG is a library projections indexed with numbers. For instance, the WGS84 latitude longitude coordinate system is EPSG 4326. The corresponding CRS can be obtained via `sf::st_crs(4326)`.
+
+Several map projections are useful for world maps. Useful in the sense that plotted areas are (almost) proportional to the real areas, while the polygon shapes are not distorted too much. These projections, belong to the family of "pseudo-cylindrical" projections (see https://r-tmap.github.io/tmap-book/geodata.html#crs
+). Some of these have been widely used in cartography for decades, e.g. in The Times Atlas of The World.
+
+
+
+```{r, fig.height=10}
+# vector of world map projections
+world_projs = c("wintri", "robin", paste0("eck", 1:6), 
+  "moll", paste0("wag", 1:7), "eqearth")
+
+# create a tmap for each of them
+tms = lapply(world_projs, function(p) {
+  tm_shape(World, crs = paste0("+proj=", p)) + tm_polygons() + tm_style("natural") + tm_layout(panel.labels = p)
+})
+
+# use tmap_arrange
+tmap_arrange(tms, ncol= 3)
+```
+
+The panel names are abbreviations for: Winkel Tripel, Robinson, Eckert I to VI, Mollweide, Wagner I to VII and Equal Earth.
+The can be used as follows:
+
+```{r fig.height=3.5}
+tm_shape(World) +
+  tm_polygons("HPI") +
+tm_crs("+proj=eck4") +
+tm_title("Happy Planet Index") +
+tm_layout(earth_boundary = TRUE, frame = FALSE)
+```
+
+
+
+## Geometric transformations: use `tm_shape`
+
+The `crs` can be defined in `tm_shape`. This is useful for thematic maps where the geometry is changed. For instance cartograms:
+
+```{r, fig.height = 3.5}
+tm_shape(World, crs = "+proj=robin") +
+  tm_cartogram(size = "pop_est")
+```
+
+## Otherwise: use `tm_crs`
+
+In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function `tm_crs`:
+
+```{r, fig.height = 3.5}
+tm_shape(World) +
+  tm_polygons(fill = "life_exp") +
+tm_crs(crs = "+proj=robin")
+```

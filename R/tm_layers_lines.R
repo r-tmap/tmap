@@ -75,12 +75,13 @@ tm_lines = function(col = tm_const(),
 	args_called = names(rlang::call_match()[-1])
 	args = list(...)
 
+	layer_fun = if ("called_from" %in% names(args)) {
+		args$called_from
+	} else {
+		"tm_lines"
+	}
+
 	if (any(v3_only("tm_lines") %in% names(args))) {
-		layer_fun = if ("called_from" %in% names(args)) {
-			args$called_from
-		} else {
-			"lines"
-		}
 
 		v3_start_message()
 		if (!("style" %in% names(args))) {
@@ -213,6 +214,13 @@ tm_lines = function(col = tm_const(),
 
 			# to do: histogram title
 		}
+	}
+
+	# unused arguments: typos?
+	unused = setdiff(names(args), v3_only("tm_lines"))
+
+	if (length(unused)) {
+		message_layer_unused_args(layer_fun, unused)
 	}
 
 

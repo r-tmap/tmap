@@ -26,6 +26,7 @@ tm_layout = function(
 #'
 #' View mode options. These options are specific to the view mode.
 #'
+#' @param use_browser If `TRUE` it opens an external browser, and `FALSE` (default) it opens the internal IDEs (e.g. RStudio) browser.
 #' @param use_WebGL use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default `TRUE` if no other visual variables are used.
 #' @param control.position position of the control attribute
 #' @param control.bases base layers
@@ -39,17 +40,20 @@ tm_layout = function(
 #'    Only applicable if `bbox` is not specified
 #' @param set_zoom_limits numeric vector of two that set the minimum and maximum
 #'   zoom levels (see [tileOptions()][leaflet::tileOptions()]).
+#' @param use_circle_markers If `TRUE` (default) circle shaped symbols (e.g. `tm_dots` and `tm_symbols`) will be rendered as [addCircleMarkers()][leaflet::addCircleMarkers()] instead of [addMarkers()][leaflet::addMarkers()]. The former is faster, the latter can support any symbol since it is based on icons
 #' @param leaflet.options options passed on to
 #'   [leafletOptions()][leaflet::leafletOptions()]
 #' @param ... to catch deprecated arguments
 #' @export
-tm_view = function(use_WebGL,
+tm_view = function(use_browser,
+				   use_WebGL,
 				   control.position,
 				   control.bases,
 				   control.overlays,
 				   set_bounds,
 				   set_view,
 				   set_zoom_limits,
+				   use_circle_markers,
 				   leaflet.options,
 				   ...) {
 
@@ -63,9 +67,9 @@ tm_view = function(use_WebGL,
 #'
 #' Plot mode options. This option is specific to the plot mode.
 #'
-#' @param use.gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
+#' @param use_gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
 #' @export
-tm_plot = function(use.gradient) {
+tm_plot = function(use_gradient) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	do.call(tm_options, args)
 }
@@ -165,4 +169,8 @@ tm_style = function(style, ...) {
 	do.call(tm_options, args)
 }
 
-
+#' @rdname tm_layout
+#' @export
+tm_crs = function(crs) {
+	tm_options(crs = crs)
+}

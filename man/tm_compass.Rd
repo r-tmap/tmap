@@ -30,7 +30,7 @@ tm_compass(
 \arguments{
 \item{north}{north}
 
-\item{type}{type}
+\item{type}{Compass type}
 
 \item{text.size}{text.size}
 
@@ -48,11 +48,11 @@ tm_compass(
 
 \item{lwd}{lwd}
 
-\item{position}{position}
+\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{bg.color}{bg.color}
+\item{bg.color}{Background color}
 
-\item{bg.alpha}{bg.alpha}
+\item{bg.alpha}{Background transparency}
 
 \item{stack}{stack}
 
@@ -60,9 +60,9 @@ tm_compass(
 
 \item{frame}{frame}
 
-\item{frame.lwd}{frame.lwd}
+\item{frame.lwd}{frame line width}
 
-\item{frame.r}{frame.r}
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
 \item{margins}{margins}
 

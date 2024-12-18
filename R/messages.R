@@ -122,3 +122,9 @@ message_qtm_empty = function() {
 		"{.field [qtm]} nothing to show. Either specify {.arg shp} or {.arg basemap}. Alternatively, switch to view mode with {.code tmap_mode(\"view\")}"
 	)
 }
+
+message_layer_unused_args = function(layer_fun, args) {
+	cli::cli_inform(c(
+		"{.field [{layer_fun}]} Argument{ifelse(length(args)>1, 's', '')} {.arg {args}} unknown."
+	))
+}
