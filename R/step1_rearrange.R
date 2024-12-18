@@ -341,6 +341,26 @@ get_class = function(tms) {
 	class(tms$shp)
 }
 
+str2pos = function(x) {
+	if (length(x) == 1L) {
+		if (tolower(x) %in% c("left", "right")) {
+			args = list(pos.h = x)
+		} else if (tolower(x) %in% c("top", "bottom")) {
+			args = list(pos.v = x)
+		} else if (tolower(x) %in% c("center", "centre")) {
+			args = list(pos.h = "center", pos.v = "center")
+		} else {
+			stop("position: incorrect specification")
+		}
+	}
+	do.call(tm_pos_in, args)
+}
+
+num2pos = function(x) {
+	if (length(x) == 1L) stop("position: please provide two values: the horizontal and the vertical")
+	tm_pos_in(x[1], x[2])
+}
+
 process_position = function(position, o) {
 	if (is.null(position)) return(NULL)
 
