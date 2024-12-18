@@ -15,16 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-<<<<<<< HEAD
-  warning = FALSE,
-  message = FALSE,
-  fig.width=6, 
-  fig.height=3,
-=======
   out.width = "100%",
   dpi = 300,
   fig.width = 7.2916667,
->>>>>>> upstream/master
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -148,15 +141,6 @@ s +
 
 For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
 
-<<<<<<< HEAD
-
-## Facets
-
-A facet map is created by specifying two data variables (columns in `World`) to the visual variable `fill`:
-
-```{r facet}
-s + tm_polygons(fill = c("well_being", "life_exp")) 
-=======
 ## Visual variables
 
 
@@ -190,7 +174,6 @@ s +
     fill = c("well_being", "life_exp"),
     fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
->>>>>>> upstream/master
 ```
 
 <!-- (More on facets later) -->
