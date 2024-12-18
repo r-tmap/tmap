@@ -832,7 +832,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 
 
-	legfun = paste0("tmap", gs, "Legend")
+	legfun = paste0("tmap", gs, "Comp")
 
 	toI = function(x) {
 		as.integer(strsplit(x, split = "_")[[1]])

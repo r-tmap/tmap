@@ -341,6 +341,68 @@ get_class = function(tms) {
 	class(tms$shp)
 }
 
+process_position = function(position, o) {
+	# special case: position, in case c("left", "top") is used
+	if (is.character(position)) position = str2pos(position)
+	if (is.numeric(position)) position = num2pos(position)
+	if (inherits(position, "tm_pos")) {
+		position = complete_options(position, o$component.position[[position$type]])
+		if (position$type %in% c("autoin", "autoout")) message_pos_auto(position$type)
+	} else {
+		stop("position should be a tm_pos object")
+	}
+
+	# checking
+	# with(position, {
+	# 	if (cell.h %in% c(""))
+	# })
+
+	within(position, {
+		cell.h = check_h(cell.h, "cell")
+		cell.v = check_v(cell.v, "cell", h_is_num = is.numeric(cell.h))
+		pos.h = check_h(pos.h, "pos")
+		pos.v = check_v(pos.v, "pos", h_is_num = is.numeric(pos.h))
+		align.h = check_h(align.h, "align")
+		align.v = check_v(align.v, "align", h_is_num = is.numeric(align.h))
+		just.h = check_h(just.h, "just")
+		just.v = check_v(just.v, "just", h_is_num = is.numeric(just.h))
+	})
+
+	position
+}
+
+check_h = function(x, var) {
+	if (is.numeric(x)) {
+		x
+	} else {
+		y = tolower(x)
+		if (y %in% c("center", "centre")) {
+			"center"
+		} else if (y %in% c("left", "right")) {
+			y
+		} else {
+			stop("position arguments: incorrect ", var, ".h; it should be 'left', 'center', 'right' or a numeric value", call. = FALSE)
+		}
+	}
+}
+
+check_v = function(x, var, h_is_num) {
+	if (is.numeric(x)) {
+		if (!h_is_num) stop("position argument: for ", var, ".h and .v should both be numeric or character values", call. = FALSE)
+		x
+	} else {
+		y = tolower(x)
+		if (h_is_num) stop("position argument: for ", var, ".h and .v should both be numeric or character values", call. = FALSE)
+		if (y %in% c("center", "centre")) {
+			"center"
+		} else if (y %in% c("top", "bottom")) {
+			y
+		} else {
+			stop("position argument: incorrect ", var, ".v; it should be 'top', 'center', 'bottom' or a numeric value", call. = FALSE)
+		}
+	}
+}
+
 impute_comp = function(a, o) {
 	cls = class(a)[1]
 
@@ -350,14 +412,7 @@ impute_comp = function(a, o) {
 
 	call = names(a)
 
-	# special case: position, in case c("left", "top") is used
-	if (is.character(a$position)) a$position = str2pos(a$position)
-	if (is.numeric(a$position)) a$position = num2pos(a$position)
-	if (inherits(a$position, "tm_pos")) {
-		a$position = complete_options(a$position, o$component.position[[a$position$type]])
-		if (a$position$type %in% c("autoin", "autoout")) message_pos_auto(a$position$type)
-	}
-
+	a$position = process_position(a$position, o)
 
 	a = complete_options(a, ot)
 	a$call = call

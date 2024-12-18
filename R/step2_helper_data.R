@@ -15,13 +15,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	oleg = c(oleg, o[[settings_name]])
 
 
-	if ("position" %in% names(l) && is.character(l$position)) l$position = str2pos(l$position)
-	if ("position" %in% names(l) && is.numeric(l$position)) l$position = num2pos(l$position)
-	if ("position" %in% names(l) && inherits(l$position, "tm_pos")) {
-		l$position = complete_options(l$position, o$component.position[[l$position$type]])
-		if (l$position$type %in% c("autoin", "autoout")) message_pos_auto(l$position$type)
-	}
-
+	if ("position" %in% names(l)) l$position = process_position(l$position, o)
 
 	l = complete_options(l, oleg)
 	l$call = call
@@ -45,12 +39,7 @@ update_crt = function(o, crt, v, mfun, unm, active) {
 	names(ocrt) = substr(names(ocrt), 7, nchar(names(ocrt)))
 
 
-	if ("position" %in% names(crt) && is.character(crt$position)) crt$position = str2pos(crt$position)
-	if ("position" %in% names(crt) && is.numeric(crt$position)) crt$position = num2pos(crt$position)
-	if ("position" %in% names(crt) && inherits(crt$position, "tm_pos")) {
-		crt$position = complete_options(crt$position, o$component.position[[crt$position$type]])
-		if (crt$position$type %in% c("autoin", "autoout")) message_pos_auto(crt$position$type)
-	}
+	if ("position" %in% names(crt)) crt$position = process_position(crt$position, o)
 
 	crt = complete_options(crt, ocrt)
 	crt$call = call
