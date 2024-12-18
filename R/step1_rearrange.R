@@ -360,17 +360,22 @@ process_position = function(position, o) {
 	# })
 
 	within(position, {
-		cell.h = check_h(cell.h, "cell")
-		cell.v = check_v(cell.v, "cell", h_is_num = is.numeric(cell.h))
-		pos.h = check_h(pos.h, "pos")
-		pos.v = check_v(pos.v, "pos", h_is_num = is.numeric(pos.h))
-		align.h = check_h(align.h, "align")
-		align.v = check_v(align.v, "align", h_is_num = is.numeric(align.h))
-		just.h = check_h(just.h, "just")
-		just.v = check_v(just.v, "just", h_is_num = is.numeric(just.h))
+		if (exists("cell.h")) cell.h = check_h(cell.h, "cell")
+		if (exists("cell.v")) cell.v = check_v(cell.v, "cell", h_is_num = is.numeric(cell.h))
+		if (exists("pos.h")) pos.h = check_h(pos.h, "pos")
+		if (exists("pos.v")) pos.v = check_v(pos.v, "pos", h_is_num = is.numeric(pos.h))
+		if (exists("align.h")) align.h = check_h(align.h, "align")
+		if (exists("align.v")) align.v = check_v(align.v, "align", h_is_num = is.numeric(align.h))
+		if (exists("just.h")) just.h = check_h(just.h, "just")
+		if (exists("just.v")) just.v = check_v(just.v, "just", h_is_num = is.numeric(just.h))
 	})
 
 	position
+}
+
+process_padding = function(padding) {
+	if (is.null(padding)) return(NULL)
+	rep(padding, length.out = 4)
 }
 
 check_h = function(x, var) {
@@ -415,6 +420,8 @@ impute_comp = function(a, o) {
 	call = names(a)
 
 	a$position = process_position(a$position, o)
+
+	a$padding = process_padding(a$padding)
 
 	a = complete_options(a, ot)
 	a$call = call

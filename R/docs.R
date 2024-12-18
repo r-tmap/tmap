@@ -87,6 +87,7 @@
 	extra_lookup = c(margins = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
 					 double_line = " TRUE of FALSE.",
 					 extra = " A list of arguments.",
+					 padding = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
 					 space = " In terms of number of line heights.",
 					 fontfamily = " See `graphics::par`, option 'family'.",
 					 fontface = " See `graphics::par`, option 'font'.",

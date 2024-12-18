@@ -608,7 +608,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{title.bg.alpha}{The alpha transparency of the bg of the title.}
 
-\item{title.padding}{The padding of the title.}
+\item{title.padding}{The padding of the title. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
 \item{title.frame}{The frame of the title.}
 
@@ -640,7 +640,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{credits.bg.alpha}{The alpha transparency of the bg of the credits.}
 
-\item{credits.padding}{The padding of the credits.}
+\item{credits.padding}{The padding of the credits. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
 \item{credits.frame}{The frame of the credits.}
 
