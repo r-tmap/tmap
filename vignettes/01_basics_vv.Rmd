@@ -15,9 +15,16 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+<<<<<<< HEAD
+  warning = FALSE,
+  message = FALSE,
+  fig.width=6, 
+  fig.height=3,
+=======
   out.width = "100%",
   dpi = 300,
   fig.width = 7.2916667,
+>>>>>>> upstream/master
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -44,30 +51,91 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```
 
 
-```{r, echo = FALSE, message = FALSE}
+```{r setup, echo = FALSE, message = FALSE}
 library(tmap)
 tmap_options(scale = 0.75)
 ```
 
+## Introduction
 
+**tmap** is an R package for spatial data visualization.
+
+### Map layers
+
+A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A **visual variable**
+changes the appearance of a spatial object, e.g. fill color or line width.
 
 ## About the data
 
-A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+A spatial data object contained in **tmap** is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
 
-```{r}
+```{r names}
 names(World)
 ```
 
-We specify this object with `tm_shape` (see other vignette) and for convenience assign it to `s`:
+We specify this object with `tm_shape`
+<!-- (see other vignette)-->
+and for convenience assign it to `s`: 
 
-```{r}
-s = tm_shape(World, crs = "+proj=eqearth")
+```{r shape}
+s <- tm_shape(World, crs = "+proj=eqearth")
+
+```
+
+## Visual variables
+
+A visual variable describes a certain visual property of a drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern (in **ggplot2** these are called _aesthetics_). 
+A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or be **data-driven**. If it can only be specified with a constant value, it is called a **visual constant**.
+
+The following table shows which visual variables are used in standard map layers.
+
+|Map layer		|Visual variables												|Visual constant 				|
+|:--------------|:--------------------------------------------------------------|:------------------------------|
+|`tm_basemap`	|none															|`alpha` (transparency level) 							|
+|`tm_polygons`	|`fill` (fill color), `col` (border color), <br> `lwd` (border line width), `lty` (border line type), <br> `fill_alpha` (fill transparency), `col_alpha` <br> (border color transparency)	|`linejoin` (line join) and	<br> `lineend` (line end)	|
+|`tm_symbols` |`fill` (fill color), `col` (border color), `size`, `shape` <br> `lwd` (border line width) `lty` (border line type), <br>  `fill_alpha` (filltransparency), `col_alpha` <br> (border color transparency)	|		 |
+|`tm_lines`		|`col` (color), `lwd` (line width) `lty` (line type), <br>  `alpha` (transparency)	|`linejoin` (line join) and	<br> `lineend` (line end) |
+|`tm_raster`	|`col` (color),	`col_alpha` (transparency)							|							|
+|`tm_text`	|`text` (the text itself), `size` (font size), `col` (color), <br> `fontface` (font face)	|		|
+
+
+Each visual variable argument can also be specified with a data variable (e.g., a column name). The following code add to `s` a layer of polygons and defines the visual variable `fill` with the data variable `press` (a column in `World`):
+
+```{r polygons}
+s + tm_polygons(fill = "press") 
 ```
 
 
-## Constant values
+Add to `s` a layer of polygons with a constant fill color. Then add a layer of
+symbols defining `size`, `fill` and `shape` with data variables in `World`
 
+<<<<<<< HEAD
+```{r symbols}
+s + 
+  tm_polygons(fill = "grey90") +   # fill color ()
+  tm_symbols(size = "pop_est",     # data variable, mapped to symbol size
+  		     fill = "well_being",  # data variable, mapped to symbol fill color
+  		     shape = "income_grp") # data variable, mapped to symbol shape
+
+```
+
+The following code adds a polygon layer filled with the 'economy' data variable and a text layer mapping the 'name' data variable, with font size set according to the 'area' data variable.
+
+```{r text}
+s + tm_polygons(fill = "economy") +
+	tm_text(text = "name", size = "area")
+```
+
+### Constant visual values
+
+The following code add a polygons layer assigning constant values to visual variables
+
+```{r constant}
+s + tm_polygons(fill = "#ffce00", # fill color
+				col = "black",    # line color
+				lwd = 0.5,        # line width
+				lty = "dashed")   # line type
+=======
 ```{r, fig.height = 3.5}
 s + 
   tm_polygons(
@@ -75,10 +143,20 @@ s +
     col = "black",    # line color
     lwd = 0.5,        # line width
     lty = "dashed")   # line type
+>>>>>>> upstream/master
 ```
 
 For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
 
+<<<<<<< HEAD
+
+## Facets
+
+A facet map is created by specifying two data variables (columns in `World`) to the visual variable `fill`:
+
+```{r facet}
+s + tm_polygons(fill = c("well_being", "life_exp")) 
+=======
 ## Visual variables
 
 
@@ -112,7 +190,9 @@ s +
     fill = c("well_being", "life_exp"),
     fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
+>>>>>>> upstream/master
 ```
 
-(More on facets later)
+<!-- (More on facets later) -->
 
+	
