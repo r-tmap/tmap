@@ -249,7 +249,7 @@ tm_text = function(text = tm_const(),
 	}
 
 	# unused arguments: typos?
-	unused = setdiff(names(args), v3_only("tm_text"))
+	unused = setdiff(names(args), c(v3_only("tm_text"), "called_from"))
 
 	if (length(unused)) {
 		message_layer_unused_args(layer_fun, unused)

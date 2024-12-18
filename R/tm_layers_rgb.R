@@ -47,7 +47,7 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 	}
 
 	# unused arguments: typos?
-	unused = setdiff(names(args), v3_only("tm_rgb"))
+	unused = setdiff(names(args), c(v3_only("tm_rgb"), "called_from"))
 
 	if (length(unused)) {
 		message_layer_unused_args(layer_fun, unused)
