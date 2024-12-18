@@ -352,6 +352,8 @@ str2pos = function(x) {
 		} else {
 			stop("position: incorrect specification")
 		}
+	} else {
+		args = list(pos.h = x[1], pos.v = x[2])
 	}
 	do.call(tm_pos_in, args)
 }

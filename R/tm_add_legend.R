@@ -1,12 +1,13 @@
 #' Map component: manual legend
 #'
-#' Map component that adds a manual legend
+#' Map component that adds a manual legend.
 #'
 #' @param ... visual variables and arguments passed on to `tm_legend()`.
-#'   By default, the argument `type` is set to `"Symbols"`, which means that the
+#'   By default, the argument `type` is set to `"symbols"`, which means that the
 #'   supported visual variables are: `"fill"`, `"col"`, `"shape"`, `"size"`,
 #'   `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`, `"linejoin"`, and `"lineend"`.
-#' @param labels labels
+#'   The number of legend items will be equal to the maximum number of specific values (and specified labels.)
+#' @param labels labels by default `""` (so omitted)
 #' @param type the layer type from which the visual variables (see `...`) are taken.
 #'   Options: `"symbols"` (default), `"lines"`, `"polygons"`, and `"text"`.
 #' @param title text of the title
