@@ -80,8 +80,8 @@
 #' @param ylab.fontfamily `r .doc_opt("ylab.fontfamily")`
 #' @param ylab.side `r .doc_opt("ylab.side")`
 #' @param panel.type `r .doc_opt("panel.type")`
-#' @param panel.wrap.pos `r .doc_opt("panel.wrap.pos")`
-#' @param panel.xtab.pos `r .doc_opt("panel.xtab.pos")`
+#' @param panel.wrap.pos The panel positions for wrapped facets created with [tm_facets_grid()]. One of `"left"`, `"right"`, `"top"` (default) or `"bottom"`.
+#' @param panel.xtab.pos The panel positions for grid facets created with [tm_facets_grid()]. Vector of two, where the first determines the location sof row panels (`"left"` or `"right"`) and the second the location of column panels ( `"top"` or `"bottom")
 #' @param unit `r .doc_opt("unit")`
 #' @param color.sepia_intensity `r .doc_opt("color.sepia_intensity")`
 #' @param color.saturation `r .doc_opt("color.saturation")`

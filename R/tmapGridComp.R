@@ -1,814 +1,450 @@
-tmapGridCompPrepare_text = function(comp, o) {
-	if (is.null(comp$text)) {
-		cmp = within(comp, {
-			show = FALSE
-		})
-		return(cmp)
-	}
-	n = length(comp$text)
-	lst = lapply(seq_len(n), function(i){
-		within(comp, {
-			color[is.na(color)] = o$attr.color
-			color = do.call("process_color", c(list(col=color), o$pc))
-			size = size * o$scale
-			fontface[is.na(fontface)] =o$text.fontface
-			fontfamily[is.na(fontfamily)] =o$text.fontfamily
-			#text = lapply(text, rep, length.out=o$n)
-			text = text[i]
-			if (is.na(text)) text = ""
-			show = nonempty_text(text)
-		})
-	})
-	class(lst) = c("tm_multi_comp", "list")
-	lst
+gridCell = function(rows, cols, e) {
+	vp = grid::viewport(layout.pos.row = rows, layout.pos.col = cols)
+	grid::grobTree(e, vp = vp)
 }
 
-
-#' @export
-tmapGridCompPrepare.tm_title = function(comp, o) {
-	tmapGridCompPrepare_text(comp, o)
-}
-
-#' @export
-tmapGridCompHeight.tm_title = function(comp, o) {
-	tmapGridCompHeight_text(comp, o)
-}
-
-#' @export
-tmapGridCompWidth.tm_title = function(comp, o) {
-	tmapGridCompWidth_text(comp, o)
-}
-
-#' @export
-tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
-	tmapGridLegPlot_text(comp, o)
-}
-
-#' @export
-tmapGridCompPrepare.tm_credits = function(comp, o) {
-	tmapGridCompPrepare_text(comp, o)
-}
-
-#' @export
-tmapGridCompHeight.tm_credits = function(comp, o) {
-	tmapGridCompHeight_text(comp, o)
-}
-
-#' @export
-tmapGridCompWidth.tm_credits = function(comp, o) {
-	tmapGridCompWidth_text(comp, o)
-}
-
-#' @export
-tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
-	tmapGridLegPlot_text(comp, o, fH, fW)
-}
-
-#' @export
-tmapGridCompPrepare.tm_compass = function(comp, o) {
-	o$attr.color.light = is_light(o$attr.color)
-	within(comp, {
-		text.size = text.size * o$scale
-
-		if (is.na(text.color)) text.color = o$attr.color
-		text.color = do.call("process_color", c(list(col=text.color), o$pc))
-
-		if (is.na(color.dark)) color.dark = ifelse(o$attr.color.light, o$attr.color, o$attr.color)
-		if (is.na(color.light)) color.light = ifelse(o$attr.color.light, "black", "white")
-		color.dark = do.call("process_color", c(list(col=color.dark), o$pc))
-		color.light = do.call("process_color", c(list(col=color.light), o$pc))
-
-		asp = if (type == "arrow") 0.5 else 1
-
-		show = TRUE
-		if (is.na(type)) type = o$type
-		if (is.na(size)) size = switch(type, arrow=2, radar=6, rose=6, 4)
-		nlines = size + ifelse(show.labels==0, 0, ifelse(show.labels==1, 1, 2))
+legapply = function(cdt, fun, ...) {
+	lapply(cdt, function(leg) {
+		d = leg$design
+		f = get(paste0("leg_", d))[[fun]]
+		do.call(f, c(list(leg = leg), list(...)))
 	})
 }
 
-#' @export
-tmapGridCompHeight.tm_compass = function(comp, o) {
 
 
-	textS = comp$text.size #* o$scale
-	#textP = comp$padding[c(3,1)] * textS * o$lin
-
-	marH = comp$margins[c(3,1)] * textS * o$lin
-	hs = c(marH[1], comp$nlines * textS * o$lin, marH[2])
-
-
-	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
-	hsu = set_unit_with_stretch(hs, sides = sides)
-
-	Hin = sum(hs)
-	comp$flexRow = NA
-	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
-	comp$hsu = hsu
+process_comp_box = function(comp, sc, o) {
+	comp = within(comp, {
+		frame.lwd = if (identical(frame, FALSE)) 0 else frame.lwd * sc
+		frame.col = if (identical(frame, FALSE)) NA else if (identical(frame, TRUE)) o$attr.color else frame
+		frame.r = frame.r * sc
+	})
 	comp
 }
 
-#' @export
-tmapGridCompWidth.tm_compass = function(comp, o) {
+tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
+	#return(grid::rectGrob(gp=gpar(fill = "gold")))
 
 
+	n = length(comp)
+	# if (stack == "vertical") {
+	# 	maxH = totH - marginInTot
+	# 	maxW = totW
+	# } else {
+	# 	maxW = totW - marginInTot
+	# 	maxH = totH
+	# }
+	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
+	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 
-	textS = comp$text.size #* o$scale
-	#textP = comp$padding[c(3,1)] * textS * o$lin
+	#legWin = 10
 
+	group.just = c(pos.h, pos.v)
+	group.frame = comp[[1]]$group.frame
 
-	marW = comp$margins[c(2,4)] * textS * o$lin
-	ws = c(marW[1], comp$nlines * textS * o$lin * comp$asp, marW[2])
+	legWin[is.infinite(legWin)] = maxW
+	legHin[is.infinite(legHin)] = maxH
 
-	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
-	wsu = set_unit_with_stretch(ws, sides = sides)
+	scaleW = legWin / maxW
+	scaleH = legHin / maxH
 
-	comp$flexCol = NA
-	comp$Win = sum(ws)
-	comp$wsu = wsu
-	comp
-}
+	# because of legend frames (for which margins are added in tmapGridComp), the scale may be a bit above 1, even though automatic layout is applied and there is enough space
 
-#' @export
-tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
-
-	u = 1/(comp$nlines)
-	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
-
-	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
-
-
-	wsu = comp$wsu
-	hsu = comp$hsu
-
-	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
-												   nrow = length(hsu),
-												   widths = wsu,
-												   heights = hsu))
-
-
-	if (comp$type=="4star") {
-		s = c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
-		x = list(rep.int(s, 2))
-		y = list(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)])
-		id = rep(1:8, each=3)
-		fill = c(dark, light, dark, light, light, dark, light, dark)
-	} else if (comp$type=="8star") {
-		s = c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
-		s2 = c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
-		x = list(c(rep.int(s, 2), rep.int(s2, 2)))
-		y = list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		id = rep(1:16, each=3)
-		fill = c(dark, light, dark, light, light, dark, light, dark)
-	} else if (comp$type=="arrow") {
-		x = list(c(.5, .9, .5, .5, .1, .5))
-		y = list(c(1, 0, .2, 1, 0, .2))
-		id = rep(1:2, each=3)
-		fill = c(dark, light)
-	} else if (comp$type=="radar") {
-		cr = c(.45, .42, .2, .17, .1)
-		LWD = round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * comp$lwd
-
-		cd = seq(1/8, 15/8, by=.25) * pi
-		cd2 = seq(1/4, 7/4, by=.5) * pi
-		cd3 = seq(0, 1.75, by=.25) * pi
-
-		x = list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
-				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
-				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5), use.names = FALSE),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
-
-		y = list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
-				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
-				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5), use.names = FALSE),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
-
-	} else if (comp$type=="rose") {
-		cr = c(.45, .42, .2, .17, .1)
-		LWD = (o$lineH * 24) * comp$lwd
-		cd = seq(1/8, 15/8, by=.25) * pi
-		cd2 = seq(1/4, 7/4, by=.5) * pi
-		cd3 = seq(0, 1.75, by=.25) * pi
-
-		b = cr[4]
-		a = 0.4142136 * b # 1/16th circleL
-		s = c(.5, .5, .5+a, .5, .5, .5-a, 0, .5, .5-b, 1, .5, .5+b)
-		s2 = c(.5, .5+b, .78, .5, .5+a, .78, .5, .5-b, .22, .5, .5-a, .22)
-
-		id = rep(1:16, each=3)
-		fill = c(dark, light, dark, light, light, dark, light, dark)
-
-
-		x = list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
-				  c(rep.int(s, 2), rep.int(s2, 2)))
-
-		y = list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
-				  c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-
-	}
-
-
-	# rescale
-	resc = function(a) (a-.5)*(comp$size/comp$nlines) + .5
-
-	x = lapply(x, resc)
-	y = lapply(y, resc)
-	if (comp$type %in% c("radar", "rose")) cr = cr * (comp$size/comp$nlines)
-
-	if (comp$north!=0) {
-		drotate = comp$north/180*pi - .5*pi
-
-		xy = mapply(function(a,b){
-			d = atan2(b-.5, a-.5)
-			r = sqrt((a-.5)^2 + (b-.5)^2)
-
-			list(x=r * sin(d+drotate) + .5,
-				 y=r * cos(d+drotate) + .5)
-		}, x, y, SIMPLIFY=FALSE)
-		x = lapply(xy, "[[", 1)
-		y = lapply(xy, "[[", 2)
-	} else drotate = -.5*pi
-
-
-	# shift compass to south direction
-	if (comp$show.labels==1) {
-		x = lapply(x, function(a) a - (u/2) * sin(drotate + .5*pi))
-		y = lapply(y, function(b) b - (u/2) * cos(drotate + .5*pi))
-	}
-
-
-
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
-
-	grobLabels = if (comp$show.labels==0) {
-		NULL
+	if (o$component.autoscale) {
+		if (any(scaleW > 1.1) || any(scaleH > 1.1)) message_comp_scale()
 	} else {
-		selection = if (comp$show.labels==1) {
-			c(TRUE, rep.int(FALSE, 7))
-		} else if (comp$show.labels==2) {
-			rep.int(c(TRUE, FALSE), 4)
-		} else rep.int(TRUE, 8)
-
-		labels = comp$cardinal.directions[c(1, 1, 2, 3, 3, 3, 4, 1)]
-		labels[c(2,4,6,8)] = paste(labels[c(2,4,6,8)], comp$cardinal.directions[c(2, 2, 4, 4)], sep="")
-		labels = labels[selection]
-
-		lr = (1-u)/2
-		ld = (seq(0, 1.75, by=.25) * pi)[selection]
-
-		lx = lr * sin(ld+drotate + .5*pi) + .5
-		ly = lr * cos(ld+drotate + .5*pi) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=0, gp=gpar(col=comp$text.color, cex=comp$text.size, fontface=o$text.fontface, fontfamily=o$text.fontfamily)) # -drotate/pi*180 - 90
-	}
-
-	grobComp = if (comp$type %in% c("arrow", "4star", "8star")) {
-		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=comp$lwd, col=dark))
-	} else if (comp$type=="radar") {
-		gTree(children = gList(
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
-			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:4, each=2), gp=gpar(lwd=2*LWD, col=dark)),
-			polylineGrob(x=x[[4]], y=y[[4]], id=rep(1:4, each=2), gp=gpar(lwd=1*LWD, col=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
-			polylineGrob(x=x[[5]], y=y[[5]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
-	} else if (comp$type=="rose") {
-		gTree(children = gList(
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			polygonGrob(x=x[[4]], y=y[[4]], id=id, gp=gpar(lwd=1*LWD, fill=fill)),
-			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
-			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
+		scaleW[scaleW > 1.1] = 1
+		scaleH[scaleH > 1.1] = 1
 	}
 
 
-	# other grid cells are aligns (1 and 5) and margins (2 and 4)
-	compass = gridCell(3,3, {
-		gTree(children=gList(grobBG,
-						 if (!is.na(comp$bg.color)) {
-						 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-						 	rectGrob(gp=gpar(col=NA, fill=bg.col))
-						 } else {
-						 	NULL
-						 },
-						 grobComp,
-						 grobLabels),
-		  name="compass")
-	})
-	grid::grobTree(compass, vp = vp)
-}
+	clipW = pmax(1, scaleW)
+	clipH = pmax(1, scaleH)
+	if (comp[[1]]$resize_as_group) {
+		clipT = rep(max(clipW, clipH), n)
+	} else {
+		clipT = pmax(clipW, clipH)
+	}
 
+	legWin = legWin / clipT
+	legHin = legHin / clipT
 
-
-
-
-
-#' @export
-tmapGridCompPrepare.tm_scalebar = function(comp, o) {
-	show.messages = o$show.messages
-	show.warnings = o$show.warnings
-	within(comp, {
-		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			message("For 'tm_scalebar()', 'breaks' and 'width' are not supposed to be used together; normally, setting the exact width is not needed when breaks have been specified.", call. = FALSE)
+	if (group.frame) {
+		if (stack == "vertical") {
+			legWin = rep(max(legWin), n)
+		} else {
+			legHin = rep(max(legHin), n)
 		}
-		if ("breaks" %in% call) {
-			if (breaks[1] != 0) {
-				if (show.warnings) warning("First scalebar breaks value should be 0.", call. = FALSE)
-				breaks = c(0, breaks)
+	}
+
+	# rescale due to stacking
+	if (stack == "vertical") {
+		scaleS = sum(legHin) / maxH
+	} else {
+		scaleS = sum(legWin) / maxW
+	}
+
+	if (o$component.autoscale) {
+		if (scaleS > 1.01) {
+			if (scaleS > 1.05) {
+				message_comp_high_wide(stack)
+
 			}
+			legWin = legWin / scaleS
+			legHin = legHin / scaleS
+			clipT = clipT * scaleS
+		}
+	}
+
+	legW = grid::unit(legWin, "inches")
+	legH = grid::unit(legHin, "inches")
+
+	if (stack == "vertical") {
+		W = max(legWin)
+		H = sum(legHin)
+
+		Hs = unit_add_between(legHin, marginIn)
+		Ws = W
+	} else {
+		W = sum(legWin)
+		H = max(legHin)
+
+		Ws = unit_add_between(legWin, marginIn)
+		Hs = H
+	}
+
+
+
+
+
+	if (are_nums) {
+		group.just = as.numeric(group.just)
+		just.h = comp[[1]]$position$just.h
+		just.v = comp[[1]]$position$just.v
+
+		# add dummy offsets
+		Hs = unit_add_sides(Hs, 0)
+		Ws = unit_add_sides(Ws, 0)
+
+		ancher_x = maxW * group.just[1]
+		if (just.h == "left") {
+			Ws = unit_add_sides(Ws, c(ancher_x, maxW - ancher_x- sum(Ws)))
+		} else if (just.h == "right") {
+			Ws = unit_add_sides(Ws, c(ancher_x - sum(Ws), maxW - ancher_x))
+		} else {
+			Ws = unit_add_sides(Ws, c(ancher_x - (sum(Ws) / 2), maxW - ancher_x- (sum(Ws) / 2)))
 		}
 
-		# if (is.na(width))
-		# 	width = .25
-		# else if (width > 1) {
-		# 	if (show.messages) message("Scale bar width set to 0.25 of the map width")
-		# 	width = .25
-		# }
-
-		if (is.na(text.color)) text.color = o$attr.color
-		text.size = text.size * o$scale
-		lwd = lwd * o$scale
-		show = TRUE
-	})
-}
-
-#' @export
-tmapGridCompHeight.tm_scalebar = function(comp, o) {
-	h = 2.75 * o$lin * comp$text.size
-
-	textS = comp$text.size #* o$scale
-	#textP = comp$padding[c(3,1)] * textS * o$lin
-
-
-	marH = comp$margins[c(3,1)] * textS * o$lin
-	hs = c(marH[1], h, marH[2])
-
-
-	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
-	hsu = set_unit_with_stretch(hs, sides = sides)
-
-	Hin = sum(hs)
-	comp$flexRow = NA
-	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
-	comp$hsu = hsu
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_scalebar = function(comp, o) {
-	#w = comp$width * o$lin * comp$text.size
-
-	textS = comp$text.size #* o$scale
-	#textP = comp$padding[c(3,1)] * textS * o$lin
-
-	marW = comp$margins[c(2,4)] * textS * o$lin
-
-	W = comp$width * textS * o$lin
-
-	ws = c(marW[1], W, marW[2])
-
-	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
-	wsu = set_unit_with_stretch(ws, sides = sides)
-
-
-	comp$Win = sum(ws)
-	comp$wsu = wsu
-
-	# in case breaks are used: adjust the legend width later (in tmapGridLegend)
-	comp$WnativeID = 3
-	if (!is.null(comp$breaks)) {
-		comp$WnativeRange = tail(comp$breaks, 1) - comp$breaks[1]# + (comp$breaks[2] - comp$breaks[1]) * 2
-		#comp$Wextra_text_inch = text_width_inch(paste0("  ", cmp$units$unit)) + text_width_inch(paste0(tail(comp$breaks, 1), comp$breaks[1])) / 2
-	}
-
-	comp
-}
-
-#' @export
-tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
-	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
-
-
-	wsu = comp$wsu
-	hsu = comp$hsu
-
-	wsu[1] = unit(0, "inch")
-	wsu[5] = unit(0, "inch")
-	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
-												   nrow = length(hsu),
-												   widths = wsu,
-												   heights = hsu))
-
-
-	# g = grid::grobTree(grid::rectGrob(gp=gpar(fill = "pink")), vp = vp)
-	# g = gridCell(3,3, {
-	# 	gTree(children=gList(
-	# 		g
-	# 	), name="scalebar")
-	# })
-	#
-	# g = grid::grobTree(g, vp = vp)
-	#
-	#
-	# return(g)
-
-	unit = comp$units$unit
-	unit.size = 1/comp$units$to
-	#xrange = (comp$bbox[3] - comp$bbox[1]) * fW_fact
-
-	xrange = fW * comp$cpi
-
-	# xrange is the range of the viewport in terms of coordinates
-	# xrange2 is the same but with units (e.g. km instead of m)
-	# W is the targeted space for the scalebar
-
-
-	W = as.numeric(wsu[3])
-
-	crop_factor = W / fW
-	just = 0
-
-	if (is.na(unit.size)) {
-		if (o$show.warnings) warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
-	} else if (!comp$units$projected && ((comp$bbox[4]-comp$bbox[2]) > 30)) {
-		if (o$show.messages) message("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
-	}
-
-	xrange2 = xrange/unit.size
-
-
-	if (is.null(comp$breaks)) {
-		# determine resolution only (unselect steps that do not fit later (with 'sel'))
-		for (i in 10:1) {
-			tcks = pretty(c(0, xrange2*crop_factor), i)
-			tcks3 = (tcks / xrange2) * fW
-			tcksL = format(tcks, trim=TRUE)
-			labW = text_width_inch(tcksL) * comp$text.size
-			tickW = tcks3[-1] - head(tcks3, -1)
-			if (all(tickW > labW[-1])) {
-				sbW = W - labW
-				break
-			}
+		ancher_y = maxH * (1 - group.just[2])
+		if (just.v == "top") {
+			Hs = unit_add_sides(Hs, c(ancher_y, maxH - ancher_y - sum(Hs)))
+		} else if (just.v == "bottom") {
+			Hs = unit_add_sides(Hs, c(ancher_y - sum(Hs), maxH - ancher_y))
+		} else {
+			Hs = unit_add_sides(Hs, c(ancher_y - (sum(Hs) / 2), maxH - ancher_y - (sum(Hs) / 2)))
 		}
-		ticks2 = tcks
+
 	} else {
-		ticks2 = comp$breaks
-		tcksL = format(ticks2, trim=TRUE)
+		nullsH = switch(group.just[1], left = c(0, 1), center = c(0.5, 0.5), right = c(1, 0))
+		nullsV = switch(group.just[2], top = c(0, 1), center = c(0.5, 0.5), bottom = c(1, 0))
 
-		labW = text_width_inch(tcksL) * comp$text.size
-		sbW = W - labW
+		Hs = unit_add_sides(Hs, offsetIn.v)
+		Hs = unit_add_sides(Hs, nullsV)
+
+		Ws = unit_add_sides(Ws, offsetIn.h)
+		Ws = unit_add_sides(Ws, nullsH)
+
 	}
 
-	ticks3 = ticks2 / xrange2 * fW
-	sel = which(ticks3 <= sbW)
+	Hn = length(Hs)
+	Wn = length(Ws)
 
-	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
-		warning("Not all scale bar breaks could be plotted. Try increasing the scale bar width or descreasing the font size", call. = FALSE)
-	}
+	Hid = seq(3, Hn - 2, by = 2)
+	Wid = seq(3, Wn - 2, by = 2)
 
-	ticks3 = ticks3[sel]
-	ticks2 = ticks2[sel]
-
-	ticks2Labels = format(ticks2, trim=TRUE)
-	ticksWidths = text_width_inch(ticks2Labels)
-	unitWidth = text_width_inch(unit)
-
-	labels = c(ticks2Labels, unit)
-	labelsW = c(ticksWidths, unitWidth)
-
-	n = length(ticks2)
-
-	widths = ticks3[2:n] - ticks3[1:(n-1)]
-	size = min(comp$text.size, widths/max(ticksWidths))
-	x = ticks3[1:(n-1)]  + ticksWidths[1]*size #+ .5*widths[1]
-
-	lineHeight = convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
-
-	unitWidth = text_width_inch(unit) * size
-	#width = sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n
-
-	xtext = x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
-
-	# if "unit" text is clipped, remove last label and move unit to previous label
-	xright = xtext + labelsW / 2
-	if (tail(xright, 1) > W) {
-		labels = c(head(labels, -2), unit)
-		xtext = x[1] + c(head(ticks3, -1), ticks3[n-1] + .5*ticksWidths[n-1]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
-	}
-
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
-
-
-	# other grid cells are aligns (1 and 5) and margins (2 and 4)
-	scalebar = gridCell(3,3, {
-		gTree(children=gList(
-
-			grobBG,
-			# if (!is.na(comp$bg.color)) {
-			# 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-			# 	rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
-			# } else {
-			# 	NULL
-			# },
-			#rectGrob(gp=gpar(col = "green", fill= NA))
-			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
-			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
-			), name="scalebar")
-	})
-
-	grid::grobTree(scalebar, vp = vp)
-	#scalebar
-}
-
-
-
-
-
-
-
-
-
-
-tmapGridLegPlot_text = function(comp, o, fH, fW) {
-
-	textS = if (comp$text == "") 0 else comp$size * comp$scale #* o$scale
-
-	padding = grid::unit(comp$padding[c(3,4,1,2)] * textS * o$lin, units = "inch")
-
-	if (comp$position$align.h == "left") {
-		#x = grid::unit(0, "npc")
-		x = grid::unit(comp$padding[2] * textS * o$lin, units = "inch")
-		halign = 0
-		hjust = 1
-		just = "left"
-	} else if (comp$position$align.h == "right") {
-		#x = grid::unit(1, "npc")
-		x = grid::unit(1, "npc") - grid::unit(comp$padding[4] * textS * o$lin, units = "inch")
-		halign = 1
-		hjust = 0
-		just = "right"
+	if (are_nums) {
+		Wu = rep("inch", Wn)
+		Hu = rep("inch", Hn)
 	} else {
-		x = grid::unit(0.5, "npc")
-		halign = 0.5
-		hjust = 0.5
-		just = "center"
+		Wu = c("null", rep("inch", Wn-2), "null")
+		Hu = c("null", rep("inch", Hn-2), "null")
 	}
 
-	# grtext = gridtext::richtext_grob(comp$text,
-	# 								  x = x,
-	# 								  box_gp = gpar(col = frame.col, fill = bg.color, alpha = bg.alpha, lwd = frame.lwd),
-	# 								  r = grid::unit(frame.r, "pt"),
-	# 								  halign = halign,
-	# 								  hjust = hjust,
-	# 								  gp = grid::gpar(cex = textS))
-	grtext = grid::textGrob(comp$text,
-							 x = x,
-							 just = just,
-							 gp = grid::gpar(col = comp$color, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily))
+	# po(Ws, Hs)
+	# Ws = distr_space_over_nulls(Ws, maxW)
+	# Hs = distr_space_over_nulls(Hs, maxH)
+	# po(Ws, Hs)
+
+	vp = grid::viewport(layout = grid::grid.layout(ncol = Wn,
+												   nrow = Hn,
+												   widths = grid::unit(Ws, Wu),
+												   heights = grid::unit(Hs, Hu)))
+
+
+	comp = mapply(function(leg, scale, W, H) {
+		leg$scale = scale
+
+		if ("flexCol" %in% names(leg)) leg$wsu = distr_space_over_nulls(u = leg$wsu * scale, tot = W, stretchID = leg$flexCol)
+		if ("flexRow" %in% names(leg)) leg$hsu = distr_space_over_nulls(u = leg$hsu * scale, tot = H, stretchID = leg$flexRow)
+		leg
+	}, comp, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+
+
+	legGrobs = lapply(comp, tmapGridLegPlot, o = o, fH = fH, fW = fW)
+
+
+	#sq = function(x) do.call(seq, as.list(unname(range(x))))
+	sc = min(1/clipT) * o$scale
+
+	comp = lapply(comp, process_comp_box, sc = sc, o = o)
+
+	groupframe = if ((comp[[1]]$frame.lwd!=0) && group.frame) {
+		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
+	} else NULL
+
+
+	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, iW, iH) {
+		frame = if (!is.na(leg$frame) && !group.frame) {
+			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, alpha = leg$bg.alpha, col = leg$frame, lwd = leg$frame.lwd), r = leg$frame.r)
+		} else NULL
+		if (stack == "vertical") {
+			x = switch(leg$position$align.h, "left" = lW/2, "right" = grid::unit(W, "inch") -lW/2, grid::unit(0.5, "npc"))
+			y = grid::unit(0.5, "npc")
+		} else {
+			x = grid::unit(0.5, "npc")
+			y = switch(leg$position$align.v, "top" = grid::unit(H, "inch")-lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
+		}
+		gridCell(iH, iW, grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH)))
+	}, comp, legGrobs, legH, legW, Wid, Hid, SIMPLIFY = FALSE))
+
 
 	if (getOption("tmap.design.mode")) {
-		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))
+		df = expand.grid(col = 1:ncol(vp$layout),
+						 row = 1:nrow(vp$layout))
+
+		grDesign = lapply(1:nrow(df), function(i) gridCell(df$row[i], df$col[i], grid::rectGrob(gp=gpar(fill=NA,col="orange", lwd=2))))
 	} else {
 		grDesign = NULL
 	}
 
-	#grtext = rectGrob(gp=gpar(col = "green", fill= NA))
-
-
-	g = do.call(grid::grobTree, c(list(grtext), list(grDesign))) #, list(vp = vp)
-
-	g
-
+	do.call(grid::grobTree, c(list(groupframe), grbs, grDesign, list(vp=vp)))
 }
 
+tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
 
-correct_nlines = function(n) {
-	# Linear model applied based on this empirical data:
-	# (results may depend on device)
-	#
-	# y = sapply(1:50, function(i) {
-	# 	s = paste(rep("text", i), collapse = "\n")
-	# 	convertHeight(stringHeight(s), "inch", valueOnly = TRUE)
-	# })
-	# df = data.frame(x = 1:50, y = y / 0.2) #0.2 is the lineheight (par "cin")
-	# lm(y~x, df)
-	#
-	-.6035 + n * 1.2
-}
-
-
-tmapGridCompHeight_text = function(comp, o) {
-	textS = if (comp$text == "") 0 else comp$size #* o$scale
-	textP = comp$padding[c(3,1)] * textS * o$lin
-	textH = textS * o$lin
-
-	nlines = number_text_lines(comp$text)
-
-	nlines2 = correct_nlines(nlines)
-	comp$flexRow = NA
-
-	hs = c(textP[1], textH * nlines2, textP[2])
-	h = sum(hs)
-
-	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
-	hsu = set_unit_with_stretch(hs, sides = sides)
-
-	comp$Hin = h
-	comp$hsu = hsu
-	comp
-}
-
-# borrowed from treemap (wraps text to 1-5 lines)
-wrapText = function(txt, nlines) {
-	if (nlines == 1) {
-		txt
-	} else {
-		# create some wrappings, with slightly different widths:
-		results <- lapply(1:5, FUN=function(pos, nlines, txt) {
-			strwrap(txt, width = pos+(nchar(txt)/nlines))}, nlines, txt)
-		lengths = sapply(results, length)
-
-		# find the best match
-		diff = nlines - lengths
-		diff[diff < 0] = 1000
-		id = which.min(diff)[1]
-
-		paste(results[[id]], collapse = "\n")
+	gt = gts[[facet_page]]
+	n = length(comp)
+	# rows and cols in main grid
+	rows = if (facet_row[1] == -2) g$meta_rows[1] else if (facet_row[1] == -1) g$meta_rows[2] else {
+		panel_rows = if (o$panel.type == "xtab") {
+			c(g$cols_panel_row_id, g$rows_panel_row_ids)
+		} else if (o$panel.type == "wrap") {
+			g$rows_panel_ids[facet_row]
+		} else {
+			NULL
+		}
+		c(g$rows_facet_ids[facet_row], panel_rows)
 	}
-}
+	cols = if (facet_col[1] == -2) g$meta_cols[1] else if (facet_col[1] == -1) g$meta_cols[2] else {
+		panel_cols = if (o$panel.type == "xtab") {
+			c(g$cols_panel_col_ids, g$rows_panel_col_id)
+		} else if (o$panel.type == "wrap") {
+			g$cols_panel_ids[facet_col]
+		} else {
+			NULL
+		}
+		c(g$cols_facet_ids[facet_col], panel_cols)
+	}
+#po(rows,cols)
+# 	# add the panel viewports to the rows and cols (scrape them, next step we get the whole ranges)
+# 	if (o$panel.type == "xtab") {
+# 		cols = c(cols, g$cols_panel_col_ids, g$rows_panel_col_id)
+# 		rows = c(rows, g$cols_panel_row_id, g$rows_panel_row_ids)
+# 	} else if (o$panel.type == "wrap") {
+# 		cols = c(cols, g$cols_panel_ids)
+# 		rows = c(rows, g$rows_panel_ids)
+# 	}
+# po(rows,cols)
+
+	# make rows and cols a range
+	rows = seq(min(rows), max(rows))
+	cols = seq(min(cols), max(cols))
 
 
+	rowsIn = g$rowsIn[rows]
+	colsIn = g$colsIn[cols]
+	if (any(pos.h %in% c("LEFT", "RIGHT"))) {
+		pos.h = tolower(pos.h)
+		CASE.h = toupper
+	} else CASE.h = function(x)x
+	if (any(pos.v %in% c("TOP", "BOTTOM"))) {
+		pos.v = tolower(pos.v)
+		CASE.v = toupper
+	} else CASE.v = function(x)x
 
+	are_nums = !(any(is.na(suppressWarnings(as.numeric(c(pos.h, pos.v))))))
 
-tmapGridCompWidth_text = function(comp, o) {
-	textS = if (comp$text == "") 0 else comp$size #* o$scale
-	textP = comp$padding[c(2,4)] * textS * o$lin
-	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-
-
-	if (!is.na(comp$width)) {
-		textPgs = strsplit(comp$text, "\n")[[1]]
-		text2 = do.call(paste, c(lapply(textPgs, function(p) {
-			textW = textS * graphics::strwidth(p, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-			w = sum(textP[1], textW, textP[2])
-			nlines = round(w / (comp$width * textS * o$lin))
-			wrapText(p, nlines)
-		}), list(sep = "\n")))
-
-		textW2 = textS * graphics::strwidth(text2, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
-		wsu2 = c(textP[1], textW2, textP[2])
-		ws = sum(textP[1], textW2, textP[2])
-		comp$text = text2
+	if (are_nums) {
+		component.offset.h = 0
+		component.offset.v = 0
 	} else {
-		ws = c(textP[1], textW, textP[2])
+		component.offset.h = get_option_class(o$component.offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
+		component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
 	}
 
+	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
+	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
+	marginIn = o$component.stack_margin * o$lin
 
-	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
-	wsu = set_unit_with_stretch(ws, sides = sides)
+	marginInTot = (n - 1L) * marginIn
+	offsetInTot.h  = 2 * offsetIn.h
+	offsetInTot.v  = 2 * offsetIn.v
 
-	comp$Win = sum(ws)
-	comp$wsu = wsu
+	totH = sum(rowsIn) - offsetInTot.v
+	totW = sum(colsIn) - offsetInTot.h
+	w1 = which(pos.v=="bottom" & pos.h=="left")
+	w2 = which(pos.v=="top" & pos.h=="left")
+	w3 = which(pos.v=="top" & pos.h=="right")
+	w4 = which(pos.v=="bottom" & pos.h=="right")
+	w5 = setdiff(seq_len(n), c(w1, w2, w3, w4))
+	#########
+	#2     3#
+	#       #
+	#1     4#
+	#########
+	# 5 is rect category consisting of "center"s or numbers
 
-	comp$flexCol = NA
-	comp
+	## update scale_bar width: identified by the WnativeID = 3 item (null for other components)
+	comp = mapply(function(cmp, bb) {
+		bbw = bb[3] - bb[1]
+
+		# TRUE if component is scalebar
+		if (!is.null(cmp$WnativeID)) {
+			# find out whether the bounding of borrowed from the map (yes if scale bar is drawn in another facet)
+			bbox_nb = attr(bbox, "borrow")
+			if (is.null(bbox_nb)) {
+				bb_facet = sum(colsIn)
+			} else {
+				bb_facet = sum(g$colsIn[g$cols_facet_ids[bbox_nb$col]])
+			}
+
+			oldIn = as.numeric(cmp$wsu[cmp$WnativeID])
+
+			if (is.null(cmp$WnativeRange) || ("width" %in% cmp$call)) {
+				# in case breaks not defined: allow the width to be maximal fraction of facet width
+				#newIn = min(totW, bb_facet * cmp$width)
+				newIn = min(totW, cmp$Win)
+			} else {
+				# in case breaks are defined: compute width
+				Wextra = (text_width_inch(paste0("   ", cmp$units$unit)) + text_width_inch(paste0(tail(cmp$breaks, 1), cmp$breaks[1])) / 2 ) * cmp$text.size
+
+				# bbw are number of (CRS) units of map width, totalCoords translated to scalebar units
+				totalCoords =  bbw * cmp$units$to
+
+				Wcomp = bb_facet * (cmp$WnativeRange / totalCoords) + Wextra
+
+				newIn = min(totW, Wcomp)
+			}
+
+			margins = sum(head(as.numeric(cmp$wsu[-cmp$WnativeID]), -1))
+
+			newIn_without_margins = newIn - margins
+
+			cmp$wsu[cmp$WnativeID] = unit(newIn_without_margins, "inch")
+			cmp$Win = newIn_without_margins + margins
+
+			# get cpi: coordinates per inch
+
+			cmp$cpi = unname(bbw / bb_facet)
+		}
+		cmp
+	}, comp, bbox, SIMPLIFY = FALSE)
+
+
+	qH = rep(totH, 5)
+	qW = rep(totW, 5)
+
+	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
+	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
+
+
+	# get total value (width or height)
+	getH = function(s, lH) {
+		if (!length(s)) return(NULL)
+		if (s[1] == "vertical") {
+			sum(unit_add_between(lH, marginIn))
+		} else {
+			max(lH)
+		}
+	}
+	getW = function(s, lW) {
+		if (!length(s)) return(NULL)
+		if (s[1] == "vertical") {
+			max(lW)
+		} else {
+			sum(unit_add_between(lW, marginIn))
+		}
+	}
+
+
+	align_values = function(id, dir) {
+		w1 = get(paste0("w", id[1]))
+		w2 = get(paste0("w", id[2]))
+		s1 = stack[w1[1]]
+		s2 = stack[w2[1]]
+		x1 = switch(dir, v = legHin[w1], h = legWin[w1])
+		x2 = switch(dir, v = legHin[w2], h = legWin[w2])
+		t1 = if (dir == "v") {
+			getH(s1, x1)
+		} else {
+			getW(s1, x1)
+		}
+		t2 = if (dir == "v") {
+			getH(s2, x2)
+		} else {
+			getW(s2, x2)
+		}
+		tot = switch(dir, v = totH, h = totW)
+		if (is.infinite(t1) || is.infinite(t2)) {
+			c(tot/2,tot/2)
+		} else {
+			scale = sum(t1, t2) / tot
+			if (scale > 1) {
+				t1 = t1 / scale
+				t2 = t2 / scale
+			}
+			c(t1, t2)
+		}
+	}
+
+	if (length(w1) && length(w2)) qH[1:2] = align_values(1:2, "v") # left edge
+	if (length(w3) && length(w4)) qH[3:4] = align_values(3:4, "v") # right edge
+	if (length(w2) && length(w3)) qW[2:3] = align_values(2:3, "h") # top edge
+	if (length(w1) && length(w4)) qW[c(1,4)] = align_values(c(1,4), "h") # bottom edge
+
+
+	grbs = do.call(grid::gList, lapply(1:5, function(i) {
+		id = get(paste0("w", i))
+		if (length(id)) {
+			if (any(!stack_auto[id])) {
+				# get first specified 'stack' argument
+				stck = stack[id][which(!stack_auto[id])[1]]
+			} else {
+				# get first stack argument
+				stck = stack[id[1]]
+			}
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
+		}
+	}))
+
+	#grbs = grid::rectGrob(gp=gpar(fill = "gold"))
+
+	gt = add_to_gt(gt, grbs, row = rows, col = cols)
+
+	gts[[facet_page]] = gt
+
+	assign("gts", gts, envir = .TMAP_GRID)
+
 }
-
-
-#' @export
-tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
-	message("tm_mouse_coordinates ignored for 'plot' mode")
-	comp$show = FALSE
-	comp
-}
-
-
-#' @export
-tmapGridCompHeight.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
-	NULL
-}
-
-
-#' @export
-tmapGridCompPrepare.tm_minimap = function(comp, o) {
-	message("tm_minimap ignored for 'plot' mode")
-	comp$show = FALSE
-	comp
-}
-
-
-#' @export
-tmapGridCompHeight.tm_minimap = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_minimap = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridLegPlot.tm_minimap = function(comp, o, fH, fW) {
-	NULL
-}
-
-
-
-
-#' @export
-tmapGridCompPrepare.tm_logo = function(comp, o) {
-	comp$logo = lapply(comp$file, function(lf){
-		tmap_icons(lf)
-	})
-	comp$asp = vapply(comp$logo, function(lg) {
-		lg$iconWidth / lg$iconHeight
-	}, FUN.VALUE = numeric(1))
-	comp$show = TRUE
-	comp
-}
-
-#' @export
-tmapGridCompHeight.tm_logo = function(comp, o) {
-	marH = comp$margins[c(3,1)] * o$lin
-	hs = c(marH[1], comp$height * o$lin, marH[2])
-
-	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
-	hsu = set_unit_with_stretch(hs, sides = sides)
-
-	Hin = sum(hs)
-	comp$flexRow = NA
-	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
-	comp$hsu = hsu
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_logo = function(comp, o) {
-	k = length(comp$asp)
-	comp$width = comp$height * comp$asp
-
-	marW = comp$margins[c(2,4)] * o$lin
-	ws = c(marW[1],
-		   comp$width[1] * o$lin,
-		   {if (k > 1) unlist(lapply(comp$width[-1], function(w) c(comp$between_margin, w) * o$lin)) else NULL},
-		   marW[2])
-
-	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
-	wsu = set_unit_with_stretch(ws, sides = sides)
-	comp$col_ids = seq(3L, by = 2L, length.out = k)
-	comp$flexCol = NA
-	comp$Win = sum(ws)
-	comp$wsu = wsu
-	comp
-}
-
-#' @export
-tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
-
-	k = length(comp$logo)
-
-	wsu = comp$wsu
-	hsu = comp$hsu
-
-	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
-												   nrow = length(hsu),
-												   widths = wsu,
-												   heights = hsu))
-	gLogos = mapply(function(logo, col) {
-		grobLogo = pngGrob(logo$iconUrl, fix.borders = TRUE, n=2, height.inch=as.numeric(comp$hsu[3]), target.dpi=96)
-		rdim = dim(grobLogo$raster)
-		grobLogo$raster = matrix(do.call("process_color", c(list(as.vector(grobLogo$raster), alpha=1), o$pc)), nrow = rdim[1], ncol=rdim[2])
-		gridCell(3L, col, grobLogo)
-	}, comp$logo, comp$col_ids, SIMPLIFY = FALSE)
-
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
-	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
-
-	do.call(grid::grobTree, c(list(gBG), gLogos, list(vp = vp)))
-
-}
-
-

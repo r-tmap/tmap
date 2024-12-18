@@ -462,9 +462,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.type}{The type of the panel.}
 
-\item{panel.wrap.pos}{The pos of the wrap of the panel.}
+\item{panel.wrap.pos}{The panel positions for wrapped facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. One of \code{"left"}, \code{"right"}, \code{"top"} (default) or \code{"bottom"}.}
 
-\item{panel.xtab.pos}{The pos of the xtab of the panel.}
+\item{panel.xtab.pos}{The panel positions for grid facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. Vector of two, where the first determines the location sof row panels (\code{"left"} or \code{"right"}) and the second the location of column panels ( \code{"top"} or `"bottom")}
 
 \item{unit}{The unit of the .}
 

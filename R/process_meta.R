@@ -458,7 +458,7 @@ process_meta = function(o, d, cdt, aux) {
 					}
 
 					# add margins (compensate for legend frames)
-					# the final calculations of these margins are computed in tmapGridLegend (this is just to compute the meta.auto_margins)
+					# the final calculations of these margins are computed in tmapGridComp (this is just to compute the meta.auto_margins)
 					# those calculations are take the component.offset into account
 
 					sel_tb = c(3,1)[meta.auto_margins[c(3,1)]!=0]

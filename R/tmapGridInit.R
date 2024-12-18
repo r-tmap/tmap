@@ -151,7 +151,6 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 			vp = vp_tree, name = "tmap_grob_tree")
 	})
 
-
 	g = list(
 		rows_facet_ids = rows_facet_ids,
 		cols_facet_ids = cols_facet_ids,
@@ -182,7 +181,6 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 		colsIn = colsIn,
 		rowsIn = rowsIn
 	)
-
 
 	if (getOption("tmap.design.mode")) {
 		gts = lapply(gts, function(gt) {
