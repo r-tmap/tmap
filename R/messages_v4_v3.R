@@ -289,7 +289,7 @@ v3_message_col_alpha = function(layer_fun = layer_fun, orig = "border.alpha") {
 v3_add_legend = function(type, args) {
 	newtype = c(fill = "polygons", symbol = "symbols", line = "lines")
 	cli::cli_inform(
-		"{.field [v3->v4]} {.fn tm_add_legend}:  use {.code type = {.val {newtype[type]}}} instead of {.code type = {.str {type}}}.",
+		"{.field [v3->v4]} {.fn tm_add_legend}:  use {.code type = {.val {newtype[type]}}} instead of {.code type = {.val {type}}}.",
 		.frequency_id = "legend-type"
 	)
 	if ("col" %in% args && !c("fill" %in% args)) {
@@ -304,6 +304,7 @@ v3_add_legend = function(type, args) {
 			.frequency_id = "legend-border-col"
 		)
 	}
+	newtype[type]
 }
 
 v3_opt = function(olds, news, layer_fun) {

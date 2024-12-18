@@ -23,7 +23,7 @@
 #' @param z z
 #' @export
 tm_add_legend = function(...,
-						 labels,
+						 labels = "",
 						 type = "symbols",
 						 title = "",
 						 design = NULL,
@@ -32,13 +32,12 @@ tm_add_legend = function(...,
 						 group.control = "check",
 						 resize.as.group = FALSE,
 						 z = NA_integer_) {
-	rlang::check_required(labels)
 
 	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
 
 	if (type %in% c("fill", "symbol", "line")) {
-		v3_add_legend(type, names(args))
-		if ("col" %in% names(args) && !c("fill" %in% names(args))) {
+		args$type = v3_add_legend(type, names(args))
+		if ("col" %in% names(args) && !c("fill" %in% names(args)) && type != "line") {
 			args$fill = args$col
 			args$col = NULL
 		}
@@ -79,7 +78,8 @@ tmapAddedLegend = function(comp, o) {
 	l$gp = gp
 
 	l2 = within(l, {
-		nitems = length(labels)
+		nitems = max(length(labels), vapply(gp, length, FUN.VALUE = integer(1), USE.NAMES = FALSE))
+		labels = rep(labels, length.out = nitems)
 		dvalues = 1:nitems
 		vvalues = 1:nitems
 		vneutral = NA
