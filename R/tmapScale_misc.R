@@ -4,7 +4,12 @@ check_values = function(layer, aes, values) {
 	are_valid = do.call(fun_check, args = list(x = values, is_var = FALSE))
 	if (!are_valid) {
 		info = attr(are_valid, "info")
-		stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform visual variable \"", aes, "\".", info, call. = FALSE)
+		cli::cli_abort(c(
+			"x" = "Incorrect values for layer {layer} aesthetic {aes}",
+			"!" = "values should conform visual variable {.val {aes}}.",
+			"i" = info
+		),
+		call = call(paste0("tm_", layer)))
 	}
 }
 

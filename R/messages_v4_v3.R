@@ -94,7 +94,7 @@ v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
 
 			al = v3_list_text(olds = arg_list$old, news = arg_list$new)
 			cli::cli_inform(c(
-				"{.field [v3->v4]} {.fn {layer_fun}}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).",
+				"{.field [v3->v4]} {.fn tm_{layer_fun}}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).",
 				"i" = x
 			))
 		}
@@ -231,7 +231,7 @@ v3_tm_legend_hide = function(fun, arg, vv) {
 		"{.field [v3->v4]} {.fn {fun}}: use {.code {vv}.legend = tm_legend_hide()} instead of {.code {arg} = FALSE}."
 	),
 	.frequency_id = "hide-legend",
-	.frequency = "regularly"
+	.frequency = "always"
 	)
 }
 

@@ -11,7 +11,6 @@
 #' @param width Width of the legend
 #' @param height Height of the legend
 #' @inheritParams tm_title
-#' @param resize_as_group PARAM_DESCRIPTION
 #' @param title.color Color of the legend title
 #' @param title.size Size of the legend title
 #' @param title.fontface Font face of the legend title
@@ -42,6 +41,7 @@
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return A tm_legend component
 #' @export
+#' @example ./examples/tm_legend.R
 tm_legend = function(title,
 					 show,
 					 orientation,

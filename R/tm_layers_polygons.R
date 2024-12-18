@@ -366,7 +366,6 @@ tm_borders = function(col = tm_const(), ...) {
 #' The family of `opt_*()` functions can be used to specify options in the different `tm_*()`
 #' functions.
 #'
-#' @name opt_tm_polygons
 #' @rdname tm_polygons
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @export

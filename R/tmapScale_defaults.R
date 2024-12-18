@@ -55,7 +55,7 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)) | vapply(x, is.numeric, FUN.VALUE = logical(1)))
 	 	}
 	} else {
-		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see tm_symbols - details section)." else "  Values should be symbols (see tm_symbols - details section)."})
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see {.help [tm_symbols](tmap::tm_symbols)} - details section)." else "  Values should be symbols (see {.help [tm_symbols](tmap::tm_symbols)} - details section)."})
 	}
 }
 

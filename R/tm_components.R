@@ -48,12 +48,6 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	)))))
 }
 
-# tm_compass = function( x = 1) {
-# 	tm_element_list(tm_element(as.list(environment()),
-# 							   subclass = c("tm_layer", "tm_compass")))
-# }
-
-
 #' Map component: (credits) text
 #'
 #' Map component that adds a text, typically used as credits

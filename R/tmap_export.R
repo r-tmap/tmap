@@ -29,7 +29,6 @@ tmap_leaflet = function(x,
 	print.tmap(x, show = show, ...)
 }
 
-#' @name tmap_grob
 #' @rdname tmap_leaflet
 #' @export
 tmap_grob = function(x,
