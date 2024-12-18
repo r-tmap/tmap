@@ -76,7 +76,6 @@ tm_cartogram_dorling = function(size = 1,
 								 options = options), args))
 }
 
-#' @name opt_tm_cartogram
 #' @rdname tm_cartogram
 #' @param type cartogram type, one of: "cont" for contiguous cartogram, "ncont" for non-contiguous cartogram and "dorling" for Dorling cartograms
 #' @param itermax, maximum number of iterations (see [cartogram::cartogram_cont()])
@@ -90,7 +89,6 @@ opt_tm_cartogram = function(type = "cont",
 		 polygons = do.call(opt_tm_polygons, list(...)))
 }
 
-#' @name opt_tm_cartogram_ncont
 #' @rdname tm_cartogram
 #' @param expansion factor expansion, see [cartogram::cartogram_ncont()] (argument `k`)
 #' @param inplace should each polygon be modified in its original place? (`TRUE` by default)
@@ -106,7 +104,6 @@ opt_tm_cartogram_ncont = function(type = "ncont",
 }
 
 
-#' @name opt_tm_cartogram_dorling
 #' @rdname tm_cartogram
 #' @param share share of the bounding box filled with the larger circle (see [cartogram::cartogram_dorling()] argument `k`)
 #' @export

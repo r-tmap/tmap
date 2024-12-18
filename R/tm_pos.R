@@ -105,8 +105,6 @@
 #' (or components) will be aligned with the maps.
 #'
 #' @export
-#' @name tm_pos
-#' @rdname tm_pos
 tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$type = "na"
@@ -114,7 +112,6 @@ tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v
 }
 
 #' @export
-#' @name tm_pos_in
 #' @rdname tm_pos
 tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -124,7 +121,6 @@ tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 
 
 #' @export
-#' @name tm_pos_out
 #' @rdname tm_pos
 tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -133,7 +129,6 @@ tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, ju
 }
 
 #' @export
-#' @name tm_pos_on_top
 #' @rdname tm_pos
 tm_pos_on_top = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -144,7 +139,6 @@ tm_pos_on_top = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 }
 
 #' @export
-#' @name tm_pos_auto_out
 #' @rdname tm_pos
 tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -153,7 +147,6 @@ tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.
 }
 
 #' @export
-#' @name tm_pos_auto_in
 #' @rdname tm_pos
 tm_pos_auto_in = function(align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())

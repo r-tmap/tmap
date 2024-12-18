@@ -29,8 +29,6 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @export
-#' @rdname tm_basemap
-#' @name tm_basemap
 #' @example ./examples/tm_basemap.R
 tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {
@@ -53,7 +51,6 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 
 
 #' @export
 #' @rdname tm_basemap
-#' @name tm_tiles
 tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 1, zindex = NA, group = NA, group.control = "check") {
 	if (is.null(server)) {
 		disable = TRUE
@@ -88,7 +85,6 @@ leaflet::providers
 #' @inheritDotParams tm_grid
 #' @export
 #' @example ./examples/tm_grid.R
-
 tm_graticules = function(x = NA,
 						 y = NA,
 						 n.x = NA,

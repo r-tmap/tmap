@@ -224,7 +224,6 @@ tm_scale_discrete = function(ticks = NA,
 #' @example ./examples/tm_scale_continuous.R
 #' @seealso [tm_scale()]
 #' @export
-#' @rdname tm_scale_continuous
 #' @name tm_scale_continuous
 tm_scale_continuous = function(n = NULL,
 							   limits = NULL,
@@ -300,21 +299,18 @@ tm_scale_rank = function(n = NULL,
 #' @export
 #' @param ... passed on to [tm_scale_continuous()]
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_log
 tm_scale_continuous_log = function(..., base = exp(1)) {
 	tm_scale_continuous(trans = "log", trans.args = list(base = base), ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_log2
 tm_scale_continuous_log2 = function(...) {
 	tm_scale_continuous(trans = "log", trans.args = list(base = 2), ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_log10
 tm_scale_continuous_log10 = function(...) {
 	tm_scale_continuous(trans = "log", trans.args = list(base = 10), ...)
 }
@@ -322,21 +318,18 @@ tm_scale_continuous_log10 = function(...) {
 
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_log1p
 tm_scale_continuous_log1p = function(...) {
 	tm_scale_continuous(trans = "log1p", ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_sqrt
 tm_scale_continuous_sqrt = function(...) {
 	tm_scale_continuous(trans = "sqrt", ...)
 }
 
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_continuous_pseudo_log
 tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 	tm_scale_continuous(trans = "pseudo_log", trans.args = list(base = base, sigma = sigma), ...)
 }
@@ -344,7 +337,6 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #
 # #' @export
 # #' @rdname tm_scale_continuous
-# #' @name tm_scale_continuous_logistic
 # tm_scale_continuous_logistic = function(...) {
 # 	tm_scale_continuous(trans = "logistic", ...)
 # }
@@ -363,7 +355,6 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #' @param probs probability (quantile) values when `stretch = "percent"`
 #' @param maxColorValue maximum value
 #' @seealso [tm_scale()] and [stars::st_rgb()]
-#' @rdname tm_scale_rgb
 #' @example ./examples/tm_scale_rgb.R
 #' @export
 tm_scale_rgb = function(value.na = NA,

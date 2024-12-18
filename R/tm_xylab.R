@@ -12,8 +12,6 @@
 #' @param side side: `"top"` or `"bottom"` for `tm_xlab` and `"left"` or `"right"` for `tm_ylab`
 #' @export
 #' @export
-#' @rdname tm_xlab
-#' @name tm_xlab
 tm_xlab = function(text, size, color, rotation, space, fontface, fontfamily, side) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$show = TRUE
@@ -23,7 +21,6 @@ tm_xlab = function(text, size, color, rotation, space, fontface, fontfamily, sid
 
 #' @export
 #' @rdname tm_xlab
-#' @name tm_ylab
 tm_ylab = function(text, size, color, rotation, space, fontface, fontfamily, side) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$show = TRUE

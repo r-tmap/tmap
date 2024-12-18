@@ -154,7 +154,6 @@ tm_facets_grid = function(rows = NULL,
 #' @export
 #' @rdname tm_facets
 #' @param ... passed on to `tm_facets()`
-#' @name tm_facets_wrap
 tm_facets_wrap = function(by = "VARS__",
 						  nrow = NA,
 						  ncol = NA,

@@ -42,6 +42,7 @@
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
 #' @return A tm_legend component
 #' @export
+#' @example ./examples/tm_legend.R
 tm_legend = function(title,
 					 show,
 					 orientation,
