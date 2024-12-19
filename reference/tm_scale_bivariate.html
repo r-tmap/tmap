@@ -80,11 +80,15 @@ The function <code>tm_scale_bivariate()</code> is used for <code>bivariate.scale
 
 
 <dl><dt id="arg-scale-scale-">scale1, scale2<a class="anchor" aria-label="anchor" href="#arg-scale-scale-"></a></dt>
-<dd><p>two <code>tm_scale</code> objects. Currently, all <code>tm_scale_*()</code> functions are supported except <code>tm_scale_continous()</code>.</p></dd>
+<dd><p>two <code>tm_scale</code> objects. Currently, all <code>tm_scale_*()</code> functions are supported except <code><a href="tm_scale_continuous.html">tm_scale_continuous()</a></code>.</p></dd>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
-<dd><p>(generic scale argument) The visual values. For colors (e.g. <code>fill</code> or <code>col</code> for <code><a href="tm_polygons.html">tm_polygons()</a></code>) this is a palette name from the <code>cols4all</code> package (see <code><a href="https://mtennekes.github.io/cols4all/reference/c4a.html" class="external-link">cols4all::c4a()</a></code>) or vector of colors, for size (e.g. <code>size</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. <code>shape</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of symbols, etc. The tmap option <code>values.var</code> contains the default values per visual variable and in some cases also per data type.</p></dd>
+<dd><p>(generic scale argument) The visual values. For colors
+(e.g. <code>fill</code> or <code>col</code> for <code><a href="tm_polygons.html">tm_polygons()</a></code>) this is a palette name from the <code>cols4all</code> package (see <code><a href="https://mtennekes.github.io/cols4all/reference/c4a.html" class="external-link">cols4all::c4a()</a></code>)
+or vector of colors, for size (e.g. <code>size</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of sizes (if two values are specified they are interpret as range),
+for symbol shapes (e.g. <code>shape</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of symbols, etc.
+The tmap option <code>values.var</code> contains the default values per visual variable and in some cases also per data type.</p></dd>
 
 
 <dt id="arg-values-repeat">values.repeat<a class="anchor" aria-label="anchor" href="#arg-values-repeat"></a></dt>
@@ -92,7 +96,14 @@ The function <code>tm_scale_bivariate()</code> is used for <code>bivariate.scale
 
 
 <dt id="arg-values-range">values.range<a class="anchor" aria-label="anchor" href="#arg-values-range"></a></dt>
-<dd><p>(generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as <code>c(0, 1)</code>. For instance, when a grey scale is used for color (from black to white), <code>c(0,1)</code> means that all colors are used, <code>0.25, 0.75</code> means that only colors from dark grey to light grey are used (more precisely <code>"grey25"</code> to <code>"grey75"</code>), and <code>0, 0.5</code> means that only colors are used from black to middle grey (<code>"grey50"</code>). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option <code>values.range</code>.</p></dd>
+<dd><p>(generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum.
+Full range, which means that all values are used, is encoded as <code>c(0, 1)</code>.
+For instance, when a grey scale is used for color (from black to white), <code>c(0,1)</code>
+means that all colors are used, <code>0.25, 0.75</code> means that only colors from dark grey to light
+grey are used (more precisely <code>"grey25"</code> to <code>"grey75"</code>), and <code>0, 0.5</code> means
+that only colors are used from black to middle grey (<code>"grey50"</code>).
+When only one number is specified, this is interpreted as the second number
+(where the first is set to 0). Default values can be set via the tmap option <code>values.range</code>.</p></dd>
 
 
 <dt id="arg-values-scale">values.scale<a class="anchor" aria-label="anchor" href="#arg-values-scale"></a></dt>
@@ -104,11 +115,18 @@ The function <code>tm_scale_bivariate()</code> is used for <code>bivariate.scale
 
 
 <dt id="arg-value-null">value.null<a class="anchor" aria-label="anchor" href="#arg-value-null"></a></dt>
-<dd><p>(generic scale argument) Value used for NULL values. See tmap option <code>"value.null"</code> for defaults per visual variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).</p></dd>
+<dd><p>(generic scale argument) Value used for NULL values.
+See tmap option <code>"value.null"</code> for defaults per visual variable. Null data
+values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country,
+the null values are applied to countries outside Europe).</p></dd>
 
 
 <dt id="arg-value-neutral">value.neutral<a class="anchor" aria-label="anchor" href="#arg-value-neutral"></a></dt>
-<dd><p>(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both <code>fill</code> and <code>size</code> are used for <code><a href="tm_symbols.html">tm_symbols()</a></code> (using filled circles), the size legend items are filled with the <code>value.neutral</code> color from the <code>fill.scale</code> scale, and fill legend items are bubbles of size <code>value.neutral</code> from the <code>size.scale</code> scale.</p></dd>
+<dd><p>(generic scale argument) Value that can be considered neutral.
+This is used for legends of other visual variables of the same map layer.
+E.g. when both <code>fill</code> and <code>size</code> are used for <code><a href="tm_symbols.html">tm_symbols()</a></code> (using filled circles),
+the size legend items are filled with the <code>value.neutral</code> color from the <code>fill.scale</code> scale,
+and fill legend items are bubbles of size <code>value.neutral</code> from the <code>size.scale</code> scale.</p></dd>
 
 
 <dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>

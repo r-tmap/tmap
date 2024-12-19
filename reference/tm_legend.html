@@ -154,7 +154,7 @@
 
 
 <dt id="arg-resize-as-group">resize_as_group<a class="anchor" aria-label="anchor" href="#arg-resize-as-group"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>resize_as_group</p></dd>
 
 
 <dt id="arg-title-color">title.color<a class="anchor" aria-label="anchor" href="#arg-title-color"></a></dt>
@@ -286,6 +286,24 @@
     <p>A tm_legend component</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example using different settings from tm_legend()</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">World</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span></span>
+<span class="r-in"><span>    fill.legend <span class="op">=</span> <span class="fu">tm_legend</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      title <span class="op">=</span> <span class="st">"Home Price Index"</span>, design <span class="op">=</span> <span class="st">"standard"</span>, title.color <span class="op">=</span> <span class="st">"orange"</span>, bg.color <span class="op">=</span> <span class="st">"purple"</span>, show <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="st">"name"</span>,</span></span>
+<span class="r-in"><span>    <span class="co"># Format the labels using dollar sign</span></span></span>
+<span class="r-in"><span>    fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>label.format <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, big.marj <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-plt img"><img src="tm_legend-1.png" alt="" width="2188" height="1350"></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
