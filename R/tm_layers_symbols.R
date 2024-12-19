@@ -478,7 +478,6 @@ v3_symbols = function(args, args_called, arg_col = NULL) {
 
 
 #' @export
-#' @name tm_dots
 #' @rdname tm_symbols
 tm_dots = function(fill = tm_const(),
 				   fill.scale = tm_scale(),
@@ -519,7 +518,6 @@ tm_dots = function(fill = tm_const(),
 
 
 #' @export
-#' @name tm_bubbles
 #' @rdname tm_symbols
 tm_bubbles = function(size = tm_const(),
 					  size.scale = tm_scale(),
