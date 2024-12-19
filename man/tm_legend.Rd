@@ -159,7 +159,11 @@ World |>
 	tm_polygons(
 		fill = "HPI",
 		fill.legend = tm_legend(
-			title = "Home Price Index", design = "standard", title.color = "orange", bg.color = "purple", show = TRUE
+			title = "Home Price Index",
+			design = "standard",
+			title.color = "orange",
+			bg.color = "purple",
+			show = TRUE
 		),
 		id = "name",
 		# Format the labels using dollar sign

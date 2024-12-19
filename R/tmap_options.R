@@ -19,7 +19,7 @@
 #' @param facet.max Maximum number of facets
 #' @param facet.flip Should facets be flipped (in case of facet wrap)? This can also be set via [tm_facets_flip()]
 #' @param free.scales For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
-#' @param raster.max_cells Maximum number of raster grid cells
+#' @param raster.max_cells Maximum number of raster grid cells. Can be mode specific `c(plot = 3000, view = 1000, 1000)` (the last value is the fall back default)
 #' @param show.messages Show messages?
 #' @param show.warnings Show warnings?
 #' @param output.format Output format
@@ -371,6 +371,34 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 	all_opts = union(mode_opts, names(.defaultTmapOptions))
 
 	unknown_args = setdiff(names(args), all_opts)
+
+	fun = "tmap_options"
+	if ("view.legend.position" %in% unknown_args) {
+		args$legend.position = args$view.legend.position
+		args$view.legend.position = NULL
+		v3_opt(fun, "view.legend.position", "legend.position")
+	}
+	if ("set.bounds" %in% unknown_args) {
+		args$set_bounds = args$set.bounds
+		args$set.bounds = NULL
+		v3_opt(fun, "set.bounds", "set_bounds")
+	}
+	if ("set.view" %in% unknown_args) {
+		args$set_view = args$set.view
+		args$set.view = NULL
+		v3_opt(fun, "set.view", "set_view")
+	}
+	if ("set.zoom.limits" %in% unknown_args) {
+		args$set_zoom_limits = args$set.zoom.limits
+		args$set.zoom.limits = NULL
+		v3_opt(fun, "set.zoom.limits", "set_zoom_limits")
+	}
+	if ("max.raster" %in% unknown_args) {
+		args$raster.max_cells = args$max.raster
+		args$max.raster = NULL
+		v3_opt(fun, "max.raster", "raster.max_cells")
+	}
+	unknown_args = setdiff(names(args), all_opts)
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)
 	} else if (length(unknown_args) > 1) {
@@ -444,6 +472,8 @@ tmap_graphics_name = function(mode) {
 	if (missing(mode)) mode = getOption("tmap.mode")
 	get("tmapOptions", envir = .TMAP)$modes[[mode]]$name
 }
+
+
 
 tmapOption = function(...) {
 	structure(list(...), class = "tmapOption")

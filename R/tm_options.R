@@ -31,7 +31,7 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 
 	if ("view.legend.position" %in% args_called) {
 		args$legend.position = args$view.legend.position
-		args$legend.position = NULL
+		args$view.legend.position = NULL
 		v3_opt(fun, "view.legend.position", "legend.position")
 	}
 	if ("set.bounds" %in% args_called) {
@@ -49,7 +49,11 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 		args$set.zoom.limits = NULL
 		v3_opt(fun, "set.zoom.limits", "set_zoom_limits")
 	}
-
+	if ("max.raster" %in% args_called) {
+		args$raster.max_cells = args$max.raster
+		args$max.raster = NULL
+		v3_opt(fun, "max.raster", "raster.max_cells")
+	}
 
 
 	if (!is.null(args[["title"]]) || (!is.null(args[["main.title"]]))) {

@@ -606,10 +606,7 @@
 		tiles.alpha = 1,
 		tiles.zoom = NA,
 
-		attr.color = "black",
-
-		# not in tmap4 -> backward comp?
-		view.legend.position = NA
+		attr.color = "black"
 	),
 	style = "white",
 	specified = character()

@@ -1,0 +1,124 @@
+---
+title: "tmap example: rasters"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, message = FALSE}
+library(tmap)
+library(dplyr)
+library(sf)
+library(stars)
+library(terra)
+library(sits)
+tmap_options(scale = 0.75)
+```
+
+
+## About the data
+
+```{r}
+ndvi_image = system.file("extdata/raster/mod13q1/TERRA_MODIS_012010_NDVI_2014-01-17.jp2", package = "sits")
+```
+
+Reading with the `terra` package
+
+```{r}
+(ndvi_terra = terra::rast(ndvi_image))
+```
+
+Reading with the `stars` package
+
+```{r}
+(ndvi_stars = stars::read_stars(ndvi_image))
+```
+
+
+## Example 1
+
+first plot - a NDVI image in false color with a brewer pallete
+
+```{r fig.height = 4.5}
+ndvi = ndvi_terra # or ndivi_stars
+
+# scale the data to get image in [-1..1] range
+ndvi = ndvi * 0.0001
+
+# plot using brewer "RdYlGn" pallete
+tmap::tm_shape(ndvi) +
+    tmap::tm_raster(
+        col.scale = tmap::tm_scale_continuous(
+            values = "brewer.rd_yl_gn",
+            midpoint = NA),
+        col.legend = tmap::tm_legend(
+            title = "NDVI",
+            title.size = 0.7,
+            text.size = 0.7,
+            bg.color = "white",
+            bg.alpha = 0.7,
+            position = tmap::tm_pos_in("left", "bottom"),
+            frame = TRUE
+        )
+    ) +
+    tmap::tm_graticules(
+        labels.size = 0.7
+    ) +
+    tmap::tm_compass() +
+    tmap::tm_layout(
+        scale = 1.0
+    )
+```
+
+## Example 2
+
+```{r}
+sent_image = system.file("extdata/raster/classif/SENTINEL2_MSI_20LNR_2020-06-04_2021-08-26_class_v1.tif", package = "sits")
+```
+
+```{r}
+sent = terra::rast(sent_image)
+```
+
+```{r fig.height = 5}
+tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
+```
+

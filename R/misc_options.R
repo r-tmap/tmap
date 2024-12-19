@@ -125,4 +125,16 @@ get_vector_id = function(x, id) {
 	}
 }
 
+# raster.max_cell can be mode specific: e.g. c(plot = 3000, view = 1000, 1000),
+max_cells = function(raster.max_cells) {
+	mode = getOption("tmap.mode")
+
+	if (mode %in% names(raster.max_cells)) {
+		raster.max_cells[mode]
+	} else {
+		raster.max_cells[length(raster.max_cells)]
+	}
+}
+
+
 

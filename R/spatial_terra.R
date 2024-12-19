@@ -3,7 +3,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
 	rlang::check_installed("terra")
 
-	shp = downsample_SpatRaster(shp, max.raster = o$raster.max_cells / (o$fn[1] * o$fn[2]))
+	shp = downsample_SpatRaster(shp, max.raster = max_cells(o$raster.max_cells) / (o$fn[1] * o$fn[2]))
 
 
 	ctabs = terra::coltab(shp)
@@ -102,7 +102,7 @@ tmapSubsetShp.SpatVector = function(shp, vars) {
 
 #' @export
 tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
-	if (terra::ncell(shp) > o$raster.max_cells) {
+	if (terra::ncell(shp) > max_cells(o$raster.max_cells)) {
 		# NOTE: this option is not ideal, because categories may be undiscovered
 		# NOTE2: maybe the same should be done with large stars?
 		shp = terra::spatSample(shp, 1e5, method = "regular", as.raster = TRUE)
