@@ -61,9 +61,13 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 				cls = rgb(cti$red, cti$green, cti$blue, cti$alpha, maxColorValue = 255)
 
 				levels(dt[[nm]]) = paste(levels(dt[[nm]]), cls, sep = "=<>=")
-			} else if ("values" %in% names(ct)) {
+			} else if ("value" %in% names(ct)) {
 				cls = rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)
-				dt[[nm]] = factor(dt[[nm]], levels = ct$values, labels = paste(ct$values, cls, sep = "=><="))
+				until = anyDuplicated(cls) - 1L
+
+				cls = cls[1:until]
+				ct = ct[1:until, ]
+				dt[[nm]] = factor(dt[[nm]], levels = ct$value, labels = paste(ct$value, cls, sep = "=><="))
 			}
 
 		}

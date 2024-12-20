@@ -112,7 +112,7 @@ dimensions <- structure(list(
 	raster = stars:::get_raster(),
 	class = "dimensions"
 	)
-	
+
 s1 <- stars::st_as_stars(ms)
 attr(s1, "dimensions") <- dimensions
 
@@ -120,3 +120,52 @@ land <- s1
 
 save(land, file="./data/land.rda", compress="xz")
 
+
+## 2024-12-20: just adding color tables
+attr(land$cover_cls, "colors") = c("#33A02C", "#A1C995", "#F6B26B", "#3581B8", "#D9C59E", "#E31A1C", "#E6E6E6", "#A6CEE3")
+attr(land$cover_cls, "exclude") = rep(FALSE, 8)
+
+
+colors <- c(
+	"Forest" = "#33A02C",
+	"Other natural vegetation" = "#A1C995",
+	"Cropland" = "#F6B26B",
+	"Wetland" = "#3581B8",
+	"Bare area/Sparse vegetation" = "#D9C59E",
+	"Urban" = "#E31A1C",
+	"Snow/Ice" = "#E6E6E6",
+	"Water" = "#A6CEE3"
+)
+
+
+colors_20 <- c(
+	"Broadleaf Evergreen Forest" = "#115F31",  # Dark lush green
+	"Broadleaf Deciduous Forest" = "#4DAF4A",  # Bright green with hints of yellow for seasonal change
+	"Needleleaf Evergreen Forest" = "#084C25",  # Deep pine green
+	"Needleleaf Deciduous Forest" = "#347C2C",  # Mid-green with yellowish tones
+	"Mixed Forest" = "#3D9140",  # Balanced green for mixed compositions
+	"Tree Open" = "#A3C9A8",  # Pale green for sparse tree cover
+	"Shrub" = "#86775F",  # Earthy brown-gray typical of shrublands
+	"Herbaceous" = "#B9D978",  # Light green-yellow for grassy areas
+	"Herbaceous with Sparse Tree/Shrub" = "#D5E8A8",  # Pale yellow-green
+	"Sparse vegetation" = "#E3D8B5",  # Beige for sparsely vegetated areas
+	"Cropland" = "#D89E44",  # Warm golden-brown
+	"Paddy field" = "#C6D754",  # Yellow-green for wet crops like rice
+	"Cropland / Other Vegetation Mosaic" = "#E3C299",  # Light orange-brown
+	"Mangrove" = "#2E8B57",  # Rich dark green for coastal mangroves
+	"Wetland" = "#7AA1D2",  # Muted blue-gray to represent moist areas
+	"Bare area,consolidated (gravel,rock)" = "#9E9E9E",  # Grayish-brown for rocky areas
+	"Bare area,unconsolidated (sand)" = "#EED5B7",  # Sandy beige
+	"Urban" = "#B22222",  # Brick red for urbanized areas
+	"Snow / Ice" = "#FFFFFF",  # Pure white for snow/ice
+	"Water bodies" = "#4682B4"  # Deep steel blue for water
+)
+
+attr(land$cover, "colors") = unname(colors_20)
+attr(land$cover, "exclude") = rep(FALSE, 20)
+
+
+tm_shape(land) + tm_raster("cover_cls")
+tm_shape(land) + tm_raster("cover")
+
+save(land, file="./data/land.rda", compress="xz")

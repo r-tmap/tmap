@@ -82,8 +82,7 @@ so the \verb{*.free} argument requires only one logical value.
 data(land, World)
 
 tm_shape(land) +
-	tm_raster(c("trees", "elevation")) +
-	tm_facets_hstack()
+	tm_raster("cover")
 
 tm_shape(land) +
 	tm_raster("elevation", col.scale = tm_scale_continuous(values = terrain.colors(9))) +
