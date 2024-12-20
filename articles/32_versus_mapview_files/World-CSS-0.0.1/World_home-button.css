@@ -1,0 +1,3 @@
+.leaflet-bar button {background-color:#ffffff95;border:none;width:100%;height:20px;line-height:15px;font-size:85%;text-align:center;text-decoration:none;color:black;cursor:pointer;overflow-x:visible;overflow-y:hidden;opacity:0.25;background-position:50% 50%;background-repeat:no-repeat;display:inline-block} 
+
+ .leaflet-bar button:hover {background-color:#00ffff;text-decoration:underline;opacity:0.9}
