@@ -48,7 +48,7 @@ tm_scale_rank(
 
 \item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
 
-\item{unit}{unit the unit name of the values. By default \code{"rank"}.}
+\item{unit}{The unit name of the values. By default \code{"rank"}.}
 }
 \description{
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.

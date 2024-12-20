@@ -28,7 +28,7 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{margins}{margins}
 
-\item{between_margin}{between_margin}
+\item{between_margin}{Margin between}
 
 \item{stack}{stack}
 

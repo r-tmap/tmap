@@ -221,7 +221,7 @@ tm_minimap <- function(server,
 #' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo.
 #'   If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param margins margins
-#' @param between_margin between_margin
+#' @param between_margin Margin between
 #' @param stack stack
 #' @inheritParams tm_title
 #' @param group.frame group.frame

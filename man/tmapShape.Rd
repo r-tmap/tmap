@@ -13,7 +13,7 @@ tmapShape(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 
 \item{crs}{crs}
 
-\item{bbox}{bbox}
+\item{bbox}{Bounding box}
 
 \item{unit}{unit}
 

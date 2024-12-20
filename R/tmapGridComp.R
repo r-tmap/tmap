@@ -432,7 +432,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	grbs = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
-			if (any(!stack_auto[id])) {
+			if (!all(stack_auto[id])) {
 				# get first specified 'stack' argument
 				stck = stack[id][which(!stack_auto[id])[1]]
 			} else {

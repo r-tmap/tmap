@@ -368,7 +368,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			grTicksMargin = NULL
 		}
 
-		if (any(!ticks_in_margin)) {
+		if (!all(ticks_in_margin)) {
 			grTicksItem = do.call(c, lapply(ticks[!ticks_in_margin], function(x) {
 				mapply(function(i, id) gridCell(id, 3, grid::linesGrob(x = x, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))

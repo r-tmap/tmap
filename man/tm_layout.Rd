@@ -302,7 +302,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{frame.r}{The r (radius) of the frame.}
 
-\item{frame.double_line}{The double line of the frame. TRUE of FALSE.}
+\item{frame.double_line}{The double line of the frame. \code{TRUE} or \code{FALSE}.}
 
 \item{outer.margins}{The margins of the outer space (outside the frame. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
@@ -328,7 +328,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{coords.height}{The height of the coords.}
 
-\item{xlab.show}{The visibility of the xlab. TRUE or FALSE.}
+\item{xlab.show}{The visibility of the xlab. \code{TRUE} or \code{FALSE}.}
 
 \item{xlab.text}{The text of the xlab.}
 
@@ -346,7 +346,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{xlab.side}{The side of the xlab.}
 
-\item{ylab.show}{The visibility of the ylab. TRUE or FALSE.}
+\item{ylab.show}{The visibility of the ylab. \code{TRUE} or \code{FALSE}.}
 
 \item{ylab.text}{The text of the ylab.}
 
@@ -368,9 +368,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.wrap.pos}{The panel positions for wrapped facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. One of \code{"left"}, \code{"right"}, \code{"top"} (default) or \code{"bottom"}.}
 
-\item{panel.xtab.pos}{The panel positions for grid facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. Vector of two, where the first determines the location sof row panels (\code{"left"} or \code{"right"}) and the second the location of column panels ( \code{"top"} or `"bottom")}
+\item{panel.xtab.pos}{The panel positions for grid facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. Vector of two, where the first determines the locations of row panels (\code{"left"} or \code{"right"}) and the second the location of column panels ( \code{"top"} or `"bottom")}
 
-\item{unit}{The unit of the .}
+\item{unit}{Unit of the coordinate}
 
 \item{color.sepia_intensity}{The sepia_intensity of the color.}
 
@@ -386,7 +386,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{component.autoscale}{The autoscale of the component.}
 
-\item{legend.show}{The visibility of the legend. TRUE or FALSE.}
+\item{legend.show}{The visibility of the legend. \code{TRUE} or \code{FALSE}.}
 
 \item{legend.design}{The design of the legend.}
 
@@ -406,7 +406,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.reverse}{The reverse of the legend.}
 
-\item{legend.na.show}{The visibility of the na of the legend. TRUE or FALSE.}
+\item{legend.na.show}{The visibility of the na of the legend. \code{TRUE} or \code{FALSE}.}
 
 \item{legend.title.color}{The color of the title of the legend.}
 
@@ -456,7 +456,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.settings.standard.landscape}{The landscape of the standard of the settings of the legend.}
 
-\item{chart.show}{The visibility of the chart. TRUE or FALSE.}
+\item{chart.show}{The visibility of the chart. \code{TRUE} or \code{FALSE}.}
 
 \item{chart.plot.axis.x}{The x of the axis of the plot of the chart.}
 
@@ -476,7 +476,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.reverse}{The reverse of the chart.}
 
-\item{chart.na.show}{The visibility of the na of the chart. TRUE or FALSE.}
+\item{chart.na.show}{The visibility of the na of the chart. \code{TRUE} or \code{FALSE}.}
 
 \item{chart.title.color}{The color of the title of the chart.}
 
@@ -522,7 +522,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.object.color}{The color of the object of the chart.}
 
-\item{title.show}{The visibility of the title. TRUE or FALSE.}
+\item{title.show}{The visibility of the title. \code{TRUE} or \code{FALSE}.}
 
 \item{title.size}{The size of the title.}
 
@@ -554,7 +554,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{title.resize_as_group}{The resize_as_group of the title.}
 
-\item{credits.show}{The visibility of the credits. TRUE or FALSE.}
+\item{credits.show}{The visibility of the credits. \code{TRUE} or \code{FALSE}.}
 
 \item{credits.size}{The size of the credits.}
 
@@ -614,7 +614,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{compass.margins}{The margins of the compass. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{compass.show}{The visibility of the compass. TRUE or FALSE.}
+\item{compass.show}{The visibility of the compass. \code{TRUE} or \code{FALSE}.}
 
 \item{compass.stack}{The stack of the compass.}
 
@@ -636,7 +636,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{logo.between_margin}{The between_margin of the logo.}
 
-\item{logo.show}{The visibility of the logo. TRUE or FALSE.}
+\item{logo.show}{The visibility of the logo. \code{TRUE} or \code{FALSE}.}
 
 \item{logo.stack}{The stack of the logo.}
 
@@ -652,7 +652,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{logo.resize_as_group}{The resize_as_group of the logo.}
 
-\item{scalebar.show}{The visibility of the scalebar. TRUE or FALSE.}
+\item{scalebar.show}{The visibility of the scalebar. \code{TRUE} or \code{FALSE}.}
 
 \item{scalebar.breaks}{The break values of the scalebar.}
 
@@ -690,7 +690,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{scalebar.resize_as_group}{The resize_as_group of the scalebar.}
 
-\item{grid.show}{The visibility of the grid. TRUE or FALSE.}
+\item{grid.show}{The visibility of the grid. \code{TRUE} or \code{FALSE}.}
 
 \item{grid.labels.pos}{The pos of the labels of the grid.}
 
@@ -710,7 +710,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{grid.alpha}{The alpha transparency of the grid.}
 
-\item{grid.labels.show}{The visibility of the labels of the grid. TRUE or FALSE.}
+\item{grid.labels.show}{The visibility of the labels of the grid. \code{TRUE} or \code{FALSE}.}
 
 \item{grid.labels.size}{The size of the labels of the grid.}
 
@@ -742,7 +742,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{mouse_coordinates.position}{The position of the mouse_coordinates.}
 
-\item{mouse_coordinates.show}{The visibility of the mouse_coordinates. TRUE or FALSE.}
+\item{mouse_coordinates.show}{The visibility of the mouse_coordinates. \code{TRUE} or \code{FALSE}.}
 
 \item{minimap.server}{The server of the minimap.}
 
@@ -752,9 +752,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{minimap.position}{The position of the minimap.}
 
-\item{minimap.show}{The visibility of the minimap. TRUE or FALSE.}
+\item{minimap.show}{The visibility of the minimap. \code{TRUE} or \code{FALSE}.}
 
-\item{panel.show}{The visibility of the panel. TRUE or FALSE.}
+\item{panel.show}{The visibility of the panel. \code{TRUE} or \code{FALSE}.}
 
 \item{panel.labels}{The labels of the panel.}
 
@@ -778,13 +778,19 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.label.rot}{The rot of the label of the panel.}
 
-\item{bbox}{The bounding box of the .}
+\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
 
-\item{set_bounds}{The set_bounds of the .}
+\item{set_bounds}{logical that determines whether maximum bounds are set,
+or a bounding box. Not applicable in plot mode.
+In view mode, this is passed on to \link[leaflet:map-methods]{setMaxBounds()}}
 
-\item{set_view}{The set_view of the .}
+\item{set_view}{numeric vector that determines the view.
+Either a vector of three: \code{lng}, \code{lat}, and \code{zoom}, or a single value:
+\code{zoom}. See \link[leaflet:map-methods]{setView()}.
+Only applicable if \code{bbox} is not specified}
 
-\item{set_zoom_limits}{The set_zoom_limits of the .}
+\item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
+zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
 \item{qtm.scalebar}{The scalebar of the qtm.}
 
@@ -798,13 +804,13 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{earth_boundary.lwd}{The line width of the earth_boundary. See \code{graphics::par}, option 'lwd'.}
 
-\item{earth_datum}{The earth_datum of the .}
+\item{earth_datum}{Earth datum}
 
 \item{space.color}{The color of the space.}
 
-\item{check_and_fix}{The check_and_fix of the .}
+\item{check_and_fix}{Should attempt to fix an invalid shapefile}
 
-\item{basemap.show}{The visibility of the basemap. TRUE or FALSE.}
+\item{basemap.show}{The visibility of the basemap. \code{TRUE} or \code{FALSE}.}
 
 \item{basemap.server}{The server of the basemap.}
 
@@ -812,7 +818,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{basemap.zoom}{The zoom of the basemap.}
 
-\item{tiles.show}{The visibility of the tiles. TRUE or FALSE.}
+\item{tiles.show}{The visibility of the tiles. \code{TRUE} or \code{FALSE}.}
 
 \item{tiles.server}{The server of the tiles.}
 
