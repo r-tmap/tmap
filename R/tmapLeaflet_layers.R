@@ -43,7 +43,7 @@ impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, p
 			} else {
 				message_webgl_vars(supported, vary)
 			}
-		} else if (any(!checks)) {
+		} else if (!all(checks)) {
 			if (is.na(use_WebGL)) {
 				use_WebGL = FALSE
 			} else {
