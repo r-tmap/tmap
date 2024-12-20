@@ -122,3 +122,18 @@ sent = terra::rast(sent_image)
 tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
 ```
 
+## Example 3 (categorical raster)
+
+```{r}
+clc2018_poznan = rast("https://github.com/Nowosad/comparing-spatial-patterns-2024/raw/refs/heads/main/data/clc2018_poznan.tif")
+```
+
+```{r}
+tm_shape(clc2018_poznan) + 
+	tm_raster()
+```
+
+```{r}
+tm_shape(clc2018_poznan) + 
+	tm_raster(col.scale = tm_scale_categorical())
+```
