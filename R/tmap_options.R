@@ -82,7 +82,7 @@
 #' @param panel.type `r .doc_opt("panel.type")`
 #' @param panel.wrap.pos The panel positions for wrapped facets created with [tm_facets_grid()]. One of `"left"`, `"right"`, `"top"` (default) or `"bottom"`.
 #' @param panel.xtab.pos The panel positions for grid facets created with [tm_facets_grid()]. Vector of two, where the first determines the location sof row panels (`"left"` or `"right"`) and the second the location of column panels ( `"top"` or `"bottom")
-#' @param unit `r .doc_opt("unit")`
+#' @param unit Unit of the coordinate
 #' @param color.sepia_intensity `r .doc_opt("color.sepia_intensity")`
 #' @param color.saturation `r .doc_opt("color.saturation")`
 #' @param color_vision_deficiency_sim `r .doc_opt("color_vision_deficiency_sim")`

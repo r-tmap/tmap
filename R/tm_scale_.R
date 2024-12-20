@@ -33,10 +33,9 @@ tm_scale = function(...) {
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the
 #' layer functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function [tm_scale_asis()] is used to take data values as they are and use them as such for the visual variable.
+#' The function `tm_scale_asis()` is used to take data values as they are and use them as such for the visual variable.
 #'
-#' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
-#' @param value.neutral (generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both `fill` and `size` are used for [tm_symbols()] (using filled circles), the size legend items are filled with the `value.neutral` color from the `fill.scale` scale, and fill legend items are bubbles of size `value.neutral` from the `size.scale` scale.
+#' @inheritParams tm_scale_categorical
 #' @param ... Arguments caught (and not used) from the automatic function [tm_scale()]
 #' @seealso [tm_scale()]
 #' @export
@@ -117,7 +116,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param n Number of intervals. For some styles (see argument `style` below) it is the preferred number rather than the exact number.
 #' @param style Method to create intervals. Options are `"cat"`, `"fixed"`, `"sd"`, `"equal"`, `"pretty"`, `"quantile"`, `"kmeans"`, `"hclust"`, `"bclust"`, `"fisher"`, `"jenks"`, `"dpih"`, `"headtails"`, and `"log10_pretty"`. See the details in [classInt::classIntervals()] (extra arguments can be passed on via `style.args`).
 #' @param style.args List of extra arguments passed on to [classInt::classIntervals()].
-#' @param breaks Interval breaks (only used and required when `style=="fixed"`)
+#' @param breaks Interval breaks (only used and required when `style = "fixed"`)
 #' @param interval.closure value that determines whether where the intervals are closed: `"left"` or `"right"`. If `as.count = TRUE`, `inverval.closure` is always set to `"left"`.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
 #' @param as.count Should the data variable be processed as a count variable? For instance, if `style = "pretty"`, `n = 2`, and the value range of the variable is 0 to 10, then the column classes for `as.count = TRUE` are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for `as.count = FALSE` they are 0 to 5; 5 to 10. Only applicable if `style` is `"pretty"`, `"fixed"`, or `"log10_pretty"`. By default `FALSE`.
@@ -199,7 +198,7 @@ tm_scale_discrete = function(ticks = NA,
 #' Scales in tmap are configured by the family of functions with prefix `tm_scale`.
 #' Such function should be used for the input of the `.scale` arguments in the layer
 #' functions (e.g. `fill.scale` in [tm_polygons()]).
-#' The function [tm_scale_continuous()] is used for continuous data.
+#' The function `tm_scale_continuous()` is used for continuous data.
 #' The functions `tm_scale_continuous_<x>()` use transformation functions x.
 #'
 #' @param n Preferred number of tick labels. Only used if `ticks` is not specified
@@ -268,7 +267,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
-#' @param unit unit the unit name of the values. By default `"rank"`.
+#' @param unit The unit name of the values. By default `"rank"`.
 #' @seealso [tm_scale()]
 #' @export
 tm_scale_rank = function(n = NULL,

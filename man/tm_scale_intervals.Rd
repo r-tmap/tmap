@@ -32,7 +32,7 @@ tm_scale_intervals(
 
 \item{style.args}{List of extra arguments passed on to \code{\link[classInt:classIntervals]{classInt::classIntervals()}}.}
 
-\item{breaks}{Interval breaks (only used and required when \code{style=="fixed"})}
+\item{breaks}{Interval breaks (only used and required when \code{style = "fixed"})}
 
 \item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.}
 

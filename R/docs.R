@@ -85,14 +85,14 @@
 					zoom = "zoom")
 
 	extra_lookup = c(margins = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
-					 double_line = " TRUE of FALSE.",
+					 double_line = " `TRUE` or `FALSE`.",
 					 extra = " A list of arguments.",
 					 padding = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
 					 space = " In terms of number of line heights.",
 					 fontfamily = " See `graphics::par`, option 'family'.",
 					 fontface = " See `graphics::par`, option 'font'.",
 					 lwd = " See `graphics::par`, option 'lwd'.",
-					 show = " TRUE or FALSE.")
+					 show = " `TRUE` or `FALSE`.")
 
 	what_text = unname(what_lookup[what])
 	if (is.na(what_text)) what_text = what
