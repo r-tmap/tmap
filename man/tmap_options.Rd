@@ -375,9 +375,9 @@ tmap_options_save(style)
 
 \item{scale.misc.args}{Default values of scale function-specific arguments. A list is required with per scale function and optional per visual variable.}
 
-\item{continuous.nclass_per_legend_break}{The number of continuous legend breaks within one 'unit' (label).  The dafault value is 50.}
+\item{continuous.nclass_per_legend_break}{The number of continuous legend breaks within one 'unit' (label).  The default value is 50.}
 
-\item{continuous.nclasses}{the number of classes of a continuous scale. Should be odd.  The dafault value is 101.}
+\item{continuous.nclasses}{the number of classes of a continuous scale. Should be odd.  The default value is 101.}
 
 \item{label.format}{Format for the labels (was \code{legend.format} in tmap v3).}
 
@@ -464,7 +464,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.wrap.pos}{The panel positions for wrapped facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. One of \code{"left"}, \code{"right"}, \code{"top"} (default) or \code{"bottom"}.}
 
-\item{panel.xtab.pos}{The panel positions for grid facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. Vector of two, where the first determines the location sof row panels (\code{"left"} or \code{"right"}) and the second the location of column panels ( \code{"top"} or `"bottom")}
+\item{panel.xtab.pos}{The panel positions for grid facets created with \code{\link[=tm_facets_grid]{tm_facets_grid()}}. Vector of two, where the first determines the locations of row panels (\code{"left"} or \code{"right"}) and the second the location of column panels ( \code{"top"} or `"bottom")}
 
 \item{unit}{Unit of the coordinate}
 
@@ -874,7 +874,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.label.rot}{The rot of the label of the panel.}
 
-\item{bbox}{The bounding box of the .}
+\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
 
 \item{qtm.scalebar}{The scalebar of the qtm.}
 
@@ -888,11 +888,11 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{earth_boundary.lwd}{The line width of the earth_boundary. See \code{graphics::par}, option 'lwd'.}
 
-\item{earth_datum}{The earth_datum of the .}
+\item{earth_datum}{Earth datum}
 
 \item{space.color}{The color of the space.}
 
-\item{check_and_fix}{The check_and_fix of the .}
+\item{check_and_fix}{Should attempt to fix an invalid shapefile}
 
 \item{basemap.show}{The visibility of the basemap. \code{TRUE} or \code{FALSE}.}
 
@@ -924,11 +924,17 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{control.overlays}{overlay layers}
 
-\item{set_bounds}{The set_bounds of the .}
+\item{set_bounds}{logical that determines whether maximum bounds are set,
+or a bounding box. Not applicable in plot mode.
+In view mode, this is passed on to \link[leaflet:map-methods]{setMaxBounds()}}
 
-\item{set_view}{The set_view of the .}
+\item{set_view}{numeric vector that determines the view.
+Either a vector of three: \code{lng}, \code{lat}, and \code{zoom}, or a single value:
+\code{zoom}. See \link[leaflet:map-methods]{setView()}.
+Only applicable if \code{bbox} is not specified}
 
-\item{set_zoom_limits}{The set_zoom_limits of the .}
+\item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
+zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
 \item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots} and \code{tm_symbols}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
 

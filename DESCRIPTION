@@ -61,7 +61,7 @@ Suggests:
     rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
-Config/Needs/website: bookdown, geofacet, rmarkdown, mapview, sits
+Config/Needs/website: bookdown, geofacet, rmarkdown, mapview, sits, r-spatial/leafem
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

@@ -19,7 +19,7 @@ reproject_bbox = function(bbox, crs) {
 #' @param shp shp
 #' @param is.main is.main
 #' @param crs crs
-#' @param bbox bbox
+#' @param bbox Bounding box
 #' @param unit unit
 #' @param filter filter
 #' @param shp_name shp_name
