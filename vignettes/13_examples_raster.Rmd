@@ -135,5 +135,5 @@ tm_shape(clc2018_poznan) +
 
 ```{r}
 tm_shape(clc2018_poznan) + 
-	tm_raster(col.scale = tm_scale_categorical())
+	tm_raster(col.legend = tm_legend(title = "Land cover"))
 ```
