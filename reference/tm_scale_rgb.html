@@ -64,14 +64,14 @@ The function <code>tm_scale_rgb()</code> is used to transform r, g, b band varia
 <span>  value.na <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  stretch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  maxColorValue <span class="op">=</span> <span class="fl">255L</span></span>
+<span>  max_color_value <span class="op">=</span> <span class="fl">255L</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_scale_rgba</span><span class="op">(</span></span>
 <span>  value.na <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  stretch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  maxColorValue <span class="op">=</span> <span class="fl">255</span></span>
+<span>  max_color_value <span class="op">=</span> <span class="fl">255</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,7 +84,7 @@ The function <code>tm_scale_rgb()</code> is used to transform r, g, b band varia
 
 
 <dt id="arg-stretch">stretch<a class="anchor" aria-label="anchor" href="#arg-stretch"></a></dt>
-<dd><p>should each (r, g, b) band be stretched? Possible values: <code>"percent"</code> (same as <code>TRUE</code>)  and <code>"histogram"</code>.
+<dd><p>should each (r, g, b) band be stretched? Possible values: <code>"percent"</code> (same as <code>TRUE</code>), <code>"histogram"</code>, <code>FALSE</code>.
 In the first case, the values are stretched to <code>probs[1]...probs[2]</code>. In the second case, a histogram equalization is performed</p></dd>
 
 
@@ -92,7 +92,7 @@ In the first case, the values are stretched to <code>probs[1]...probs[2]</code>.
 <dd><p>probability (quantile) values when <code>stretch = "percent"</code></p></dd>
 
 
-<dt id="arg-maxcolorvalue">maxColorValue<a class="anchor" aria-label="anchor" href="#arg-maxcolorvalue"></a></dt>
+<dt id="arg-max-color-value">max_color_value<a class="anchor" aria-label="anchor" href="#arg-max-color-value"></a></dt>
 <dd><p>maximum value</p></dd>
 
 </dl></div>

@@ -66,6 +66,11 @@ fourth is the alpha transparency channel.</p>
 <span>  col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  col.free <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  col_alpha <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_alpha.free <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_rgb</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -79,7 +84,7 @@ fourth is the alpha transparency channel.</p>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_rgb</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_rgb</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_rgb</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span>, saturation <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -89,6 +94,10 @@ fourth is the alpha transparency channel.</p>
 <dl><dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
 <dd><p>Visual variable that determines
 the color. <code>col</code> is a multivariate variable, with 3 (<code>tm_rgb</code>) or 4 (<code>tm_rgba</code>) numeric data variables. These can be specified via <code><a href="tm_vars.html">tm_vars()</a></code> with <code>multivariate = TRUE</code></p></dd>
+
+
+<dt id="arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free">col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free<a class="anchor" aria-label="anchor" href="#arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free"></a></dt>
+<dd><p>Visual variable that determines the color transparency. See details.</p></dd>
 
 
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
@@ -101,6 +110,10 @@ the color. <code>col</code> is a multivariate variable, with 3 (<code>tm_rgb</co
 
 <dt id="arg-interpolate">interpolate<a class="anchor" aria-label="anchor" href="#arg-interpolate"></a></dt>
 <dd><p>Should the raster image be interpolated? Currently only applicable in view mode (passed on to <code><a href="https://rdrr.io/r/grid/grid.raster.html" class="external-link">grid</a></code>)</p></dd>
+
+
+<dt id="arg-saturation">saturation<a class="anchor" aria-label="anchor" href="#arg-saturation"></a></dt>
+<dd><p>The saturation of the rgb.</p></dd>
 
 </dl></div>
 

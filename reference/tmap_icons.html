@@ -60,6 +60,7 @@ The function <code>marker_icon()</code> is the specification of the default mark
 <span>  height <span class="op">=</span> <span class="fl">48</span>,</span>
 <span>  keep.asp <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>,</span>
+<span>  merge <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  as.local <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -94,6 +95,10 @@ The first value specifies horizontal and the second value vertical justification
 Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>.
 Numeric values of 0 specify left alignment and 1 right alignment.
 The default value of <code>just</code> is <code>c("center", "center")</code>.</p></dd>
+
+
+<dt id="arg-merge">merge<a class="anchor" aria-label="anchor" href="#arg-merge"></a></dt>
+<dd><p>merge icons to one icon list (see return value)? If <code>FALSE</code>, a list is created per file. By default <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-as-local">as.local<a class="anchor" aria-label="anchor" href="#arg-as-local"></a></dt>
