@@ -98,12 +98,20 @@ step1_rearrange_facets = function(tmo, o) {
 
 				# check if dimension is or should be used
 				if (inherits(value, "tmapVars") && (length(smeta$dims) != 0) && (!is.null(value$dimvalues) || (!is.na(value$x[1]) && length(value$x) == 1L) || (value$multivariate && length(shpvars) == 1L))) {
-					if (is.na(value$x)) {
+					if (is.na(value$x)[1]) {
 						value$x = smeta$dims[1]
 					} else {
 						if (length(value$x) > 1L) {
-							warning("dimvalues specified while more than one dimension name is specified. Only the first will be used", call. = FALSE)
-							value$x = value$x[1]
+							if (identical(value$n, -1)) { # shortcut used for v3 compat: tm_rgb(r=3,g=2,=b1) when not known if shp had a band
+								v3_tm_rgb(value$x[1], value$x[2], value$x[3], dim = smeta$dims[1])
+
+								value$dimvalues = value$x
+								value$x = smeta$dims[1]
+								value$n = NA
+							} else {
+								warning("dimvalues specified while more than one dimension name is specified. Only the first will be used", call. = FALSE)
+								value$x = value$x[1]
+							}
 						}
 						if (!(value$x %in% smeta$dims)) {
 							stop("dimvalues specified, but dimension \"" , x, "\" not found. Available dimension name(s): ", paste(smeta$dims,collapse = ", "), call. = FALSE)
@@ -150,6 +158,10 @@ step1_rearrange_facets = function(tmo, o) {
 						#value = value_orig
 						#names(value) = sapply(value, "[", 1)
 					} else if (inherits(value, "tmapVars")) {
+						if (identical(value$n, -1)) { # shortcut used for v3 compat: tm_rgb(r=3,g=2,=b1) when not known if shp had a band
+							v3_tm_rgb(value$x[1], value$x[2], value$x[3])
+						}
+
 						if (!is.null(value$dimvalues) && length(smeta$dims) == 0L) {
 							error_dimvalues()
 						}

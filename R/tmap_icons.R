@@ -13,6 +13,7 @@
 #'   Possible values are: `"left"` , `"right"`, `"center"`, `"bottom"`, and `"top"`.
 #'   Numeric values of 0 specify left alignment and 1 right alignment.
 #'   The default value of `just` is `c("center", "center")`.
+#' @param merge merge icons to one icon list (see return value)? If `FALSE`, a list is created per file. By default `TRUE`.
 #' @param as.local if the `file` is a url, should it be saved to local temporary file?
 #' @param ... arguments passed on to [leaflet::icons()].
 #'   When `iconWidth`, `iconHeight`, `iconAnchorX`, and `iconAnchorY` are specified,
@@ -20,10 +21,10 @@
 #' @return icon data (see [leaflet::icons()])
 #' @export
 #' @seealso [tm_symbols()]
-tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), as.local=TRUE, ...) {
+tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), merge = TRUE, as.local=TRUE, ...) {
 	icon_names <- names(file)
 	icons <- lapply(file, tmap_one_icon, width=width, height=height, keep.asp=keep.asp, just=just, as.local=as.local, ...)
-	merge_icons(icons, icon_names)
+	if (merge) merge_icons(icons, icon_names) else icons
 }
 
 

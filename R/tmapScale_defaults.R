@@ -39,12 +39,16 @@ tmapValuesCheck_bgcol = function(x, is_var = TRUE) {
 	tmapValuesCheck_col(x, is_var)
 }
 
+isSymbol = function(s) {
+	inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
+}
+isUrl <- function(string) {
+	any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", string))
+}
+
 #' @export
 #' @rdname tmap_internal
 tmapValuesCheck_shape = function(x, is_var = TRUE) {
-	isSymbol = function(s) {
-		inherits(s, "grob") || any(vapply(s, inherits, FUN.VALUE = logical(1), "grob")) || ("iconUrl" %in% names(s))
-	}
 
 	if (all(is.numeric(x))) {
 		TRUE
@@ -54,8 +58,12 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 	 	} else {
 	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)) | vapply(x, is.numeric, FUN.VALUE = logical(1)))
 	 	}
-	} else {
-		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see {.help [tm_symbols](tmap::tm_symbols)} - details section)." else "  Values should be symbols (see {.help [tm_symbols](tmap::tm_symbols)} - details section)."})
+	} else if (all(is.character(x))) {
+		if (all(isUrl(x))) {
+			TRUE
+		} else {
+			structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see {.help [tm_symbols](tmap::tm_symbols)} - details section)." else "  Values should be symbols (see {.help [tm_symbols](tmap::tm_symbols)} - details section)."})
+		}
 	}
 }
 
@@ -606,6 +614,8 @@ tmapValuesSubmit_lty = function(x, args) x
 #' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
 	if (!inherits(x, c("tmapStandard", "tmapSpecial"))) x = tmapVV(x)
+	if (inherits(x, "tmapStandard") && all(isUrl(x))) x = tmapVV(tmap_icons(x, merge = FALSE))
+
 	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()
 		fun = paste0("submit_symbols_", gs)

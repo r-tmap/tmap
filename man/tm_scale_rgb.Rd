@@ -9,25 +9,25 @@ tm_scale_rgb(
   value.na = NA,
   stretch = FALSE,
   probs = c(0, 1),
-  maxColorValue = 255L
+  max_color_value = 255L
 )
 
 tm_scale_rgba(
   value.na = NA,
   stretch = FALSE,
   probs = c(0, 1),
-  maxColorValue = 255
+  max_color_value = 255
 )
 }
 \arguments{
 \item{value.na}{value for missing values}
 
-\item{stretch}{should each (r, g, b) band be stretched? Possible values: \code{"percent"} (same as \code{TRUE})  and \code{"histogram"}.
+\item{stretch}{should each (r, g, b) band be stretched? Possible values: \code{"percent"} (same as \code{TRUE}), \code{"histogram"}, \code{FALSE}.
 In the first case, the values are stretched to \verb{probs[1]...probs[2]}. In the second case, a histogram equalization is performed}
 
 \item{probs}{probability (quantile) values when \code{stretch = "percent"}}
 
-\item{maxColorValue}{maximum value}
+\item{max_color_value}{maximum value}
 }
 \description{
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.

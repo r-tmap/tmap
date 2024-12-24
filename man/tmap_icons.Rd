@@ -11,6 +11,7 @@ tmap_icons(
   height = 48,
   keep.asp = TRUE,
   just = c("center", "center"),
+  merge = TRUE,
   as.local = TRUE,
   ...
 )
@@ -32,6 +33,8 @@ The first value specifies horizontal and the second value vertical justification
 Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}.
 Numeric values of 0 specify left alignment and 1 right alignment.
 The default value of \code{just} is \code{c("center", "center")}.}
+
+\item{merge}{merge icons to one icon list (see return value)? If \code{FALSE}, a list is created per file. By default \code{TRUE}.}
 
 \item{as.local}{if the \code{file} is a url, should it be saved to local temporary file?}
 

@@ -5,8 +5,8 @@
 \title{Map layer: iso (contour)}
 \usage{
 tm_iso(
-  col,
-  text,
+  col = tm_const(),
+  text = tm_vars(x = 1),
   ...,
   options_lines = opt_tm_lines(),
   options_labels = opt_tm_labels()

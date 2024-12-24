@@ -345,17 +345,17 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #' The function [tm_scale_rgb()] is used to transform r, g, b band variables to colors. This function is adopted from (and works similar as) [stars::st_rgb()]
 #'
 #' @param value.na value for missing values
-#' @param stretch should each (r, g, b) band be stretched? Possible values: `"percent"` (same as `TRUE`)  and `"histogram"`.
+#' @param stretch should each (r, g, b) band be stretched? Possible values: `"percent"` (same as `TRUE`), `"histogram"`, `FALSE`.
 #'   In the first case, the values are stretched to `probs[1]...probs[2]`. In the second case, a histogram equalization is performed
 #' @param probs probability (quantile) values when `stretch = "percent"`
-#' @param maxColorValue maximum value
+#' @param max_color_value maximum value
 #' @seealso [tm_scale()] and [stars::st_rgb()]
 #' @example ./examples/tm_scale_rgb.R
 #' @export
 tm_scale_rgb = function(value.na = NA,
 						stretch = FALSE,
 						probs = c(0, 1),
-						maxColorValue = 255L) {
+						max_color_value = 255L) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale", "list"))
 }
 
@@ -364,7 +364,7 @@ tm_scale_rgb = function(value.na = NA,
 tm_scale_rgba = function(value.na = NA,
 						 stretch = FALSE,
 						 probs = c(0, 1),
-						 maxColorValue = 255) {
+						 max_color_value = 255) {
 	structure(c(list(FUN = "tmapScaleRGBA"), as.list(environment())), class = c("tm_scale_rgba", "tm_scale", "list"))
 }
 

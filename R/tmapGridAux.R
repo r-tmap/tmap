@@ -79,13 +79,13 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", smeta = list(), o = o, tmf = NULL))
 	})
 
-	srgb = tm_scale_rgb(maxColorValue = 255, value.na = "#FFFFFF")
+	srgb = tm_scale_rgb(max_color_value = 255, value.na = "#FFFFFF")
 
 
 	ds = lapply(ss, function(s) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
-		d[, c("col", "legnr", "crtnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", sortRev = NA, bypass_ord = TRUE))]
+		d[, c("col", "legnr", "crtnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", layer_args = opt_tm_rgb()$mapping.args, sortRev = NA, bypass_ord = TRUE))]
 		if ("alpha" %in% names(d)) {
 			d[, col_alpha:=alpha/255 * a$alpha]
 			d[is.na(col_alpha), col_alpha:=0]

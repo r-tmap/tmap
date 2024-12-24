@@ -316,11 +316,18 @@ v3_opt = function(olds, news, layer_fun) {
 }
 
 
-v3_tm_rgb = function(r, g, b) {
-	cli::cli_inform(
-		"{.field [v3->v4]} {.fn tm_rgb}: instead of using r = {r}, g = {g} and b = {b} , please use col = tm_vars(c({r}, {g}, {b}), multivariate = TRUE)",
-		.frequency_id = "tm-rgb"
-	)
+v3_tm_rgb = function(r, g, b, dim = NA) {
+	if (is.na(dim)) {
+		cli::cli_inform(
+			"{.field [v3->v4]} {.fn tm_rgb}: instead of using r = {r}, g = {g} and b = {b} , please use col = tm_vars(c({r}, {g}, {b}), multivariate = TRUE)",
+			.frequency_id = "tm-rgb"
+		)
+	} else {
+		cli::cli_inform(
+			"{.field [v3->v4]} {.fn tm_rgb}: instead of using r = {r}, g = {g} and b = {b} , please use col = tm_vars(dimvalues = c({r}, {g}, {b}), multivariate = TRUE)",
+			.frequency_id = "tm-rgb"
+		)
+	}
 }
 
 
@@ -328,6 +335,28 @@ v3_opt = function(fun, old, new) {
 	cli::cli_inform(
 		"{.field [v3->v4]} {.fn {fun}}: use {new} instead of {old}",
 		.frequency_id = "tm-opt"
+	)
+}
+
+v3_message_rgb_alpha = function(layer_fun) {
+	cli::cli_inform(
+		"{.field [v3->v4]} {.fn {layer_fun}}: use {.arg col_alpha} instead of {.arg alpha}",
+		.frequency_id = "tm-rgb"
+	)
+}
+
+
+v3_message_rgb_opt = function(layer_fun, opt, value) {
+	cli::cli_inform(
+		"{.field [v3->v4]} {.fn {layer_fun}}: use {.code options = opt_tm_rgb({opt} = {value})} instead of {.arg {opt} = {value}}",
+		.frequency_id = "tm-rgb"
+	)
+}
+
+v3_message_rgb_maxV = function(layer_fun, opt, value) {
+	cli::cli_inform(
+		"{.field [v3->v4]} {.fn {layer_fun}}: use {.code col.scale = tm_scale_rgb(max_color_value = {value})} instead of {.arg max.value = {value}}",
+		.frequency_id = "tm-rgb"
 	)
 }
 
