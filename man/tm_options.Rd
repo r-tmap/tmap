@@ -304,6 +304,8 @@ tm_options(
   main.title.fontface = NULL,
   main.title.fontfamily = NULL,
   main.title.position = NULL,
+  fontface = NULL,
+  fontfamily = NULL,
   style,
   ...
 )
@@ -905,6 +907,8 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \item{main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 
 \item{main.title.size, main.title.color, main.title.fontface, main.title.fontfamily, main.title.position}{deprecated. Use the \code{title.} options instead.}
+
+\item{fontface, fontfamily}{renamed to \code{text.fontface} and \code{text.fontfamily}}
 
 \item{style}{style see \code{tm_style()}}
 

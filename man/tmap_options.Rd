@@ -319,7 +319,9 @@ tmap_options(
   main.title.color = NULL,
   main.title.fontface = NULL,
   main.title.fontfamily = NULL,
-  main.title.position = NULL
+  main.title.position = NULL,
+  fontface = NULL,
+  fontfamily = NULL
 )
 
 tmap_options_mode(mode = NA, style = NULL, default.options = FALSE)
@@ -946,6 +948,8 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \item{main.title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 
 \item{main.title.size, main.title.color, main.title.fontface, main.title.fontfamily, main.title.position}{deprecated. Use the \code{title.} options instead.}
+
+\item{fontface, fontfamily}{renamed to \code{text.fontface} and \code{text.fontfamily}}
 
 \item{mode}{mode, e.g. \code{"plot"} or \code{"view"}}
 

@@ -11,6 +11,8 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 					  main.title.fontface = NULL,
 					  main.title.fontfamily = NULL,
 					  main.title.position = NULL,
+					  fontface = NULL,
+					  fontfamily = NULL,
 					  style,
 					  ...) {
 	args_called = names(rlang::call_match()[-1])
@@ -53,6 +55,16 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 		args$raster.max_cells = args$max.raster
 		args$max.raster = NULL
 		v3_opt(fun, "max.raster", "raster.max_cells")
+	}
+	if ("fontfamily" %in% args_called) {
+		args$text.fontfamily = args$fontfamily
+		args$fontfamily = NULL
+		v3_opt(fun, "fontfamily", "text.fontfamily")
+	}
+	if ("fontface" %in% args_called) {
+		args$text.fontface = args$fontface
+		args$fontface = NULL
+		v3_opt(fun, "fontface", "text.fontface")
 	}
 
 

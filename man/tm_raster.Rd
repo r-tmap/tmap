@@ -7,7 +7,7 @@
 \usage{
 tm_raster(
   col = tm_vars(),
-  col.scale = tm_scale(value.na = "#00000000"),
+  col.scale = tm_scale(),
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
   col.free = NA,

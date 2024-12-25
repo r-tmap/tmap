@@ -23,7 +23,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 	# update misc argument from tmap option scale.misc.args
 	scale = update_scale_args("continuous", scale, aes, o)
 
-	cls = data_class(x1)
+	cls = data_class(x1, midpoint_enabled = !is.null(scale$midpoint))
 	maincls = class(scale)[1]
 
 	if (attr(cls, "unique") && is.null(scale$limits) && is.null(scale$ticks)) stop("Unique value, so cannot determine continuous scale range. Please specify limits and/or ticks.", call. = FALSE)

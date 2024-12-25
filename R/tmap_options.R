@@ -309,6 +309,7 @@
 #' @param title deprecated See [tm_title()]
 #' @param main.title deprecated See [tm_title()]
 #' @param main.title.size,main.title.color,main.title.fontface,main.title.fontfamily,main.title.position deprecated. Use the `title.` options instead.
+#' @param fontface,fontfamily renamed to `text.fontface` and `text.fontfamily`
 #' @inheritParams tm_plot
 # For bbox
 #' @inheritParams tm_shape
@@ -324,7 +325,9 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 						main.title.color = NULL,
 						main.title.fontface = NULL,
 						main.title.fontfamily = NULL,
-						main.title.position = NULL
+						main.title.position = NULL,
+						fontface = NULL,
+						fontfamily = NULL
 						) {
 	o = get("tmapOptions", envir = .TMAP)
 	nms = names(o)
@@ -398,6 +401,18 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 		args$max.raster = NULL
 		v3_opt(fun, "max.raster", "raster.max_cells")
 	}
+	if ("fontfamily" %in% unknown_args) {
+		args$text.fontfamily = args$fontfamily
+		args$fontfamily = NULL
+		v3_opt(fun, "fontfamily", "text.fontfamily")
+	}
+	if ("fontface" %in% unknown_args) {
+		args$text.fontface = args$fontface
+		args$fontface = NULL
+		v3_opt(fun, "fontface", "text.fontface")
+	}
+
+
 	unknown_args = setdiff(names(args), all_opts)
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)

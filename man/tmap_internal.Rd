@@ -503,7 +503,7 @@ chart_save(legend)
 
 data_type(x)
 
-data_class(x, check_for_color_class = FALSE)
+data_class(x, check_for_color_class = FALSE, midpoint_enabled = FALSE)
 
 tmapScale(aes, value, scale, legend, chart, free)
 

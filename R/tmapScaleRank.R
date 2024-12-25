@@ -4,7 +4,7 @@ tmapScaleRank = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	# update misc argument from tmap option scale.misc.args
 	scale = update_scale_args("rank", scale, aes, o)
 
-	cls = data_class(x1)
+	cls = data_class(x1, midpoint_enabled = !is.null(scale$midpoint))
 	maincls = class(scale)[1]
 
 	if (cls[1] != "num") {
