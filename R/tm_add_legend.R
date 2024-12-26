@@ -10,9 +10,10 @@
 #' @param labels labels by default `""` (so omitted)
 #' @param type the layer type from which the visual variables (see `...`) are taken.
 #'   Options: `"symbols"` (default), `"lines"`, `"polygons"`, and `"text"`.
-#' @param title text of the title
-#' @param design legend design
-#' @param orientation legend orientation
+#' @param title `r .doc_opt("legend.title")`
+#' @param design `r .doc_opt("legend.design")`
+#' @param orientation `r .doc_opt("legend.orientation")`
+#' @param position `r .doc_opt("legend.position")`
 #' @param group Name of the group to which this layer belongs. This is only
 #'   relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how
@@ -29,6 +30,7 @@ tm_add_legend = function(...,
 						 title = "",
 						 design = NULL,
 						 orientation = NULL,
+						 position = NULL,
 						 group = NA,
 						 group.control = "check",
 						 resize.as.group = FALSE,

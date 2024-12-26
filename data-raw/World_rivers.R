@@ -31,4 +31,6 @@ rivers$geometry = rivers |> st_geometry() |> st_sfc(precision = 1000) %>% st_as_
 
 World_rivers = rivers
 
+World_rivers = st_set_crs(World_rivers, 4326)
+
 save(World_rivers, file="data/World_rivers.rda", compress="xz")

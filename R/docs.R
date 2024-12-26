@@ -4,7 +4,8 @@
 	what = tail(x, 1)
 
 	cls_lookup = c(inner = "inner space (inside the frame)",
-				   outer = "outer space (outside the frame")
+				   outer = "outer space (outside the frame",
+				   item_text = "space between item and text")
 
 	what_lookup = c(alpha = "alpha transparency",
 					asp = "asp ration",
@@ -80,6 +81,7 @@
 					view = "view",
 					warnings = "warnings",
 					width = "width",
+					absolute_fontsize = "absolute fontsize",
 					x = "x",
 					y = "y",
 					zoom = "zoom")
@@ -88,9 +90,11 @@
 					 double_line = " `TRUE` or `FALSE`.",
 					 extra = " A list of arguments.",
 					 padding = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
-					 space = " In terms of number of line heights.",
+					 position = " A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details",
+					 space = " In terms of number of text line heights.",
 					 fontfamily = " See `graphics::par`, option 'family'.",
 					 fontface = " See `graphics::par`, option 'font'.",
+					 absolute_fontsize = " So far, only used to calculate legend dimensions",
 					 lwd = " See `graphics::par`, option 'lwd'.",
 					 show = " `TRUE` or `FALSE`.")
 

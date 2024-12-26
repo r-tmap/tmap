@@ -68,14 +68,38 @@ tmapLeaflet_legend_comp = function(comp, o) {
 
 #' @export
 tmapLeafletCompHeight.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	within(comp, {
+		if (type == "gradient") {
+			height = if (is.na(height)) {
+				get_legend_option(item.height, "gradient") * nitems * absolute_fontsize
+			} else {
+				if (height < 0) {
+					-height
+				} else {
+					height * absolute_fontsize
+				}
+			}
+		}
+	})
 }
 
 
 
 #' @export
 tmapLeafletCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	within(comp, {
+		if (type == "gradient") {
+			width = if (is.na(width)) {
+				get_legend_option(item.width, "gradient") * absolute_fontsize
+			} else {
+				if (width < 0) {
+					-width
+				} else {
+					width * absolute_fontsize
+				}
+			}
+		}
+	})
 }
 
 
@@ -89,13 +113,37 @@ tmapLeafletCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 
 #' @export
 tmapLeafletCompHeight.tm_legend_standard_landscape = function(comp, o) {
-	comp
+	within(comp, {
+		if (type == "gradient") {
+			height = if (is.na(height)) {
+				get_legend_option(item.height, "gradient") * absolute_fontsize
+			} else {
+				if (height < 0) {
+					-height
+				} else {
+					height * absolute_fontsize
+				}
+			}
+		}
+	})
 }
 
 
 
 #' @export
 tmapLeafletCompWidth.tm_legend_standard_landscape = function(comp, o) {
-	comp
+	within(comp, {
+		if (type == "gradient") {
+			width = if (is.na(width)) {
+				get_legend_option(item.width, "gradient") * nitems * absolute_fontsize
+			} else {
+				if (width < 0) {
+					-width
+				} else {
+					width * absolute_fontsize
+				}
+			}
+		}
+	})
 }
 

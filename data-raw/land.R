@@ -168,4 +168,6 @@ attr(land$cover, "exclude") = rep(FALSE, 20)
 tm_shape(land) + tm_raster("cover_cls")
 tm_shape(land) + tm_raster("cover")
 
+land = st_set_crs(land, 4326)
+
 save(land, file="./data/land.rda", compress="xz")

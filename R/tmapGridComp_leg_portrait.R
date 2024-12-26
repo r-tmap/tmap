@@ -7,7 +7,8 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 
 		type = if ("biv" %in% names(attributes(gp$fill))) {
 			"bivariate"
-		} else if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 20) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 20)) {
+		} else if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 20) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 20) ||
+				   !is.na(gp$col[1]) && any(nchar(gp$col) > 20) || !is.na(gp$col_alpha[1]) && any(nchar(gp$col_alpha) > 20)) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
 			"symbols"
@@ -25,6 +26,14 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 		title.align = get_vector_id(title.align, type)
 		xlab.align = get_vector_id(xlab.align, type)
 		ylab.align = get_vector_id(ylab.align, type)
+
+		if (!is.na(height) && height < 0) {
+			height = -height / absolute_fontsize
+		}
+		if (!is.na(width) && width < 0) {
+			width = -width / absolute_fontsize
+		}
+
 
 		gpar = gp_to_gpar(gp, o = o, type = comp$type)
 	})
@@ -174,21 +183,21 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	if (comp$type == "bivariate") {
 		txtRowW = ifelse(comp$ylab == "", 0, graphics::strwidth(comp$ylab, units = "inch", cex = comp$ylab.size, family = comp$ylab.fontfamily, font = fontface2nr(comp$ylab.fontface)))
 
-		margRowW = ifelse(txtRowW == 0, 0, comp$margin.item.text * comp$ylab.size * o$lin)
+		margRowW = ifelse(txtRowW == 0, 0, comp$item_text.margin * comp$ylab.size * o$lin)
 	}
 
 	if (comp$type == "bivariate") {
-		iW = graphics::strwidth(comp$labels[1:mi], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+		iW = graphics::strwidth(comp$labels[1:mi], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max * ni + comp$item_text.margin) * textS * o$lin
 	} else {
-		iW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
+		iW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$item_text.margin) * textS * o$lin
 	}
 
 	colW = max(tW, iW)
 
 	if (comp$type == "bivariate") {
-		txtW = colW - (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+		txtW = colW - (item_widths_max * ni + comp$item_text.margin) * textS * o$lin
 	} else {
-		txtW = colW - (item_widths_max * ni + comp$margin.item.text) * textS * o$lin
+		txtW = colW - (item_widths_max * ni + comp$item_text.margin) * textS * o$lin
 	}
 
 	n = switch(comp$position$align.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
@@ -199,7 +208,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 						   txtRowW,
 						   margRowW,
 						   txtW,
-						   comp$margin.item.text * textS * o$lin,
+						   comp$item_text.margin * textS * o$lin,
 						   rep(item_widths_max * textS * o$lin, ni),
 						   n[2],
 						   marW[2]), units = c("inch", "null", rep("inch", 4+ni), "null", "inch"))
@@ -210,7 +219,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 		wsu = grid::unit(c(marW[1],
 						   n[1],
 						   item_widths_max * textS * o$lin,
-						   comp$margin.item.text * textS * o$lin,
+						   comp$item_text.margin * textS * o$lin,
 						   txtW,
 						   n[2],
 						   marW[2]), units = c("inch", "null", rep("inch", 2+ni), "null", "inch"))
@@ -405,7 +414,10 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 		lvs = 1:nlev2
 
 		vary_fill = (length(gp$fill) > 1)
-		vary_alpha = (length(gp$fill_alpha) > 1)
+		vary_fill_alpha = (length(gp$fill_alpha) > 1)
+
+		vary_col = (length(gp$col) > 1)
+		vary_col_alpha = (length(gp$col_alpha) > 1)
 
 
 		# vary fill color
@@ -415,27 +427,46 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 				i[i=="NA"] <- NA
 				i
 			})
+		} else if (vary_col) {
+			fill_list = cont_split(gp$col[lvs])
+			fill_list = lapply(fill_list, function(i) {
+				i[i=="NA"] <- NA
+				i
+			})
+			gpars$col = NA
 		} else {
 			fill_list = rep(gp$fill[1], nlev2)
 		}
 
 		# vary fill alpha
-		if (vary_alpha) {
+		if (vary_fill_alpha) {
 			alpha_list = cont_split(gp$fill_alpha[lvs])
 			alpha_list = lapply(alpha_list, function(i) {
 				i[i=="NA"] <- 0
 				as.numeric(i)
 			})
-
 			if (!vary_fill) {
 				fill_list = mapply(rep.int, fill_list, vapply(alpha_list, length, FUN.VALUE = integer(1)), SIMPLIFY = FALSE, USE.NAMES = FALSE)
 			}
 
+		} else if (vary_col_alpha) {
+			alpha_list = cont_split(gp$col_alpha[lvs])
+			alpha_list = lapply(alpha_list, function(i) {
+				i[i=="NA"] <- 0
+				as.numeric(i)
+			})
+
+			if (!vary_col) {
+				fill_list = mapply(rep.int, fill_list, vapply(alpha_list, length, FUN.VALUE = integer(1)), SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			}
 		} else {
-			alpha_list = rep(gp$fill_alpha[1], nlev2)
+			if (!is.na(gp$fill_alpha[1])) {
+				alpha_list = rep(gp$fill_alpha[1], nlev2)
+			} else {
+				alpha_list = rep(gp$col_alpha[1], nlev2)
+			}
 		}
 
-		# fill
 
 
 		nvv = o$continuous.nclass_per_legend_break

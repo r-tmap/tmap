@@ -11,6 +11,7 @@ tm_add_legend(
   title = "",
   design = NULL,
   orientation = NULL,
+  position = NULL,
   group = NA,
   group.control = "check",
   resize.as.group = FALSE,
@@ -29,11 +30,13 @@ The number of legend items will be equal to the maximum number of specific value
 \item{type}{the layer type from which the visual variables (see \code{...}) are taken.
 Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \code{"text"}.}
 
-\item{title}{text of the title}
+\item{title}{The title of the legend.}
 
-\item{design}{legend design}
+\item{design}{The design of the legend.}
 
-\item{orientation}{legend orientation}
+\item{orientation}{The orientation of the legend.}
+
+\item{position}{The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{group}{Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see \code{group.control})}

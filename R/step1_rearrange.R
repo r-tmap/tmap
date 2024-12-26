@@ -381,7 +381,7 @@ process_position = function(position, o) {
 	# 	if (cell.h %in% c(""))
 	# })
 
-	within(position, {
+	within.list(position, {
 		if (exists("cell.h")) cell.h = check_h(cell.h, "cell")
 		if (exists("cell.v")) cell.v = check_v(cell.v, "cell", h_is_num = is.numeric(cell.h))
 		if (exists("pos.h")) pos.h = check_h(pos.h, "pos")

@@ -120,6 +120,7 @@ tmap_options(
   legend.bg.color,
   legend.bg.alpha,
   legend.only,
+  legend.absolute_fontsize,
   legend.settings.standard.portrait,
   legend.settings.standard.landscape,
   chart.show,
@@ -436,7 +437,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{xlab.rotation}{The rotation of the xlab.}
 
-\item{xlab.space}{The space of the xlab. In terms of number of line heights.}
+\item{xlab.space}{The space of the xlab. In terms of number of text line heights.}
 
 \item{xlab.fontface}{The font face of the xlab. See \code{graphics::par}, option 'font'.}
 
@@ -454,7 +455,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{ylab.rotation}{The rotation of the ylab.}
 
-\item{ylab.space}{The space of the ylab. In terms of number of line heights.}
+\item{ylab.space}{The space of the ylab. In terms of number of text line heights.}
 
 \item{ylab.fontface}{The font face of the ylab. See \code{graphics::par}, option 'font'.}
 
@@ -549,6 +550,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{legend.bg.alpha}{The alpha transparency of the bg of the legend.}
 
 \item{legend.only}{The only of the legend.}
+
+\item{legend.absolute_fontsize}{The absolute fontsize of the legend. So far, only used to calculate legend dimensions}
 
 \item{legend.settings.standard.portrait}{The portrait of the standard of the settings of the legend.}
 

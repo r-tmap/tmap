@@ -307,4 +307,10 @@ ccodes = geodata::country_codes()
 setdiff(World$iso_a3, ccodes$ISO3)
 
 
+World$geometry = World |> st_geometry() |> st_sfc(precision = 1000) %>% st_as_binary %>% st_as_sfc
+
+World = st_set_crs(World, 4326)
+
+
+
 save(World, file="data/World.rda", compress="xz")

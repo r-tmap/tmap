@@ -36,6 +36,7 @@ tm_legend(
   frame.r,
   bg.color,
   bg.alpha,
+  absolute_fontsize,
   item.height,
   item.width,
   item.space,
@@ -48,7 +49,7 @@ tm_legend(
   ticks.col,
   ticks.lwd,
   margins,
-  margin.item.text,
+  item_text.margin,
   ...
 )
 
@@ -63,7 +64,7 @@ tm_legend_combine(variable)
 
 \item{orientation}{Orientation of the legend: \code{"portrait"} or \code{"landscape"}}
 
-\item{design}{Legend design \code{"standard"}.}
+\item{design}{Legend design \code{"standard"}. No other designs implemented yet.}
 
 \item{reverse}{Should the legend be reversed?}
 
@@ -71,9 +72,9 @@ tm_legend_combine(variable)
 
 \item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{width}{Width of the legend}
+\item{width}{Width of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option \code{absolute_fontsize}.}
 
-\item{height}{Height of the legend}
+\item{height}{Height of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option \code{absolute_fontsize}.}
 
 \item{stack}{stack}
 
@@ -83,27 +84,27 @@ tm_legend_combine(variable)
 
 \item{resize_as_group}{resize_as_group}
 
-\item{title.color}{Color of the legend title}
+\item{title.color}{The color of the title of the legend.}
 
-\item{title.size}{Size of the legend title}
+\item{title.size}{The size of the title of the legend.}
 
-\item{title.fontface}{Font face of the legend title}
+\item{title.fontface}{The font face of the title of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{title.fontfamily}{Font family of the legend title}
+\item{title.fontfamily}{The font family of the title of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{title.padding}{Padding of the legend title}
+\item{title.padding}{The padding of the title of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{title.align}{Title alignment}
+\item{title.align}{The align of the title of the legend.}
 
-\item{text.color}{Color of the legend text}
+\item{text.color}{The color of the text of the legend.}
 
-\item{text.size}{Size of the legend text}
+\item{text.size}{The size of the text of the legend.}
 
-\item{text.fontface}{Font face of the legend text}
+\item{text.fontface}{The font face of the text of the legend. See \code{graphics::par}, option 'font'.}
 
-\item{text.fontfamily}{Font family of the legend text}
+\item{text.fontfamily}{The font family of the text of the legend. See \code{graphics::par}, option 'family'.}
 
-\item{format}{Use the format argument of the \verb{tm_scale_*()} functions instead.}
+\item{format}{Not used anymore: use the format argument of the \verb{tm_scale_*()} functions instead.}
 
 \item{frame}{frame}
 
@@ -111,35 +112,37 @@ tm_legend_combine(variable)
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
-\item{bg.color}{Background color of the legend}
+\item{bg.color}{The color of the bg of the legend.}
 
-\item{bg.alpha}{Background transparency of the legend}
+\item{bg.alpha}{The alpha transparency of the bg of the legend.}
 
-\item{item.height}{PARAM_DESCRIPTION}
+\item{absolute_fontsize}{The absolute fontsize of the legend. So far, only used to calculate legend dimensions}
 
-\item{item.width}{PARAM_DESCRIPTION}
+\item{item.height}{The height of the item of the legend.}
 
-\item{item.space}{PARAM_DESCRIPTION}
+\item{item.width}{The width of the item of the legend.}
 
-\item{item.na.height}{PARAM_DESCRIPTION}
+\item{item.space}{The space of the item of the legend. In terms of number of text line heights.}
 
-\item{item.na.width}{PARAM_DESCRIPTION}
+\item{item.na.height}{The height of the na item of the legend.}
 
-\item{item.na.space}{PARAM_DESCRIPTION}
+\item{item.na.width}{The width of the na item of the legend.}
 
-\item{item.shape}{PARAM_DESCRIPTION}
+\item{item.na.space}{The space of the na item of the legend. In terms of number of text line heights.}
+
+\item{item.shape}{The shape of the item of the legend.}
 
 \item{ticks}{List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.}
 
 \item{ticks.disable.na}{Remove ticks for NA values}
 
-\item{ticks.col}{Legend ticks color}
+\item{ticks.col}{The color of the ticks of the legend.}
 
-\item{ticks.lwd}{Legend ticks line widths}
+\item{ticks.lwd}{The line width of the ticks of the legend. See \code{graphics::par}, option 'lwd'.}
 
-\item{margins}{PARAM_DESCRIPTION}
+\item{margins}{The margins of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{margin.item.text}{PARAM_DESCRIPTION}
+\item{item_text.margin}{The margin of the space between item and text of the legend.}
 
 \item{...}{visual values, e.g. \code{col}, \code{fill}, \code{lwd}, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
 

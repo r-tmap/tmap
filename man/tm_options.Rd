@@ -112,6 +112,7 @@ tm_options(
   legend.bg.color,
   legend.bg.alpha,
   legend.only,
+  legend.absolute_fontsize,
   legend.settings.standard.portrait,
   legend.settings.standard.landscape,
   chart.show,
@@ -412,7 +413,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{xlab.rotation}{The rotation of the xlab.}
 
-\item{xlab.space}{The space of the xlab. In terms of number of line heights.}
+\item{xlab.space}{The space of the xlab. In terms of number of text line heights.}
 
 \item{xlab.fontface}{The font face of the xlab. See \code{graphics::par}, option 'font'.}
 
@@ -430,7 +431,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{ylab.rotation}{The rotation of the ylab.}
 
-\item{ylab.space}{The space of the ylab. In terms of number of line heights.}
+\item{ylab.space}{The space of the ylab. In terms of number of text line heights.}
 
 \item{ylab.fontface}{The font face of the ylab. See \code{graphics::par}, option 'font'.}
 
@@ -456,7 +457,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
 
-\item{component.position}{The position of the component.}
+\item{component.position}{The position of the component. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{component.autoscale}{The autoscale of the component.}
 
@@ -466,7 +467,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.orientation}{The orientation of the legend.}
 
-\item{legend.position}{The position of the legend.}
+\item{legend.position}{The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{legend.width}{The width of the legend.}
 
@@ -526,6 +527,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.only}{The only of the legend.}
 
+\item{legend.absolute_fontsize}{The absolute fontsize of the legend. So far, only used to calculate legend dimensions}
+
 \item{legend.settings.standard.portrait}{The portrait of the standard of the settings of the legend.}
 
 \item{legend.settings.standard.landscape}{The landscape of the standard of the settings of the legend.}
@@ -536,7 +539,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.plot.axis.y}{The y of the axis of the plot of the chart.}
 
-\item{chart.position}{The position of the chart.}
+\item{chart.position}{The position of the chart. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{chart.width}{The width of the chart.}
 
@@ -620,7 +623,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{title.stack}{The stack of the title.}
 
-\item{title.position}{The position of the title.}
+\item{title.position}{The position of the title. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{title.width}{The width of the title.}
 
@@ -652,7 +655,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{credits.stack}{The stack of the credits.}
 
-\item{credits.position}{The position of the credits.}
+\item{credits.position}{The position of the credits. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{credits.width}{The width of the credits.}
 
@@ -692,7 +695,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{compass.stack}{The stack of the compass.}
 
-\item{compass.position}{The position of the compass.}
+\item{compass.position}{The position of the compass. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{compass.frame}{The frame of the compass.}
 
@@ -714,7 +717,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{logo.stack}{The stack of the logo.}
 
-\item{logo.position}{The position of the logo.}
+\item{logo.position}{The position of the logo. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{logo.frame}{The frame of the logo.}
 
@@ -752,7 +755,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{scalebar.stack}{The stack of the scalebar.}
 
-\item{scalebar.position}{The position of the scalebar.}
+\item{scalebar.position}{The position of the scalebar. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{scalebar.frame}{The frame of the scalebar.}
 
@@ -814,7 +817,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{mouse_coordinates.stack}{The stack of the mouse_coordinates.}
 
-\item{mouse_coordinates.position}{The position of the mouse_coordinates.}
+\item{mouse_coordinates.position}{The position of the mouse_coordinates. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{mouse_coordinates.show}{The visibility of the mouse_coordinates. \code{TRUE} or \code{FALSE}.}
 
@@ -824,7 +827,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{minimap.stack}{The stack of the minimap.}
 
-\item{minimap.position}{The position of the minimap.}
+\item{minimap.position}{The position of the minimap. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{minimap.show}{The visibility of the minimap. \code{TRUE} or \code{FALSE}.}
 

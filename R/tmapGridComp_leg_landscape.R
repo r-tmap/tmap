@@ -42,7 +42,7 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	marH = comp$margins[c(3,1)] * textS * o$lin
 
 
-	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(comp$margin.item.text, 1) * textS * o$lin,marH[2])
+	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(comp$item_text.margin, 1) * textS * o$lin,marH[2])
 
 	Hin = if (is.na(comp$height)) sum(hsinch) else comp$height * textS * o$lin
 
@@ -186,7 +186,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	ticks = get_legend_option(comp$ticks, comp$type)
 	ticks.disable.na = get_legend_option(comp$ticks.disable.na, comp$type)
 	if (length(ticks)) {
-		tick_col = if (is.na(comp$ticks.col)) comp$gp$col else comp$ticks.col
+		tick_col = if (is.na(comp$ticks.col)) comp$text.color else comp$ticks.col
 		if (is.na(tick_col)) tick_col = "white"
 
 		ticks_in_margin = sapply(ticks, function(l) all(l>=1))
@@ -236,7 +236,10 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		lvs = 1:nlev2
 
 		vary_fill = (length(gp$fill) > 1)
-		vary_alpha = (length(gp$fill_alpha) > 1)
+		vary_fill_alpha = (length(gp$fill_alpha) > 1)
+
+		vary_col = (length(gp$col) > 1)
+		vary_col_alpha = (length(gp$col_alpha) > 1)
 
 
 		# vary fill color
@@ -246,25 +249,46 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 				i[i=="NA"] <- NA
 				i
 			})
+		} else if (vary_col) {
+			fill_list = cont_split(gp$col[lvs])
+			fill_list = lapply(fill_list, function(i) {
+				i[i=="NA"] <- NA
+				i
+			})
+			gpars$col = NA
 		} else {
 			fill_list = rep(gp$fill[1], nlev2)
 		}
 
 		# vary fill alpha
-		if (vary_alpha) {
+		if (vary_fill_alpha) {
 			alpha_list = cont_split(gp$fill_alpha[lvs])
 			alpha_list = lapply(alpha_list, function(i) {
 				i[i=="NA"] <- 0
 				as.numeric(i)
 			})
-
 			if (!vary_fill) {
 				fill_list = mapply(rep.int, fill_list, vapply(alpha_list, length, FUN.VALUE = integer(1)), SIMPLIFY = FALSE, USE.NAMES = FALSE)
 			}
 
+		} else if (vary_col_alpha) {
+			alpha_list = cont_split(gp$col_alpha[lvs])
+			alpha_list = lapply(alpha_list, function(i) {
+				i[i=="NA"] <- 0
+				as.numeric(i)
+			})
+
+			if (!vary_col) {
+				fill_list = mapply(rep.int, fill_list, vapply(alpha_list, length, FUN.VALUE = integer(1)), SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			}
 		} else {
-			alpha_list = rep(gp$fill_alpha[1], nlev2)
+			if (!is.na(gp$fill_alpha[1])) {
+				alpha_list = rep(gp$fill_alpha[1], nlev2)
+			} else {
+				alpha_list = rep(gp$col_alpha[1], nlev2)
+			}
 		}
+
 
 
 		# fill

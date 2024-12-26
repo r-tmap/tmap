@@ -159,21 +159,27 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			cmp$tr$rev(x2)
 		}
 
+		opacity = if (vary == "fillColor") {
+			cmp$gp2$fillOpacity
+		} else {
+			cmp$gp2$opacity
+		}
+
 		lf %>% leaflegend::addLegendNumeric(position=legpos,
 										   orientation = orientation,
 										   group = group,
-										   height = {if (orientation == "horizontal") 20 else 200},
-										   width = {if (orientation == "vertical") 20 else 200},
+										   height = cmp$height,
+										   width = cmp$width,
 										   pal=pal,
 										   values=val,
 										   # numberFormat = function(x) {
 										   # 	prettyNum(trns(x), format = "f", big.mark = ",", digits =
 										   # 			  	3, scientific = FALSE)
 										   # },
-										   bins = nbins,
+										   bins = head(val, -2),
 										   naLabel = textNA,
 										   title=title,
-										   fillOpacity=cmp$gp2$fillOpacity,
+										   fillOpacity=opacity,
 										   layerId = layerId,
 										   className = leg_className)
 

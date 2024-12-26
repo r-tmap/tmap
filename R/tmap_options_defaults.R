@@ -287,9 +287,9 @@
 		text.fontfamily = "",
 
 
-		component.position = list('in' = list(pos.h = "left", pos.v = "top",
+		component.position = list('in' = tm_pos_in(pos.h = "left", pos.v = "top",
 											  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
-								  out = list(cell.h = "right", cell.v = "center",
+								  out = tm_pos_out(cell.h = "right", cell.v = "center",
 								  		   pos.h = "left", pos.v = "top",
 								  		   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
 
@@ -331,6 +331,7 @@
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
 		legend.only = FALSE,
+		legend.absolute_fontsize = 14,
 		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3, lines = 1.2, text = 1.2, bivariate = 1.2),
 												 item.width = c(rect = 1.2, symbols = 1, gradient = 1.2, lines = 1.2, text = 3, bivariate = 1.2),
 												 item.r = 2,
@@ -350,7 +351,7 @@
 												 ticks.col = NA,
 												 ticks.lwd = 1.5,
 												 margins = c(0.4, 0.4, 0.4, 0.4),
-												 margin.item.text = 0.25),
+												 item_text.margin = 0.25),
 		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2, lines = 1, text = 1),
 												  item.width = c(rect = 6, symbols = 3, gradient = 6, lines = 6, text = 6),
 												  item.r = 2,
@@ -371,7 +372,7 @@
 												  ticks.col = NA,
 												  ticks.lwd = 1.5,
 												  margins = c(0.4, 0.4, 0.4, 0.4),
-												  margin.item.text = 0.25),
+												  item_text.margin = 0.25),
 
 		# charts
 		chart.show = TRUE,
@@ -673,7 +674,7 @@ styles = list(
 												 ticks.col = NA,
 												 ticks.lwd = 1.5,
 												 margins = c(0.4, 0.4, 0.4, 0.4),
-												 margin.item.text = 0.25),
+												 item_text.margin = 0.25),
 		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
 												  item.width = c(rect = 6, symbols = 3, gradient = 6),
 												  item.r = 0,
@@ -687,7 +688,7 @@ styles = list(
 												  ticks.col = NA,
 												  ticks.lwd = 1.5,
 												  margins = c(0.4, 0.4, 0.4, 0.4),
-												  margin.item.text = 0.25)
+												  item_text.margin = 0.25)
 	),
 	gray = list(
 		bg.color = "grey85",
