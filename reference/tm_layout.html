@@ -136,6 +136,7 @@
 <span>  <span class="va">legend.bg.color</span>,</span>
 <span>  <span class="va">legend.bg.alpha</span>,</span>
 <span>  <span class="va">legend.only</span>,</span>
+<span>  <span class="va">legend.absolute_fontsize</span>,</span>
 <span>  <span class="va">legend.settings.standard.portrait</span>,</span>
 <span>  <span class="va">legend.settings.standard.landscape</span>,</span>
 <span>  <span class="va">chart.show</span>,</span>
@@ -442,7 +443,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-xlab-space">xlab.space<a class="anchor" aria-label="anchor" href="#arg-xlab-space"></a></dt>
-<dd><p>The space of the xlab. In terms of number of line heights.</p></dd>
+<dd><p>The space of the xlab. In terms of number of text line heights.</p></dd>
 
 
 <dt id="arg-xlab-fontface">xlab.fontface<a class="anchor" aria-label="anchor" href="#arg-xlab-fontface"></a></dt>
@@ -478,7 +479,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-ylab-space">ylab.space<a class="anchor" aria-label="anchor" href="#arg-ylab-space"></a></dt>
-<dd><p>The space of the ylab. In terms of number of line heights.</p></dd>
+<dd><p>The space of the ylab. In terms of number of text line heights.</p></dd>
 
 
 <dt id="arg-ylab-fontface">ylab.fontface<a class="anchor" aria-label="anchor" href="#arg-ylab-fontface"></a></dt>
@@ -530,7 +531,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-component-position">component.position<a class="anchor" aria-label="anchor" href="#arg-component-position"></a></dt>
-<dd><p>The position of the component.</p></dd>
+<dd><p>The position of the component. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-component-autoscale">component.autoscale<a class="anchor" aria-label="anchor" href="#arg-component-autoscale"></a></dt>
@@ -550,7 +551,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-legend-position">legend.position<a class="anchor" aria-label="anchor" href="#arg-legend-position"></a></dt>
-<dd><p>The position of the legend.</p></dd>
+<dd><p>The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-legend-width">legend.width<a class="anchor" aria-label="anchor" href="#arg-legend-width"></a></dt>
@@ -669,6 +670,10 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The only of the legend.</p></dd>
 
 
+<dt id="arg-legend-absolute-fontsize">legend.absolute_fontsize<a class="anchor" aria-label="anchor" href="#arg-legend-absolute-fontsize"></a></dt>
+<dd><p>The absolute fontsize of the legend. So far, only used to calculate legend dimensions</p></dd>
+
+
 <dt id="arg-legend-settings-standard-portrait">legend.settings.standard.portrait<a class="anchor" aria-label="anchor" href="#arg-legend-settings-standard-portrait"></a></dt>
 <dd><p>The portrait of the standard of the settings of the legend.</p></dd>
 
@@ -690,7 +695,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-chart-position">chart.position<a class="anchor" aria-label="anchor" href="#arg-chart-position"></a></dt>
-<dd><p>The position of the chart.</p></dd>
+<dd><p>The position of the chart. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-chart-width">chart.width<a class="anchor" aria-label="anchor" href="#arg-chart-width"></a></dt>
@@ -858,7 +863,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-title-position">title.position<a class="anchor" aria-label="anchor" href="#arg-title-position"></a></dt>
-<dd><p>The position of the title.</p></dd>
+<dd><p>The position of the title. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-title-width">title.width<a class="anchor" aria-label="anchor" href="#arg-title-width"></a></dt>
@@ -922,7 +927,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-credits-position">credits.position<a class="anchor" aria-label="anchor" href="#arg-credits-position"></a></dt>
-<dd><p>The position of the credits.</p></dd>
+<dd><p>The position of the credits. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-credits-width">credits.width<a class="anchor" aria-label="anchor" href="#arg-credits-width"></a></dt>
@@ -1002,7 +1007,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-compass-position">compass.position<a class="anchor" aria-label="anchor" href="#arg-compass-position"></a></dt>
-<dd><p>The position of the compass.</p></dd>
+<dd><p>The position of the compass. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-compass-frame">compass.frame<a class="anchor" aria-label="anchor" href="#arg-compass-frame"></a></dt>
@@ -1046,7 +1051,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-logo-position">logo.position<a class="anchor" aria-label="anchor" href="#arg-logo-position"></a></dt>
-<dd><p>The position of the logo.</p></dd>
+<dd><p>The position of the logo. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-logo-frame">logo.frame<a class="anchor" aria-label="anchor" href="#arg-logo-frame"></a></dt>
@@ -1122,7 +1127,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-scalebar-position">scalebar.position<a class="anchor" aria-label="anchor" href="#arg-scalebar-position"></a></dt>
-<dd><p>The position of the scalebar.</p></dd>
+<dd><p>The position of the scalebar. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-scalebar-frame">scalebar.frame<a class="anchor" aria-label="anchor" href="#arg-scalebar-frame"></a></dt>
@@ -1246,7 +1251,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-mouse-coordinates-position">mouse_coordinates.position<a class="anchor" aria-label="anchor" href="#arg-mouse-coordinates-position"></a></dt>
-<dd><p>The position of the mouse_coordinates.</p></dd>
+<dd><p>The position of the mouse_coordinates. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-mouse-coordinates-show">mouse_coordinates.show<a class="anchor" aria-label="anchor" href="#arg-mouse-coordinates-show"></a></dt>
@@ -1266,7 +1271,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-minimap-position">minimap.position<a class="anchor" aria-label="anchor" href="#arg-minimap-position"></a></dt>
-<dd><p>The position of the minimap.</p></dd>
+<dd><p>The position of the minimap. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-minimap-show">minimap.show<a class="anchor" aria-label="anchor" href="#arg-minimap-show"></a></dt>

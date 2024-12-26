@@ -81,6 +81,7 @@
 <span>  <span class="va">frame.r</span>,</span>
 <span>  <span class="va">bg.color</span>,</span>
 <span>  <span class="va">bg.alpha</span>,</span>
+<span>  <span class="va">absolute_fontsize</span>,</span>
 <span>  <span class="va">item.height</span>,</span>
 <span>  <span class="va">item.width</span>,</span>
 <span>  <span class="va">item.space</span>,</span>
@@ -93,7 +94,7 @@
 <span>  <span class="va">ticks.col</span>,</span>
 <span>  <span class="va">ticks.lwd</span>,</span>
 <span>  <span class="va">margins</span>,</span>
-<span>  <span class="va">margin.item.text</span>,</span>
+<span>  <span class="va">item_text.margin</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -119,7 +120,7 @@
 
 
 <dt id="arg-design">design<a class="anchor" aria-label="anchor" href="#arg-design"></a></dt>
-<dd><p>Legend design <code>"standard"</code>.</p></dd>
+<dd><p>Legend design <code>"standard"</code>. No other designs implemented yet.</p></dd>
 
 
 <dt id="arg-reverse">reverse<a class="anchor" aria-label="anchor" href="#arg-reverse"></a></dt>
@@ -135,11 +136,11 @@
 
 
 <dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>Width of the legend</p></dd>
+<dd><p>Width of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option <code>absolute_fontsize</code>.</p></dd>
 
 
 <dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
-<dd><p>Height of the legend</p></dd>
+<dd><p>Height of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option <code>absolute_fontsize</code>.</p></dd>
 
 
 <dt id="arg-stack">stack<a class="anchor" aria-label="anchor" href="#arg-stack"></a></dt>
@@ -159,47 +160,47 @@
 
 
 <dt id="arg-title-color">title.color<a class="anchor" aria-label="anchor" href="#arg-title-color"></a></dt>
-<dd><p>Color of the legend title</p></dd>
+<dd><p>The color of the title of the legend.</p></dd>
 
 
 <dt id="arg-title-size">title.size<a class="anchor" aria-label="anchor" href="#arg-title-size"></a></dt>
-<dd><p>Size of the legend title</p></dd>
+<dd><p>The size of the title of the legend.</p></dd>
 
 
 <dt id="arg-title-fontface">title.fontface<a class="anchor" aria-label="anchor" href="#arg-title-fontface"></a></dt>
-<dd><p>Font face of the legend title</p></dd>
+<dd><p>The font face of the title of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'font'.</p></dd>
 
 
 <dt id="arg-title-fontfamily">title.fontfamily<a class="anchor" aria-label="anchor" href="#arg-title-fontfamily"></a></dt>
-<dd><p>Font family of the legend title</p></dd>
+<dd><p>The font family of the title of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
 
 
 <dt id="arg-title-padding">title.padding<a class="anchor" aria-label="anchor" href="#arg-title-padding"></a></dt>
-<dd><p>Padding of the legend title</p></dd>
+<dd><p>The padding of the title of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
 
 
 <dt id="arg-title-align">title.align<a class="anchor" aria-label="anchor" href="#arg-title-align"></a></dt>
-<dd><p>Title alignment</p></dd>
+<dd><p>The align of the title of the legend.</p></dd>
 
 
 <dt id="arg-text-color">text.color<a class="anchor" aria-label="anchor" href="#arg-text-color"></a></dt>
-<dd><p>Color of the legend text</p></dd>
+<dd><p>The color of the text of the legend.</p></dd>
 
 
 <dt id="arg-text-size">text.size<a class="anchor" aria-label="anchor" href="#arg-text-size"></a></dt>
-<dd><p>Size of the legend text</p></dd>
+<dd><p>The size of the text of the legend.</p></dd>
 
 
 <dt id="arg-text-fontface">text.fontface<a class="anchor" aria-label="anchor" href="#arg-text-fontface"></a></dt>
-<dd><p>Font face of the legend text</p></dd>
+<dd><p>The font face of the text of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'font'.</p></dd>
 
 
 <dt id="arg-text-fontfamily">text.fontfamily<a class="anchor" aria-label="anchor" href="#arg-text-fontfamily"></a></dt>
-<dd><p>Font family of the legend text</p></dd>
+<dd><p>The font family of the text of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>Use the format argument of the <code>tm_scale_*()</code> functions instead.</p></dd>
+<dd><p>Not used anymore: use the format argument of the <code>tm_scale_*()</code> functions instead.</p></dd>
 
 
 <dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
@@ -215,39 +216,43 @@
 
 
 <dt id="arg-bg-color">bg.color<a class="anchor" aria-label="anchor" href="#arg-bg-color"></a></dt>
-<dd><p>Background color of the legend</p></dd>
+<dd><p>The color of the bg of the legend.</p></dd>
 
 
 <dt id="arg-bg-alpha">bg.alpha<a class="anchor" aria-label="anchor" href="#arg-bg-alpha"></a></dt>
-<dd><p>Background transparency of the legend</p></dd>
+<dd><p>The alpha transparency of the bg of the legend.</p></dd>
+
+
+<dt id="arg-absolute-fontsize">absolute_fontsize<a class="anchor" aria-label="anchor" href="#arg-absolute-fontsize"></a></dt>
+<dd><p>The absolute fontsize of the legend. So far, only used to calculate legend dimensions</p></dd>
 
 
 <dt id="arg-item-height">item.height<a class="anchor" aria-label="anchor" href="#arg-item-height"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The height of the item of the legend.</p></dd>
 
 
 <dt id="arg-item-width">item.width<a class="anchor" aria-label="anchor" href="#arg-item-width"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The width of the item of the legend.</p></dd>
 
 
 <dt id="arg-item-space">item.space<a class="anchor" aria-label="anchor" href="#arg-item-space"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The space of the item of the legend. In terms of number of text line heights.</p></dd>
 
 
 <dt id="arg-item-na-height">item.na.height<a class="anchor" aria-label="anchor" href="#arg-item-na-height"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The height of the na item of the legend.</p></dd>
 
 
 <dt id="arg-item-na-width">item.na.width<a class="anchor" aria-label="anchor" href="#arg-item-na-width"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The width of the na item of the legend.</p></dd>
 
 
 <dt id="arg-item-na-space">item.na.space<a class="anchor" aria-label="anchor" href="#arg-item-na-space"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The space of the na item of the legend. In terms of number of text line heights.</p></dd>
 
 
 <dt id="arg-item-shape">item.shape<a class="anchor" aria-label="anchor" href="#arg-item-shape"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The shape of the item of the legend.</p></dd>
 
 
 <dt id="arg-ticks">ticks<a class="anchor" aria-label="anchor" href="#arg-ticks"></a></dt>
@@ -259,19 +264,19 @@
 
 
 <dt id="arg-ticks-col">ticks.col<a class="anchor" aria-label="anchor" href="#arg-ticks-col"></a></dt>
-<dd><p>Legend ticks color</p></dd>
+<dd><p>The color of the ticks of the legend.</p></dd>
 
 
 <dt id="arg-ticks-lwd">ticks.lwd<a class="anchor" aria-label="anchor" href="#arg-ticks-lwd"></a></dt>
-<dd><p>Legend ticks line widths</p></dd>
+<dd><p>The line width of the ticks of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'lwd'.</p></dd>
 
 
 <dt id="arg-margins">margins<a class="anchor" aria-label="anchor" href="#arg-margins"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dd><p>The margins of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
 
 
-<dt id="arg-margin-item-text">margin.item.text<a class="anchor" aria-label="anchor" href="#arg-margin-item-text"></a></dt>
-<dd><p>PARAM_DESCRIPTION</p></dd>
+<dt id="arg-item-text-margin">item_text.margin<a class="anchor" aria-label="anchor" href="#arg-item-text-margin"></a></dt>
+<dd><p>The margin of the space between item and text of the legend.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

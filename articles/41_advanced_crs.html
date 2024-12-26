@@ -84,16 +84,16 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">World</span><span class="op">$</span><span class="va">geometry</span></span>
 <span><span class="co">#&gt; Geometry set for 177 features </span></span>
-<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">#&gt; Geometry type: GEOMETRY</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -180 ymin: -90 xmax: 180 ymax: 83.64513</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -180 ymin: -90 xmax: 180 ymax: 83.645</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt; First 5 geometries:</span></span>
-<span><span class="co">#&gt; MULTIPOLYGON (((66.21738 37.39379, 65.74563 37....</span></span>
-<span><span class="co">#&gt; MULTIPOLYGON (((20.60518 41.08623, 20.46318 41....</span></span>
-<span><span class="co">#&gt; MULTIPOLYGON (((-4.923337 24.97457, -1.550055 2...</span></span>
-<span><span class="co">#&gt; MULTIPOLYGON (((12.62076 -4.438023, 12.31861 -4...</span></span>
-<span><span class="co">#&gt; MULTIPOLYGON (((-48.66062 -78.04702, -49.30696 ...</span></span></code></pre></div>
+<span><span class="co">#&gt; POLYGON ((66.217 37.394, 66.519 37.363, 67.076 ...</span></span>
+<span><span class="co">#&gt; POLYGON ((20.605 41.086, 21.02 40.843, 21 40.58...</span></span>
+<span><span class="co">#&gt; POLYGON ((-4.923 24.975, -8.684 27.396, -8.665 ...</span></span>
+<span><span class="co">#&gt; MULTIPOLYGON (((12.322 -6.1, 12.735 -5.966, 13....</span></span>
+<span><span class="co">#&gt; MULTIPOLYGON (((-61.883 -80.393, -61.139 -79.98...</span></span></code></pre></div>
 <p>The used coordinates are latitudes and longitudes. Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, </span>
@@ -116,8 +116,34 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># split multi-polygon countries (otherwise Alaska is still too large)</span></span>
 <span><span class="va">World_to_polygons</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_cast.html" class="external-link">st_cast</a></span><span class="op">(</span><span class="va">World</span>, <span class="st">"POLYGON"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in st_cast.sf(World, "POLYGON"): repeating attributes for all</span></span>
-<span><span class="co">#&gt; sub-geometries for which they may not be constant</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
+<span><span class="co">#&gt; Warning in st_cast.MULTIPOLYGON(X[[i]], ...): polygon from first part only</span></span>
 <span><span class="va">World_to_polygons</span><span class="op">$</span><span class="va">area</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">World_to_polygons</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_to_polygons</span><span class="op">)</span> <span class="op">+</span></span>
