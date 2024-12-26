@@ -17,6 +17,7 @@
 <url><loc>https://r-tmap.github.io/tmap/news/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/Netherlands.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/World.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/reference/World_rivers.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/get_fact_levels_na.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/get_scale_defaults.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/index.html</loc></url>
@@ -28,7 +29,6 @@
 <url><loc>https://r-tmap.github.io/tmap/reference/qtm.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/reexports.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/renderTmap.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap/reference/rivers.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/shapeTM.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/theme_ps.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_add_legend.html</loc></url>
