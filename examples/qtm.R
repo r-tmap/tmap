@@ -1,4 +1,4 @@
-data(World, rivers, metro)
+data(World, World_rivers, metro)
 
 # just the map
 qtm(World)

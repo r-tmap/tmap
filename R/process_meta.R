@@ -353,7 +353,7 @@ process_meta = function(o, d, cdt, aux) {
 
 						orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
 					} else {
-						orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
+						orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp)) || (!is.na(nrows) && nrows == 1)) "horizontal" else "vertical"
 					}
 				}
 			}

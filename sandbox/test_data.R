@@ -8,7 +8,7 @@ suppressPackageStartupMessages(library(terra))
 data(World, package = "tmap")
 data(land, package = "tmap")
 data(metro, package = "tmap")
-data(rivers, package = "tmap")
+data(World_rivers, package = "tmap")
 
 prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 (prec = stars::read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))

@@ -11,7 +11,7 @@ tm_shape(land) +
 			  	values = cols4all::c4a("brewer.pastel1")[c(3,7,7,2,6,1,2,2)]
 			  ),
 			  col.legend = tm_legend_hide()) +
-	tm_shape(rivers) +
+	tm_shape(World_rivers) +
 	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_asis(values.scale = .3),
 			 col = cols4all::c4a("brewer.pastel1")[2]) +
 	tm_shape(Africa, is.main = TRUE) +

@@ -46,7 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 #devtools::load_all()
-data(World, metro, rivers, land)
+data(World, metro, World_rivers, land)
 #tmap_design_mode()
 ```
 

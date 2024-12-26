@@ -55,6 +55,20 @@ tm_shape = function(shp,
 
 	bbox_list = c(list(x = bbox), args[intersect(args_called, c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
 
+	shp_called = deparse(substitute(shp))[1]
+
+	# rivers -> World_rivers
+	if (shp_called %in% c("rivers", "c(735, 320, 325, 392, 524, 450, 1459, 135, 465, 600, 330, 336, ") && # last one to catch qtm calls
+		is.numeric(shp) && length(shp) == 141) {
+		shp = World_rivers
+		shp_called = "World_rivers"
+		v3_rivers()
+	}
+
+
+	shp_name = ifelse(is.null(name) == TRUE, shp_called, name)
+
+
 	if (missing(shp)) {
 		do.call(tm_options, args[intersect(args_called, c("bbox", "crs", "set_bounds", "set_view", "set_zoom_limits"))])
 	} else {
@@ -64,7 +78,7 @@ tm_shape = function(shp,
 								   bbox = bbox_list,
 								   unit = unit,
 								   filter = filter,
-								   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name),
+								   shp_name = shp_name,
 								   subclass = "tm_shape"))
 	}
 }

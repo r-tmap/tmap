@@ -667,5 +667,5 @@ tm_shape(World) +
 	tm_compass(size = 16,position = tm_pos_out("right", "center"))
 
 ## 835
-tm_shape(rivers)+
+tm_shape(World_rivers)+
 	tm_lines(col = "scalerank", lwd = 5, lineend = "butt")

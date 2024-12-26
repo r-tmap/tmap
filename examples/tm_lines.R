@@ -1,4 +1,4 @@
-tm_shape(rivers) +
+tm_shape(World_rivers) +
 	tm_lines(lwd = "strokelwd",
 			 lwd.scale = tm_scale_asis(values.scale = 0.2, value.neutral = 2),
 			 col = "scalerank",

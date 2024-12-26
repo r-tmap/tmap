@@ -113,7 +113,7 @@ without arguments of with a search term. This option can be set with \code{\link
 (argument \code{qtm.minimap}).
 }
 \examples{
-data(World, rivers, metro)
+data(World, World_rivers, metro)
 
 # just the map
 qtm(World)

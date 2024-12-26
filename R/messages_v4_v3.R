@@ -360,11 +360,9 @@ v3_message_rgb_maxV = function(layer_fun, opt, value) {
 	)
 }
 
-
-# v3_multiple = function(layer_fun, vv) {
-# 	if (!message_thrown("multiple_args")) {
-# 		message("[v3->v4] ", layer_fun, "(): use '", vv, ".scale = list(<scale1>, <scale2>, ...)' to specify small multiples")
-# 		message_reg("multiple_args")
-# 	}
-#
-# }
+v3_rivers = function() {
+	cli::cli_inform(
+		"{.field [v3->v4]} tmap data: use {.code World_rivers} instead of {.code rivers}",
+		.frequency_id = "rivers"
+	)
+}

@@ -97,7 +97,8 @@
 #' Spatial data of rivers
 #'
 #' @source <https://www.naturalearthdata.com>
-"rivers"
+#' @note In tmap <= 3, this dataset was called `rivers`.
+"World_rivers"
 
 #' Spatial data of metropolitan areas
 #'

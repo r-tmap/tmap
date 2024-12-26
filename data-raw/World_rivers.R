@@ -14,8 +14,8 @@ rivers$strokelwd <- as.numeric(rivers$strokelwd)
 
 Encoding(rivers$name) <- "latin1"
 rivers$name <- iconv(
-	rivers$name, 
-	"latin1", 
+	rivers$name,
+	"latin1",
 	"ASCII",
 	""
 )
@@ -23,8 +23,12 @@ x <- grep("I_WAS_NOT_ASCII", iconv(levels(rivers$name), "latin1", "ASCII", sub="
 
 rivers = sf::st_set_crs(rivers, 4326)
 
-rivers = rivers %>% 
-	filter(!is.na(type)) 
-	
+rivers = rivers %>%
+	dplyr::filter(!is.na(type))
 
-save(rivers, file="data/rivers.rda", compress="xz")
+
+rivers$geometry = rivers |> st_geometry() |> st_sfc(precision = 1000) %>% st_as_binary %>% st_as_sfc
+
+World_rivers = rivers
+
+save(World_rivers, file="data/World_rivers.rda", compress="xz")

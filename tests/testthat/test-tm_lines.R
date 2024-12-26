@@ -3,7 +3,7 @@ test_that("It is possible to combine two visual elements into single legend", {
 	color_values <- c("#B4D79E", "#98E600", "#FFAA00", "#FF5500", "#A80000")
 	size_values <- c(0.5, 1, 2, 3, 5)
   expect_no_error({
-  	tm_shape(rivers) +
+  	tm_shape(World_rivers) +
   		tm_lines(
   			col = "strokelwd",
   			col.scale = tm_scale_intervals(values = color_values, breaks = break_values),
