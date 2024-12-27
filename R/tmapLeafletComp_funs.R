@@ -76,7 +76,7 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 
 #' @export
 tmapLeafletLegPlot.tm_compass = function(comp, lf, o) {
-	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), src = "local", position = leaflet_pos(comp$position), width = 120, height = 120)
+	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), position = leaflet_pos(comp$position), width = 120, height = 120)
 }
 
 
