@@ -20,14 +20,14 @@ trim_stars = function(x) {
 
 # from stars package
 is_regular_grid = function (x) {
-	has_raster(x) && !(has_rotate_or_shear(x) || is_rectilinear(x) || 
+	has_raster(x) && !(has_rotate_or_shear(x) || is_rectilinear(x) ||
 					   	is_curvilinear(x))
 }
 
 has_raster = function (x) {
-	if (inherits(x, "stars")) 
+	if (inherits(x, "stars"))
 		x = stars::st_dimensions(x)
-	!is.null(r <- attr(x, "raster")) && all(r$dimensions %in% 
+	!is.null(r <- attr(x, "raster")) && all(r$dimensions %in%
 												names(x))
 }
 
@@ -51,7 +51,7 @@ is_rectilinear = function (x) {
 		xy = attr(d, "raster")$dimensions
 		dimx = d[[xy[1]]]
 		dimy = d[[xy[2]]]
-		(is.na(dimx$delta) || is.na(dimy$delta)) && (!regular_intervals(dimx$values) || 
+		(is.na(dimx$delta) || is.na(dimy$delta)) && (!regular_intervals(dimx$values) ||
 													 	!regular_intervals(dimy$values))
 	}
 	else FALSE
@@ -61,10 +61,10 @@ regular_intervals = function (x, epsilon = 1e-10) {
 	if (length(x) <= 1) {
 		FALSE
 	} else {
-		ud = if (is.atomic(x)) 
+		ud = if (is.atomic(x))
 			unique(diff(x))
 		else {
-			if (identical(tail(x$end, -1), head(x$start, -1))) 
+			if (identical(tail(x$end, -1), head(x$start, -1)))
 				x$end - x$start
 			else return(FALSE)
 		}
@@ -72,7 +72,7 @@ regular_intervals = function (x, epsilon = 1e-10) {
 	}
 }
 
-get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin")[1] / dev.size()[1]))) { 
+get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin")[1] / dev.size()[1]))) {
 	floor(sqrt(prod(dims) / prod(px)))
 }
 
@@ -88,7 +88,7 @@ get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin"
 # 			if (n[i] > 1) {
 # 				sq = seq(1, d[i], n[i])
 # 				args[[i + 1]] = sq
-# 				if (!is.null(dims[[i]]$values)) 
+# 				if (!is.null(dims[[i]]$values))
 # 					dims[[i]]$values = dims[[i]]$values[sq]
 # 			}
 # 		}
@@ -111,7 +111,7 @@ get_downsample = function(dims, px = round(dev.size("px") * (graphics::par("fin"
 
 # st_is_merc = function(x) {
 # 	crs = sf::st_crs(x)
-# 	if (is.na(crs)) { 
+# 	if (is.na(crs)) {
 # 		NA
 # 	} else {
 # 		isTRUE(crs$proj == "merc") || isTRUE(crs$epsg == 3857)
@@ -129,20 +129,24 @@ transwarp = function(x, crs, raster.warp) {
 	shpcolors = attr(x[[1]], "colors")
 
 	y = tryCatch({
-		stars::st_warp(x, crs = crs)
+		if (is_curvilinear(x)) {
+			sf::st_transform(x, crs = crs)
+		} else {
+			stars::st_warp(x, crs = crs)
+		}
 	}, error = function(e) {
-		warning("Unable to warp stars. Stars will be transformed now (which will take some time).", call. = FALSE)	
+		warning("Unable to warp stars. Stars will be transformed now (which will take some time).", call. = FALSE)
 		tryCatch({
 			sf::st_transform(x, crs = crs)
 		}, error = function(e) {
-			stop("Also unable to transform stars", call. = FALSE)	
+			stop("Also unable to transform stars", call. = FALSE)
 		})
 	})
 	if (!is.null(shpcolors)) attr(y[[1]], "colors") = shpcolors
 	y
 }
 
-has_rotate_or_shear = function (x) 
+has_rotate_or_shear = function (x)
 {
 	dimensions = stars::st_dimensions(x)
 	if (has_raster(x)) {

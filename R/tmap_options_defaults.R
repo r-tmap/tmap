@@ -10,7 +10,7 @@
 					 			use_browser = FALSE,
 					 			use_WebGL = NA,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-					 			crs_data = list(dimensions = 3857, 4326),
+					 			#crs_data = list(dimensions = 3857, 4326),
 					 			facet.max = 16,
 					 			#legend.bg.alpha = 0.8,
 					 			#view.legend.position = c("right", "top"),

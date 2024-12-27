@@ -324,8 +324,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 
 					xlab <- do.call("fancy_breaks", c(list(vec=abs(x), intervals=FALSE), o$labels.format)) #format(x, big.mark = ",")
 
-					xlab[xpos] <- paste0(xlab[xpos], "E")
-					xlab[xneg] <- paste0(xlab[xneg], "W")
+					xlab[xpos] <- paste0(xlab[xpos], "\u00B0E")
+					xlab[xneg] <- paste0(xlab[xneg], "\u00B0W")
 					xlab
 				} else {
 					do.call("fancy_breaks", c(list(vec=x, intervals=FALSE), o$labels.format)) #format(x, big.mark = ",")
@@ -340,8 +340,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 
 					ylab <- do.call("fancy_breaks", c(list(vec=abs(y), intervals=FALSE), o$labels.format))
 
-					ylab[ypos] <- paste0(ylab[ypos], "N")
-					ylab[yneg] <- paste0(ylab[yneg], "S")
+					ylab[ypos] <- paste0(ylab[ypos], "\u00B0N")
+					ylab[yneg] <- paste0(ylab[yneg], "\u00B0S")
 					ylab
 				} else {
 					do.call("fancy_breaks", c(list(vec=y, intervals=FALSE), o$labels.format))

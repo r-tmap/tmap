@@ -31,7 +31,11 @@ impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, p
 
 		if (!is.null(checkif)) {
 			checks = vapply(seq_along(checkif), function(i) {
-				dt[[names(checkif)[i]]][1] %in% checkif[[i]]
+				if (!(checkif[i] %in% names(dt))) {
+					TRUE
+				} else {
+					dt[[names(checkif)[i]]][1] %in% checkif[[i]]
+				}
 			}, FUN.VALUE = logical(1))
 		} else {
 			checks = TRUE
@@ -510,7 +514,7 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 
 		shp3 = sf::st_geometry(sf::st_as_sf(shp2))
 
-		crs = get_option_class(tmap_options_mode("view")$crs, "sf")
+		crs = get_option_class(o$crs_step4, "sf")
 
 		shpTM = shapeTM(sf::st_transform(shp3, crs), tmapID)
 
