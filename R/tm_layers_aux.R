@@ -51,7 +51,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 
 
 #' @export
 #' @rdname tm_basemap
-tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 1, zindex = NA, group = NA, group.control = "check") {
+tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = NA, group = NA, group.control = "check") {
 	if (is.null(server)) {
 		disable = TRUE
 	} else {

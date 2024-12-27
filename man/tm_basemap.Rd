@@ -19,7 +19,7 @@ tm_tiles(
   server = NA,
   alpha = NULL,
   zoom = NULL,
-  max.native.zoom = 1,
+  max.native.zoom = 17,
   zindex = NA,
   group = NA,
   group.control = "check"
