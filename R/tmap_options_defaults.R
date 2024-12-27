@@ -16,7 +16,6 @@
 					 			#view.legend.position = c("right", "top"),
 					 			control.position = c("left", "top"),
 					 			control.collapse = TRUE,
-					 			panel.show = FALSE,
 					 			basemap.show = TRUE,
 					 			set_bounds = FALSE,
 					 			set_view = NA,
