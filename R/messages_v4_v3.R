@@ -366,3 +366,14 @@ v3_rivers = function() {
 		.frequency_id = "rivers"
 	)
 }
+
+v3_simplify = function(name, args) {
+	names(args)[names(args) == "simplify"] = "fact"
+
+	txt = paste(mapply(paste, names(args), unname(args), MoreArgs = list(sep = " = "), USE.NAMES = FALSE), collapse = ", ")
+
+	cli::cli_inform(
+		"{.field [v3->v4]} {.fn tm_shape}: {.arg simplify} cannot be used anymore. Please use {.code tmaptools::simplify_shape({name}, {txt})} instead",
+		.frequency_id = "simplify"
+	)
+}

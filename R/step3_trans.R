@@ -29,8 +29,6 @@ step3_trans = function(tm) {
 		crs_step4 = o$crs_step4
 		crs_step3 = o$crs_step3
 
-		#crs = if (is.na(o$crs[1])) get_crs(shpDT$shpTM[[o$main]]) else o$crs
-
 		crs_reproject_shpTM = function(s, crs) {
 			# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
 			crs2 = sf::st_crs(get_option_class(crs, class = class(s$shp)))

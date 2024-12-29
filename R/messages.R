@@ -124,7 +124,25 @@ message_qtm_empty = function() {
 }
 
 message_layer_unused_args = function(layer_fun, args) {
-	cli::cli_inform(c(
+	cli::cli_inform(
 		"{.field [{layer_fun}()]} Argument{ifelse(length(args)>1, 's', '')} {.arg {args}} unknown."
-	))
+	)
+}
+
+message_crs_property_unknown = function() {
+	cli::cli_inform(
+		"{.field [tm_crs]} {.arg property} should be one of {.str global}, {.str area}, {.str distance}, {.str shape}"
+	)
+}
+
+message_crs_property_not_used = function() {
+	cli::cli_inform(
+		"{.field [tm_crs]} {.arg crs} specified, so {.arg property} is ignored"
+	)
+}
+
+message_crs_ll = function() {
+	cli::cli_inform(
+		"{.field [tip]} Consider a suitable map projection, e.g. by adding {.code + tm_crs({.str auto})}."
+	)
 }

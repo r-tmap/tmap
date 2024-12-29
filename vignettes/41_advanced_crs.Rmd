@@ -75,11 +75,12 @@ tm_crs("+proj=ortho +lat_0=20 +lon_0=0")
 
 The latitude and longitude coordinates are specified using the WGS84 geodetic datum, an ellipsoid model of the earth. There are other standards, but WGS84 is by far the most popular and also used by GPS.
 
-Besides using latitude longitude coordinates as refences for real locations on earth, they can obviously also be used to draw maps:
+Besides using latitude longitude coordinates as references for real locations on earth, they can obviously also be used to draw maps:
 
 ```{r, fig.height = 4}
 tm_shape(World) +
   tm_polygons("gold") +
+tm_crs(4326) +
 tm_grid(n.x = 16, n.y = 8) +
 tm_title("Latitude/longitude (4326) coordinates")
 ```
@@ -90,10 +91,10 @@ However, this is not a good map because areas near the poles are too large (and 
 
 ```{r, fig.height = 4}
 # split multi-polygon countries (otherwise Alaska is still too large)
-World_to_polygons = sf::st_cast(World, "POLYGON")
-World_to_polygons$area = sf::st_area(World_to_polygons)
+World_polygons = sf::st_cast(World, "POLYGON")
+World_polygons$area = sf::st_area(World_polygons)
 
-tm_shape(World_to_polygons) +
+tm_shape(World_polygons) +
   tm_cartogram_ncont(size = "area", fill = "gold", options = opt_tm_cartogram_ncont(expansion = 0.4)) +
 tm_title("Polygons shrinked to real area sizes")
 ```
@@ -141,9 +142,9 @@ tm_title("Happy Planet Index") +
 tm_layout(earth_boundary = TRUE, frame = FALSE)
 ```
 
+## Use
 
-
-## Geometric transformations: use `tm_shape`
+### Geometric transformations: use `tm_shape`
 
 The `crs` can be defined in `tm_shape`. This is useful for thematic maps where the geometry is changed. For instance cartograms:
 
@@ -152,7 +153,7 @@ tm_shape(World, crs = "+proj=robin") +
   tm_cartogram(size = "pop_est")
 ```
 
-## Otherwise: use `tm_crs`
+### Otherwise: use `tm_crs`
 
 In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function `tm_crs`:
 
@@ -161,3 +162,4 @@ tm_shape(World) +
   tm_polygons(fill = "life_exp") +
 tm_crs(crs = "+proj=robin")
 ```
+

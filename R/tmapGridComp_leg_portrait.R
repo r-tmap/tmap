@@ -566,11 +566,8 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			gpars2 = vector(mode = "list", length = nlev)
 		}
 
-
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
-
-#		sizes =
 
 		shapeLib = get("shapeLib", envir = .TMAP)
 		justLib = get("justLib", envir = .TMAP)

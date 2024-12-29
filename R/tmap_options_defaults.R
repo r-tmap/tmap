@@ -4,8 +4,8 @@
 	list(
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid",
-								 use_gradient = FALSE,
-								 crs = "auto"),
+								 use_gradient = FALSE),
+								 #crs = "auto"),
 					 view = list(name = "Leaflet",
 					 			use_browser = FALSE,
 					 			use_WebGL = NA,
@@ -606,7 +606,10 @@
 		tiles.alpha = 1,
 		tiles.zoom = NA,
 
-		attr.color = "black"
+		attr.color = "black",
+
+		crs_extra = "",
+		crs_global = "+proj=eqearth"
 	),
 	style = "white",
 	specified = character()

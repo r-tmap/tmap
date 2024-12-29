@@ -3,7 +3,6 @@
 \name{tm_style}
 \alias{tm_style}
 \alias{tm_layout}
-\alias{tm_crs}
 \title{Layout options}
 \usage{
 tm_style(style, ...)
@@ -280,8 +279,6 @@ tm_layout(
   title = NULL,
   ...
 )
-
-tm_crs(crs)
 }
 \arguments{
 \item{style}{name of the style}
@@ -832,8 +829,6 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \item{attr.color}{The color of the attr.}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
-
-\item{crs}{Map crs (see \code{\link[=tm_shape]{tm_shape()}}). \code{NA} means the crs is specified in \code{\link[=tm_shape]{tm_shape()}}. The crs that is used by the transformation functions is defined in \code{\link[=tm_shape]{tm_shape()}}.}
 }
 \description{
 Set of tmap options that are directly related to the layout.

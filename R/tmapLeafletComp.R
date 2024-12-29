@@ -13,26 +13,40 @@ leaflet_pos = function(pos) {
 }
 
 
-gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20) {
+gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20, rename_prop = TRUE) {
 	# create a list of gp elements
 
-	lst = c(list(fillColor = {if (!all(is.na(gp$fill))) gp$fill else "#000000"},
-				 color = {if (!all(is.na(gp$col))) gp$col else "#000000"},
-				 fillOpacity = {if (!all(is.na(gp$fill_alpha))) gp$fill_alpha else 0},
-				 opacity = {if (!all(is.na(gp$col_alpha))) gp$col_alpha else 0},
-				 'stroke-width' = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
-				 'stroke-dasharray' = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
+	lst = c(list(fill = {if (!all(is.na(gp$fill))) gp$fill else "#000000"},
+				 col = {if (!all(is.na(gp$col))) gp$col else "#000000"},
+				 fill_alpha = {if (!all(is.na(gp$fill_alpha))) gp$fill_alpha else 0},
+				 col_alpha = {if (!all(is.na(gp$col_alpha))) gp$col_alpha else 0},
+				 lwd = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
+				 lty = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
 				 size = {if (!all(is.na(gp$size))) gp$size else 1},
 				 shape = {if (!all(is.na(gp$shape))) gp$shape else shape}))
 
-	lst_isnum = c(fillColor = FALSE,
-				  color = FALSE,
-				  fillOpacity = TRUE,
-				  opacity = TRUE,
-				  'stroke-width' = TRUE,
-				  'stroke-dash' = FALSE,
+	lst_isnum = c(fill = FALSE,
+				  col = FALSE,
+				  fill_alpha = TRUE,
+				  col_alpha = TRUE,
+				  lwd = TRUE,
+				  lty = FALSE,
 				  size = TRUE,
 				  shape = TRUE)
+
+	if (rename_prop) {
+		newNames = c("fillColor",
+					  "color",
+					  "fillOpacity",
+					  "opacity",
+					  "stroke-width",
+					  "stroke-dash",
+					  "size",
+					  "shape")
+		names(lst) = newNames
+		names(lst_isnum) = newNames
+	}
+
 
 	lst = mapply(function(lsti, nm, isnum) {
 		if (!is.character(lsti)) return(lsti)

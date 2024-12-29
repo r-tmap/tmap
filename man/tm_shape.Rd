@@ -37,6 +37,9 @@ bounding box of the map? By default, \code{TRUE} if it is the first \code{tm_sha
 Specify a shape, which is a spatial object from one of these spatial object
 class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}}, or \code{terra}.
 }
+\note{
+as of tmap 4.0, simplify has been removed. Please use \code{\link[tmaptools:simplify_shape]{tmaptools::simplify_shape()}} instead
+}
 \examples{
 tm_shape(World, crs = "+proj=ortho +lat_0=-10 +lon_0=-30") +
 	tm_polygons()

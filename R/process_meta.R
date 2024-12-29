@@ -353,7 +353,11 @@ process_meta = function(o, d, cdt, aux) {
 
 						orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
 					} else {
-						orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp)) || (!is.na(nrows) && nrows == 1)) "horizontal" else "vertical"
+						orientation = if ((!is.na(nrows) && nrows == 1) || (!is.na(ncols) && ncols == n)) {
+							"horizontal"
+						} else if ((!is.na(nrows) && nrows == n) || (!is.na(ncols) && ncols == 1)) {
+							"vertical"
+						} else if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
 					}
 				}
 			}
@@ -506,8 +510,8 @@ process_meta = function(o, d, cdt, aux) {
 			nrows = nby[1]
 			ncols = nby[2]
 		} else if (type == "page") {
-			nrows = 1
-			ncols = 1
+			if (is.na(nrows)) nrows = 1
+			if (is.na(ncols)) ncols = 1
 		} else if (type == "stack") {
 			if (orientation == "horizontal") {
 				nrows = 1

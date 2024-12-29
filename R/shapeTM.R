@@ -8,8 +8,6 @@
 #' @export
 #' @keywords internal
 shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
-	#if (!is.null(bbox$x)) bbox = do.call(tmaptools::bb, bbox)
-
 	# filter empty geometries
 	if (inherits(shp, "sfc")) {
 		is_empty = sf::st_is_empty(shp)
@@ -19,18 +17,6 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox, ...), class = c("shapeTM", "list"))
 }
 
-# stm_bbox = function(shpTM) {
-# 	shp = shpTM$shp
-# 	tmapID = shpTM$tmapID
-# 	if (inherits(shp, "stars")) {
-# 		shp$values[tmapID] = TRUE
-# 		sf::st_bbox(trim_stars(shp))
-# 	} else if (inherits(shp, c("sf", "sfc"))) {
-# 		sf::st_bbox(shp[tmapID])
-# 	} else {
-# 		stop("unknown shape class")
-# 	}
-# }
 
 stm_bbox = function(shpTM, tmapID, crs) {
 	bbox = shpTM$bbox

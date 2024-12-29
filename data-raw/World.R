@@ -311,6 +311,7 @@ World$geometry = World |> st_geometry() |> st_sfc(precision = 1000) %>% st_as_bi
 
 World = st_set_crs(World, 4326)
 
+World$geometry = st_cast(World$geometry, "MULTIPOLYGON")
 
 
 save(World, file="data/World.rda", compress="xz")

@@ -31,6 +31,7 @@
 #' @importFrom s2 s2_buffer_cells as_s2_geography s2_intersects
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
 #' @import utils
+#' @note as of tmap 4.0, simplify has been removed. Please use [tmaptools::simplify_shape()] instead
 #' @example ./examples/tm_shape.R
 #' @export
 tm_shape = function(shp,
@@ -53,6 +54,8 @@ tm_shape = function(shp,
 		is.main = TRUE
 	}
 
+
+
 	bbox_list = c(list(x = bbox), args[intersect(args_called, c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))])
 
 	shp_called = deparse(substitute(shp))[1]
@@ -66,6 +69,11 @@ tm_shape = function(shp,
 		shp = World_rivers
 		shp_called = "World_rivers"
 		v3_rivers()
+	}
+
+	if ("simplify" %in% args_called) {
+		sim_args = args[intersect(args_called, c("simplify", "keep.units", "keep.subunits"))]
+		v3_simplify(shp_called, sim_args)
 	}
 
 

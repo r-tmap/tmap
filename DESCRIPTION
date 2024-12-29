@@ -12,8 +12,11 @@ Authors@R: c(
     person("Robin", "Lovelace", , "rob00x@gmail.com", role = "ctb"),
     person("Jannes", "Muenchow", , "jannes.muenchow@uni-jena.de", role = "ctb"),
     person("Olivier", "Roy", role = "ctb"),
-    person("Edzer", "Pebesma", , "edzer.pebesma@uni-muenster.de", role = "ctb")
-  )
+    person("Edzer", "Pebesma", , "edzer.pebesma@uni-muenster.de", role = "ctb"),
+    person("Hugh", "Graham", , "hugh.a.graham@gmail.com", role = "ctb"),
+    person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = "ctb"),
+    person("Tim", "Appelhans", , "tim.appelhans@gmail.com", role = "ctb"),
+    person("Nick", "Bearman", , "nick@nickbearman.com", role = "ctb"))
 Description: Thematic maps are geographical maps in which spatial data
     distributions are visualized. This package offers a flexible,
     layer-based, and easy to use approach to create thematic maps, such as

@@ -24,13 +24,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	attr(shp, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
 
 
-	#m = matrix(NA, nrow = xy_dim[2], ncol = xy_dim[1])
-
-	#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 	shpclass = "stars"
-
-	#if (is.null(bbox)) bbox = st_bbox(shp)
-
 
 	dtcols = setdiff(names(dt), "tmapID__")
 

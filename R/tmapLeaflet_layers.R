@@ -108,6 +108,10 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 
 	res = select_sf(shpTM, dt)
 	shp = res$shp
+	if (o$crs_leaflet$crsClass  == "L.CRS.Simple") {
+		shp = sf::st_set_crs(shp, NA)
+	}
+
 	dt = res$dt
 
 	if (!is.null(idt)) {
@@ -131,7 +135,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
-
+	gp = gp_to_lpar(gp, mfun = "Polygons", rename_prop = FALSE)
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
@@ -145,10 +149,11 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 
 	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
-		shp3 = suppressWarnings(sf::st_cast(shp2, "POLYGON"))
+		shp3 = sf_expand(shp2)
+
 		shp3lines = suppressWarnings(sf::st_cast(shp3, "LINESTRING"))
-		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
-		popups2 = popups[shp3$id]
+		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$split__id]})
+		popups2 = popups[shp3$split__id]
 
 		# opacity channel from fill (e.g. "#FF000099") is ignored by addGlPolygons
 		fill_alpha = split_alpha_channel(gp3$fill[1], alpha = gp3$fill_alpha[1])$opacity
@@ -161,7 +166,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		lf %>%
-			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = lty2dash(gp$lty), popup = popups) %>%
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	}
 	NULL
@@ -196,6 +201,10 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 
 	res = select_sf(shpTM, dt[!is.na(dt$lwd), ])
 	shp = res$shp
+	if (o$crs_leaflet$crsClass  == "L.CRS.Simple") {
+		shp = sf::st_set_crs(shp, NA)
+	}
+
 	names(shp) = NULL # also required for other layers?
 	dt = res$dt
 
@@ -263,6 +272,9 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	res = select_sf(shpTM, dt[!is.na(dt$size), ])
 	shp = res$shp
+	if (o$crs_leaflet$crsClass  == "L.CRS.Simple") {
+		shp = sf::st_set_crs(shp, NA)
+	}
 	dt = res$dt
 
 	if (!is.null(idt)) {
@@ -449,9 +461,6 @@ tmapLeafletRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, fa
 
 	rc_text = frc(facet_row, facet_col)
 
-
-	#bb_target <- bbx #attr(shp, "bbox")
-	#bb_real <- bbx #sf::st_bbox(shp)
 
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID

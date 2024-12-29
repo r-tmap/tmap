@@ -303,6 +303,8 @@ tmap_options(
   tiles.alpha,
   tiles.zoom,
   attr.color,
+  crs_extra,
+  crs_global,
   use_gradient,
   use_browser,
   use_WebGL,
@@ -916,6 +918,10 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{tiles.zoom}{The zoom of the tiles.}
 
 \item{attr.color}{The color of the attr.}
+
+\item{crs_extra}{Only used internally (work in progress)}
+
+\item{crs_global}{The used crs for world maps}
 
 \item{use_gradient}{Use gradient fill using \link[grid:patterns]{linearGradient()}}
 

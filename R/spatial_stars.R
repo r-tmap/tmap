@@ -32,7 +32,7 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
-	if (identical(crs, "auto")) crs = auto_crs(shp)
+	if (identical(crs, "auto")) crs = auto_crs(shp, crs_extra = o$crs_extra, crs_global = o$crs_global)
 
 	dev = getOption("tmap.devel.mode")
 
@@ -121,7 +121,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 	make_by_vars(dt, tmf, smeta)
 
-	#if (is.null(bbox)) bbox = sf::st_bbox(shp)
 
 	dtcols = setdiff(names(dt), "tmapID__")
 

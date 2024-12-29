@@ -9,7 +9,7 @@ tm_shape(L7) +
 \dontrun{
 # the previous example was a shortcut of this call
 tm_shape(L7) +
-	tm_rgb(col = tm_vars("band", dimvalues = 1:3))
+	tm_rgb(col = tm_vars("band", dimvalues = 1:3, multivariate = TRUE))
 
 # alternative format: using a stars dimension instead of attributes
 L7_alt = split(L7, "band")
@@ -26,7 +26,7 @@ tm_shape(L7_alt) +
 
 if (requireNamespace("terra")) {
 	L7_terra = terra::rast(file)
-	
+
 	tm_shape(L7_terra) +
 		tm_rgb()
 
@@ -37,6 +37,6 @@ if (requireNamespace("terra")) {
 	# with layer indices
 	tm_shape(L7_alt) +
 		tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
-	
+
 }
 }

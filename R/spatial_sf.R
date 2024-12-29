@@ -13,7 +13,7 @@ tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
-	if (identical(crs, "auto")) crs = auto_crs(shp) else crs = sf::st_crs(crs)
+	if (identical(crs, "auto")) crs = auto_crs(shp, crs_extra = o$crs_extra, crs_global = o$crs_global) else crs = sf::st_crs(crs)
 	reproj = (!is.null(crs) && !is.na(crs) && sf::st_crs(shp) != crs)
 
 	if (reproj) {
@@ -49,7 +49,6 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 
 	dtcols = copy(names(dt))
 
-	#if (is.null(bbox)) bbox = sf::st_bbox(sfc)
 
 	if (is.null(filter)) filter = rep_len(TRUE, nrow(dt))
 	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]

@@ -226,11 +226,12 @@ step1_rearrange = function(tmel) {
 		crs_step4 = list(dimensions = 3857, 4326)
 	}
 
-	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto")) else NA
+	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto"), crs_extra = o$crs_extra, crs_global = o$crs_global) else NA
 
 	if (identical(crs_step4, "auto")) {
 		if (is.na(crs_step3[1])) {
-			crs_step4 = auto_crs(TRUE)
+			# no data layer:
+			crs_step4 = auto_crs(TRUE, crs_extra = o$crs_extra, crs_global = o$crs_global)
 		} else {
 			crs_step4 = crs_step3
 		}
@@ -319,20 +320,26 @@ get_main_ids = function(tmo) {
 }
 
 
-get_crs = function(tms, is_auto) {
+get_crs = function(tms, is_auto, crs_extra, crs_global) {
 	if (is.na(sf::st_crs(tms$shp))) return(sf::st_crs(NA))
 	if (is.null(tms$crs)) {
 		crs = sf::st_crs(tms$shp)
 		is_ll = sf::st_is_longlat(crs)
-		if (is_ll) {
-			auto_crs(tms$shp)
+		if (is_ll && is_auto) {
+			auto_crs(tms$shp, crs_extra = crs_extra, crs_global = crs_global)
 		} else {
+			if (is_ll) {
+				if (inherits(tms$shp, "sf") && consider_global(tms$shp)) {
+					message_crs_ll()
+				}
+
+			}
 			crs
 		}
 	} else {
 		crs = tms$crs
-		if (identical(crs, "auto")) {
-			auto_crs(tms$shp)
+		if (identical(crs, "auto") || is_auto) {
+			auto_crs(tms$shp, crs_extra = crs_extra, crs_global = crs_global)
 		} else crs
 	}
 }

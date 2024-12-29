@@ -298,6 +298,8 @@ tm_options(
   tiles.alpha,
   tiles.zoom,
   attr.color,
+  crs_extra,
+  crs_global,
   title = NULL,
   main.title = NULL,
   main.title.size = NULL,
@@ -904,6 +906,10 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \item{tiles.zoom}{The zoom of the tiles.}
 
 \item{attr.color}{The color of the attr.}
+
+\item{crs_extra}{Only used internally (work in progress)}
+
+\item{crs_global}{The used crs for world maps}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 

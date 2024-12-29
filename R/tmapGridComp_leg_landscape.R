@@ -369,23 +369,12 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		grItems = mapply(function(id, gpari) gridCell(6, id, grid::linesGrob(x = grid::unit(c(0.5,0.5), "npc"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 	} else if (comp$type == "symbols") {
-		shps = rep(comp$gpar$shape, length.out = comp$nitems)
-
-
-	#	* ifelse(shps > 999, comp$layer_args$icon.scale, 1)
-
-
-		if (length(gp$size) == 1) {
-			gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
 															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
-		} else {
-			shps = rep(gp$shape, length.out = nlev)
-			gp$size = rep(gp$size, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1)
-		}
-		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 
-		# scale down (due to facet use)
-		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		gp = swap_pch_15_20(gp)
+
+		gpars = gp_to_gpar(gp, split_to_n = nlev, o = o, type = comp$type)
 
 		diffAlpha = !anyNA(c(gp$fill_alpha, gp$col_alpha)) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 		if (diffAlpha) {
@@ -395,6 +384,9 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 			gpars1 = vector(mode = "list", length = nlev)
 			gpars2 = vector(mode = "list", length = nlev)
 		}
+
+		# scale down (due to facet use)
+		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 
 
 		shapeLib = get("shapeLib", envir = .TMAP)
