@@ -280,12 +280,14 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span><span class="co"># bivariate scale</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="fu"><a href="tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inequality"</span>, <span class="st">"well_being"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[tip]</span> Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Labels abbreviated by the first letters, e.g.: "2 to 3" =&gt; "2"</span>
 <span class="r-plt img"><img src="tm_polygons-7.png" alt="" width="2188" height="1350"></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_polygons</span><span class="op">(</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[tip]</span> Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span>
 <span class="r-plt img"><img src="tm_polygons-8.png" alt="" width="2188" height="1350"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
