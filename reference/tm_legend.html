@@ -69,12 +69,14 @@
 <span>  <span class="va">title.size</span>,</span>
 <span>  <span class="va">title.fontface</span>,</span>
 <span>  <span class="va">title.fontfamily</span>,</span>
+<span>  <span class="va">title.alpha</span>,</span>
 <span>  <span class="va">title.padding</span>,</span>
 <span>  <span class="va">title.align</span>,</span>
 <span>  <span class="va">text.color</span>,</span>
 <span>  <span class="va">text.size</span>,</span>
 <span>  <span class="va">text.fontface</span>,</span>
 <span>  <span class="va">text.fontfamily</span>,</span>
+<span>  <span class="va">text.alpha</span>,</span>
 <span>  <span class="va">format</span>,</span>
 <span>  <span class="va">frame</span>,</span>
 <span>  <span class="va">frame.lwd</span>,</span>
@@ -100,7 +102,27 @@
 <span></span>
 <span><span class="fu">tm_legend_hide</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tm_legend_combine</span><span class="op">(</span><span class="va">variable</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">tm_legend_combine</span><span class="op">(</span><span class="va">variable</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_legend_bivariate</span><span class="op">(</span></span>
+<span>  <span class="va">xlab</span>,</span>
+<span>  <span class="va">ylab</span>,</span>
+<span>  <span class="va">xlab.color</span>,</span>
+<span>  <span class="va">xlab.size</span>,</span>
+<span>  <span class="va">xlab.fontface</span>,</span>
+<span>  <span class="va">xlab.fontfamily</span>,</span>
+<span>  <span class="va">xlab.alpha</span>,</span>
+<span>  <span class="va">xlab.padding</span>,</span>
+<span>  <span class="va">xlab.align</span>,</span>
+<span>  <span class="va">ylab.color</span>,</span>
+<span>  <span class="va">ylab.size</span>,</span>
+<span>  <span class="va">ylab.fontface</span>,</span>
+<span>  <span class="va">ylab.fontfamily</span>,</span>
+<span>  <span class="va">ylab.alpha</span>,</span>
+<span>  <span class="va">ylab.padding</span>,</span>
+<span>  <span class="va">ylab.align</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -175,6 +197,10 @@
 <dd><p>The font family of the title of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
 
 
+<dt id="arg-title-alpha">title.alpha<a class="anchor" aria-label="anchor" href="#arg-title-alpha"></a></dt>
+<dd><p>The alpha transparency of the title of the legend.</p></dd>
+
+
 <dt id="arg-title-padding">title.padding<a class="anchor" aria-label="anchor" href="#arg-title-padding"></a></dt>
 <dd><p>The padding of the title of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
 
@@ -197,6 +223,10 @@
 
 <dt id="arg-text-fontfamily">text.fontfamily<a class="anchor" aria-label="anchor" href="#arg-text-fontfamily"></a></dt>
 <dd><p>The font family of the text of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
+
+
+<dt id="arg-text-alpha">text.alpha<a class="anchor" aria-label="anchor" href="#arg-text-alpha"></a></dt>
+<dd><p>The alpha transparency of the text of the legend.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
@@ -285,6 +315,70 @@
 
 <dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
 <dd><p>visual (or transformation) variable to combine the legend with: e.g. <code>"fill"</code> or <code>"size"</code></p></dd>
+
+
+<dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
+<dd><p>label for the x dimension (rows)</p></dd>
+
+
+<dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
+<dd><p>label for the y dimension (columns)</p></dd>
+
+
+<dt id="arg-xlab-color">xlab.color<a class="anchor" aria-label="anchor" href="#arg-xlab-color"></a></dt>
+<dd><p>The color of the xlab of the legend.</p></dd>
+
+
+<dt id="arg-xlab-size">xlab.size<a class="anchor" aria-label="anchor" href="#arg-xlab-size"></a></dt>
+<dd><p>The size of the xlab of the legend.</p></dd>
+
+
+<dt id="arg-xlab-fontface">xlab.fontface<a class="anchor" aria-label="anchor" href="#arg-xlab-fontface"></a></dt>
+<dd><p>The font face of the xlab of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'font'.</p></dd>
+
+
+<dt id="arg-xlab-fontfamily">xlab.fontfamily<a class="anchor" aria-label="anchor" href="#arg-xlab-fontfamily"></a></dt>
+<dd><p>The font family of the xlab of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
+
+
+<dt id="arg-xlab-alpha">xlab.alpha<a class="anchor" aria-label="anchor" href="#arg-xlab-alpha"></a></dt>
+<dd><p>The alpha transparency of the xlab of the legend.</p></dd>
+
+
+<dt id="arg-xlab-padding">xlab.padding<a class="anchor" aria-label="anchor" href="#arg-xlab-padding"></a></dt>
+<dd><p>The padding of the xlab of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
+
+
+<dt id="arg-xlab-align">xlab.align<a class="anchor" aria-label="anchor" href="#arg-xlab-align"></a></dt>
+<dd><p>The align of the xlab of the legend.</p></dd>
+
+
+<dt id="arg-ylab-color">ylab.color<a class="anchor" aria-label="anchor" href="#arg-ylab-color"></a></dt>
+<dd><p>The color of the ylab of the legend.</p></dd>
+
+
+<dt id="arg-ylab-size">ylab.size<a class="anchor" aria-label="anchor" href="#arg-ylab-size"></a></dt>
+<dd><p>The size of the ylab of the legend.</p></dd>
+
+
+<dt id="arg-ylab-fontface">ylab.fontface<a class="anchor" aria-label="anchor" href="#arg-ylab-fontface"></a></dt>
+<dd><p>The font face of the ylab of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'font'.</p></dd>
+
+
+<dt id="arg-ylab-fontfamily">ylab.fontfamily<a class="anchor" aria-label="anchor" href="#arg-ylab-fontfamily"></a></dt>
+<dd><p>The font family of the ylab of the legend. See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par</a></code>, option 'family'.</p></dd>
+
+
+<dt id="arg-ylab-alpha">ylab.alpha<a class="anchor" aria-label="anchor" href="#arg-ylab-alpha"></a></dt>
+<dd><p>The alpha transparency of the ylab of the legend.</p></dd>
+
+
+<dt id="arg-ylab-padding">ylab.padding<a class="anchor" aria-label="anchor" href="#arg-ylab-padding"></a></dt>
+<dd><p>The padding of the ylab of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
+
+
+<dt id="arg-ylab-align">ylab.align<a class="anchor" aria-label="anchor" href="#arg-ylab-align"></a></dt>
+<dd><p>The align of the ylab of the legend.</p></dd>
 
 </dl></div>
     <div class="section level2">
