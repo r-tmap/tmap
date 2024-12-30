@@ -25,6 +25,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 
 	if (!.TMAP$proxy) {
 		.TMAP_LEAFLET$layerIds = NULL
+		.TMAP_LEAFLET$markerLayers = character(0)
 	}
 
 

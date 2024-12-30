@@ -66,6 +66,7 @@ tm_shape = function(shp,
 	if (shp_called %in% c("rivers", "c(735, 320, 325, 392, 524, 450, 1459, 135, 465, 600, 330, 336, ") && # last one to catch qtm calls
 		is.numeric(shp) && length(shp) == 141) {
 		World_rivers = NULL
+		data(World_rivers, envir = environment())
 		shp = World_rivers
 		shp_called = "World_rivers"
 		v3_rivers()

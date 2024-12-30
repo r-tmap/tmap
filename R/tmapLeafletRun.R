@@ -52,15 +52,34 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 			#print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE, between = list(x = marg, y = marg)))))
 			do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), no.initial.sync = FALSE)))
 		}
+
+
+		if (length(.TMAP_LEAFLET$markerLayers)) {
+			style_markers = paste(vapply(unique(.TMAP_LEAFLET$markerLayers), function(pane) {
+				paste0(".leaflet-container .leaflet-", pane, "-pane img {
+				max-width: none !important;
+				max-height: none !important;
+				width: auto;
+				padding: 0;
+				}\n")}, FUN.VALUE = character(1)), collapse = "\n")
+		} else {
+			style_markers = NULL
+		}
+
 		if (o$pc$sepia_intensity != 0 && !.TMAP$in.shiny) {
 			col = process_color("#ffffff", sepia_intensity = o$pc$sepia_intensity)
-			htmlwidgets::prependContent(x, htmltools::tags$style(paste0(
-				".leaflet-control-layers {background: ", col, ";}
+			style_sepia = paste0(".leaflet-control-layers {background: ", col, ";}
 				.leaflet-control-zoom-in {background: ", col, " !important;}
-				.leaflet-control-zoom-out {background: ", col, " !important;}"
-			)))
+				.leaflet-control-zoom-out {background: ", col, " !important;}\n"
+			)
 		} else {
+			style_sepia = NULL
+		}
+
+		if (is.null(style_markers) && is.null(style_sepia)) {
 			x
+		} else {
+			htmlwidgets::prependContent(x, htmltools::tags$style(paste0(style_markers, style_sepia)))
 		}
 	})
 

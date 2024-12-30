@@ -418,11 +418,15 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 		for (i in 1L:k) {
 			opt$zIndexOffset = i * 1e5
+			.TMAP_LEAFLET$markerLayers = c(.TMAP_LEAFLET$markerLayers, opt$pane) # register for additional css
 			lf = lf |>
 				leaflet::addMarkers(lng = coords_grps[[i]][, 1],
 									lat = coords_grps[[i]][, 2],
 									icon = lapply(symbols, "[", i),
-									group = group, layerId = idt_grps[[i]], label = hdt_grps[[i]], popup = popups_grps[[i]],
+									group = group,
+									layerId = idt_grps[[i]],
+									label = hdt_grps[[i]],
+									popup = popups_grps[[i]],
 									options = opt
 									)
 		}
