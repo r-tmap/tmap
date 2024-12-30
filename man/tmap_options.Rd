@@ -66,6 +66,7 @@ tmap_options(
   xlab.space,
   xlab.fontface,
   xlab.fontfamily,
+  xlab.alpha,
   xlab.side,
   ylab.show,
   ylab.text,
@@ -75,6 +76,7 @@ tmap_options(
   ylab.space,
   ylab.fontface,
   ylab.fontfamily,
+  ylab.alpha,
   ylab.side,
   panel.type,
   panel.wrap.pos,
@@ -85,6 +87,7 @@ tmap_options(
   color_vision_deficiency_sim,
   text.fontface,
   text.fontfamily,
+  text.alpha,
   component.position,
   component.autoscale,
   legend.show,
@@ -102,18 +105,22 @@ tmap_options(
   legend.title.size,
   legend.title.fontface,
   legend.title.fontfamily,
+  legend.title.alpha,
   legend.xlab.color,
   legend.xlab.size,
   legend.xlab.fontface,
   legend.xlab.fontfamily,
+  legend.xlab.alpha,
   legend.ylab.color,
   legend.ylab.size,
   legend.ylab.fontface,
   legend.ylab.fontfamily,
+  legend.ylab.alpha,
   legend.text.color,
   legend.text.size,
   legend.text.fontface,
   legend.text.fontfamily,
+  legend.text.alpha,
   legend.frame,
   legend.frame.lwd,
   legend.frame.r,
@@ -138,18 +145,22 @@ tmap_options(
   chart.title.size,
   chart.title.fontface,
   chart.title.fontfamily,
+  chart.title.alpha,
   chart.xlab.color,
   chart.xlab.size,
   chart.xlab.fontface,
   chart.xlab.fontfamily,
+  chart.xlab.alpha,
   chart.ylab.color,
   chart.ylab.size,
   chart.ylab.fontface,
   chart.ylab.fontfamily,
+  chart.ylab.alpha,
   chart.text.color,
   chart.text.size,
   chart.text.fontface,
   chart.text.fontfamily,
+  chart.text.alpha,
   chart.frame,
   chart.frame.lwd,
   chart.frame.r,
@@ -161,6 +172,7 @@ tmap_options(
   title.color,
   title.fontface,
   title.fontfamily,
+  title.alpha,
   title.bg.color,
   title.bg.alpha,
   title.padding,
@@ -177,6 +189,7 @@ tmap_options(
   credits.color,
   credits.fontface,
   credits.fontfamily,
+  credits.alpha,
   credits.bg.color,
   credits.bg.alpha,
   credits.padding,
@@ -278,6 +291,7 @@ tmap_options(
   panel.label.color,
   panel.label.fontface,
   panel.label.fontfamily,
+  panel.label.alpha,
   panel.label.bg.color,
   panel.label.frame,
   panel.label.frame.lwd,
@@ -445,6 +459,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{xlab.fontfamily}{The font family of the xlab. See \code{graphics::par}, option 'family'.}
 
+\item{xlab.alpha}{The alpha transparency of the xlab.}
+
 \item{xlab.side}{The side of the xlab.}
 
 \item{ylab.show}{The visibility of the ylab. \code{TRUE} or \code{FALSE}.}
@@ -462,6 +478,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{ylab.fontface}{The font face of the ylab. See \code{graphics::par}, option 'font'.}
 
 \item{ylab.fontfamily}{The font family of the ylab. See \code{graphics::par}, option 'family'.}
+
+\item{ylab.alpha}{The alpha transparency of the ylab.}
 
 \item{ylab.side}{The side of the ylab.}
 
@@ -482,6 +500,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
 
 \item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
+
+\item{text.alpha}{The alpha transparency of the text.}
 
 \item{component.position}{The position of the component. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
@@ -517,6 +537,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.title.fontfamily}{The font family of the title of the legend. See \code{graphics::par}, option 'family'.}
 
+\item{legend.title.alpha}{The alpha transparency of the title of the legend.}
+
 \item{legend.xlab.color}{The color of the xlab of the legend.}
 
 \item{legend.xlab.size}{The size of the xlab of the legend.}
@@ -524,6 +546,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{legend.xlab.fontface}{The font face of the xlab of the legend. See \code{graphics::par}, option 'font'.}
 
 \item{legend.xlab.fontfamily}{The font family of the xlab of the legend. See \code{graphics::par}, option 'family'.}
+
+\item{legend.xlab.alpha}{The alpha transparency of the xlab of the legend.}
 
 \item{legend.ylab.color}{The color of the ylab of the legend.}
 
@@ -533,6 +557,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.ylab.fontfamily}{The font family of the ylab of the legend. See \code{graphics::par}, option 'family'.}
 
+\item{legend.ylab.alpha}{The alpha transparency of the ylab of the legend.}
+
 \item{legend.text.color}{The color of the text of the legend.}
 
 \item{legend.text.size}{The size of the text of the legend.}
@@ -540,6 +566,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{legend.text.fontface}{The font face of the text of the legend. See \code{graphics::par}, option 'font'.}
 
 \item{legend.text.fontfamily}{The font family of the text of the legend. See \code{graphics::par}, option 'family'.}
+
+\item{legend.text.alpha}{The alpha transparency of the text of the legend.}
 
 \item{legend.frame}{The frame of the legend.}
 
@@ -589,6 +617,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.title.fontfamily}{The font family of the title of the chart. See \code{graphics::par}, option 'family'.}
 
+\item{chart.title.alpha}{The alpha transparency of the title of the chart.}
+
 \item{chart.xlab.color}{The color of the xlab of the chart.}
 
 \item{chart.xlab.size}{The size of the xlab of the chart.}
@@ -596,6 +626,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{chart.xlab.fontface}{The font face of the xlab of the chart. See \code{graphics::par}, option 'font'.}
 
 \item{chart.xlab.fontfamily}{The font family of the xlab of the chart. See \code{graphics::par}, option 'family'.}
+
+\item{chart.xlab.alpha}{The alpha transparency of the xlab of the chart.}
 
 \item{chart.ylab.color}{The color of the ylab of the chart.}
 
@@ -605,6 +637,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.ylab.fontfamily}{The font family of the ylab of the chart. See \code{graphics::par}, option 'family'.}
 
+\item{chart.ylab.alpha}{The alpha transparency of the ylab of the chart.}
+
 \item{chart.text.color}{The color of the text of the chart.}
 
 \item{chart.text.size}{The size of the text of the chart.}
@@ -612,6 +646,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{chart.text.fontface}{The font face of the text of the chart. See \code{graphics::par}, option 'font'.}
 
 \item{chart.text.fontfamily}{The font family of the text of the chart. See \code{graphics::par}, option 'family'.}
+
+\item{chart.text.alpha}{The alpha transparency of the text of the chart.}
 
 \item{chart.frame}{The frame of the chart.}
 
@@ -634,6 +670,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{title.fontface}{The font face of the title. See \code{graphics::par}, option 'font'.}
 
 \item{title.fontfamily}{The font family of the title. See \code{graphics::par}, option 'family'.}
+
+\item{title.alpha}{The alpha transparency of the title.}
 
 \item{title.bg.color}{The color of the bg of the title.}
 
@@ -666,6 +704,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{credits.fontface}{The font face of the credits. See \code{graphics::par}, option 'font'.}
 
 \item{credits.fontfamily}{The font family of the credits. See \code{graphics::par}, option 'family'.}
+
+\item{credits.alpha}{The alpha transparency of the credits.}
 
 \item{credits.bg.color}{The color of the bg of the credits.}
 
@@ -868,6 +908,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{panel.label.fontface}{The font face of the label of the panel. See \code{graphics::par}, option 'font'.}
 
 \item{panel.label.fontfamily}{The font family of the label of the panel. See \code{graphics::par}, option 'family'.}
+
+\item{panel.label.alpha}{The alpha transparency of the label of the panel.}
 
 \item{panel.label.bg.color}{The color of the bg of the label of the panel.}
 

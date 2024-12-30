@@ -69,6 +69,7 @@
 #' @param xlab.space `r .doc_opt("xlab.space")`
 #' @param xlab.fontface `r .doc_opt("xlab.fontface")`
 #' @param xlab.fontfamily `r .doc_opt("xlab.fontfamily")`
+#' @param xlab.alpha `r .doc_opt("xlab.alpha")`
 #' @param xlab.side `r .doc_opt("xlab.side")`
 #' @param ylab.show `r .doc_opt("ylab.show")`
 #' @param ylab.text `r .doc_opt("ylab.text")`
@@ -78,6 +79,7 @@
 #' @param ylab.space `r .doc_opt("ylab.space")`
 #' @param ylab.fontface `r .doc_opt("ylab.fontface")`
 #' @param ylab.fontfamily `r .doc_opt("ylab.fontfamily")`
+#' @param ylab.alpha `r .doc_opt("ylab.alpha")`
 #' @param ylab.side `r .doc_opt("ylab.side")`
 #' @param panel.type `r .doc_opt("panel.type")`
 #' @param panel.wrap.pos The panel positions for wrapped facets created with [tm_facets_grid()]. One of `"left"`, `"right"`, `"top"` (default) or `"bottom"`.
@@ -88,6 +90,7 @@
 #' @param color_vision_deficiency_sim `r .doc_opt("color_vision_deficiency_sim")`
 #' @param text.fontface `r .doc_opt("text.fontface")`
 #' @param text.fontfamily `r .doc_opt("text.fontfamily")`
+#' @param text.alpha `r .doc_opt("text.alpha")`
 #' @param component.position `r .doc_opt("component.position")`
 #' @param component.autoscale `r .doc_opt("component.autoscale")`
 #' @param legend.show `r .doc_opt("legend.show")`
@@ -105,18 +108,22 @@
 #' @param legend.title.size `r .doc_opt("legend.title.size")`
 #' @param legend.title.fontface `r .doc_opt("legend.title.fontface")`
 #' @param legend.title.fontfamily `r .doc_opt("legend.title.fontfamily")`
+#' @param legend.title.alpha `r .doc_opt("legend.title.alpha")`
 #' @param legend.xlab.color `r .doc_opt("legend.xlab.color")`
 #' @param legend.xlab.size `r .doc_opt("legend.xlab.size")`
 #' @param legend.xlab.fontface `r .doc_opt("legend.xlab.fontface")`
 #' @param legend.xlab.fontfamily `r .doc_opt("legend.xlab.fontfamily")`
+#' @param legend.xlab.alpha `r .doc_opt("legend.xlab.alpha")`
 #' @param legend.ylab.color `r .doc_opt("legend.ylab.color")`
 #' @param legend.ylab.size `r .doc_opt("legend.ylab.size")`
 #' @param legend.ylab.fontface `r .doc_opt("legend.ylab.fontface")`
 #' @param legend.ylab.fontfamily `r .doc_opt("legend.ylab.fontfamily")`
+#' @param legend.ylab.alpha `r .doc_opt("legend.ylab.alpha")`
 #' @param legend.text.color `r .doc_opt("legend.text.color")`
 #' @param legend.text.size `r .doc_opt("legend.text.size")`
 #' @param legend.text.fontface `r .doc_opt("legend.text.fontface")`
 #' @param legend.text.fontfamily `r .doc_opt("legend.text.fontfamily")`
+#' @param legend.text.alpha `r .doc_opt("legend.text.alpha")`
 #' @param legend.frame `r .doc_opt("legend.frame")`
 #' @param legend.frame.lwd `r .doc_opt("legend.frame.lwd")`
 #' @param legend.frame.r `r .doc_opt("legend.frame.r")`
@@ -141,18 +148,22 @@
 #' @param chart.title.size `r .doc_opt("chart.title.size")`
 #' @param chart.title.fontface `r .doc_opt("chart.title.fontface")`
 #' @param chart.title.fontfamily `r .doc_opt("chart.title.fontfamily")`
+#' @param chart.title.alpha `r .doc_opt("chart.title.alpha")`
 #' @param chart.xlab.color `r .doc_opt("chart.xlab.color")`
 #' @param chart.xlab.size `r .doc_opt("chart.xlab.size")`
 #' @param chart.xlab.fontface `r .doc_opt("chart.xlab.fontface")`
 #' @param chart.xlab.fontfamily `r .doc_opt("chart.xlab.fontfamily")`
+#' @param chart.xlab.alpha `r .doc_opt("chart.xlab.alpha")`
 #' @param chart.ylab.color `r .doc_opt("chart.ylab.color")`
 #' @param chart.ylab.size `r .doc_opt("chart.ylab.size")`
 #' @param chart.ylab.fontface `r .doc_opt("chart.ylab.fontface")`
 #' @param chart.ylab.fontfamily `r .doc_opt("chart.ylab.fontfamily")`
+#' @param chart.ylab.alpha `r .doc_opt("chart.ylab.alpha")`
 #' @param chart.text.color `r .doc_opt("chart.text.color")`
 #' @param chart.text.size `r .doc_opt("chart.text.size")`
 #' @param chart.text.fontface `r .doc_opt("chart.text.fontface")`
 #' @param chart.text.fontfamily `r .doc_opt("chart.text.fontfamily")`
+#' @param chart.text.alpha `r .doc_opt("chart.text.alpha")`
 #' @param chart.frame `r .doc_opt("chart.frame")`
 #' @param chart.frame.lwd `r .doc_opt("chart.frame.lwd")`
 #' @param chart.frame.r `r .doc_opt("chart.frame.r")`
@@ -164,6 +175,7 @@
 #' @param title.color `r .doc_opt("title.color")`
 #' @param title.fontface `r .doc_opt("title.fontface")`
 #' @param title.fontfamily `r .doc_opt("title.fontfamily")`
+#' @param title.alpha `r .doc_opt("title.alpha")`
 #' @param title.bg.color `r .doc_opt("title.bg.color")`
 #' @param title.bg.alpha `r .doc_opt("title.bg.alpha")`
 #' @param title.padding `r .doc_opt("title.padding")`
@@ -180,6 +192,7 @@
 #' @param credits.color `r .doc_opt("credits.color")`
 #' @param credits.fontface `r .doc_opt("credits.fontface")`
 #' @param credits.fontfamily `r .doc_opt("credits.fontfamily")`
+#' @param credits.alpha `r .doc_opt("credits.alpha")`
 #' @param credits.bg.color `r .doc_opt("credits.bg.color")`
 #' @param credits.bg.alpha `r .doc_opt("credits.bg.alpha")`
 #' @param credits.padding `r .doc_opt("credits.padding")`
@@ -281,6 +294,7 @@
 #' @param panel.label.color `r .doc_opt("panel.label.color")`
 #' @param panel.label.fontface `r .doc_opt("panel.label.fontface")`
 #' @param panel.label.fontfamily `r .doc_opt("panel.label.fontfamily")`
+#' @param panel.label.alpha `r .doc_opt("panel.label.alpha")`
 #' @param panel.label.bg.color `r .doc_opt("panel.label.bg.color")`
 #' @param panel.label.frame `r .doc_opt("panel.label.frame")`
 #' @param panel.label.frame.lwd `r .doc_opt("panel.label.frame.lwd")`
@@ -318,7 +332,7 @@
 #' @inheritParams tm_shape
 #' @export
 #' @name tmap_options
-tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize_as_group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.group.frame, chart.resize_as_group, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.show, title.size, title.color, title.fontface, title.fontfamily, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, title.group.frame, title.resize_as_group, credits.show, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.height, credits.group.frame, credits.resize_as_group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.show, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize_as_group, logo.height, logo.margins, logo.between_margin, logo.show, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, logo.group.frame, logo.resize_as_group, scalebar.show, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize_as_group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
+tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.alpha, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.alpha, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, text.alpha, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize_as_group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.title.alpha, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.xlab.alpha, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.ylab.alpha, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.text.alpha, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.group.frame, chart.resize_as_group, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.title.alpha, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.xlab.alpha, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.ylab.alpha, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.text.alpha, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.show, title.size, title.color, title.fontface, title.fontfamily, title.alpha, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, title.group.frame, title.resize_as_group, credits.show, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.alpha, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.height, credits.group.frame, credits.resize_as_group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.show, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize_as_group, logo.height, logo.margins, logo.between_margin, logo.show, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, logo.group.frame, logo.resize_as_group, scalebar.show, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize_as_group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
 						crs_extra,
 						crs_global,
 						use_gradient, # plot mode

@@ -11,6 +11,7 @@ tm_credits(
   padding,
   fontface,
   fontfamily,
+  alpha,
   stack,
   just,
   frame,
@@ -23,15 +24,16 @@ tm_credits(
   height,
   group.frame,
   resize_as_group,
-  z
+  z,
+  ...
 )
 }
 \arguments{
-\item{text}{text of the  credit title}
+\item{text}{text}
 
-\item{size}{font size of the credit title}
+\item{size}{font size}
 
-\item{color}{color}
+\item{color}{font color}
 
 \item{padding}{padding}
 
@@ -39,13 +41,15 @@ tm_credits(
 
 \item{fontfamily}{font family}
 
+\item{alpha}{alpha transparency of the text}
+
 \item{stack}{stack}
 
 \item{just}{just}
 
 \item{frame}{frame}
 
-\item{frame.lwd}{frame.lwd}
+\item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
@@ -55,14 +59,16 @@ tm_credits(
 
 \item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{width, height}{width and height of the title box.}
+\item{width, height}{width and height of the text box.}
 
 \item{group.frame}{group.frame}
 
 \item{resize_as_group}{resize_as_group}
 
 \item{z}{z}
+
+\item{...}{to catch deprecated arguments}
 }
 \description{
-Map component that adds a text, typically used as credits
+Map component that adds a text, typically used as credits. This function is the same as \code{\link[=tm_title]{tm_title()}} but with different default values.
 }

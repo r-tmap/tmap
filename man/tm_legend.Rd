@@ -4,6 +4,7 @@
 \alias{tm_legend}
 \alias{tm_legend_hide}
 \alias{tm_legend_combine}
+\alias{tm_legend_bivariate}
 \title{Legend}
 \usage{
 tm_legend(
@@ -24,12 +25,14 @@ tm_legend(
   title.size,
   title.fontface,
   title.fontfamily,
+  title.alpha,
   title.padding,
   title.align,
   text.color,
   text.size,
   text.fontface,
   text.fontfamily,
+  text.alpha,
   format,
   frame,
   frame.lwd,
@@ -56,6 +59,26 @@ tm_legend(
 tm_legend_hide()
 
 tm_legend_combine(variable)
+
+tm_legend_bivariate(
+  xlab,
+  ylab,
+  xlab.color,
+  xlab.size,
+  xlab.fontface,
+  xlab.fontfamily,
+  xlab.alpha,
+  xlab.padding,
+  xlab.align,
+  ylab.color,
+  ylab.size,
+  ylab.fontface,
+  ylab.fontfamily,
+  ylab.alpha,
+  ylab.padding,
+  ylab.align,
+  ...
+)
 }
 \arguments{
 \item{title}{Legend title}
@@ -92,6 +115,8 @@ tm_legend_combine(variable)
 
 \item{title.fontfamily}{The font family of the title of the legend. See \code{graphics::par}, option 'family'.}
 
+\item{title.alpha}{The alpha transparency of the title of the legend.}
+
 \item{title.padding}{The padding of the title of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
 \item{title.align}{The align of the title of the legend.}
@@ -103,6 +128,8 @@ tm_legend_combine(variable)
 \item{text.fontface}{The font face of the text of the legend. See \code{graphics::par}, option 'font'.}
 
 \item{text.fontfamily}{The font family of the text of the legend. See \code{graphics::par}, option 'family'.}
+
+\item{text.alpha}{The alpha transparency of the text of the legend.}
 
 \item{format}{Not used anymore: use the format argument of the \verb{tm_scale_*()} functions instead.}
 
@@ -147,6 +174,38 @@ tm_legend_combine(variable)
 \item{...}{visual values, e.g. \code{col}, \code{fill}, \code{lwd}, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
 
 \item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
+
+\item{xlab}{label for the x dimension (rows)}
+
+\item{ylab}{label for the y dimension (columns)}
+
+\item{xlab.color}{The color of the xlab of the legend.}
+
+\item{xlab.size}{The size of the xlab of the legend.}
+
+\item{xlab.fontface}{The font face of the xlab of the legend. See \code{graphics::par}, option 'font'.}
+
+\item{xlab.fontfamily}{The font family of the xlab of the legend. See \code{graphics::par}, option 'family'.}
+
+\item{xlab.alpha}{The alpha transparency of the xlab of the legend.}
+
+\item{xlab.padding}{The padding of the xlab of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+
+\item{xlab.align}{The align of the xlab of the legend.}
+
+\item{ylab.color}{The color of the ylab of the legend.}
+
+\item{ylab.size}{The size of the ylab of the legend.}
+
+\item{ylab.fontface}{The font face of the ylab of the legend. See \code{graphics::par}, option 'font'.}
+
+\item{ylab.fontfamily}{The font family of the ylab of the legend. See \code{graphics::par}, option 'family'.}
+
+\item{ylab.alpha}{The alpha transparency of the ylab of the legend.}
+
+\item{ylab.padding}{The padding of the ylab of the legend. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+
+\item{ylab.align}{The align of the ylab of the legend.}
 }
 \value{
 A tm_legend component

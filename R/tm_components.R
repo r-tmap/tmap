@@ -2,12 +2,13 @@
 #'
 #' Map component that adds a title
 #'
-#' @param text text of the title
-#' @param size font size of the title
-#' @param color font color of the title
+#' @param text text
+#' @param size font size
+#' @param color font color
 #' @param padding padding
 #' @param fontface font face, bold, italic
 #' @param fontfamily font family
+#' @param alpha alpha transparency of the text
 #' @param stack stack
 #' @param just just
 #' @param frame frame
@@ -16,12 +17,12 @@
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
 #' @param position  Vector of two values, specifying the x and y coordinates. The first is either `"left"` or `"right"`, the second either `"top"` or `"bottom"`.
-#' @param width,height width and height of the title box.
+#' @param width,height width and height of the text box.
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
 #' @param z z
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
@@ -50,22 +51,19 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 
 #' Map component: (credits) text
 #'
-#' Map component that adds a text, typically used as credits
+#' Map component that adds a text, typically used as credits. This function is the same as [tm_title()] but with different default values.
 #'
-#' @param text text of the  credit title
-#' @param size font size of the credit title
-#' @param color color
-#' @param padding padding
-#' @param stack stack
-#' @param just just
-#' @param frame.lwd frame.lwd
 #' @inheritParams tm_title
-#' @param group.frame group.frame
-#' @param resize_as_group resize_as_group
+#' @param ... to catch deprecated arguments
 #' @export
-tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
-	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z, ...) {
+	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
+	if ("align" %in% names(args)) {
+		args$position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = args$align, align.v = "top", just.h = "left", just.v = "bottom")
+		args$align = NULL
+		v3_instead_message("align", "position = tm_pos_in(align.h)", "tm_credits")
+	}
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_credits", "tm_component")))))
 }
 
@@ -88,6 +86,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, stack, j
 #' @param stack stack
 #' @param just just
 #' @param margins margins
+#' @param ... to catch deprecated arguments (alpha)
 #' @export
 tm_compass <- function(north,
 					   type,
@@ -108,7 +107,8 @@ tm_compass <- function(north,
 					   frame.lwd,
 					   frame.r,
 					   margins,
-					   z) {
+					   z,
+					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))

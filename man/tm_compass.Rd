@@ -24,7 +24,8 @@ tm_compass(
   frame.lwd,
   frame.r,
   margins,
-  z
+  z,
+  ...
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ tm_compass(
 \item{margins}{margins}
 
 \item{z}{z}
+
+\item{...}{to catch deprecated arguments (alpha)}
 }
 \description{
 Map component that adds a compass

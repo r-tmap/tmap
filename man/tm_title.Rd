@@ -13,6 +13,7 @@ tm_title(
   padding,
   fontface,
   fontfamily,
+  alpha,
   stack,
   just,
   frame,
@@ -33,17 +34,19 @@ tm_title_in(text, ..., position = tm_pos_in("left", "top"))
 tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 }
 \arguments{
-\item{text}{text of the title}
+\item{text}{text}
 
-\item{size}{font size of the title}
+\item{size}{font size}
 
-\item{color}{font color of the title}
+\item{color}{font color}
 
 \item{padding}{padding}
 
 \item{fontface}{font face, bold, italic}
 
 \item{fontfamily}{font family}
+
+\item{alpha}{alpha transparency of the text}
 
 \item{stack}{stack}
 
@@ -61,7 +64,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
 
-\item{width, height}{width and height of the title box.}
+\item{width, height}{width and height of the text box.}
 
 \item{group.frame}{group.frame}
 

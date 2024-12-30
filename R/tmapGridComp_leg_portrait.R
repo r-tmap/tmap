@@ -284,7 +284,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 	shiftCol = if (comp$type == "bivariate") 2L else 0L
 
-	titleGP = grid::gpar(col = comp$title.color, cex = titleS, fontface = comp$title.fontface, fontfamily = comp$title.fontfamily)
+	titleGP = grid::gpar(col = comp$title.color, cex = titleS, fontface = comp$title.fontface, fontfamily = comp$title.fontfamily, alpha = comp$title.alpha)
 
 	if (comp$title.align == "left") {
 		grTitle = gridCell(3, (2 + shiftCol):(length(comp$wsu)-1), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = titleGP))
@@ -330,7 +330,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	if (comp$type == "bivariate") {
 		textW = graphics::strwidth(comp$labels[1:m], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
-		grText1 = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), m:1L, comp$item_ids[1L:m], SIMPLIFY = FALSE)
+		grText1 = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), m:1L, comp$item_ids[1L:m], SIMPLIFY = FALSE)
 
 		colLabels = comp$labels[(m+1L):(n+m)]
 
@@ -349,13 +349,13 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 
 
-		grText2 = mapply(function(i, j, id) gridCell(comp$item_ids[m+1], j, grid::textGrob(colLabs[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:n, 7:(6+n), comp$item_ids[1L:n], SIMPLIFY = FALSE)
+		grText2 = mapply(function(i, j, id) gridCell(comp$item_ids[m+1], j, grid::textGrob(colLabs[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), 1L:n, 7:(6+n), comp$item_ids[1L:n], SIMPLIFY = FALSE)
 
 		grText = c(grText1, grText2)
 	} else {
 		textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
-		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
+		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
 	}
 
 	ticks = get_legend_option(comp$ticks, comp$type)

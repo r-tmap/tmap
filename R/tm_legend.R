@@ -15,12 +15,14 @@
 #' @param title.size `r .doc_opt("legend.title.size")`
 #' @param title.fontface `r .doc_opt("legend.title.fontface")`
 #' @param title.fontfamily `r .doc_opt("legend.title.fontfamily")`
+#' @param title.alpha `r .doc_opt("legend.title.alpha")`
 #' @param title.padding `r .doc_opt("legend.title.padding")`
 #' @param title.align `r .doc_opt("legend.title.align")`
 #' @param text.color `r .doc_opt("legend.text.color")`
 #' @param text.size `r .doc_opt("legend.text.size")`
 #' @param text.fontface `r .doc_opt("legend.text.fontface")`
 #' @param text.fontfamily `r .doc_opt("legend.text.fontfamily")`
+#' @param text.alpha `r .doc_opt("legend.text.alpha")`
 #' @param format Not used anymore: use the format argument of the `tm_scale_*()` functions instead.
 #' @param bg.color `r .doc_opt("legend.bg.color")`
 #' @param bg.alpha `r .doc_opt("legend.bg.alpha")`
@@ -60,12 +62,14 @@ tm_legend = function(title,
 					 title.size,
 					 title.fontface,
 					 title.fontfamily,
+					 title.alpha,
 					 title.padding,
 					 title.align,
 					 text.color,
 					 text.size,
 					 text.fontface,
 					 text.fontfamily,
+					 text.alpha,
 					 format,
 					 frame,
 					 frame.lwd,
@@ -108,18 +112,38 @@ tm_legend_combine = function(variable) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = variable), class = c("tm_legend", "tm_component", "list"))
 }
 
+#' @rdname tm_legend
+#' @param xlab label for the x dimension (rows)
+#' @param ylab label for the y dimension (columns)
+#' @param xlab.color `r .doc_opt("legend.xlab.color")`
+#' @param xlab.size `r .doc_opt("legend.xlab.size")`
+#' @param xlab.fontface `r .doc_opt("legend.xlab.fontface")`
+#' @param xlab.fontfamily `r .doc_opt("legend.xlab.fontfamily")`
+#' @param xlab.alpha `r .doc_opt("legend.xlab.alpha")`
+#' @param xlab.padding `r .doc_opt("legend.xlab.padding")`
+#' @param xlab.align `r .doc_opt("legend.xlab.align")`
+#' @param ylab.color `r .doc_opt("legend.ylab.color")`
+#' @param ylab.size `r .doc_opt("legend.ylab.size")`
+#' @param ylab.fontface `r .doc_opt("legend.ylab.fontface")`
+#' @param ylab.fontfamily `r .doc_opt("legend.ylab.fontfamily")`
+#' @param ylab.alpha `r .doc_opt("legend.ylab.alpha")`
+#' @param ylab.padding `r .doc_opt("legend.ylab.padding")`
+#' @param ylab.align `r .doc_opt("legend.ylab.align")`
+#' @export
 tm_legend_bivariate = function(xlab,
 							   ylab,
 							   xlab.color,
 							   xlab.size,
 							   xlab.fontface,
 							   xlab.fontfamily,
+							   xlab.alpha,
 							   xlab.padding,
 							   xlab.align,
 							   ylab.color,
 							   ylab.size,
 							   ylab.fontface,
 							   ylab.fontfamily,
+							   ylab.alpha,
 							   ylab.padding,
 							   ylab.align,
 							   ...) {

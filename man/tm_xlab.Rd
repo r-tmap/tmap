@@ -5,9 +5,9 @@
 \alias{tm_ylab}
 \title{Map: x and y labels}
 \usage{
-tm_xlab(text, size, color, rotation, space, fontface, fontfamily, side)
+tm_xlab(text, size, color, rotation, space, fontface, fontfamily, alpha, side)
 
-tm_ylab(text, size, color, rotation, space, fontface, fontfamily, side)
+tm_ylab(text, size, color, rotation, space, fontface, fontfamily, alpha, side)
 }
 \arguments{
 \item{text}{text of the title}
@@ -23,6 +23,8 @@ tm_ylab(text, size, color, rotation, space, fontface, fontfamily, side)
 \item{fontface}{font face}
 
 \item{fontfamily}{font family}
+
+\item{alpha}{alpha transparency of the text}
 
 \item{side}{side: \code{"top"} or \code{"bottom"} for \code{tm_xlab} and \code{"left"} or \code{"right"} for \code{tm_ylab}}
 }

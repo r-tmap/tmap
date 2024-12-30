@@ -352,7 +352,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 				newIn = min(totW, Wcomp)
 			}
 
-			margins = sum(head(as.numeric(cmp$wsu[-cmp$WnativeID]), -1))
+			margins =  sum(as.numeric(cmp$wsu[c(2,4)]))
 
 			newIn_without_margins = newIn - margins
 

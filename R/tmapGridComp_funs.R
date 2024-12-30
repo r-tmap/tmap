@@ -577,7 +577,7 @@ tmapGridLegPlot_text = function(comp, o, fH, fW) {
 	grtext = grid::textGrob(comp$text,
 							 x = x,
 							 just = just,
-							 gp = grid::gpar(col = comp$color, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily))
+							 gp = grid::gpar(col = comp$color, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily, alpha = comp$alpha))
 
 	if (getOption("tmap.design.mode")) {
 		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))
