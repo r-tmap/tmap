@@ -119,6 +119,11 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		cfun = paste0("tmapValuesColorize_", aes)
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
+		mfun = paste0("tmapValuesSubmit_", aes)
+		vvalues = do.call(mfun, list(x = vvalues, args = layer_args))
+		value.na = do.call(mfun, list(x = value.na, args = layer_args))
+		value.neutral = do.call(mfun, list(x = value.neutral, args = layer_args))
+
 
 		ids = classInt::findCols(q)
 		vals = vvalues[ids]

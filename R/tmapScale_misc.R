@@ -36,7 +36,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 		} else values
 
 		value.na = if (is.na(value.na) || isTRUE(value.na)) {
-			m = getPalMeta(as.character(values[1]))
+			m = if (aes %in% c("col", "fill")) getPalMeta(as.character(values[1])) else NULL
 			ona = getAesOption("value.na", o, aes, layer, cls = cls)
 
 			# take option value.na instead of cols4all palette na-color in these two cases:
