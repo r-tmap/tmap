@@ -106,7 +106,7 @@ The functions <code>tm_scale_continuous_&lt;x&gt;()</code> use transformation fu
 
 
 <dt id="arg-limits">limits<a class="anchor" aria-label="anchor" href="#arg-limits"></a></dt>
-<dd><p>Limits of the data values that are mapped to the continuous scale</p></dd>
+<dd><p>Limits of the data values that are mapped to the continuous scale. When <code>NA</code>, the range of data values is taken. When only one value is provided, the range of data values with this provided value is taken. The default depends on the visual variable: it is 0 for all visual variables other than color when <code>tm_scale_continuous</code> is used. For the transformation scale functions, it is <code>NA</code>.</p></dd>
 
 
 <dt id="arg-outliers-trunc">outliers.trunc<a class="anchor" aria-label="anchor" href="#arg-outliers-trunc"></a></dt>
