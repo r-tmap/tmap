@@ -46,7 +46,7 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 \arguments{
 \item{n}{Preferred number of tick labels. Only used if \code{ticks} is not specified}
 
-\item{limits}{Limits of the data values that are mapped to the continuous scale}
+\item{limits}{Limits of the data values that are mapped to the continuous scale. When \code{NA}, the range of data values is taken. When only one value is provided, the range of data values with this provided value is taken. The default depends on the visual variable: it is 0 for all visual variables other than color when \code{tm_scale_continuous} is used. For the transformation scale functions, it is \code{NA}.}
 
 \item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logical vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If \code{FALSE} (default), they are considered as missing values.}
 

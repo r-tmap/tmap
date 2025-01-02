@@ -198,7 +198,7 @@ tm_scale_discrete = function(ticks = NA,
 #' The functions `tm_scale_continuous_<x>()` use transformation functions x.
 #'
 #' @param n Preferred number of tick labels. Only used if `ticks` is not specified
-#' @param limits Limits of the data values that are mapped to the continuous scale
+#' @param limits Limits of the data values that are mapped to the continuous scale. When `NA`, the range of data values is taken. When only one value is provided, the range of data values with this provided value is taken. The default depends on the visual variable: it is 0 for all visual variables other than color when `tm_scale_continuous` is used. For the transformation scale functions, it is `NA`.
 #' @param outliers.trunc Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logical vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.
 #' @param ticks Tick values. If not specified, it is determined automatically with `n`
 #' @param trans Transformation function. One of `"identity"` (default), `"log"`, and `"log1p"`. Note: the base of the log scale is irrelevant, since the log transformed values are normalized before mapping to visual values.
@@ -307,7 +307,9 @@ tm_scale_continuous_log2 = function(...) {
 #' @export
 #' @rdname tm_scale_continuous
 tm_scale_continuous_log10 = function(...) {
-	tm_scale_continuous(trans = "log", trans.args = list(base = 10), ...)
+	x = tm_scale_continuous(trans = "log", trans.args = list(base = 10), ...)
+	class(x) = c("tm_scale_continuous_log10", "tm_scale", "list")
+	x
 }
 
 

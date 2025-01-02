@@ -4,6 +4,7 @@
 #' The function `marker_icon()` is the specification of the default marker.
 #'
 #' @param file character value/vector containing the file path(s) or url(s).
+#' @param names names to be given to the icons. Useful when icons are assigned to factor levels.
 #' @param width width of the icon. If `keep.asp`, this is interpreted as the maximum width.
 #' @param height height of the icon. If `keep.asp`, this is interpreted as the maximum height.
 #' @param keep.asp keep the aspect ratio of the png image. If `TRUE` and the aspect
@@ -13,7 +14,7 @@
 #'   Possible values are: `"left"` , `"right"`, `"center"`, `"bottom"`, and `"top"`.
 #'   Numeric values of 0 specify left alignment and 1 right alignment.
 #'   The default value of `just` is `c("center", "center")`.
-#' @param merge merge icons to one icon list (see return value)? If `FALSE`, a list is created per file. By default `TRUE`.
+#' @param merge merge icons to one icon list (see return value)? If `FALSE`, a list is created per file. By default `TRUE`, unless `names` are specified.
 #' @param as.local if the `file` is a url, should it be saved to local temporary file?
 #' @param ... arguments passed on to [leaflet::icons()].
 #'   When `iconWidth`, `iconHeight`, `iconAnchorX`, and `iconAnchorY` are specified,
@@ -22,7 +23,7 @@
 #' @export
 #' @seealso [tm_symbols()]
 tmap_icons <- function(file, names = NULL, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), merge = NA, as.local=TRUE, ...) {
-	if (is.na(merge)) merge = !is.null(names)
+	if (is.na(merge)) merge = is.null(names)
 	icon_names <- names(file)
 	icons <- lapply(file, tmap_one_icon, width=width, height=height, keep.asp=keep.asp, just=just, as.local=as.local, ...)
 	if (merge) {

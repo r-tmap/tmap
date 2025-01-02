@@ -7,11 +7,12 @@
 \usage{
 tmap_icons(
   file,
+  names = NULL,
   width = 48,
   height = 48,
   keep.asp = TRUE,
   just = c("center", "center"),
-  merge = TRUE,
+  merge = NA,
   as.local = TRUE,
   ...
 )
@@ -20,6 +21,8 @@ marker_icon()
 }
 \arguments{
 \item{file}{character value/vector containing the file path(s) or url(s).}
+
+\item{names}{names to be given to the icons. Useful when icons are assigned to factor levels.}
 
 \item{width}{width of the icon. If \code{keep.asp}, this is interpreted as the maximum width.}
 
@@ -34,7 +37,7 @@ Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bot
 Numeric values of 0 specify left alignment and 1 right alignment.
 The default value of \code{just} is \code{c("center", "center")}.}
 
-\item{merge}{merge icons to one icon list (see return value)? If \code{FALSE}, a list is created per file. By default \code{TRUE}.}
+\item{merge}{merge icons to one icon list (see return value)? If \code{FALSE}, a list is created per file. By default \code{TRUE}, unless \code{names} are specified.}
 
 \item{as.local}{if the \code{file} is a url, should it be saved to local temporary file?}
 

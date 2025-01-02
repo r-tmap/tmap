@@ -47,7 +47,6 @@ isUrl <- function(string) {
 }
 
 isLocal = function(string) {
-	print(string)
 	file.exists(string)
 }
 

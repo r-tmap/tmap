@@ -184,10 +184,13 @@
 						  text = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical")),
 
-		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5),
-												 outliers.trunc = c(FALSE, FALSE),
-												 trans = "identity",
-												 limits = list(fill = NA, col = NA, 0)),
+		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE), trans = "identity", limits = list(fill = NA, col = NA, 0)),
+							   continuous_log = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, NA)),
+							   continuous_log2 = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, NA)),
+							   continuous_log10 = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, NA)),
+							   continuous_log1p = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, NA)),
+							   continuous_sqrt = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, 0)),
+							   continuous_pseudo_log = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE),	limits = list(fill = NA, col = NA, NA)),
 							   rank = list(n = 5,
 							   			unit = "rank")), # NA means take data range, 0 means include 0
 

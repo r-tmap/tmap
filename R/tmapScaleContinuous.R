@@ -8,6 +8,22 @@ update_scale_args = function(scaleName, args, aes, o) {
 	args
 }
 
+
+# extention of substr: when -1, then cound from tail
+substr2 = function(x, start, stop) {
+	if (start < 1 || stop < 1) {
+		n = nchar(x)
+		if (start < 1) {
+			start = n + start
+		}
+		if (stop < 1) {
+			stop = n + stop
+		}
+	}
+	substr(x, start, stop)
+}
+
+
 tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 	# style = if (inherits(scale, "tm_scale_continuous")) {
 	# 	"cont"
@@ -21,7 +37,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 
 	# update misc argument from tmap option scale.misc.args
-	scale = update_scale_args("continuous", scale, aes, o)
+	scale = update_scale_args(substr2(class(scale)[1], 10, 0), scale, aes, o)
 
 	cls = data_class(x1, midpoint_enabled = !is.null(scale$midpoint))
 	maincls = class(scale)[1]
@@ -96,7 +112,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (is.na(limits)) {
 				limits = range(x1, na.rm = TRUE)
 			} else {
-				limits = range(c(x1, 0), na.rm = TRUE)
+				if (length(limits) == 1L) limits = range(c(limits, x1), na.rm = TRUE)
 				if (limits[1] < tr$domain[1]) limits[1] = tr$domain[1]
 				if (limits[2] > tr$domain[2]) limits[2] = tr$domain[2]
 			}
