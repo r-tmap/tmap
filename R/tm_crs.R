@@ -51,6 +51,7 @@ tm_crs = function(crs = NA, property = NA) {
 
 consider_global = function(x, th = 0.6) {
 	b = sf::st_bbox(x)
+	if (b$xmin == b$xmax || b$ymin == b$ymax) return(FALSE)
 	earth_surface = 5.1e14
 	area = b |>
 		sf::st_as_sfc() |>

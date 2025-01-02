@@ -32,7 +32,10 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 	with(scale, {
 		check_values(layer, aes, values)
 
-		nms = names(values) #color_names
+		nms = getValuesNames(values)
+
+		nv = length(nms)
+		if (all(nms == "")) nms = NULL
 
 		# cast to factor if needed
 		if (!is.factor(x1)) {
@@ -55,9 +58,8 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 		if (levels.drop) {
 			y = droplevels(x1)
 			matching = match(levels(y), levels(x1))
-			if (length(values) == nlevels(x1) && is.null(names(values))) {
+			if (length(values) == nlevels(x1) && is.null(nms)) {
 				values = values[matching]
-				if (!is.null(nms)) nms = nms[matching]
 			}
 			if (!is.null(labels) && (length(labels) == nlevels(x1)) && is.null(names(labels))) {
 				labels = labels[matching]
@@ -84,8 +86,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 		}
 		names(labs) = NULL
 
-		if (!is.null(names(values))) {
-			nms = names(values)
+		if (!is.null(nms)) {
 			xlev = levels(x1)
 			if (!all(xlev %in% nms)) {
 				stop("All levels should occur in the vector names of values: ", paste(setdiff(xlev, nms), collapse = ", "), " are missing", call. = FALSE)

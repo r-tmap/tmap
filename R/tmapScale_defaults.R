@@ -46,11 +46,18 @@ isUrl <- function(string) {
 	any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", string))
 }
 
+isLocal = function(string) {
+	print(string)
+	file.exists(string)
+}
+
 #' @export
 #' @rdname tmap_internal
 tmapValuesCheck_shape = function(x, is_var = TRUE) {
 
-	if (all(is.numeric(x))) {
+	if (inherits(x, "tmap_icons")) {
+		TRUE
+	} else if (all(is.numeric(x))) {
 		TRUE
 	} else if (is.list(x)) {
 	 	if (isSymbol(x)) {
@@ -59,7 +66,7 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 	 		all(vapply(x, isSymbol, FUN.VALUE = logical(1)) | vapply(x, is.numeric, FUN.VALUE = logical(1)))
 	 	}
 	} else if (all(is.character(x))) {
-		if (all(isUrl(x))) {
+		if (all(isUrl(x) | isLocal(x))) {
 			TRUE
 		} else {
 			structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a symbol (see {.help [tm_symbols](tmap::tm_symbols)} - details section)." else "  Values should be symbols (see {.help [tm_symbols](tmap::tm_symbols)} - details section)."})
@@ -481,6 +488,7 @@ tmapValuesVV_bgcol = function(...) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+	if (inherits(x, "tmap_icons") && "iconUrl" %in% names(x)) x = split_icon(x)
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
@@ -614,7 +622,12 @@ tmapValuesSubmit_lty = function(x, args) x
 #' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
 	if (!inherits(x, c("tmapStandard", "tmapSpecial"))) x = tmapVV(x)
-	if (inherits(x, "tmapStandard") && all(isUrl(x))) x = tmapVV(tmap_icons(x, merge = FALSE))
+	if (inherits(x, "tmapStandard")) {
+		xvec = unlist(x, use.names = FALSE)
+		if (is.character(xvec) && all(isUrl(xvec) | isLocal(xvec))) {
+			x = tmapVV(tmap_icons(xvec, merge = FALSE))
+		}
+	}
 
 	if (inherits(x, "tmapSpecial")) {
 		gs = tmap_graphics_name()

@@ -21,10 +21,20 @@
 #' @return icon data (see [leaflet::icons()])
 #' @export
 #' @seealso [tm_symbols()]
-tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), merge = TRUE, as.local=TRUE, ...) {
+tmap_icons <- function(file, names = NULL, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), merge = NA, as.local=TRUE, ...) {
+	if (is.na(merge)) merge = !is.null(names)
 	icon_names <- names(file)
 	icons <- lapply(file, tmap_one_icon, width=width, height=height, keep.asp=keep.asp, just=just, as.local=as.local, ...)
-	if (merge) merge_icons(icons, icon_names) else icons
+	if (merge) {
+		merge_icons(icons, icon_names)
+	} else {
+		if (!is.null(names)) {
+			if (length(names) != length(icons)) stop("Icons and names have different lengths")
+			names(icons) = names
+		}
+		icons
+	}
+
 }
 
 

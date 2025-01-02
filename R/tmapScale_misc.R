@@ -13,6 +13,26 @@ check_values = function(layer, aes, values) {
 	}
 }
 
+getValuesNames = function(values) {
+	if (inherits(values, "tmap_icons")) {
+		if ("iconUrl" %in% names(values)) {
+			rep("", length(values$iconUrl))
+		} else {
+			if (!is.null(names(values))) {
+				names(values)
+			} else {
+				rep("", length(values))
+			}
+		}
+	} else {
+		if (!is.null(names(values))) {
+			names(values)
+		} else {
+			rep("", length(values))
+		}
+	}
+}
+
 #' Internal tmap function get scale values
 #'
 #' Internal tmap function get scale values
