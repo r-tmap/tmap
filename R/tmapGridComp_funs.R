@@ -11,7 +11,7 @@ tmapGridCompPrepare_text = function(comp, o) {
 			color[is.na(color)] = o$attr.color
 			color = do.call("process_color", c(list(col=color), o$pc))
 			size = size * o$scale
-			fontface[is.na(fontface)] =o$text.fontface
+			if (!is.numeric(fontface)) fontface[is.na(fontface)] = o$text.fontface
 			fontfamily[is.na(fontfamily)] =o$text.fontfamily
 			#text = lapply(text, rep, length.out=o$n)
 			text = text[i]

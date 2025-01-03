@@ -307,7 +307,7 @@ v3_add_legend = function(type, args) {
 	newtype[type]
 }
 
-v3_opt = function(olds, news, layer_fun) {
+v3_layer_opt = function(olds, news, layer_fun) {
 	x = v3_list_text(olds, news)
 	cli::cli_inform(
 		"{.field [v3->v4]} {.fn {layer_fun}}: migrate the layer options {x} to 'options = opt_{layer_fun}(<HERE>)'",

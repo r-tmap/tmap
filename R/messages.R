@@ -143,6 +143,8 @@ message_crs_property_not_used = function() {
 
 message_crs_ll = function() {
 	cli::cli_inform(
-		"{.field [tip]} Consider a suitable map projection, e.g. by adding {.code + tm_crs({.str auto})}."
+		"{.field [tip]} Consider a suitable map projection, e.g. by adding {.code + tm_crs({.str auto})}.",
+		.frequency_id = "crs",
+		.frequency = "once"
 	)
 }

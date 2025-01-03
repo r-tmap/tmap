@@ -456,7 +456,7 @@ v3_symbols = function(args, args_called, arg_col = NULL) {
 		if (length(osel)) {
 			o3 = v3_opt_args[osel]
 			o4 = v4_opt_args[osel]
-			v3_opt(o3, o4, layer_fun)
+			v3_layer_opt(o3, o4, layer_fun)
 		}
 
 		list(fill = fill,

@@ -31,42 +31,50 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 		# probably caused by tm_layout("my title"
 		args$title = scale
 		args$scale = NULL
+		args_called = unique(c(setdiff(args_called, "scale"), "title"))
 	}
 
 	if ("view.legend.position" %in% args_called) {
 		args$legend.position = args$view.legend.position
 		args$view.legend.position = NULL
 		v3_opt(fun, "view.legend.position", "legend.position")
+		args_called = unique(c(setdiff(args_called, "view.legend.position"), "legend.position"))
 	}
 	if ("set.bounds" %in% args_called) {
 		args$set_bounds = args$set.bounds
 		args$set.bounds = NULL
 		v3_opt(fun, "set.bounds", "set_bounds")
+		args_called = unique(c(setdiff(args_called, "set.bounds"), "set_bounds"))
 	}
 	if ("set.view" %in% args_called) {
 		args$set_view = args$set.view
 		args$set.view = NULL
 		v3_opt(fun, "set.view", "set_view")
+		args_called = unique(c(setdiff(args_called, "set.view"), "set_view"))
 	}
 	if ("set.zoom.limits" %in% args_called) {
 		args$set_zoom_limits = args$set.zoom.limits
 		args$set.zoom.limits = NULL
 		v3_opt(fun, "set.zoom.limits", "set_zoom_limits")
+		args_called = unique(c(setdiff(args_called, "set.zoom.limits"), "set_zoom_limits"))
 	}
 	if ("max.raster" %in% args_called) {
 		args$raster.max_cells = args$max.raster
 		args$max.raster = NULL
 		v3_opt(fun, "max.raster", "raster.max_cells")
+		args_called = unique(c(setdiff(args_called, "max.raster"), "raster.max_cells"))
 	}
 	if ("fontfamily" %in% args_called) {
 		args$text.fontfamily = args$fontfamily
 		args$fontfamily = NULL
 		v3_opt(fun, "fontfamily", "text.fontfamily")
+		args_called = unique(c(setdiff(args_called, "fontfamily"), "text.fontfamily"))
 	}
 	if ("fontface" %in% args_called) {
 		args$text.fontface = args$fontface
 		args$fontface = NULL
 		v3_opt(fun, "fontface", "text.fontface")
+		args_called = unique(c(setdiff(args_called, "fontface"), "text.fontface"))
 	}
 
 
@@ -79,6 +87,7 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 			v3_title(fun)
 
 			if (!("position" %in% names(title.args))) title.args$position = tm_pos_in("left", "top")
+			title = args$title
 			args$title = NULL
 			do.call(tm_title, c(list(text = title), title.args))
 		} else {
@@ -92,6 +101,7 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 			}
 			names(main.title.args) = substr(names(main.title.args), 12, nchar(names(main.title.args)))
 			v3_main_title(fun)
+			main.title = args$main.title
 			args$main.title = NULL
 			do.call(tm_title, c(list(text = main.title), main.title.args))
 		} else {
