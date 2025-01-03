@@ -9,7 +9,18 @@ leaflet_pos = function(pos) {
 	if (x[1] %in% c("center", "centre")) x[1] = "top"
 	if (x[2] %in% c("center", "centre")) x[2] = "left"
 
-  paste(x, collapse = "")
+	if (x[1] %in% c("left", "right")) {
+		cli::cli_abort(c(
+			"{.arg position} must specify the vertical argument first. i.e. {.val top}, {.val bottom}."
+		))
+	}
+	if (x[2] %in% c("top", "bottom")) {
+		cli::cli_abort(c(
+			"{.arg position} must specify the horizontal argument second. i.e. {.val left}, {.val right}."
+		))
+	}
+
+	paste(x, collapse = "")
 }
 
 

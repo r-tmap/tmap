@@ -16,9 +16,20 @@ ttmp()
 \item{mode}{One of \code{"plot"} or \code{"view"}. See Details for more info.}
 }
 \value{
+\itemize{
+\item \code{tmap_mode()} returns the current tmap mode invisibly (when called without argument).
+Otherwise, returns the previous mode.
+\item \code{ttm()} switches mode and returns previous tmap mode invisibly.
 The previous tmap mode before switching.
 }
+}
 \description{
+\itemize{
+\item \code{tmap_mode()} informs of the current mode (if called without argument).
+\item \code{ttm()} switches mode automatically.
+\item \code{ttmp()} switches mode and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the other mode.
+}
+
 Set tmap mode to static plotting or interactive viewing.
 The global option \code{tmap.mode} determines the whether thematic maps are plot
 in the graphics device, or shown as an interactive leaflet map (see also \code{\link[=tmap_options]{tmap_options()}}.
@@ -29,14 +40,14 @@ toggle thematic map and print last map: it does the same as \code{ttm()} followe
 by \code{\link[=tmap_last]{tmap_last()}}; in order words, it shows the last map in the other mode.
 It is recommended to use \code{tmap_mode()} in scripts and \code{ttm()}/\code{ttmp()} in the console.
 }
-\section{mode = "plot"}{
+\section{\code{mode = "plot"}}{
 Thematic maps are shown in the graphics device.
 This is the default mode, and supports all tmap's features,
 such as small multiples (see \code{\link[=tm_facets]{tm_facets()}}) and extensive layout settings (see \code{\link[=tm_layout]{tm_layout()}}).
 It is recommended to use \code{\link[=tmap_save]{tmap_save()}} for saving static maps.
 }
 
-\section{mode = "view"}{
+\section{\code{mode = "view"}}{
 Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
 Maps are fully interactive with tiles from OpenStreetMap or other map providers
 (see \code{\link[=tm_tiles]{tm_tiles()}}). See also \code{\link[=tm_view]{tm_view()}} for options related to the \code{"view"} mode.

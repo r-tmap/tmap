@@ -22,7 +22,7 @@ tmapLeafletLegPlot.tm_title = function(comp, lf, o) {
 	if (inherits(lf, "shiny.tag.list")) {
 		ncld <- length(lf[[1]])
 		lf[[1]] <- mapply(function(l, i) {
-			title <- l$children[[1]]$title
+			title <- l$children[[1]]$title %||% ""
 			if (title!="") {
 				l$children[[1]] <- l$children[[1]] %>% htmlwidgets::onRender(paste("
 					function(el, x) {
@@ -37,7 +37,7 @@ tmapLeafletLegPlot.tm_title = function(comp, lf, o) {
 			l
 		}, lf[[1]], 0:(ncld-1), SIMPLIFY = FALSE)
 	} else {
-		title <- comp$text
+		title <- comp$text %||% ""
 		if (title!="") {
 			lf <- lf %>% htmlwidgets::onRender(paste("
 						function(el, x) {

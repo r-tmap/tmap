@@ -84,6 +84,8 @@
 					absolute_fontsize = "absolute fontsize",
 					x = "x",
 					y = "y",
+					xlab = "`x` label",
+					ylab = "`y` label",
 					zoom = "zoom")
 
 	extra_lookup = c(margins = " A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).",
