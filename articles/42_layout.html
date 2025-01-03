@@ -81,7 +81,7 @@
 <div class="section level2">
 <h2 id="design-mode">Design mode<a class="anchor" aria-label="anchor" href="#design-mode"></a>
 </h2>
-<p>tmap offers a special <strong>design mode</strong>, which can be enabled via [tmap_design_mode()]. Bolow the same map, but the second time with this design mode enabled:</p>
+<p>tmap offers a special <strong>design mode</strong>, which can be enabled via <code>tmap_design_mode</code>. Bolow the same map, but the second time with this design mode enabled:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span>, </span>
@@ -96,9 +96,9 @@
 <p><img src="42_layout_files/figure-html/figures-side-1.png" width="47%"><img src="42_layout_files/figure-html/figures-side-2.png" width="47%"></p>
 </div>
 <div class="section level2">
-<h2 id="tm_layout-and-tmap-options">[tm_layout() and tmap options]<a class="anchor" aria-label="anchor" href="#tm_layout-and-tmap-options"></a>
+<h2 id="tm_layout-and-tmap-options">tm_layout() and tmap options<a class="anchor" aria-label="anchor" href="#tm_layout-and-tmap-options"></a>
 </h2>
-<p>All options related to the layout of the map, such as background color and margins, can be set via [tm_layout()].</p>
+<p>All options related to the layout of the map, such as background color and margins, can be set via <code>tm_layout</code>.</p>
 <p>These options are a subset of all tmap options, which can be set via <code>tmap_options</code> (a stand-alone function) or <code>tm_options</code>, which is supposed to be stacked with the <code>+</code> operator.</p>
 </div>
 <div class="section level2">
