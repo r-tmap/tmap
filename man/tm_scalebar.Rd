@@ -27,7 +27,7 @@ tm_scalebar(
 \arguments{
 \item{breaks}{breaks}
 
-\item{width}{width}
+\item{width}{width of the scale bar. Units are number of text line heights, which is similar to the number of characters.}
 
 \item{text.size}{text size}
 

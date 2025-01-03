@@ -9,6 +9,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	ctabs = terra::coltab(shp)
 	cats = terra::levels(shp)
 
+	minmax = as.list(as.data.frame(terra::minmax(shp)))
 
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]
@@ -30,7 +31,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 
 	names(ctabs) = dtcols
 	names(cats) = dtcols
-
+	names(minmax) = dtcols
 
 	if (!is.null(tmf)) make_by_vars(dt, tmf, smeta)
 
@@ -57,10 +58,14 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 				levels(dt[[nm]]) = paste(levels(dt[[nm]]), cls, sep = "=<>=")
 			} else if ("value" %in% names(ct)) {
 				cls = rgb(ct$red, ct$green, ct$blue, ct$alpha, maxColorValue = 255)
-				until = anyDuplicated(cls) - 1L
 
-				cls = cls[1:until]
-				ct = ct[1:until, ]
+				rng = minmax[[nm]]
+				sel = ct$value %in% seq(rng[1], rng[2])
+
+				#until = anyDuplicated(cls) - 1L
+
+				cls = cls[sel]
+				ct = ct[sel, ]
 				dt[[nm]] = factor(dt[[nm]], levels = ct$value, labels = paste(ct$value, cls, sep = "=><="))
 			}
 

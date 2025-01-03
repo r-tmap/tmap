@@ -119,7 +119,7 @@ tm_compass <- function(north,
 #' Map component that adds a scale bar.
 #'
 #' @param breaks breaks
-#' @param width width
+#' @param width width of the scale bar. Units are number of text line heights, which is similar to the number of characters.
 #' @param text.size text size
 #' @param text.color text.color
 #' @param color.dark color.dark

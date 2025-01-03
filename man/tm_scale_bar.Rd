@@ -11,7 +11,7 @@ tm_scale_bar(...)
   Arguments passed on to \code{\link[=tm_scalebar]{tm_scalebar}}
   \describe{
     \item{\code{breaks}}{breaks}
-    \item{\code{width}}{width}
+    \item{\code{width}}{width of the scale bar. Units are number of text line heights, which is similar to the number of characters.}
     \item{\code{text.size}}{text size}
     \item{\code{text.color}}{text.color}
     \item{\code{color.dark}}{color.dark}
