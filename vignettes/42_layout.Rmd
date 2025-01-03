@@ -1,0 +1,121 @@
+---
+title: "tmap advanced: margins and aspect ratio"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+## Design mode
+
+tmap offers a special **design mode**, which can be enabled via [tmap_design_mode()]. Bolow the same map, but the second time with this design mode enabled:
+
+```{r, figures-side, fig.show="hold", out.width="47%", fig.height=8}
+(tm = tm_shape(NLD_muni) +
+  tm_polygons(fill = "employment_rate", 
+    fill.legend = tm_legend(position = tm_pos_in("left", "top"))) +
+   tm_compass(position = tm_pos_in("right", "bottom")) +
+   tm_scalebar(position = tm_pos_in("left", "bottom")))
+
+tmap_design_mode()
+
+tm
+```
+
+
+## [tm_layout() and tmap options]
+
+All options related to the layout of the map, such as background color and margins, can be set via [tm_layout()].
+
+These options are a subset of all tmap options, which can be set via `tmap_options` (a stand-alone function) or `tm_options`, which is supposed to be stacked with the `+` operator.
+
+## Inner and outer margins
+
+Inner and outer margins can be set with the options `inner.margins` and `outer.margins`. 
+
+The inner margins are the margins between the shape (i.e. spatial geometries) and the map frame. In the design mode, the shape area with the inner margins is shown with a yellow rectangle.
+
+
+
+
+```{r, fig.height=5}
+tm_shape(NLD_muni) +
+  tm_polygons(fill = "employment_rate") +
+	tm_layout(
+		inner.margins = c(0.2, 0.2, 0.2, 0.2))
+```
+
+The outer margins are the margins between the map frame and the device frame.
+
+
+```{r, fig.height=5}
+tm_shape(NLD_muni) +
+  tm_polygons(fill = "employment_rate") +
+	tm_layout(
+		outer.margins = c(0.2, 0.2, 0.2, 0.2))
+```
+
+## Aspect ratio
+
+The aspect of the map frame can be set via the option `asp`. If so, the inner margins will be adjusted automatically.
+
+```{r, fig.height=5}
+tm_shape(NLD_muni) +
+  tm_polygons(fill = "employment_rate") +
+	tm_title("Square map") +
+	tm_layout(asp = 1)
+```
+
+The special value 0 means that the aspect ratio is adjusted to meet the space that is left on the device after substracting the outer margins and space occupied by the outside components (in this case just the legends).
+
+```{r, fig.height=5}
+tm_shape(NLD_muni) +
+  tm_polygons(fill = "employment_rate") +
+	tm_layout(outer.margins = c(0.2, 0.2, 0.2, 0.2),
+			  asp = 0)
+```
+
