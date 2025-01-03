@@ -158,7 +158,9 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sent</span> <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">sent_image</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">sent</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_discrete.html">tm_scale_discrete</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">sent</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_discrete.html">tm_scale_discrete</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: [minmax] min and max values not available for all layers. See</span></span>
+<span><span class="co">#&gt; 'setMinMax' or 'global'</span></span></code></pre></div>
 <p><img src="13_examples_raster_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level2">
