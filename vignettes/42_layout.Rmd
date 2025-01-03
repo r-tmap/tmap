@@ -52,7 +52,7 @@ tmap_options(scale = 0.75)
 
 ## Design mode
 
-tmap offers a special **design mode**, which can be enabled via [tmap_design_mode()]. Bolow the same map, but the second time with this design mode enabled:
+tmap offers a special **design mode**, which can be enabled via `tmap_design_mode`. Bolow the same map, but the second time with this design mode enabled:
 
 ```{r, figures-side, fig.show="hold", out.width="47%", fig.height=8}
 (tm = tm_shape(NLD_muni) +
@@ -67,9 +67,9 @@ tm
 ```
 
 
-## [tm_layout() and tmap options]
+## tm_layout() and tmap options
 
-All options related to the layout of the map, such as background color and margins, can be set via [tm_layout()].
+All options related to the layout of the map, such as background color and margins, can be set via `tm_layout`.
 
 These options are a subset of all tmap options, which can be set via `tmap_options` (a stand-alone function) or `tm_options`, which is supposed to be stacked with the `+` operator.
 

@@ -70,37 +70,60 @@ tmap does not offer a mode using Mapbox yet.
 
 This is the default output of `mapview`:
 
-```{r fig.height = 3.5}
+```{r eval=FALSE}
 library(mapview)
 mapview(World)
 ```
 
+```{r fig.height = 3.5, eval=TRUE, echo=FALSE}
+library(mapview)
+lf = mapview(World)@map
+lf
+```
+
+
+
 
 This is the default output of `tmap`:
 
-```{r fig.height = 3.5}
+```{r eval=FALSE}
 tmap_mode("view")
 qtm(World) # qmt stands for 'quick thematic map'
 ```
 
+
+```{r fig.height = 3.5, eval=TRUE, echo=FALSE}
+tmap_mode("view")
+lf = tmap_leaflet(qtm(World))
+lf
+```
+
 ## Choropleth
 
-
-```{r fig.height = 3.5}
+```{r eval=FALSE}
 mapview(World, zcol = "HPI")
 ```
 
-```{r fig.height = 3.5}
+```{r fig.height = 3.5, eval=TRUE, echo=FALSE}
+lf = mapview(World, zcol = "HPI")@map
+lf
+```
+
+```{r eval=FALSE}
 tm_shape(World) +
   tm_polygons(fill = "HPI")
 ```
 
+```{r fig.height = 3.5, eval=TRUE, echo=FALSE}
+lf = tmap_leaflet(tm_shape(World) + tm_polygons(fill = "HPI"))
+lf
+```
 
 ## Mimicking mapview layout
 
 We can use `tmap` to match the style of `mapview`:
 
-```{r fig.height = 3.5}
+```{r eval=FALSE}
 tm_shape(World) +
   tm_polygons(
     fill = "HPI",
@@ -116,4 +139,19 @@ tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter",
   "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
 ```
 
-
+```{r fig.height = 3.5, eval=TRUE, echo=FALSE}
+lf = tmap_leaflet(tm_shape(World) +
+  tm_polygons(
+    fill = "HPI",
+    fill_alpha = 0.6,
+    col_alpha = 0.9,
+    fill.legend = tm_legend(
+      title = "World - HPI",
+      position = c("right", "top"), 
+      fill_alpha = 1),
+    fill.scale = tm_scale_continuous(values = "viridis", n = 7, value.na = "#BEBEBE")
+  ) + 
+tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter", 
+  "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap")))
+lf
+```

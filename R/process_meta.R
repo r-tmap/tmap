@@ -477,7 +477,8 @@ process_meta = function(o, d, cdt, aux) {
 				if (all(!margins.used[c(1,3)]) && n == 1) {
 					# auto adjust left/right
 					meta.margins[c(2,4)] =  local({
-						xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto_margins[margins.used]))
+						#xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto_margins[margins.used]))
+						xtra = sum(meta.auto_margins[margins.used])
 						tmp = rep(0, 4)
 						tmp[margins.used] = meta.auto_margins[margins.used]
 						tmp[c(2,4)] + (xtra / 2)
@@ -485,7 +486,8 @@ process_meta = function(o, d, cdt, aux) {
 				} else if (all(!margins.used[c(2,4)]) && n == 1) {
 					# auto adjust top/bottom
 					meta.margins[c(1,3)] =  local({
-						xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto_margins[margins.used]))
+						#xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto_margins[margins.used]))
+						xtra = sum(meta.auto_margins[margins.used])
 						# divide extra vertical space between used margins
 						tmp = rep(0, 4)
 						tmp[margins.used] = meta.auto_margins[margins.used]
