@@ -50,8 +50,8 @@
     <li><a class="dropdown-item" href="../articles/09_basics_exporting.html">tmap basics: exporting</a></li>
     <li><a class="dropdown-item" href="../articles/091_basics_layout.html">tmap basics: layout</a></li>
     <li><a class="dropdown-item" href="../articles/092_basics_multivariate.html">tmap basics: multivariate visual variables</a></li>
-    <li><a class="dropdown-item" href="../articles/11_foundations_gg.html">tmap theory: Grammar of Graphics`</a></li>
-    <li><a class="dropdown-item" href="../articles/12_foundations_crs.html">tmap advanced: map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/11_foundations_gg.html">tmap foundations: Grammar of Graphics`</a></li>
+    <li><a class="dropdown-item" href="../articles/12_foundations_crs.html">tmap foundations: map projections (CRS)</a></li>
     <li><a class="dropdown-item" href="../articles/21_examples_choro_World.html">tmap example: choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/22_examples_choro_NLD.html">tmap example: choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/23_examples_raster.html">tmap example: rasters</a></li>
@@ -90,65 +90,10 @@
     
     
 <div class="section level3">
-<h3 id="about-the-data">About the data<a class="anchor" aria-label="anchor" href="#about-the-data"></a>
+<h3 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
 </h3>
-<p>A spatial data object contained in tmap is called <code>World</code>. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        </span></span>
-<span><span class="co">#&gt;  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" </span></span>
-<span><span class="co">#&gt; [11] "life_exp"     "well_being"   "footprint"    "HPI"          "inequality"  </span></span>
-<span><span class="co">#&gt; [16] "gender"       "press"        "geometry"</span></span></code></pre></div>
-<p>We specify this object with <code>tm_shape</code> (see other vignette) and for convenience assign it to <code>s</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="scales-numeric-data">Scales: numeric data<a class="anchor" aria-label="anchor" href="#scales-numeric-data"></a>
-</h2>
-<p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code> can represent a data variable:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="091_basics_layout_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-<p>A <em>scale</em> defines how to map the data values to visual values. Numeric data variables (e.g. <code>"HPI"</code> which stands for Happy Planex Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with <code>tm_scale_intervals</code>, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
-<span>    style <span class="op">=</span> <span class="st">"fisher"</span>,      <span class="co"># a method to specify the classes</span></span>
-<span>    n <span class="op">=</span> <span class="fl">7</span>,                 <span class="co"># number of classes</span></span>
-<span>    midpoint <span class="op">=</span> <span class="fl">38</span>,         <span class="co"># data value mapped to the middle palette color</span></span>
-<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>   <span class="co"># color palette; </span></span>
-<span>                           <span class="co"># run cols4all::c4a_gui() to explore color palettes</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>An alternative for numeric data variables is the continuous scale:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
-<span>      limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>      values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="091_basics_layout_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
-</div>
-<div class="section level2">
-<h2 id="scales-categorical-data">Scales: categorical data<a class="anchor" aria-label="anchor" href="#scales-categorical-data"></a>
-</h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="091_basics_layout_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="091_basics_layout_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 
