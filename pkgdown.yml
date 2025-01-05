@@ -4,16 +4,27 @@ pkgdown_sha: ~
 articles:
   01_basics_vv: 01_basics_vv.html
   02_basics_scales: 02_basics_scales.html
-  11_examples_choro_World: 11_examples_choro_World.html
-  12_examples_choro_NLD: 12_examples_choro_NLD.html
-  13_examples_raster: 13_examples_raster.html
-  14_examples_gridmaps: 14_examples_gridmaps.html
-  21_theory_gg: 21_theory_gg.html
+  03_basics_facets: 03_basics_facets.html
+  04_basics_legends: 04_basics_legends.html
+  05_basics_modes: 05_basics_modes.html
+  06_basics_basemaps: 06_basics_basemaps.html
+  07_basics_components: 07_basics_components.html
+  08_basics_charts: 08_basics_charts.html
+  09_basics_exporting: 09_basics_exporting.html
+  091_basics_layout: 091_basics_layout.html
+  092_basics_multivariate: 092_basics_multivariate.html
+  11_foundations_gg: 11_foundations_gg.html
+  12_foundations_crs: 12_foundations_crs.html
+  21_examples_choro_World: 21_examples_choro_World.html
+  22_examples_choro_NLD: 22_examples_choro_NLD.html
+  23_examples_raster: 23_examples_raster.html
+  24_examples_gridmaps: 24_examples_gridmaps.html
   31_versus_ggplot2: 31_versus_ggplot2.html
   32_versus_mapview: 32_versus_mapview.html
-  41_advanced_crs: 41_advanced_crs.html
-  42_layout: 42_layout.html
-last_built: 2025-01-03T21:04Z
+  41_options: 41_options.html
+  42_margins: 42_margins.html
+  43_extensions: 43_extensions.html
+last_built: 2025-01-05T13:26Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
