@@ -1,0 +1,134 @@
+---
+title: "tmap basics: facets"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+### About the data
+
+Three spatial data objects of the Netherlands are contained in tmap: `NLD_prov`, `NLD_muni`, and `NLD_dist`, at respectively province, municipality and district level. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(NLD_muni)
+```
+
+
+## Facets: one dimensional
+
+Facets or *small multiples* are small visualizations (maps), one for each group. 
+The groups can be defined using a categorical data variable. In the following plot, a facet is created for each province (a data variable in `NLD_muni`):
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons("employment_rate") +
+tm_facets("province")
+```
+
+In this example, there is *one facet variable*. For these kind of plots, and the facets are either **wrapped** or **stacked**, with `tm_facets_wrap()` or `tm_facets_stack()`. The general purpose function `tm_facets()` determines the faceting type, which is in this example `wrap`.
+
+Groups can also be defined by specifying multiple data variable names for one visual variable:
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons(
+  	fill = c("employment_rate", "dwelling_value", "income_high"),
+  	fill.scale = 
+  	  list(tm_scale_intervals(values = "-brewer.reds"),
+  	  	 tm_scale_intervals(values = "brewer.purples"),
+  	  	 tm_scale_intervals(values = "brewer.blues")))
+```
+
+Because different data variables are used, tmap uses (by default) multiple scales, one for each variable. These can be changed by putting the `tm_scale()` functions in a list, as shown above. In case the same scale should be used, `fill.free` should be set to `FALSE`:
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons(
+  	fill = c("pop_0_14", "pop_25_44", "pop_65plus"),
+  	fill.legend = tm_legend("Percentage"),
+  	fill.free = FALSE)
+```
+
+
+## Facets: two or three dimensions
+
+Facets can also be defined for two or three dimensions, obtained via `tm_facets_grid()` These three dimensions correspond to *rows*, *columns*, and *pages* respectively. The most common use case is two just dimensions, rows and columns.
+In that case, `tm_facets_grid()` is used.
+
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons(
+  	fill = c("employment_rate", "dwelling_value", "income_high"),
+  	fill.scale = 
+  	  list(tm_scale_intervals(values = "-brewer.reds"),
+  	  	 tm_scale_intervals(values = "brewer.purples"),
+  	  	 tm_scale_intervals(values = "brewer.blues"))) +
+tm_facets_grid(columns = "province")
+```
+
+## Facets as 'pages' (use case: animations)
+
+```{r, eval=FALSE}
+(tm = tm_shape(NLD_muni) +
+  tm_polygons(
+  	fill = c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
+  	fill.legend = tm_legend("Percentage"),
+  	fill.free = FALSE) +
+tm_facets_pagewise())
+```
+
+will produce 5 plots, one for each age class (defined using the `fill` argument).
+
+This plot can be exported as animation via `tmap_animation`.
+
+```{r, eval=FALSE}
+tmap_animation(tm, filename = "NLD_pop_age_class.gif")
+```
+

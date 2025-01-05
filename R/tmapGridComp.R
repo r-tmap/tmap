@@ -241,7 +241,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		panel_rows = if (class == "in") {
 			NULL
 		} else if (o$panel.type == "xtab") {
-			c(g$cols_panel_row_id, g$rows_panel_row_ids)
+		    g$rows_panel_row_ids[facet_row]
 		} else if (o$panel.type == "wrap") {
 			g$rows_panel_ids[facet_row]
 		} else {
@@ -253,7 +253,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		panel_cols = if (class == "in") {
 			NULL
 		} else if (o$panel.type == "xtab") {
-			c(g$cols_panel_col_ids, g$rows_panel_col_id)
+			g$cols_panel_col_ids[facet_col]
 		} else if (o$panel.type == "wrap") {
 			g$cols_panel_ids[facet_col]
 		} else {
