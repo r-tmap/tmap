@@ -360,7 +360,11 @@ str2pos = function(x) {
 			stop("position: incorrect specification")
 		}
 	} else {
-		args = list(pos.h = x[1], pos.v = x[2])
+		if (tolower(x[1]) %in% c("top", "bottom")) {
+			args = list(pos.h = x[2], pos.v = x[1])
+		} else {
+			args = list(pos.h = x[1], pos.v = x[2])
+		}
 	}
 	do.call(tm_pos_in, args)
 }
