@@ -2,7 +2,10 @@
 tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 	shp[[1]] = tmapID
 
-	shp2 = transwarp(shp, crs, raster.warp = TRUE)
+	args = list(...)
+	raster.warp = if ("raster.warp" %in% names(args)) args$raster.warp else TRUE
+
+	shp2 = transwarp(shp, crs, raster.warp = raster.warp)
 	tmapID2 = shp2[[1]]
 	shp2[[1]] = NA
 
@@ -15,10 +18,13 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
 
+	args = list(...)
+	raster.warp = if ("raster.warp" %in% names(args)) args$raster.warp else TRUE
+
 	if (is.na(sf::st_crs(shp))) {
 		shp2 = s
 	} else {
-		shp2 = transwarp(s, crs, raster.warp = TRUE)
+		shp2 = transwarp(s, crs, raster.warp = raster.warp)
 	}
 
 	tmapID2 = shp2[[1]]
@@ -73,7 +79,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 	} else {
 		shp = downsample_stars(shp, max.raster = max_cells(o$raster.max_cells) / (o$fn[1] * o$fn[2]))
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
-			shp = transwarp(shp, crs, raster.warp = TRUE)
+			shp = transwarp(shp, crs, raster.warp = o$raster.warp)
 		}
 
 		dims = stars::st_dimensions(shp)

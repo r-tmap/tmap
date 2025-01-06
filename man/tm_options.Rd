@@ -10,6 +10,7 @@ tm_options(
   facet.flip,
   free.scales,
   raster.max_cells,
+  raster.warp,
   show.messages,
   show.warnings,
   output.format,
@@ -334,6 +335,9 @@ tm_options(
 \item{free.scales}{For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions}
 
 \item{raster.max_cells}{Maximum number of raster grid cells. Can be mode specific \code{c(plot = 3000, view = 1000, 1000)} (the last value is the fall back default)}
+
+\item{raster.warp}{Should rasters be warped or transformed in case a different projection (crs) is used? Warping creates a new regular raster in the target crs, whereas transforming creates a (usually non-regular) raster in the target crs. The former is lossy, but much faster and is therefore the default.
+When a different projection (crs) is used, a (usually) regular raster will be}
 
 \item{show.messages}{Show messages?}
 

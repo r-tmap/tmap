@@ -35,6 +35,7 @@
 
 		# spatial object class specific options
 		raster.max_cells = 1e7, # was max.raster
+		raster.warp = TRUE,
 
 		# general
 		show.messages = TRUE,

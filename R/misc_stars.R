@@ -127,21 +127,25 @@ get_xy_dim = function(x) {
 transwarp = function(x, crs, raster.warp) {
 	# NOTE: dropped colors after st_warp fixed in stars 0.4-2
 	shpcolors = attr(x[[1]], "colors")
-
-	y = tryCatch({
-		if (is_curvilinear(x)) {
-			sf::st_transform(x, crs = crs)
-		} else {
-			stars::st_warp(x, crs = crs)
-		}
-	}, error = function(e) {
-		warning("Unable to warp stars. Stars will be transformed now (which will take some time).", call. = FALSE)
-		tryCatch({
-			sf::st_transform(x, crs = crs)
+	if (raster.warp) {
+		y = tryCatch({
+			if (is_curvilinear(x)) {
+				sf::st_transform(x, crs = crs)
+			} else {
+				stars::st_warp(x, crs = crs)
+			}
 		}, error = function(e) {
-			stop("Also unable to transform stars", call. = FALSE)
+			warning("Unable to warp stars. Stars will be transformed now (which will take some time).", call. = FALSE)
+			tryCatch({
+				sf::st_transform(x, crs = crs)
+			}, error = function(e) {
+				stop("Also unable to transform stars", call. = FALSE)
+			})
 		})
-	})
+	} else {
+		y = sf::st_transform(x, crs = crs)
+	}
+
 	if (!is.null(shpcolors)) attr(y[[1]], "colors") = shpcolors
 	y
 }
