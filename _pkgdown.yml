@@ -18,3 +18,73 @@ figures:
 
 development:
   version_tooltip: "tmap v4 documentation"
+
+
+navbar:
+  structure:
+    left:  [reference, basics, foundations, example, comparison, advanced, news]
+  components:
+    home: ~
+    basics:
+      text: Get Started
+      menu:
+        - text: Visual variables
+          href: articles/01_basics_vv
+        - text: Scales
+          href: articles/02_basics_scales
+        - text: Facets
+          href: articles/03_basics_facets
+        - text: Legends
+          href: articles/04_basics_legends
+        - text: Modes
+          href: articles/05_basics_modes
+        - text: Basemaps
+          href: articles/06_basics_basemaps
+        - text: Components
+          href: articles/07_basics_components
+        - text: Charts
+          href: articles/08_basics_charts
+        - text: Exporting
+          href: articles/09_basics_exporting
+        - text: Layout
+          href: articles/091_basics_layout
+        - text: Multivariate
+          href: articles/092_basics_multivariate
+
+    foundations:
+      text: Foundations
+      menu:
+        - text: Grammar of Graphics
+          href: articles/11_foundations_gg
+        - text: Map projections (CRS)
+          href: articles/12_foundations_crs
+
+    example:
+      text: Examples
+      menu:
+        - text: choropleth (World)
+          href: articles/21_examples_choro_World
+        - text: choropleth (Netherlands)
+          href: articles/22_examples_choro_NLD
+        - text: Rasters
+          href: articles/23_examples_raster
+        - text: Gridmaps
+          href: articles/24_examples_gridmaps
+
+    comparison:
+      text: Comparison
+      menu:
+        - text: tmap vs ggplot2
+          href: articles/31_versus_ggplot2
+        - text: tmap vs mapview
+          href: articles/32_versus_mapview
+
+    advanced:
+      text: Advanced
+      menu:
+        - text: Options
+          href: articles/41_options
+        - text: Margins and aspect ratio
+          href: articles/42_margins
+        - text: Extending tmap
+          href: articles/43_extensions

@@ -1,5 +1,5 @@
 ---
-title: "tmap foundations: Grammar of Graphics`"
+title: "tmap foundations: Grammar of Graphics"
 output: 
   bookdown::html_vignette2:
 pkgdown:
