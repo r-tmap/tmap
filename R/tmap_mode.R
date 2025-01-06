@@ -1,5 +1,10 @@
 #' Set tmap mode to static plotting or interactive viewing
 #'
+#' @description
+#' * `tmap_mode()` informs of the current mode (if called without argument).
+#' * `ttm()` switches mode automatically.
+#' * `ttmp()` switches mode and calls [tmap_last()] to display the last map in the other mode.
+#'
 #' Set tmap mode to static plotting or interactive viewing.
 #' The global option `tmap.mode` determines the whether thematic maps are plot
 #' in the graphics device, or shown as an interactive leaflet map (see also [tmap_options()].
@@ -10,14 +15,15 @@
 #' by [tmap_last()]; in order words, it shows the last map in the other mode.
 #' It is recommended to use `tmap_mode()` in scripts and `ttm()`/`ttmp()` in the console.
 #'
-#' # mode = "plot"
+#' @details
+#' # `mode = "plot"`
 #'
 #' Thematic maps are shown in the graphics device.
 #' This is the default mode, and supports all tmap's features,
 #' such as small multiples (see [tm_facets()]) and extensive layout settings (see [tm_layout()]).
 #' It is recommended to use [tmap_save()] for saving static maps.
 #'
-#' # mode = "view"
+#' # `mode = "view"`
 #'
 #' Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
 #' Maps are fully interactive with tiles from OpenStreetMap or other map providers
@@ -39,7 +45,11 @@
 #'   However, the styling options still apply.
 #'
 #' @param mode One of `"plot"` or `"view"`. See Details for more info.
-#' @return The previous tmap mode before switching.
+#' @return
+#' * `tmap_mode()` returns the current tmap mode invisibly (when called without argument).
+#'   Otherwise, returns the previous mode.
+#' * `ttm()` switches mode and returns previous tmap mode invisibly.
+#' The previous tmap mode before switching.
 #' @example ./examples/tmap_mode.R
 #' @seealso
 #' * [tmap_last()] to show the last map

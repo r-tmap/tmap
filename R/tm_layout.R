@@ -27,7 +27,7 @@ tm_layout = function(
 #'
 #' @param use_browser If `TRUE` it opens an external browser, and `FALSE` (default) it opens the internal IDEs (e.g. RStudio) browser.
 #' @param use_WebGL use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default `TRUE` if no other visual variables are used.
-#' @param control.position position of the control attribute
+#' @param control.position `r .doc_opt("control.position")`
 #' @param control.bases base layers
 #' @param control.overlays overlay layers
 #' @param set_bounds logical that determines whether maximum bounds are set,
