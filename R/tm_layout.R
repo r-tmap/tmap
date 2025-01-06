@@ -30,6 +30,7 @@ tm_layout = function(
 #' @param control.position `r .doc_opt("control.position")`
 #' @param control.bases base layers
 #' @param control.overlays overlay layers
+#' @param control.collapse Should the box be collapsed or expanded?
 #' @param set_bounds logical that determines whether maximum bounds are set,
 #'   or a bounding box. Not applicable in plot mode.
 #'   In view mode, this is passed on to [setMaxBounds()][leaflet::setMaxBounds()]
@@ -39,7 +40,7 @@ tm_layout = function(
 #'    Only applicable if `bbox` is not specified
 #' @param set_zoom_limits numeric vector of two that set the minimum and maximum
 #'   zoom levels (see [tileOptions()][leaflet::tileOptions()]).
-#' @param use_circle_markers If `TRUE` (default) circle shaped symbols (e.g. `tm_dots` and `tm_symbols`) will be rendered as [addCircleMarkers()][leaflet::addCircleMarkers()] instead of [addMarkers()][leaflet::addMarkers()]. The former is faster, the latter can support any symbol since it is based on icons
+#' @param use_circle_markers If `TRUE` (default) circle shaped symbols (e.g. `tm_dots()` and `tm_symbols()`) will be rendered as [addCircleMarkers()][leaflet::addCircleMarkers()] instead of [addMarkers()][leaflet::addMarkers()]. The former is faster, the latter can support any symbol since it is based on icons
 #' @param leaflet.options options passed on to
 #'   [leafletOptions()][leaflet::leafletOptions()]
 #' @param ... to catch deprecated arguments
@@ -49,6 +50,7 @@ tm_view = function(use_browser,
 				   control.position,
 				   control.bases,
 				   control.overlays,
+				   control.collapse,
 				   set_bounds,
 				   set_view,
 				   set_zoom_limits,

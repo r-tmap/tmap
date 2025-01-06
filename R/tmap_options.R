@@ -336,7 +336,7 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 						crs_extra,
 						crs_global,
 						use_gradient, # plot mode
-						use_browser, use_WebGL, control.position, control.bases, control.overlays, set_bounds, # view mode
+						use_browser, use_WebGL, control.position, control.bases, control.overlays, control.collapse, set_bounds, # view mode
 						set_view, set_zoom_limits, use_circle_markers, leaflet.options, # view mode
 						title = NULL,
 						main.title = NULL,

@@ -10,6 +10,7 @@ tm_view(
   control.position,
   control.bases,
   control.overlays,
+  control.collapse,
   set_bounds,
   set_view,
   set_zoom_limits,
@@ -28,6 +29,8 @@ tm_view(
 \item{control.bases}{base layers}
 
 \item{control.overlays}{overlay layers}
+
+\item{control.collapse}{Should the box be collapsed or expanded?}
 
 \item{set_bounds}{logical that determines whether maximum bounds are set,
 or a bounding box. Not applicable in plot mode.
