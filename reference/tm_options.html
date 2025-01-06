@@ -69,6 +69,7 @@
 <span>  <span class="va">facet.flip</span>,</span>
 <span>  <span class="va">free.scales</span>,</span>
 <span>  <span class="va">raster.max_cells</span>,</span>
+<span>  <span class="va">raster.warp</span>,</span>
 <span>  <span class="va">show.messages</span>,</span>
 <span>  <span class="va">show.warnings</span>,</span>
 <span>  <span class="va">output.format</span>,</span>
@@ -406,6 +407,11 @@
 
 <dt id="arg-raster-max-cells">raster.max_cells<a class="anchor" aria-label="anchor" href="#arg-raster-max-cells"></a></dt>
 <dd><p>Maximum number of raster grid cells. Can be mode specific <code>c(plot = 3000, view = 1000, 1000)</code> (the last value is the fall back default)</p></dd>
+
+
+<dt id="arg-raster-warp">raster.warp<a class="anchor" aria-label="anchor" href="#arg-raster-warp"></a></dt>
+<dd><p>Should rasters be warped or transformed in case a different projection (crs) is used? Warping creates a new regular raster in the target crs, whereas transforming creates a (usually non-regular) raster in the target crs. The former is lossy, but much faster and is therefore the default.
+When a different projection (crs) is used, a (usually) regular raster will be</p></dd>
 
 
 <dt id="arg-show-messages">show.messages<a class="anchor" aria-label="anchor" href="#arg-show-messages"></a></dt>
