@@ -139,7 +139,7 @@ v3_instead_value = function(args_called, old, new, fun, value_old, value_new) {
 		if (identical(args[[old]], value_old)) {
 			args[[old]] = NULL
 			args[[new]] = value_new
-			if (is.null(value_old)) value_old = "NULL"
+			value_old = value_old %||% NULL
 			cli::cli_inform(c(
 				"{.field [v3->v4]} {.fn {fun}}: use {.code {new} = {value_new}} instead of {.code {old} = {value_old}}."
 			))

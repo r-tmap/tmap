@@ -35,7 +35,7 @@
 #' @param item.na.space `r .doc_opt("legend.na item.space")`
 #' @param item.shape `r .doc_opt("legend.item.shape")`
 #' @param ticks List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.
-#' @param ticks.disable.na Remove ticks for NA values
+#' @param ticks.disable.na Remove ticks for `NA` values
 #' @param ticks.col `r .doc_opt("legend.ticks.col")`
 #' @param ticks.lwd `r .doc_opt("legend.ticks.lwd")`
 #' @param margins `r .doc_opt("legend.margins")`
@@ -93,10 +93,10 @@ tm_legend = function(title,
 					 ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("title" %in% (names(args)))) args$title = NA
-	if (!("xlab" %in% (names(args)))) args$xlab = NA
-	if (!("ylab" %in% (names(args)))) args$ylab = NA
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$title = args$title %||% NA
+	args$xlab = args$xlab %||% NA
+	args$ylab = args$ylab %||% NA
+	args$z = args$z %||% NA_integer_
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
 
@@ -149,10 +149,10 @@ tm_legend_bivariate = function(xlab,
 							   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	if (!("title" %in% (names(args)))) args$title = NA
-	if (!("xlab" %in% (names(args)))) args$xlab = NA
-	if (!("ylab" %in% (names(args)))) args$ylab = NA
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$title = args$title %||% NA
+	args$xlab = args$xlab %||% NA
+	args$ylab = args$ylab %||% NA
+	args$z = args$z %||% NA_integer_
 	args$orientation = "portrait"
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }

@@ -206,8 +206,8 @@ tmapGridGridPrep = function(a, bs, id, o) {
 			y.orig <- y
 
 			## crop
-			x <- x[x>bbx[1] & x<bbx[3]]
-			y <- y[y>bbx[2] & y<bbx[4]]
+			x <- x[x > bbx[1] & x < bbx[3]]
+			y <- y[y > bbx[2] & y < bbx[4]]
 
 			## project grid lines
 			if (!is.na(crs)) {

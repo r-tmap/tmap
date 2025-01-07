@@ -24,7 +24,7 @@
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
 
@@ -33,7 +33,7 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, sta
 #' @rdname tm_title
 tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
 	)))))
@@ -43,7 +43,7 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 #' @rdname tm_title
 tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
 	)))))
@@ -58,7 +58,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @export
 tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	if ("align" %in% names(args)) {
 		args$position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = args$align, align.v = "top", just.h = "left", just.v = "bottom")
 		args$align = NULL
@@ -110,7 +110,7 @@ tm_compass <- function(north,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
 }
 
@@ -149,11 +149,14 @@ tm_scalebar = function(breaks,
 						z) {
 
 	if (!identical(size, "deprecated")) {
-		message("The 'size' argument of 'tm_scalebar()' is deprecated as of tmap 4.0. Please use 'text.size' instead.", call. = FALSE)
+		cli::cli_inform(c(
+			"!" = "The 'size' argument of {.fn tm_scalebar} is deprecated as of tmap 4.0.",
+			"i" = "Please use 'text.size' instead."
+		))
 	}
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
 
@@ -182,7 +185,7 @@ tm_mouse_coordinates <- function(stack,
 								 position,
 								 z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
 }
 
@@ -207,7 +210,7 @@ tm_minimap <- function(server,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
 }
 
@@ -242,6 +245,6 @@ tm_logo = function(file,
 				   resize_as_group,
 				   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	if (!("z" %in% names(args))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
 }

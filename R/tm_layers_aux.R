@@ -13,7 +13,8 @@
 #'   Use `NULL` in `tm_basemap()` to disable basemaps.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
-#' @param max.native.zoom Maximum native zoom level (only used in view mode). The minimum and maximum zoom levels are determined in `tm_view`.
+#' @param max.native.zoom Maximum native zoom level (only used in view mode).
+#'   The minimum and maximum zoom levels are determined in `tm_view()`.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the
 #'   layer number plus 400. By default, the tmap layers will therefore be placed
 #'   in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the base tile
@@ -219,7 +220,7 @@ tm_grid = function(x = NA,
 				   ...) {
 	args = list(...)
 	if ("projection" %in% names(args)) {
-		warning("The 'projection' argument of 'tm_grid()' is deprecated as of tmap 4.0. Pleaes use 'crs' instead.", call. = FALSE)
+		cli::cli_warn("The 'projection' argument of 'tm_grid()' is deprecated as of tmap 4.0. Pleaes use 'crs' instead.", call. = FALSE)
 		crs = args$projection
 	}
 	tm_element_list(tm_element(
@@ -230,5 +231,3 @@ tm_grid = function(x = NA,
 		group.control = group.control,
 		subclass = c("tm_grid", "tm_aux_layer")))
 }
-
-#tm_graticules

@@ -178,23 +178,27 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		attr(q, "intervalClosure") <- interval.closure
 		class(q) <- "classIntervals"
 	} else {
-		if (nobs==0) {
+		if (nobs == 0) {
 			if (!is.null(var)) {
-				stop("Numerical variable \"", var, "\" only contains missing values.", call.=FALSE)
+				cli::cli_abort("Numerical variable {.var {var}} only contains missing values.")
 			} else {
-				stop("Numerical variable only contains missing values.", call.=FALSE)
+				cli::cli_abort("Numerical variable only contains missing values.")
 			}
 		}
 
 		nunique <- length(na.omit(unique(x)))
 
 
-		if (nunique == 1 && style!="pretty" && show.warnings) {
-			if (!is.null(var)) {
-				warning("Single unique value found for the variable \"", var, "\", so style set to \"pretty\"", call. = FALSE)
+		if (nunique == 1 && style != "pretty" && show.warnings) {
+			if (is.null(var)) {
+				bullet <- "Single value found."
 			} else {
-				warning("Single unique value found, so style set to \"pretty\"", call. = FALSE)
+				bullet <- "Single unique value found for variable {.var {var}}"
 			}
+			cli::cli_warn(c(
+				"!" = bullet,
+				"i" = "Setting {.code style = {.str pretty}}"
+			))
 		}
 
 		tempx <- nunique <= n
@@ -220,7 +224,7 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	if (approx && style != "fixed") {
 		if (n >= length(unique(x)) && style=="equal") {
 			# to prevent classIntervals to set style to "unique"
-			q <- list(var=x, brks=seq(min(x, na.rm=TRUE), max(x, na.rm=TRUE), length.out=n))
+			q <- list(var = x, brks = seq(min(x, na.rm=TRUE), max(x, na.rm=TRUE), length.out=n))
 			attr(q, "intervalClosure") <- interval.closure
 			class(q) <- "classIntervals"
 		} else {
@@ -242,11 +246,11 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 }
 
 
-are_breaks_diverging <- function(brks) {
+are_breaks_diverging = function(brks) {
 	# if !divx then c-Inf, 2, 5, 10) is considered sequential
-	negb <- any(brks[brks!=-Inf]<0) || (brks[1] == -Inf && brks[2]<=0)
+	negb <- any(brks[brks != -Inf] < 0) || (brks[1] == -Inf && brks[2]<=0)
 	nb <- length(brks)
-	posb <- any(brks[brks!=Inf]>0) || (brks[nb] == Inf && brks[nb-1]>=0)
+	posb <- any(brks[brks != Inf] > 0) || (brks[nb] == Inf && brks[nb-1]>=0)
 	negb && posb
 }
 
@@ -270,7 +274,7 @@ are_breaks_diverging <- function(brks) {
 # 	}
 # }
 #
-use_div <- function(brks, midpoint = NULL) {
+use_div = function(brks, midpoint = NULL) {
 	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
 
 	if (is.null(brks)) {

@@ -27,10 +27,11 @@
 #' @import leaflegend
 #' @import stats
 #' @importFrom methods as
+#' @importFrom utils head tail
 #' @importFrom rlang missing_arg expr
+#' @importFrom graphics gp
 #' @importFrom s2 s2_buffer_cells as_s2_geography s2_intersects
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
-#' @import utils
 #' @note as of tmap 4.0, simplify has been removed. Please use [tmaptools::simplify_shape()] instead
 #' @example ./examples/tm_shape.R
 #' @export

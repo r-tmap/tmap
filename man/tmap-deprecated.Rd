@@ -22,3 +22,4 @@ tm_format(format, ...)
 \description{
 In tmap < 4.0 it was possible to set shape-specific options, such as margins and legend position. However, this has become superfluous because in tmap > 4.0 legends are by default placed outside the map area. If needed, a shape-specific set of options can be stored as a style with tmap_options_save.
 }
+\keyword{internal}

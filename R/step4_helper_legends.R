@@ -62,7 +62,7 @@ step4_plot_collect_legends = function(tmx) {
 
 				clones = vapply(legs2, function(l) {
 					a = l$legend[[1]]$aes
-					if (!is.null(a)) a else ""
+					a %||% ""
 				}, FUN.VALUE = character(1))
 
 
@@ -125,7 +125,7 @@ step4_plot_collect_legends = function(tmx) {
 								}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
 
 
-								for (j in 1L:length(nvalues)) {
+								for (j in seq_along(nvalues)) {
 									gpid = which(paste0("__", names(nvalues)[j]) == sapply(gp, "[[", 1))
 									for (jj in gpid) gp[[jj]] = nvalues[[j]]
 								}

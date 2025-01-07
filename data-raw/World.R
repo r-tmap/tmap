@@ -151,7 +151,7 @@ W2 <- W2 %>%
 # interactive map: https://happyplanetindex.org/countries/
 
 tmpfile <- tempfile(fileext = ".xlsx")
-download.file("https://happyplanetindex.org/HPI_2024_public_dataset.xlsx", destfile = tmpfile)
+utils::download.file("https://happyplanetindex.org/HPI_2024_public_dataset.xlsx", destfile = tmpfile)
 hpi <- read_excel(tmpfile, sheet="1. All countries", skip=8, n_max = 149)
 
 hpi = hpi[,c(3,7:10)]
@@ -205,7 +205,7 @@ gender_inequality = df |>
 
 # World Press Freedom Index
 tmpfile <- tempfile(fileext = ".csv")
-download.file("https://rsf.org/sites/default/files/import_classement/2024.csv", destfile = tmpfile)
+utils::download.file("https://rsf.org/sites/default/files/import_classement/2024.csv", destfile = tmpfile)
 rsf_source <- read_csv2(tmpfile)
 
 rsf = rsf_source |>

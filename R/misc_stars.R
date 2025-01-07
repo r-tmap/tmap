@@ -1,7 +1,7 @@
 select_band = function(x, band) {
 	nms = stars::st_get_dimension_values(x, "band")
 	if (!(band %in% nms)) stop("band not found")
-	r = x[,,,which(band==nms), drop = TRUE]
+	r = x[, , , which(band == nms), drop = TRUE]
 	names(r) = band
 	r
 }

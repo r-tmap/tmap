@@ -60,7 +60,7 @@ tm_element_list_sel = function(tml, subclass) {
 tmap_last = function() {
 	.x = get("last_map", envir = .TMAP)
 	if (is.null(.x) && get("tmapOptions", envir = .TMAP)$show.warnings) {
-		warning("A map has not been created yet")
+		warning("A map has not been created yet.")
 	}
 	eval(.x)
 }

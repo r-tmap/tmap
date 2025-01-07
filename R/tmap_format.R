@@ -5,6 +5,7 @@
 #' @param format Name of the format
 #' @param ... not used
 #' @param name Name of the format
+#' @keywords internal
 #' @rdname tmap-deprecated
 #' @export
 tmap_format = function(format) {
