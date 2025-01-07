@@ -146,7 +146,7 @@ tm_layout(earth_boundary = TRUE, frame = FALSE)
 
 ### Geometric transformations: use `tm_shape`
 
-The `crs` can be defined in `tm_shape`. This is useful for thematic maps where the geometry is changed. For instance cartograms:
+The `crs` can be defined in `tm_shape()`. This is useful for thematic maps where the geometry is changed. For instance cartograms:
 
 ```{r, fig.height = 3.5}
 tm_shape(World, crs = "+proj=robin") +
@@ -155,7 +155,7 @@ tm_shape(World, crs = "+proj=robin") +
 
 ### Otherwise: use `tm_crs`
 
-In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function `tm_crs`:
+In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function `tm_crs()`:
 
 ```{r, fig.height = 3.5}
 tm_shape(World) +

@@ -388,7 +388,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{outer.bg.color}{Background color of map outside the frame.}
 
-\item{frame}{The frame of the .}
+\item{frame}{Overall frame of the map}
 
 \item{frame.lwd}{The line width of the frame. See \code{graphics::par}, option 'lwd'.}
 
@@ -406,7 +406,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{meta.auto_margins}{The auto_margins of the meta.}
 
-\item{between_margin}{The between_margin of the .}
+\item{between_margin}{Margin between the map.}
 
 \item{panel.margin}{The margin of the panel.}
 
@@ -472,7 +472,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{color.saturation}{The saturation of the color.}
 
-\item{color_vision_deficiency_sim}{The color_vision_deficiency_sim of the .}
+\item{color_vision_deficiency_sim}{`Color vision deficiency simulation}
 
 \item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
 
@@ -908,7 +908,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{qtm.mouse_coordinates}{The mouse_coordinates of the qtm.}
 
-\item{earth_boundary}{The earth_boundary of the .}
+\item{earth_boundary}{The earth boundary}
 
 \item{earth_boundary.color}{The color of the earth_boundary.}
 

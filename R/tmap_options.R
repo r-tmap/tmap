@@ -47,7 +47,7 @@
 #'   adjusted to the size of the device divided by the number of columns and rows.
 #' @param bg.color Background color of the map.
 #' @param outer.bg.color Background color of map outside the frame.
-#' @param frame `r .doc_opt("frame")`
+#' @param frame Overall frame of the map
 #' @param frame.lwd `r .doc_opt("frame.lwd")`
 #' @param frame.r `r .doc_opt("frame.r")`
 #' @param frame.double_line `r .doc_opt("frame.double_line")`
@@ -56,7 +56,7 @@
 #' @param inner.margins.extra `r .doc_opt("inner.margins.extra")`
 #' @param meta.margins `r .doc_opt("meta.margins")`
 #' @param meta.auto_margins `r .doc_opt("meta.auto_margins")`
-#' @param between_margin `r .doc_opt("between_margin")`
+#' @param between_margin Margin between the map.
 #' @param panel.margin `r .doc_opt("panel.margin")`
 #' @param component.offset `r .doc_opt("component.offset")`
 #' @param component.stack_margin `r .doc_opt("component.stack_margin")`
@@ -89,7 +89,7 @@
 #' @param unit Unit of the coordinate
 #' @param color.sepia_intensity `r .doc_opt("color.sepia_intensity")`
 #' @param color.saturation `r .doc_opt("color.saturation")`
-#' @param color_vision_deficiency_sim `r .doc_opt("color_vision_deficiency_sim")`
+#' @param color_vision_deficiency_sim `Color vision deficiency simulation
 #' @param text.fontface `r .doc_opt("text.fontface")`
 #' @param text.fontfamily `r .doc_opt("text.fontfamily")`
 #' @param text.alpha `r .doc_opt("text.alpha")`
@@ -308,7 +308,7 @@
 #' @param qtm.scalebar `r .doc_opt("qtm.scalebar")`
 #' @param qtm.minimap `r .doc_opt("qtm.minimap")`
 #' @param qtm.mouse_coordinates `r .doc_opt("qtm.mouse_coordinates")`
-#' @param earth_boundary `r .doc_opt("earth_boundary")`
+#' @param earth_boundary The earth boundary
 #' @param earth_boundary.color `r .doc_opt("earth_boundary.color")`
 #' @param earth_boundary.lwd `r .doc_opt("earth_boundary.lwd")`
 #' @param earth_datum  Earth datum
@@ -338,7 +338,7 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 						crs_extra,
 						crs_global,
 						use_gradient, # plot mode
-						use_browser, use_WebGL, control.position, control.bases, control.overlays, set_bounds, # view mode
+						use_browser, use_WebGL, control.position, control.bases, control.overlays, control.collapse, set_bounds, # view mode
 						set_view, set_zoom_limits, use_circle_markers, leaflet.options, # view mode
 						title = NULL,
 						main.title = NULL,

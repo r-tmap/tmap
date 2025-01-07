@@ -3,7 +3,6 @@ doc
 # History files
 .Rhistory
 .Rapp.history
-
 # Session Data files
 .RData
 # Example code in package build process
@@ -42,3 +41,5 @@ docs
 inst/doc
 
 tests/testthat/Rplots.pdf
+
+.DS_Store

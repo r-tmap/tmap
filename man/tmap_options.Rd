@@ -326,6 +326,7 @@ tmap_options(
   control.position,
   control.bases,
   control.overlays,
+  control.collapse,
   set_bounds,
   set_view,
   set_zoom_limits,
@@ -415,7 +416,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{outer.bg.color}{Background color of map outside the frame.}
 
-\item{frame}{The frame of the .}
+\item{frame}{Overall frame of the map}
 
 \item{frame.lwd}{The line width of the frame. See \code{graphics::par}, option 'lwd'.}
 
@@ -433,7 +434,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{meta.auto_margins}{The auto_margins of the meta.}
 
-\item{between_margin}{The between_margin of the .}
+\item{between_margin}{Margin between the map.}
 
 \item{panel.margin}{The margin of the panel.}
 
@@ -499,7 +500,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{color.saturation}{The saturation of the color.}
 
-\item{color_vision_deficiency_sim}{The color_vision_deficiency_sim of the .}
+\item{color_vision_deficiency_sim}{`Color vision deficiency simulation}
 
 \item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
 
@@ -935,7 +936,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{qtm.mouse_coordinates}{The mouse_coordinates of the qtm.}
 
-\item{earth_boundary}{The earth_boundary of the .}
+\item{earth_boundary}{The earth boundary}
 
 \item{earth_boundary.color}{The color of the earth_boundary.}
 
@@ -975,11 +976,13 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{use_WebGL}{use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default \code{TRUE} if no other visual variables are used.}
 
-\item{control.position}{position of the control attribute}
+\item{control.position}{The position of the control. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{control.bases}{base layers}
 
 \item{control.overlays}{overlay layers}
+
+\item{control.collapse}{Should the box be collapsed or expanded?}
 
 \item{set_bounds}{logical that determines whether maximum bounds are set,
 or a bounding box. Not applicable in plot mode.
@@ -993,7 +996,7 @@ Only applicable if \code{bbox} is not specified}
 \item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
 zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 
-\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots} and \code{tm_symbols}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
+\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots()} and \code{tm_symbols()}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leaflet]{leafletOptions()}}
