@@ -81,6 +81,7 @@
 <span>  <span class="va">control.position</span>,</span>
 <span>  <span class="va">control.bases</span>,</span>
 <span>  <span class="va">control.overlays</span>,</span>
+<span>  <span class="va">control.collapse</span>,</span>
 <span>  <span class="va">set_bounds</span>,</span>
 <span>  <span class="va">set_view</span>,</span>
 <span>  <span class="va">set_zoom_limits</span>,</span>
@@ -103,7 +104,7 @@
 
 
 <dt id="arg-control-position">control.position<a class="anchor" aria-label="anchor" href="#arg-control-position"></a></dt>
-<dd><p>position of the control attribute</p></dd>
+<dd><p>The position of the control. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-control-bases">control.bases<a class="anchor" aria-label="anchor" href="#arg-control-bases"></a></dt>
@@ -112,6 +113,10 @@
 
 <dt id="arg-control-overlays">control.overlays<a class="anchor" aria-label="anchor" href="#arg-control-overlays"></a></dt>
 <dd><p>overlay layers</p></dd>
+
+
+<dt id="arg-control-collapse">control.collapse<a class="anchor" aria-label="anchor" href="#arg-control-collapse"></a></dt>
+<dd><p>Should the box be collapsed or expanded?</p></dd>
 
 
 <dt id="arg-set-bounds">set_bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
@@ -133,7 +138,7 @@ zoom levels (see tileOptions()).</p></dd>
 
 
 <dt id="arg-use-circle-markers">use_circle_markers<a class="anchor" aria-label="anchor" href="#arg-use-circle-markers"></a></dt>
-<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code>tm_dots</code> and <code>tm_symbols</code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
+<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code><a href="tm_symbols.html">tm_dots()</a></code> and <code><a href="tm_symbols.html">tm_symbols()</a></code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
 
 
 <dt id="arg-leaflet-options">leaflet.options<a class="anchor" aria-label="anchor" href="#arg-leaflet-options"></a></dt>

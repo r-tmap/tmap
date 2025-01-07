@@ -392,6 +392,7 @@
 <span>  <span class="va">control.position</span>,</span>
 <span>  <span class="va">control.bases</span>,</span>
 <span>  <span class="va">control.overlays</span>,</span>
+<span>  <span class="va">control.collapse</span>,</span>
 <span>  <span class="va">set_bounds</span>,</span>
 <span>  <span class="va">set_view</span>,</span>
 <span>  <span class="va">set_zoom_limits</span>,</span>
@@ -548,7 +549,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
-<dd><p>The frame of the .</p></dd>
+<dd><p>Overall frame of the map</p></dd>
 
 
 <dt id="arg-frame-lwd">frame.lwd<a class="anchor" aria-label="anchor" href="#arg-frame-lwd"></a></dt>
@@ -584,7 +585,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-between-margin">between_margin<a class="anchor" aria-label="anchor" href="#arg-between-margin"></a></dt>
-<dd><p>The between_margin of the .</p></dd>
+<dd><p>Margin between the map.</p></dd>
 
 
 <dt id="arg-panel-margin">panel.margin<a class="anchor" aria-label="anchor" href="#arg-panel-margin"></a></dt>
@@ -716,7 +717,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-color-vision-deficiency-sim">color_vision_deficiency_sim<a class="anchor" aria-label="anchor" href="#arg-color-vision-deficiency-sim"></a></dt>
-<dd><p>The color_vision_deficiency_sim of the .</p></dd>
+<dd><p>`Color vision deficiency simulation</p></dd>
 
 
 <dt id="arg-text-fontface">text.fontface<a class="anchor" aria-label="anchor" href="#arg-text-fontface"></a></dt>
@@ -1588,7 +1589,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-earth-boundary">earth_boundary<a class="anchor" aria-label="anchor" href="#arg-earth-boundary"></a></dt>
-<dd><p>The earth_boundary of the .</p></dd>
+<dd><p>The earth boundary</p></dd>
 
 
 <dt id="arg-earth-boundary-color">earth_boundary.color<a class="anchor" aria-label="anchor" href="#arg-earth-boundary-color"></a></dt>
@@ -1668,7 +1669,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-control-position">control.position<a class="anchor" aria-label="anchor" href="#arg-control-position"></a></dt>
-<dd><p>position of the control attribute</p></dd>
+<dd><p>The position of the control. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
 <dt id="arg-control-bases">control.bases<a class="anchor" aria-label="anchor" href="#arg-control-bases"></a></dt>
@@ -1677,6 +1678,10 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-control-overlays">control.overlays<a class="anchor" aria-label="anchor" href="#arg-control-overlays"></a></dt>
 <dd><p>overlay layers</p></dd>
+
+
+<dt id="arg-control-collapse">control.collapse<a class="anchor" aria-label="anchor" href="#arg-control-collapse"></a></dt>
+<dd><p>Should the box be collapsed or expanded?</p></dd>
 
 
 <dt id="arg-set-bounds">set_bounds<a class="anchor" aria-label="anchor" href="#arg-set-bounds"></a></dt>
@@ -1698,7 +1703,7 @@ zoom levels (see tileOptions()).</p></dd>
 
 
 <dt id="arg-use-circle-markers">use_circle_markers<a class="anchor" aria-label="anchor" href="#arg-use-circle-markers"></a></dt>
-<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code>tm_dots</code> and <code>tm_symbols</code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
+<dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code><a href="tm_symbols.html">tm_dots()</a></code> and <code><a href="tm_symbols.html">tm_symbols()</a></code>) will be rendered as addCircleMarkers() instead of addMarkers(). The former is faster, the latter can support any symbol since it is based on icons</p></dd>
 
 
 <dt id="arg-leaflet-options">leaflet.options<a class="anchor" aria-label="anchor" href="#arg-leaflet-options"></a></dt>

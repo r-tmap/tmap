@@ -201,7 +201,7 @@ The can be used as follows:</p>
 <div class="section level3">
 <h3 id="geometric-transformations-use-tm_shape">Geometric transformations: use <code>tm_shape</code><a class="anchor" aria-label="anchor" href="#geometric-transformations-use-tm_shape"></a>
 </h3>
-<p>The <code>crs</code> can be defined in <code>tm_shape</code>. This is useful for thematic maps where the geometry is changed. For instance cartograms:</p>
+<p>The <code>crs</code> can be defined in <code><a href="../reference/tm_shape.html">tm_shape()</a></code>. This is useful for thematic maps where the geometry is changed. For instance cartograms:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span><span class="op">)</span></span>
@@ -211,7 +211,7 @@ The can be used as follows:</p>
 <div class="section level3">
 <h3 id="otherwise-use-tm_crs">Otherwise: use <code>tm_crs</code><a class="anchor" aria-label="anchor" href="#otherwise-use-tm_crs"></a>
 </h3>
-<p>In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function <code>tm_crs</code>:</p>
+<p>In the majority of use cases, e.g. regular choropleths, it is recommended to define the CRS with the function <code><a href="../reference/tm_crs.html">tm_crs()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span> <span class="op">+</span></span>
