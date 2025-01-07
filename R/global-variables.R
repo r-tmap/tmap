@@ -33,5 +33,6 @@ utils::globalVariables(c(
 	"xlab.show", "xlab.side", "xlab.space", "xlab.text", "ylab.rotation",
 	"ylab.show", "ylab.side", "ylab.space", "ylab.text", "z",
 	"x", "y", "color", "freq", "bin", "bin1", "bin2",
+	"nitems", "item.width", "page", "stack",
   "item.height", "absolute_fontsize", "rc_text", "show", "gp2", "trns", "nbins"
 ))

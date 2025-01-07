@@ -27,9 +27,8 @@
 #' @import leaflegend
 #' @import stats
 #' @importFrom methods as
-#' @importFrom utils head tail
+#' @importFrom utils head tail download.file txtProgressBar str data capture.output setTxtProgressBar
 #' @importFrom rlang missing_arg expr
-#' @importFrom graphics gp
 #' @importFrom s2 s2_buffer_cells as_s2_geography s2_intersects
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
 #' @note as of tmap 4.0, simplify has been removed. Please use [tmaptools::simplify_shape()] instead
