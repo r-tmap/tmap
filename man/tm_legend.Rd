@@ -161,7 +161,7 @@ tm_legend_bivariate(
 
 \item{ticks}{List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.}
 
-\item{ticks.disable.na}{Remove ticks for NA values}
+\item{ticks.disable.na}{Remove ticks for \code{NA} values}
 
 \item{ticks.col}{The color of the ticks of the legend.}
 

@@ -45,6 +45,7 @@ tm_layout = function(
 #'   [leafletOptions()][leaflet::leafletOptions()]
 #' @param ... to catch deprecated arguments
 #' @export
+#' @seealso [tm_group()]
 tm_view = function(use_browser,
 				   use_WebGL,
 				   control.position,

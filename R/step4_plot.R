@@ -95,11 +95,11 @@ process_components = function(cdt, o) {
 
 		getLW = function(x) sapply(x, function(y) {
 			yW = y$Win
-			if (is.null(yW)) 0 else yW
+			yW %||% 0
 		})
 		getLH = function(x) sapply(x, function(y) {
 			yH = y$Hin
-			if (is.null(yH)) 0 else yH
+			yH %||% 0
 		})
 		# attempt to determine margins
 		cdt[, legW := getLW(comp)]

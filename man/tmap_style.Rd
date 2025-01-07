@@ -11,7 +11,7 @@ tmap_style(style)
 and also shows all available styles. When the style is specified,\code{tmap_style()}
 sets the style accordingly. Note that in that case, all tmap options (see \code{\link[=tmap_options]{tmap_options()}})
 will be reset according to the style definition.
-See \code{\link[=tm_layout]{tm_layout()}} for predefined styles, and \code{tmap_style_catalogue} (not migrated to v4 yet) for creating a catalogue.}
+See \code{\link[=tm_layout]{tm_layout()}} for predefined styles, and \code{tmap_style_catalogue()} for creating a catalogue.}
 }
 \value{
 The style before changing
@@ -53,6 +53,6 @@ tm_shape(World) + tm_polygons("HPI")
 \seealso{
 \itemize{
 \item \code{\link[=tmap_options]{tmap_options()}} for tmap options
-\item \code{tmap_style_catalogue} (not migrated to v4 yet) to create a style catalogue of all available styles.
+\item \code{\link[=tmap_style_catalogue]{tmap_style_catalogue()}}  to create a style catalogue of all available styles.
 }
 }

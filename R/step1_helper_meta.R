@@ -48,7 +48,7 @@ preprocess_meta_step1 = function(o) {
 		# 		between_margin.x <-convertWidth(unit(between_margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
 		#
 
-		outer.margins <- rep(outer.margins, length.out = 4)
+		outer.margins = rep(outer.margins, length.out = 4)
 
 		inner.margins.extra = rep(inner.margins.extra, length.out = 4)
 

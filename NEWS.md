@@ -32,11 +32,13 @@ of new features. Although we did our best to make changes backwards compatible, 
 We introduced messages to make it easier for you to upgrade your code (#961, #928, #854)
 
 Functions
+
  * `tm_scale_bar()` -> `tm_scalebar()`
  *  As of version 4.0, `tm_scalebar()` is used instead of `tm_scale_bar()` because of the potential confusion with the `tm_scale_*()` scaling functions (like `tm_scale_continuous()`).
  * `tm_format()` and friends are now deprecated (#976).
 
 Arguments
+
  * `projection` -> `crs` (in `tm_shape()`, `tm_grid()`)
 
 ## For developers

@@ -54,3 +54,6 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \description{
 View mode options. These options are specific to the view mode.
 }
+\seealso{
+\code{\link[=tm_group]{tm_group()}}
+}

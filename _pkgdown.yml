@@ -4,21 +4,111 @@ template:
   bslib:
     primary: "#5f8640"
 
-figures:
+# figures:
   dev: ragg::agg_png
   dpi: 300
-  dev.args: []
-  fig.ext: png
-  fig.width: 7.2916667
-  fig.height: 4.5
-  fig.retina: 2
-  fig.asp: 1.618
-  bg: NA
-  other.parameters: []
 
 development:
   version_tooltip: "tmap v4 documentation"
 
+reference:
+- title: Export a tmap object
+  contents:
+  - tmap_save
+  - tmap_leaflet
+- title: Create a tmap object
+  contents:
+  - tm_shape
+  - qtm
+  - tm_polygons
+  - tm_lines
+  - tm_markers
+  - tm_text
+  - tm_cartogram
+- title: Add component to tmap object
+  contents:
+  - tm_credits
+  - tm_compass
+  - tm_tiles
+  - tm_scalebar
+  - tm_basemap
+  - tm_logo
+  - tm_minimap
+  - tm_chart
+  - tm_facets
+  - tm_xlab
+- title: Set scale for a visual variable
+  desc: Always use those in this form `<vv>.scale = tm_scale*()`
+  contents:
+  - tm_scale
+  - starts_with("tm_scale_")
+  - -tm_scale_bar
+- title: Make modification to spatial object
+  contents:
+  - tm_crs
+  - tm_raster
+  - tm_sf
+  - tm_rgb
+
+- title: Set title for a visual variable
+  desc: Always use those in this form `<vv>.title = tm_title*()`
+  contents:
+  - tm_title
+  - starts_with("tm_title_")
+- title: Set legend of a tmap object
+  contents:
+  - starts_with("tm_legend")
+  - tm_add_legend
+  - tm_place_legends_right
+- title: Set layout to tmap
+  contents:
+  - tm_layout
+  - tm_options
+  - tm_view
+  - tm_group
+  - tm_plot
+  - tm_plot_order
+  - tm_mouse_coordinates
+- title: add elements to tmap
+  contents:
+  - tmap-element
+  - tm_graticules
+  - tm_grid
+  - tm_iso
+- title: Set options globally for tmap
+  contents:
+  - tmap_options
+  - tmap_style
+  - tmap_style_catalogue
+  - tmap_mode
+  - tmap_devel_mode
+  - tmap_design_mode
+- title: Datasets included in tmap
+  contents:
+  - World
+  - World_rivers
+  - land
+  - metro
+  - starts_with("NLD")
+- title: Use tmap in shiny
+  contents:
+  - renderTmap
+- title: print a tmap
+  contents:
+  - tmap_last
+  - print.tmap
+  - tmap_animation
+  - tmap_arrange
+  - tmap-package
+- title: Helper functions
+  contents:
+  - tm_const
+  - tm_pos
+  - tm_seq
+  - tm_vars
+  - tmap_tip
+  - tmap_icons
+  - theme_ps
 
 navbar:
   structure:

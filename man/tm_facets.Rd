@@ -95,14 +95,14 @@ This is generally the case when rasters are plotted, or when \code{free.coords} 
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes,
 symbol sizes, line widths) of the small multiples are scaled in relation to
 the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th
-root of the scaling factor of the shapes. So, for \code{scale.factor=1},
+root of the scaling factor of the shapes. So, for \code{scale.factor = 1},
 they are scaled proportional to the scaling of the shapes. Since elements,
 especially text, are often too small to read, a higher value is recommended.
-By default, \code{scale.factor=2}.}
+By default, \code{scale.factor = 2}.}
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
-\item{along}{deprecated Please use \code{tm_facets_pagewisse()}}
+\item{along}{deprecated Please use \code{tm_facets_pagewise()}}
 
 \item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
 

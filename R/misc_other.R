@@ -491,6 +491,7 @@ native_to_npc_to_native <- function(x, scale) {
 	tg
 }
 
-
-
-
+# TODO remove function when we depend on R >= 4.4
+`%||%` = function(x, y) {
+	if (is.null(x)) y else x
+}

@@ -39,12 +39,12 @@
 #' @param scale.factor Number that determines how the elements (e.g. font sizes,
 #'   symbol sizes, line widths) of the small multiples are scaled in relation to
 #'   the scaling factor of the shapes. The elements are scaled to the `scale.factor`th
-#'   root of the scaling factor of the shapes. So, for `scale.factor=1`,
+#'   root of the scaling factor of the shapes. So, for `scale.factor = 1`,
 #'   they are scaled proportional to the scaling of the shapes. Since elements,
 #'   especially text, are often too small to read, a higher value is recommended.
-#'   By default, `scale.factor=2`.
+#'   By default, `scale.factor = 2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
-#' @param along deprecated Please use `tm_facets_pagewisse()`
+#' @param along deprecated Please use `tm_facets_pagewise()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
 #' @param ... used to catch deprecated arguments
 #' @example ./examples/tm_facets.R

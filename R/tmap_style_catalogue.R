@@ -3,7 +3,7 @@
 #' Create a style catalogue for each predefined tmap style. The result is a set of png images, one for each style.
 #'
 #' @param path path where the png images are stored
-#' @param styles vector of styles function names (see \code{\link{tmap_style}}) for which a preview is generated. By default, a preview is generated for all loaded styles.
+#' @param styles vector of styles function names (see [tmap_style()]) for which a preview is generated. By default, a preview is generated for all loaded styles.
 #' @import grid
 #' @rdname tmap_style_catalogue
 #' @export
@@ -14,7 +14,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 
 	ns <- length(styles)
 
-	if (!file.exists(path)) dir.create(path, recursive=TRUE)
+	if (!file.exists(path)) dir.create(path, recursive = TRUE)
 
 	# load and process data
 	World <- metro <- World_rivers <- land <- NULL

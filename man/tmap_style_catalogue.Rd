@@ -12,7 +12,7 @@ tmap_style_catalog(path = "./tmap_style_previews", styles = NA)
 \arguments{
 \item{path}{path where the png images are stored}
 
-\item{styles}{vector of styles function names (see \code{\link{tmap_style}}) for which a preview is generated. By default, a preview is generated for all loaded styles.}
+\item{styles}{vector of styles function names (see \code{\link[=tmap_style]{tmap_style()}}) for which a preview is generated. By default, a preview is generated for all loaded styles.}
 }
 \description{
 Create a style catalogue for each predefined tmap style. The result is a set of png images, one for each style.

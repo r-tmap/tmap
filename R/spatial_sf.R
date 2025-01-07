@@ -43,7 +43,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 	# if check_fix fails, is_valid contains the valid ids
 	isv = attr(sfc, "is_valid")
 	if (!is.null(isv)) {
-		shp = shp[isv,]
+		shp = shp[isv, ]
 	}
 	dt = data.table::as.data.table(sf::st_drop_geometry(shp))
 
