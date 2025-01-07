@@ -68,7 +68,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="export-a-tmap-object">Export a tmap object<a class="anchor" aria-label="anchor" href="#export-a-tmap-object"></a></h2>
 
 
 
@@ -80,40 +80,33 @@
 
       <dl><dt>
 
-          <code><a href="Netherlands.html">NLD_prov</a></code> <code><a href="Netherlands.html">NLD_muni</a></code> <code><a href="Netherlands.html">NLD_dist</a></code>
+          <code><a href="tmap_save.html">tmap_save()</a></code>
 
         </dt>
-        <dd>Netherlands datasets</dd>
+        <dd>Save tmap</dd>
       </dl><dl><dt>
 
-          <code><a href="World.html">World</a></code>
+          <code><a href="tmap_leaflet.html">tmap_leaflet()</a></code> <code><a href="tmap_leaflet.html">tmap_grob()</a></code>
 
         </dt>
-        <dd>World dataset</dd>
-      </dl><dl><dt>
+        <dd>Export tmap to the format of the used graphics mode</dd>
+      </dl></div><div class="section level2">
+      <h2 id="create-a-tmap-object">Create a tmap object<a class="anchor" aria-label="anchor" href="#create-a-tmap-object"></a></h2>
 
-          <code><a href="World_rivers.html">World_rivers</a></code>
 
-        </dt>
-        <dd>Spatial data of rivers</dd>
-      </dl><dl><dt>
 
-          <code><a href="land.html">land</a></code>
 
-        </dt>
-        <dd>Spatial data of global land cover</dd>
-      </dl><dl><dt>
+    </div><div class="section level2">
 
-          <code><a href="metro.html">metro</a></code>
 
-        </dt>
-        <dd>Spatial data of metropolitan areas</dd>
-      </dl><dl><dt>
 
-          <code><a href="print.tmap.html">print(<i>&lt;tmap&gt;</i>)</a></code> <code><a href="print.tmap.html">knit_print(<i>&lt;tmap&gt;</i>)</a></code>
+
+      <dl><dt>
+
+          <code><a href="tm_shape.html">tm_shape()</a></code>
 
         </dt>
-        <dd>Draw thematic map</dd>
+        <dd>Shape (spatial object) specification</dd>
       </dl><dl><dt>
 
           <code><a href="qtm.html">qtm()</a></code>
@@ -122,40 +115,51 @@
         <dd>Quick thematic map plot</dd>
       </dl><dl><dt>
 
-          <code><a href="renderTmap.html">renderTmap()</a></code> <code><a href="renderTmap.html">tmapOutput()</a></code> <code><a href="renderTmap.html">tmapProxy()</a></code> <code><a href="renderTmap.html">tm_remove_layer()</a></code>
+          <code><a href="tm_polygons.html">tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_fill()</a></code> <code><a href="tm_polygons.html">tm_borders()</a></code> <code><a href="tm_polygons.html">opt_tm_polygons()</a></code>
 
         </dt>
-        <dd>Wrapper functions for using <strong>tmap</strong> in <strong>shiny</strong></dd>
+        <dd>Map layer: polygons</dd>
       </dl><dl><dt>
 
-          <code><a href="theme_ps.html">theme_ps()</a></code>
+          <code><a href="tm_lines.html">tm_lines()</a></code> <code><a href="tm_lines.html">opt_tm_lines()</a></code>
 
         </dt>
-        <dd>ggplot2 theme for proportional symbols</dd>
+        <dd>Map layer: lines</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_add_legend.html">tm_add_legend()</a></code>
+          <code><a href="tm_symbols.html">tm_symbols()</a></code> <code><a href="tm_symbols.html">tm_dots()</a></code> <code><a href="tm_symbols.html">tm_bubbles()</a></code> <code><a href="tm_symbols.html">tm_squares()</a></code> <code><a href="tm_symbols.html">tm_markers()</a></code> <code><a href="tm_symbols.html">opt_tm_markers()</a></code> <code><a href="tm_symbols.html">opt_tm_symbols()</a></code> <code><a href="tm_symbols.html">opt_tm_dots()</a></code> <code><a href="tm_symbols.html">opt_tm_bubbles()</a></code> <code><a href="tm_symbols.html">opt_tm_squares()</a></code>
 
         </dt>
-        <dd>Map component: manual legend</dd>
+        <dd>Map layer: symbols</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_basemap.html">tm_basemap()</a></code> <code><a href="tm_basemap.html">tm_tiles()</a></code>
+          <code><a href="tm_text.html">tm_text()</a></code> <code><a href="tm_text.html">tm_labels()</a></code> <code><a href="tm_text.html">tm_labels_highlighted()</a></code> <code><a href="tm_text.html">opt_tm_text()</a></code> <code><a href="tm_text.html">opt_tm_labels()</a></code>
 
         </dt>
-        <dd>Map layer: basemap / overlay tiles</dd>
+        <dd>Map layer: text</dd>
       </dl><dl><dt>
 
           <code><a href="tm_cartogram.html">tm_cartogram()</a></code> <code><a href="tm_cartogram.html">tm_cartogram_ncont()</a></code> <code><a href="tm_cartogram.html">tm_cartogram_dorling()</a></code> <code><a href="tm_cartogram.html">opt_tm_cartogram()</a></code> <code><a href="tm_cartogram.html">opt_tm_cartogram_ncont()</a></code> <code><a href="tm_cartogram.html">opt_tm_cartogram_dorling()</a></code>
 
         </dt>
         <dd>Map layer: cartogram</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="add-component-to-tmap-object">Add component to tmap object<a class="anchor" aria-label="anchor" href="#add-component-to-tmap-object"></a></h2>
 
-          <code><a href="tm_chart.html">tm_chart_histogram()</a></code> <code><a href="tm_chart.html">tm_chart_bar()</a></code> <code><a href="tm_chart.html">tm_chart_donut()</a></code> <code><a href="tm_chart.html">tm_chart_violin()</a></code> <code><a href="tm_chart.html">tm_chart_box()</a></code> <code><a href="tm_chart.html">tm_chart_none()</a></code> <code><a href="tm_chart.html">tm_chart_heatmap()</a></code>
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_credits.html">tm_credits()</a></code>
 
         </dt>
-        <dd>Legend charts</dd>
+        <dd>Map component: (credits) text</dd>
       </dl><dl><dt>
 
           <code><a href="tm_compass.html">tm_compass()</a></code>
@@ -164,76 +168,16 @@
         <dd>Map component: compass</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_const.html">tm_const()</a></code>
+          <code><a href="tm_basemap.html">tm_basemap()</a></code> <code><a href="tm_basemap.html">tm_tiles()</a></code>
 
         </dt>
-        <dd>tmap function to define a constant visual value</dd>
+        <dd>Map layer: basemap / overlay tiles</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_credits.html">tm_credits()</a></code>
+          <code><a href="tm_scalebar.html">tm_scalebar()</a></code>
 
         </dt>
-        <dd>Map component: (credits) text</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_crs.html">tm_crs()</a></code>
-
-        </dt>
-        <dd>Set the map projection (CRS)</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_extra_innner_margin.html">tm_place_legends_right()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_left()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_bottom()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_top()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_inside()</a></code> <code><a href="tm_extra_innner_margin.html">tm_extra_innner_margin()</a></code>
-
-        </dt>
-        <dd>tmap layout: helper functions</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_facets.html">tm_facets()</a></code> <code><a href="tm_facets.html">tm_facets_grid()</a></code> <code><a href="tm_facets.html">tm_facets_wrap()</a></code> <code><a href="tm_facets.html">tm_facets_pagewise()</a></code> <code><a href="tm_facets.html">tm_facets_stack()</a></code> <code><a href="tm_facets.html">tm_facets_hstack()</a></code> <code><a href="tm_facets.html">tm_facets_vstack()</a></code> <code><a href="tm_facets.html">tm_facets_flip()</a></code>
-
-        </dt>
-        <dd>Specify facets</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_graticules.html">tm_graticules()</a></code>
-
-        </dt>
-        <dd>Coordinate grid / graticule lines</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_grid.html">tm_grid()</a></code>
-
-        </dt>
-        <dd>Coordinate grid / graticule lines</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_group.html">tm_group()</a></code>
-
-        </dt>
-        <dd>Layer group control</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_iso.html">tm_iso()</a></code>
-
-        </dt>
-        <dd>Map layer: iso (contour)</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_layout.html">tm_style()</a></code> <code><a href="tm_layout.html">tm_layout()</a></code>
-
-        </dt>
-        <dd>Layout options</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_legend.html">tm_legend()</a></code> <code><a href="tm_legend.html">tm_legend_hide()</a></code> <code><a href="tm_legend.html">tm_legend_combine()</a></code> <code><a href="tm_legend.html">tm_legend_bivariate()</a></code>
-
-        </dt>
-        <dd>Legend</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_lines.html">tm_lines()</a></code> <code><a href="tm_lines.html">opt_tm_lines()</a></code>
-
-        </dt>
-        <dd>Map layer: lines</dd>
+        <dd>Map component: scale bar</dd>
       </dl><dl><dt>
 
           <code><a href="tm_logo.html">tm_logo()</a></code>
@@ -248,53 +192,34 @@
         <dd>Map component: minimap</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_mouse_coordinates.html">tm_mouse_coordinates()</a></code>
+          <code><a href="tm_chart.html">tm_chart_histogram()</a></code> <code><a href="tm_chart.html">tm_chart_bar()</a></code> <code><a href="tm_chart.html">tm_chart_donut()</a></code> <code><a href="tm_chart.html">tm_chart_violin()</a></code> <code><a href="tm_chart.html">tm_chart_box()</a></code> <code><a href="tm_chart.html">tm_chart_none()</a></code> <code><a href="tm_chart.html">tm_chart_heatmap()</a></code>
 
         </dt>
-        <dd>Map component: mouse coordinates</dd>
+        <dd>Legend charts</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_options.html">tm_options()</a></code>
+          <code><a href="tm_facets.html">tm_facets()</a></code> <code><a href="tm_facets.html">tm_facets_grid()</a></code> <code><a href="tm_facets.html">tm_facets_wrap()</a></code> <code><a href="tm_facets.html">tm_facets_pagewise()</a></code> <code><a href="tm_facets.html">tm_facets_stack()</a></code> <code><a href="tm_facets.html">tm_facets_hstack()</a></code> <code><a href="tm_facets.html">tm_facets_vstack()</a></code> <code><a href="tm_facets.html">tm_facets_flip()</a></code>
 
         </dt>
-        <dd>tmap options</dd>
+        <dd>Specify facets</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_plot.html">tm_plot()</a></code>
+          <code><a href="tm_xlab.html">tm_xlab()</a></code> <code><a href="tm_xlab.html">tm_ylab()</a></code>
 
         </dt>
-        <dd>Plot mode options</dd>
-      </dl><dl><dt>
+        <dd>Map: x and y labels</dd>
+      </dl></div><div class="section level2">
+      <h2 id="set-scale-for-a-visual-variable">Set scale for a visual variable<a class="anchor" aria-label="anchor" href="#set-scale-for-a-visual-variable"></a></h2>
 
-          <code><a href="tm_plot_order.html">tm_plot_order()</a></code>
+      <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.scale = tm_scale*()</code></p></div>
 
-        </dt>
-        <dd>Determine plotting order of features</dd>
-      </dl><dl><dt>
 
-          <code><a href="tm_polygons.html">tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_fill()</a></code> <code><a href="tm_polygons.html">tm_borders()</a></code> <code><a href="tm_polygons.html">opt_tm_polygons()</a></code>
+    </div><div class="section level2">
 
-        </dt>
-        <dd>Map layer: polygons</dd>
-      </dl><dl><dt>
 
-          <code><a href="tm_pos.html">tm_pos()</a></code> <code><a href="tm_pos.html">tm_pos_in()</a></code> <code><a href="tm_pos.html">tm_pos_out()</a></code> <code><a href="tm_pos.html">tm_pos_on_top()</a></code> <code><a href="tm_pos.html">tm_pos_auto_out()</a></code> <code><a href="tm_pos.html">tm_pos_auto_in()</a></code>
 
-        </dt>
-        <dd>Set the position of map components</dd>
-      </dl><dl><dt>
 
-          <code><a href="tm_raster.html">tm_raster()</a></code> <code><a href="tm_raster.html">opt_tm_raster()</a></code>
-
-        </dt>
-        <dd>Map layer: raster</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code> <code><a href="tm_rgb.html">opt_tm_rgb()</a></code>
-
-        </dt>
-        <dd>Map layer: rgb images</dd>
-      </dl><dl><dt>
+      <dl><dt>
 
           <code><a href="tm_scale.html">tm_scale()</a></code>
 
@@ -348,18 +273,29 @@
 
         </dt>
         <dd>Scales: RGB</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="make-modification-to-spatial-object">Make modification to spatial object<a class="anchor" aria-label="anchor" href="#make-modification-to-spatial-object"></a></h2>
 
-          <code><a href="tm_scalebar.html">tm_scalebar()</a></code>
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_crs.html">tm_crs()</a></code>
 
         </dt>
-        <dd>Map component: scale bar</dd>
+        <dd>Set the map projection (CRS)</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_seq.html">tm_seq()</a></code>
+          <code><a href="tm_raster.html">tm_raster()</a></code> <code><a href="tm_raster.html">opt_tm_raster()</a></code>
 
         </dt>
-        <dd>Specify a numeric sequence</dd>
+        <dd>Map layer: raster</dd>
       </dl><dl><dt>
 
           <code><a href="tm_sf.html">tm_sf()</a></code> <code><a href="tm_sf.html">opt_tm_sf()</a></code>
@@ -368,34 +304,79 @@
         <dd>Map layer: simple features</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_shape.html">tm_shape()</a></code>
+          <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code> <code><a href="tm_rgb.html">opt_tm_rgb()</a></code>
 
         </dt>
-        <dd>Shape (spatial object) specification</dd>
-      </dl><dl><dt>
+        <dd>Map layer: rgb images</dd>
+      </dl></div><div class="section level2">
+      <h2 id="set-title-for-a-visual-variable">Set title for a visual variable<a class="anchor" aria-label="anchor" href="#set-title-for-a-visual-variable"></a></h2>
 
-          <code><a href="tm_symbols.html">tm_symbols()</a></code> <code><a href="tm_symbols.html">tm_dots()</a></code> <code><a href="tm_symbols.html">tm_bubbles()</a></code> <code><a href="tm_symbols.html">tm_squares()</a></code> <code><a href="tm_symbols.html">tm_markers()</a></code> <code><a href="tm_symbols.html">opt_tm_markers()</a></code> <code><a href="tm_symbols.html">opt_tm_symbols()</a></code> <code><a href="tm_symbols.html">opt_tm_dots()</a></code> <code><a href="tm_symbols.html">opt_tm_bubbles()</a></code> <code><a href="tm_symbols.html">opt_tm_squares()</a></code>
+      <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.title = tm_title*()</code></p></div>
 
-        </dt>
-        <dd>Map layer: symbols</dd>
-      </dl><dl><dt>
 
-          <code><a href="tm_text.html">tm_text()</a></code> <code><a href="tm_text.html">tm_labels()</a></code> <code><a href="tm_text.html">tm_labels_highlighted()</a></code> <code><a href="tm_text.html">opt_tm_text()</a></code> <code><a href="tm_text.html">opt_tm_labels()</a></code>
+    </div><div class="section level2">
 
-        </dt>
-        <dd>Map layer: text</dd>
-      </dl><dl><dt>
+
+
+
+      <dl><dt>
 
           <code><a href="tm_title.html">tm_title()</a></code> <code><a href="tm_title.html">tm_title_in()</a></code> <code><a href="tm_title.html">tm_title_out()</a></code>
 
         </dt>
         <dd>Map component: title</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="set-legend-of-a-tmap-object">Set legend of a tmap object<a class="anchor" aria-label="anchor" href="#set-legend-of-a-tmap-object"></a></h2>
 
-          <code><a href="tm_vars.html">tm_vars()</a></code>
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_legend.html">tm_legend()</a></code> <code><a href="tm_legend.html">tm_legend_hide()</a></code> <code><a href="tm_legend.html">tm_legend_combine()</a></code> <code><a href="tm_legend.html">tm_legend_bivariate()</a></code>
 
         </dt>
-        <dd>tmap function to specify variables</dd>
+        <dd>Legend</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_add_legend.html">tm_add_legend()</a></code>
+
+        </dt>
+        <dd>Map component: manual legend</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_extra_innner_margin.html">tm_place_legends_right()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_left()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_bottom()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_top()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_inside()</a></code> <code><a href="tm_extra_innner_margin.html">tm_extra_innner_margin()</a></code>
+
+        </dt>
+        <dd>tmap layout: helper functions</dd>
+      </dl></div><div class="section level2">
+      <h2 id="set-layout-to-tmap">Set layout to tmap<a class="anchor" aria-label="anchor" href="#set-layout-to-tmap"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_layout.html">tm_style()</a></code> <code><a href="tm_layout.html">tm_layout()</a></code>
+
+        </dt>
+        <dd>Layout options</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_options.html">tm_options()</a></code>
+
+        </dt>
+        <dd>tmap options</dd>
       </dl><dl><dt>
 
           <code><a href="tm_view.html">tm_view()</a></code>
@@ -404,17 +385,40 @@
         <dd>View mode options</dd>
       </dl><dl><dt>
 
-          <code><a href="tm_xlab.html">tm_xlab()</a></code> <code><a href="tm_xlab.html">tm_ylab()</a></code>
+          <code><a href="tm_group.html">tm_group()</a></code>
 
         </dt>
-        <dd>Map: x and y labels</dd>
+        <dd>Layer group control</dd>
       </dl><dl><dt>
 
-          <code><a href="tmap-deprecated.html">tmap_format()</a></code> <code><a href="tmap-deprecated.html">tmap_format_add()</a></code> <code><a href="tmap-deprecated.html">tm_format()</a></code>
+          <code><a href="tm_plot.html">tm_plot()</a></code>
 
         </dt>
-        <dd>Deprecated: format</dd>
+        <dd>Plot mode options</dd>
       </dl><dl><dt>
+
+          <code><a href="tm_plot_order.html">tm_plot_order()</a></code>
+
+        </dt>
+        <dd>Determine plotting order of features</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_mouse_coordinates.html">tm_mouse_coordinates()</a></code>
+
+        </dt>
+        <dd>Map component: mouse coordinates</dd>
+      </dl></div><div class="section level2">
+      <h2 id="add-elements-to-tmap">add elements to tmap<a class="anchor" aria-label="anchor" href="#add-elements-to-tmap"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="tmap-element.html">`+`(<i>&lt;tmap&gt;</i>)</a></code>
 
@@ -422,70 +426,39 @@
         <dd>Stacking of tmap elements</dd>
       </dl><dl><dt>
 
-          <code><a href="tmap-package.html">tmap</a></code> <code><a href="tmap-package.html">tmap-package</a></code>
+          <code><a href="tm_graticules.html">tm_graticules()</a></code>
 
         </dt>
-        <dd>Thematic Map Visualization</dd>
+        <dd>Coordinate grid / graticule lines</dd>
       </dl><dl><dt>
 
-          <code><a href="tmap_animation.html">tmap_animation()</a></code>
+          <code><a href="tm_grid.html">tm_grid()</a></code>
 
         </dt>
-        <dd>Create animation</dd>
+        <dd>Coordinate grid / graticule lines</dd>
       </dl><dl><dt>
 
-          <code><a href="tmap_arrange.html">tmap_arrange()</a></code> <code><a href="tmap_arrange.html">knit_print(<i>&lt;tmap_arrange&gt;</i>)</a></code> <code><a href="tmap_arrange.html">print(<i>&lt;tmap_arrange&gt;</i>)</a></code>
+          <code><a href="tm_iso.html">tm_iso()</a></code>
 
         </dt>
-        <dd>Arrange small multiples in grid layout</dd>
-      </dl><dl><dt>
+        <dd>Map layer: iso (contour)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="set-options-globally-for-tmap">Set options globally for tmap<a class="anchor" aria-label="anchor" href="#set-options-globally-for-tmap"></a></h2>
 
-          <code><a href="tmap_design_mode.html">tmap_design_mode()</a></code>
 
-        </dt>
-        <dd>Set the design mode</dd>
-      </dl><dl><dt>
 
-          <code><a href="tmap_devel_mode.html">tmap_devel_mode()</a></code>
 
-        </dt>
-        <dd>Set the development mode</dd>
-      </dl><dl><dt>
+    </div><div class="section level2">
 
-          <code><a href="tmap_icons.html">tmap_icons()</a></code> <code><a href="tmap_icons.html">marker_icon()</a></code>
 
-        </dt>
-        <dd>Specify icons</dd>
-      </dl><dl><dt>
 
-          <code><a href="tmap_last.html">tmap_last()</a></code>
 
-        </dt>
-        <dd>Retrieve the last map to be modified or created</dd>
-      </dl><dl><dt>
-
-          <code><a href="tmap_leaflet.html">tmap_leaflet()</a></code> <code><a href="tmap_leaflet.html">tmap_grob()</a></code>
-
-        </dt>
-        <dd>Export tmap to the format of the used graphics mode</dd>
-      </dl><dl><dt>
-
-          <code><a href="tmap_mode.html">tmap_mode()</a></code> <code><a href="tmap_mode.html">ttm()</a></code> <code><a href="tmap_mode.html">ttmp()</a></code>
-
-        </dt>
-        <dd>Set tmap mode to static plotting or interactive viewing</dd>
-      </dl><dl><dt>
+      <dl><dt>
 
           <code><a href="tmap_options.html">tm_check_fix()</a></code> <code><a href="tmap_options.html">tmap_options()</a></code> <code><a href="tmap_options.html">tmap_options_mode()</a></code> <code><a href="tmap_options.html">tmap_options_diff()</a></code> <code><a href="tmap_options.html">tmap_options_reset()</a></code> <code><a href="tmap_options.html">tmap_options_save()</a></code>
 
         </dt>
         <dd>tmap options</dd>
-      </dl><dl><dt>
-
-          <code><a href="tmap_save.html">tmap_save()</a></code>
-
-        </dt>
-        <dd>Save tmap</dd>
       </dl><dl><dt>
 
           <code><a href="tmap_style.html">tmap_style()</a></code>
@@ -500,12 +473,177 @@
         <dd>Create a style catalogue</dd>
       </dl><dl><dt>
 
+          <code><a href="tmap_mode.html">tmap_mode()</a></code> <code><a href="tmap_mode.html">ttm()</a></code> <code><a href="tmap_mode.html">ttmp()</a></code>
+
+        </dt>
+        <dd>Set tmap mode to static plotting or interactive viewing</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap_devel_mode.html">tmap_devel_mode()</a></code>
+
+        </dt>
+        <dd>Set the development mode</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap_design_mode.html">tmap_design_mode()</a></code>
+
+        </dt>
+        <dd>Set the design mode</dd>
+      </dl></div><div class="section level2">
+      <h2 id="datasets-included-in-tmap">Datasets included in tmap<a class="anchor" aria-label="anchor" href="#datasets-included-in-tmap"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="World.html">World</a></code>
+
+        </dt>
+        <dd>World dataset</dd>
+      </dl><dl><dt>
+
+          <code><a href="World_rivers.html">World_rivers</a></code>
+
+        </dt>
+        <dd>Spatial data of rivers</dd>
+      </dl><dl><dt>
+
+          <code><a href="land.html">land</a></code>
+
+        </dt>
+        <dd>Spatial data of global land cover</dd>
+      </dl><dl><dt>
+
+          <code><a href="metro.html">metro</a></code>
+
+        </dt>
+        <dd>Spatial data of metropolitan areas</dd>
+      </dl><dl><dt>
+
+          <code><a href="Netherlands.html">NLD_prov</a></code> <code><a href="Netherlands.html">NLD_muni</a></code> <code><a href="Netherlands.html">NLD_dist</a></code>
+
+        </dt>
+        <dd>Netherlands datasets</dd>
+      </dl></div><div class="section level2">
+      <h2 id="use-tmap-in-shiny">Use tmap in shiny<a class="anchor" aria-label="anchor" href="#use-tmap-in-shiny"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="renderTmap.html">renderTmap()</a></code> <code><a href="renderTmap.html">tmapOutput()</a></code> <code><a href="renderTmap.html">tmapProxy()</a></code> <code><a href="renderTmap.html">tm_remove_layer()</a></code>
+
+        </dt>
+        <dd>Wrapper functions for using <strong>tmap</strong> in <strong>shiny</strong></dd>
+      </dl></div><div class="section level2">
+      <h2 id="print-a-tmap">print a tmap<a class="anchor" aria-label="anchor" href="#print-a-tmap"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tmap_last.html">tmap_last()</a></code>
+
+        </dt>
+        <dd>Retrieve the last map to be modified or created</dd>
+      </dl><dl><dt>
+
+          <code><a href="print.tmap.html">print(<i>&lt;tmap&gt;</i>)</a></code> <code><a href="print.tmap.html">knit_print(<i>&lt;tmap&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Draw thematic map</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap_animation.html">tmap_animation()</a></code>
+
+        </dt>
+        <dd>Create animation</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap_arrange.html">tmap_arrange()</a></code> <code><a href="tmap_arrange.html">knit_print(<i>&lt;tmap_arrange&gt;</i>)</a></code> <code><a href="tmap_arrange.html">print(<i>&lt;tmap_arrange&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Arrange small multiples in grid layout</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap-package.html">tmap</a></code> <code><a href="tmap-package.html">tmap-package</a></code>
+
+        </dt>
+        <dd>Thematic Map Visualization</dd>
+      </dl></div><div class="section level2">
+      <h2 id="helper-functions">Helper functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_const.html">tm_const()</a></code>
+
+        </dt>
+        <dd>tmap function to define a constant visual value</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_pos.html">tm_pos()</a></code> <code><a href="tm_pos.html">tm_pos_in()</a></code> <code><a href="tm_pos.html">tm_pos_out()</a></code> <code><a href="tm_pos.html">tm_pos_on_top()</a></code> <code><a href="tm_pos.html">tm_pos_auto_out()</a></code> <code><a href="tm_pos.html">tm_pos_auto_in()</a></code>
+
+        </dt>
+        <dd>Set the position of map components</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_seq.html">tm_seq()</a></code>
+
+        </dt>
+        <dd>Specify a numeric sequence</dd>
+      </dl><dl><dt>
+
+          <code><a href="tm_vars.html">tm_vars()</a></code>
+
+        </dt>
+        <dd>tmap function to specify variables</dd>
+      </dl><dl><dt>
+
           <code><a href="tmap_tip.html">tmap_tip()</a></code>
 
         </dt>
         <dd>Print a random tip to the console</dd>
+      </dl><dl><dt>
+
+          <code><a href="tmap_icons.html">tmap_icons()</a></code> <code><a href="tmap_icons.html">marker_icon()</a></code>
+
+        </dt>
+        <dd>Specify icons</dd>
+      </dl><dl><dt>
+
+          <code><a href="theme_ps.html">theme_ps()</a></code>
+
+        </dt>
+        <dd>ggplot2 theme for proportional symbols</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

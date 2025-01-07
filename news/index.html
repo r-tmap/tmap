@@ -94,9 +94,17 @@
 <div class="section level3">
 <h3 id="deprecated-functions-and-arguments-4-0">Deprecated functions and arguments<a class="anchor" aria-label="anchor" href="#deprecated-functions-and-arguments-4-0"></a></h3>
 <p>We introduced messages to make it easier for you to upgrade your code (<a href="https://github.com/r-tmap/tmap/issues/961" class="external-link">#961</a>, <a href="https://github.com/r-tmap/tmap/issues/928" class="external-link">#928</a>, <a href="https://github.com/r-tmap/tmap/issues/854" class="external-link">#854</a>)</p>
-<p>Functions * <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> -&gt; <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code> * As of version 4.0, <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code> is used instead of <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> because of the potential confusion with the <code>tm_scale_*()</code> scaling functions (like <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code>). * <code><a href="../reference/tmap-deprecated.html">tm_format()</a></code> and friends are now deprecated (<a href="https://github.com/r-tmap/tmap/issues/976" class="external-link">#976</a>).</p>
-<p>Arguments * <code>projection</code> -&gt; <code>crs</code> (in <code><a href="../reference/tm_shape.html">tm_shape()</a></code>, <code><a href="../reference/tm_grid.html">tm_grid()</a></code>)</p>
-</div>
+<p>Functions</p>
+<ul><li>
+<code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> -&gt; <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code>
+</li>
+<li>As of version 4.0, <code><a href="../reference/tm_scalebar.html">tm_scalebar()</a></code> is used instead of <code><a href="../reference/tm_scale_bar.html">tm_scale_bar()</a></code> because of the potential confusion with the <code>tm_scale_*()</code> scaling functions (like <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code>).</li>
+<li>
+<code><a href="../reference/tmap-deprecated.html">tm_format()</a></code> and friends are now deprecated (<a href="https://github.com/r-tmap/tmap/issues/976" class="external-link">#976</a>).</li>
+</ul><p>Arguments</p>
+<ul><li>
+<code>projection</code> -&gt; <code>crs</code> (in <code><a href="../reference/tm_shape.html">tm_shape()</a></code>, <code><a href="../reference/tm_grid.html">tm_grid()</a></code>)</li>
+</ul></div>
 <div class="section level3">
 <h3 id="for-developers-4-0">For developers<a class="anchor" aria-label="anchor" href="#for-developers-4-0"></a></h3>
 <ul><li><p>The internal structure of a tmap object is not compatible with tmap v3. Therefore, some tests may fail.</p></li>
