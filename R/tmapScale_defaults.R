@@ -630,7 +630,9 @@ tmapValuesSubmit_shape = function(x, args) {
 	}
 
 	if (inherits(x, "tmapSpecial")) {
-		gs = tmap_graphics_name()
+		isGrid = (tmap_graphics_name() == "Grid")
+
+
 		fun = paste0("submit_symbols_", gs)
 
 		# symbols just specification:
@@ -646,7 +648,8 @@ tmapValuesSubmit_shape = function(x, args) {
 				just.override = TRUE
 			}
 		})
-		do.call(fun, args = list(x, args))
+
+		do.call(submit_symbols, args = list(x = x, grid = isGrid, args = args))
 	} else {
 		unlist(x)
 	}

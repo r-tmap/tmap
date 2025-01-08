@@ -1,35 +1,11 @@
-submit_symbols_Grid = function(x, args) {
-	submit_symbols(x = x, gs = "Grid", args)}
-
-submit_symbols_Leaflet = function(x, args) {
-	submit_symbols(x = x, gs = "Leaflet", args)
-}
-
-
-submit_symbols = function(x, gs, args) {
+submit_symbols = function(x, grid, args) {
 	if (any(vapply(x, is.null, logical(1)))) stop("one of more shapes are NULL")
 	shapeLib = get("shapeLib", envir = .TMAP)
 	justLib = get("justLib", envir = .TMAP)
 	n = length(x)
 	id = 999 + length(shapeLib)
-	if (gs == "Leaflet") {
-		items = lapply(x, function(xs) {
-			ic = if ("iconUrl" %in% names(xs)) {
-				split_icon(xs)[[1]]
-			} else if (is.grob(xs)) {
-				grob2icon(xs, args$grob.dim, args$just)
-			} else NA
-
-			# add anchor based on just specs
-			if (all(c("iconWidth", "iconHeight") %in% names(ic)) &&
-				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || args$just.override)) {
-				ic$iconAnchorX = ic$iconWidth * (1-args$just[1])
-				ic$iconAnchorY = ic$iconHeight * args$just[2]
-			}
-			ic
-		})
-		just_items = as.list(rep(NA, n))
-	} else if (gs == "Grid") {
+	if (grid) {
+		# symbols as grobs
 		just_items = lapply(x, function(xs) {
 			if (args$just.override) {
 				args$just
@@ -50,7 +26,23 @@ submit_symbols = function(x, gs, args) {
 			} else NA
 		})
 	} else {
-		stop("Symbols not supported", call. = FALSE)
+		# symbols as images
+		items = lapply(x, function(xs) {
+			ic = if ("iconUrl" %in% names(xs)) {
+				split_icon(xs)[[1]]
+			} else if (is.grob(xs)) {
+				grob2icon(xs, args$grob.dim, args$just)
+			} else NA
+
+			# add anchor based on just specs
+			if (all(c("iconWidth", "iconHeight") %in% names(ic)) &&
+				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || args$just.override)) {
+				ic$iconAnchorX = ic$iconWidth * (1-args$just[1])
+				ic$iconAnchorY = ic$iconHeight * args$just[2]
+			}
+			ic
+		})
+		just_items = as.list(rep(NA, n))
 	}
 
 	numbers = is.na(items)

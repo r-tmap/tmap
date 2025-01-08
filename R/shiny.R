@@ -30,25 +30,16 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	gs = tmap_graphics_name(mode)
 
-	if (gs == "Leaflet") {
-		if (!quoted)
-			expr = substitute(expr)
-		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr, in.shiny = TRUE))
-		htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
-									   quoted = TRUE)
-	} else if (gs == "Grid") {
-		#if (!quoted)
-		#	expr = substitute(expr)
+
+	if (gs == "Grid") {
 		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr))
-		#htmlwidgets::shinyRenderWidget(expr, plotOutput, env,
-		#							   quoted = TRUE)
 		shiny::renderPlot(expr, env = env, quoted = TRUE, execOnResize = execOnResize)
-		#shiny::renderPlot(plot(1:10), env = env, quoted = quoted)
-
+	} else {
+		fun = paste0("renderTmap", gs)
+		do.call(fun, list(expr = expr, env = env, quoted = quoted, execOnResize = execOnResize))
 	}
+
 }
-
-
 
 
 #' @rdname renderTmap
@@ -56,12 +47,14 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 tmapOutput <- function(outputId, width = "100%", height = 400, mode = NA) {
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	gs = tmap_graphics_name(mode)
-	if (gs == "Leaflet") {
-		leaflet::leafletOutput(outputId, width = width, height = height)
-	} else if (gs == "Grid") {
+	if (gs == "Grid") {
 		shiny::plotOutput(outputId = outputId, width = width, height = height)
+	} else {
+		fun = paste0("tmapOutput", gs)
+		do.call(fun, list(outputId = outputId, width = width, height = height))
 	}
 }
+
 
 #' @rdname renderTmap
 #' @export
@@ -69,13 +62,13 @@ tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x, mod
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	gs = tmap_graphics_name(mode)
 
-	if (gs == "Leaflet") {
-		print.tmap(x, lf = leaflet::leafletProxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
-	} else if (gs == "Grid") {
+	if (gs == "Grid") {
 		message("tmapProxy not working for plot mode (yet)")
 		print.tmap(x, show = TRUE)
+	} else {
+		fun = paste0("tmapProxy", gs)
+		do.call(fun, list(mapId = mapId, session = session, x = x))
 	}
-
 
 }
 

@@ -8,7 +8,7 @@
 #' @param in.shiny A logical, is the map drawn in **shiny**?
 #' @param proxy A logical, if `in.shiny`, is \code{\link{tmapProxy}} used?
 #' @param options A vector of options
-#' @param ... not used
+#' @param ... passed on internally (e.g. to \code{\link{tmapLeafletInit}).
 #' @export
 print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, in.shiny = FALSE, proxy = FALSE, ...) {
 	args = list(...)
@@ -35,7 +35,7 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	if (!is.na(.TMAP$set_s2)) suppressMessages(sf::sf_use_s2(.TMAP$set_s2))
 
 	#if (return.asp) return(asp) else invisible(NULL)
-	if (knit && tmap_graphics_name() == "Leaflet") {
+	if (knit && tmap_graphics_name() != "Grid") {
 		kp = get("knit_print", asNamespace("knitr"))
 		return(do.call(kp, c(list(x=res), args, list(options=options))))
 	} else {
