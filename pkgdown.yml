@@ -21,10 +21,11 @@ articles:
   24_examples_gridmaps: 24_examples_gridmaps.html
   31_versus_ggplot2: 31_versus_ggplot2.html
   32_versus_mapview: 32_versus_mapview.html
+  33_versus_mapsf: 33_versus_mapsf.html
   41_options: 41_options.html
   42_margins: 42_margins.html
   43_extensions: 43_extensions.html
-last_built: 2025-01-07T20:15Z
+last_built: 2025-01-08T08:54Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
