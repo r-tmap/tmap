@@ -40,7 +40,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			   size = {if (!all(is.na(gp$size))) gp$size else 1},
 			   cex = {if (!all(is.na(gp$cex))) gp$cex else 1},
 			   fontface = {if (!all(is.na(gp$cex))) gp$fontface else getAesOption("value.blank", o, aes = "fontface", layer = type)},
-			   fontfamily = {if (!all(is.na(gp$fontfamily))) gp$fontfamily else ""},
+			   fontfamily = {if (!all(is.na(gp$fontfamily))) gp$fontfamily else o$text.fontfamily},
 			   shape = {if (!all(is.na(gp$shape))) gp$shape else getAesOption("value.const", o, aes = "shape", layer = type)}))
 
 	#
