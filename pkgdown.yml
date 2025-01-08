@@ -22,10 +22,11 @@ articles:
   31_versus_ggplot2: 31_versus_ggplot2.html
   32_versus_mapview: 32_versus_mapview.html
   33_versus_mapsf: 33_versus_mapsf.html
-  41_options: 41_options.html
-  42_margins: 42_margins.html
-  43_extensions: 43_extensions.html
-last_built: 2025-01-08T08:54Z
+  41_adv_positions: 41_adv_positions.html
+  42_adv_options: 42_adv_options.html
+  43_adv_margins: 43_adv_margins.html
+  44_adv_extensions: 44_adv_extensions.html
+last_built: 2025-01-08T11:05Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
