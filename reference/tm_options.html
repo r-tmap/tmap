@@ -233,7 +233,6 @@
 <span>  <span class="va">chart.bg.color</span>,</span>
 <span>  <span class="va">chart.bg.alpha</span>,</span>
 <span>  <span class="va">chart.object.color</span>,</span>
-<span>  <span class="va">title.show</span>,</span>
 <span>  <span class="va">title.size</span>,</span>
 <span>  <span class="va">title.color</span>,</span>
 <span>  <span class="va">title.fontface</span>,</span>
@@ -250,7 +249,6 @@
 <span>  <span class="va">title.width</span>,</span>
 <span>  <span class="va">title.group.frame</span>,</span>
 <span>  <span class="va">title.resize_as_group</span>,</span>
-<span>  <span class="va">credits.show</span>,</span>
 <span>  <span class="va">credits.size</span>,</span>
 <span>  <span class="va">credits.color</span>,</span>
 <span>  <span class="va">credits.fontface</span>,</span>
@@ -281,7 +279,6 @@
 <span>  <span class="va">compass.bg.color</span>,</span>
 <span>  <span class="va">compass.bg.alpha</span>,</span>
 <span>  <span class="va">compass.margins</span>,</span>
-<span>  <span class="va">compass.show</span>,</span>
 <span>  <span class="va">compass.stack</span>,</span>
 <span>  <span class="va">compass.position</span>,</span>
 <span>  <span class="va">compass.frame</span>,</span>
@@ -292,7 +289,6 @@
 <span>  <span class="va">logo.height</span>,</span>
 <span>  <span class="va">logo.margins</span>,</span>
 <span>  <span class="va">logo.between_margin</span>,</span>
-<span>  <span class="va">logo.show</span>,</span>
 <span>  <span class="va">logo.stack</span>,</span>
 <span>  <span class="va">logo.position</span>,</span>
 <span>  <span class="va">logo.frame</span>,</span>
@@ -300,7 +296,6 @@
 <span>  <span class="va">logo.frame.r</span>,</span>
 <span>  <span class="va">logo.group.frame</span>,</span>
 <span>  <span class="va">logo.resize_as_group</span>,</span>
-<span>  <span class="va">scalebar.show</span>,</span>
 <span>  <span class="va">scalebar.breaks</span>,</span>
 <span>  <span class="va">scalebar.width</span>,</span>
 <span>  <span class="va">scalebar.text.size</span>,</span>
@@ -1025,10 +1020,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The color of the object of the chart.</p></dd>
 
 
-<dt id="arg-title-show">title.show<a class="anchor" aria-label="anchor" href="#arg-title-show"></a></dt>
-<dd><p>The visibility of the title. <code>TRUE</code> or <code>FALSE</code>.</p></dd>
-
-
 <dt id="arg-title-size">title.size<a class="anchor" aria-label="anchor" href="#arg-title-size"></a></dt>
 <dd><p>The size of the title.</p></dd>
 
@@ -1091,10 +1082,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-title-resize-as-group">title.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-title-resize-as-group"></a></dt>
 <dd><p>The resize_as_group of the title.</p></dd>
-
-
-<dt id="arg-credits-show">credits.show<a class="anchor" aria-label="anchor" href="#arg-credits-show"></a></dt>
-<dd><p>The visibility of the credits. <code>TRUE</code> or <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-credits-size">credits.size<a class="anchor" aria-label="anchor" href="#arg-credits-size"></a></dt>
@@ -1217,10 +1204,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The margins of the compass. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).</p></dd>
 
 
-<dt id="arg-compass-show">compass.show<a class="anchor" aria-label="anchor" href="#arg-compass-show"></a></dt>
-<dd><p>The visibility of the compass. <code>TRUE</code> or <code>FALSE</code>.</p></dd>
-
-
 <dt id="arg-compass-stack">compass.stack<a class="anchor" aria-label="anchor" href="#arg-compass-stack"></a></dt>
 <dd><p>The stack of the compass.</p></dd>
 
@@ -1261,10 +1244,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The between_margin of the logo.</p></dd>
 
 
-<dt id="arg-logo-show">logo.show<a class="anchor" aria-label="anchor" href="#arg-logo-show"></a></dt>
-<dd><p>The visibility of the logo. <code>TRUE</code> or <code>FALSE</code>.</p></dd>
-
-
 <dt id="arg-logo-stack">logo.stack<a class="anchor" aria-label="anchor" href="#arg-logo-stack"></a></dt>
 <dd><p>The stack of the logo.</p></dd>
 
@@ -1291,10 +1270,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-logo-resize-as-group">logo.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-logo-resize-as-group"></a></dt>
 <dd><p>The resize_as_group of the logo.</p></dd>
-
-
-<dt id="arg-scalebar-show">scalebar.show<a class="anchor" aria-label="anchor" href="#arg-scalebar-show"></a></dt>
-<dd><p>The visibility of the scalebar. <code>TRUE</code> or <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-scalebar-breaks">scalebar.breaks<a class="anchor" aria-label="anchor" href="#arg-scalebar-breaks"></a></dt>
