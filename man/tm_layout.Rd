@@ -137,7 +137,6 @@ tm_layout(
   chart.bg.color,
   chart.bg.alpha,
   chart.object.color,
-  title.show,
   title.size,
   title.color,
   title.fontface,
@@ -154,7 +153,6 @@ tm_layout(
   title.width,
   title.group.frame,
   title.resize_as_group,
-  credits.show,
   credits.size,
   credits.color,
   credits.fontface,
@@ -185,7 +183,6 @@ tm_layout(
   compass.bg.color,
   compass.bg.alpha,
   compass.margins,
-  compass.show,
   compass.stack,
   compass.position,
   compass.frame,
@@ -196,7 +193,6 @@ tm_layout(
   logo.height,
   logo.margins,
   logo.between_margin,
-  logo.show,
   logo.stack,
   logo.position,
   logo.frame,
@@ -204,7 +200,6 @@ tm_layout(
   logo.frame.r,
   logo.group.frame,
   logo.resize_as_group,
-  scalebar.show,
   scalebar.breaks,
   scalebar.width,
   scalebar.text.size,
@@ -555,8 +550,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.object.color}{The color of the object of the chart.}
 
-\item{title.show}{The visibility of the title. \code{TRUE} or \code{FALSE}.}
-
 \item{title.size}{The size of the title.}
 
 \item{title.color}{The color of the title.}
@@ -588,8 +581,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{title.group.frame}{The frame of the group of the title.}
 
 \item{title.resize_as_group}{The resize_as_group of the title.}
-
-\item{credits.show}{The visibility of the credits. \code{TRUE} or \code{FALSE}.}
 
 \item{credits.size}{The size of the credits.}
 
@@ -651,8 +642,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{compass.margins}{The margins of the compass. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{compass.show}{The visibility of the compass. \code{TRUE} or \code{FALSE}.}
-
 \item{compass.stack}{The stack of the compass.}
 
 \item{compass.position}{The position of the compass. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
@@ -673,8 +662,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{logo.between_margin}{The between_margin of the logo.}
 
-\item{logo.show}{The visibility of the logo. \code{TRUE} or \code{FALSE}.}
-
 \item{logo.stack}{The stack of the logo.}
 
 \item{logo.position}{The position of the logo. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
@@ -688,8 +675,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{logo.group.frame}{The frame of the group of the logo.}
 
 \item{logo.resize_as_group}{The resize_as_group of the logo.}
-
-\item{scalebar.show}{The visibility of the scalebar. \code{TRUE} or \code{FALSE}.}
 
 \item{scalebar.breaks}{The break values of the scalebar.}
 

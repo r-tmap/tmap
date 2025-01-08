@@ -59,7 +59,7 @@ Components are non-spatial parts of the plots:
 
 ## Title and credits
 
-[tm_title()] and [tm_credits()] add text to the map in the form a title and a credits/attribution text respectively. The underlying function and all the options are the same, but the default value differ: titles are by default larger and placed above the map (outside the frame), while credits are place inside the frame at the bottom right. 
+`tm_title()` and `tm_credits()` add text to the map in the form a title and a credits/attribution text respectively. The underlying function and all the options are the same, but the default value differ: titles are by default larger and placed above the map (outside the frame), while credits are place inside the frame at the bottom right. 
 
 
 ```{r, fig.height = 6}
@@ -96,4 +96,4 @@ tm_compass(type = "8star", position = c("right", "bottom")) +
 tm_scalebar(position = c("right", "bottom"))
 ```
 
-There are much more options to position map componets via [tm_pos()], see [vignette about positions](https://r-tmap.github.io/tmap/articles/41_position)
+There are much more options to position map componets via `tm_pos()`, see the [vignette about positions](https://r-tmap.github.io/tmap/articles/41_position)

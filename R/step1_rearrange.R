@@ -226,7 +226,7 @@ step1_rearrange = function(tmel) {
 		crs_step4 = list(dimensions = 3857, 4326)
 	}
 
-	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto"), crs_extra = o$crs_extra, crs_global = o$crs_global) else NA
+	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto"), crs_extra = o$crs_extra, crs_global = o$crs_global, basemaps_defined = basemaps_defined) else NA
 
 	if (identical(crs_step4, "auto")) {
 		if (is.na(crs_step3[1])) {
@@ -320,7 +320,7 @@ get_main_ids = function(tmo) {
 }
 
 
-get_crs = function(tms, is_auto, crs_extra, crs_global) {
+get_crs = function(tms, is_auto, crs_extra, crs_global, basemaps_defined) {
 	if (is.na(sf::st_crs(tms$shp))) return(sf::st_crs(NA))
 	if (is.null(tms$crs)) {
 		crs = sf::st_crs(tms$shp)
@@ -328,7 +328,7 @@ get_crs = function(tms, is_auto, crs_extra, crs_global) {
 		if (is_ll && is_auto) {
 			auto_crs(tms$shp, crs_extra = crs_extra, crs_global = crs_global)
 		} else {
-			if (is_ll) {
+			if (is_ll && !basemaps_defined) {
 				if (inherits(tms$shp, "sf") && consider_global(tms$shp)) {
 					message_crs_ll()
 				}
@@ -457,6 +457,7 @@ impute_comp = function(a, o) {
 	a$padding = process_padding(a$padding)
 
 	a = complete_options(a, ot)
+
 	a$call = call
 
 	class(a) = ca

@@ -20,7 +20,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	lineIn = convertHeight(unit(1, "lines"), "inch", valueOnly = TRUE)
 
 
-	res = select_sf(shpTM, dt[!is.na(dt$size), ])
+	res = select_sf(shpTM, dt[!is.na(dt$size) & !is.na(dt$shape), ])
 	shp = res$shp
 	dt = res$dt
 

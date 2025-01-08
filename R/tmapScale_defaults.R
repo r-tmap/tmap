@@ -620,6 +620,7 @@ tmapValuesSubmit_lty = function(x, args) x
 #' @export
 #' @rdname tmap_internal
 tmapValuesSubmit_shape = function(x, args) {
+	if (all(is.na(x))) return(x)
 	if (!inherits(x, c("tmapStandard", "tmapSpecial"))) x = tmapVV(x)
 	if (inherits(x, "tmapStandard")) {
 		xvec = unlist(x, use.names = FALSE)

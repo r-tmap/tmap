@@ -51,7 +51,7 @@ tmap_options(scale = 0.75)
 
 ## Component positionining
 
-Recall from [vignette about components](https://r-tmap.github.io/tmap/articles/07_basic_components) that the `position` argument of map components and legends is used to position them.
+Recall from the [vignette about components](https://r-tmap.github.io/tmap/articles/07_basic_components) that the `position` argument of map components and legends is used to position them.
 
 Let's enable the 'design mode' of tmap for the rest of this vignette
 
@@ -60,9 +60,15 @@ tmap_design_mode()
 ```
 
 
-## Shortcut (quick and easy)
+## Shortcut: vector of two
 
-Quick and easy: a vector of two, the first is the horizontal position (`"left"`, `"center"`, `"right"`), the second one the vertical position (`"top"`, `"center"`, `"bottom"`)
+
+A vector of two, where the first is the horizontal position and the second the vertical position. These shortcut will place the component inside the map frame. They are a shortcut for `tm_pos_in`, explained below
+
+
+### Character
+
+(`"left"`, `"center"`, `"right"`), the second one the vertical position (`"top"`, `"center"`, `"bottom"`)
 
 ```{r, fig.height = 6}
 tm_shape(NLD_muni) +
@@ -73,6 +79,8 @@ tm_credits("Statistics Netherlands (CBS)", position = c("left", "bottom")) +
 tm_compass(type = "8star", position = c("right", "bottom")) +
 tm_scalebar(position = c("right", "bottom"))
 ```
+
+### Numeric
 
 It is also possible to specify two numbers to set the location. The coordinates are between 0 and 1, where (0,0) is bottom left.
 
@@ -86,12 +94,10 @@ tm_compass(type = "8star", position = c(0.8, 0.2)) +
 tm_scalebar(position = c(0.3, 0.15))
 ```
 
-Note that these shortcuts always draws the components in the map frame. 
 
-## Advanced: [tm_pos()]
+## Advanced positioning with `tm_pos()`
 
-
-[tm_pos_in()] draws the component inside the map frame and [tm_pos_out()] draws the component outside the map frame.
+`tm_pos_in()` draws the component inside the map frame and `tm_pos_out()` draws the component outside the map frame.
 
 #### `cell.h` and `cell.v`
 
@@ -99,19 +105,18 @@ The total plot area (i.e. device) is a 3 x 3 grid. The map is draw in the middle
 
 ```{r, fig.height = 4}
 tm1 = tm_shape(NLD_muni) + tm_polygons() +
-		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "left", cell.v = "center"))
+		tm_compass(type = "8star", size = 4, position = tm_pos_out(cell.h = "left", cell.v = "center"))
 tm2 = tm_shape(NLD_muni) + tm_polygons() +
-		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "center", cell.v = "bottom"))
+		tm_compass(type = "8star", size = 4, position = tm_pos_out(cell.h = "center", cell.v = "bottom"))
 tm3 = tm_shape(NLD_muni) + tm_polygons() +
-		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "right", cell.v = "bottom"))
+		tm_compass(type = "8star", size = 4, position = tm_pos_out(cell.h = "right", cell.v = "bottom"))
 tmap_arrange(tm1, tm2, tm3, ncol = 3)
-
 ```
 
 Notes: 
 
-* the sizes of the cells are automatically determined based on the content and the [margins](https://r-tmap.github.io/tmap/articles/42_margins)
-* [tm_pos_in()] is a shortcut for [tm_pos_out()] with both `cell.h` and `cell.v` set to `"center"`.
+* the sizes of the cells are automatically determined based on the content and the margins (see [vignette](https://r-tmap.github.io/tmap/articles/42_margins))
+* `tm_pos_in()` is a shortcut for `tm_pos_out()` with both `cell.h` and `cell.v` set to `"center"`.
 
 #### `pos.h` and `pos.v`
 
@@ -121,6 +126,23 @@ The position of a component within a cell:
 tm_shape(NLD_muni) + tm_polygons() +
 		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "left", cell.v = "center", pos.v = "bottom"))
 ```
+
+The values can either be characters or numbers (as explained [above](https://r-tmap.github.io/tmap/articles/41_adv_positions#shortcut-vector-of-two)).
+
+### `just.h` and `just.v`
+
+In case `pos.h` and `pos.v` are numbers, the justification can be set with `just.h` and `just.v`:
+
+```{r, fig.height = 4}
+tm1 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 4, position = tm_pos_in(pos.h = .5, pos.v = .5, just.h = "center", just.v = "center"))
+tm2 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 4, position = tm_pos_in(pos.h = .5, pos.v = .5, just.h = "left", just.v = "top"))
+tm3 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 4, position = tm_pos_in(pos.h = .5, pos.v = .5, just.h = "right", just.v = "bottom"))
+tmap_arrange(tm1, tm2, tm3, ncol = 3)
+```
+
 
 ### `align.h` and `align.v`
 

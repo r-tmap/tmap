@@ -435,9 +435,9 @@ tmapGridGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	}
 
 	if (is_top) {
-		labels <- textGrob(labelsx2, y=1-spacerX/2, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+		labels <- textGrob(labelsx2, y=1-spacerX/2, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 	} else {
-		labels <- textGrob(labelsx2, y=1-spacerX-marginX, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+		labels <- textGrob(labelsx2, y=1-spacerX-marginX, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 	}
 
 	res = gTree(children = gList(ticks, labels), name = "gridTicksLabelsX")
@@ -509,9 +509,9 @@ tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	}
 
 	if (is_left) {
-		labels = grid::textGrob(labelsy2, y=cogridy2, x=1 - spacerY - marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		labels = grid::textGrob(labelsy2, y=cogridy2, x=1 - spacerY - marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 	} else {
-		labels = grid::textGrob(labelsy2, y=cogridy2, x=1-spacerY*.5-marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		labels = grid::textGrob(labelsy2, y=cogridy2, x=1-spacerY*.5-marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 	}
 	res = gTree(children = gList(ticks, labels), name = "gridTicksLabelsY")
 
@@ -703,7 +703,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		grobGridTextX <- if (a$add.labels[1] && any(selx2)) {
 			just <- ifelse(a$labels.rot[1] == 90, "right", ifelse(a$labels.rot[1] == 270, "left", ifelse(a$labels.rot[1] == 180, "bottom", "top")))
 
-			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, , fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 		} else NULL
 	} else {
 		grobGridX <- NULL
@@ -729,7 +729,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 		grobGridTextY <- if (a$add.labels[2] && any(sely2)) {
 			just <- ifelse(a$labels.rot[2] == 90, "bottom", ifelse(a$labels.rot[2] == 270, "top", ifelse(a$labels.rot[2] == 180, "left", "right")))
 
-			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=a$labels.size*o$scale, fontface=o$fontface, fontfamily=o$fontfamily))
+			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=a$labels.size*o$scale, , fontface=a$labels.fontface, fontfamily=a$labels.fontfamily))
 		} else NULL
 	} else {
 		grobGridY <- NULL

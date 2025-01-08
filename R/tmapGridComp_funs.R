@@ -525,7 +525,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 			# },
 			#rectGrob(gp=gpar(col = "green", fill= NA))
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
-			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
+			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=comp$text.fontface, fontfamily=comp$text.fontfamily))
 			), name="scalebar")
 	})
 

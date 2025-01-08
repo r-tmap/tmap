@@ -270,7 +270,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	rc_text = frc(facet_row, facet_col)
 
-	res = select_sf(shpTM, dt[!is.na(dt$size), ])
+	res = select_sf(shpTM, dt[!is.na(dt$size) & !is.na(dt$shape), ])
 	shp = res$shp
 	if (o$crs_leaflet$crsClass  == "L.CRS.Simple") {
 		shp = sf::st_set_crs(shp, NA)

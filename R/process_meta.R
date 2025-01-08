@@ -226,6 +226,7 @@ process_meta = function(o, d, cdt, aux) {
 
 			xylab.margins = rep(0, 4)
 			if (xlab.show) {
+				#if (is.na(xlab.fontface)) xlab.fontface = text.fontface
 				xylab.margins[ifelse(xlab.side == "bottom", 1, 3)] = if (xlab.rotation %in% c(0, 180)) {
 					(number_text_lines(xlab.text) + xlab.space)  * lineH
 				} else {
@@ -233,6 +234,7 @@ process_meta = function(o, d, cdt, aux) {
 				}
 			}
 			if (ylab.show) {
+				#if (is.na(ylab.fontface)) ylab.fontface = text.fontface
 				xylab.margins[ifelse(ylab.side == "left", 2, 4)] = if (ylab.rotation %in% c(90, 270)) {
 					(number_text_lines(ylab.text) + ylab.space)  * lineW
 				} else {

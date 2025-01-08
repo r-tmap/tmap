@@ -114,7 +114,12 @@ qtm = function(shp = NULL,
 	if (missing(shp) || is.character(shp)) {
 		viewargs = args[intersect(names(args), names(formals(tm_view)))]
 		if (!missing(shp)) viewargs$bbox = shp
+
 		g = c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
+		if (o$qtm.minimap) g = c(g, tm_minimap())
+		if (o$qtm.scalebar) g = c(g, tm_scalebar())
+		if (o$qtm.mouse_coordinates) g = c(g, tm_mouse_coordinates())
+
 		attr(g, "qtm_shortcut") = TRUE
 		class(g) = "tmap"
 		return(g)
