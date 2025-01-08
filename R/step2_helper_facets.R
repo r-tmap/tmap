@@ -163,7 +163,7 @@ subStr = function(x, k) {
 
 limit_nx = function(nx) {
 	# bound number of facets
-	tmapOptions <- tmap::tmap_options_mode()
+	tmapOptions <- tmap::tmap_options_mode(mode.specific = FALSE)
 	mode = getOption("tmap.mode")
 
 	ox = tmapOptions$facet.max

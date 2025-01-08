@@ -343,7 +343,12 @@ tmap_options(
   fontfamily = NULL
 )
 
-tmap_options_mode(mode = NA, style = NULL, default.options = FALSE)
+tmap_options_mode(
+  mode = NA,
+  style = NULL,
+  mode.specific = TRUE,
+  default.options = FALSE
+)
 
 tmap_options_diff()
 
@@ -1012,6 +1017,8 @@ zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
 \item{mode}{mode, e.g. \code{"plot"} or \code{"view"}}
 
 \item{style}{style, see \code{\link[=tmap_style]{tmap_style()}} for available styles}
+
+\item{mode.specific}{Should only mode-specific options be returned? \code{TRUE} by default.}
 
 \item{default.options}{return the default options or the current options?}
 }

@@ -469,10 +469,11 @@ tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max
 
 #' @param mode mode, e.g. `"plot"` or `"view"`
 #' @param style style. If specified, the style specific options are returned
+#' @param mode.specific Should only mode-specific options be returned? `TRUE` by default.
 #' @param default.options return the default options or the current options?
 #' @rdname tmap_options
 #' @export
-tmap_options_mode = function(mode = NA, style = NULL, default.options = FALSE) {
+tmap_options_mode = function(mode = NA, style = NULL, mode.specific = TRUE, default.options = FALSE) {
 	if (default.options) {
 		o = .defaultTmapOptions
 	} else {
@@ -489,12 +490,21 @@ tmap_options_mode = function(mode = NA, style = NULL, default.options = FALSE) {
 	opt2 = o$modes[[mode]]
 
 	specified = attr(o, "specified")
+
+	# all general options with mode-specific defaults (except the specified ones tmap_options(bg.color = "red")
 	int_opt = setdiff(intersect(names(o), names(opt2)), specified)
+
+	# all mode-specific options
 	diff_opt = setdiff(names(opt2), names(o))
 
 	if (length(int_opt)) o[int_opt] = opt2[int_opt]
 	if (length(diff_opt)) o = c(o, opt2[diff_opt])
-	o
+
+	if (mode.specific) {
+		o[setdiff(names(opt2), "name")]
+	} else {
+		o
+	}
 }
 
 

@@ -49,6 +49,51 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
+## What are 'components' in tmap?
+
+Components are non-spatial parts of the plots:
+
+* titles and credits: [tm_title()] and [tm_credits()]
+* scale bars and compasses: [tm_scalebar()] and [tm_compass()]
+* legends: specified with the `.legend` compoments in the data layer functions (e.g. [tm_polygons()]).
+
+## Title and credits
+
+[tm_title()] and [tm_credits()] add text to the map in the form a title and a credits/attribution text respectively. The underlying function and all the options are the same, but the default value differ: titles are by default larger and placed above the map (outside the frame), while credits are place inside the frame at the bottom right. 
 
 
-### To do
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "edu_appl_sci") +
+tm_title("Population share with (applied) university degree in 2022") +
+tm_credits("Statistics Netherlands (CBS)")
+```
+
+
+##  Scale bar and compass
+
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons() +
+	tm_compass(type = "8star") +
+	tm_scalebar()
+```
+
+## Positioning of components (basics)
+
+The position of a map component can be specified with the general argument `position`.
+
+It takes a vector of two, the first is the horizontal position (`"left"`, `"center"`, `"right"`), the second one the vertical position (`"top"`, `"center"`, `"bottom"`)
+
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "edu_appl_sci",
+    fill.legend = tm_legend(position = c("left", "top"))) +
+tm_credits("Statistics Netherlands (CBS)", position = c("left", "bottom")) +
+tm_compass(type = "8star", position = c("right", "bottom")) +
+tm_scalebar(position = c("right", "bottom"))
+```
+
+There are much more options to position map componets via [tm_pos()], see [vignette about positions](https://r-tmap.github.io/tmap/articles/41_position)

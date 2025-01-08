@@ -108,7 +108,7 @@ qtm = function(shp = NULL,
 		args_called = args_new$called
 	}
 
-	o = tmap_options_mode()
+	o = tmap_options_mode(mode.specific = FALSE)
 	show.warnings = o$show.warnings
 
 	if (missing(shp) || is.character(shp)) {

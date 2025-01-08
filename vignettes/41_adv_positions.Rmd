@@ -1,0 +1,140 @@
+---
+title: "tmap advanced: positioning of components"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+## Component positionining
+
+Recall from [vignette about components](https://r-tmap.github.io/tmap/articles/07_basic_components) that the `position` argument of map components and legends is used to position them.
+
+Let's enable the 'design mode' of tmap for the rest of this vignette
+
+```{r}
+tmap_design_mode()
+```
+
+
+## Shortcut (quick and easy)
+
+Quick and easy: a vector of two, the first is the horizontal position (`"left"`, `"center"`, `"right"`), the second one the vertical position (`"top"`, `"center"`, `"bottom"`)
+
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "edu_appl_sci",
+    fill.legend = tm_legend(position = c("left", "top"))) +
+tm_credits("Statistics Netherlands (CBS)", position = c("left", "bottom")) +
+tm_compass(type = "8star", position = c("right", "bottom")) +
+tm_scalebar(position = c("right", "bottom"))
+```
+
+It is also possible to specify two numbers to set the location. The coordinates are between 0 and 1, where (0,0) is bottom left.
+
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "edu_appl_sci",
+    fill.legend = tm_legend(position = c(0.05, 0.7))) +
+tm_credits("Statistics Netherlands (CBS)", position = c(0.05, 0.05)) +
+tm_compass(type = "8star", position = c(0.8, 0.2)) +
+tm_scalebar(position = c(0.3, 0.15))
+```
+
+Note that these shortcuts always draws the components in the map frame. 
+
+## Advanced: [tm_pos()]
+
+
+[tm_pos_in()] draws the component inside the map frame and [tm_pos_out()] draws the component outside the map frame.
+
+#### `cell.h` and `cell.v`
+
+The total plot area (i.e. device) is a 3 x 3 grid. The map is draw in the middle grid cell.
+
+```{r, fig.height = 4}
+tm1 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "left", cell.v = "center"))
+tm2 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "center", cell.v = "bottom"))
+tm3 = tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "right", cell.v = "bottom"))
+tmap_arrange(tm1, tm2, tm3, ncol = 3)
+
+```
+
+Notes: 
+
+* the sizes of the cells are automatically determined based on the content and the [margins](https://r-tmap.github.io/tmap/articles/42_margins)
+* [tm_pos_in()] is a shortcut for [tm_pos_out()] with both `cell.h` and `cell.v` set to `"center"`.
+
+#### `pos.h` and `pos.v`
+
+The position of a component within a cell:
+
+```{r, fig.height = 4}
+tm_shape(NLD_muni) + tm_polygons() +
+		tm_compass(type = "8star", size = 8, position = tm_pos_out(cell.h = "left", cell.v = "center", pos.v = "bottom"))
+```
+
+### `align.h` and `align.v`
+
+The alignment of components within the same cell:
+
+```{r, fig.height = 4}
+tm1 = tm_shape(NLD_muni) + tm_polygons() +
+	tm_compass(type = "8star", position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left")) +
+	tm_scalebar(position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left"))
+tm2 = tm_shape(NLD_muni) + tm_polygons() +
+	tm_compass(type = "8star", position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "center")) +
+	tm_scalebar(position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left"))
+tm3 = tm_shape(NLD_muni) + tm_polygons() +
+	tm_compass(type = "8star", position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right")) +
+	tm_scalebar(position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left"))
+tmap_arrange(tm1, tm2, tm3, ncol = 3)
+```

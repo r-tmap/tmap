@@ -31,7 +31,7 @@ tm_compass(
 \arguments{
 \item{north}{north}
 
-\item{type}{Compass type}
+\item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)}
 
 \item{text.size}{text.size}
 

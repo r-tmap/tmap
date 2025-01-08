@@ -159,7 +159,7 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 
 num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL, as.count = FALSE, args = list()) {
 
-	tmapOptions = tmap_options_mode()
+	tmapOptions = tmap_options_mode(mode.specific = FALSE)
 	show.warnings <- tmapOptions$show.warnings
 
 	nobs <- sum(!is.na(x))

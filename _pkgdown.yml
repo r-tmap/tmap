@@ -168,13 +168,17 @@ navbar:
           href: articles/31_versus_ggplot2
         - text: tmap vs mapview
           href: articles/32_versus_mapview
+        - text: tmap vs mapsf
+          href: articles/33_versus_mapsf
 
     advanced:
       text: Advanced
       menu:
+        - text: Positioning of components
+          href: articles/41_adv_positions
         - text: Options
-          href: articles/41_options
+          href: articles/42_adv_options
         - text: Margins and aspect ratio
-          href: articles/42_margins
+          href: articles/43_adv_margins
         - text: Extending tmap
-          href: articles/43_extensions
+          href: articles/44_adv_extensions

@@ -73,7 +73,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 #' Map component that adds a compass
 #'
 #' @param north north
-#' @param type Compass type
+#' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)
 #' @param text.size text.size
 #' @param size size
 #' @param show.labels show.labels

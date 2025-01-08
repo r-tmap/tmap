@@ -3,7 +3,7 @@ step1_rearrange = function(tmel) {
 	dev = getOption("tmap.devel.mode")
 
 	# get options (mode specific)
-	o = tmap_options_mode()
+	o = tmap_options_mode(mode.specific = FALSE)
 
 	# reset symbols
 	assign("shapeLib", list(), envir = .TMAP)
@@ -97,7 +97,7 @@ step1_rearrange = function(tmel) {
 		}
 
 		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
-			o = tmap_options_mode(default.options = TRUE)
+			o = tmap_options_mode(default.options = TRUE, mode.specific = FALSE)
 			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
 			if (!is.null(styleOptions)) o = complete_options(styleOptions, o)
 			o2$style = NULL
