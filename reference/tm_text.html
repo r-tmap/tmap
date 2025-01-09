@@ -106,7 +106,7 @@
 <span>  fontface.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fontface.chart <span class="op">=</span> <span class="fu"><a href="tm_chart.html">tm_chart_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fontface.free <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  fontfamily <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  fontfamily <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  bgcol <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  bgcol.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  bgcol.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -480,10 +480,6 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>attribute variables are assumed to be spatially constant throughout all geometries</span>
 <span class="r-in"><span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># to do: update land</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">=</span> <span class="fl">4326</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"cover_cls"</span>,</span></span>
 <span class="r-in"><span>        col.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span></span></span>
@@ -514,7 +510,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_markers</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>,</span></span>
 <span class="r-in"><span>         dots_fill <span class="op">=</span> <span class="st">"red"</span>,</span></span>
 <span class="r-in"><span>         dots_size <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tmapValuesSubmit_shape(x = structure(list(`1` = structure(list(    iconUrl = "/home/runner/work/_temp/Library/leaflet/htmlwidgets/lib/leaflet/images/marker-icon.png",     iconWidth = 25, iconHeight = 41, iconAnchorX = 12, iconAnchorY = 41), class = "tmap_icons")), class = "tmapSpecial"),     args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48,     height = 48, render.width = 256, render.height = 256))):</span> object 'gs' not found</span>
+<span class="r-plt img"><img src="tm_text-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_markers</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>,</span></span>
@@ -524,7 +520,7 @@ there is only one facet dimension, so the <code>.free</code> argument requires o
 <span class="r-in"><span>         dots_size <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>         ymod <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span>,</span></span>
 <span class="r-in"><span>         options <span class="op">=</span> <span class="fu"><a href="tm_symbols.html">opt_tm_markers</a></span><span class="op">(</span>point.label <span class="op">=</span> <span class="cn">FALSE</span>, remove_overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tmapValuesSubmit_shape(x = structure(list(`1` = structure(list(    iconUrl = "/home/runner/work/_temp/Library/leaflet/htmlwidgets/lib/leaflet/images/marker-icon.png",     iconWidth = 25, iconHeight = 41, iconAnchorX = 12, iconAnchorY = 41), class = "tmap_icons")), class = "tmapSpecial"),     args = list(icon.scale = 3, just = NA, grob.dim = c(width = 48,     height = 48, render.width = 256, render.height = 256))):</span> object 'gs' not found</span>
+<span class="r-plt img"><img src="tm_text-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -86,7 +86,7 @@ The function <code>tm_scale_asis()</code> is used to take data values as they ar
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_scale_asis</span><span class="op">(</span>values.scale <span class="op">=</span> <span class="cn">NA</span>, value.neutral <span class="op">=</span> <span class="cn">NA</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_scale_asis</span><span class="op">(</span>values.scale <span class="op">=</span> <span class="cn">NA</span>, value.neutral <span class="op">=</span> <span class="cn">NA</span>, value.na <span class="op">=</span> <span class="cn">NA</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,6 +99,10 @@ The function <code>tm_scale_asis()</code> is used to take data values as they ar
 
 <dt id="arg-value-neutral">value.neutral<a class="anchor" aria-label="anchor" href="#arg-value-neutral"></a></dt>
 <dd><p>(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both <code>fill</code> and <code>size</code> are used for <code><a href="tm_symbols.html">tm_symbols()</a></code> (using filled circles), the size legend items are filled with the <code>value.neutral</code> color from the <code>fill.scale</code> scale, and fill legend items are bubbles of size <code>value.neutral</code> from the <code>size.scale</code> scale.</p></dd>
+
+
+<dt id="arg-value-na">value.na<a class="anchor" aria-label="anchor" href="#arg-value-na"></a></dt>
+<dd><p>(generic scale argument) Value used for missing values. See tmap option <code>"value.na"</code> for defaults per visual variable.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
