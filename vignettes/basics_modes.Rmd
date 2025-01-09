@@ -129,7 +129,7 @@ For a more detailed description of options, see [vignette about options](https:/
 As of version 4, tmap can be extended with other modes. See ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
 
 
-```{r, message=FALSE}
+```{r, message=FALSE, fig.height = 3.5}
 library(tmap.deckgl)
 tmap_mode("deck")
 tm

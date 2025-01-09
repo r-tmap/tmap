@@ -507,6 +507,8 @@ tmap_options_mode = function(mode = NA, style = NULL, mode.specific = TRUE, defa
 	if (length(int_opt)) o[int_opt] = opt2[int_opt]
 	if (length(diff_opt)) o = c(o, opt2[diff_opt])
 
+	o$modes = NULL
+
 	if (mode.specific) {
 		o[setdiff(names(opt2), "name")]
 	} else {

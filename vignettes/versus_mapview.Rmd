@@ -11,10 +11,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  # out.width = "100%",
-  # dpi = 300,
-  # fig.width = 7.2916667,
-  fig.width = 8.83,
+  fig.width = 7.2916667,
   comment = "#>"
 )
 ```

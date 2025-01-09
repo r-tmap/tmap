@@ -2,8 +2,6 @@
 title: "tmap advanced: extensions"
 output: 
   bookdown::html_vignette2:
-pkgdown:
-  as_is: true
 template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
@@ -134,7 +132,7 @@ library(tmap.deckgl)
 ```
 
 
-```{r}
+```{r, fig.height = 3.5}
 tmap_mode("deck")
 
 tm_shape(NLD_dist) +

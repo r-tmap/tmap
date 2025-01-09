@@ -12,6 +12,7 @@ editor_options:
   chunk_output_type: console
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -50,4 +51,108 @@ tmap_options(scale = 0.75)
 ```
 
 
-## To do
+## tmap options
+
+The options of tmap can be retrieved via `tmap_options()` which works similar as base R `options()`:
+
+```{r}
+opt = tmap_options()
+```
+
+Because there are so many options, we need a proper way to print it. Let's use `lobstr` for that:
+
+```{r}
+library(lobstr)
+tree(opt)
+```
+
+## Mode specific options
+
+Note that the first option, called `"modes"` is not really an option, but rather a list of mode-specific options, where the first subitem of each item is the name of that mode. Here, the technical rather than the user interface mode names are used: `"Grid"` for the `"plot"` mode and `"Leaflet"` for the `"view"` mode. The other subitems are either totally new options, or standard options (also listed further below) but with different defaults.
+
+The list of options for a specific mode can be obtained as follows:
+
+```{r}
+# only the mode-specific options:
+tree(tmap_options_mode("view"))
+
+# all options
+tree(tmap_options_mode("view", mode.specific = FALSE))
+
+```
+
+This last method is used internally throughout tmap. It takes both the mode and the style into account.
+
+## Style specific options
+
+Let's enable a certain style, say `"cobalt"`
+
+```{r}
+tmap_style("cobalt")
+```
+
+The total changed list of options can be retrieved via `tmap_options()`. It is also possible to only obtain the changed options:
+
+```{r}
+tree(tmap_options_diff())
+```
+
+## What are the options for?
+
+All options with the name prefix `value(s)` refer to default values for visual variables/values. E.g. `value.const` and subitem `fill.polygons` is the default polygon fill color.
+
+The options `scales.var` specifies which scale are used by default to map data variables to visual variables. This depends on the visual variable and the data type. E.g. for numeric data ("num") and the visual variable `size`, the `continuous` scale is used, so `tm_scale_continuous()`. For the visual variable `text` (of `tm_text()`) the scale `asis` is used, so `tm_scale_asis()`.
+
+There are several options that deal with the margins and aspect ratio. These are explained in [another vigette](https://r-tmap.github.io/tmap/articles/adv_margins).
+
+Most other options are default values of arguments of component functions. E.g., `compass.type` specifies the default compass type.
+
+The options with the prefix `qtm` specify what components are shown by default (in view mode).
+
+## Setting options and styles
+
+Let's reset all options, and set of couple of options:
+
+```{r}
+tmap_options_reset()
+
+tmap_options(
+  bg.color = "steelblue",
+  outer.bg.color = "salmon",
+  frame = "purple3",
+  frame.lwd = 5,
+  compass.type = "8star",
+  legend.bg.color = "gold",
+  legend.position = tm_pos_in(pos.h = "left", pos.v = "top")
+ )
+```
+
+To check the differences: 
+
+```{r}
+tree(tmap_options_diff())
+```
+
+Note that the position argument is completed with default settings (found in the option `component.position`).
+
+To illustrate the effect:
+
+```{r, fig.height = 3.5}
+tm_shape(World) +
+	tm_polygons("footprint")
+```
+
+Let's save this mode as `"fancy"`.:
+
+```{r}
+tmap_options_save("fancy")
+```
+
+The default style can be obtained via `tmap_style("white")` (the name of the default style):
+
+```{r, fig.height = 3.5}
+tmap_style("white")
+
+tm_shape(World) +
+	tm_polygons("footprint")
+```

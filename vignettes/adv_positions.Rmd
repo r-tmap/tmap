@@ -160,3 +160,8 @@ tm3 = tm_shape(NLD_muni) + tm_polygons() +
 	tm_scalebar(position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left"))
 tmap_arrange(tm1, tm2, tm3, ncol = 3)
 ```
+
+
+## Automatic positioning
+
+The default position of legends and map components are in some cases done automatically. Automatic positioning can be achieved by setting a `.position` argument to `tm_pos_auto_in()` or `tm_pos_auto_out()`. The former checks in which map corner is most space available (and bases `pos.h` and `pos.v` on that). The latter calculates in which grid cell (so `cell.h` and `cell.v`) the map components can be positioned, which is based on the aspect ratio and margins.
