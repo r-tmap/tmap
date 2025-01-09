@@ -1,0 +1,25 @@
+/*
+#tooltip:empty {
+  display: none;
+}
+
+#tooltip {
+  position: absolute;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  padding: 4px;
+  margin: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  max-width: 300px;
+  z-index: 9;
+  pointer-events: none;
+}
+*/
+
+/*
+.deck-tooltip {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11px;
+}
+*/

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>tmap basics: multivariate visual variables • tmap</title>
+<title>tmap advanced: multiple visual variables • tmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="tmap basics: multivariate visual variables">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="tmap advanced: multiple visual variables">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -104,7 +104,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>tmap basics: multivariate visual variables</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: multiple visual variables</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/adv_multivariate.Rmd" class="external-link"><code>vignettes/adv_multivariate.Rmd</code></a></small>
@@ -113,11 +113,126 @@
 
     
     
-<div class="section level3">
-<h3 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
-</h3>
+<div class="section level2">
+<h2 id="multiple-visual-variables">Multiple visual variables<a class="anchor" aria-label="anchor" href="#multiple-visual-variables"></a>
+</h2>
+<p>Usually we specify a data-driven visual variable with <strong>one</strong> data variable (see <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about visual variables</a>). However, in several use cases, it is useful to use a few data variables for one visual variables.</p>
+<p>There are two ways to use multiple data variables for one visual variable: for creating facets, and for multivariate mapping.</p>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="creating-facets">Creating facets<a class="anchor" aria-label="anchor" href="#creating-facets"></a>
+</h2>
+<p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/03_basics_facets">vigentte about facets</a></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pop_0_14"</span>, <span class="st">"pop_25_44"</span>, <span class="st">"pop_65plus"</span><span class="op">)</span>,</span>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Percentage"</span><span class="op">)</span>,</span>
+<span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<p>A facet is create for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">12</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p>Or the first 3 variables:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span>, fig.height <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Number of levels of the variable assigned to the aesthetic "fill" of</span></span>
+<span><span class="co">#&gt; the layer "polygons" is 345, which is larger than n.max (which is 30), so</span></span>
+<span><span class="co">#&gt; levels are combined.</span></span>
+<span><span class="co">#&gt; Warning: Number of levels of the variable assigned to the aesthetic "fill" of</span></span>
+<span><span class="co">#&gt; the layer "polygons" is 345, which is larger than n.max (which is 30), so</span></span>
+<span><span class="co">#&gt; levels are combined.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<ol style="list-style-type: decimal">
+<li>For creating facets. This is the standard way.</li>
+<li>For multivariate mapping.</li>
+</ol>
+<p>These cases can be divived into two g
+Before going through these cases, there is one important
+There are two</p>
+</div>
+<div class="section level2">
+<h2 id="multivariate-mapping">Multivariate mapping<a class="anchor" aria-label="anchor" href="#multivariate-mapping"></a>
+</h2>
+<p>There are (at least) two use cases:</p>
+<div class="section level3">
+<h3 id="rgb-image">RGB image<a class="anchor" aria-label="anchor" href="#rgb-image"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: abind</span></span>
+<span><span class="co">#&gt; Loading required package: sf</span></span>
+<span><span class="co">#&gt; Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE</span></span>
+<span><span class="va">tif</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"tif/L7_ETMs.tif"</span>, package <span class="op">=</span> <span class="st">"stars"</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">L7</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html" class="external-link">read_stars</a></span><span class="op">(</span><span class="va">tif</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; stars object with 3 dimensions and 1 attribute</span></span>
+<span><span class="co">#&gt; attribute(s):</span></span>
+<span><span class="co">#&gt;              Min. 1st Qu. Median     Mean 3rd Qu. Max.</span></span>
+<span><span class="co">#&gt; L7_ETMs.tif     1      54     69 68.91242      86  255</span></span>
+<span><span class="co">#&gt; dimension(s):</span></span>
+<span><span class="co">#&gt;      from  to  offset delta                     refsys point x/y</span></span>
+<span><span class="co">#&gt; x       1 349  288776  28.5 SIRGAS 2000 / UTM zone 25S FALSE [x]</span></span>
+<span><span class="co">#&gt; y       1 352 9120761 -28.5 SIRGAS 2000 / UTM zone 25S FALSE [y]</span></span>
+<span><span class="co">#&gt; band    1   6      NA    NA                         NA    NA</span></span></code></pre></div>
+<p>Note that the channels are included in the dimenison <code>"band"</code>. We can use the argument <code>dimvalues</code> to select them:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>dimvalues <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p>Alternatively, we can split the <code>stars</code> object:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">L7split</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">L7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; stars object with 2 dimensions and 6 attributes</span></span>
+<span><span class="co">#&gt; attribute(s):</span></span>
+<span><span class="co">#&gt;     Min. 1st Qu. Median     Mean 3rd Qu. Max.</span></span>
+<span><span class="co">#&gt; X1    47      67     78 79.14772      89  255</span></span>
+<span><span class="co">#&gt; X2    32      55     66 67.57465      79  255</span></span>
+<span><span class="co">#&gt; X3    21      49     63 64.35886      77  255</span></span>
+<span><span class="co">#&gt; X4     9      52     63 59.23541      75  255</span></span>
+<span><span class="co">#&gt; X5     1      63     89 83.18266     112  255</span></span>
+<span><span class="co">#&gt; X6     1      32     60 59.97521      88  255</span></span>
+<span><span class="co">#&gt; dimension(s):</span></span>
+<span><span class="co">#&gt;   from  to  offset delta                     refsys point x/y</span></span>
+<span><span class="co">#&gt; x    1 349  288776  28.5 SIRGAS 2000 / UTM zone 25S FALSE [x]</span></span>
+<span><span class="co">#&gt; y    1 352 9120761 -28.5 SIRGAS 2000 / UTM zone 25S FALSE [y]</span></span></code></pre></div>
+<p>and plot it like this:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7split</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="glyphs">Glyphs<a class="anchor" aria-label="anchor" href="#glyphs"></a>
+</h3>
+<p>Glyph are small charts plotted as symbols. See the [extention package <a href="https://github.com/r-tmap/tmap.glyphs" class="external-link"><code>tmap.glyphs</code></a>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.glyphs" class="external-link">tmap.glyphs</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ZH_muni</span> <span class="op">=</span> <span class="va">NLD_muni</span><span class="op">[</span><span class="va">NLD_muni</span><span class="op">$</span><span class="va">province</span> <span class="op">==</span> <span class="st">"Zuid-Holland"</span>, <span class="op">]</span></span>
+<span><span class="va">ZH_muni</span><span class="op">$</span><span class="va">income_middle</span> <span class="op">=</span> <span class="fl">100</span> <span class="op">-</span> <span class="va">ZH_muni</span><span class="op">$</span><span class="va">income_high</span> <span class="op">-</span> <span class="va">ZH_muni</span><span class="op">$</span><span class="va">income_low</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">ZH_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tmap.glyphs/man/tm_donuts.html" class="external-link">tm_donuts</a></span><span class="op">(</span></span>
+<span>    parts <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"income_low"</span>, <span class="st">"income_middle"</span>, <span class="st">"income_high"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-pu_gn_div"</span><span class="op">)</span>,             </span>
+<span>    size <span class="op">=</span> <span class="st">"population"</span>,</span>
+<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50000</span>, <span class="fl">100000</span>, <span class="fl">250000</span>, <span class="fl">500000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="adv_multivariate_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<pre><code><span><span class="co">#&gt; ================================================================================</span></span></code></pre>
+<p>The visual variable <code>parts</code> (introduced in <code>tmap.glyphs</code>) is specified as multivariate visual variable. It specifies the parts (slices) of the donut charts and uses this also for the <code>fill</code> color.</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
