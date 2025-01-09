@@ -34,9 +34,9 @@
 
 \item{in.shiny}{A logical, is the map drawn in \strong{shiny}?}
 
-\item{proxy}{A logical, if \code{in.shiny}, is \code{\link{tmapProxy}} used?}
+\item{proxy}{A logical, if \code{in.shiny}, is \code{\link[=tmapProxy]{tmapProxy()}} used?}
 
-\item{...}{not used}
+\item{...}{passed on internally (for developers: in \code{"view"} mode, the proxy leaflet object is passed to \code{tmapLeafletInit}).}
 }
 \description{
 Draw thematic map

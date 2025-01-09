@@ -6,9 +6,9 @@
 #' @param vp viewport (for `"plot"` mode)
 #' @param knit A logical, should knit?
 #' @param in.shiny A logical, is the map drawn in **shiny**?
-#' @param proxy A logical, if `in.shiny`, is \code{\link{tmapProxy}} used?
+#' @param proxy A logical, if `in.shiny`, is [tmapProxy()] used?
 #' @param options A vector of options
-#' @param ... passed on internally (e.g. to \code{\link{tmapLeafletInit}).
+#' @param ... passed on internally (for developers: in `"view"` mode, the proxy leaflet object is passed to `tmapLeafletInit`).
 #' @export
 print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALSE, options = NULL, in.shiny = FALSE, proxy = FALSE, ...) {
 	args = list(...)

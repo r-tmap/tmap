@@ -18,6 +18,11 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 
 	scale$values.scale = if (is.na(scale$values.scale)) getAesOption("values.scale", o, aes, layer) else scale$values.scale
 
+	isna = is.na(x1)
+	if (any(isna) && is.na(scale$value.na)) {
+		x1[isna] = getAesOption("value.na", o, aes, layer)
+	}
+
 	sfun = paste0("tmapValuesScale_", aes)
 	cfun = paste0("tmapValuesColorize_", aes)
 

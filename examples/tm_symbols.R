@@ -1,10 +1,6 @@
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 Africa = World[World$continent == "Africa", ]
 
-# to do: update land
-library(sf)
-st_crs(land) = 4326
-
 tm_shape(land) +
 	tm_raster("cover_cls",
 			  col.scale = tm_scale(

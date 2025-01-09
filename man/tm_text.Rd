@@ -34,7 +34,7 @@ tm_text(
   fontface.legend = tm_legend(),
   fontface.chart = tm_chart_none(),
   fontface.free = NA,
-  fontfamily = "",
+  fontfamily = NA,
   bgcol = tm_const(),
   bgcol.scale = tm_scale(),
   bgcol.legend = tm_legend(),
@@ -344,10 +344,6 @@ tm_shape(metro) +
 
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 Africa = World[World$continent == "Africa", ]
-
-# to do: update land
-library(sf)
-st_crs(land) = 4326
 
 tm_shape(land) +
 	tm_raster("cover_cls",

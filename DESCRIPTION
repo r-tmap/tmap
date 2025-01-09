@@ -61,6 +61,7 @@ Suggests:
     terra,
     testthat (>= 3.2.0),
     widgetframe,
+    lobstr,
     rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom

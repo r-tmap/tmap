@@ -4,7 +4,7 @@
 # cat(paste(args, collapse = ", "))
 #' Layout options
 #'
-#' Set of tmap options that are directly related to the layout.
+#' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
 #'
 #' @inheritParams tmap_options
 #' @example ./examples/tm_layout.R

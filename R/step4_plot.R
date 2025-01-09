@@ -124,83 +124,83 @@ process_components = function(cdt, o) {
 process_components2 = function(cdt, o) {
 	gs = tmap_graphics_name()
 
-	## do to: proper S3 methods
-
-	#if (gs == "Grid") {
-
-		# when facets are wrapped:
 
 
 
-
-		if (o$type != "grid" && o$n > 1) {
-			#if (o$nrows == 1 && o$ncols == 1)
-			if (o$nrows == 1) {
-				# -use by2 and not by1 when they form a row
-				cdt[, by2__ := by1__]
-				cdt[, by1__ := NA]
-			}
+	if (o$type != "grid" && o$n > 1) {
+		#if (o$nrows == 1 && o$ncols == 1)
+		if (o$nrows == 1) {
+			# -use by2 and not by1 when they form a row
+			cdt[, by2__ := by1__]
+			cdt[, by1__ := NA]
 		}
+	}
 
-		stacks = o$legend.stack
-
-
-		# place legends inside if needed
-		#if (o$ncols > 1 && o$nrows > 1) {
-		if (o$type == "wrap") {
-			# all free legends inside
-			cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]
-		} else if (o$type == "grid") {
-			# all free-per-facet legends inside
-			cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]
-		}
+	stacks = o$legend.stack
 
 
-
-		# update auto position (for 'all', 'rows', 'columns' legends)
-		cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
-		cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
-		cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
-
-		cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
-		cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
-		cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
-
-
-		cdt[class == "autoout", class := "out"]
+	# place legends inside if needed
+	#if (o$ncols > 1 && o$nrows > 1) {
+	if (o$type == "wrap") {
+		# all free legends inside
+		cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]
+	} else if (o$type == "grid") {
+		# all free-per-facet legends inside
+		cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]
+	}
 
 
-		lai = which(cdt$class == "autoin")
-		if (length(lai)) {
-			cdt$comp = lapply(cdt$comp, function(l) {
-				l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
-				l
-			})
-			cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
-		}
 
-		vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
-		hby = any(cdt$cell.h == "by" & !is.na(cdt$cell.h))
+	# update auto position (for 'all', 'rows', 'columns' legends)
+	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
+	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
+	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
 
-		toC = function(x) {
-			paste(x, collapse = "_")
-		}
+	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
+	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
 
 
-		# manual outside legends -2 is top or left, -1 is bottom or right
-		cdt[class %in% c("autoout", "out"), ':='(facet_row =
-				ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)),
-				ifelse(cell.v == "by", as.character(by1__),
-				ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
-			facet_col =
-				ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)),
-				ifelse(cell.h == "by", as.character(by2__),
-				ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
-		if (o$type == "page") {
-			cdt[cell.v == "by", facet_row := "1"]
-			cdt[cell.h == "by", facet_col := "1"]
-		}
-	#}
+	cdt[class == "autoout", class := "out"]
+
+
+	lai = which(cdt$class == "autoin")
+	if (length(lai)) {
+		cdt[class == "autoin", ":="(pos.h = ifelse(is.na(pos.h), o$legend.autoin.pos[1], pos.h),
+									pos.v = ifelse(is.na(pos.v), o$legend.autoin.pos[2], pos.v),
+									class = "in")]
+
+
+		# cdt$comp = lapply(cdt$comp, function(l) {
+		# 	if (is.na(l$position$pos.h)) o$legend.autoin.pos[1]
+		# 	if (is.na(l$position$pos.v)) o$legend.autoin.pos[2]
+		# 	#l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
+		# 	l
+		# })
+		# cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
+	}
+
+	vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
+	hby = any(cdt$cell.h == "by" & !is.na(cdt$cell.h))
+
+	toC = function(x) {
+		paste(x, collapse = "_")
+	}
+
+
+	# manual outside legends -2 is top or left, -1 is bottom or right
+	cdt[class %in% c("autoout", "out"), ':='(facet_row =
+			ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)),
+			ifelse(cell.v == "by", as.character(by1__),
+			ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+		facet_col =
+			ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)),
+			ifelse(cell.h == "by", as.character(by2__),
+			ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+	if (o$type == "page") {
+		cdt[cell.v == "by", facet_row := "1"]
+		cdt[cell.h == "by", facet_col := "1"]
+	}
 
 	if (o$type == "page") {
 		cdt[, by1__ := by3__]

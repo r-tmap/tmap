@@ -4,12 +4,14 @@
 \alias{tm_scale_asis}
 \title{Scales: as is}
 \usage{
-tm_scale_asis(values.scale = NA, value.neutral = NA, ...)
+tm_scale_asis(values.scale = NA, value.neutral = NA, value.na = NA, ...)
 }
 \arguments{
 \item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link[=tm_symbols]{tm_symbols()}} and \code{lwd} of \code{\link[=tm_lines]{tm_lines()}}.}
 
 \item{value.neutral}{(generic scale argument) Value that can be considered neutral. This is used for legends of other visual variables of the same map layer. E.g. when both \code{fill} and \code{size} are used for \code{\link[=tm_symbols]{tm_symbols()}} (using filled circles), the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale, and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
+
+\item{value.na}{(generic scale argument) Value used for missing values. See tmap option \code{"value.na"} for defaults per visual variable.}
 
 \item{...}{Arguments caught (and not used) from the automatic function \code{\link[=tm_scale]{tm_scale()}}}
 }

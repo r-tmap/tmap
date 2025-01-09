@@ -39,8 +39,8 @@ tm_scale = function(...) {
 #' @param ... Arguments caught (and not used) from the automatic function [tm_scale()]
 #' @seealso [tm_scale()]
 #' @export
-tm_scale_asis = function(values.scale = NA, value.neutral = NA, ...) {
-	structure(c(list(FUN = "tmapScaleAsIs"), c(list(values.scale = values.scale, value.neutral = value.neutral), list(...))), class = c("tm_scale_asis", "tm_scale", "list"))
+tm_scale_asis = function(values.scale = NA, value.neutral = NA, value.na = NA, ...) {
+	structure(c(list(FUN = "tmapScaleAsIs"), c(list(values.scale = values.scale, value.neutral = value.neutral, value.na = value.na), list(...))), class = c("tm_scale_asis", "tm_scale", "list"))
 }
 
 #' @export

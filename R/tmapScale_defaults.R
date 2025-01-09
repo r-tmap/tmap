@@ -633,8 +633,6 @@ tmapValuesSubmit_shape = function(x, args) {
 		isGrid = (tmap_graphics_name() == "Grid")
 
 
-		fun = paste0("submit_symbols_", gs)
-
 		# symbols just specification:
 		# copy-pasted from v3, but not the best place
 		# improvement of just needed (-> trans?)
