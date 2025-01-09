@@ -130,7 +130,12 @@ As a proof of concept we created [`tmap.deckgl`](https://github.com/r-tmap/tmap.
 For this proof of concept, only one map layer is `tm_polygons()`. The shiny integration does not work yet.
 
 ```{r}
-library(tamp.deckgl)
+library(tmap.deckgl)
+```
+
+
+```{r}
+tmap_mode("deck")
 
 tm_shape(NLD_dist) +
   tm_polygons(

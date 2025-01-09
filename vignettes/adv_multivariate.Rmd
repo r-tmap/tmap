@@ -80,7 +80,7 @@ tm_shape(NLD_muni) +
 Or the first 3 variables:
 
 ```{r}
-tm_shape(NLD_muni, fig.height = 5) +
+tm_shape(NLD_muni, fig.height = 8) +
   tm_polygons(
     fill = tm_vars(n = 3))
 ```
@@ -107,7 +107,7 @@ tif = system.file("tif/L7_ETMs.tif", package = "stars")
 
 Note that the channels are included in the dimenison `"band"`. We can use the argument `dimvalues` to select them:
 
-```{r}
+```{r, fig.height = 6}
 tm_shape(L7) +
 	tm_rgb(col = tm_vars(dimvalues = 3:1, multivariate = TRUE))
 ```
@@ -120,7 +120,7 @@ Alternatively, we can split the `stars` object:
 
 and plot it like this:
 
-```{r}
+```{r, fig.height = 6}
 tm_shape(L7split) +
 	tm_rgb(col = tm_vars(3:1, multivariate = TRUE))
 ```
