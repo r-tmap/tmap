@@ -2,31 +2,33 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  01_basics_vv: 01_basics_vv.html
-  02_basics_scales: 02_basics_scales.html
-  03_basics_facets: 03_basics_facets.html
-  04_basics_legends: 04_basics_legends.html
-  05_basics_modes: 05_basics_modes.html
-  06_basics_basemaps: 06_basics_basemaps.html
-  07_basics_components: 07_basics_components.html
-  08_basics_charts: 08_basics_charts.html
-  09_basics_exporting: 09_basics_exporting.html
-  091_basics_layout: 091_basics_layout.html
-  092_basics_multivariate: 092_basics_multivariate.html
-  11_foundations_gg: 11_foundations_gg.html
-  12_foundations_crs: 12_foundations_crs.html
-  21_examples_choro_World: 21_examples_choro_World.html
-  22_examples_choro_NLD: 22_examples_choro_NLD.html
-  23_examples_raster: 23_examples_raster.html
-  24_examples_gridmaps: 24_examples_gridmaps.html
-  31_versus_ggplot2: 31_versus_ggplot2.html
-  32_versus_mapview: 32_versus_mapview.html
-  33_versus_mapsf: 33_versus_mapsf.html
-  41_adv_positions: 41_adv_positions.html
-  42_adv_options: 42_adv_options.html
-  43_adv_margins: 43_adv_margins.html
-  44_adv_extensions: 44_adv_extensions.html
-last_built: 2025-01-09T11:36Z
+  adv_extensions: adv_extensions.html
+  adv_margins: adv_margins.html
+  adv_multivariate: adv_multivariate.html
+  adv_options: adv_options.html
+  adv_positions: adv_positions.html
+  adv_shiny: adv_shiny.html
+  basics_basemaps: basics_basemaps.html
+  basics_charts: basics_charts.html
+  basics_components: basics_components.html
+  basics_exporting: basics_exporting.html
+  basics_facets: basics_facets.html
+  basics_layout: basics_layout.html
+  basics_legends: basics_legends.html
+  basics_modes: basics_modes.html
+  basics_scales: basics_scales.html
+  basics_vv: basics_vv.html
+  examples_bubble: examples_bubble.html
+  examples_choro_NLD: examples_choro_NLD.html
+  examples_choro_World: examples_choro_World.html
+  examples_gridmaps: examples_gridmaps.html
+  examples_raster: examples_raster.html
+  foundations_crs: foundations_crs.html
+  foundations_gg: foundations_gg.html
+  versus_ggplot2: versus_ggplot2.html
+  versus_mapsf: versus_mapsf.html
+  versus_mapview: versus_mapview.html
+last_built: 2025-01-09T16:55Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
