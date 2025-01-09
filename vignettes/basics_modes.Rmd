@@ -2,10 +2,6 @@
 title: "tmap basics: modes"
 output: 
   bookdown::html_vignette2:
-pkgdown:
-  as_is: true
-template:
-  math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
 editor_options: 
@@ -53,7 +49,8 @@ tmap_options(scale = 0.75)
 
 ## Modes
 
-tmap facilitates two output modes: `"plot"`, which produces static maps, and `"view"` which produces (using the same tmap code) interactive maps. As of version 4, tmap can also be extended with other modes see ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
+tmap facilitates two output modes: `"plot"`, which produces static maps, and `"view"` which produces (using the same tmap code) interactive maps. As of version 4, tmap can also be extended with other modes, as demonstrated below.
+
  
 ## Switching between modes
 
@@ -125,4 +122,19 @@ tm +
 ```
 
 For a more detailed description of options, see [vignette about options](https://r-tmap.github.io/tmap/articles/42_adv_options).
+
+
+## Other modes
+
+As of version 4, tmap can be extended with other modes. See ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
+
+
+```{r, message=FALSE}
+library(tmap.deckgl)
+tmap_mode("deck")
+tm
+```
+
+The proof-of-concept package `tmap.deckgl` only features the map layer function `tm_polygons()` (so the bubbles are not working yet).
+
 

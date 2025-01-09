@@ -1,5 +1,5 @@
 ---
-title: "tmap basics: multivariate visual variables"
+title: "tmap advanced: multiple visual variables"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -51,4 +51,98 @@ tmap_options(scale = 0.75)
 
 
 
-### To do
+## Multiple visual variables
+
+Usually we specify a data-driven visual variable with **one** data variable (see [vignette about visual variables](https://r-tmap.github.io/tmap/articles/basics_vv)). However, in several use cases, it is useful to use a few data variables for one visual variables.
+
+There are two ways to use multiple data variables for one visual variable: for creating facets, and for multivariate mapping.
+
+## Creating facets
+
+Recall from the [vigentte about facets](https://r-tmap.github.io/tmap/articles/03_basics_facets)
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = c("pop_0_14", "pop_25_44", "pop_65plus"),
+    fill.legend = tm_legend("Percentage"),
+    fill.free = FALSE)
+```
+
+A facet is create for each specified data variable. More options to select variables are available via the underlying function `tm_vars()`. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)
+
+```{r, fig.height = 5}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = tm_vars(12:18))
+```
+
+Or the first 3 variables:
+
+```{r}
+tm_shape(NLD_muni, fig.height = 5) +
+  tm_polygons(
+    fill = tm_vars(n = 3))
+```
+
+1. For creating facets. This is the standard way.
+2. For multivariate mapping.
+
+These cases can be divived into two g
+Before going through these cases, there is one important 
+There are two
+
+
+## Multivariate mapping
+
+There are (at least) two use cases:
+
+### RGB image
+
+```{r}
+library(stars)
+tif = system.file("tif/L7_ETMs.tif", package = "stars")
+(L7 = read_stars(tif))
+```
+
+Note that the channels are included in the dimenison `"band"`. We can use the argument `dimvalues` to select them:
+
+```{r}
+tm_shape(L7) +
+	tm_rgb(col = tm_vars(dimvalues = 3:1, multivariate = TRUE))
+```
+
+Alternatively, we can split the `stars` object:
+
+```{r}
+(L7split = split(L7))
+```
+
+and plot it like this:
+
+```{r}
+tm_shape(L7split) +
+	tm_rgb(col = tm_vars(3:1, multivariate = TRUE))
+```
+
+### Glyphs
+
+Glyph are small charts plotted as symbols. See the [extention package [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs).
+
+```{r, fig.height = 6}
+library(tmap.glyphs)
+
+ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
+ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
+
+tm_shape(ZH_muni) +
+  tm_polygons() +
+  tm_donuts(
+    parts = tm_vars(c("income_low", "income_middle", "income_high"), multivariate = TRUE),
+    fill.scale = tm_scale_categorical(values = "-pu_gn_div"),			  
+    size = "population",
+    size.scale = tm_scale_continuous(ticks = c(50000, 100000, 250000, 500000)))	
+```
+
+The visual variable `parts` (introduced in `tmap.glyphs`) is specified as multivariate visual variable. It specifies the parts (slices) of the donut charts and uses this also for the `fill` color.
+
