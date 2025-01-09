@@ -116,69 +116,73 @@ navbar:
   components:
     home: ~
     basics:
-      text: Get Started
+      text: Basics
       menu:
         - text: Visual variables
-          href: articles/01_basics_vv
+          href: articles/basics_vv
         - text: Scales
-          href: articles/02_basics_scales
-        - text: Facets
-          href: articles/03_basics_facets
-        - text: Legends
-          href: articles/04_basics_legends
+          href: articles/basics_scales
         - text: Modes
-          href: articles/05_basics_modes
+          href: articles/basics_modes
+        - text: Facets
+          href: articles/basics_facets
+        - text: Legends
+          href: articles/basics_legends
         - text: Basemaps
-          href: articles/06_basics_basemaps
+          href: articles/basics_basemaps
         - text: Components
-          href: articles/07_basics_components
+          href: articles/basics_components
         - text: Charts
-          href: articles/08_basics_charts
-        - text: Exporting
-          href: articles/09_basics_exporting
+          href: articles/basics_charts
         - text: Layout
-          href: articles/091_basics_layout
-        - text: Multivariate
-          href: articles/092_basics_multivariate
+          href: articles/basics_layout
+        - text: Exporting
+          href: articles/basics_exporting
 
     foundations:
       text: Foundations
       menu:
         - text: Grammar of Graphics
-          href: articles/11_foundations_gg
+          href: articles/foundations_gg
         - text: Map projections (CRS)
-          href: articles/12_foundations_crs
+          href: articles/foundations_crs
 
     example:
       text: Examples
       menu:
-        - text: choropleth (World)
-          href: articles/21_examples_choro_World
-        - text: choropleth (Netherlands)
-          href: articles/22_examples_choro_NLD
-        - text: Rasters
-          href: articles/23_examples_raster
+        - text: Choropleth (World)
+          href: articles/examples_choro_World
+        - text: Choropleth (Netherlands)
+          href: articles/examples_choro_NLD
+        - text: Bubble maps
+          href: articles/examples_bubble
+        - text: Raster maps
+          href: articles/examples_raster
         - text: Gridmaps
-          href: articles/24_examples_gridmaps
+          href: articles/examples_gridmaps
 
     comparison:
       text: Comparison
       menu:
         - text: tmap vs ggplot2
-          href: articles/31_versus_ggplot2
+          href: articles/versus_ggplot2
         - text: tmap vs mapview
-          href: articles/32_versus_mapview
+          href: articles/versus_mapview
         - text: tmap vs mapsf
-          href: articles/33_versus_mapsf
+          href: articles/versus_mapsf
 
     advanced:
       text: Advanced
       menu:
+        - text: Shiny integration
+          href: articles/adv_shiny
+        - text: Multivariate
+          href: articles/adv_multivariate
         - text: Positioning of components
-          href: articles/41_adv_positions
+          href: articles/adv_positions
         - text: Options
-          href: articles/42_adv_options
+          href: articles/adv_options
         - text: Margins and aspect ratio
-          href: articles/43_adv_margins
+          href: articles/adv_margins
         - text: Extending tmap
-          href: articles/44_adv_extensions
+          href: articles/adv_extensions

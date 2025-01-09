@@ -1,0 +1,128 @@
+---
+title: "tmap basics: modes"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+## Modes
+
+tmap facilitates two output modes: `"plot"`, which produces static maps, and `"view"` which produces (using the same tmap code) interactive maps. As of version 4, tmap can also be extended with other modes see ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
+ 
+## Switching between modes
+
+```{r}
+## current mode
+tmap_mode()
+
+## to view mode
+tmap_mode("view")
+
+## back to plot mode
+tmap_mode("plot")
+```
+
+The handy function `ttm()` is used to toggle between the modes.
+
+
+## Plot mode
+
+We start with cerating the plot and assign it to a variable called `tm`.
+
+```{r}
+tm = tm_shape(World, crs = 8857) +
+  tm_polygons(
+    fill = "press",
+    fill.scale = tm_scale_intervals(values = "pu_gn")) +
+tm_shape(metro) +
+  tm_bubbles(
+    size = "pop2020",
+    fill = "gold",
+    size.scale = tm_scale_continuous(values.scale = 0.8, n = 8))
+```
+
+We are in `"plot"` mode. Now we can plot the map by printing `tm` object:
+
+```{r, fig.height = 3.5}
+tm
+```
+
+
+## View mode
+
+The same map in view mode:
+
+```{r, fig.height = 3.5}
+ttm()
+tm
+```
+
+Note that there is big difference: in this `"view"` mode there are basemaps, and in `"plot"` mode none. This is caused by different default option.
+
+Basemaps can be enabled or disabled via `tm_basemap()`: 
+
+```{r, fig.height = 3.5}
+ttm()
+tm + tm_basemap(NULL)
+```
+
+See [vignette about basemaps](https://r-tmap.github.io/tmap/articles/06_basics_basemaps).
+
+## Mode specific options
+
+Mode specific layout options can be set via `tm_plot()` and `tm_view()`. The number of options in `tm_plot()` is limited to just one, because it uses all general purpose options. In contrast, `tm_view()` contains more options, e.g. there to position the control box and what the default zoom level is:
+
+```{r, fig.height = 3.5}
+tm +
+	tm_view(control.position = c("left", "bottom"),
+			set_view = 2)
+```
+
+For a more detailed description of options, see [vignette about options](https://r-tmap.github.io/tmap/articles/42_adv_options).
+

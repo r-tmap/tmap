@@ -125,5 +125,10 @@ s +
 ```{r, fig.height = 3.5}
 s + 
   tm_polygons() +
-  tm_add_legend(title = "Countries", fill = "grey80", shape = 22, size = c(1, 2, 4), labels = c("Small", "Medium", "Large"))
+  tm_add_legend(
+    title = "Countries", 
+    fill = "grey80", 
+    shape = 22, 
+    size = c(1, 2, 4), 
+    labels = c("Small", "Medium", "Large"))
 ```

@@ -1,0 +1,118 @@
+---
+title: "tmap basics: basemaps"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+## Basemaps
+
+By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. Basemaps can be enabled or disabled via `tm_basemap()`. 
+
+## Plot mode
+
+To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas" (run `tmap_options("basemap.server")` to see this option).
+
+```{r, fig.height = 3.5}
+tm_shape(metro) +
+	tm_bubbles(size = "pop2020") +
+	tm_basemap()
+```
+
+This can be changed. The options are:
+
+```{r}
+names(maptiles::get_providers())
+```
+
+See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
+
+```{r, fig.height = 3.5}
+tm_shape(metro) +
+	tm_bubbles(size = "pop2020") +
+	tm_basemap("Esri.OceanBasemap")
+```
+
+## View mode
+
+
+```{r}
+tmap_mode("view")
+tm_shape(metro) +
+	tm_bubbles(size = "pop2020") +
+	tm_basemap("Esri.OceanBasemap")
+```
+
+
+Disabling basemaps:
+
+```{r}
+tmap_mode("view")
+tm_shape(World) +
+  tm_polygons(
+    fill = "grey80", 
+    col = "grey60") +
+tm_shape(metro) +
+	tm_bubbles(size = "pop2020") +
+	tm_basemap(NULL)
+```
+
+Now it is also possible to use different map projections (see [vignette](https://r-tmap.github.io/tmap/articles/12_foundations_crs)):
+
+```{r}
+tmap_mode("view")
+tm_shape(World, crs = "+proj=robin") +
+  tm_polygons(
+    fill = "grey80", 
+    col = "grey60") +
+tm_shape(metro) +
+	tm_bubbles(size = "pop2020") +
+	tm_basemap(NULL)
+```
+

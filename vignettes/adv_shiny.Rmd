@@ -1,5 +1,5 @@
 ---
-title: "tmap basics: modes"
+title: "tmap advanced: options"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -50,5 +50,4 @@ tmap_options(scale = 0.75)
 ```
 
 
-
-### Todo
+## To do
