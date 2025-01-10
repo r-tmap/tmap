@@ -113,11 +113,99 @@
 
     
     
-<div class="section level3">
-<h3 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
-</h3>
+<div class="section level2">
+<h2 id="what-is-layout">What is layout?<a class="anchor" aria-label="anchor" href="#what-is-layout"></a>
+</h2>
+<p>With layout we mean all aspects of how the plot looks like, except for</p>
+<ul>
+<li>specifications of data-driven <a href="https://r-tmap.github.io/tmap/articles/basics_vv">visual variables</a>.</li>
+<li>the layout of <a href="https://r-tmap.github.io/tmap/articles/basics_legends#layout">legends</a>
+</li>
+<li>the layout ovf <a href="https://r-tmap.github.io/tmap/articles/basics_components">map components</a>
+</li>
+</ul>
+<p>What is left? Background colors, frames, panels, fonts, margins, etc.</p>
+<p>All these layout options can be changed via <code><a href="../reference/tm_layout.html">tm_layout()</a></code>. The large number of arguments can be overwhelming. These also include all the default settings of legends and map components. See in-depth vignette on <a href="https://r-tmap.github.io/tmap/articles/adv_options">tmap options</a>.</p>
+<p>In this vignette, we’ll cover the most important layout settings. First, let’s create a map:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="background-colors">Background colors<a class="anchor" aria-label="anchor" href="#background-colors"></a>
+</h2>
+<p>The background colors inside and outside the map frame are specified as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
+<span>  bg.color <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
+<span>  outer.bg.color <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="frame">Frame<a class="anchor" aria-label="anchor" href="#frame"></a>
+</h2>
+<p>The map frame can be disabled by setting <code>frame = FALSE</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
+<span>  bg.color <span class="op">=</span> <span class="st">"grey90"</span>,</span>
+<span>  frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p>In that case, the background color of the whole area is determined by <code>bg.color</code> and not by <code>outer.bg.color</code> anymore.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
+<span>  bg.color <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
+<span>  earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  outer.bg.color <span class="op">=</span> <span class="st">"gold"</span>,</span>
+<span>  space.color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="earth-boundaries">Earth boundaries<a class="anchor" aria-label="anchor" href="#earth-boundaries"></a>
+</h2>
+<p>For certain <a href="https://r-tmap.github.io/tmap/articles/foundations_crs">map projections</a>, including the used one, we can infer the ‘earth boundaries’. We can enable them with the option <code>earth_boundary</code>. The background color outside of the earth boundaries (and inside the map frame if specified) are determined by <code>space.color</code>.</p>
+<p>For this type of map, it makes sense to disable the map frame, and place the legend in the corner of the map, perhaps even with a bit of overlap.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
+<span>  earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  frame <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  space.color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="panels">Panels<a class="anchor" aria-label="anchor" href="#panels"></a>
+</h2>
+<p>To change the appearance of panels the options with the prefix <code>panel.</code> are usd:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"footprint"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.label.bg.color <span class="op">=</span> <span class="st">"gold"</span>,</span>
+<span>          panel.label.size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>          panel.label.height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>   </span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p>Panels can be disabled using <code>panel.show = FALSE</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"footprint"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>   </span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="margins">Margins<a class="anchor" aria-label="anchor" href="#margins"></a>
+</h2>
+<p>Margins can be set with <code>inner.margins</code>, <code>outer.margins</code>, <code>meta.margins</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.02</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span>    </span></code></pre></div>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p>The four numbers are the margins for bottom, left, top, and right respectively. The units are relative to the map frame, so 0.02 means (about) 2 percent of the frame height.</p>
+<p>Setting the margins is quite complex because it depends on the aspect ratios (width/height) of the spatial object and the graphics device. See <a href="https://r-tmap.github.io/tmap/articles/adv_margins">in-depth vignette</a>.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
