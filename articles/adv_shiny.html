@@ -114,10 +114,98 @@
     
     
 <div class="section level2">
-<h2 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
+<h2 id="shiny-integration">Shiny integration<a class="anchor" aria-label="anchor" href="#shiny-integration"></a>
 </h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span></code></pre></div>
+<p>Three functions take care of integrating tmap maps in shiny: <code><a href="../reference/renderTmap.html">tmapOutput()</a></code>, <code><a href="../reference/renderTmap.html">renderTmap()</a></code>, and <code><a href="../reference/renderTmap.html">tmapProxy()</a></code></p>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="plot-mode">Plot mode<a class="anchor" aria-label="anchor" href="#plot-mode"></a>
+</h2>
+<p>An (almost) minimal example of a choropleth where the data variable is selected via a select input widget:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">NLD_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span>
+<span>  ui <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/renderTmap.html">tmapOutput</a></span><span class="op">(</span><span class="st">"map"</span>, height <span class="op">=</span> <span class="st">"1200px"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="va">NLD_vars</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">var</span>, zindex <span class="op">=</span> <span class="fl">401</span>, lwd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span> <span class="co"># fixed margin for the legend</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>, </span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://r-tmap.github.io/tmap/articles/figures/shiny/shiny_plot.png" alt="tmap plot mode in shiny"><div class="figcaption">tmap plot mode in shiny</div>
+</div>
+<p>Note that setting <code>meta.margins</code> in the last tmap line is needed to make sure the map stays in the same position after rendering. Without this line (so by default) the horizontal position of the map depends on the legend width, which in turn depends on the legend title /item labels.</p>
+<p>Also note that because the map is redrawn every time the inputs change, proxy objects via <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> cannot be used. The are used in <code>"view"</code> mode as well see next.</p>
+</div>
+<div class="section level2">
+<h2 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"view"</span>.</span></span></code></pre></div>
+<p>When inputs are changed in <code>"view"</code> mode, it is preferable that the focus (zoom and panning location) does not change. That is where <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> comes into play. It updates the mape. Old layer are removed via <code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> and new layer can be added.</p>
+<p>It is recommended to:</p>
+<ul>
+<li>Set <code>zindex</code> for each map layer, because this determines the plotting order (which is not necessarily the order of call anymore, because of these removals and additions).</li>
+<li>To use basemaps, transform spatial vector data to <code>sf</code> objects in the crs (EPSG) 4326 and spatial raster data to <code>stars</code> objects in the crs (EPSG) 3857. Why? Because these operations take time, albeit less than a second. If you let tmap do this job, it happens every time the map is updated. In an interactive session, every millisecond counts. Therefore it is advisable to do this as one-time operation before using tmap.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE</span></span>
+<span><span class="va">NLD_dist_4326</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">NLD_dist</span>, <span class="fl">4326</span><span class="op">)</span></span>
+<span><span class="va">NLD_muni_4326</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="fl">4326</span><span class="op">)</span></span>
+<span><span class="va">NLD_prov_4326</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">NLD_prov</span>, <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span>
+<span>  ui <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/renderTmap.html">tmapOutput</a></span><span class="op">(</span><span class="st">"map"</span>, height <span class="op">=</span> <span class="st">"1200px"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="va">NLD_vars</span><span class="op">)</span></span>
+<span><span class="op">)</span>,</span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist_4326</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>        fill <span class="op">=</span> <span class="va">NLD_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span>
+<span>        fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span>, values <span class="op">=</span> <span class="st">"matplotlib.plasma"</span><span class="op">)</span>,</span>
+<span>        id <span class="op">=</span> <span class="st">"code"</span>, zindex <span class="op">=</span> <span class="fl">401</span>, lwd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni_4326</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"black"</span>, zindex <span class="op">=</span> <span class="fl">402</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov_4326</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">2.5</span>, col <span class="op">=</span> <span class="st">"black"</span>, zindex <span class="op">=</span> <span class="fl">403</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>  <span class="co"># fixed margin for the legend</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html" class="external-link">observe</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">var</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">var</span></span>
+<span>    <span class="fu"><a href="../reference/renderTmap.html">tmapProxy</a></span><span class="op">(</span><span class="st">"map"</span>, <span class="va">session</span>, <span class="op">{</span></span>
+<span>      <span class="fu"><a href="../reference/renderTmap.html">tm_remove_layer</a></span><span class="op">(</span><span class="fl">401</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist_4326</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">var</span>, </span>
+<span>          fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span>, values <span class="op">=</span> <span class="st">"matplotlib.plasma"</span><span class="op">)</span>,</span>
+<span>          id <span class="op">=</span> <span class="st">"code"</span>, zindex <span class="op">=</span> <span class="fl">401</span>, lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span>, </span>
+<span>options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="https://r-tmap.github.io/tmap/articles/figures/shiny/shiny_view.png" alt="tmap view mode in shiny">
+Note that we improved the scale that we applied for each variable. Because most data variables are numeric, and because most of them are skewed (e.g. dwelling value), we’ve used the general purpose function <code><a href="../reference/tm_scale.html">tm_scale()</a></code> to set the class interval to <code>kmeans</code> and the color palette to <code>"matplotlib.plasma"</code>. Run <code><a href="https://mtennekes.github.io/cols4all/reference/c4a_gui.html" class="external-link">cols4all::c4a_gui()</a></code> to explore color palettes.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
