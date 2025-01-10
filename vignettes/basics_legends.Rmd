@@ -132,3 +132,23 @@ s +
     size = c(1, 2, 4), 
     labels = c("Small", "Medium", "Large"))
 ```
+
+
+## Layout 
+
+The layout of the (standard) legends can be changed via the other arguments in `tm_legend()`.
+
+```{r, fig.height = 3.5}
+s +
+  tm_polygons(
+  	fill = "HPI",
+    fill.legend = 
+      tm_legend(
+        title = "Happy Planet Index",
+        item.height = 1.5,
+        item.width = 3,
+        item.r = 0, 
+        item.space = 0.5, 
+        item.na.space = 1, 
+        title.align = "center"))
+```

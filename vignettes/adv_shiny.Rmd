@@ -46,7 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
-tmap_options(scale = 1.5) # to make high-res screenshots
+tmap_options(scale = 2) # to make high-res screenshots
 # for the screenshots, height was set to 1200
 ```
 
@@ -69,7 +69,7 @@ NLD_vars <- setdiff(names(NLD_dist), c("code", "name"))
 tmap_mode("plot")
 shinyApp(
   ui = fluidPage(
-    tmapOutput("map", height = "1200px"),
+    tmapOutput("map", height = "1000px"),
     selectInput("var", "Variable", NLD_vars)
   ),
   server <- function(input, output, session) {
@@ -119,7 +119,7 @@ NLD_prov_4326 = st_transform(NLD_prov, 4326)
 ```{r, eval = FALSE}
 shinyApp(
   ui = fluidPage(
-    tmapOutput("map", height = "1200px"),
+    tmapOutput("map", height = "1000px"),
     selectInput("var", "Variable", NLD_vars)
 ),
 server <- function(input, output, session) {
