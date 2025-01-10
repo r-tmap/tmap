@@ -87,7 +87,7 @@ shinyApp(
 )
 ```
 
-![tmap plot mode in shiny](https://r-tmap.github.io/tmap/articles/figures/shiny/shiny_plot.png)
+![tmap plot mode in shiny](https://r-tmap.github.io/tmap/reference/figures/shiny_plot.jpg)
 
 
 Note that setting `meta.margins` in the last tmap line is needed to make sure the map stays in the same position after rendering. Without this line (so by default) the horizontal position of the map depends on the legend width, which in turn depends on the legend title /item labels.
@@ -150,5 +150,5 @@ options = list(launch.browser = TRUE)
 )
 ```
 
-![tmap view mode in shiny](https://r-tmap.github.io/tmap/articles/figures/shiny/shiny_view.png)
+![tmap view mode in shiny](https://r-tmap.github.io/tmap/reference/figures/shiny_view.jpg)
 Note that we improved the scale that we applied for each variable. Because most data variables are numeric, and because most of them are skewed (e.g. dwelling value), we've used the general purpose function `tm_scale()` to set the class interval to `kmeans` and the color palette to `"matplotlib.plasma"`. Run `cols4all::c4a_gui()` to explore color palettes.

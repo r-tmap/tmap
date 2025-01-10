@@ -34,7 +34,7 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 	if (gs == "Grid") {
 		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr))
 		shiny::renderPlot(expr, env = env, quoted = TRUE, execOnResize = execOnResize)
-	} else {
+	} else if (gs == "Leaflet") {
 		if (!quoted)
 			expr = substitute(expr)
 		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr, in.shiny = TRUE))
@@ -45,6 +45,8 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 
 		# fun = paste0("renderTmap", gs)
 		# do.call(fun, list(expr = expr, env = env, quoted = quoted, execOnResize = execOnResize))
+	} else {
+		stop('renderTmap does not work yet for modes other than "plot" and "view"')
 	}
 
 }
