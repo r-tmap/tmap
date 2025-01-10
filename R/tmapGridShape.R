@@ -32,9 +32,13 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 	}
 
+	clip = if ((is.na(o$frame) || is.na(o$bg.color)) && o$earth_boundary) {
+		grid::as.path(bg)
+	} else TRUE
+
 	gtmap = grid::grobTree(bg,
 						   vp = grid::vpStack(grid::viewport(layout.pos.col = colid, layout.pos.row = rowid, name = paste0("vp_facet_", rc_text)),
-						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = clip)), name = paste0("gt_facet_", rc_text))
 
 	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_main"))
 

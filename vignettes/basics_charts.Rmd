@@ -46,9 +46,44 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
-tmap_options(scale = 0.75)
+tmap_options(scale = 0.8)
 ```
 
 
 
-### To do
+## Charts
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons(
+    fill = "press",
+    fill.scale = tm_scale_intervals(n=10, values = "scico.hawaii"),
+    fill.legend = tm_legend("World Press\nFreedom Index"),
+	fill.chart = tm_chart_bar()) +
+tm_crs("auto")
+```
+
+We can update the position of the chart to bottom right (in a separate frame). See [vignette about positioning](https://r-tmap.github.io/tmap/articles/adv_positions).
+
+```{r, fig.height = 6}
+tm_shape(World) +
+  tm_polygons(
+    fill = "press",
+    fill.scale = tm_scale_intervals(n=10, values = "scico.hawaii"),
+    fill.legend = tm_legend("World Press\nFreedom Index"),
+	fill.chart = tm_chart_bar(position = tm_pos_out("center", "bottom", pos.h = "right"))) +
+tm_crs("auto")
+```
+
+Or, in case we would like the chart to be next to the legend, but in a different frame:
+
+```{r, fig.height = 6}
+tm_shape(World) +
+  tm_polygons(
+    fill = "press",
+    fill.scale = tm_scale_intervals(n=10, values = "scico.hawaii"),
+    fill.legend = tm_legend("World Press\nFreedom Index", group.frame = FALSE),
+	fill.chart = tm_chart_bar(position = tm_pos_out("center", "bottom", align.v = "top"))) +
+	tm_layout(component.stack_margin = .5) +
+tm_crs("auto")
+```

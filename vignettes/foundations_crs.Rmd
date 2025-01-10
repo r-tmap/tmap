@@ -69,7 +69,7 @@ tm_shape(World,
 tm_style("natural") + 
 tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
 tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1) +
-tm_crs("+proj=ortho +lat_0=20 +lon_0=0")
+tm_crs("+proj=ortho +lat_0=30 +lon_0=0")
 ```
 
 

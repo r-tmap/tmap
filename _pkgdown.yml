@@ -154,11 +154,13 @@ navbar:
           href: articles/examples_choro_World
         - text: Choropleth (Netherlands)
           href: articles/examples_choro_NLD
-        - text: Bubble maps
+        - text: Bubble map
           href: articles/examples_bubble
-        - text: Raster maps
+        - text: Raster map
           href: articles/examples_raster
-        - text: Gridmaps
+        - text: Terrain map
+          href: articles/examples_terrain
+        - text: Gridmap
           href: articles/examples_gridmaps
 
     comparison:
