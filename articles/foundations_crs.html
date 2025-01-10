@@ -63,9 +63,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble maps</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_raster">Raster maps</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmaps</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -138,7 +139,7 @@
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"natural"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span><span class="fu"><a href="../reference/tm_graticules.html">tm_graticules</a></span><span class="op">(</span>n.x <span class="op">=</span> <span class="fl">20</span>, n.y <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, labels.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_xlab.html">tm_xlab</a></span><span class="op">(</span><span class="st">"Longitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span><span class="fu"><a href="../reference/tm_xlab.html">tm_ylab</a></span><span class="op">(</span><span class="st">"Latitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"+proj=ortho +lat_0=20 +lon_0=0"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"+proj=ortho +lat_0=30 +lon_0=0"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[tip]</span> Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
