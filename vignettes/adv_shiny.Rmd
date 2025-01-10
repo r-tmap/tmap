@@ -116,7 +116,7 @@ NLD_muni_4326 = st_transform(NLD_muni, 4326)
 NLD_prov_4326 = st_transform(NLD_prov, 4326)
 ```
 
-```{r}
+```{r, eval = FALSE}
 shinyApp(
   ui = fluidPage(
     tmapOutput("map", height = "1200px"),
