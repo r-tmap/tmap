@@ -1,3 +1,4 @@
+# not working yet, see #1024
 renderTmapLeaflet = function(expr, env, quoted, execOnResize) {
 	if (!quoted)
 		expr = substitute(expr)

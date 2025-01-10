@@ -35,8 +35,16 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize 
 		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr))
 		shiny::renderPlot(expr, env = env, quoted = TRUE, execOnResize = execOnResize)
 	} else {
-		fun = paste0("renderTmap", gs)
-		do.call(fun, list(expr = expr, env = env, quoted = quoted, execOnResize = execOnResize))
+		if (!quoted)
+			expr = substitute(expr)
+		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr, in.shiny = TRUE))
+		htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
+									   quoted = TRUE)
+
+
+
+		# fun = paste0("renderTmap", gs)
+		# do.call(fun, list(expr = expr, env = env, quoted = quoted, execOnResize = execOnResize))
 	}
 
 }
@@ -66,8 +74,9 @@ tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x, mod
 		message("tmapProxy not working for plot mode (yet)")
 		print.tmap(x, show = TRUE)
 	} else {
-		fun = paste0("tmapProxy", gs)
-		do.call(fun, list(mapId = mapId, session = session, x = x))
+		#fun = paste0("tmapProxy", gs)
+		#do.call(fun, list(mapId = mapId, session = session, x = x))
+		print.tmap(x, lf = leaflet::leafletProxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
 	}
 
 }
