@@ -114,63 +114,93 @@
 
     
     
-<div class="section level3">
-<h3 id="about-the-data">About the data<a class="anchor" aria-label="anchor" href="#about-the-data"></a>
-</h3>
-<p>A spatial data object contained in tmap is called <code>World</code>. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):</p>
+<div class="section level2">
+<h2 id="static-maps-plot-mode">Static maps (plot mode)<a class="anchor" aria-label="anchor" href="#static-maps-plot-mode"></a>
+</h2>
+<p>Maps in plot mode van be exported in many formats including:</p>
+<p><strong>pixel based</strong> png, jpg, bmp, tiff.</p>
+<p><strong>vectorized</strong> pdf, eps, svg, and</p>
+<p>The <code>width</code> and <code>height</code> are specified in either pixels or inches (you can don’t need to specify the units).</p>
+<p>For the pixel based formats, the relation between pixels and inches are specified via the argument <code>dpi</code> (dots-per-inch).</p>
+<p>Let’s create a standard country level choropleth:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        </span></span>
-<span><span class="co">#&gt;  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" </span></span>
-<span><span class="co">#&gt; [11] "life_exp"     "well_being"   "footprint"    "HPI"          "inequality"  </span></span>
-<span><span class="co">#&gt; [16] "gender"       "press"        "geometry"</span></span></code></pre></div>
-<p>We specify this object with <code>tm_shape</code> (see other vignette) and for convenience assign it to <code>s</code>:</p>
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"gender"</span>, </span>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Gender Inequality Index"</span>, orientation <span class="op">=</span> <span class="st">"landscape"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Human Development Report (2024)"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RIGHT"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="pixel-based-format">Pixel based format<a class="anchor" aria-label="anchor" href="#pixel-based-format"></a>
+</h3>
+<p>Exporting maps is done via <code><a href="../reference/tmap_save.html">tmap_save()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="scales-numeric-data">Scales: numeric data<a class="anchor" aria-label="anchor" href="#scales-numeric-data"></a>
-</h2>
-<p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code> can represent a data variable:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
+<span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
+<span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
+<p>Values of <code>width</code> and <code>height</code> less than 50 are considered inches, whereas greater than 50 pixels are considered pixels:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-<p>A <em>scale</em> defines how to map the data values to visual values. Numeric data variables (e.g. <code>"HPI"</code> which stands for Happy Planex Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with <code>tm_scale_intervals</code>, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">2100</span>, height <span class="op">=</span> <span class="fl">1200</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
+<span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
+<span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
+<p>Therefore, both examples result in the exactly the same file:</p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p>Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make to use a sufficient number of pixels. For <strong>web publications</strong> at least 144 dpi is required. This may seem overkill, but is required for <em>retina</em> (high point-per-inch) displaces. For <strong>printing</strong> 300 or even 600 dpi is required.</p>
+</div>
+<div class="section level3">
+<h3 id="aspect-ratio">Aspect ratio<a class="anchor" aria-label="anchor" href="#aspect-ratio"></a>
+</h3>
+<p>In case only <em>one</em> dimension is provided, the other dimension calculated using the aspect ratio of the map.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
-<span>    style <span class="op">=</span> <span class="st">"fisher"</span>,      <span class="co"># a method to specify the classes</span></span>
-<span>    n <span class="op">=</span> <span class="fl">7</span>,                 <span class="co"># number of classes</span></span>
-<span>    midpoint <span class="op">=</span> <span class="fl">38</span>,         <span class="co"># data value mapped to the middle palette color</span></span>
-<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>   <span class="co"># color palette; </span></span>
-<span>                           <span class="co"># run cols4all::c4a_gui() to explore color palettes</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>An alternative for numeric data variables is the continuous scale:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">2100</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
+<span><span class="co">#&gt; Resolution: 2100 by 1059.87 pixels</span></span>
+<span><span class="co">#&gt; Size: 7 by 3.5329 inches (300 dpi)</span></span></code></pre></div>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="vector-based-format">Vector based format<a class="anchor" aria-label="anchor" href="#vector-based-format"></a>
+</h3>
+<p>Vector based formats will look (almost) the same.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
-<span>      limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>      values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.pdf"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></code></pre></div>
+<p>Small differences in font sizes, margins, symbol sizes between formats may occur.</p>
+</div>
+<div class="section level3">
+<h3 id="scaling">Scaling<a class="anchor" aria-label="anchor" href="#scaling"></a>
+</h3>
+<p>An important argument of <code><a href="../reference/tmap_save.html">tmap_save()</a></code> is <code>scale</code>. It an option for the overall scale over the map, which is normally set via <code><a href="../reference/tm_layout.html">tm_layout()</a></code>. It determines all font sizes, line widths, and symbol sizes.</p>
+<p>Much smaller (0.5):</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
+<p>A bit smaller (0.8):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
+<p>A bit larger (1.2):</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
+<p>Much larger (1.5):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="scales-categorical-data">Scales: categorical data<a class="anchor" aria-label="anchor" href="#scales-categorical-data"></a>
+<h2 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p>Maps can also be exported as stand-alone HTML files.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"index.html"</span>, selfcontained <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>When <code>selfcontained = FALSE</code>, the required JavaScripts and CSS files are stored in a folder called <code>index_files</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
