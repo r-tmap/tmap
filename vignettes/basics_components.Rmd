@@ -96,4 +96,6 @@ tm_compass(type = "8star", position = c("right", "bottom")) +
 tm_scalebar(position = c("right", "bottom"))
 ```
 
+If the components should be placed tighter to the frame, use capital case instead; e.g. `c("LEFT", "BOTTOM") in stead of `c("left", "bottom")`.
+
 There are much more options to position map componets via `tm_pos()`, see the [vignette about positions](https://r-tmap.github.io/tmap/articles/41_position)
