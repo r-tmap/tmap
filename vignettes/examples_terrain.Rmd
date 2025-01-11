@@ -1,0 +1,86 @@
+---
+title: "tmap example: terrain map"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, message = FALSE}
+library(tmap)
+library(dplyr)
+library(sf)
+tmap_options(scale = 0.75)
+```
+
+
+## About the data
+
+We use a couple of spatial data objects contained in tmap: `World_rivers`, `land` and `metro`.
+
+## Terrain map
+
+```{r, fig.height = 4}
+tm_shape(land) +
+    tm_raster(col = "cover") +
+#tm_shape(World) +
+#	tm_borders() +
+tm_shape(World_rivers) +
+	tm_lines(lwd = "strokelwd", 
+			 lwd.scale = tm_scale_asis(values.scale = 0.2)) +
+tm_shape(metro) +
+	tm_symbols(shape = 20, size = 0.6, fill = "white") +
+	tm_symbols(shape = 20, size = 0.5, fill = "red") +
+tm_crs("+proj=eck4") + 
+tm_layout(earth_boundary = TRUE,
+		  earth_boundary.lwd = 2,
+		  legend.show = FALSE,     # option to disable all legends
+		  frame = FALSE,
+		  space.color = "white") +
+tm_title("Map of the World", position = tm_pos_out(cell.h = "center", cell.v = "top", pos.h = "center")) +
+tm_credits("Eckert IV projection", position = c("RIGHT", "BOTTOM")) # upper case means tight
+```
+
+## Classic style
+
+```{r, fig.height = 4}
+tmap_style("classic")
+tmap_last()
+```
