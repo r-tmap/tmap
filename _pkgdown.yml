@@ -24,7 +24,6 @@ reference:
   - tm_lines
   - tm_markers
   - tm_text
-  - tm_cartogram
 - title: Add component to tmap object
   contents:
   - tm_credits
