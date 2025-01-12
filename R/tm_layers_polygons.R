@@ -7,17 +7,23 @@
 #' The visual variable arguments (e.g. `col`) can be specified with either a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
 #' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
+#' See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
+#'
 #' Multiple values can be specified: in that case facets are created.
 #' These facets can be combined with other faceting data variables, specified with [tm_facets()].
+#' See \href{https://r-tmap.github.io/tmap/articles/basics_facets}{vignette about facets}.
 #'
 #' - The `*.scale` arguments determine the used scale to map the data values to
 #' visual variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
+#' See \href{https://r-tmap.github.io/tmap/articles/basics_scales}{vignette about scales}.
 #'
 #' - The `*.legend` arguments determine the used legend, specified with [tm_legend()].
 #' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
+#' See \href{https://r-tmap.github.io/tmap/articles/basics_legends}{vignette about legends}.
 #'
-#' - The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
+#' - The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()].
+#' See \href{https://r-tmap.github.io/tmap/articles/basics_charts}{vignette about charts}.
 #'
 #' - The `*.free` arguments determine whether scales are applied freely across facets, or shared.
 #' A logical value is required. They can also be specified with a vector of three
@@ -67,6 +73,7 @@
 #'   features. Only used for `"view"` mode.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R
+#' @seealso \href{Vignette about choropleth (1)}{https://r-tmap.github.io/tmap/articles/examples_choro_World} and \href{vignette about choropleth (2)}{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}
 #' @export
 tm_polygons = function(fill = tm_const(),
 					   fill.scale = tm_scale(),

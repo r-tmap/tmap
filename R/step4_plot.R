@@ -486,7 +486,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		# TO DO: make this generic (e.g. component prep function?)
 		if (gs != "Grid") {
 			if (o$panel.type != "none") {
-				cdt = rbindlist(c(list(cdt), mapply(function(lab, i) {
+				cdt = rbindlist(c({if (nrow(cdt) == 0L) NULL else list(cdt)}, mapply(function(lab, i) {
 					data.table::data.table(by1__ = i,
 										   by2__ = NA_integer_,
 										   by3__ = NA_integer_,

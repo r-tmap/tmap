@@ -11,9 +11,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  out.width = "100%",
-  dpi = 300,
-  fig.width = 7.2916667,
+  fig.width = 8,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -86,7 +84,7 @@ tm_shape(metro) +
 
 We are in `"plot"` mode. Now we can plot the map by printing `tm` object:
 
-```{r, fig.height = 3.5}
+```{r, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm
 ```
 
@@ -95,7 +93,7 @@ tm
 
 The same map in view mode:
 
-```{r, fig.height = 3.5}
+```{r}
 ttm()
 tm
 ```
@@ -105,7 +103,6 @@ Note that there is big difference: in this `"view"` mode there are basemaps, and
 Basemaps can be enabled or disabled via `tm_basemap()`: 
 
 ```{r, fig.height = 3.5}
-ttm()
 tm + tm_basemap(NULL)
 ```
 
@@ -129,7 +126,7 @@ For a more detailed description of options, see [vignette about options](https:/
 As of version 4, tmap can be extended with other modes. See ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
 
 
-```{r, message=FALSE, fig.height = 3.5}
+```{r, message=FALSE}
 library(tmap.deckgl)
 tmap_mode("deck")
 tm

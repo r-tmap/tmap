@@ -13,9 +13,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  out.width = "100%",
-  dpi = 300,
-  fig.width = 7.2916667,
+  fig.width = 8,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -48,7 +46,7 @@ tmap_options(scale = 0.75)
 ```
 
 
-## extension types
+## Extension types
 
 There are three types of tmap extensions:
 
@@ -68,7 +66,7 @@ This type of extension requires:
 
 See [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs). A layer function `tm_donuts` is added. More glyph types layer functions will follow, e.g. `tm_pies`, or `tm_radars`.
 
-```{r, fig.height = 6}
+```{r, fig.height = 6, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 library(tmap.glyphs)
 ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
 ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
@@ -100,18 +98,18 @@ library(tmap.networks)
 
 Besides this new spatial data class `"sfnetwork"`, this package also features new map layers, albeit very basic so far:
 
-```{r, fig.height = 8}
+```{r, fig.height = 8, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm_shape(sfn) +
 	tm_network()
 ```	
 
-```{r, fig.height = 8}
+```{r, fig.height = 8, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm_shape(sfn) +
 	tm_edges(col = "type", lwd = 4) +
 	tm_nodes()
 ```
 
-### New mode
+## New mode
 
 This type of extension is by far the most difficult one. It requires:
 

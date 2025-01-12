@@ -197,7 +197,6 @@
 \alias{tmapTransRaster}
 \alias{tmapTransPolygons}
 \alias{tmapTransLines}
-\alias{tmapTransCartogram}
 \title{Internal methods for tmap extensions}
 \format{
 An object of class \code{environment} of length 6.
@@ -930,8 +929,6 @@ tmapTransRaster(shpTM, ord__, plot.order, args)
 tmapTransPolygons(shpTM, ord__, plot.order, args, scale)
 
 tmapTransLines(shpTM, ord__, plot.order, args, scale)
-
-tmapTransCartogram(shpTM, size, ord__, plot.order, args, scale)
 }
 \arguments{
 \item{...}{args}
