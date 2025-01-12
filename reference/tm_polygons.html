@@ -244,13 +244,18 @@ features. Only used for <code>"view"</code> mode.</p></dd>
     <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
 specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected).
-Multiple values can be specified: in that case facets are created.
-These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.</p><ul><li><p>The <code>*.scale</code> arguments determine the used scale to map the data values to
+See <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about visual variables</a>.</p>
+<p>Multiple values can be specified: in that case facets are created.
+These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.
+See <a href="https://r-tmap.github.io/tmap/articles/basics_facets">vignette about facets</a>.</p><ul><li><p>The <code>*.scale</code> arguments determine the used scale to map the data values to
 visual variable values. These can be specified with one of the available
-<code>tm_scale_*()</code> functions. The default is specified by the tmap option (<code><a href="tm_options.html">tm_options()</a></code>) <code>scales.var</code>.</p></li>
+<code>tm_scale_*()</code> functions. The default is specified by the tmap option (<code><a href="tm_options.html">tm_options()</a></code>) <code>scales.var</code>.
+See <a href="https://r-tmap.github.io/tmap/articles/basics_scales">vignette about scales</a>.</p></li>
 <li><p>The <code>*.legend</code> arguments determine the used legend, specified with <code><a href="tm_legend.html">tm_legend()</a></code>.
-The default legend and its settings are determined by the tmap options (<code><a href="tm_options.html">tm_options()</a></code>) <code>legend.</code> .</p></li>
-<li><p>The <code>*.chart</code> arguments specify additional charts, specified with <code>tm_chart_</code>, e.g. <code><a href="tm_chart.html">tm_chart_histogram()</a></code></p></li>
+The default legend and its settings are determined by the tmap options (<code><a href="tm_options.html">tm_options()</a></code>) <code>legend.</code> .
+See <a href="https://r-tmap.github.io/tmap/articles/basics_legends">vignette about legends</a>.</p></li>
+<li><p>The <code>*.chart</code> arguments specify additional charts, specified with <code>tm_chart_</code>, e.g. <code><a href="tm_chart.html">tm_chart_histogram()</a></code>.
+See <a href="https://r-tmap.github.io/tmap/articles/basics_charts">vignette about charts</a>.</p></li>
 <li><p>The <code>*.free</code> arguments determine whether scales are applied freely across facets, or shared.
 A logical value is required. They can also be specified with a vector of three
 logical values; these determine whether scales are applied freely per facet dimension.
@@ -262,6 +267,10 @@ scale, and therefore its own legend. For facet wraps and stacks
 (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension,
 so the <code>*.free</code> argument requires only one logical value.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><a href="Vignette%20about%20choropleth%20(1)">https://r-tmap.github.io/tmap/articles/examples_choro_World</a> and <a href="vignette%20about%20choropleth%20(2)">https://r-tmap.github.io/tmap/articles/examples_choro_NLD</a></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

@@ -144,11 +144,13 @@
 <span>          legend.show <span class="op">=</span> <span class="cn">FALSE</span>,     <span class="co"># option to disable all legends</span></span>
 <span>          frame <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          space.color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Map of the World"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"center"</span>, cell.v <span class="op">=</span> <span class="st">"top"</span>, pos.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Eckert IV projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RIGHT"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="co"># upper case means tight</span></span>
+<span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Map of the World"</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"center"</span>, cell.v <span class="op">=</span> <span class="st">"top"</span>, pos.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Eckert IV projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RIGHT"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Unable to warp stars. Stars will be transformed now (which will take</span></span>
 <span><span class="co">#&gt; some time).</span></span></code></pre></div>
 <p><img src="examples_terrain_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<p>Note: upper case position spefications (last line) means tight to the right bottom corner</p>
 </div>
 <div class="section level2">
 <h2 id="classic-style">Classic style<a class="anchor" aria-label="anchor" href="#classic-style"></a>
