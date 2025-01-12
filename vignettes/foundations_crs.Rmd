@@ -86,10 +86,11 @@ tm_title("Latitude/longitude (4326) coordinates")
 ```
 
 
-
 However, this is not a good map because areas near the poles are too large (and therefore overemphasized).
 
 ```{r, fig.height = 4}
+library(tmap.cartogram)
+
 # split multi-polygon countries (otherwise Alaska is still too large)
 World_polygons = sf::st_cast(World, "POLYGON")
 World_polygons$area = sf::st_area(World_polygons)
