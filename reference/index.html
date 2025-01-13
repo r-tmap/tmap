@@ -52,10 +52,10 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-advanced"><li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">layer groups (view mode only)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
   </ul></li>
@@ -74,6 +74,23 @@
     </div>
 
     <div class="section level2">
+      <h2 id="thematic-maps">Thematic Maps<a class="anchor" aria-label="anchor" href="#thematic-maps"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tmap-package.html">tmap</a></code> <code><a href="tmap-package.html">tmap-package</a></code>
+
+        </dt>
+        <dd>Thematic Map Visualization</dd>
+      </dl></div><div class="section level2">
       <h2 id="create-a-quick-plot">Create a quick plot<a class="anchor" aria-label="anchor" href="#create-a-quick-plot"></a></h2>
 
 
@@ -143,12 +160,6 @@
 
       <dl><dt>
 
-          <code><a href="tm_shape.html">tm_shape()</a></code>
-
-        </dt>
-        <dd>Shape (spatial object) specification</dd>
-      </dl><dl><dt>
-
           <code><a href="tm_polygons.html">tm_polygons()</a></code> <code><a href="tm_polygons.html">tm_fill()</a></code> <code><a href="tm_polygons.html">tm_borders()</a></code> <code><a href="tm_polygons.html">opt_tm_polygons()</a></code>
 
         </dt>
@@ -189,6 +200,23 @@
 
         </dt>
         <dd>Map layer: simple features</dd>
+      </dl></div><div class="section level2">
+      <h2 id="specify-facets">Specify facets<a class="anchor" aria-label="anchor" href="#specify-facets"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tm_facets.html">tm_facets()</a></code> <code><a href="tm_facets.html">tm_facets_grid()</a></code> <code><a href="tm_facets.html">tm_facets_wrap()</a></code> <code><a href="tm_facets.html">tm_facets_pagewise()</a></code> <code><a href="tm_facets.html">tm_facets_stack()</a></code> <code><a href="tm_facets.html">tm_facets_hstack()</a></code> <code><a href="tm_facets.html">tm_facets_vstack()</a></code> <code><a href="tm_facets.html">tm_facets_flip()</a></code>
+
+        </dt>
+        <dd>Specify facets</dd>
       </dl></div><div class="section level2">
       <h2 id="add-auxiliary-map-layers">Add auxiliary map layers<a class="anchor" aria-label="anchor" href="#add-auxiliary-map-layers"></a></h2>
 
@@ -271,12 +299,6 @@
 
         </dt>
         <dd>Map component: minimap</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_facets.html">tm_facets()</a></code> <code><a href="tm_facets.html">tm_facets_grid()</a></code> <code><a href="tm_facets.html">tm_facets_wrap()</a></code> <code><a href="tm_facets.html">tm_facets_pagewise()</a></code> <code><a href="tm_facets.html">tm_facets_stack()</a></code> <code><a href="tm_facets.html">tm_facets_hstack()</a></code> <code><a href="tm_facets.html">tm_facets_vstack()</a></code> <code><a href="tm_facets.html">tm_facets_flip()</a></code>
-
-        </dt>
-        <dd>Specify facets</dd>
       </dl><dl><dt>
 
           <code><a href="tm_mouse_coordinates.html">tm_mouse_coordinates()</a></code>
@@ -401,7 +423,7 @@
         </dt>
         <dd>Legend charts</dd>
       </dl></div><div class="section level2">
-      <h2 id="set-layout-to-tmap">Set layout to tmap<a class="anchor" aria-label="anchor" href="#set-layout-to-tmap"></a></h2>
+      <h2 id="set-layout-options">Set layout options<a class="anchor" aria-label="anchor" href="#set-layout-options"></a></h2>
 
 
 
@@ -441,12 +463,6 @@
 
         </dt>
         <dd>Plot mode options</dd>
-      </dl><dl><dt>
-
-          <code><a href="tm_plot_order.html">tm_plot_order()</a></code>
-
-        </dt>
-        <dd>Determine plotting order of features</dd>
       </dl></div><div class="section level2">
       <h2 id="set-options-globally-for-tmap">Set options globally for tmap<a class="anchor" aria-label="anchor" href="#set-options-globally-for-tmap"></a></h2>
 
@@ -576,7 +592,7 @@
         </dt>
         <dd>Wrapper functions for using <strong>tmap</strong> in <strong>shiny</strong></dd>
       </dl></div><div class="section level2">
-      <h2 id="print-a-tmap">print a tmap<a class="anchor" aria-label="anchor" href="#print-a-tmap"></a></h2>
+      <h2 id="print-a-tmap-object">Print a tmap object<a class="anchor" aria-label="anchor" href="#print-a-tmap-object"></a></h2>
 
 
 
@@ -610,12 +626,6 @@
 
         </dt>
         <dd>Arrange small multiples in grid layout</dd>
-      </dl><dl><dt>
-
-          <code><a href="tmap-package.html">tmap</a></code> <code><a href="tmap-package.html">tmap-package</a></code>
-
-        </dt>
-        <dd>Thematic Map Visualization</dd>
       </dl></div><div class="section level2">
       <h2 id="helper-functions">Helper functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a></h2>
 
@@ -653,6 +663,18 @@
         <dd>tmap function to specify variables</dd>
       </dl><dl><dt>
 
+          <code><a href="tm_plot_order.html">tm_plot_order()</a></code>
+
+        </dt>
+        <dd>Determine plotting order of features</dd>
+      </dl><dl><dt>
+
+          <code><a href="theme_ps.html">theme_ps()</a></code>
+
+        </dt>
+        <dd>ggplot2 theme for proportional symbols</dd>
+      </dl><dl><dt>
+
           <code><a href="tmap_tip.html">tmap_tip()</a></code>
 
         </dt>
@@ -663,12 +685,6 @@
 
         </dt>
         <dd>Specify icons</dd>
-      </dl><dl><dt>
-
-          <code><a href="theme_ps.html">theme_ps()</a></code>
-
-        </dt>
-        <dd>ggplot2 theme for proportional symbols</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

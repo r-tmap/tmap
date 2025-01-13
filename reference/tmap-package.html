@@ -58,10 +58,10 @@ of graphics, and resembles the syntax of ggplot2."><meta property="og:image" con
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-advanced"><li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">layer groups (view mode only)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
   </ul></li>
@@ -90,39 +90,12 @@ of graphics, and resembles the syntax of ggplot2.</p>
 
 
     <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This page provides a brief overview of all package functions.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="quick-plotting-method">Quick plotting method<a class="anchor" aria-label="anchor" href="#quick-plotting-method"></a></h2>
-
-
-<table class="table table"><tr><td><code><a href="qtm.html">qtm()</a></code></td><td>Plot a thematic map</td></tr><tr><td>—————————</td><td>——————————————-</td></tr></table></div>
-    <div class="section level2">
-    <h2 id="main-plotting-method">Main plotting method<a class="anchor" aria-label="anchor" href="#main-plotting-method"></a></h2>
-
-
-<p>Shape specification:</p><table class="table table"><tr><td><code><a href="tm_shape.html">tm_shape()</a></code></td><td>Specify a shape object</td></tr></table><p>Aesthetics base layers:</p><table class="table table"><tr><td><code><a href="tm_polygons.html">tm_polygons()</a></code></td><td>Create a polygon layer (with borders)</td></tr><tr><td><code><a href="tm_symbols.html">tm_symbols()</a></code></td><td>Create a layer of symbols</td></tr><tr><td><code><a href="tm_lines.html">tm_lines()</a></code></td><td>Create a layer of lines</td></tr><tr><td><code><a href="tm_raster.html">tm_raster()</a></code></td><td>Create a raster layer</td></tr><tr><td><code><a href="tm_text.html">tm_text()</a></code></td><td>Create a layer of text labels</td></tr><tr><td><code><a href="tm_basemap.html">tm_basemap()</a></code></td><td>Create a layer of basemap tiles</td></tr><tr><td><code><a href="tm_basemap.html">tm_tiles()</a></code></td><td>Create a layer of overlay tiles</td></tr></table><p>Aesthetics derived layers:</p><table class="table table"><tr><td><code><a href="tm_polygons.html">tm_fill()</a></code></td><td>Create a polygon layer (without borders)</td></tr><tr><td><code><a href="tm_polygons.html">tm_borders()</a></code></td><td>Create polygon borders</td></tr><tr><td><code><a href="tm_symbols.html">tm_bubbles()</a></code></td><td>Create a layer of bubbles</td></tr><tr><td><code><a href="tm_symbols.html">tm_squares()</a></code></td><td>Create a layer of squares</td></tr><tr><td><code><a href="tm_symbols.html">tm_dots()</a></code></td><td>Create a layer of dots</td></tr><tr><td><code><a href="tm_symbols.html">tm_markers()</a></code></td><td>Create a layer of markers</td></tr><tr><td><code><a href="tm_iso.html">tm_iso()</a></code></td><td>Create a layer of iso/contour lines</td></tr><tr><td><code><a href="tm_rgb.html">tm_rgb()</a></code></td><td>Create a raster layer of an image</td></tr></table><p>Faceting (small multiples)</p><table class="table table"><tr><td><code><a href="tm_facets.html">tm_facets()</a></code></td><td>Define facets</td></tr></table><p>Attributes:</p><table class="table table"><tr><td><code><a href="tm_grid.html">tm_grid()</a></code></td><td>Create grid lines</td></tr><tr><td><code><a href="tm_scale_bar.html">tm_scale_bar()</a></code></td><td>Create a scale bar</td></tr><tr><td><code><a href="tm_compass.html">tm_compass()</a></code></td><td>Create a map compass</td></tr><tr><td><code><a href="tm_credits.html">tm_credits()</a></code></td><td>Create a text for credits</td></tr><tr><td><code><a href="tm_logo.html">tm_logo()</a></code></td><td>Create a logo</td></tr><tr><td><code><a href="tm_xlab.html">tm_xlab()</a></code> and <code><a href="tm_xlab.html">tm_ylab()</a></code></td><td>Create axis labels</td></tr><tr><td><code><a href="tm_minimap.html">tm_minimap()</a></code></td><td>Create a minimap (view mode only)</td></tr></table><p>Layout element:</p><table class="table table"><tr><td><code><a href="tm_layout.html">tm_layout()</a></code></td><td>Adjust the layout (main function)</td></tr><tr><td><code><a href="tm_legend.html">tm_legend()</a></code></td><td>Adjust the legend</td></tr><tr><td><code><a href="tm_view.html">tm_view()</a></code></td><td>Configure the interactive view mode</td></tr><tr><td><code><a href="tm_layout.html">tm_style()</a></code></td><td>Apply a predefined style</td></tr><tr><td><code><a href="tmap-deprecated.html">tm_format()</a></code></td><td>Apply a predefined format</td></tr></table><p>Change options:</p><table class="table table"><tr><td><code><a href="tmap_mode.html">tmap_mode()</a></code></td><td>Set the tmap mode: <code>"plot"</code> or <code>"view"</code></td></tr><tr><td><code><a href="tmap_mode.html">ttm()</a></code></td><td>Toggle between the modes</td></tr><tr><td><code><a href="tmap_options.html">tmap_options()</a></code></td><td>Set global tmap options (from <code><a href="tm_layout.html">tm_layout()</a></code>, <code><a href="tm_view.html">tm_view()</a></code>, and a couple of others)</td></tr><tr><td><code><a href="tmap_style.html">tmap_style()</a></code></td><td>Set the default style</td></tr></table><p>Create icons:</p><table class="table table"><tr><td><code><a href="tmap_icons.html">tmap_icons()</a></code></td><td>Specify icons for markers or proportional symbols</td></tr></table></div>
-    <div class="section level2">
-    <h2 id="output-functions">Output functions<a class="anchor" aria-label="anchor" href="#output-functions"></a></h2>
-
-
-<table class="table table"><tr><td><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code></td><td>Plot in graphics device or view interactively in web browser or RStudio's viewer pane</td></tr><tr><td><code><a href="tmap_last.html">tmap_last()</a></code></td><td>Redraw the last map</td></tr><tr><td><code><a href="tmap_leaflet.html">tmap_leaflet()</a></code></td><td>Obtain a leaflet widget object</td></tr><tr><td><code><a href="tmap_animation.html">tmap_animation()</a></code></td><td>Create an animation</td></tr><tr><td><code><a href="tmap_arrange.html">tmap_arrange()</a></code></td><td>Create small multiples of separate maps</td></tr><tr><td><code><a href="tmap_save.html">tmap_save()</a></code></td><td>Save thematic maps (either as image or HTML file)</td></tr></table></div>
-    <div class="section level2">
-    <h2 id="spatial-datasets">Spatial datasets<a class="anchor" aria-label="anchor" href="#spatial-datasets"></a></h2>
-
-
-<table class="table table"><tr><td><code><a href="World.html">World</a></code></td><td>World country data (<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> object of polygons)</td></tr><tr><td><code><a href="Netherlands.html">NLD_prov</a></code></td><td>Netherlands province data (<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> object of polygons)</td></tr><tr><td><code><a href="Netherlands.html">NLD_muni</a></code></td><td>Netherlands municipal data (<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> object of polygons)</td></tr><tr><td><code><a href="metro.html">metro</a></code></td><td>Metropolitan areas (<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> object of points)</td></tr><tr><td><code><a href="https://rdrr.io/r/datasets/rivers.html" class="external-link">rivers</a></code></td><td>Rivers (<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> object of lines)</td></tr><tr><td><code><a href="land.html">land</a></code></td><td>Global land cover (<code><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">stars</a></code> object)</td></tr></table></div>
-    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href="https://doi.org/10.18637/jss.v084.i06" class="external-link">doi:10.18637/jss.v084.i06</a></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://github.com/r-tmap/tmap" class="external-link">https://github.com/r-tmap/tmap</a></p></li>
-<li><p><a href="https://r-tmap.github.io/tmap/">https://r-tmap.github.io/tmap/</a></p></li>
-<li><p>Report bugs at <a href="https://github.com/r-tmap/tmap/issues" class="external-link">https://github.com/r-tmap/tmap/issues</a></p></li>
-</ul></div>
+    <div class="dont-index"><p><a href="https://r-tmap.github.io/tmap/index.html">Main documentation</a></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
