@@ -7,7 +7,7 @@
 #' @note Plans are to migrate the functionality regarding generic crs and automatic crs recommendation to a separate package.
 #' @inherit tm_shape details
 #' @example ./examples/tm_crs.R
-#' @seealso \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
 #' @export
 tm_crs = function(crs = NA, property = NA) {
 	if (is.na(crs)) {

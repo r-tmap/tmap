@@ -71,7 +71,7 @@ tm_chart_heatmap(
 
 \item{extra.ggplot2}{Extra ggplot2 code}
 
-\item{position}{Position of the chart. An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.}
+\item{position}{Position of the chart. An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
 
 \item{width}{in number of text lines (height of it)}
 
@@ -155,5 +155,5 @@ tm_shape(World) +
 
 }
 \seealso{
-\href{Vignette about charts}{https://r-tmap.github.io/tmap/articles/basics_charts}
+\href{https://r-tmap.github.io/tmap/articles/basics_charts}{Vignette about charts}
 }

@@ -16,7 +16,7 @@
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
-#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
+#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @param width,height width and height of the text box.
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
@@ -178,7 +178,7 @@ tm_scale_bar = function(...) {
 #' Map component that adds mouse coordinates
 #'
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
-#' @param position position. An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
+#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @param z z
 #' @export
 tm_mouse_coordinates <- function(stack,
@@ -197,7 +197,7 @@ tm_mouse_coordinates <- function(stack,
 #'   By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
 #'   Note the latter does not happen when `server` is specified.
 #' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
-#' @param position position of the minimap. An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
+#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param position position
 #' @param z z

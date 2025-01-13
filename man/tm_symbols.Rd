@@ -491,5 +491,5 @@ tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
 # also supported in view mode :-)
 }
 \seealso{
-\href{Bubble map example}{https://r-tmap.github.io/tmap/articles/examples_bubble} and \href{terrain map example}{https://r-tmap.github.io/tmap/articles/examples_terrain}
+\href{https://r-tmap.github.io/tmap/articles/examples_bubble}{Bubble map example} and \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{terrain map example}
 }

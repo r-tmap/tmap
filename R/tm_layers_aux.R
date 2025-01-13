@@ -30,7 +30,7 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @export
-#' @seealso \href{Basemap examples}{https://r-tmap.github.io/tmap/articles/basics_basemaps}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemap examples}
 #' @example ./examples/tm_basemap.R
 tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {

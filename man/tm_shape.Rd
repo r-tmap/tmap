@@ -39,7 +39,7 @@ class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}},
 }
 \details{
 The map projection (\code{crs}) determines in which coordinate system the spatial object is processed and plotted.
-See \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}. The \code{crs} can be specified in two places: 1) \code{tm_shape()} and \code{tm_crs()}.
+See \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}. The \code{crs} can be specified in two places: 1) \code{tm_shape()} and \code{tm_crs()}.
 In both cases, the map is plotted into the specified \code{crs}. The difference is that in the first option, the \code{crs} is also taken into account in spatial transformation functions, such as the calculation of centroids and cartograms. In the second option, the \code{crs} is only used in the plotting phase.
 
 The automatic crs recommendation (which is still work-in-progress) is the following:\tabular{ll}{
@@ -69,5 +69,5 @@ tm_shape(World, crs = "+proj=robin", filter = World$continent=="Africa") +
 	tm_polygons()
 }
 \seealso{
-\href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}
+\href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
 }

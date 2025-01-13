@@ -4,7 +4,7 @@
 #' class packages: [`sf`][`sf::sf`], [`stars`][stars::st_as_stars()], or `terra`.
 #'
 #' The map projection (`crs`) determines in which coordinate system the spatial object is processed and plotted.
-#' See \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}. The `crs` can be specified in two places: 1) `tm_shape()` and `tm_crs()`.
+#' See \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}. The `crs` can be specified in two places: 1) `tm_shape()` and `tm_crs()`.
 #' In both cases, the map is plotted into the specified `crs`. The difference is that in the first option, the `crs` is also taken into account in spatial transformation functions, such as the calculation of centroids and cartograms. In the second option, the `crs` is only used in the plotting phase.
 #'
 #' The automatic crs recommendation (which is still work-in-progress) is the following:
@@ -53,7 +53,7 @@
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
 #' @note as of tmap 4.0, simplify has been removed. Please use [tmaptools::simplify_shape()] instead
 #' @example ./examples/tm_shape.R
-#' @seealso \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
 #' @export
 tm_shape = function(shp,
 					bbox = NULL,

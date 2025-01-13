@@ -28,7 +28,7 @@
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @inherit tm_polygons details
 #' @inheritParams tm_polygons
-#' @seealso \href{Bubble map example}{https://r-tmap.github.io/tmap/articles/examples_bubble} and \href{terrain map example}{https://r-tmap.github.io/tmap/articles/examples_terrain}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_bubble}{Bubble map example} and \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{terrain map example}
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_symbols.R
 #' @export

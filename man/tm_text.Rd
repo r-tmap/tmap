@@ -390,5 +390,5 @@ tm_shape(metroAfrica) +
 			   options = opt_tm_markers(point.label = FALSE, remove_overlap = TRUE))
 }
 \seealso{
-\href{Terrain map example}{https://r-tmap.github.io/tmap/articles/examples_terrain}
+\href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map example}
 }

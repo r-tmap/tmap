@@ -6,7 +6,7 @@
 #'
 #' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
 #'
-#' @seealso \href{Vignette about layout}{https://r-tmap.github.io/tmap/articles/basics_layout}, \href{vignette about margins and aspect ratio}{https://r-tmap.github.io/tmap/articles/adv_margins} and \href{vignette about options}{https://r-tmap.github.io/tmap/articles/adv_options}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_layout}{Vignette about layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{vignette about margins and aspect ratio} and \href{https://r-tmap.github.io/tmap/articles/adv_options}{vignette about options}
 #' @inheritParams tmap_options
 #' @example ./examples/tm_layout.R
 #' @export

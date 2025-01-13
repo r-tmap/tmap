@@ -21,7 +21,7 @@
 #'   See [tm_plot_order()] for details.
 #' @inherit tm_polygons details
 #' @inheritParams tm_polygons
-#' @seealso \href{Terrain map example}{https://r-tmap.github.io/tmap/articles/examples_terrain}
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map example}
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R

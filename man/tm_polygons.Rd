@@ -199,5 +199,5 @@ tm_shape(World) +
 
 }
 \seealso{
-\href{Choropleth example (1)}{https://r-tmap.github.io/tmap/articles/examples_choro_World} and \href{choropleth example (2)}{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}
+\href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
 }
