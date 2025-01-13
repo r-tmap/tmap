@@ -16,3 +16,6 @@ tm_mouse_coordinates(stack, position, z)
 \description{
 Map component that adds mouse coordinates
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

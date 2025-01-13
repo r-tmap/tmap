@@ -132,3 +132,6 @@ In case a legends or components are draw row- or column wise, and the position
 of the legends (or components) is right next to the maps, these legends
 (or components) will be aligned with the maps.
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/adv_positions}{Vignette about positioning}
+}

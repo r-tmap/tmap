@@ -48,6 +48,7 @@
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
 #' @param ... used to catch deprecated arguments
 #' @example ./examples/tm_facets.R
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
 #' @export
 tm_facets = function(by = NULL,
 					 rows = NULL,

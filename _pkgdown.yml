@@ -12,29 +12,43 @@ development:
   version_tooltip: "tmap v4 documentation"
 
 reference:
-- title: Export a tmap object
+- title: Create a quick plot
   contents:
-  - tmap_save
-  - tmap_leaflet
-- title: Create a tmap object
+  - qtm
+- title: Stacking tmap elements
+  contents:
+  - tmap-element
+- title: Specify spatial data
   contents:
   - tm_shape
-  - qtm
+  - tm_crs
+- title: Add data-driven map layers
+  contents:
+  - tm_shape
   - tm_polygons
   - tm_lines
   - tm_markers
+  - tm_raster
   - tm_text
-- title: Add component to tmap object
+  - tm_iso
+  - tm_sf
+- title: Add auxiliary map layers
   contents:
+  - tm_tiles
+  - tm_basemap
+  - tm_rgb
+  - tm_grid
+  - tm_graticules
+- title: Add map components
+  contents:
+  - tm_title
   - tm_credits
   - tm_compass
-  - tm_tiles
   - tm_scalebar
-  - tm_basemap
   - tm_logo
   - tm_minimap
-  - tm_chart
   - tm_facets
+  - tm_mouse_coordinates
   - tm_xlab
 - title: Set scale for a visual variable
   desc: Always use those in this form `<vv>.scale = tm_scale*()`
@@ -42,23 +56,16 @@ reference:
   - tm_scale
   - starts_with("tm_scale_")
   - -tm_scale_bar
-- title: Make modification to spatial object
-  contents:
-  - tm_crs
-  - tm_raster
-  - tm_sf
-  - tm_rgb
-
-- title: Set title for a visual variable
-  desc: Always use those in this form `<vv>.title = tm_title*()`
-  contents:
-  - tm_title
-  - starts_with("tm_title_")
-- title: Set legend of a tmap object
+- title: Set legend for a visual variable
+  desc: Always use those in this form `<vv>.legend = tm_legend*()`
   contents:
   - starts_with("tm_legend")
   - tm_add_legend
   - tm_place_legends_right
+- title: Set charts for a visual variable
+  desc: Always use those in this form `<vv>.chart = tm_chart*()`
+  contents:
+  - starts_with("tm_chart")
 - title: Set layout to tmap
   contents:
   - tm_layout
@@ -67,13 +74,6 @@ reference:
   - tm_group
   - tm_plot
   - tm_plot_order
-  - tm_mouse_coordinates
-- title: add elements to tmap
-  contents:
-  - tmap-element
-  - tm_graticules
-  - tm_grid
-  - tm_iso
 - title: Set options globally for tmap
   contents:
   - tmap_options
@@ -82,6 +82,10 @@ reference:
   - tmap_mode
   - tmap_devel_mode
   - tmap_design_mode
+- title: Export a tmap object
+  contents:
+  - tmap_save
+  - tmap_leaflet
 - title: Datasets included in tmap
   contents:
   - World
@@ -177,6 +181,8 @@ navbar:
       menu:
         - text: Shiny integration
           href: articles/adv_shiny
+        - text: layer groups (view mode only)
+          href: articles/adv_groups
         - text: Multivariate
           href: articles/adv_multivariate
         - text: Positioning of components

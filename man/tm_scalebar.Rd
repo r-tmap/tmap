@@ -62,3 +62,6 @@ tm_scalebar(
 \description{
 Map component that adds a scale bar.
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

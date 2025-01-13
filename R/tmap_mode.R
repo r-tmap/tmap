@@ -34,16 +34,6 @@
 #'
 #' However, there are a couple of constraints in comparison to `"plot"`:
 #'
-#' * The map is always projected according to the Web Mercator projection.
-#'   Although this projection is the de facto standard for interactive web-based mapping,
-#'   it lacks the equal-area property, which is important for many thematic maps,
-#'   especially choropleths (see examples from [tm_shape()]).
-#' * Small multiples are not supported
-#' * The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
-#' * Text labels are not supported (yet)
-#' * The layout options set with [tm_layout()]) regarding map format are not used.
-#'   However, the styling options still apply.
-#'
 #' @param mode One of `"plot"` or `"view"`. See Details for more info.
 #' @return
 #' * `tmap_mode()` returns the current tmap mode invisibly (when called without argument).
@@ -51,7 +41,7 @@
 #' * `ttm()` switches mode and returns previous tmap mode invisibly.
 #' The previous tmap mode before switching.
 #' @example ./examples/tmap_mode.R
-#' @seealso
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_modes}{vignette about modes}
 #' * [tmap_last()] to show the last map
 #' * [tm_view()] for viewing options
 #' * [tmap_leaflet()] for obtaining a leaflet widget

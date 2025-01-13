@@ -21,6 +21,7 @@
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
 #' @param z z
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -55,6 +56,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #'
 #' @inheritParams tm_title
 #' @param ... to catch deprecated arguments
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
@@ -87,6 +89,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 #' @param just just
 #' @param margins margins
 #' @param ... to catch deprecated arguments (alpha)
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_compass <- function(north,
 					   type,
@@ -129,6 +132,7 @@ tm_compass <- function(north,
 #' @param size Deprecated (use `text.size` instead)
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param margins margins
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_scalebar = function(breaks,
 						width,
@@ -179,6 +183,7 @@ tm_scale_bar = function(...) {
 #'
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @param z z
 #' @export
 tm_mouse_coordinates <- function(stack,
@@ -202,6 +207,7 @@ tm_mouse_coordinates <- function(stack,
 #' @param position position
 #' @param z z
 #' @inheritDotParams leaflet::addMiniMap
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_minimap <- function(server,
 					   toggle,
@@ -231,6 +237,7 @@ tm_minimap <- function(server,
 #' @param resize_as_group resize_as_group
 #' @param z z
 #' @example ./examples/tm_logo.R
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_logo = function(file,
 				   height,

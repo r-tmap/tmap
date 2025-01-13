@@ -942,3 +942,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \description{
 tmap options
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_layout}{Vignette about layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{vignette about margins and aspect ratio} and \href{https://r-tmap.github.io/tmap/articles/adv_options}{vignette about options}
+}

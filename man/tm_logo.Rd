@@ -60,3 +60,6 @@ tm_shape(World) +
 			height=5, position = c("left", "top")) +
 	tm_format("World")
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

@@ -63,3 +63,6 @@ It does not override the MiniMap default map options but extends them.}
 \description{
 Map component that adds a \link[leaflet:addMiniMap]{minimap} in view mode.
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

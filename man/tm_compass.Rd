@@ -74,3 +74,6 @@ tm_compass(
 \description{
 Map component that adds a compass
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

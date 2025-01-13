@@ -9,6 +9,7 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @param zoom_levels The zoom levels at which the group is displays at. When specified `control` will be set to `"none"`.
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/adv_groups}{vignette about layer groups}
 #' @export
 tm_group = function(name, control = NA, zoom_levels = NA) {
 	optname = paste0("view_group_", name)

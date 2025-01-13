@@ -72,3 +72,6 @@ tm_credits(
 \description{
 Map component that adds a text, typically used as credits. This function is the same as \code{\link[=tm_title]{tm_title()}} but with different default values.
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

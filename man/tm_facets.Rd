@@ -135,3 +135,6 @@ tm_shape(World) +
     fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Gender Inequality Index (GII)", "World Press Freedom Index"))
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
+}

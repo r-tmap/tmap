@@ -21,6 +21,8 @@
 	# flag for old v3 code
 	assign("v3", FALSE, envir = .TMAP)
 
+	assign("tips", sample(.tips), envir = .TMAP)
+	assign("tip_nr", 1L, envir = .TMAP)
 
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
 
@@ -31,6 +33,17 @@
 	})) # needed for pretty ticks for continuous scale with trans enabled (like log scale)
 
 }
+
+.tips <- c(
+	"tmap works with {.href [visual variables](https://r-tmap.github.io/tmap/articles/basics_vv)}.",
+	"tmap can be {.href [extended](https://r-tmap.github.io/tmap/articles/adv_extensions)} in several ways.",
+	"{.href [Charts](https://r-tmap.github.io/tmap/articles/basics_charts)} can be added next to legends.",
+	"Layout {.href [styles](https://r-tmap.github.io/tmap/articles/adv_options#setting-options-and-styles)} can be created.",
+	"Automatic {.href [map projection](https://r-tmap.github.io/tmap/articles/foundations_crs)} recommendations can be set via {.code tm_crs(crs = {.str auto})}.",
+	"Layout can be adjusted to look identical as {.href [ggplot2](https://r-tmap.github.io/tmap/articles/versus_ggplot2#mimicking-ggplot2-layout)}.",
+	"In {.str plot} mode, a special design-mode can be enabled via {.code tmap_design_mode()}."
+)
+
 
 #' @export
 #' @rdname tmap_internal

@@ -20,3 +20,6 @@ buttons (meaning only one group can be shown), \code{"check"} for check boxes
 \description{
 Controls the layer groups in interactive maps (view mode): the layer control box (radio buttons or check boxes) and at which zoom levels the layers are displayed at.
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/adv_groups}{vignette about layer groups}
+}

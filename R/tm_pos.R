@@ -104,6 +104,7 @@
 #' of the legends (or components) is right next to the maps, these legends
 #' (or components) will be aligned with the maps.
 #'
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Vignette about positioning}
 #' @export
 tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())

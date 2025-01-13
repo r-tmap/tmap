@@ -77,3 +77,6 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 \description{
 Map component that adds a title
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+}

@@ -56,17 +56,6 @@ obtained with \code{\link[=tmap_leaflet]{tmap_leaflet()}}.
 With R Markdown, it is possible to publish it to an HTML page.
 
 However, there are a couple of constraints in comparison to \code{"plot"}:
-\itemize{
-\item The map is always projected according to the Web Mercator projection.
-Although this projection is the de facto standard for interactive web-based mapping,
-it lacks the equal-area property, which is important for many thematic maps,
-especially choropleths (see examples from \code{\link[=tm_shape]{tm_shape()}}).
-\item Small multiples are not supported
-\item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
-\item Text labels are not supported (yet)
-\item The layout options set with \code{\link[=tm_layout]{tm_layout()}}) regarding map format are not used.
-However, the styling options still apply.
-}
 }
 
 \examples{
@@ -89,6 +78,7 @@ Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
 Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_modes}{vignette about modes}
 \itemize{
 \item \code{\link[=tmap_last]{tmap_last()}} to show the last map
 \item \code{\link[=tm_view]{tm_view()}} for viewing options
