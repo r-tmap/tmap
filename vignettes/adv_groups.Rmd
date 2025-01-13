@@ -2,10 +2,6 @@
 title: "tmap advanced: layer groups (view mode only)"
 output: 
   bookdown::html_vignette2:
-pkgdown:
-  as_is: true
-template:
-  math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
 editor_options: 
