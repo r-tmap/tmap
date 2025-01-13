@@ -39,7 +39,6 @@ for eqdc: \url{https://proj.org/en/9.4/operations/projections/eqdc.html}
 Plans are to migrate the functionality regarding generic crs and automatic crs recommendation to a separate package.
 }
 \examples{
-
 SA = World[World$continent == "South America", ]
 
 # latlon coordinates (WGS84)

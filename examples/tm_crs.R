@@ -1,4 +1,3 @@
-
 SA = World[World$continent == "South America", ]
 
 # latlon coordinates (WGS84)

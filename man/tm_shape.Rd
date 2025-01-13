@@ -62,7 +62,10 @@ for eqdc: \url{https://proj.org/en/9.4/operations/projections/eqdc.html}
 as of tmap 4.0, simplify has been removed. Please use \code{\link[tmaptools:simplify_shape]{tmaptools::simplify_shape()}} instead
 }
 \examples{
-tm_shape(World, crs = "+proj=ortho +lat_0=-10 +lon_0=-30") +
+tm_shape(World, crs = "auto") +
+	tm_polygons()
+
+tm_shape(World, crs = 3035, bb = "Europe") +
 	tm_polygons()
 
 tm_shape(World, crs = "+proj=robin", filter = World$continent=="Africa") +
