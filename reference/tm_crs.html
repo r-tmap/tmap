@@ -98,7 +98,7 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The map projection (<code>crs</code>) determines in which coordinate system the spatial object is processed and plotted.
-See <a href="vignette%20about%20CRS">https://r-tmap.github.io/tmap/articles/foundations_crs</a>. The <code>crs</code> can be specified in two places: 1) <code><a href="tm_shape.html">tm_shape()</a></code> and <code>tm_crs()</code>.
+See <a href="https://r-tmap.github.io/tmap/articles/foundations_crs">vignette about CRS</a>. The <code>crs</code> can be specified in two places: 1) <code><a href="tm_shape.html">tm_shape()</a></code> and <code>tm_crs()</code>.
 In both cases, the map is plotted into the specified <code>crs</code>. The difference is that in the first option, the <code>crs</code> is also taken into account in spatial transformation functions, such as the calculation of centroids and cartograms. In the second option, the <code>crs</code> is only used in the plotting phase.</p>
 <p>The automatic crs recommendation (which is still work-in-progress) is the following:</p><table class="table table"><tr><td><strong>Property</strong></td><td><strong>Recommendation</strong></td></tr><tr><td><code>global</code> (for world maps)</td><td>A pseudocylindrical projection tmap option <code>crs_global</code>, by default <code>"eqearth</code> (Equal Eearth). See <a href="https://r-tmap.github.io/tmap/articles/41_advanced_crs.html">https://r-tmap.github.io/tmap/articles/41_advanced_crs.html</a> for more options</td></tr><tr><td><code>area</code> (equal area)</td><td>Lambert Azimuthal Equal Area (<code>laea</code>)</td></tr><tr><td><code>distance</code>	(equidistant)</td><td>Azimuthal Equidistant (<code>aeqd</code>)</td></tr><tr><td><code>shape</code>	(conformal)</td><td>Stereographic (<code>stere</code>)</td></tr></table><p>For further info about the available "generic" projects see:
 for utm: <a href="https://proj.org/en/9.4/operations/projections/utm.html" class="external-link">https://proj.org/en/9.4/operations/projections/utm.html</a>
@@ -113,7 +113,7 @@ for eqdc: <a href="https://proj.org/en/9.4/operations/projections/eqdc.html" cla
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><a href="vignette%20about%20CRS">https://r-tmap.github.io/tmap/articles/foundations_crs</a></p></div>
+    <div class="dont-index"><p><a href="https://r-tmap.github.io/tmap/articles/foundations_crs">vignette about CRS</a></p></div>
     </div>
 
     <div class="section level2">
