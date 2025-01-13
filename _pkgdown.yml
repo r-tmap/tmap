@@ -12,6 +12,10 @@ development:
   version_tooltip: "tmap v4 documentation"
 
 reference:
+
+- title: Thematic Maps
+  contents:
+  - tmap-package
 - title: Create a quick plot
   contents:
   - qtm
