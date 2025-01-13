@@ -9,14 +9,14 @@
 #' @param fontface font face, bold, italic
 #' @param fontfamily font family
 #' @param alpha alpha transparency of the text
-#' @param stack stack
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param just just
 #' @param frame frame
 #' @param frame.lwd frame line width
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
-#' @param position  Vector of two values, specifying the x and y coordinates. The first is either `"left"` or `"right"`, the second either `"top"` or `"bottom"`.
+#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
 #' @param width,height width and height of the text box.
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group
@@ -83,7 +83,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 #' @param color.light color.light
 #' @param lwd lwd
 #' @inheritParams tm_title
-#' @param stack stack
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param just just
 #' @param margins margins
 #' @param ... to catch deprecated arguments (alpha)
@@ -127,7 +127,7 @@ tm_compass <- function(north,
 #' @param lwd linewidth
 #' @inheritParams tm_title
 #' @param size Deprecated (use `text.size` instead)
-#' @param stack stack
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param margins margins
 #' @export
 tm_scalebar = function(breaks,
@@ -177,8 +177,8 @@ tm_scale_bar = function(...) {
 #'
 #' Map component that adds mouse coordinates
 #'
-#' @param stack stack
-#' @param position position
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
+#' @param position position. An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
 #' @param z z
 #' @export
 tm_mouse_coordinates <- function(stack,
@@ -197,8 +197,8 @@ tm_mouse_coordinates <- function(stack,
 #'   By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
 #'   Note the latter does not happen when `server` is specified.
 #' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
-#' @param position position of the minimap. Vector of two values, specifying the x and y coordinates. The first is either `"left"` or `"right"`, the second either `"top"` or `"bottom"`.
-#' @param stack stack
+#' @param position position of the minimap. An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param position position
 #' @param z z
 #' @inheritDotParams leaflet::addMiniMap
@@ -225,7 +225,7 @@ tm_minimap <- function(server,
 #'   If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param margins margins
 #' @param between_margin Margin between
-#' @param stack stack
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @inheritParams tm_title
 #' @param group.frame group.frame
 #' @param resize_as_group resize_as_group

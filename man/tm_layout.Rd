@@ -862,3 +862,6 @@ tm_shape(World) +
 	tm_polygons(fill = "HPI") +
 	tm_style("cobalt")
 }
+\seealso{
+\href{Vignette about layout}{https://r-tmap.github.io/tmap/articles/basics_layout}, \href{vignette about margins and aspect ratio}{https://r-tmap.github.io/tmap/articles/adv_margins} and \href{vignette about options}{https://r-tmap.github.io/tmap/articles/adv_options}
+}

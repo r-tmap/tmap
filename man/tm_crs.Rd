@@ -7,15 +7,19 @@
 tm_crs(crs = NA, property = NA)
 }
 \arguments{
-\item{crs}{Map projection (CRS). Can be set to an \code{crs} object (see \code{\link[sf:st_crs]{sf::st_crs()}}), a proj4string, an EPSG number, or one the the following generic projections: \code{c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")}. See details.}
+\item{crs}{Map projection (CRS). Can be set to an \code{crs} object (see \code{\link[sf:st_crs]{sf::st_crs()}}), a proj4string, an EPSG number, the value \code{"auto"} (automatic crs recommendation), or one the the following generic projections: \code{c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")}. See details.}
 
 \item{property}{Which property should the projection have? One of: \code{"global"}, \code{"area"} (equal-area), \code{"distance"} (equidistant), \code{"shape"} (conformal). Only applicable if \code{crs = "auto"}. See details.}
 }
 \description{
-This function sets the map projection. It can also be set via \code{\link[=tm_shape]{tm_shape()}}, but \code{tm_crs} is generally recommended. It can also be determined automatically (see details); however, this is still work-in-progress.
+This function sets the map projection. It can also be set via \code{\link[=tm_shape]{tm_shape()}}, but \code{tm_crs} is generally recommended for most cases. It can also be determined automatically (see details); however, this is still work-in-progress.
 }
 \details{
-The automatic crs recommendation is following:\tabular{ll}{
+The map projection (\code{crs}) determines in which coordinate system the spatial object is processed and plotted.
+See \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}. The \code{crs} can be specified in two places: 1) \code{tm_shape()} and \code{tm_crs()}.
+In both cases, the map is plotted into the specified \code{crs}. The difference is that in the first option, the \code{crs} is also taken into account in spatial transformation functions, such as the calculation of centroids and cartograms. In the second option, the \code{crs} is only used in the plotting phase.
+
+The automatic crs recommendation (which is still work-in-progress) is the following:\tabular{ll}{
    \strong{Property} \tab \strong{Recommendation} \cr
    \code{global} (for world maps) \tab A pseudocylindrical projection tmap option \code{crs_global}, by default \verb{"eqearth} (Equal Eearth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options \cr
    \code{area} (equal area) \tab Lambert Azimuthal Equal Area (\code{laea}) \cr
@@ -53,4 +57,7 @@ tm_list = lapply(c("global", "area", "distance", "shape"), FUN = function(proper
 })
 
 tmap_arrange(tm_list, nrow = 1)
+}
+\seealso{
+\href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}
 }

@@ -42,6 +42,7 @@
 #' @param item_text.margin `r .doc_opt("legend.item_text.margin")`
 #' @param ... visual values, e.g. `col`, `fill`, `lwd`, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
+#' @seealso \href{Vignette about legends}{https://r-tmap.github.io/tmap/articles/basics_legends}
 #' @return A tm_legend component
 #' @export
 #' @example ./examples/tm_legend.R

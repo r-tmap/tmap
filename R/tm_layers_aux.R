@@ -6,7 +6,7 @@
 #' order in which this layer is called, just like other map layers.
 #'
 #' @param server Name of the provider or an URL. The list of available providers
-#'   can be obtained with `providers` (tip: in RStudio, type `providers$` to see
+#'   can be obtained with `providers` (tip: in RStudio, type `leaflet::providers$` to see
 #'   the options). See <https://leaflet-extras.github.io/leaflet-providers/preview/>
 #'   for a preview of those. When a URL is provided, it should be in template format,
 #'   e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}.
@@ -30,6 +30,7 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @export
+#' @seealso \href{Basemap examples}{https://r-tmap.github.io/tmap/articles/basics_basemaps}
 #' @example ./examples/tm_basemap.R
 tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {

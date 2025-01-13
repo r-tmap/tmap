@@ -13,7 +13,7 @@ Note the latter does not happen when \code{server} is specified.}
 
 \item{toggle}{should the minimap have a button to minimise it? By default \code{TRUE}.}
 
-\item{stack}{stack}
+\item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
 \item{position}{position}
 

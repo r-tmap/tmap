@@ -141,3 +141,6 @@ tm_shape(World) +
 			 lwd = 1.5,
 			 lty.legend = tm_legend_combine("col"))
 }
+\seealso{
+\href{Terrain map example}{https://r-tmap.github.io/tmap/articles/examples_terrain}
+}

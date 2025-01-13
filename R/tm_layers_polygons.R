@@ -73,7 +73,7 @@
 #'   features. Only used for `"view"` mode.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R
-#' @seealso \href{Vignette about choropleth (1)}{https://r-tmap.github.io/tmap/articles/examples_choro_World} and \href{vignette about choropleth (2)}{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}
+#' @seealso \href{Choropleth example (1)}{https://r-tmap.github.io/tmap/articles/examples_choro_World} and \href{choropleth example (2)}{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}
 #' @export
 tm_polygons = function(fill = tm_const(),
 					   fill.scale = tm_scale(),

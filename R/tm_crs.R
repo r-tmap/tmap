@@ -1,27 +1,13 @@
 #' Set the map projection (CRS)
 #'
-#' This function sets the map projection. It can also be set via [tm_shape()], but `tm_crs` is generally recommended. It can also be determined automatically (see details); however, this is still work-in-progress.
+#' This function sets the map projection. It can also be set via [tm_shape()], but `tm_crs` is generally recommended for most cases. It can also be determined automatically (see details); however, this is still work-in-progress.
 #'
-#' @param crs Map projection (CRS). Can be set to an `crs` object (see [sf::st_crs()]), a proj4string, an EPSG number, or one the the following generic projections: `c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")`. See details.
+#' @param crs Map projection (CRS). Can be set to an `crs` object (see [sf::st_crs()]), a proj4string, an EPSG number, the value `"auto"` (automatic crs recommendation), or one the the following generic projections: `c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")`. See details.
 #' @param property Which property should the projection have? One of: `"global"`, `"area"` (equal-area), `"distance"` (equidistant), `"shape"` (conformal). Only applicable if `crs = "auto"`. See details.
 #' @note Plans are to migrate the functionality regarding generic crs and automatic crs recommendation to a separate package.
-#' @details
-#' The automatic crs recommendation is following:
-#'
-#' | **Property**        | **Recommendation** |
-#' | ------          | ----------- |
-#' | `global` (for world maps)		     | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Eearth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options|
-#' | `area` (equal area)		     | Lambert Azimuthal Equal Area (`laea`) |
-#' | `distance`	(equidistant) | Azimuthal Equidistant (`aeqd`) |
-#' | `shape`	(conformal) | Stereographic (`stere`) |
-#'
-#' For further info about the available "generic" projects see:
-#' for utm: \url{https://proj.org/en/9.4/operations/projections/utm.html}
-#' for laea: \url{https://proj.org/en/9.4/operations/projections/laea.html}
-#' for aeqd: \url{https://proj.org/en/9.4/operations/projections/aeqd.html}
-#' for pconic: \url{https://proj.org/en/9.4/operations/projections/pconic.html}
-#' for eqdc: \url{https://proj.org/en/9.4/operations/projections/eqdc.html}
+#' @inherit tm_shape details
 #' @example ./examples/tm_crs.R
+#' @seealso \href{vignette about CRS}{https://r-tmap.github.io/tmap/articles/foundations_crs}
 #' @export
 tm_crs = function(crs = NA, property = NA) {
 	if (is.na(crs)) {
@@ -76,7 +62,7 @@ auto_crs = function(x, crs_extra, crs_global) {
 		consider_global(x)
 	}
 
-	if (is_global) {
+	y = if (is_global) {
 		crs_global
 	} else {
 		# impute family
@@ -88,9 +74,7 @@ auto_crs = function(x, crs_extra, crs_global) {
 		)
 		to_generic_projected(x, proj = proj, return_as = "crs")
 	}
-
-
-
+	sf::st_crs(y)
 }
 
 

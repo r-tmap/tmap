@@ -27,7 +27,7 @@ tm_tiles(
 }
 \arguments{
 \item{server}{Name of the provider or an URL. The list of available providers
-can be obtained with \code{providers} (tip: in RStudio, type \verb{providers$} to see
+can be obtained with \code{providers} (tip: in RStudio, type \verb{leaflet::providers$} to see
 the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/}
 for a preview of those. When a URL is provided, it should be in template format,
 e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}.
@@ -102,4 +102,7 @@ if (requireNamespace("maptiles")) {
 	tmap_mode(current_mode)
 }
 }
+}
+\seealso{
+\href{Basemap examples}{https://r-tmap.github.io/tmap/articles/basics_basemaps}
 }

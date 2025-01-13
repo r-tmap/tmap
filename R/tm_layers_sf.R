@@ -1,35 +1,9 @@
 #' Map layer: simple features
 #'
-#' @description
 #' Map layer that draws simple features as they are. Supported visual variables
 #' are: `fill` (the fill color), `col` (the border color), `size` the point size,
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha` (fill color alpha transparency)
 #' and `col_alpha` (border color alpha transparency).
-#'
-#' The visual variable arguments (e.g. `col`) can be specified with either a data
-#' variable name (of the object specified in [tm_shape()]), or with a visual value
-#' (for `col`, a color is expected). Multiple values can be specified: in that case
-#' facets are created. These facets can be combined with other faceting data variables,
-#' specified with [tm_facets()].
-#'
-#' @details
-#' The `.scale` arguments determine the used scale to map the data values to visual
-#' variable values. These can be specified with one of the available `tm_scale_()` functions.
-#' The default scale that is used is specified by the tmap option `scales.var`.
-#'
-#' The `.legend` arguments determine the used legend, specified with [tm_legend()].
-#' The default legend and its settings are determined by the tmap options `legend.`.
-#'
-#' The `.free` arguments determine whether scales are applied freely across facets,
-#' or shared. A logical value is required. They can also be specified with a
-#' vector of three logical values; these determine whether scales are applied freely
-#' per facet dimension. This is only useful when facets are applied (see [tm_facets()]).
-#' There are maximally three facet dimensions: rows, columns, and pages. This only applies
-#' for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)` means
-#' that for the visual variable `col`, each row of facets will have its own scale,
-#' and therefore its own legend. For facet wraps and stacks ([tm_facets_wrap()] and
-#' [tm_facets_stack()]) there is only one facet dimension, so the `.free` argument requires
-#' only one logical value.
 #'
 #' @param fill,fill.scale,fill.legend,fill.free  `r .doc_vv("fill")`
 #' @param col,col.scale,col.legend,col.free  `r .doc_vv("col")`
@@ -44,6 +18,7 @@
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.
 #'   For each of these types, which are drawn in that order, a [tm_plot_order()] is required.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
+#' @inherit tm_polygons details
 #' @inheritParams tm_polygons
 #' @param ... passed on to [tm_polygons()], [tm_lines()], and [tm_dots()]
 #' @example ./examples/tm_sf.R

@@ -30,9 +30,9 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{between_margin}{Margin between}
 
-\item{stack}{stack}
+\item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
-\item{position}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
+\item{position}{An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.}
 
 \item{frame}{frame}
 

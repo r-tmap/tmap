@@ -15,9 +15,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  out.width = "100%",
-  dpi = 300,
-  fig.width = 7.2916667,
+  fig.width = 8,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -59,7 +57,7 @@ By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. B
 
 To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas" (run `tmap_options("basemap.server")` to see this option).
 
-```{r, fig.height = 3.5}
+```{r, fig.height = 3.5, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm_shape(metro) +
 	tm_bubbles(size = "pop2020") +
 	tm_basemap()
@@ -73,7 +71,7 @@ names(maptiles::get_providers())
 
 See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
 
-```{r, fig.height = 3.5}
+```{r, fig.height = 3.5, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm_shape(metro) +
 	tm_bubbles(size = "pop2020") +
 	tm_basemap("Esri.OceanBasemap")

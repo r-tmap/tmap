@@ -18,14 +18,14 @@ tm_scale_bar(...)
     \item{\code{color.light}}{color.light}
     \item{\code{lwd}}{linewidth}
     \item{\code{size}}{Deprecated (use \code{text.size} instead)}
-    \item{\code{stack}}{stack}
+    \item{\code{stack}}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
     \item{\code{margins}}{margins}
     \item{\code{frame}}{frame}
     \item{\code{frame.lwd}}{frame line width}
     \item{\code{frame.r}}{Radius of the rounded frame corners. 0 means no rounding.}
     \item{\code{bg.color}}{Background color}
     \item{\code{bg.alpha}}{Background transparency}
-    \item{\code{position}}{Vector of two values, specifying the x and y coordinates. The first is either \code{"left"} or \code{"right"}, the second either \code{"top"} or \code{"bottom"}.}
+    \item{\code{position}}{An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{vignette about positioning}{https://r-tmap.github.io/tmap/articles/adv_positions}.}
     \item{\code{z}}{z}
   }}
 }

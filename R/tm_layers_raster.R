@@ -2,38 +2,13 @@
 #'
 #' Map layer that draws rasters. Supported visual variable is: `col` (the  color).
 #'
-#' The visual variable arguments (e.g. `col`) can be specified with either a data
-#' variable name (e.g., a spatial vector attribute or a raster layer of the object
-#' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
-#' Multiple values can be specified: in that case facets are created.
-#' These facets can be combined with other faceting data variables, specified with [tm_facets()].
-#'
-#' * The `*.scale` arguments determine the used scale to map the data values to
-#' visual variable values. These can be specified with one of the available
-#' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
-#'
-#' * The `*.legend` arguments determine the used legend, specified with [tm_legend()].
-#' The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
-#'
-#' * The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()]
-#'
-#' * The `*.free` arguments determine whether scales are applied freely across facets, or shared.
-#' A logical value is required. They can also be specified with a vector of three
-#' logical values; these determine whether scales are applied freely per facet dimension.
-#' This is only useful when facets are applied (see [tm_facets()]).
-#' There are maximally three facet dimensions: rows, columns, and pages. This only
-#' applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)`
-#' means that for the visual variable `col`, each row of facets will have its own
-#' scale, and therefore its own legend. For facet wraps and stacks
-#' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
-#' so the `*.free` argument requires only one logical value.
-#'
 #' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
 #' @inheritParams tm_polygons
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_raster.R
+#' @inherit tm_polygons details
 #' @export
 tm_raster = function(col = tm_vars(),
 					 col.scale = tm_scale(),
