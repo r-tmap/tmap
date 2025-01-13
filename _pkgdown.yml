@@ -24,7 +24,6 @@ reference:
   - tm_crs
 - title: Add data-driven map layers
   contents:
-  - tm_shape
   - tm_polygons
   - tm_lines
   - tm_markers
@@ -32,6 +31,9 @@ reference:
   - tm_text
   - tm_iso
   - tm_sf
+- title: Specify facets
+  contents:
+  - tm_facets
 - title: Add auxiliary map layers
   contents:
   - tm_tiles
@@ -47,7 +49,6 @@ reference:
   - tm_scalebar
   - tm_logo
   - tm_minimap
-  - tm_facets
   - tm_mouse_coordinates
   - tm_xlab
 - title: Set scale for a visual variable
@@ -66,14 +67,13 @@ reference:
   desc: Always use those in this form `<vv>.chart = tm_chart*()`
   contents:
   - starts_with("tm_chart")
-- title: Set layout to tmap
+- title: Set layout options
   contents:
   - tm_layout
   - tm_options
   - tm_view
   - tm_group
   - tm_plot
-  - tm_plot_order
 - title: Set options globally for tmap
   contents:
   - tmap_options
@@ -96,22 +96,22 @@ reference:
 - title: Use tmap in shiny
   contents:
   - renderTmap
-- title: print a tmap
+- title: Print a tmap object
   contents:
   - tmap_last
   - print.tmap
   - tmap_animation
   - tmap_arrange
-  - tmap-package
 - title: Helper functions
   contents:
   - tm_const
   - tm_pos
   - tm_seq
   - tm_vars
+  - tm_plot_order
+  - theme_ps
   - tmap_tip
   - tmap_icons
-  - theme_ps
 
 navbar:
   structure:
@@ -181,13 +181,13 @@ navbar:
       menu:
         - text: Shiny integration
           href: articles/adv_shiny
-        - text: layer groups (view mode only)
+        - text: Layer groups (view mode only)
           href: articles/adv_groups
-        - text: Multivariate
+        - text: Multivariate visual variables
           href: articles/adv_multivariate
         - text: Positioning of components
           href: articles/adv_positions
-        - text: Options
+        - text: Options and styles
           href: articles/adv_options
         - text: Margins and aspect ratio
           href: articles/adv_margins

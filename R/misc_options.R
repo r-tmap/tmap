@@ -29,7 +29,16 @@ complete_options = function(x, o) {
 				#    the new option set should be x (so dot fill color should be white)
 				o[[i]] = complete_value_list(x[[i]], o[[i]])
 			} else {
-				o[[i]] = complete_options(x[[i]], o[[i]])
+				if (i != "") {
+					tmp = complete_options(x[[i]], o[[i]])
+					if (is.null(tmp)) {
+						o[i] = list(NULL)
+					} else {
+						o[[i]] = tmp
+					}
+				}else {
+					o[[which("" == nmo)]] = x[[which("" == nmx)]]
+				}
 			}
 
 		}
