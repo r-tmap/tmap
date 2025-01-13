@@ -3,6 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   adv_extensions: adv_extensions.html
+  adv_groups: adv_groups.html
   adv_margins: adv_margins.html
   adv_multivariate: adv_multivariate.html
   adv_options: adv_options.html
@@ -29,7 +30,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2025-01-13T15:55Z
+last_built: 2025-01-13T17:23Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
