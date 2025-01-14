@@ -27,3 +27,5 @@ ubuntu_17_installation.sh
 ^tests/testthat/Rplots.pdf$
 ^\.covrignore$
 ^vignettes$
+man/figures/shiny_plot.jpg
+man/figures/shiny_view.jpg
