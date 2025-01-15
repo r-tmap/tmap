@@ -1,59 +1,28 @@
-# tmap 4.0 (development version)
+# tmap 4.0
 
-tmap v4 is a major release and has been rewritten from scratch. It contains a ton 
-of new features. Although we did our best to make changes backwards compatible, some things may not work as expected.
+tmap v4 is a major release and has been rewritten from scratch. It contains tons of new features. Although we did our best to make changes backwards compatible, some things may not work as expected.
 
-## New features
+### New syntax
 
-* `tm_vars()` is a new function for multivariate scale (#819)
+* The arguments of layer functions such as `tm_symbols()` have been reorganized. [Visual variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html) are used with explicit [scales](https://r-tmap.github.io/tmap/articles/basics_scales), [legends](https://r-tmap.github.io/tmap/articles/basics_legends), and [charts](https://r-tmap.github.io/tmap/articles/basics_charts).
+* The names of visual variables are consistent across standard map layer functions. For vector data, `fill` is the visual variable for fill color and `col` for border color.
+* New [vignettes](https://r-tmap.github.io/tmap/index.html) available to explain how to upgrade your code to tmap v4.
 
-* New family of functions `tm_chart_*()` to do charting (See `?tm_chart`) (#581)
+### Updated datasets
 
-* Default styles have been updated and palettes now use the cols4all package for enhanced accessibility (#906)
+* `rivers` has been renamed to `World_rivers` due to the name clash with `rivers` from `datasets`. 
+* The Netherlands datasets have been updated: from 2022  `NLD_prov`, `NLD_muni`, and (new) `NLD_dist` (district level) have been included with new demographic variables.
+* `land` has included color tables
 
-## New syntax
+### Extensions
 
-* tmap now uses [visual variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html)
-  * For consistency with ggplot2, `tm_polygons()` now recognizes the `fill` argument instead of `col`. 
-  * Similarly, `border.col` is now `col`.
+* tmap can now be [extended](https://r-tmap.github.io/tmap/articles/adv_extensions) in several ways.
 
-* New [vignettes](https://r-tmap.github.io/tmap/articles/) available to explain how to upgrade your code to tmap v4.
+### Backwards compatibility
 
-## View mode
-
-* In view mode, `hover` is now independent from `id` (#851).
-
-* `tm_credits()` now works in view mode (#806).
-
-* Popup variables have been revamped.
-
-## Deprecated functions and arguments
-
-We introduced messages to make it easier for you to upgrade your code (#961, #928, #854)
-
-Functions
-
- * `tm_scale_bar()` -> `tm_scalebar()`
- *  As of version 4.0, `tm_scalebar()` is used instead of `tm_scale_bar()` because of the potential confusion with the `tm_scale_*()` scaling functions (like `tm_scale_continuous()`).
- * `tm_format()` and friends are now deprecated (#976).
-
-Arguments
-
- * `projection` -> `crs` (in `tm_shape()`, `tm_grid()`)
-
-## For developers
-
-* The internal structure of a tmap object is not compatible with tmap v3. Therefore, some tests may fail.
-
-* tmap exports many functions to make it easier to create an extension (#866) See`?tmap_internal`.
-
-## Other fixes and improvements
-
-* tmap now requires R 3.6 and above.
-
-* datasets were reviewed and use a more recent crs. (#967, #665)
-
-* Usage of the cli package for messages.
+* All tmap v3 code should be backwards compatible with v4.
+* We added 'v3' styles to make the layout (almost) identical to v3
+* We introduced messages to make it easier for you to upgrade your code
 
 # tmap 3.3-4
 - (!) last version of tmap 3.x. Next CRAN version will be tmap 4.x

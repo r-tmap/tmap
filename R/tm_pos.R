@@ -31,27 +31,6 @@
 #' @param just.h,just.v The justification of the components.
 #'   Only used in case `pos.h` and `pos.v` are numbers.
 #' @details
-#'
-#' | | | | | |
-#' |---------------:|:---------------|:------------------|:------------------|:------|
-#' | | +------------------- | +-------------------------------- | +------------------- | +
-#' | | \|     | \|       |\|        |\| |
-#' | `"top"` | \|     | \|       |\|        |\| |
-#' | | \|     | \|       |\|        |\| |
-#' | | +------------------- | +-------------------------------- | +------------------- | +
-#' | | \|     | \|       |\|        |\| |
-#' | | \|     | \|       |\|        |\| |
-#' | `cell.v`&emsp; "center"| \|     | \| &emsp;&emsp;Map(s)      |\|        |\| |
-#' | | \|     | \|       |\|        |\| |
-#' | | \|     | \|       |\|        |\| |
-#' | | +------------------- | +-------------------------------- | +------------------- | +
-#' | | \|     | \|       |\|        |\| |
-#' | `"bottom"` | \|     | \|       |\|        |\| |
-#' | | \|     | \|       |\|        |\| |
-#' | | +------------------- | +-------------------------------- | +------------------- | +
-#' | |  &emsp;&emsp;`"left"` | &emsp;&emsp;`"center"`      |  &emsp;&emsp; `"right"`     | |
-#' | |  | &emsp;&emsp;`cell.h` | | |
-#'
 #' `tm_pos_in()` sets the position of the component(s) inside the maps area,
 #' which is equivalent to the center-center cell (in case there are facets,
 #' these are all drawn in this center-center cell).

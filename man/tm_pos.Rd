@@ -58,28 +58,6 @@ are used to set the components automatically, and should be used
 via \code{\link[=tmap_options]{tmap_options()}}. See Details how the positioning works.
 }
 \details{
-\tabular{rllll}{
-    \tab  \tab  \tab  \tab  \cr
-    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
-    \tab | \tab | \tab | \tab | \cr
-   \code{"top"} \tab | \tab | \tab | \tab | \cr
-    \tab | \tab | \tab | \tab | \cr
-    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
-    \tab | \tab | \tab | \tab | \cr
-    \tab | \tab | \tab | \tab | \cr
-   \code{cell.v}  "center" \tab | \tab |   Map(s) \tab | \tab | \cr
-    \tab | \tab | \tab | \tab | \cr
-    \tab | \tab | \tab | \tab | \cr
-    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
-    \tab | \tab | \tab | \tab | \cr
-   \code{"bottom"} \tab | \tab | \tab | \tab | \cr
-    \tab | \tab | \tab | \tab | \cr
-    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
-    \tab   \code{"left"} \tab   \code{"center"} \tab    \code{"right"} \tab  \cr
-    \tab  \tab   \code{cell.h} \tab  \tab  \cr
-}
-
-
 \code{tm_pos_in()} sets the position of the component(s) inside the maps area,
 which is equivalent to the center-center cell (in case there are facets,
 these are all drawn in this center-center cell).
