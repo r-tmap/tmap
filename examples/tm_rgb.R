@@ -1,3 +1,4 @@
+\dontrun{
 require(stars)
 file = system.file("tif/L7_ETMs.tif", package = "stars")
 
@@ -6,7 +7,6 @@ L7 = stars::read_stars(file)
 tm_shape(L7) +
 	tm_rgb()
 
-\dontrun{
 # the previous example was a shortcut of this call
 tm_shape(L7) +
 	tm_rgb(col = tm_vars("band", dimvalues = 1:3, multivariate = TRUE))

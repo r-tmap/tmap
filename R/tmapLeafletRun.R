@@ -96,7 +96,6 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 					paneHeight = -1
 				}
 				if (ide == "vscode") {
-					rlang::check_installed("servr")
 					# VSCode's viewer can't ignore cross-origin requests. Need to serve the
 					# map so assests can be read, e.g. .fgb files.
 					server <- servr::httd(
@@ -110,7 +109,6 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 				viewer(url, height = paneHeight)
 			}
 		} else {
-			rlang::check_installed("servr")
 			viewerFunc = function(url) {
 				dir = get_url_dir(url)
 				switch(ide,

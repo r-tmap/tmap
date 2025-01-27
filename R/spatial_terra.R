@@ -9,7 +9,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	ctabs = terra::coltab(shp)
 	cats = terra::levels(shp)
 
-	minmax = as.list(as.data.frame(terra::minmax(shp)))
+	minmax = as.list(as.data.frame(terra::minmax(shp, compute = all(!terra::hasMinMax(shp)))))
 
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]

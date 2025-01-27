@@ -46,7 +46,8 @@ Imports:
     stats,
     s2,
     tmaptools (>= 3.1),
-    units (>= 0.6-1)
+    units (>= 0.6-1),
+    servr,
 Suggests:
     av,
     colorspace,
@@ -55,7 +56,6 @@ Suggests:
     knitr,
     maptiles,
     png,
-    servr,
     shiny,
     terra,
     testthat (>= 3.2.0),
