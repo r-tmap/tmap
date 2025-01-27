@@ -587,63 +587,7 @@ For small multiples, a list of these shape specification(s) should be provided.<
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">metroAfrica</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">metro</span>, <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>attribute variables are assumed to be spatially constant throughout all geometries</span>
-<span class="r-in"><span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"cover_cls"</span>,</span></span>
-<span class="r-in"><span>        col.scale <span class="op">=</span> <span class="fu"><a href="tm_scale.html">tm_scale</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>          values <span class="op">=</span> <span class="fu">cols4all</span><span class="fu">::</span><span class="fu"><a href="https://mtennekes.github.io/cols4all/reference/c4a.html" class="external-link">c4a</a></span><span class="op">(</span><span class="st">"brewer.pastel1"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">7</span>,<span class="fl">7</span>,<span class="fl">2</span>,<span class="fl">6</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span>        <span class="op">)</span>,</span></span>
-<span class="r-in"><span>        col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_rivers</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_lines.html">tm_lines</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="st">"strokelwd"</span>, lwd.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>       col <span class="op">=</span> <span class="fu">cols4all</span><span class="fu">::</span><span class="fu"><a href="https://mtennekes.github.io/cols4all/reference/c4a.html" class="external-link">c4a</a></span><span class="op">(</span><span class="st">"brewer.pastel1"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, is.main <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">tm_symbols</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"red"</span>, shape <span class="op">=</span> <span class="st">"pop2020"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>,</span></span>
-<span class="r-in"><span>         size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>              breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span>,</span></span>
-<span class="r-in"><span>              values.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span>           <span class="op">)</span>,</span></span>
-<span class="r-in"><span>         size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Population in 2020"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         shape.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>              breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span>,</span></span>
-<span class="r-in"><span>              values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span><span class="op">)</span></span></span>
-<span class="r-in"><span>           <span class="op">)</span>,</span></span>
-<span class="r-in"><span>         shape.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, options <span class="op">=</span> <span class="fu"><a href="tm_text.html">opt_tm_labels</a></span><span class="op">(</span>remove_overlap <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## to do: replace this example:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>    <span class="va">airports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_download.html" class="external-link">ne_download</a></span><span class="op">(</span>scale<span class="op">=</span><span class="fl">10</span>, type<span class="op">=</span><span class="st">"airports"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="va">airplane</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_icons.html">tmap_icons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"img/airplane.png"</span>, package <span class="op">=</span> <span class="st">"tmap"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>    <span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">airports</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>      <span class="fu">tm_symbols</span><span class="op">(</span>shape <span class="op">=</span> <span class="va">airplane</span>,</span></span>
-<span class="r-in"><span>             size <span class="op">=</span> <span class="st">"natlscale"</span>,</span></span>
-<span class="r-in"><span>             size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>             id <span class="op">=</span> <span class="st">"name"</span></span></span>
-<span class="r-in"><span>             <span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">########################</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">########################</span></span></span>
 <span class="r-in"><span><span class="co">## plot symbol shapes</span></span></span>
 <span class="r-in"><span><span class="co">########################</span></span></span>
 <span class="r-in"><span></span></span>
@@ -659,9 +603,7 @@ For small multiples, a list of these shape specification(s) should be provided.<
 <span class="r-in"><span>         col <span class="op">=</span> <span class="st">"black"</span>,</span></span>
 <span class="r-in"><span>         shape.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="tm_symbols-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># also supported in view mode :-)</span></span></span>
+<span class="r-plt img"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -162,7 +162,7 @@ If multiple logos are specified by a vector or list, the heights can be specifie
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"RdYlGn"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.rd_yl_gn"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_logo</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://www.r-project.org/logo/Rlogo.png"</span>,</span></span>
 <span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"help"</span>, <span class="st">"figures"</span>, <span class="st">"logo.png"</span>, package <span class="op">=</span> <span class="st">"tmap"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_logo</span><span class="op">(</span><span class="st">"http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png"</span>,</span></span>
@@ -172,10 +172,6 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 <span class="r-msg co"><span class="r-pr">#&gt;</span> use `tm_layout(inner.margins=c(0, 0.05, 0.025, 0.01),</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> legend.position=tm_pos_in("left", "bottom"), component.position=c("right",</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> "bottom"), scale=.8, title.size = 1.3)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">[cols4all]</span> color palettes: use palettes from the R package cols4all. Run</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `cols4all::c4a_gui()` to explore them. The old palette name "RdYlGn" is named</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> "brewer.rd_yl_gn"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Multiple palettes called "rd_yl_gn" found: "brewer.rd_yl_gn", "matplotlib.rd_yl_gn". The first one, "brewer.rd_yl_gn", is returned.</span>
 <span class="r-plt img"><img src="tm_logo-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
