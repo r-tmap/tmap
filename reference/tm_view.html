@@ -40,6 +40,7 @@
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
   </ul></li>
@@ -106,7 +107,8 @@
 
 
 <dt id="arg-use-webgl">use_WebGL<a class="anchor" aria-label="anchor" href="#arg-use-webgl"></a></dt>
-<dd><p>use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default <code>TRUE</code> if no other visual variables are used.</p></dd>
+<dd><p>use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of visual variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only <code>TRUE</code> for large spatial objects (500 or more features) when the mentioned criteria are met.
+By default <code>TRUE</code> if no other visual variables are used.</p></dd>
 
 
 <dt id="arg-control-position">control.position<a class="anchor" aria-label="anchor" href="#arg-control-position"></a></dt>

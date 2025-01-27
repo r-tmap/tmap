@@ -56,6 +56,7 @@ Removing layers can be done, removing with tm_remove_layer()."><meta property="o
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
   </ul></li>
@@ -178,7 +179,7 @@ Workarounds for small multiples: create multiple independent maps or specify <co
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">world_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, <span class="st">"name"</span>, <span class="st">"sovereignt"</span>, <span class="st">"geometry"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    ui <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
@@ -215,6 +216,8 @@ Workarounds for small multiples: create multiple independent maps or specify <co
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span>,options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
