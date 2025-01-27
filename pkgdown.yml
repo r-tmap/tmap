@@ -25,12 +25,13 @@ articles:
   examples_gridmaps: examples_gridmaps.html
   examples_raster: examples_raster.html
   examples_terrain: examples_terrain.html
+  examples_topo_Africa: examples_topo_Africa.html
   foundations_crs: foundations_crs.html
   foundations_gg: foundations_gg.html
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2025-01-27T10:29Z
+last_built: 2025-01-27T11:03Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles
