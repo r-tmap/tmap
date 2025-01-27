@@ -36,6 +36,7 @@ functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons()}}).
 The function \code{\link[=tm_scale_rgb]{tm_scale_rgb()}} is used to transform r, g, b band variables to colors. This function is adopted from (and works similar as) \code{\link[stars:st_rgb]{stars::st_rgb()}}
 }
 \examples{
+\dontrun{
 require(stars)
 file = system.file("tif/L7_ETMs.tif", package = "stars")
 
@@ -46,6 +47,7 @@ tm_shape(L7) +
 
 tm_shape(L7) +
 	tm_rgb(col.scale = tm_scale_rgb(stretch = "histogram"))
+}
 }
 \seealso{
 \code{\link[=tm_scale]{tm_scale()}} and \code{\link[stars:st_rgb]{stars::st_rgb()}}

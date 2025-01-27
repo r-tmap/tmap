@@ -1,14 +1,15 @@
+\dontrun{
 current.mode <- tmap_mode("plot")
 
-tm_shape(NLD_muni) + 
+tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_grid()
 
-tm_shape(NLD_muni) + 
+tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_grid(crs = 4326)
 
-tm_shape(NLD_muni) + 
+tm_shape(NLD_muni) +
 	tm_polygons() +
 	tm_grid(crs = 3035, labels.inside.frame = TRUE)
 
@@ -29,8 +30,8 @@ tm_shape(NLD_muni) +
 data(NLD_muni, World)
 
 tmap_arrange(
-	qtm(NLD_muni, borders = NULL) + tm_grid(),
-	qtm(NLD_muni, borders = NULL) + tm_graticules()
+	qtm(NLD_muni) + tm_grid(),
+	qtm(NLD_muni) + tm_graticules()
 )
 
 qtm(World, shape.crs = "+proj=robin", style = "natural") +
@@ -38,3 +39,4 @@ qtm(World, shape.crs = "+proj=robin", style = "natural") +
 	tm_layout(frame=FALSE)
 
 tmap_mode(current.mode)
+}

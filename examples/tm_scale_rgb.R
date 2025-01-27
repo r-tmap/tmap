@@ -1,3 +1,4 @@
+\dontrun{
 require(stars)
 file = system.file("tif/L7_ETMs.tif", package = "stars")
 
@@ -8,3 +9,4 @@ tm_shape(L7) +
 
 tm_shape(L7) +
 	tm_rgb(col.scale = tm_scale_rgb(stretch = "histogram"))
+}

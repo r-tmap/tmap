@@ -77,16 +77,9 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 leaflet::providers
 
 
-#' Coordinate grid / graticule lines
-#'
-#' Draw latitude and longitude graticules. It creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
-#' layer that can be drawn anywhere between other layers. See [tm_grid()] for
-#' drawing horizontal lines.
-#'
-#' @inheritParams tm_grid
-#' @inheritDotParams tm_grid
+
 #' @export
-#' @example ./examples/tm_grid.R
+#' @rdname tm_grid
 tm_graticules = function(x = NA,
 						 y = NA,
 						 n.x = NA,
@@ -103,13 +96,8 @@ tm_graticules = function(x = NA,
 
 #' Coordinate grid / graticule lines
 #'
-#' @description
-#' * `tm_grid()` draws horizontal and vertical lines according to the
-#'   coordinate system of the (master) shape object.
-#'
-#' Creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
-#' layer that can be drawn anywhere between other layers. See [tm_graticules()]
-#' to draw latitude and longitude graticules.
+#' Draws horizontal and vertical lines according to a coordinate reference system (CRS). `tm_grid()` uses the CRS of the (master) shape object, and `tm_graticules()` uses latitude and longitude coordinates (EPSG 4326). It creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
+#' layer that can be drawn anywhere between other layers.
 #'
 #' @param x X coordinates for vertical grid lines. If `NA`, it is specified
 #'   with a pretty scale and `n.x`.

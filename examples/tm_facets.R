@@ -1,3 +1,4 @@
+\dontrun{
 tm_shape(NLD_dist) +
   tm_polygons("edu_appl_sci",
     fill.scale = tm_scale_intervals(values = "pu_gn", style = "kmeans", n = 7)) +
@@ -13,3 +14,4 @@ tm_shape(World) +
       tm_scale_intervals(values = "pu_gn_div", midpoint = 50)),
     fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Gender Inequality Index (GII)", "World Press Freedom Index"))
+}

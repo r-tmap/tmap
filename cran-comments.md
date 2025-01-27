@@ -8,6 +8,10 @@
 * All reverse dependencies have been carefully checked
 * We did our utmost best to keep the package as small as possible (e.g. vignettes are only online)
 
+## Resubmission note
+
+* Running time examples decreased
+
 ## R CMD check results
 
 0 errors | 0 warnings | 0 note
