@@ -21,61 +21,67 @@ submit_labels = function(labels, cls, pane, group) {
 	labels
 }
 
-impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, popup) {
+impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, popup, crs_class) {
 	if (!identical(use_WebGL, FALSE)) {
-		vary = vapply(dt, function(x) {
-			any(is.na(x)) || any(x!=x[1])
-		}, FUN.VALUE = logical(1))
-
-		vary = vary[setdiff(names(vary), c(supported, "tmapID__", "ord__"))]
-
-		if (!is.null(checkif)) {
-			checks = vapply(seq_along(checkif), function(i) {
-				if (!(checkif[i] %in% names(dt))) {
-					TRUE
-				} else {
-					dt[[names(checkif)[i]]][1] %in% checkif[[i]]
-				}
-			}, FUN.VALUE = logical(1))
+		if (crs_class == "L.CRS.Simple") {
+			message_webgl_crs_simple()
+			use_WebGL = FALSE
 		} else {
-			checks = TRUE
-		}
 
-		if (any(vary)) {
-			if (is.na(use_WebGL)) {
-				use_WebGL = FALSE
-			} else {
-				message_webgl_vars(supported, vary)
-			}
-		} else if (!all(checks)) {
-			if (is.na(use_WebGL)) {
-				use_WebGL = FALSE
-			} else {
-				checkif = lapply(checkif, function(x) {
-					if (is.character(x)) paste0("\"", x, "\"") else x
-				})
+			vary = vapply(dt, function(x) {
+				any(is.na(x)) || any(x!=x[1])
+			}, FUN.VALUE = logical(1))
 
-				checkif = lapply(checkif, function(x) {
-					if (length(x) == 1) {
-						x
+			vary = vary[setdiff(names(vary), c(supported, "tmapID__", "ord__"))]
+
+			if (!is.null(checkif)) {
+				checks = vapply(seq_along(checkif), function(i) {
+					if (!(checkif[i] %in% names(dt))) {
+						TRUE
 					} else {
-						k = length(x)
-						paste(paste(head(x, -1), collapse = ", "), tail(x, 1), sep = " or ")
+						dt[[names(checkif)[i]]][1] %in% checkif[[i]]
 					}
-				})
-
-				message_webgl_checks(checks, checkif)
-
-			}
-		} else if (type != "symbols" && hover) {
-			if (!is.na(use_WebGL)) {
-				message_webgl_hover(type)
+				}, FUN.VALUE = logical(1))
 			} else {
-				use_WebGL = FALSE
+				checks = TRUE
 			}
-		} else if ((is.na(use_WebGL))) {
-			n = nrow(dt)
-			use_WebGL = (n >= 500)
+
+			if (any(vary)) {
+				if (is.na(use_WebGL)) {
+					use_WebGL = FALSE
+				} else {
+					message_webgl_vars(supported, vary)
+				}
+			} else if (!all(checks)) {
+				if (is.na(use_WebGL)) {
+					use_WebGL = FALSE
+				} else {
+					checkif = lapply(checkif, function(x) {
+						if (is.character(x)) paste0("\"", x, "\"") else x
+					})
+
+					checkif = lapply(checkif, function(x) {
+						if (length(x) == 1) {
+							x
+						} else {
+							k = length(x)
+							paste(paste(head(x, -1), collapse = ", "), tail(x, 1), sep = " or ")
+						}
+					})
+
+					message_webgl_checks(checks, checkif)
+
+				}
+			} else if (type != "symbols" && hover) {
+				if (!is.na(use_WebGL)) {
+					message_webgl_hover(type)
+				} else {
+					use_WebGL = FALSE
+				}
+			} else if ((is.na(use_WebGL))) {
+				n = nrow(dt)
+				use_WebGL = (n >= 500)
+			}
 		}
 	}
 	use_WebGL
@@ -145,7 +151,7 @@ tmapLeafletPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, 
 		submit_labels("polygons", pane, group)
 
 
-	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"), type = "polygons", hover = !is.null(hdt), popup = !is.null(pdt))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"), type = "polygons", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
 
 	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -232,7 +238,7 @@ tmapLeafletLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
 
-	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
 
 	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -316,7 +322,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
-	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)), type = "symbols", hover = !is.null(hdt), popup = !is.null(pdt))
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "size"), checkif = list(shape = c(1,16,19,20,21)), type = "symbols", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
 
 	use_circleMarkers = o$use_circle_markers && all(gp$shape %in% c(1, 16, 19, 20, 21))
 

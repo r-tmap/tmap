@@ -117,6 +117,12 @@ message_webgl_checks = function(checks, checkif) {
 
 }
 
+message_webgl_crs_simple = function() {
+	cli::cli_inform("{.field [view mode]} WegGL does not work (yet) with projected map projections, so it has been disabled.")
+
+}
+
+
 message_qtm_empty = function() {
 	cli::cli_inform(
 		"{.field [qtm()]} nothing to show. Either specify {.arg shp} or {.arg basemap}. Alternatively, switch to view mode with {.code tmap_mode(\"view\")}"

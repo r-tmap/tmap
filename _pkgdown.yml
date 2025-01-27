@@ -165,6 +165,8 @@ navbar:
           href: articles/examples_bubble
         - text: Raster map
           href: articles/examples_raster
+        - text: Topographic map (Africa)
+          href: articles/examples_topo_Africa
         - text: Terrain map
           href: articles/examples_terrain
         - text: Gridmap

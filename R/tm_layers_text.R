@@ -25,6 +25,7 @@
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_topo_Africa}{Topographic map}
 #' @export
 tm_text = function(text = tm_const(),
 				   text.scale = tm_scale(),

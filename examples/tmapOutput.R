@@ -3,7 +3,7 @@ if (interactive() && require("shiny")) {
 	data(World)
 	world_vars <- setdiff(names(World), c("iso_a3", "name", "sovereignt", "geometry"))
 
-	tmap_mode("plot")
+	current.mode <- tmap_mode("plot")
 
 	shinyApp(
 		ui = fluidPage(
@@ -40,4 +40,6 @@ if (interactive() && require("shiny")) {
 			})
 		},options = list(launch.browser=TRUE)
 	)
+
+	tmap_mode(current.mode)
 }

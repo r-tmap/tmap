@@ -51,7 +51,9 @@ tmap_options(scale = 0.8)
 
 
 
-## Charts
+## Introduction
+
+Each visual variable (e.g. `fill` in `tm_polygons()`) has an additional `.chart` argument via which charts can be shown:
 
 ```{r, fig.height = 5}
 tm_shape(World) +
@@ -62,6 +64,58 @@ tm_shape(World) +
 	fill.chart = tm_chart_bar()) +
 tm_crs("auto")
 ```
+
+## Chart types
+
+### Numeric variables 
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons("HPI",
+    fill.scale = tm_scale_intervals(),
+    fill.chart = tm_chart_donut())
+```
+
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons("HPI",
+    fill.scale = tm_scale_intervals(),
+    fill.chart = tm_chart_box())
+```
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons("HPI",
+    fill.scale = tm_scale_intervals(),
+    fill.chart = tm_chart_violin())
+```
+
+### Categorical variable
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons("economy",
+    fill.scale = tm_scale_categorical(),
+    fill.chart = tm_chart_bar())
+```
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons("economy",
+    fill.scale = tm_scale_categorical(),
+    fill.chart = tm_chart_donut())
+```
+
+### Bivariate charts
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE),
+    fill.chart = tm_chart_heatmap())
+```
+
+## Position
 
 We can update the position of the chart to bottom right (in a separate frame). See [vignette about positioning](https://r-tmap.github.io/tmap/articles/adv_positions).
 
@@ -86,4 +140,18 @@ tm_shape(World) +
 	fill.chart = tm_chart_bar(position = tm_pos_out("center", "bottom", align.v = "top"))) +
 	tm_layout(component.stack_margin = .5) +
 tm_crs("auto")
+```
+
+## Additional ggplot2 code
+
+```{r, fig.height = 6}
+require(ggplot2)
+tm_shape(World) +
+  tm_polygons("HPI",
+    fill.scale = tm_scale_intervals(),
+    fill.chart = tm_chart_bar(
+      extra.ggplot2 = theme(
+        panel.grid.major.y = element_line(colour = "red")
+      ))
+    )
 ```

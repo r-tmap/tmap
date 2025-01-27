@@ -27,7 +27,8 @@ tm_layout = function(
 #' View mode options. These options are specific to the view mode.
 #'
 #' @param use_browser If `TRUE` it opens an external browser, and `FALSE` (default) it opens the internal IDEs (e.g. RStudio) browser.
-#' @param use_WebGL use webGL for points, lines, and polygons. This is much faster than the standard leaflet layer functions, but the number of visual variables are limited; only fill, size, and color (for lines) are supported. By default `TRUE` if no other visual variables are used.
+#' @param use_WebGL use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of visual variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only `TRUE` for large spatial objects (500 or more features) when the mentioned criteria are met.
+#'  By default `TRUE` if no other visual variables are used.
 #' @param control.position `r .doc_opt("control.position")`
 #' @param control.bases base layers
 #' @param control.overlays overlay layers

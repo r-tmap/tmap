@@ -59,7 +59,7 @@ However, there are a couple of constraints in comparison to \code{"plot"}:
 }
 
 \examples{
-tmap_mode()
+current.mode = tmap_mode()
 
 tmap_mode("plot")
 
@@ -72,6 +72,8 @@ tm_shape(World) + tm_polygons("HPI")
 ttm()
 
 tm_shape(World) + tm_polygons("HPI")
+
+tmap_mode(current.mode)
 }
 \references{
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
