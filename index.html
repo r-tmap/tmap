@@ -118,8 +118,15 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Installation of <strong>tmap</strong> (version 4) is straightforward:</p>
+<p>Installation of <strong>tmap</strong> is straightforward:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></span></code></pre></div>
+<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
+<div class="section level3">
+<h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
+</h3>
+<p>The development version</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
 <span></span>
@@ -129,23 +136,24 @@
 <span></span>
 <span><span class="co"># Or from r-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The old version of <strong>tmap</strong> (version 3) is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>, but we recommend to use version 4, which will be on CRAN soon.</p>
-<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
 <p><strong>Windows</strong> No additional installation required.</p>
 <p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompx.org/post/2020/installing-r-spatial-packages-linux/" class="external-link uri">https://geocompx.org/post/2020/installing-r-spatial-packages-linux/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/150" class="external-link">issue</a>.</p>
 <p><strong>macOS</strong> See <a href="https://www.kyngchaos.com/" class="external-link uri">https://www.kyngchaos.com/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/149" class="external-link">issue</a>.</p>
+</div>
 </div>
 </div>
 <div class="section level1">
 <h1 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h1>
 <p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data (<code>sf</code>) object that is contained in <strong>tmap</strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>This map can be enhanced in several ways. For instance:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span></span>
+<span><span class="co">#&gt; This message is displayed once per session.</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p>This map can be enhanced in several ways. For instance:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>                fill.scale <span class="op">=</span> <span class="fu"><a href="reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.rd_yl_bu"</span><span class="op">)</span>,</span>
@@ -153,7 +161,7 @@
 <span>                                        orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
 <span>                                        frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>                <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
 <div class="section level1">
 <h1 id="book-chapter-about-tmap">Book chapter about tmap<a class="anchor" aria-label="anchor" href="#book-chapter-about-tmap"></a>
