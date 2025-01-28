@@ -2,10 +2,6 @@
 title: "tmap basics: basemaps"
 output: 
   bookdown::html_vignette2:
-pkgdown:
-  as_is: true
-template:
-  math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
 editor_options: 
@@ -55,15 +51,15 @@ By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. B
 
 ## Plot mode
 
-To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas" (run `tmap_options("basemap.server")` to see this option).
+To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas" (run `tmap_options("basemap.server")` to see this option). This can be changed, e.g. `"OpenTopoMap"`. 
 
-```{r, fig.height = 3.5, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
+```{r, fig.height = 3.5}
 tm_shape(metro) +
 	tm_bubbles(size = "pop2020") +
-	tm_basemap()
+	tm_basemap("OpenTopoMap")
 ```
 
-This can be changed. The options are:
+The options are:
 
 ```{r}
 names(maptiles::get_providers())
@@ -71,14 +67,17 @@ names(maptiles::get_providers())
 
 See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
 
-```{r, fig.height = 3.5, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
+```{r, fig.height = 3.5}
 tm_shape(metro) +
 	tm_bubbles(size = "pop2020") +
-	tm_basemap("Esri.OceanBasemap")
+	tm_basemap("CartoDB.PositronNoLabels")
 ```
+
+Note: the Esri basemaps (also the default) do not render well [issue](https://github.com/r-tmap/tmap/issues/1026)
 
 ## View mode
 
+In view mode, there are even more options. There can be obtained via `names(leaflet::providers)`.
 
 ```{r}
 tmap_mode("view")
