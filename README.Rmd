@@ -52,7 +52,17 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ## Installation
 
-Installation of **tmap** (version 4) is straightforward:
+Installation of **tmap** is straightforward:
+
+```{r eval=FALSE}
+install.packages("tmap")
+```
+
+For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
+
+### Development version
+
+The development version
 
 ```{r eval=FALSE}
 # install.packages("remotes")
@@ -66,9 +76,6 @@ pak::pak("r-tmap/tmap")
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-The old version of **tmap** (version 3) is available on [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap), but we recommend to use version 4, which will be on CRAN soon.
-
-For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
 
 **Windows**
 No additional installation required.
