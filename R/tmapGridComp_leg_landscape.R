@@ -196,7 +196,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 		# tick marks in margin (specified with y coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
 			grTicksMargin = do.call(c, lapply(ticks[ticks_in_margin], function(y) {
-				mapply(function(i, id) gridCell(8, id, grid::linesGrob(x = c(0.5, 0.5), y = y, gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(8, id, grid::linesGrob(x = c(0.5, 0.5), y = y, gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksMargin = NULL
@@ -204,7 +204,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 
 		if (!all(ticks_in_margin)) {
 			grTicksItem = do.call(c, lapply(ticks[!ticks_in_margin], function(y) {
-				mapply(function(i, id) gridCell(6, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - y, gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(6, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - y, gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksItem = NULL

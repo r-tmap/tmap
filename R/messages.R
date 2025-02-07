@@ -143,7 +143,7 @@ message_crs_property_unknown = function() {
 
 message_crs_property_not_used = function() {
 	cli::cli_inform(
-		"{.field [tm_crs]} {.arg crs} specified, so {.arg property} is ignored"
+		"{.field [tm_crs()]} {.arg crs} specified, so {.arg property} is ignored"
 	)
 }
 
@@ -152,5 +152,23 @@ message_crs_ll = function() {
 		"{.field [tip]} Consider a suitable map projection, e.g. by adding {.code + tm_crs({.str auto})}.",
 		.frequency_id = "crs",
 		.frequency = "once"
+	)
+}
+
+message_scale_interval_value0 = function(aes, values, layer) {
+	suggestion = if (inherits(values, "tmapSeq")) {
+		to = values$to
+		power = values$power
+		if (is.character(power)) power = paste0("\"", power, "\"")
+		paste0("values = tm_seq(0.25, ", to, ", power = ", power, ")")
+	} else {
+		to = values[2]
+		paste0("values = c(0.25, ", to, ")")
+	}
+
+
+	cli::cli_inform(
+		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the visual variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
+		.frequency_id = "size0"
 	)
 }

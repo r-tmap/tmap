@@ -770,9 +770,10 @@ tmapValuesColorize_angle = function(x, pc) x
 #' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting `power` to `"sqrt_perceptual"`
 #'
 #' @param from,to The numeric range, default 0 and 1 respectively
-#' @param power The power component, or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`, `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
+#' @param power The power component, a number or or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`, `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
 #' @export
 tm_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
+	if (length(power) > 1) power = power[1]
 	structure(as.list(environment()), class = "tmapSeq")
 }
 
