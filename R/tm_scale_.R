@@ -127,6 +127,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting (similar to legend.format in tmap3)
+#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_scales}{tmap basics: scales}
 #' @seealso [tm_scale()]
 #' @export
 tm_scale_intervals = function(n = 5,
