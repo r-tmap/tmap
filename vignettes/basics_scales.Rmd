@@ -74,9 +74,9 @@ Each visual variable, e.g. `fill` in `tm_polygons` can represent a data variable
 s + tm_polygons(fill = "HPI")
 ```
 
-A *scale* defines how to map the data values to visual values. Numeric data variables (e.g. `"HPI"` which stands for Happy Planex Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with `tm_scale_intervals`, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):
+A *scale* defines how to map the data values to visual values. Numeric data variables (e.g. `"HPI"` which stands for Happy Planet Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with `tm_scale_intervals`, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):
 
-```{r, eval = FALSE}
+```{r}
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -88,6 +88,28 @@ s + tm_polygons(
   ))
 ```
 
+The `style` parameter within `tm_scale_intervals` has a variety of options, including:
+
+- `fixed`
+- `sd`
+- `equal`
+- `pretty`
+- `quantile`
+- `fisher`
+- `jenks`
+
+To specify the classification breaks manually, use `style = "fixed"` and specify the breaks using `breaks = c(0,10,20,30,40,50,60)`:
+
+```{r}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(
+    n = 6, # for n classes 
+  	style = "fixed",    
+    breaks = c(0,10,20,30,40,50,60), # you need n+1 number of breaks
+    values = "pu_gn_div"
+  ))
+```
 
 An alternative for numeric data variables is the continuous scale:
 
