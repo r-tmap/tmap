@@ -8,8 +8,8 @@
 coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap)
 [![CRAN
-checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
-[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
+checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
 <!-- badges: end -->
@@ -35,17 +35,18 @@ automatically installed for Windows users).
 
 ### Development version
 
-The development version
+The development version can be installed from the GitHub repository
+using `remotes` or `pak` packages or from the [R-universe
+repository](https://r-tmap.r-universe.dev/tmap).
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
-# On Linux, with pak
 # install.packages("pak")
 pak::pak("r-tmap/tmap")
 
-# Or from r-universe
+# Or from R-universe
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -62,8 +63,8 @@ issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 # Getting started
 
 Plot a World map of the happy planet index (HPI) per country. The object
-`World` is an example spatial data (`sf`) object that is contained in
-**tmap**:
+`World` is an example spatial data frame (`sf`) object that is contained
+in **tmap**:
 
 ``` r
 tm_shape(World) +
