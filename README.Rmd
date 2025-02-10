@@ -42,8 +42,8 @@ knitr::knit_hooks$set(output = function(x, options) {
 [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
-[![CRAN checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
-[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
+[![CRAN checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
 <!-- badges: end -->
@@ -62,17 +62,17 @@ For Linux and macOS users who are new to working with spatial data in R, this ma
 
 ### Development version
 
-The development version
+The development version can be installed from the GitHub repository using
+`remotes` or `pak` packages or from the [R-universe repository](https://r-tmap.r-universe.dev/tmap).
 
 ```{r eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
-# On Linux, with pak
 # install.packages("pak")
 pak::pak("r-tmap/tmap")
 
-# Or from r-universe
+# Or from R-universe
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -86,14 +86,14 @@ See https://geocompx.org/post/2020/installing-r-spatial-packages-linux/. Please 
 **macOS**
 See https://www.kyngchaos.com/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 
-#  Getting started
+# Getting started
 
 ```{r echo=FALSE, message=FALSE} 
 library(tmap)
 ```
 
 Plot a World map of the happy planet index (HPI) per country.
-The object `World` is an example spatial data (`sf`) object that is contained in **tmap**:
+The object `World` is an example spatial data frame (`sf`) object that is contained in **tmap**:
 
 ```{r fig.height=3.5}
 tm_shape(World) +
