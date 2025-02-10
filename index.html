@@ -125,16 +125,15 @@
 <div class="section level3">
 <h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
 </h3>
-<p>The development version</p>
+<p>The development version can be installed from the GitHub repository using <code>remotes</code> or <code>pak</code> packages or from the <a href="https://r-tmap.r-universe.dev/tmap" class="external-link">R-universe repository</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># On Linux, with pak</span></span>
 <span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Or from r-universe</span></span>
+<span><span class="co"># Or from R-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Windows</strong> No additional installation required.</p>
 <p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompx.org/post/2020/installing-r-spatial-packages-linux/" class="external-link uri">https://geocompx.org/post/2020/installing-r-spatial-packages-linux/</a>. Please address installation issues in this <a href="https://github.com/r-tmap/tmap/issues/150" class="external-link">issue</a>.</p>
@@ -145,7 +144,7 @@
 <div class="section level1">
 <h1 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h1>
-<p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data (<code>sf</code>) object that is contained in <strong>tmap</strong>:</p>
+<p>Plot a World map of the happy planet index (HPI) per country. The object <code>World</code> is an example spatial data frame (<code>sf</code>) object that is contained in <strong>tmap</strong>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span>
@@ -207,8 +206,8 @@
 <li><a href="https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/r-tmap/tmap?branch=master" class="external-link"><img src="https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a></li>
-<li><a href="https://cran.r-project.org/web/checks/check_results_tmap.html" class="external-link"><img src="https://cranchecks.info/badges/worst/tmap" alt="CRAN checks"></a></li>
-<li><a href="https://www.r-pkg.org:443/pkg/tmap" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen" alt="Downloads"></a></li>
+<li><a href="https://cran.r-project.org/web/checks/check_results_tmap.html" class="external-link"><img src="https://badges.cranchecks.info/worst/tmap.svg" alt="CRAN checks"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/tmap" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen" alt="Downloads"></a></li>
 <li><a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat" alt="License"></a></li>
 <li><a href="https://r-tmap.r-universe.dev/tmap" class="external-link"><img src="https://r-tmap.r-universe.dev/badges/tmap" alt="r-universe"></a></li>
 </ul>
