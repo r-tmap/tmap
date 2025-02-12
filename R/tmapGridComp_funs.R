@@ -168,7 +168,7 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 		fill = c(dark, light)
 	} else if (comp$type=="radar") {
 		cr = c(.45, .42, .2, .17, .1)
-		LWD = round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * comp$lwd
+		LWD = (o$lineH * 24) * comp$lwd
 
 		cd = seq(1/8, 15/8, by=.25) * pi
 		cd2 = seq(1/4, 7/4, by=.5) * pi

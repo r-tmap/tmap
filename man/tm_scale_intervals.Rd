@@ -69,5 +69,7 @@ layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons
 The function \code{tm_scale_intervals()} is used for numerical data.
 }
 \seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{tmap basics: scales}
+
 \code{\link[=tm_scale]{tm_scale()}}
 }
