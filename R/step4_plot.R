@@ -839,7 +839,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	}
 
 	if (o$type == "page") {
-		cdt$page = cdt$by1__
+		# to fix #1027
+		cdt$page = d$page[match(cdt$by1__, d$by1)]
 	}
 
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
