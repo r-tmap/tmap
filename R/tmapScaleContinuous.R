@@ -276,7 +276,16 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (!(aes %in% c("col", "fill"))) b = b[b!=0]
 			b_t = do.call(tr$fun, c(list(x = b), trargs))
 		}
-		sel = if (length(b_t) == 2) TRUE else (b_t>=limits_t[1] & b_t<=limits_t[2])
+		sel = if (length(b_t) == 2) TRUE else {
+			# #1039
+			# to include min/max if they are closer to the next 'not included' tick than the included tick
+			# e.g. tm_shape(World) + tm_polygons("gender", fill.scale = tm_scale_continuous())
+			# lowest value is 0.009 whereas ticks are 0.2, 0.4, 0.6, 0.8.
+			stp1 = (b_t[2] - b_t[1]) / 2
+			stp2 = (b_t[length(b_t)] - b_t[length(b_t) - 1L]) / 2
+			limits_t_tmp = c(limits_t[1] - stp1, limits_t[2] + stp2)
+			(b_t>=limits_t_tmp[1] & b_t<=limits_t_tmp[2])
+		}
 		b_t = b_t[sel]
 		b = b[sel]
 
@@ -288,6 +297,16 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			vvalues = transform_values(b_t, limits_t, values.range, values$power, values.scale * o$scale, include.neutral = FALSE)
 		} else {
 			id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
+
+			# impute missing head and tail (#1039)
+			missing_head = is.na(id[1])
+			if (missing_head) id[1] = 2 * id[2] - id[3]
+
+			nid = length(id)
+
+			missing_tail = is.na(id[nid])
+			if (missing_tail) id[nid] = 2 * id[nid-1] - id[nid-2]
+
 			id_step = id[-1] - head(id, -1)
 			id_step = c(id_step[1], id_step, id_step[length(id_step)])
 			id_lst = mapply(function(i, s1, s2){
