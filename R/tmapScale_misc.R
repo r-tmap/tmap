@@ -9,7 +9,7 @@ check_values = function(layer, aes, values) {
 			"!" = "values should conform visual variable {.val {aes}}.",
 			"i" = info
 		),
-		call = call(paste0("tm_", layer)))
+		call = call(paste0("tm_", layer[1])))
 	}
 }
 

@@ -29,7 +29,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 
 	#gp = get_pch_1000p(gp)
 
-	gp = rescale_gp(gp, o$scale_down * o$scale)
+	gp = rescale_gp(gp, o$scale_down)
 
 	#gp = gp_to_gpar(gp, sel = "all")
 
