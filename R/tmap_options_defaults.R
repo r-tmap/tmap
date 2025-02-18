@@ -4,13 +4,14 @@
 	list(
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid",
-								 use_gradient = FALSE),
+								 use_gradient = FALSE,
+								 crs_basemap = 3857),
 								 #crs = "auto"),
 					 view = list(name = "Leaflet",
 					 			use_browser = FALSE,
 					 			use_WebGL = NA,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-					 			#crs_data = list(dimensions = 3857, 4326),
+					 			crs_basemap = list(dimensions = 3857, 4326),
 					 			facet.max = 16,
 					 			#legend.bg.alpha = 0.8,
 					 			#view.legend.position = c("right", "top"),

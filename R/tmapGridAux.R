@@ -18,16 +18,20 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	isproj = !sf::st_is_longlat(crs)
 
 	if (isproj) {
+		# plain lat-lon to find zoom levels
 		bs_orig = bs
 		bs = lapply(bs, function(b) {
 			sf::st_bbox(sf::st_transform(sf::st_as_sfc(b), crs = "EPSG:4326"))
 		})
 	}
 
+	# tiles are in mercator
+	bs3857 = lapply(bs, sf::st_transform, crs = "EPSG:3857")
+
 	bs = lapply(bs, function(b) {
+		# not sure why needed
 		bb_ll_valid(bb_asp(b, g$fasp))
 	})
-
 
 	if (is.na(a$zoom)) {
 		zs = vapply(bs, findZoom, FUN.VALUE = integer(1))
@@ -37,6 +41,7 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 
 	xs = mapply(function(b, z) {
 		m = tryCatch({
+			print(st_crs(b))
 			maptiles::get_tiles(x = b, provider = a$server[1], zoom = z, crop = FALSE)
 		}, error = function(e) {
 			tryCatch({
@@ -53,7 +58,7 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 			message("Tiles from ", a$server[1], " at zoom level ", z, " couldn't be loaded")
 		}
 		m
-	}, bs, zs, SIMPLIFY = FALSE)
+	}, bs3857, zs, SIMPLIFY = FALSE)
 
 	if (isproj) {
 		if (!all(vapply(xs, is.null, FUN.VALUE = logical(1)))) {

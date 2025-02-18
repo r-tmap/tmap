@@ -223,7 +223,7 @@ step1_rearrange = function(tmel) {
 	# if basemaps are used AND tm_options(crs = ...) is not used AND tm_shape(crs = ... / is.main = TRUE) is not used:
 	basemaps_defined = length(aux) && any(vapply(aux, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1)))
 	if ((is.na(crs_step4[1]) || identical(crs_step4, "auto")) && basemaps_defined && !crs_opt_called) {
-		crs_step4 = list(dimensions = 3857, 4326)
+		crs_step4 = o$crs_basemap
 	}
 
 	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto"), crs_extra = o$crs_extra, crs_global = o$crs_global, basemaps_defined = basemaps_defined) else NA

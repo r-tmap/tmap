@@ -358,7 +358,17 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})
-		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
+		bbm = stm_merge_bbox(bbxs)
+		bbc = bbm
+		crp = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -75, ymax = 85), crs = 4326)
+		crp2 = sf::st_transform(crp, crs = crs)
+
+		bbc['ymin'] = max(bbc['ymin'], crp2['ymin'])
+		bbc['ymax'] = min(bbc['ymax'], crp2['ymax'])
+
+		bbe = bb_ext(bbc, o$inner.margins)
+
+		list(list(bbe))
 	}
 
 	# main group (that determines bounding box)
@@ -382,10 +392,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			if (is.null(bbm)) {
 				bbo = o$bbox
 				if (!is.null(bbo)) {
-					bbm = tmaptools::bb(bbo)
+					bbm = tmaptools::bb(bbo, crs = crs)
 				} else {
-					bbm = sf::st_bbox()
+					bbm = sf::st_transform(sf::st_bbox(), crs = crs)
 				}
+			} else {
+				bbm = sf::st_transform(bbm, crs = crs)
 			}
 			d[, bbox:=rep(list(bbm),nrow(d))]
 		}
@@ -393,10 +405,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		if (is.null(bbm)) {
 			bbo = o$bbox
 			if (!is.null(bbo)) {
-				bbm = tmaptools::bb(bbo)
+				bbm = tmaptools::bb(bbo, crs = crs)
 			} else {
-				bbm = sf::st_bbox()
+				bbm = sf::st_transform(sf::st_bbox(), crs = crs)
 			}
+		} else {
+			bbm = sf::st_transform(bbm, crs = crs)
 		}
 		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(bbm))
 	}
@@ -421,6 +435,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			}
 		}
 
+		# not sure what this does:
 		d[, bbox:=lapply(bbox, FUN = function(bbx) {
 			if (!is.na(bbx) && !is.na(longlat) && longlat && !sf::st_is_longlat(bbx)) {
 				sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
