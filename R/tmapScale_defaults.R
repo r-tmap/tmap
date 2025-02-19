@@ -413,16 +413,33 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 
 	if (isdiv) {
-		cat0 = (are_breaks != any(dvalues==midpoint))
+		if (are_breaks) {
+			outside = (all(midpoint < dvalues) || all(midpoint > dvalues))
+			cat0 = !any(dvalues==midpoint) && !outside
 
-		nneg = max(0L, sum(dvalues < midpoint) - cat0) # max 0L needed when midpoint is outside range (and cat0 is true)
-		npos = max(0L, sum(dvalues > midpoint) - cat0)
+			nneg = max(0L, sum(dvalues < midpoint) - cat0 - outside) # max 0L needed when midpoint is outside range (and cat0 is true)
+			npos = max(0L, sum(dvalues > midpoint) - cat0 - outside)
 
-		nmax = max(nneg, npos)
+			nmax = max(nneg, npos)
 
-		ntot = 2L * nmax + cat0
+			ntot = 2L * nmax + cat0
 
-		ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
+			ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
+		} else {
+			outside = (all(midpoint < dvalues) || all(midpoint > dvalues))
+			cat0 = !any(dvalues==midpoint) && !outside
+
+			nneg = max(0L, sum(dvalues < midpoint) - cat0 - outside) # max 0L needed when midpoint is outside range (and cat0 is true)
+			npos = max(0L, sum(dvalues > midpoint) - cat0 - outside)
+
+			nmax = max(nneg, npos)
+
+			ntot = 2L * nmax + cat0
+
+			ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
+		}
+
+
 	} else {
 		ntot = n
 		ids = 1L:n
