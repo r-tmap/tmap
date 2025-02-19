@@ -5,7 +5,8 @@
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid",
 								 use_gradient = FALSE,
-								 crs_basemap = 3857),
+								 crs_basemap = 3857,
+								 limit_latitude_3857 = c(-84, 84)),
 								 #crs = "auto"),
 					 view = list(name = "Leaflet",
 					 			use_browser = FALSE,
