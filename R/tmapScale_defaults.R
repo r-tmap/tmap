@@ -414,6 +414,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 	if (isdiv) {
 		if (are_breaks) {
+			# scale_interval
 			outside = (all(midpoint < dvalues) || all(midpoint > dvalues))
 			cat0 = !any(dvalues==midpoint) && !outside
 
@@ -426,20 +427,30 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 
 			ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
 		} else {
+			# scale_discrete
 			outside = (all(midpoint < dvalues) || all(midpoint > dvalues))
-			cat0 = !any(dvalues==midpoint) && !outside
+			cat0 = any(dvalues==midpoint)
+			between = !outside && !cat0
 
-			nneg = max(0L, sum(dvalues < midpoint) - cat0 - outside) # max 0L needed when midpoint is outside range (and cat0 is true)
-			npos = max(0L, sum(dvalues > midpoint) - cat0 - outside)
+			if (between) {
+				# suppose 4 break values, and m is between 1st and 2nd:
+				# x m x    x    x
+				# create palette of half steps, and take odd numbers at the end
+				nneg = max(0L, (sum(dvalues < midpoint) * 2 - 1L))
+				npos = max(0L, (sum(dvalues > midpoint) * 2 - 1L))
+				nmax = max(nneg, npos)
+				ntot = 2L * nmax + 1L
+				ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
+				ids = ids[seq(1L, length(ids), by = 2L)]
+			} else {
+				nneg = max(0L, sum(dvalues < midpoint))
+				npos = max(0L, sum(dvalues > midpoint))
+				nmax = max(nneg, npos)
+				ntot = 2L * nmax + cat0
+				ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
+			}
 
-			nmax = max(nneg, npos)
-
-			ntot = 2L * nmax + cat0
-
-			ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
 		}
-
-
 	} else {
 		ntot = n
 		ids = 1L:n
