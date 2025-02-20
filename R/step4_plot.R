@@ -363,14 +363,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 		bbe = bb_ext(bbc, o$inner.margins)
 
-		if ((crs == 3857 || crs == st_crs(3857)) && ("limit_latitude_3857" %in% names(o)) && (!identical(o$limit_latitude_3857, FALSE))) {
-			crp = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = o$limit_latitude_3857[1], ymax = o$limit_latitude_3857[2]), crs = 4326)
-			crp2 = sf::st_transform(crp, crs = crs)
-			bbe['xmin'] = max(bbe['xmin'], crp2['xmin'])
-			bbe['xmax'] = min(bbe['xmax'], crp2['xmax'])
-			bbe['ymin'] = max(bbe['ymin'], crp2['ymin'])
-			bbe['ymax'] = min(bbe['ymax'], crp2['ymax'])
-		}
+		bbe = crop_lat(bbe, crs, o$limit_latitude_3857)
+
 
 
 		list(list(bbe))
@@ -417,6 +411,11 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		} else {
 			bbm = sf::st_transform(bbm, crs = crs)
 		}
+
+		bbm = crop_lat(bbm, crs, o$limit_latitude_3857)
+
+
+
 		d = data.table::data.table(by1 = 1L, by2 = 1L, by3 = 1L, i = 1, bbox = list(bbm))
 	}
 

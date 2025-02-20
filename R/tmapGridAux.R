@@ -15,6 +15,8 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 
 	crs = sf::st_crs(bs[[1]])
 
+	crs3857 = (crs == 3857 || crs == st_crs(3857))
+
 	isproj = !sf::st_is_longlat(crs)
 
 	if (isproj) {
@@ -59,7 +61,7 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 		m
 	}, bs3857, zs, SIMPLIFY = FALSE)
 
-	if (isproj) {
+	if (isproj && !crs3857) {
 		if (!all(vapply(xs, is.null, FUN.VALUE = logical(1)))) {
 			message("Tiles from ", a$server[1], " will be projected so details (e.g. text) could appear blurry")
 			xs = mapply(function(x,b) {
