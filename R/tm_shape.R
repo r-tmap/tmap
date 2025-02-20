@@ -55,7 +55,7 @@
 #' @example ./examples/tm_shape.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
 #' @export
-tm_shape = function(shp,
+tm_shape = function(shp = NULL,
 					bbox = NULL,
 					crs = NULL,
 					is.main = NA,

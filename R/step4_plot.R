@@ -397,7 +397,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			if (is.null(bbm)) {
 				bbo = o$bbox
 				if (!is.null(bbo)) {
-					bbm = tmaptools::bb(bbo, crs = crs)
+					bbm = tmaptools::bb(bbo, projection = crs)
 				} else {
 					bbm = sf::st_transform(sf::st_bbox(), crs = crs)
 				}
@@ -410,7 +410,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		if (is.null(bbm)) {
 			bbo = o$bbox
 			if (!is.null(bbo)) {
-				bbm = tmaptools::bb(bbo, crs = crs)
+				bbm = tmaptools::bb(bbo, projection = crs)
 			} else {
 				bbm = sf::st_transform(sf::st_bbox(), crs = crs)
 			}
