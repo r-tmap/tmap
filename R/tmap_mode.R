@@ -65,6 +65,7 @@ tmap_mode = function(mode = NULL) {
 	} else {
 		rlang::arg_match0(mode, modes)
 		options(tmap.mode = mode)
+		fill_providers()
 		if (show.messages) cli::cli_inform(c(i = "tmap mode set to {.val {mode}}."))
 	}
 	invisible(current.mode)
