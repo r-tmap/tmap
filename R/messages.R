@@ -102,23 +102,28 @@ message_webgl_vars = function(supported, vary) {
 	var_text = paste(names(vary)[vary], collapse = ", ")
 	var_sel = names(vary)[vary]
 
-	cli::cli_inform("{.field [view mode]} WegGL enabled, but the only supported visual variables are: {.val {supported}}. The visual variable(s) {.val {var_sel}} are not supported. Set {.code use_WebGL = FALSE} to support them.")
+	cli::cli_inform("{.field [view mode]} WebGL enabled, but the only supported visual variables are: {.val {supported}}. The visual variable(s) {.val {var_sel}} are not supported. Set {.code use_WebGL = FALSE} to support them.")
 
 }
 
 message_webgl_hover = function(type) {
-	cli::cli_inform("{.field [view mode]} WegGL enabled, but it does not support hover labels for layer type {.val {type}}. Set {.code use_WebGL = FALSE} to support them.")
+	cli::cli_inform("{.field [view mode]} WegGL enabled, but it does not support hover labels for layer type {.val {type}}. Set {.code use_WebGL = FALSE} to support them.",
+					.frequency_id = "webGL_hover",
+					.frequency = "once")
 }
 
 
 message_webgl_checks = function(checks, checkif) {
 	vals = paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", ")
-	cli::cli_inform("{.field [view mode]} WegGL enabled, but the following visual variable only accept one value {.arg {vals}}. Set {.code use_WebGL = FALSE} to support them.")
-
+	cli::cli_inform("{.field [view mode]} WebGL enabled, but the following visual variable only accept one value {.arg {vals}}. Set {.code use_WebGL = FALSE} to support them.",
+					.frequency_id = "webGL_vv",
+					.frequency = "once")
 }
 
 message_webgl_crs_simple = function() {
-	cli::cli_inform("{.field [view mode]} WegGL does not work (yet) with projected map projections, so it has been disabled.")
+	cli::cli_inform("{.field [view mode]} WebGL does not work (yet) with projected map projections, so it has been disabled.",
+					.frequency_id = "webGL_crs",
+					.frequency = "once")
 
 }
 
