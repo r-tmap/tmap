@@ -314,7 +314,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		shpTM_match = TRUE
 	}
 
-	idt = (if (is.null(idt))sprintf("%07d", dt$tmapID__)[shpTM_match] else idt[shpTM_match]) |>
+	idt = (if (is.null(idt)) sprintf("%07d", dt$tmapID__)[shpTM_match] else idt[shpTM_match]) |>
 		submit_labels("symbols", pane, group)
 
 
@@ -343,7 +343,7 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
 		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
 
-		lf |>  leaflet::addCircleMarkers(data = sf::st_sf(shp),
+		lf |>  leaflet::addCircleMarkers(data = sf::st_sf(shp), layerId = idt,
 										 color = gp2$color,
 										 opacity = gp2$opacity,
 										 weight = gp2$strokeWidth,

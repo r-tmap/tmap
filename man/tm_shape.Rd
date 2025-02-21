@@ -5,7 +5,7 @@
 \title{Shape (spatial object) specification}
 \usage{
 tm_shape(
-  shp,
+  shp = NULL,
   bbox = NULL,
   crs = NULL,
   is.main = NA,
