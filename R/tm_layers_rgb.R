@@ -98,6 +98,7 @@ tm_rgba = function(col = tm_vars(n = 4, multivariate = TRUE),
 #' @rdname tm_rgb
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
 #' @param saturation `r .doc_opt("rgb.saturation")`
+#' @export
 opt_tm_rgb = function(interpolate = FALSE, saturation = 1) {
 	list(trans.args = list(),
 		 mapping.args = list(interpolate = interpolate, saturation = saturation))

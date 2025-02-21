@@ -91,7 +91,7 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	ds = lapply(ss, function(s) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
-		d[, c("col", "legnr", "crtnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", layer_args = opt_tm_rgb()$mapping.args, sortRev = NA, bypass_ord = TRUE))]
+		d[, c("col", "legnr", "crtnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", layer_args = opt_tm_rgb(interpolate = TRUE)$mapping.args, sortRev = NA, bypass_ord = TRUE))]
 		if ("alpha" %in% names(d)) {
 			d[, col_alpha:=alpha/255 * a$alpha]
 			d[is.na(col_alpha), col_alpha:=0]
@@ -376,7 +376,7 @@ tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gr
 	shpTM = g$bmaps_shpTHs[[id2]][[bi]]
 	gp = list()
 
-	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, interpolate = FALSE)
+	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, interpolate = TRUE)
 }
 
 
