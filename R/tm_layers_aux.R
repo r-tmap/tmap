@@ -5,6 +5,9 @@
 #' tile layer as overlay layer, where the stacking order corresponds with the
 #' order in which this layer is called, just like other map layers.
 #'
+#'  API keys. For Stadia and Thunderforest maps, an API key is required.
+#'  This can be set via the argument `api`. Alternatively they can be stored in environment variables `"STADIA_MAPS"` and `THUNDERFOREST_MAPS` with `Sys.setenv`
+#'
 #' @param server Name of the provider or an URL. The list of available providers
 #'   can be obtained with `providers` (tip: in RStudio, type `leaflet::providers$` to see
 #'   the options). See <https://leaflet-extras.github.io/leaflet-providers/preview/>
@@ -13,6 +16,7 @@
 #'   Use `NULL` in `tm_basemap()` to disable basemaps.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
+#' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode. See details
 #' @param max.native.zoom Maximum native zoom level (only used in view mode).
 #'   The minimum and maximum zoom levels are determined in `tm_view()`.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the
@@ -32,7 +36,7 @@
 #' @export
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemap examples}
 #' @example ./examples/tm_basemap.R
-tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
+tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {
 		disable = TRUE
 	} else {
@@ -43,7 +47,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 
 	}
 
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "basemap", disable = disable),
+		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, type = "basemap", disable = disable),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,

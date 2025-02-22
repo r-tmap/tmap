@@ -185,3 +185,30 @@ message_shiny_css = function() {
 		.frequency_id = "size0"
 	)
 }
+
+message_basemaps_none = function(serv, z) {
+	cli::cli_inform(
+		"{.field [basemaps]} Tiles from {.str {serv}} at zoom level {z} couldn't be loaded",
+		.frequency_id = "basemap_none",
+		.frequency = "once"
+	)
+
+}
+
+message_basemaps_blurry = function(serv) {
+	cli::cli_inform(
+		"{.field [basemaps]} Tiles from {.str {serv}} will be projected so details (e.g. text) could appear blurry",
+		.frequency_id = "basemap_blurry",
+		.frequency = "once"
+	)
+}
+
+
+message_basemaps = function(is_stadia) {
+	provider = ifelse(is_stadia, "Stadia", "Thunderforest")
+	cli::cli_inform(
+		"{.field [basemaps]} An API key is requierd for tiles from {.str {provider}}",
+		.frequency_id = "basemap_API",
+		.frequency = "once"
+	)
+}

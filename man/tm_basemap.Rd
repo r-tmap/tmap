@@ -9,6 +9,7 @@ tm_basemap(
   server = NA,
   alpha = NULL,
   zoom = NULL,
+  api = NULL,
   max.native.zoom = 17,
   zindex = 0,
   group = NA,
@@ -37,6 +38,8 @@ Use \code{NULL} in \code{tm_basemap()} to disable basemaps.}
 
 \item{zoom}{Zoom level (only used in plot mode)}
 
+\item{api}{API key. Needed for \code{Stadia} and \code{Thunderforest} maps in plot mode. See details}
+
 \item{max.native.zoom}{Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in \code{tm_view()}.}
 
@@ -62,6 +65,10 @@ Map layer that draws tiles from a tile server. \code{tm_basemap()} draws the til
 layer as basemap, i.e. as bottom layer. In contrast, \code{tm_tiles()} draws the
 tile layer as overlay layer, where the stacking order corresponds with the
 order in which this layer is called, just like other map layers.
+}
+\details{
+API keys. For Stadia and Thunderforest maps, an API key is required.
+This can be set via the argument \code{api}. Alternatively they can be stored in environment variables \code{"STADIA_MAPS"} and \code{THUNDERFOREST_MAPS} with \code{Sys.setenv}
 }
 \examples{
 \dontrun{

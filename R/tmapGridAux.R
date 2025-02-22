@@ -41,12 +41,28 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 		zs = rep(a$zoom, length(bs))
 	}
 
+	serv = a$server[1]
+
+	if (substr(serv, 1, 6) %in% c("Thunde", "Stadia")) {
+		is_stadia = substr(serv, 1, 6) == "Stadia"
+		api = if (!is.null(a$api)) {
+			a$api
+		} else if (is_stadia) {
+			Sys.getenv("STADIA_MAPS")
+		} else {
+			Sys.getenv("THUNDERFOREST_MAPS")
+		}
+		if (api == "") message_basemaps(is_stadia)
+	} else {
+		api = NULL
+	}
+
 	xs = mapply(function(b, z) {
 		m = tryCatch({
-			maptiles::get_tiles(x = b, provider = a$server[1], zoom = z, crop = FALSE)
+			maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z, crop = FALSE)
 		}, error = function(e) {
 			tryCatch({
-				maptiles::get_tiles(x = b, provider = a$server[1], zoom = z - 1, crop = FALSE)
+				maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z - 1, crop = FALSE)
 			}, error = function(e) {
 				NULL
 			})
@@ -56,14 +72,14 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 			if (terra::nlyr(m) == 4) names(m)[4] = "alpha"
 
 		} else {
-			message("Tiles from ", a$server[1], " at zoom level ", z, " couldn't be loaded")
+			message_basemaps_none(serv, z)
 		}
 		m
 	}, bs3857, zs, SIMPLIFY = FALSE)
 
 	if (isproj && !crs3857) {
 		if (!all(vapply(xs, is.null, FUN.VALUE = logical(1)))) {
-			message("Tiles from ", a$server[1], " will be projected so details (e.g. text) could appear blurry")
+			message_basemaps_blurry(serv)
 			xs = mapply(function(x,b) {
 				if (is.null(x)) return(NULL)
 
