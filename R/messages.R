@@ -142,8 +142,9 @@ message_layer_unused_args = function(layer_fun, args) {
 
 message_crs_property_unknown = function() {
 	cli::cli_inform(
-		"{.field [tm_crs]} {.arg property} should be one of {.str global}, {.str area}, {.str distance}, {.str shape}"
-	)
+		"{.field [shiny]} some css styling (used for background and markers) cannot be used yet in shiny apps",
+		.frequency_id = "shiny_css",
+		.frequency = "once")
 }
 
 message_crs_property_not_used = function() {
@@ -172,6 +173,13 @@ message_scale_interval_value0 = function(aes, values, layer) {
 	}
 
 
+	cli::cli_inform(
+		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the visual variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
+		.frequency_id = "size0"
+	)
+}
+
+message_shiny_css = function() {
 	cli::cli_inform(
 		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the visual variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
 		.frequency_id = "size0"

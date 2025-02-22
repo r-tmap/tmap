@@ -63,10 +63,11 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 				padding: 0;
 				}\n")}, FUN.VALUE = character(1)), collapse = "\n")
 		} else {
+
 			style_markers = NULL
 		}
 
-		if (o$pc$sepia_intensity != 0 && !.TMAP$in.shiny) {
+		if (o$pc$sepia_intensity != 0) {
 			col = process_color("#ffffff", sepia_intensity = o$pc$sepia_intensity)
 			style_sepia = paste0(".leaflet-control-layers {background: ", col, ";}
 				.leaflet-control-zoom-in {background: ", col, " !important;}
@@ -79,7 +80,12 @@ tmapLeafletRun = function(o, q, show, knit, args) {
 		if (is.null(style_markers) && is.null(style_sepia)) {
 			x
 		} else {
-			htmlwidgets::prependContent(x, htmltools::tags$style(paste0(style_markers, style_sepia)))
+			if (.TMAP$in.shiny) {
+
+				x
+			} else {
+				htmlwidgets::prependContent(x, htmltools::tags$style(paste0(style_markers, style_sepia)))
+			}
 		}
 	})
 
