@@ -577,6 +577,8 @@ tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	}
 
 	text = as.character(dt$text[shpTM_match])
+	if (all(text == "")) return(NULL)
+
 	idt = dt$tmapID__[shpTM_match] |>
 		submit_labels("text", pane, group)
 
