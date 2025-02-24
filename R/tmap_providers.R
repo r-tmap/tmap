@@ -18,6 +18,7 @@ tmap_provider_credits = function(provider) {
 #' @param as.list Should the output be returned as list where names are provider names? By default `TRUE` when `credits` is also `TRUE`.
 #' @return list or vector (see `as.list`) with providers (or credits). [tmap_provider_credits()] returns the credits text for the provided provider.
 #' @export
+#' @name tmap_providers
 tmap_providers = function(mode, credits = FALSE, as.list = credits) {
 	if (missing(mode)) mode = getOption("tmap.mode")
 	gs = tmap_graphics_name(mode)

@@ -47,7 +47,6 @@
 
 
 #' @rdname tmap_providers
-#' @name .tmap_providers
 #' @export
 .tmap_providers <- new.env(FALSE, parent=globalenv())
 
