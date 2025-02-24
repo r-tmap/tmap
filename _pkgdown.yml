@@ -116,6 +116,7 @@ reference:
   - theme_ps
   - tmap_tip
   - tmap_icons
+  - tmap_providers
 
 navbar:
   structure:

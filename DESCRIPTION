@@ -39,6 +39,7 @@ Imports:
     leaflegend,
     leaflet (>= 2.0.2),
     leafsync,
+    maptiles,
     methods,
     rlang,
     sf (>= 0.9-3),
@@ -47,14 +48,13 @@ Imports:
     s2,
     tmaptools (>= 3.1),
     units (>= 0.6-1),
-    servr,
+    servr
 Suggests:
     av,
     colorspace,
     ggplot2,
     gifski,
     knitr,
-    maptiles,
     png,
     shiny,
     terra,

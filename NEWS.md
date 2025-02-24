@@ -1,5 +1,18 @@
 # tmap 4.1 (in development)
-- [!] basemaps in plot mode much sharper, added tmap_providers()
+
+This fixes a few regressions in the tmap v4 release and adds improvements.
+
+- [!] basemaps in plot mode much sharper, added `tmap_providers()` (#1041, #1042)
+
+- `tm_remove_layer()` works again in Shiny (#1044)
+
+- `tm_logo()` works again in view mode (#1038).
+
+- Few fixes in legend computing and size (#1039, #1032)
+
+- Improve documentation (#1033, thanks @nickbearman)
+
+- Improve some v3->v4 upgrade messages for a smoother transition.
 
 # tmap 4.0
 
