@@ -8,8 +8,8 @@
 coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap)
 [![CRAN
-checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
-[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org/pkg/tmap)
+checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
 <!-- badges: end -->
@@ -23,32 +23,27 @@ R-library for drawing charts.
 
 ## Installation
 
-Installation of **tmap** is straightforward:
-
-``` r
-install.packages("tmap")
-```
-
-For Linux and macOS users who are new to working with spatial data in R,
-this may fail since additional (non-R) libraries are required (which are
-automatically installed for Windows users).
-
-### Development version
-
-The development version can be installed from the GitHub repository
-using `remotes` or `pak` packages or from the [R-universe
-repository](https://r-tmap.r-universe.dev/tmap).
+Installation of **tmap** (version 4) is straightforward:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
+# On Linux, with pak
 # install.packages("pak")
 pak::pak("r-tmap/tmap")
 
-# Or from R-universe
+# Or from r-universe
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
+
+The old version of **tmap** (version 3) is available on
+[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap),
+but we recommend to use version 4, which will be on CRAN soon.
+
+For Linux and macOS users who are new to working with spatial data in R,
+this may fail since additional (non-R) libraries are required (which are
+automatically installed for Windows users).
 
 **Windows** No additional installation required.
 
@@ -60,11 +55,11 @@ Please address installation issues in this
 **macOS** See <https://www.kyngchaos.com/>. Please address installation
 issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 
-# Getting started
+## Getting started
 
 Plot a World map of the happy planet index (HPI) per country. The object
-`World` is an example spatial data frame (`sf`) object that is contained
-in **tmap**:
+`World` is an example spatial data (`sf`) object that is contained in
+**tmap**:
 
 ``` r
 tm_shape(World) +
@@ -73,7 +68,7 @@ tm_shape(World) +
 #> This message is displayed once per session.
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 This map can be enhanced in several ways. For instance:
 
@@ -87,10 +82,22 @@ tm_shape(World, crs = "+proj=robin") +
                 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-# Book chapter about tmap
+## Additional Resources for Learning **tmap**
 
-The book [Geocomputation with R](https://r.geocompx.org/) provides a
-chapter on [Making maps with R](https://r.geocompx.org/adv-map),
-including a section on **tmap**.
+For more in-depth learning on the **tmap** package, refer to the
+following resources:
+
+- **Book Chapter:** [Geocomputation with R](https://r.geocompx.org/)
+  includes a chapter on [Making Maps with
+  R](https://r.geocompx.org/adv-map), which covers **tmap**.  
+- **Official Vignettes:** A collection of vignettes at
+  [r-tmap.github.io](https://r-tmap.github.io/tmap/articles/) covers
+  both basic and advanced topics with examples.  
+- **Work-in-Progress Book:** *Elegant and Informative Maps with tmap* is
+  an upcoming book available at
+  [tmap.geocompx.org](https://tmap.geocompx.org/).
+
+These resources provide a solid foundation for working with **tmap** in
+R.
