@@ -95,6 +95,7 @@ order in which this layer is called, just like other map layers.</p>
 <span>  server <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  zoom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  api <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max.native.zoom <span class="op">=</span> <span class="fl">17</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -133,6 +134,10 @@ Use <code>NULL</code> in <code>tm_basemap()</code> to disable basemaps.</p></dd>
 <dd><p>Zoom level (only used in plot mode)</p></dd>
 
 
+<dt id="arg-api">api<a class="anchor" aria-label="anchor" href="#arg-api"></a></dt>
+<dd><p>API key. Needed for <code>Stadia</code> and <code>Thunderforest</code> maps in plot mode. See details</p></dd>
+
+
 <dt id="arg-max-native-zoom">max.native.zoom<a class="anchor" aria-label="anchor" href="#arg-max-native-zoom"></a></dt>
 <dd><p>Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in <code><a href="tm_view.html">tm_view()</a></code>.</p></dd>
@@ -161,6 +166,11 @@ groups can be switched on and off. Options: <code>"radio"</code> for radio butto
 (the group cannot be (de)selected).</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>API keys. For Stadia and Thunderforest maps, an API key is required.
+This can be set via the argument <code>api</code>. Alternatively they can be stored in environment variables <code>"STADIA_MAPS"</code> and <code>THUNDERFOREST_MAPS</code> with <code>Sys.setenv</code></p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="https://r-tmap.github.io/tmap/articles/basics_basemaps">Basemap examples</a></p></div>
