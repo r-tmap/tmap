@@ -194,8 +194,6 @@ tmapGridGridPrep = function(a, bs, id, o) {
 
 	o$scale.extra = 1
 
-	#grid.n.x <- grid.n.y <- projection <- grid.is.projected <- grid.ndiscr <- NULL
-
 	a3s = lapply(bs, function(bbx) {
 		crs_bb = sf::st_crs(bbx)
 		within(a2, {
