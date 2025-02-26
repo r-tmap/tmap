@@ -59,10 +59,18 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 
 	xs = mapply(function(b, z) {
 		m = tryCatch({
-			maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z, crop = FALSE)
+			if (is.null(api)) {
+				maptiles::get_tiles(x = b, provider = serv, zoom = z, crop = FALSE)
+			} else {
+				maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z, crop = FALSE)
+			}
 		}, error = function(e) {
 			tryCatch({
-				maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z - 1, crop = FALSE)
+				if (is.null(api)) {
+					maptiles::get_tiles(x = b, provider = serv, zoom = z - 1, crop = FALSE)
+				} else {
+					maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z - 1, crop = FALSE)
+				}
 			}, error = function(e) {
 				NULL
 			})
