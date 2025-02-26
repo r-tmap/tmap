@@ -255,3 +255,77 @@ tm_logo = function(file,
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
 }
+
+
+
+#' Map component: general
+#'
+#' Map component that adds an graphical object
+#'
+#' @param x object, e.g. a `grid::grob`.
+#' @param height height of the component in number of text line heights.
+#' @param width width of the component in number of text line heights.
+#' @param dpi dpi of the component (in view mode)
+#' @param margins margins
+#' @param between_margin Margin between
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
+#' @inheritParams tm_title
+#' @param group.frame group.frame
+#' @param resize_as_group resize_as_group
+#' @param z z
+#' @example ./examples/tm_component.R
+#' @export
+tm_component = function(x,
+						height,
+						width,
+						dpi,
+						margins,
+						between_margin,
+						stack,
+						position,
+						frame,
+						frame.lwd,
+						frame.r,
+						group.frame,
+						resize_as_group,
+						z) {
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$z = args$z %||% NA_integer_
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_component_general", "tm_component")))))
+}
+
+#' Map component: inset map
+#'
+#' Map component that adds an inset map
+#'
+#' @param bbox a bounding box
+#' @param height height of the component in number of text line heights.
+#' @param width width of the component in number of text line heights.
+#' @param margins margins
+#' @param between_margin Margin between
+#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
+#' @inheritParams tm_title
+#' @param group.frame group.frame
+#' @param resize_as_group resize_as_group
+#' @param z z
+#' @example ./examples/tm_inset.R
+#' @export
+tm_inset = function(bbox,
+					height,
+					width,
+					margins,
+					between_margin,
+					stack,
+					position,
+					frame,
+					frame.lwd,
+					frame.r,
+					group.frame,
+					resize_as_group,
+					z) {
+	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$z = args$z %||% NA_integer_
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_inset", "tm_component")))))
+}
+
+

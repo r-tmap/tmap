@@ -237,3 +237,57 @@ tmapLeafletLegPlot.tm_logo = function(comp, lf, o) {
 	lf
 }
 
+
+
+#' @export
+tmapLeafletCompPrepare.tm_component_general = function(comp, o) {
+	comp$dpl = comp$dpi * o$lin
+	comp$grob.dim = c(width=comp$width * comp$dpl, height=comp$height * comp$dpl, render.width=comp$width * comp$dpl, render.height=comp$height * comp$dpl)
+	comp$logo = grob2icon(comp$x, comp$grob.dim, just = c(0.5, 0.5))
+	comp$asp = comp$logo$iconWidth / comp$logo$iconHeight
+	comp$show = TRUE
+
+	comp
+}
+
+
+#' @export
+tmapLeafletCompHeight.tm_component_general = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapLeafletCompWidth.tm_component_general = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapLeafletLegPlot.tm_component_general = function(comp, lf, o) {
+	lf %>% leafem::addLogo(comp$logo$iconUrl, src = "local", position = leaflet_pos(comp$position), width = comp$grob.dim['render.width'], height = comp$grob.dim['render.height'])
+
+}
+
+
+#' @export
+tmapLeafletCompPrepare.tm_inset = function(comp, o) {
+	comp$show = FALSE
+	comp
+}
+
+
+#' @export
+tmapLeafletCompHeight.tm_inset = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapLeafletCompWidth.tm_inset = function(comp, o) {
+	comp
+}
+
+#' @export
+tmapLeafletLegPlot.tm_inset = function(comp, lf, o) {
+	lf
+}
+
+

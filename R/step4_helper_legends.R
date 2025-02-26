@@ -11,6 +11,7 @@ step4_plot_collect_charts = function(tmx) {
 				legs = c(tml$trans_legend, tml$mapping_legend)
 
 				legs = lapply(legs, function(l) {
+					#l$comp = list(crts_cached[l$crtnr])
 					l[, comp:=list(crts_cached[l$crtnr])]
 					l[, intersect(names(l), names(dt_template)), with = FALSE]
 				})

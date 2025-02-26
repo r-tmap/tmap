@@ -383,7 +383,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
 		mains_in_grp = intersect(o$main[!bbx_def], grp_ids)
-		if (length(mains_in_grp)) {
+		if (length(mains_in_grp) && !("inset" %in% names(o))) {
 			lookup = match(mains_in_grp, grp_ids)
 			tmain = unlist(unlist(tmx[lookup], recursive = FALSE, use.names = FALSE), recursive = FALSE, use.names = FALSE)
 			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
@@ -838,11 +838,57 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		cdt = data.table::rbindlist(c(list(legs_out), legs_in))
 
 		cdt$comp = mapply(function(cmp, bbx, u) {
-			cmp$bbox = bbx
+			if (!("bbox" %in% names(cmp))) cmp$bbox = bbx
 			cmp$units = u
 			cmp
 		}, cdt$comp, cdt$bbox, cdt$units, SIMPLIFY = FALSE)
 
+		leg_dummy = tm_legend_hide()
+		leg_dummy$active = FALSE
+		leg_dummy$vneutral = NA
+
+		leg_nr_dummy = legend_save(leg_dummy)
+		crt_nr_dummy = chart_save(tm_chart_none())
+
+		# inset maps: prepare input for step4
+		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset"))
+		if (length(inset_ids)) {
+			cdt$comp[inset_ids] = lapply(cdt$comp[inset_ids], function(comp) {
+					tmo_i = tm$tmo
+					o_i = tm$o
+					aux_i = tm$aux
+					cmp_i = list()
+					prx_i = list()
+
+
+					# set legends to inactive
+					tmo_i = lapply(tmo_i, function(tmg) {
+						lapply(tmg, function(tml) {
+							lapply(tml, function(tmi) {
+								tmi$mapping_legend = lapply(tmi$mapping_legend, function(l) {
+									l$legnr = leg_nr_dummy
+									l$crtnr = crt_nr_dummy
+									l
+								})
+								tmi$trans_legend = lapply(tmi$trans_legend, function(l) {
+									l$legnr = leg_nr_dummy
+									l$crtnr = crt_nr_dummy
+									l
+								})
+								tmi
+							})
+						})
+					})
+
+				#	(tm, vp, return.asp, show, in.shiny, knit, args)
+					comp$tm = list(tmo = tmo_i,
+								   o = o_i,
+								   aux = aux_i,
+								   cmp = cmp_i,
+								   prx = prx_i)
+					comp
+			})
+		}
 	}
 
 

@@ -812,3 +812,136 @@ tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
 }
 
 
+
+
+#' @export
+tmapGridCompPrepare.tm_component_general = function(comp, o) {
+	comp$show = TRUE
+	comp
+}
+
+#' @export
+tmapGridCompHeight.tm_component_general = function(comp, o) {
+	marH = comp$margins[c(3,1)] * o$lin
+	hs = c(marH[1], comp$height * o$lin, marH[2])
+
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+
+	Hin = sum(hs)
+	comp$flexRow = NA
+	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
+	comp$hsu = hsu
+	comp
+}
+
+#' @export
+tmapGridCompWidth.tm_component_general = function(comp, o) {
+	marW = comp$margins[c(2,4)] * o$lin
+
+	ws = c(marW[1], comp$width * o$lin, marW[2])
+
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+
+	comp$flexCol = NA
+	comp$Win = sum(ws)
+	comp$wsu = wsu
+	comp
+}
+
+#' @export
+tmapGridLegPlot.tm_component_general = function(comp, o, fH, fW) {
+
+	k = length(comp$logo)
+
+	wsu = comp$wsu
+	hsu = comp$hsu
+
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu),
+												   widths = wsu,
+												   heights = hsu))
+
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
+
+	g = gridCell(3L, 3L, comp$x)
+
+	do.call(grid::grobTree, c(list(gBG, g), list(vp = vp)))
+
+}
+
+
+
+
+#' @export
+tmapGridCompPrepare.tm_inset = function(comp, o) {
+	comp$show = TRUE
+	comp
+}
+
+#' @export
+tmapGridCompHeight.tm_inset = function(comp, o) {
+	marH = comp$margins[c(3,1)] * o$lin
+	hs = c(marH[1], comp$height * o$lin, marH[2])
+
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+
+	Hin = sum(hs)
+	comp$flexRow = NA
+	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
+	comp$hsu = hsu
+	comp
+}
+
+#' @export
+tmapGridCompWidth.tm_inset = function(comp, o) {
+	marW = comp$margins[c(2,4)] * o$lin
+
+	ws = c(marW[1], comp$width * o$lin, marW[2])
+
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+
+	comp$flexCol = NA
+	comp$Win = sum(ws)
+	comp$wsu = wsu
+	comp
+}
+
+#' @export
+tmapGridLegPlot.tm_inset = function(comp, o, fH, fW) {
+
+	k = length(comp$logo)
+
+	wsu = comp$wsu
+	hsu = comp$hsu
+
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu),
+												   widths = wsu,
+												   heights = hsu))
+
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
+
+	vp = grid::viewport(layout.pos.row = 3L, layout.pos.col = 3L)
+
+	#comp$tm$o = prepreprocess_meta(comp$tm$o, vp)
+	comp$tm$o$asp = as.numeric(wsu[3]) / as.numeric(hsu[3])
+
+	#comp$tm$tmo$group1$layers$layer1$shpDT$shpTM[[1]]$bbox$x = comp$bbox
+	comp$tm$o$inset = TRUE
+	comp$tm$o$bbox = comp$bbox
+
+	g = step4_plot(comp$tm, vp, return.asp = FALSE, show = FALSE, in.shiny = FALSE, knit = FALSE, args = list())
+
+	#g = gridCell(3L, 3L, grid::rectGrob(gp=gpar(fill="red")))#comp$x)
+
+	do.call(grid::grobTree, c(list(gBG, g), list(vp = vp)))
+
+}
+
+
