@@ -851,7 +851,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		crt_nr_dummy = chart_save(tm_chart_none())
 
 		# inset maps: prepare input for step4
-		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset"))
+		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
 		if (length(inset_ids)) {
 			cdt$comp[inset_ids] = lapply(cdt$comp[inset_ids], function(comp) {
 					tmo_i = tm$tmo
@@ -860,11 +860,18 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					cmp_i = list()
 					prx_i = list()
 
+					if ("crs" %in% names(comp)) {
+						crs_i = comp$crs
+						o_i$crs_step4 = crs_i
+					} else {
+						crs_i = o_i$crs_step4
+					}
 
 					# set legends to inactive
 					tmo_i = lapply(tmo_i, function(tmg) {
 						lapply(tmg, function(tml) {
 							lapply(tml, function(tmi) {
+								tmi$shpDT$shpTM = lapply(tmi$shpDT$shpTM, crs_reproject_shpTM, crs = crs_i, raster.warp = o$raster.warp)
 								tmi$mapping_legend = lapply(tmi$mapping_legend, function(l) {
 									l$legnr = leg_nr_dummy
 									l$crtnr = crt_nr_dummy

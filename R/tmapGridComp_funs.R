@@ -815,13 +815,22 @@ tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
 
 
 #' @export
-tmapGridCompPrepare.tm_component_general = function(comp, o) {
+tmapGridCompPrepare.tm_inset_grob = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
 
 #' @export
-tmapGridCompHeight.tm_component_general = function(comp, o) {
+tmapGridCompPrepare.tm_inset_gg = function(comp, o) {
+	rlang::check_installed("ggplot2", reason = "for plotting ggplot2 charts")
+	comp$x = ggplot2::ggplotGrob(comp$x)
+	class(comp)[1] = "tm_inset_grob"
+	comp$show = TRUE
+	comp
+}
+
+#' @export
+tmapGridCompHeight.tm_inset_grob = function(comp, o) {
 	marH = comp$margins[c(3,1)] * o$lin
 	hs = c(marH[1], comp$height * o$lin, marH[2])
 
@@ -836,7 +845,7 @@ tmapGridCompHeight.tm_component_general = function(comp, o) {
 }
 
 #' @export
-tmapGridCompWidth.tm_component_general = function(comp, o) {
+tmapGridCompWidth.tm_inset_grob = function(comp, o) {
 	marW = comp$margins[c(2,4)] * o$lin
 
 	ws = c(marW[1], comp$width * o$lin, marW[2])
@@ -851,7 +860,7 @@ tmapGridCompWidth.tm_component_general = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_component_general = function(comp, o, fH, fW) {
+tmapGridLegPlot.tm_inset_grob = function(comp, o, fH, fW) {
 
 	k = length(comp$logo)
 
@@ -876,13 +885,20 @@ tmapGridLegPlot.tm_component_general = function(comp, o, fH, fW) {
 
 
 #' @export
-tmapGridCompPrepare.tm_inset = function(comp, o) {
+tmapGridCompPrepare.tm_inset_map = function(comp, o) {
+	limit_lat = if ("limit_latitude_3857" %in% names(o)) o$limit_latitude_3857 else c(-90, 90)
+
+	if (is.null(comp$x)) {
+		comp$x = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = limit_lat[1], ymax = limit_lat[2]), crs = 4326)
+		comp$crs = tmap_options()$crs_global
+	}
+	comp$bbox = comp$x
 	comp$show = TRUE
 	comp
 }
 
 #' @export
-tmapGridCompHeight.tm_inset = function(comp, o) {
+tmapGridCompHeight.tm_inset_map = function(comp, o) {
 	marH = comp$margins[c(3,1)] * o$lin
 	hs = c(marH[1], comp$height * o$lin, marH[2])
 
@@ -897,7 +913,7 @@ tmapGridCompHeight.tm_inset = function(comp, o) {
 }
 
 #' @export
-tmapGridCompWidth.tm_inset = function(comp, o) {
+tmapGridCompWidth.tm_inset_map = function(comp, o) {
 	marW = comp$margins[c(2,4)] * o$lin
 
 	ws = c(marW[1], comp$width * o$lin, marW[2])
@@ -912,7 +928,7 @@ tmapGridCompWidth.tm_inset = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_inset = function(comp, o, fH, fW) {
+tmapGridLegPlot.tm_inset_map = function(comp, o, fH, fW) {
 
 	k = length(comp$logo)
 

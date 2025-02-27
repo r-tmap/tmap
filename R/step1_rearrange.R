@@ -444,19 +444,19 @@ check_v = function(x, var, h_is_num) {
 }
 
 impute_comp = function(a, o) {
-	cls = class(a)[1]
-
-	ot = get_prefix_opt(class = cls, o = o)
-
 	ca = class(a)
 
 	call = names(a)
-
 	a$position = process_position(a$position, o)
-
 	a$padding = process_padding(a$padding)
 
+	ot = get_prefix_opt(class = ca[1], o = o)
 	a = complete_options(a, ot)
+
+	if (length(ca) > 1L) {
+		ot2 = get_prefix_opt(class = ca[2], o = o)
+		a = complete_options(a, ot2)
+	}
 
 	a$call = call
 

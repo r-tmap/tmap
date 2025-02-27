@@ -115,7 +115,8 @@ getAesValue = function(x, aes) {
 # get options with a prefic
 get_prefix_opt = function(prefix, class, o) {
 	if (missing(prefix)) prefix = substr(class, 4, nchar(class))
-	ot = o[names(o)[substr(names(o), 1, nchar(prefix)) == prefix]]
+	prefixdot = paste0(prefix, ".")
+	ot = o[names(o)[substr(names(o), 1, nchar(prefixdot)) == prefixdot]]
 	names(ot) = substr(names(ot), nchar(prefix)+2, nchar(names(ot)))
 	ot
 }

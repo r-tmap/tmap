@@ -1,3 +1,12 @@
+crs_reproject_shpTM = function(s, crs, raster.warp) {
+	# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
+	crs2 = sf::st_crs(get_option_class(crs, class = class(s$shp)))
+	if (sf::st_crs(s$shp) != crs2) {
+		s = do.call(tmapReproject, c(s, list(crs = crs2, raster.warp = raster.warp)))
+	}
+	s
+}
+
 step3_trans = function(tm) {
 	ad = tm$tmo
 	o = tm$o
@@ -29,17 +38,10 @@ step3_trans = function(tm) {
 		crs_step4 = o$crs_step4
 		crs_step3 = o$crs_step3
 
-		crs_reproject_shpTM = function(s, crs) {
-			# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
-			crs2 = sf::st_crs(get_option_class(crs, class = class(s$shp)))
-			if (sf::st_crs(s$shp) != crs2) {
-				s = do.call(tmapReproject, c(s, list(crs = crs2, raster.warp = o$raster.warp)))
-			}
-			s
-		}
+
 
 		# step 3.a : reproject crs to main_crs
-		shpDT$shpTM = lapply(shpDT$shpTM, crs_reproject_shpTM, crs = crs_step3)
+		shpDT$shpTM = lapply(shpDT$shpTM, crs_reproject_shpTM, crs = crs_step3, raster.warp = o$raster.warp)
 
 		# step 3.b: apply all global transformation functions
 		for (al in adi$layers) {
@@ -56,7 +58,7 @@ step3_trans = function(tm) {
 			}
 
 			# step 3.c2 : reproject crs to crs (for plotting)
-			al$shpDT$shpTM = lapply(al$shpDT$shpTM, crs_reproject_shpTM, crs = crs_step4)
+			al$shpDT$shpTM = lapply(al$shpDT$shpTM, crs_reproject_shpTM, crs = crs_step4, raster.warp = o$raster.warp)
 
 			al[c("trans_dt", "trans_args", "trans_isglobal", "tp")] = NULL
 			al
