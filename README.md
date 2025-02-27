@@ -8,7 +8,7 @@
 coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap)
 [![CRAN
-checks](https://cranchecks.info/badges/worst/tmap)](https://cran.r-project.org/web/checks/check_results_tmap.html)
+checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![r-universe](https://r-tmap.r-universe.dev/badges/tmap)](https://r-tmap.r-universe.dev/tmap)
@@ -26,20 +26,29 @@ R-library for drawing charts.
 Installation of **tmap** (version 4) is straightforward:
 
 ``` r
+install.packages("tmap")
+```
+
+The old version of **tmap** (version 3) is available in the [CRAN
+archive](https://cran.r-project.org/src/contrib/Archive/tmap/), but we
+recommend moving to the new version 4.
+
+### Development version
+
+The development version can be installed from the GitHub repository
+using `remotes` and `pak` packages or from the [R-universe
+repository](https://r-tmap.r-universe.dev/tmap).
+
+``` r
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
-# On Linux, with pak
 # install.packages("pak")
 pak::pak("r-tmap/tmap")
 
 # Or from r-universe
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
-
-The old version of **tmap** (version 3) is available on
-[![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap),
-but we recommend to use version 4, which will be on CRAN soon.
 
 For Linux and macOS users who are new to working with spatial data in R,
 this may fail since additional (non-R) libraries are required (which are
@@ -64,11 +73,9 @@ Plot a World map of the happy planet index (HPI) per country. The object
 ``` r
 tm_shape(World) +
     tm_polygons(fill = "HPI")
-#> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
-#> This message is displayed once per session.
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 This map can be enhanced in several ways. For instance:
 
@@ -82,7 +89,7 @@ tm_shape(World, crs = "+proj=robin") +
                 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Additional Resources for Learning **tmap**
 
