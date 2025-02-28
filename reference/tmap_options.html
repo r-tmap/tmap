@@ -2244,6 +2244,7 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─ticks.lwd: <span style="color: #0000BB;">1.5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.4, 0.4, 0.4, 0.4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─item_text.margin: <span style="color: #0000BB;">0.25</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─add_legend.position: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.show: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.plot.axis.x: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.plot.axis.y: <span style="color: #0000BB;">TRUE</span></span>
@@ -2383,6 +2384,46 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.frame.r: <span style="color: #0000BB;">2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.group.frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.width: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.stack: <span style="color: #0000BB;">"vertical"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.v: <span style="color: #0000BB;">"top"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.group.frame: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.height: <span style="color: #0000BB;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.width: <span style="color: #0000BB;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.between_margin: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.stack: <span style="color: #0000BB;">"vertical"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.v: <span style="color: #0000BB;">"top"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame.r: <span style="color: #0000BB;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.group.frame: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.width: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_gg.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_gg.width: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.breaks: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.width: <span style="color: #0000BB;">12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.text.size: <span style="color: #0000BB;">0.5</span></span>

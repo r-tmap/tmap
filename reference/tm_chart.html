@@ -153,15 +153,11 @@
 
 
 <dt id="arg-position">position<a class="anchor" aria-label="anchor" href="#arg-position"></a></dt>
-<dd><p>Position of the chart. An object created with <code><a href="tm_pos.html">tm_pos_in()</a></code> or <code><a href="tm_pos.html">tm_pos_out()</a></code>. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is <code>"left"</code>, <code>"center"</code> or <code>"right"</code> (or upper case, meaning tighter to the map frame), the second <code>"top"</code>, <code>"center"</code> or <code>"bottom"</code>. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also <a href="https://r-tmap.github.io/tmap/articles/adv_positions">vignette about positioning</a>.</p></dd>
+<dd><p>An object created with <code><a href="tm_pos.html">tm_pos_in()</a></code> or <code><a href="tm_pos.html">tm_pos_out()</a></code>. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is <code>"left"</code>, <code>"center"</code> or <code>"right"</code> (or upper case, meaning tighter to the map frame), the second <code>"top"</code>, <code>"center"</code> or <code>"bottom"</code>. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also <a href="https://r-tmap.github.io/tmap/articles/adv_positions">vignette about positioning</a>.</p></dd>
 
 
-<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>in number of text lines (height of it)</p></dd>
-
-
-<dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
-<dd><p>in number of text lines</p></dd>
+<dt id="arg-width-height">width, height<a class="anchor" aria-label="anchor" href="#arg-width-height"></a></dt>
+<dd><p>width and height of the component.</p></dd>
 
 
 <dt id="arg-stack">stack<a class="anchor" aria-label="anchor" href="#arg-stack"></a></dt>
@@ -169,15 +165,15 @@
 
 
 <dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
-<dd><p>stacking order</p></dd>
+<dd><p>z index, e.g. the place of the component relative to the other componets</p></dd>
 
 
 <dt id="arg-group-frame">group.frame<a class="anchor" aria-label="anchor" href="#arg-group-frame"></a></dt>
-<dd><p>group.frame</p></dd>
+<dd><p>put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the <code>frame</code> argument of the  'main' (first) component.</p></dd>
 
 
 <dt id="arg-resize-as-group">resize_as_group<a class="anchor" aria-label="anchor" href="#arg-resize-as-group"></a></dt>
-<dd><p>resize_as_group</p></dd>
+<dd><p>in case a component if rescaled because of the limited space, rescale the other components proportionally?</p></dd>
 
 </dl></div>
     <div class="section level2">
