@@ -9,9 +9,6 @@
 #' @param between_margin Margin between
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @inheritParams tm_title
-#' @param group.frame group.frame
-#' @param resize_as_group resize_as_group
-#' @param z z
 #' @example ./examples/tm_inset.R
 #' @export
 tm_inset = function(x = NULL,

@@ -67,7 +67,7 @@ tm_compass(
 
 \item{margins}{margins}
 
-\item{z}{z}
+\item{z}{z index, e.g. the place of the component relative to the other componets}
 
 \item{...}{to catch deprecated arguments (alpha)}
 }

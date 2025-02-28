@@ -17,10 +17,10 @@
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
 #' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
-#' @param width,height width and height of the text box.
-#' @param group.frame group.frame
-#' @param resize_as_group resize_as_group
-#' @param z z
+#' @param width,height width and height of the component.
+#' @param group.frame put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
+#' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
+#' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
@@ -233,9 +233,6 @@ tm_minimap <- function(server,
 #' @param between_margin Margin between
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @inheritParams tm_title
-#' @param group.frame group.frame
-#' @param resize_as_group resize_as_group
-#' @param z z
 #' @example ./examples/tm_logo.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export

@@ -55,6 +55,7 @@ reference:
   - tm_minimap
   - tm_mouse_coordinates
   - tm_xlab
+  - tm_inset
 - title: Set scale for a visual variable
   desc: Always use those in this form `<vv>.scale = tm_scale*()`
   contents:

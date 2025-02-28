@@ -7,13 +7,7 @@
 #' @param breaks The breaks of the bins (for histograms)
 #' @param plot.axis.x,plot.axis.y Should the x axis and y axis be plot?
 #' @param extra.ggplot2 Extra ggplot2 code
-#' @param position Position of the chart. An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
-#' @param width in number of text lines (height of it)
-#' @param height in number of text lines
-#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
-#' @param z stacking order
-#' @param group.frame group.frame
-#' @param resize_as_group resize_as_group
+#' @inheritParams tm_title
 #' @example examples/tm_chart.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_charts}{Vignette about charts}
 #' @name tm_chart

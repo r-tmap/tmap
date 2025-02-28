@@ -59,13 +59,13 @@ tm_credits(
 
 \item{position}{An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
 
-\item{width, height}{width and height of the text box.}
+\item{width, height}{width and height of the component.}
 
-\item{group.frame}{group.frame}
+\item{group.frame}{put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the \code{frame} argument of the  'main' (first) component.}
 
-\item{resize_as_group}{resize_as_group}
+\item{resize_as_group}{in case a component if rescaled because of the limited space, rescale the other components proportionally?}
 
-\item{z}{z}
+\item{z}{z index, e.g. the place of the component relative to the other componets}
 
 \item{...}{to catch deprecated arguments}
 }

@@ -26,7 +26,7 @@ tm_scale_bar(...)
     \item{\code{bg.color}}{Background color}
     \item{\code{bg.alpha}}{Background transparency}
     \item{\code{position}}{An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
-    \item{\code{z}}{z}
+    \item{\code{z}}{z index, e.g. the place of the component relative to the other componets}
   }}
 }
 \description{
