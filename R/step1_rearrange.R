@@ -455,10 +455,15 @@ impute_comp = function(a, o) {
 
 	if (length(ca) > 1L) {
 		ot2 = get_prefix_opt(class = ca[2], o = o)
+		if (!is.null(a$position) || ("tm_add_legend" %in% ca)) ot2$position = NULL
+		# otherwise the position lists (in and out) get mixed
+		# for tm_add_legend, keep it empty because it will be imputed in update_l (using legend. defaults)
 		a = complete_options(a, ot2)
 	}
 
 	a$call = call
+
+	#a$position = NULL
 
 	class(a) = ca
 	a

@@ -385,6 +385,9 @@
 												  margins = c(0.4, 0.4, 0.4, 0.4),
 												  item_text.margin = 0.25),
 
+		#
+		add_legend.position = NULL,
+
 		# charts
 		chart.show = TRUE,
 		chart.plot.axis.x = FALSE,
