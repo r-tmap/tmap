@@ -231,8 +231,10 @@ tmapLeafletCompWidth.tm_logo = function(comp, o) {
 
 #' @export
 tmapLeafletLegPlot.tm_logo = function(comp, lf, o) {
+	ws = c(rev(cumsum(vapply(comp$logo, function(l)l$iconWidth,FUN.VALUE = numeric(1)) + 10))[-1], 0)
+
 	for (i in 1:length(comp$logo)) {
-		lf = lf %>% leafem::addLogo(comp$logo[[i]]$iconUrl, src = "local", position = leaflet_pos(comp$position))
+		lf = lf %>% leafem::addLogo(comp$logo[[i]]$iconUrl, src = "local", position = leaflet_pos(comp$position), width = comp$logo[[i]]$iconWidth, height = comp$logo[[i]]$iconHeight, offset.x = 10 + ws[i], offset.y = 20)
 	}
 	lf
 }
