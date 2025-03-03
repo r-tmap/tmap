@@ -199,7 +199,9 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
 
 	groupframe = if ((comp[[1]]$frame.lwd!=0) && group.frame) {
-		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
+		bg = comp[[1]]$bg.color
+		if (is.null(bg)) bg = NA
+ 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
 	} else NULL
 
 

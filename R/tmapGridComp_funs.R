@@ -800,7 +800,7 @@ tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
 	gLogos = mapply(function(logo, col) {
 		grobLogo = pngGrob(logo$iconUrl, fix.borders = TRUE, n=2, height.inch=as.numeric(comp$hsu[3]), target.dpi=96)
 		rdim = dim(grobLogo$raster)
-		grobLogo$raster = matrix(do.call("process_color", c(list(as.vector(grobLogo$raster), alpha=1), o$pc)), nrow = rdim[1], ncol=rdim[2])
+		grobLogo$raster = matrix(do.call("process_color", c(list(as.vector(grobLogo$raster)), o$pc)), nrow = rdim[1], ncol=rdim[2])
 		gridCell(3L, col, grobLogo)
 	}, comp$logo, comp$col_ids, SIMPLIFY = FALSE)
 
