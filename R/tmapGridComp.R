@@ -204,8 +204,23 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
  		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
 	} else NULL
 
+	align_comp = FALSE # needs to an argument/option be somethere #1053
 
-	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, iW, iH) {
+	if (align_comp) {
+		if (stack == "horizontal") {
+			legFH = grid::unit(1, "npc")
+			legFW = legW
+		} else {
+			legFH = legH
+			legFW = grid::unit(1, "npc")
+		}
+	} else {
+		legFH = legH
+		legFW = legW
+	}
+
+
+	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, fH, fW, iW, iH) {
 		frame = if (!is.na(leg$frame) && !group.frame) {
 			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, alpha = leg$bg.alpha, col = leg$frame, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
@@ -216,8 +231,16 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 			x = grid::unit(0.5, "npc")
 			y = switch(leg$position$align.v, "top" = grid::unit(H, "inch")-lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
 		}
-		gridCell(iH, iW, grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH)))
-	}, comp, legGrobs, legH, legW, Wid, Hid, SIMPLIFY = FALSE))
+		gridCell(iH, iW, {
+			grid::gList(
+				if (align_comp) {
+					grid::grobTree(frame, vp = grid::viewport(width = fW, height = fH))
+				} else {
+					grid::grobTree(frame, vp = grid::viewport(x = x, y = y, width = fW, height = fH))
+				},
+				grid::grobTree(lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH)))
+		})
+	}, comp, legGrobs, legH, legW, legFH, legFW, Wid, Hid, SIMPLIFY = FALSE))
 
 
 	if (getOption("tmap.design.mode")) {

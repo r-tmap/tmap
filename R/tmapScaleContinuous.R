@@ -276,7 +276,10 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (!(aes %in% c("col", "fill"))) b = b[b!=0]
 			b_t = do.call(tr$fun, c(list(x = b), trargs))
 		}
-		sel = if (length(b_t) == 2) TRUE else {
+		if (length(b_t) == 2) {
+			sel = TRUE
+			labels_hide = TRUE
+		} else {
 			# #1039
 			# to include min/max if they are closer to the next 'not included' tick than the included tick
 			# e.g. tm_shape(World) + tm_polygons("gender", fill.scale = tm_scale_continuous())
@@ -284,7 +287,9 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			stp1 = (b_t[2] - b_t[1]) / 2
 			stp2 = (b_t[length(b_t)] - b_t[length(b_t) - 1L]) / 2
 			limits_t_tmp = c(limits_t[1] - stp1, limits_t[2] + stp2)
-			(b_t>=limits_t_tmp[1] & b_t<=limits_t_tmp[2])
+			sel = (b_t>=limits_t_tmp[1] & b_t<=limits_t_tmp[2])
+
+			labels_select = ((b_t>=limits_t[1] & b_t<=limits_t[2])[sel])
 		}
 		b_t = b_t[sel]
 		b = b[sel]
@@ -360,10 +365,10 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			attr(labels, "align") = labels.align
 		}
 
-
 		legend = within(legend, {
 			nitems = length(labels)
 			labels = labels
+			labels_select = labels_select
 			dvalues = values
 			vvalues = vvalues
 			vneutral = value.neutral

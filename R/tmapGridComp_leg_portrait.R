@@ -255,6 +255,8 @@ add_user_specified_values = function(gp, usr) {
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
+	if (comp$type != "gradient") comp$labels_select = TRUE # labels_select only needed for continuous legends (#1039)
+
 	icons = all(comp$gp$shape >= 1000)
 
 	# replace gp visual values with user-specified used (e.g. tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(col = "red")))
@@ -357,7 +359,11 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	} else {
 		textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 		scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
-		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)
+
+		grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), (1L:nlev)[comp$labels_select], comp$item_ids[comp$labels_select], SIMPLIFY = FALSE)
+
+
+
 	}
 
 	ticks = get_legend_option(comp$ticks, comp$type)
@@ -370,10 +376,12 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 		ni = nlev - (comp$na.show && ticks.disable.na)
 
+		tck_ids = (1L:ni)[rep(comp$labels_select, length.out = ni)]
+
 		# tick marks in margin (specified with x coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
 			grTicksMargin = do.call(c, lapply(ticks[ticks_in_margin], function(x) {
-				mapply(function(i, id) gridCell(id, 4, grid::linesGrob(x = x - 1, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(id, 4, grid::linesGrob(x = x - 1, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), tck_ids, comp$item_ids[tck_ids], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksMargin = NULL
@@ -381,7 +389,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 		if (!all(ticks_in_margin)) {
 			grTicksItem = do.call(c, lapply(ticks[!ticks_in_margin], function(x) {
-				mapply(function(i, id) gridCell(id, 3, grid::linesGrob(x = x, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), 1L:ni, comp$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(id, 3, grid::linesGrob(x = x, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = comp$ticks.lwd * comp$scale * o$scale_down))), tck_ids, comp$item_ids[tck_ids], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksItem = NULL
