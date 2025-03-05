@@ -65,57 +65,43 @@ process_components = function(cdt, o) {
 	}
 
 
-
-
-
-
-
-
-
 	# filter components that are not shown (e.g. not implemented), which is determined in the Prepare step
 	cdt$show = sapply(cdt$comp, function(l) l$show)
 	cdt = cdt[cdt$show,][,show:=NULL]
 
 
-	## do to: proper S3 methods
-	#if (gs == "Grid") {
-		cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
-		cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
+	cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
+	cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
 
-		cdt[, ':='(facet_row = character(), facet_col = character())]
-		cdt$stack_auto = vapply(cdt$comp, function(l) {
-			s = l$stack
-			length(s) > 1
-		}, FUN.VALUE = logical(1))
-		cdt$stack = vapply(cdt$comp, function(l) {
-			s = l$stack
-			if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
-		}, FUN.VALUE = character(1))
+	cdt[, ':='(facet_row = character(), facet_col = character())]
+	cdt$stack_auto = vapply(cdt$comp, function(l) {
+		s = l$stack
+		length(s) > 1
+	}, FUN.VALUE = logical(1))
+	cdt$stack = vapply(cdt$comp, function(l) {
+		s = l$stack
+		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
+	}, FUN.VALUE = character(1))
 
 
-		getLW = function(x) sapply(x, function(y) {
-			yW = y$Win
-			yW %||% 0
-		})
-		getLH = function(x) sapply(x, function(y) {
-			yH = y$Hin
-			yH %||% 0
-		})
-		# attempt to determine margins
-		cdt[, legW := getLW(comp)]
-		cdt[, legH := getLH(comp)]
+	getLW = function(x) sapply(x, function(y) {
+		yW = y$Win
+		yW %||% 0
+	})
+	getLH = function(x) sapply(x, function(y) {
+		yH = y$Hin
+		yH %||% 0
+	})
+	# attempt to determine margins
+	cdt[, legW := getLW(comp)]
+	cdt[, legH := getLH(comp)]
 
-		if (any(is.na(cdt$z))) {
-			cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
-		}
-		if (nrow(cdt)>0L) {
-			data.table::setorder(cdt, "z")
-		}
-	# } else if (gs == "Leaflet") {
-	#
-	# }
-
-	#cdt[, page := NA_integer_]
+	if (any(is.na(cdt$z))) {
+		cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
+	}
+	if (nrow(cdt)>0L) {
+		data.table::setorder(cdt, "z")
+	}
 
 
 	cdt
@@ -169,15 +155,6 @@ process_components2 = function(cdt, o) {
 		cdt[class == "autoin", ":="(pos.h = ifelse(is.na(pos.h), o$legend.autoin.pos[1], pos.h),
 									pos.v = ifelse(is.na(pos.v), o$legend.autoin.pos[2], pos.v),
 									class = "in")]
-
-
-		# cdt$comp = lapply(cdt$comp, function(l) {
-		# 	if (is.na(l$position$pos.h)) o$legend.autoin.pos[1]
-		# 	if (is.na(l$position$pos.v)) o$legend.autoin.pos[2]
-		# 	#l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
-		# 	l
-		# })
-		# cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
 	}
 
 	vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
