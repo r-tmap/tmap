@@ -44,23 +44,34 @@ step3_trans = function(tm) {
 		shpDT$shpTM = lapply(shpDT$shpTM, crs_reproject_shpTM, crs = crs_step3, raster.warp = o$raster.warp)
 
 		# step 3.b: apply all global transformation functions
-		for (al in adi$layers) {
-			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
+		appl = vapply(adi$layers, "[[", "trans_apply", FUN.VALUE = character(1))
+
+		is_global = which(appl == "all")
+
+		if (length(is_global) > 1) {
+			stop("Number of 'global transformation' layers is larger than 1", call. = FALSE)
+		} else if (length(is_global) == 1) {
+			shpDT = trans_shp(adi$layers[[is_global]], shpDT)
 		}
 
+		e = environment()
+
+		shpDT_along = shpDT
 
 		adi$layers = lapply(adi$layers, function(al) {
-			# step 3.c1: apply non global transformation function
-			if (al$trans_isglobal) {
+			if (al$trans_apply == "all") {
 				al$shpDT = shpDT
 			} else {
-				al$shpDT = trans_shp(al, shpDT)
+				al$shpDT = trans_shp(al, shpDT_along)
+			}
+			if (al$trans_apply == "this_following") {
+				assign("shpDT_along", al$shpDT, envir = e)
 			}
 
 			# step 3.c2 : reproject crs to crs (for plotting)
 			al$shpDT$shpTM = lapply(al$shpDT$shpTM, crs_reproject_shpTM, crs = crs_step4, raster.warp = o$raster.warp)
 
-			al[c("trans_dt", "trans_args", "trans_isglobal", "tp")] = NULL
+			al[c("trans_dt", "trans_args", "trans_apply", "tp")] = NULL
 			al
 		})
 		if (!length(adi$layers)) {

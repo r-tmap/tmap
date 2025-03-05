@@ -236,7 +236,7 @@ tm_text = function(text = tm_const(),
 		trans.fun = tmapTransCentroid,
 		trans.aes = list(),
 		trans.args = options$trans.args,
-		trans.isglobal = FALSE,
+		trans.apply_to = "this",
 		mapping.aes = list(
 						   text = tmapScale(aes = "text",
 						   				value = text,
