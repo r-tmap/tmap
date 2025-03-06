@@ -25,15 +25,6 @@ substr2 = function(x, start, stop) {
 
 
 tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
-	# style = if (inherits(scale, "tm_scale_continuous")) {
-	# 	"cont"
-	# } else if (inherits(scale, "tm_scale_log10")) {
-	# 	"log10"
-	# } else if (inherits(scale, "tm_scale_rank")) {
-	# 	"rank"
-	# }
-	#
-
 
 
 	# update misc argument from tmap option scale.misc.args
@@ -278,7 +269,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		}
 		if (length(b_t) == 2) {
 			sel = TRUE
-			labels_hide = TRUE
+			labels_select = TRUE
 		} else {
 			# #1039
 			# to include min/max if they are closer to the next 'not included' tick than the included tick
@@ -362,6 +353,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		if (na.show) {
 			labels.align = attr(labels, "align")
 			labels = c(labels, label.na)
+			labels_select = c(labels_select, TRUE)
 			attr(labels, "align") = labels.align
 		}
 
