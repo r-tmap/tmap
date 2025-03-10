@@ -379,7 +379,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 		chart = do.call(chartFun, list(chart,
 									   bin_colors = NULL,
-									   breaks_def = NULL,
+									   breaks_def = chart$breaks,
 									   na.show = na.show,
 									   x1 = x1))
 
