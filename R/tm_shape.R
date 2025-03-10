@@ -11,7 +11,7 @@
 #'
 #' | **Property**        | **Recommendation** |
 #' | ------          | ----------- |
-#' | `global` (for world maps)		     | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Eearth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options|
+#' | `global` (for world maps)		     | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Earth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options|
 #' | `area` (equal area)		     | Lambert Azimuthal Equal Area (`laea`) |
 #' | `distance`	(equidistant) | Azimuthal Equidistant (`aeqd`) |
 #' | `shape`	(conformal) | Stereographic (`stere`) |
