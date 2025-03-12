@@ -2,7 +2,9 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 	args <- list(...)
 	n <- length(vec)
 
-	if (!is.null(fun)) {
+	if (inherits(vec, c("POSIXct", "POSIXlt", "Date"))) {
+		x = format(vec)
+	} else if (!is.null(fun)) {
 		if (as.count) {
 			steps <- (vec[-1] - vec[-n])
 			vec <- c(vec, vec - 1L, vec + 1L) # needed for: {1, 2, ... 9}

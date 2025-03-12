@@ -92,7 +92,11 @@ data_class = function(x, check_for_color_class = FALSE, midpoint_enabled = FALSE
 	# if (all(is.na(x))) {
 	# 	"na"
 	# } else
-	cls = if (is.numeric(x)) {
+	cls = if (inherits(x, c("POSIXct", "POSIXlt"))) {
+		c("datetime", "seq")
+	} else if (inherits(x, "Date")) {
+		c("date", "seq")
+	} else if (is.numeric(x)) {
 		y = without_units(x)
 		subclass1 = if (is.integer(x)) "int" else "real"
 		subclass2 = if ((any(y < 0 & !is.na(y)) && any(y > 0 & !is.na(y))) || midpoint_enabled) {

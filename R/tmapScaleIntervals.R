@@ -6,11 +6,11 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 	if (attr(cls, "unique") && is.null(scale$breaks)) stop("Unique value, so cannot determine intervals scale range. Please specify breaks.", call. = FALSE)
 
-
-	if (cls[1] != "num") {
+	if (!(cls[1] %in% c("num", "datetime", "date"))) {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
-		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
+		# cls = c("num", "int", "seq")
+		warning(maincls, " is supposed to be applied to numerical or date/time data", call. = FALSE)
 	}
 
 	x1 = without_units(x1)
@@ -22,11 +22,14 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
 
-	with(scale, {
-		allna = all(is.na(x1))
 
+	fun = paste0("interval_", cls[1])
+
+	# pre-checks
+	scale = within(scale, {
+		allna = all(is.na(x1))
 		if (anyDuplicated(breaks)) stop("breaks specified in the ", aes,  ".scale scaling function contains duplicates.", call. = FALSE)
-		if (!is.null(breaks) && length(breaks) < 2) stop("breaks should contain at least 2 numbers", call. = FALSE)
+		if (!is.null(breaks) && length(breaks) < 2 && cls[1] == "num") stop("breaks should contain at least 2 numbers", call. = FALSE)
 
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
@@ -41,74 +44,13 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			})
 			return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 		}
+	})
 
+	# data-type dependent processing
+	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer))
 
-		if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
-			if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
-			as.count = FALSE
-		}
-		if (is.na(as.count)) {
-			as.count = is.integer(x1) && !any(!is.na(x1) & x1 < 0)
-		}
-
-		if (as.count) {
-			if (interval.closure != "left" && show.warnings) warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
-			interval.closure = "left"
-		}
-
-		#breaks.specified <- !is.null(breaks)
-		is.log = (style == "log10_pretty")
-		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
-
-		if (style == "log10_pretty") {
-			x1 = log10(x1)
-			style = "fixed"
-			breaks = seq(floor(min(x1, na.rm = TRUE)), ceiling(max(x1, na.rm=TRUE)))
-		} else if (as.count && style == "pretty") {
-			breaks = prettyCount(x1, n=n)
-			style <- "fixed"
-		} else if (as.count && style == "fixed") {
-			breaks[length(breaks)] = breaks[length(breaks)] + 1L
-		}
-
-		q = num2breaks(x=x1, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = style.args)
-
-		breaks = q$brks
-		nbrks = length(breaks)
-		n = nbrks - 1
-
-		int.closure <- attr(q, "intervalClosure")
-
-		# update range if NA (automatic)
-		if (is.na(values.range[1])) {
-			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
-		}
-		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
-
-		check_values(layer, aes, values)
-
-		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
-
-		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
-
-		# determine midpoint
-		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
-			rng <- range(x1, na.rm = TRUE)
-			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
-
-				if (show.messages) message(paste0("[scale] tm_", layer[1], ":() the data variable assigned to '", aes, "' contains positive and negative values, so midpoint is set to 0. Set 'midpoint = NA' in 'fill.scale = tm_scale_intervals(<HERE>)' to use all visual values (e.g. colors)"))
-				midpoint <- 0
-			} else {
-				if ((n %% 2) == 1) {
-					# number of classes is odd, so take middle class (average of those breaks)
-					midpoint <- mean.default(breaks[c((n+1) / 2, (n+3) / 2)])
-				} else {
-					midpoint <- breaks[(n+2) / 2]
-				}
-			}
-		}
-
+	# visual variable processing
+	with(scale, {
 		fun_getVV = paste0("tmapValuesVV_", aes)
 		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
 
@@ -224,4 +166,159 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			list(vals = vals, ids = ids, legend = legend, chart = chart, bypass_ord = bypass_ord)
 		}
 	})
+}
+
+interval_num = function(scale, x1, aes, layer) {
+	within(scale, {
+		local({
+			styles = c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "maximum", "box", "log10", "log10_pretty")
+			fn_call <-  call(paste0("tm_", layer[1]))
+			if (!(style %in% styles)) {
+				cli::cli_abort("Invalid style. Style should be one of {.str {styles}}",
+					call = fn_call
+				)
+			}
+		})
+
+
+		if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
+			if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
+			as.count = FALSE
+		}
+		if (is.na(as.count)) {
+			as.count = is.integer(x1) && !any(!is.na(x1) & x1 < 0)
+		}
+
+		if (as.count) {
+			if (interval.closure != "left" && show.warnings) warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
+			interval.closure = "left"
+		}
+
+		#breaks.specified <- !is.null(breaks)
+		is.log = (style == "log10_pretty")
+		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
+
+		if (style == "log10_pretty") {
+			x1 = log10(x1)
+			style = "fixed"
+			breaks = seq(floor(min(x1, na.rm = TRUE)), ceiling(max(x1, na.rm=TRUE)))
+		} else if (as.count && style == "pretty") {
+			breaks = prettyCount(x1, n=n)
+			style <- "fixed"
+		} else if (as.count && style == "fixed") {
+			breaks[length(breaks)] = breaks[length(breaks)] + 1L
+		}
+
+		q = num2breaks(x=x1, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = style.args)
+
+		breaks = q$brks
+		nbrks = length(breaks)
+		n = nbrks - 1
+
+		int.closure <- attr(q, "intervalClosure")
+
+		# update range if NA (automatic)
+		if (is.na(values.range[1])) {
+			fun_range = paste0("tmapValuesRange_", aes)
+			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
+		}
+		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
+
+		check_values(layer, aes, values)
+
+		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
+
+		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+
+		# determine midpoint
+		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
+			rng <- range(x1, na.rm = TRUE)
+			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
+
+				if (show.messages) message(paste0("[scale] tm_", layer[1], ":() the data variable assigned to '", aes, "' contains positive and negative values, so midpoint is set to 0. Set 'midpoint = NA' in 'fill.scale = tm_scale_intervals(<HERE>)' to use all visual values (e.g. colors)"))
+				midpoint <- 0
+			} else {
+				if ((n %% 2) == 1) {
+					# number of classes is odd, so take middle class (average of those breaks)
+					midpoint <- mean.default(breaks[c((n+1) / 2, (n+3) / 2)])
+				} else {
+					midpoint <- breaks[(n+2) / 2]
+				}
+			}
+		}
+	})
+}
+
+interval_date = function(scale, x1, aes, layer) {
+	interval_datetime(scale, x1, aes, layer)
+}
+
+interval_datetime = function(scale, x1, aes, layer) {
+	within(scale, {
+		local({
+			styles = c("fixed", "pretty")
+			fn_call <-  call(paste0("tm_", layer[1]))
+			if (!(style %in% styles)) {
+				cli::cli_abort("Invalid style. For date/time data variables, style should be one of {.str {styles}}",
+							   call = fn_call
+				)
+			}
+		})
+
+
+		if (identical(as.count, TRUE) && show.warnings) {
+			warning("as.count not applicable for data/time data variables", call. = FALSE)
+			as.count = FALSE
+		}
+
+		#if (style == "pretty") {
+		if (is.null(breaks)) {
+			breaks = pretty_datetime_seq(x=x1, n = n)
+		} else if (length(breaks) == 1L) {
+			breaks = pretty_datetime_seq3(x=x1, by = breaks)
+		}
+
+
+		q <- list(var=x1,
+				  brks=breaks)
+		attr(q, "style") <- "fixed"
+		attr(q, "nobs") <- nobs
+		attr(q, "intervalClosure") <- interval.closure
+		class(q) <- "classIntervals"
+
+		breaks = q$brks
+		nbrks = length(breaks)
+		n = nbrks - 1
+
+		is.log = FALSE
+
+		int.closure <- attr(q, "intervalClosure")
+
+		# update range if NA (automatic)
+		if (is.na(values.range[1])) {
+			fun_range = paste0("tmapValuesRange_", aes)
+			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
+		}
+		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
+
+		check_values(layer, aes, values)
+
+		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
+
+		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+
+		# determine midpoint
+		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
+			rng <- range(x1, na.rm = TRUE)
+
+			if ((n %% 2) == 1) {
+				# number of classes is odd, so take middle class (average of those breaks)
+				midpoint <- mean(breaks[c((n+1) / 2, (n+3) / 2)])
+			} else {
+				midpoint <- breaks[(n+2) / 2]
+			}
+
+		}
+	})
+
 }

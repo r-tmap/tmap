@@ -21,7 +21,7 @@ In both cases, the map is plotted into the specified \code{crs}. The difference 
 
 The automatic crs recommendation (which is still work-in-progress) is the following:\tabular{ll}{
    \strong{Property} \tab \strong{Recommendation} \cr
-   \code{global} (for world maps) \tab A pseudocylindrical projection tmap option \code{crs_global}, by default \verb{"eqearth} (Equal Eearth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options \cr
+   \code{global} (for world maps) \tab A pseudocylindrical projection tmap option \code{crs_global}, by default \verb{"eqearth} (Equal Earth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options \cr
    \code{area} (equal area) \tab Lambert Azimuthal Equal Area (\code{laea}) \cr
    \code{distance}	(equidistant) \tab Azimuthal Equidistant (\code{aeqd}) \cr
    \code{shape}	(conformal) \tab Stereographic (\code{stere}) \cr
