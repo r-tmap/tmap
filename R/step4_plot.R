@@ -319,7 +319,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		sel = rep(TRUE, nrow(dt))
 		if (length(bynames)) {
 			for (i in 1:length(bynames)) {
-				sel = sel & dt[[bynames[i]]] %in% b[[byids[i]]]
+				sel = sel & (is.na(dt[[bynames[i]]]) | dt[[bynames[i]]] %in% b[[byids[i]]])
 			}
 		}
 		dt[which(sel),]

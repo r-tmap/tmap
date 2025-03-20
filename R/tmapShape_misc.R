@@ -17,7 +17,9 @@ make_by_vars = function(dt, tmf, smeta) {
 				byname = by123__[w]
 				var = tmf[[byvar]]
 
-				if (var %in% smeta$vars) {
+				if (var == "FRAME__") {
+					dt[, (byname):= NA_integer_] # dummy
+				} else if (var %in% smeta$vars) {
 					levs = smeta$vars_levs[[var]]
 					if (attr(levs, "showNA")) levs[length(levs)] = NA
 					dt[, (byname):= match(get(get(..byvar)), levs)]

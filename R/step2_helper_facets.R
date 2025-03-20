@@ -67,13 +67,15 @@ get_tmf = function(tmfs) {
 	tmf$fn = gn
 	tmf$n = prod(gn)
 
-	if (tmf$type == "wrapstack") {
-		tmf$type = if ((!is.na(tmf$ncols) && tmf$ncols %in% c(tmf$n, 1)) ||
+	if (tmf$type %in% c("wrapstack", "aniwrapstack")) {
+		pre = if (tmf$type == "aniwrapstack") "ani" else ""
+		tmf$type = paste0(pre, {if ((!is.na(tmf$ncols) && tmf$ncols %in% c(tmf$n, 1)) ||
 			(!is.na(tmf$nrows) && tmf$nrows %in% c(tmf$n, 1))) {
 			"stack"
 		} else if (!is.na(tmf$ncols) || !is.na(tmf$nrows)) {
 			"wrap"
 		} else if (tmf$n > 3) "wrap" else "stack"
+		})
 	}
 
 	if (!is.na(tmf$ncols) && !is.na(tmf$nrows)) {

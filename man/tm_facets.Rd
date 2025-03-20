@@ -5,6 +5,7 @@
 \alias{tm_facets_grid}
 \alias{tm_facets_wrap}
 \alias{tm_facets_pagewise}
+\alias{tm_facets_animate}
 \alias{tm_facets_stack}
 \alias{tm_facets_hstack}
 \alias{tm_facets_vstack}
@@ -31,6 +32,8 @@ tm_facets(
   type = NA,
   along = NULL,
   free.scales = NULL,
+  nframes = 1,
+  fps = 30,
   ...
 )
 
@@ -39,6 +42,19 @@ tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 tm_facets_wrap(by = "VARS__", nrow = NA, ncol = NA, byrow = TRUE, ...)
 
 tm_facets_pagewise(by = "VARS__", nrow = 1, ncol = 1, byrow = TRUE, ...)
+
+tm_facets_animate(
+  nframes = 60,
+  fps = 30,
+  by = NULL,
+  rows = NULL,
+  columns = NULL,
+  pages = "FRAME__",
+  nrow = NA,
+  ncol = NA,
+  byrow = TRUE,
+  ...
+)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 

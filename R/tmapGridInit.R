@@ -231,6 +231,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 	#}
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)
+	assign("gasp2", gasp2, envir = .TMAP_GRID)
 	.TMAP$start_pane_id = 401
 }
 

@@ -11,14 +11,14 @@ update_grp_vars = function(lev = NULL, m = NULL) {
 				vn = length(lev)
 			}
 		} else if (m > 1L && vn > 1L && m != vn) {
-			stop("Inconsistent number of aesthetic variables.", call. = FALSE)
+			stop("Inconsistent number of map variable values.", call. = FALSE)
 		} else if (m > vn) {
 			vl = lev
 			vn = length(lev)
 		}
 	} else if (!missing(m)) {
 		if (m > 1L && vn > 1L && m != vn) {
-			stop("Inconsistent number of aesthetic variables.", call. = FALSE)
+			stop("Inconsistent number of map variable values.", call. = FALSE)
 		} else if (m > vn) {
 			vn = m
 			vl = NULL
@@ -266,16 +266,6 @@ step1_rearrange_facets = function(tmo, o) {
 					popup.vars = character(0)
 				} else if (is.na(popup.vars[1])) {
 					popup.vars = smeta$vars
-						# local({
-						# 	uvars = get("used_vars", envir = .TMAP)
-						# 	is_title = attr(uvars, "is_title") # TRUE if id or hover is set
-						#
-						# 	if (length(uvars) && is_title) {
-						# 		setdiff(uvars, c("AREA", "LENGTH", "MAP_COLORS"))
-						# 	} else {
-						# 		unname(smeta$vars)
-						# 	}
-						# })
 				}
 
 				if (!all(popup.vars %in% smeta$vars)) {
@@ -318,27 +308,26 @@ step1_rearrange_facets = function(tmo, o) {
 
 		}
 
-
 		nrsd = length(smeta$dims) # number of required shape dimensions
 		nrvd = as.integer(vn > 1L) # number of required variable dimensions (0 or 1)
 		nrd = nrsd + nrvd # number of required by-dimensions
 
-
 		tmg$tmf = within(tmg$tmf, {
-			#fl = flvar
-			#nfl = nflvar
 			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
 
-			if (type %in% c("wrapstack", "wrap", "stack", "page")) {
+			if (type %in% c("wrapstack", "wrap", "stack", "page", "aniwrapstack")) {
 				rev1 = is_rev(by)
 				rev2 = FALSE
 				rev3 = FALSE
 
-				if (rev1) by = remove_min(by)
-
-				by1 = by
+				by1 = if (rev1) remove_min(by) else by
 				by2 = NULL
-				by3 = NULL
+
+				if (type == "aniwrapstack") {
+					by3 = pages
+				} else {
+					by3 = NULL
+				}
 
 				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
 
@@ -432,7 +421,7 @@ step1_rearrange_facets = function(tmo, o) {
 				byvars = intersect(smeta$vars, bys)
 				if (length(byvars)) add_used_vars(byvars)
 			}
-			if (!all(bys %in% c("VARS__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
+			if (!all(bys %in% c("VARS__", "FRAME__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
 			if (is.na(na.text)) na.text = o$label.na
 		})
 
@@ -465,6 +454,10 @@ step1_rearrange_facets = function(tmo, o) {
 			for (i in 1L:3L) {
 				byi = get(paste0("by", i))
 				if (!is.null(byi)) {
+					if (byi == "FRAME__") {
+						gl[i] = list(1:nframes)
+						gn[i] = as.integer(nframes)
+					} else
 					if (byi == "VARS__") {
 						gl[i] = list(vl)
 						gn[i] = vn
@@ -479,7 +472,7 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 			if (is.na(free.coords)) {
-				if (type %in% c("wrapstack", "wrap", "stack", "page")) {
+				if (type %in% c("wrapstack", "wrap", "stack", "page", "aniwrapstack", "anigrid")) {
 					free.coords = rep(!any(c(by1, by2, by3) == "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
@@ -489,7 +482,9 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 
-			v = which(c(by1, by2, by3) == "VARS__")
+			#v = which(c(by1, by2, by3) == "VARS__")
+			v = which(c(by1, by2, by3) %in% c("VARS__"))
+
 			b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
 
 			#n = length(v) + length(b)

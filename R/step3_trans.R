@@ -7,6 +7,21 @@ crs_reproject_shpTM = function(s, crs, raster.warp) {
 	s
 }
 
+trans_sf = function(sf1, sf2, nframes, ease) {
+	df1 = data.frame(geo = sf::st_geometry(sf1))
+	df2 = data.frame(geo = sf::st_geometry(sf2))
+	x = transformr::tween_sf(df1, df2, ease = ease, nframes = nframes)
+	sf::st_sf(.frame = x$.frame, geometry = x$geometry, crs = sf::st_crs(sf1))
+}
+
+trans_shpTM = function(shpTM1, shpTM2, nframes, ease) {
+	s = trans_sf(shpTM1$shp, shpTM2$shp[match(shpTM1$tmapID, shpTM2$tmapID)], nframes, ease)
+	data.table(shpTM = lapply(1:nframes, function(i) {
+		shpTM1$shp = s$geometry[s$.frame == i]
+		shpTM1
+	}), by3__ = 1:nframes)
+}
+
 step3_trans = function(tm) {
 	ad = tm$tmo
 	o = tm$o
@@ -22,13 +37,17 @@ step3_trans = function(tm) {
 			transDT = al$trans_dt
 
 			plot.order = al$plot.order
-
 			bycols = names(transDT)[substr(names(transDT), 1, 2) == "by"]
-			sdcols = names(transDT)
+			sdcols = setdiff(names(transDT), "frame")
 
 			if (length(transDT)) {
 				y = transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun, shpDT = shpDT, plot.order = plot.order, args = al$trans_args, scale = o$scale))), by = bycols, .SDcols = sdcols]
-				shpDT = rbindlist(y$shp)
+
+				if ("by3__" %in% bycols && all(is.na(y$by3__))) {
+					shpDT = trans_shpTM(shpDT$shpTM[[1]], y$shp[[1]]$shpTM[[1]], nframes = o$nframes, ease = "cubic-in-out")
+				} else {
+					shpDT = y$shp[[1]]
+				}
 			} else {
 				shpDT$shpTM = lapply(shpDT$shpTM, function(s) do.call(al$trans_fun, list(shpTM = s, plot.order = plot.order, args = al$trans_args)))
 			}
