@@ -45,16 +45,16 @@ preprocess_meta = function(o, cdt) {
 			"none"
 		} else if (identical(panel.show, TRUE)) {
 			# force panel labels
-			if (type %in% c("wrap", "stack", "page", "aniwrap", "anistack") || (npp == 1)) {
+			if (type %in% c("wrap", "stack", "page") || (npp == 1)) {
 				"wrap"
 			} else {
 				"xtab"
 			}
 		} else if ((npp == 1) && is.na(panel.labels[[1]])) {
 			"none"
-		} else if (!(type %in% c("wrap", "stack", "aniwrap", "anistack")) && !isdef[1] && !isdef[2]) {
+		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
 			"none"
-		} else if ((type %in% c("wrap", "stack", "page", "aniwrap", "anistack")) || (npp == 1)) {
+		} else if ((type %in% c("wrap", "stack", "page")) || (npp == 1)) {
 			"wrap"
 		} else {
 			"xtab"

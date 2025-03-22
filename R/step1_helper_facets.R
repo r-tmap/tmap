@@ -182,6 +182,11 @@ step1_rearrange_facets = function(tmo, o) {
 							vars = shpvars
 						}
 						names(vars) = vars
+
+						if (value$animate) {
+							.TMAP$animate = c(.TMAP$animate, vars)
+						}
+
 						if (value$multivariate) {
 							value = structure(list(unname(vars)), names = paste(vars, collapse = "_"), class = "tmapStandard")
 						} else {
@@ -313,9 +318,20 @@ step1_rearrange_facets = function(tmo, o) {
 		nrd = nrsd + nrvd # number of required by-dimensions
 
 		tmg$tmf = within(tmg$tmf, {
+
+
+
 			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
 
-			if (type %in% c("wrapstack", "wrap", "stack", "page", "aniwrapstack")) {
+
+			if (!is.null(.TMAP$animate) && nrvd <= 2L) {
+				by3 = "FRAME__"
+			} else {
+				by3 = NULL
+			}
+
+
+			if (type %in% c("wrapstack", "wrap", "stack", "page")) {
 				rev1 = is_rev(by)
 				rev2 = FALSE
 				rev3 = FALSE
@@ -323,11 +339,7 @@ step1_rearrange_facets = function(tmo, o) {
 				by1 = if (rev1) remove_min(by) else by
 				by2 = NULL
 
-				if (type == "aniwrapstack") {
-					by3 = pages
-				} else {
-					by3 = NULL
-				}
+
 
 				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
 
@@ -367,6 +379,14 @@ step1_rearrange_facets = function(tmo, o) {
 						smeta$dims[1]
 					} else {
 						"VARS__"
+					}
+					if (!is.null(.TMAP$animate)) {
+
+
+						#by3 = by1
+						#by1 = NULL
+						#nrows = 1
+						#ncols = 1
 					}
 				}
 
@@ -472,7 +492,7 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 			if (is.na(free.coords)) {
-				if (type %in% c("wrapstack", "wrap", "stack", "page", "aniwrapstack", "anigrid")) {
+				if (type %in% c("wrapstack", "wrap", "stack", "page")) {
 					free.coords = rep(!any(c(by1, by2, by3) == "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))

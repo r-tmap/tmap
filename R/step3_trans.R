@@ -14,12 +14,21 @@ trans_sf = function(sf1, sf2, nframes, ease) {
 	sf::st_sf(.frame = x$.frame, geometry = x$geometry, crs = sf::st_crs(sf1))
 }
 
-trans_shpTM = function(shpTM1, shpTM2, nframes, ease) {
+trans_shpTM = function(shpTM1, shpDT, nframes, ease) {
+	shpTM2 = shpDT$shpTM[[1 ]]
 	s = trans_sf(shpTM1$shp, shpTM2$shp[match(shpTM1$tmapID, shpTM2$tmapID)], nframes, ease)
-	data.table(shpTM = lapply(1:nframes, function(i) {
-		shpTM1$shp = s$geometry[s$.frame == i]
-		shpTM1
-	}), by3__ = 1:nframes)
+
+	data.table::rbindlist(lapply(1:nframes, function(i) {
+		x = shpDT
+		x$shpTM[[1]]$shp = s$geometry[s$.frame == i]
+		x$by3__ = i
+		x
+	}))
+
+	# data.table(shpTM = lapply(1:nframes, function(i) {
+	# 	shpTM1$shp = s$geometry[s$.frame == i]
+	# 	shpTM1
+	# }), by3__ = 1:nframes)
 }
 
 step3_trans = function(tm) {
@@ -44,9 +53,13 @@ step3_trans = function(tm) {
 				y = transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun, shpDT = shpDT, plot.order = plot.order, args = al$trans_args, scale = o$scale))), by = bycols, .SDcols = sdcols]
 
 				if ("by3__" %in% bycols && all(is.na(y$by3__))) {
-					shpDT = trans_shpTM(shpDT$shpTM[[1]], y$shp[[1]]$shpTM[[1]], nframes = o$nframes, ease = "cubic-in-out")
+					shpDT = data.table::rbindlist(lapply(y$shp, function(yi) {
+						trans_shpTM(shpDT$shpTM[[1]], yi, nframes = o$nframes, ease = "cubic-in-out")
+					}))
+
+
 				} else {
-					shpDT = y$shp[[1]]
+					shpDT = data.table(rbindlist(y$shp))
 				}
 			} else {
 				shpDT$shpTM = lapply(shpDT$shpTM, function(s) do.call(al$trans_fun, list(shpTM = s, plot.order = plot.order, args = al$trans_args)))

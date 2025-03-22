@@ -28,7 +28,7 @@ step2_data = function(tm) {
 		if ("by3__" %in% names(dt) && o$rev3) dt[, by3__ := (o$fn[3]+1L)-by3__]
 
 
-		if (o$facet.flip && !o$type %in% c("wrapstack", "wrap", "stack", "aniwrapstack")) {
+		if (o$facet.flip && !o$type %in% c("wrapstack", "wrap", "stack")) {
 			if ("by2__" %in% names(dt)) {
 				dt[, by2b__:= by2__]
 				dt[, by2__ := NULL]
@@ -177,7 +177,7 @@ step2_data = function(tm) {
 		if (rev1) fl[[1]][] = rev(fl[[1]][])
 		if (rev2) fl[[2]][] = rev(fl[[2]][])
 		if (rev3) fl[[3]][] = rev(fl[[3]][])
-		if (facet.flip  && !type %in% c("wrapstack", "wrap", "stack", "aniwrapstack")) {
+		if (facet.flip  && !type %in% c("wrapstack", "wrap", "stack")) {
 			fl[] = fl[c(2,1,3)]
 			fn = fn[c(2,1,3)]
 		}

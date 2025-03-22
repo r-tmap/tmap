@@ -69,7 +69,8 @@ tm_facets = function(by = NULL,
 					 type = NA, # grid, wrap or stack
 					 along = NULL,
 					 free.scales = NULL,
-					 nframes = 1,
+					 animate = FALSE,
+					 nframes = 60,
 					 fps = 30,
 					 play = c("loop", "pingpong", "once"),
 					 ...) {
@@ -109,12 +110,12 @@ tm_facets = function(by = NULL,
 	}
 
 	if (!is.null(pages)) {
-		if (is.na(type) || type == "ani") {
+		if (is.na(type)) {
 			if (!is.null(rows) || !is.null(columns)) {
-				type = "anigrid"
+				type = "grid"
 				by = NULL
 			} else {
-				type = "aniwrapstack"
+				type = "wrapstack"
 				rows = NULL
 				columns = NULL
 			}
@@ -143,6 +144,7 @@ tm_facets = function(by = NULL,
 		sync = sync,
 		na.text = na.text,
 		scale.factor = scale.factor,
+		animate = animate,
 		nframes = as.integer(nframes),
 		fps = as.integer(fps),
 		play = play,
@@ -203,13 +205,29 @@ tm_facets_pagewise = function(by = "VARS__",
 
 #' @export
 #' @rdname tm_facets
+tm_facets_animate2 = function(by = "VARS__",
+							  nrow = 1,
+							  ncol = 1,
+							  byrow = TRUE,
+							  animate = TRUE,
+							  ...) {
+	args = list(...)
+	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
+
+	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page", animate = animate), args[setdiff(names(args), "type")]))
+	tm[[1]]$calls = args_called
+	tm
+}
+
+#' @export
+#' @rdname tm_facets
 tm_facets_animate = function(nframes = 60,
 							 fps = 30,
 							 play = c("loop", "pingpong", "once"),
 							 by = NULL,
 							 rows = NULL,
 							 columns = NULL,
-							 pages = "FRAME__",
+							 pages = "VARS__",
 							 nrow = NA,
 							 ncol = NA,
 							 byrow = TRUE,
@@ -217,7 +235,7 @@ tm_facets_animate = function(nframes = 60,
 	args = list(...)
 	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
 
-	tm = do.call("tm_facets", c(list(by = by, pages = pages, nrow = nrow, ncol = ncol, byrow = byrow, nframes = nframes, fps = fps, play = play, type = "ani"), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(by = by, pages = pages, nrow = nrow, ncol = ncol, byrow = byrow, nframes = nframes, fps = fps, play = play, type = NA), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm
 }

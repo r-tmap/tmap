@@ -286,7 +286,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		}
 		c(g$cols_facet_ids[facet_col], panel_cols)
 	}
-#po(rows,cols)
+# po(rows,cols)
 # 	# add the panel viewports to the rows and cols (scrape them, next step we get the whole ranges)
 # 	if (o$panel.type == "xtab") {
 # 		cols = c(cols, g$cols_panel_col_ids, g$rows_panel_col_id)
