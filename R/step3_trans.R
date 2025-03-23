@@ -21,6 +21,7 @@ trans_shpTM = function(shpTM1, shpDT, nframes, ease) {
 	data.table::rbindlist(lapply(1:nframes, function(i) {
 		x = shpDT
 		x$shpTM[[1]]$shp = s$geometry[s$.frame == i]
+		x$shpTM[[1]]$tmapID = shpTM1$tmapID
 		x$by3__ = i
 		x
 	}))
