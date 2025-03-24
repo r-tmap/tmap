@@ -139,16 +139,49 @@
 <p>Exporting maps is done via <code><a href="../reference/tmap_save.html">tmap_save()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
 <span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
 <p>Values of <code>width</code> and <code>height</code> less than 50 are considered inches, whereas greater than 50 pixels are considered pixels:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">2100</span>, height <span class="op">=</span> <span class="fl">1200</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
 <span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
 <p>Therefore, both examples result in the exactly the same file:</p>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make to use a sufficient number of pixels. For <strong>web publications</strong> at least 144 dpi is required. This may seem overkill, but is required for <em>retina</em> (high point-per-inch) displaces. For <strong>printing</strong> 300 or even 600 dpi is required.</p>
 </div>
@@ -156,18 +189,51 @@
 <h3 id="aspect-ratio">Aspect ratio<a class="anchor" aria-label="anchor" href="#aspect-ratio"></a>
 </h3>
 <p>In case only <em>one</em> dimension is provided, the other dimension calculated using the aspect ratio of the map.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">2100</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
 <span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1059.87 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 3.5329 inches (300 dpi)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="vector-based-format">Vector based format<a class="anchor" aria-label="anchor" href="#vector-based-format"></a>
 </h3>
 <p>Vector based formats will look (almost) the same.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.pdf"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></code></pre></div>
 <p>Small differences in font sizes, margins, symbol sizes between formats may occur.</p>
 </div>
@@ -176,21 +242,65 @@
 </h3>
 <p>An important argument of <code><a href="../reference/tmap_save.html">tmap_save()</a></code> is <code>scale</code>. It an option for the overall scale over the map, which is normally set via <code><a href="../reference/tm_layout.html">tm_layout()</a></code>. It determines all font sizes, line widths, and symbol sizes.</p>
 <p>Much smaller (0.5):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 <p>A bit smaller (0.8):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
 <p>A bit larger (1.2):</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
 <p>Much larger (1.5):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
@@ -200,7 +310,7 @@
 <h2 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
 </h2>
 <p>Maps can also be exported as stand-alone HTML files.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"index.html"</span>, selfcontained <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>When <code>selfcontained = FALSE</code>, the required JavaScripts and CSS files are stored in a folder called <code>index_files</code>.</p>
 </div>

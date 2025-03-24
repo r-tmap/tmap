@@ -139,8 +139,41 @@
 <span>    ncol <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<pre><code><span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre>
 <p>The variables in the <code>NLD_dist</code> and <code>NLD_muni</code> are the same:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "code"               "name"               "province"          </span></span>
 <span><span class="co">#&gt;  [4] "area"               "urbanity"           "population"        </span></span>
@@ -155,7 +188,7 @@
 <h2 id="population-of-dutch-municipalities">Population of Dutch municipalities<a class="anchor" aria-label="anchor" href="#population-of-dutch-municipalities"></a>
 </h2>
 <p>The following code creates a bubble map of population per</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
@@ -164,7 +197,18 @@
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    lwd <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>Note the scale function <code><a href="../reference/tm_scale.html">tm_scale()</a></code> is general purpose. Because the data is categorical, it will forward its arguments to <code><a href="../reference/tm_scale_categorical.html">tm_scale_categorical()</a></code>.</p>
 </div>
@@ -172,17 +216,28 @@
 <h2 id="higher-income-class-in-dutch-districts">Higher income class in Dutch districts<a class="anchor" aria-label="anchor" href="#higher-income-class-in-dutch-districts"></a>
 </h2>
 <p>The following map shows the percentage of people with a higher income per Dutch district. This is encoded via a interval ‘rainbow’ color scale. Bubble sizes are proportional to the population size.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    size <span class="op">=</span> <span class="st">"population"</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"income_high"</span>,</span>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, values <span class="op">=</span> <span class="st">"-tol.rainbow_wh_br"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, values <span class="op">=</span> <span class="st">"-tol.rainbow_wh_br"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
+<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>In order to find a suitable color palette for this example, we used</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">cols4all</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cols4all/man/c4a_gui.html" class="external-link">c4a_gui</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>and selected a sequential ‘rainbow’ like color scale which is color blind friendly, and where the colors are not too bright and not too dark, because we would like to have sufficient contrast with both the black borders and the white background (see the <a href="https://mtennekes.github.io/cols4all/articles/01_paper.html" class="external-link">working paper of cols4all</a>). The <code>-</code> symbol indicates that we reverse the palette.</p>
 <p>Note that we set <code>n</code> the number of class intervals to 5. However, for the standard interval method, which is called <code>pretty</code>, the parameter <code>n</code> is the preferred number of classes. In this case the resulting number of classes is 5 (just like <code>pretty(c(0,60), 5)</code>).</p>
