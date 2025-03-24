@@ -38,22 +38,21 @@ preprocess_meta = function(o, cdt) {
 	within(o, {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)
-		n = prod(nby)
 
 		if (is.na(panel.type)) panel.type = if (identical(panel.show, FALSE)) {
 			"none"
 		} else if (identical(panel.show, TRUE)) {
 			# force panel labels
-			if (type %in% c("wrap", "stack", "page") || (n == 1)) {
+			if (type %in% c("wrap", "stack", "page") || (npp == 1)) {
 				"wrap"
 			} else {
 				"xtab"
 			}
-		} else if ((n == 1) && is.na(panel.labels[[1]])) {
+		} else if ((npp == 1) && is.na(panel.labels[[1]])) {
 			"none"
 		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
 			"none"
-		} else if ((type %in% c("wrap", "stack", "page")) || (n == 1)) {
+		} else if ((type %in% c("wrap", "stack", "page")) || (npp == 1)) {
 			"wrap"
 		} else {
 			"xtab"
@@ -341,7 +340,7 @@ process_meta = function(o, d, cdt, aux) {
 					}
 
 
-					if (type == "page" || (nrow(legs_auto) && n == 1)) {
+					if (type == "page" || (nrow(legs_auto) && npp == 1)) {
 
 						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto_margins[c(2,4)]))
 						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto_margins[c(1,3)]))
@@ -355,16 +354,16 @@ process_meta = function(o, d, cdt, aux) {
 
 						orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
 					} else {
-						orientation = if ((!is.na(nrows) && nrows == 1) || (!is.na(ncols) && ncols == n)) {
+						orientation = if ((!is.na(nrows) && nrows == 1) || (!is.na(ncols) && ncols == npp)) {
 							"horizontal"
-						} else if ((!is.na(nrows) && nrows == n) || (!is.na(ncols) && ncols == 1)) {
+						} else if ((!is.na(nrows) && nrows == npp) || (!is.na(ncols) && ncols == 1)) {
 							"vertical"
-						} else if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
+						} else if ((n == 1 && (pasp > masp)) || (npp > 1 && (pasp < masp))) "horizontal" else "vertical"
 					}
 				}
 			}
 		} else {
-			orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
+			orientation = if ((npp == 1 && (pasp > masp)) || (npp > 1 && (pasp < masp))) "horizontal" else "vertical"
 		}
 
 		if (gs == "Grid") {
@@ -373,7 +372,7 @@ process_meta = function(o, d, cdt, aux) {
 				if (!legend.present.auto[2] & !legend.present.auto[3]) {
 					# only 'all facets' outside legends (either bottom or right)
 					# was: n > 1 && masp > pasp
-					if ((type != "stack" && n == 1 && pasp > masp) || (type != "stack" && n > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
+					if ((type != "stack" && npp == 1 && pasp > masp) || (type != "stack" && npp > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
 						legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
 					} else {
 						legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
@@ -407,7 +406,7 @@ process_meta = function(o, d, cdt, aux) {
 
 				# CODE COPIED FROM STEP4_plot L157
 				# TO DO: fix this
-				if (o$type != "grid" && o$n > 1) {
+				if (o$type != "grid" && o$npp > 1) {
 					#if (o$nrows == 1 && o$ncols == 1)
 					if (identical(orientation, "horizontal")) {
 						# -use by2 and not by1 when they form a row
@@ -444,7 +443,7 @@ process_meta = function(o, d, cdt, aux) {
 						meta.auto_margins = pmin(meta.auto_margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]
 
-							cdt2b[stack_auto == TRUE, stack:= ifelse(n==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
+							cdt2b[stack_auto == TRUE, stack:= ifelse(npp==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 
 							c(sum(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
 								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
@@ -498,9 +497,9 @@ process_meta = function(o, d, cdt, aux) {
 		} else if (type == "stack") {
 			if (orientation == "horizontal") {
 				nrows = 1
-				ncols = n
+				ncols = npp
 			} else {
-				nrows = n
+				nrows = npp
 				ncols = 1
 			}
 		} else {
@@ -512,8 +511,8 @@ process_meta = function(o, d, cdt, aux) {
 
 				# loop through col row combinations to find best nrow/ncol
 				# b needed to compare landscape vs portrait. E.g if prefered asp is 2, 1 is equally good as 4
-				ncols = which.min(vapply(1L:n, function(nc) {
-					nr = ceiling(n / nc)
+				ncols = which.min(vapply(1L:npp, function(nc) {
+					nr = ceiling(npp / nc)
 
 					# calculate available width and height. They can be negative, at this stage this is avoided my taking at least a small number
 					width = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between_marginW) / nc)
@@ -525,7 +524,7 @@ process_meta = function(o, d, cdt, aux) {
 				}, FUN.VALUE = numeric(1)))
 
 
-				nrows = ceiling(n / ncols)
+				nrows = ceiling(npp / ncols)
 			}
 			if ((nrows == 1 || ncols == 1) && set_to_stack_message) message_wrapstack(nrows == 1)
 		}

@@ -315,7 +315,6 @@ step1_rearrange_facets = function(tmo, o) {
 		if (split_stars_dim != "") {
 			smeta = tmapGetShapeMeta1(shp, o)
 			if (dev) timing_add(s3 = "get_shape_meta1_2")
-
 		}
 
 
@@ -327,64 +326,81 @@ step1_rearrange_facets = function(tmo, o) {
 		tmg$tmf = within(tmg$tmf, {
 			#fl = flvar
 			#nfl = nflvar
-			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
 
-			if (type %in% c("wrapstack", "wrap", "stack", "page")) {
-				rev1 = is_rev(by)
-				rev2 = FALSE
-				rev3 = FALSE
+			#if (!is.null(pages))
 
-				if (rev1) by = remove_min(by)
+			# use_pages = !is.null(pages) || nrd == 3L
 
-				by1 = by
-				by2 = NULL
-				by3 = NULL
+			# if (is.na(type)) type = if ((nrd - use_pages) <= 1L) "wrapstack" else "grid"
 
-				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
-
-
-
-				if (nrd > 1L) {
-					if (nrsd > 1L) stop("Cannot use tm_facets_wrap/tm_facets_stack, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
-					# so there is exactly 1 shape dim
-					nrvd = 0L
-					nrd = 1L
-					if (nsbd == 1L) {
-						warning("by variable specified and multiple variables while there is a shape dimensions which cannot be ignored. The by variable will therefore be ignored. Also, only the first variable is shown. Use tm_facet_grid to show multiple variables", call. = FALSE)
-					}
-					by1 = NULL
-					limitvars = TRUE
-				} else if (nrd == 1L) {
-					if (nrsd == 1L) {
-						if (nsbd == 1L) {
-							warning("by variable specified while there is a shape dimension which cannot be ignored. The by variable will therefore be ignored", call. = FALSE)
-						}
-						by1 = NULL
-						limitvars = FALSE
-					} else {
-						if (nsbd == 1L) {
-							warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a 'by'-variable", call. = FALSE)
-							nrvd = 0L
-							limitvars = TRUE
-						} else {
-							limitvars = FALSE
-						}
-					}
-				} else {
-					limitvars = FALSE
-				}
-				if (is.null(by1)) {
-					by1 = if (nrsd == 1L) {
-						smeta$dims[1]
-					} else {
-						"VARS__"
-					}
-				}
-
-			} else {
+			# if (type %in% c("wrapstack", "wrap", "stack")) {
+			# 	rev1 = is_rev(by)
+			# 	rev2 = FALSE
+			# 	rev3 = FALSE
+			#
+			# 	if (rev1) by = remove_min(by)
+			#
+			# 	by1 = by
+			# 	by2 = NULL
+			# 	by3 = NULL
+			#
+			# 	nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
+			#
+			#
+			#
+			# 	if (nrd > 1L) {
+			# 		if (nrsd > 1L) stop("Cannot use tm_facets_wrap/tm_facets_stack, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
+			# 		# so there is exactly 1 shape dim
+			# 		nrvd = 0L
+			# 		nrd = 1L
+			# 		if (nsbd == 1L) {
+			# 			warning("by variable specified and multiple variables while there is a shape dimensions which cannot be ignored. The by variable will therefore be ignored. Also, only the first variable is shown. Use tm_facet_grid to show multiple variables", call. = FALSE)
+			# 		}
+			# 		by1 = NULL
+			# 		limitvars = TRUE
+			# 	} else if (nrd == 1L) {
+			# 		if (nrsd == 1L) {
+			# 			if (nsbd == 1L) {
+			# 				warning("by variable specified while there is a shape dimension which cannot be ignored. The by variable will therefore be ignored", call. = FALSE)
+			# 			}
+			# 			by1 = NULL
+			# 			limitvars = FALSE
+			# 		} else {
+			# 			if (nsbd == 1L) {
+			# 				warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a 'by'-variable", call. = FALSE)
+			# 				nrvd = 0L
+			# 				limitvars = TRUE
+			# 			} else {
+			# 				limitvars = FALSE
+			# 			}
+			# 		}
+			# 	} else {
+			# 		limitvars = FALSE
+			# 	}
+			# 	if (is.null(by1)) {
+			# 		by1 = if (nrsd == 1L) {
+			# 			smeta$dims[1]
+			# 		} else {
+			# 			"VARS__"
+			# 		}
+			# 	}
+			#
+			# } else {
 				by1 = rows
 				by2 = columns
 				by3 = pages
+
+				if (!is.null(by)) {
+					if (is.null(by1)) {
+						by1 = by
+					} else if (is.null(by2)) {
+						by2 = by
+					} else if (is.null(by3)) {
+						by3 = by
+					} else {
+						stop("Too many dimensions") # quick&dirty, to do: move to other checks
+					}
+				}
 
 				rev1 = is_rev(by1)
 				rev2 = is_rev(by2)
@@ -393,6 +409,8 @@ step1_rearrange_facets = function(tmo, o) {
 				if (rev1) by1 = remove_min(by1)
 				if (rev2) by2 = remove_min(by2)
 				if (rev3) by3 = remove_min(by3)
+
+
 
 
 				if (nrd > 3L) {
@@ -425,7 +443,7 @@ step1_rearrange_facets = function(tmo, o) {
 					}
 				}
 
-			}
+			# }
 
 			bys = c(by1, by2, by3)
 			if (length(bys)) {
@@ -434,6 +452,11 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 			if (!all(bys %in% c("VARS__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
 			if (is.na(na.text)) na.text = o$label.na
+
+			if (is.na(type)) {
+				type = if (!is.null(by1) && !is.null(by2)) "grid" else "wrapstack"
+			}
+
 		})
 
 		smeta$vars = get("used_vars", envir = .TMAP)
@@ -479,7 +502,7 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 			if (is.na(free.coords)) {
-				if (type %in% c("wrapstack", "wrap", "stack", "page")) {
+				if (type %in% c("wrapstack", "wrap", "stack")) {
 					free.coords = rep(!any(c(by1, by2, by3) == "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
@@ -488,10 +511,9 @@ step1_rearrange_facets = function(tmo, o) {
 				free.coords = rep(free.coords, length.out = 3)
 			}
 
-
-			v = which(c(by1, by2, by3) == "VARS__")
+			v = which(vapply(list(by1, by2, by3), identical, FUN.VALUE = logical(1), "VARS__"))
 			b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
-
+po(v,b, by1,by2,by3)
 			#n = length(v) + length(b)
 
 			by123 = paste0("by", 1L:3L)

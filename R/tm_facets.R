@@ -97,24 +97,24 @@ tm_facets = function(by = NULL,
 		pages = along
 	}
 
-	if (!is.null(by)) {
-		if (is.na(type)) type = "wrapstack"
-		rows = NULL
-		columns = NULL
-		pages = NULL
-	}
-	if (!is.null(rows) || !is.null(columns) || !is.null(pages)) {
-		type = "grid"
-		by = NULL
-	}
-
-
+	# if (!is.null(by)) {
+	# 	if (is.na(type)) type = "wrapstack"
+	# 	rows = NULL
+	# 	columns = NULL
+	# 	pages = NULL
+	# }
+	# if (!is.null(rows) || !is.null(columns)) {
+	# 	type = "grid"
+	# } else {
+	# 	type = "wrapstack"
+	# }
 
 	x = tm_element_list(tm_element(
 		type = type,
 		by = by,
 		rows = rows,
 		columns = columns,
+		pages = pages,
 		as.layers = as.layers,
 		pages = pages,
 		nrows = nrow,
@@ -170,14 +170,12 @@ tm_facets_wrap = function(by = "VARS__",
 #' @export
 #' @rdname tm_facets
 tm_facets_pagewise = function(by = "VARS__",
-						  nrow = 1,
-						  ncol = 1,
-						  byrow = TRUE,
-						  ...) {
+							  byrow = TRUE,
+							  ...) {
 	args = list(...)
-	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
+	args_called = names(rlang::call_match()[-1])
 
-	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(pages = by, byrow = byrow, type = NA), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm
 }
