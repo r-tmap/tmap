@@ -103,11 +103,10 @@ tm_facets = function(by = NULL,
 	# 	columns = NULL
 	# 	pages = NULL
 	# }
-	# if (!is.null(rows) || !is.null(columns)) {
-	# 	type = "grid"
-	# } else {
-	# 	type = "wrapstack"
-	# }
+
+	if (!is.null(rows) || !is.null(columns)) {
+		type = "grid"
+	}
 
 	x = tm_element_list(tm_element(
 		type = type,

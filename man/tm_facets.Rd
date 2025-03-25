@@ -38,7 +38,7 @@ tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 
 tm_facets_wrap(by = "VARS__", nrow = NA, ncol = NA, byrow = TRUE, ...)
 
-tm_facets_pagewise(by = "VARS__", nrow = 1, ncol = 1, byrow = TRUE, ...)
+tm_facets_pagewise(by = "VARS__", byrow = TRUE, ...)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 

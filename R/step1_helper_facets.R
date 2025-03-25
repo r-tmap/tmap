@@ -513,8 +513,6 @@ step1_rearrange_facets = function(tmo, o) {
 
 			v = which(vapply(list(by1, by2, by3), identical, FUN.VALUE = logical(1), "VARS__"))
 			b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
-po(v,b, by1,by2,by3)
-			#n = length(v) + length(b)
 
 			by123 = paste0("by", 1L:3L)
 			by123__ = paste0("by", 1L:3L, "__")

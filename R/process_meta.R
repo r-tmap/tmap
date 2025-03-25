@@ -49,7 +49,11 @@ preprocess_meta = function(o, cdt) {
 				"xtab"
 			}
 		} else if ((npp == 1) && is.na(panel.labels[[1]])) {
-			"none"
+			if (n > 1) {
+				"wrap"
+			} else {
+				"none"
+			}
 		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
 			"none"
 		} else if ((type %in% c("wrap", "stack", "page")) || (npp == 1)) {
@@ -546,24 +550,14 @@ process_meta = function(o, d, cdt, aux) {
 		# panel.label.size = panel.label.size * scale
 
 
-		# update panel labels
-		if (is.na(panel.labels[1])) {
+		if (is.na(panel.labels)) {
+			# quick fix
+			# to do: checks
 			panel.labels = fl[1:2]
-		} else {
-			if (!is.list(panel.labels)) panel.labels = list(panel.labels, "")
-			panel.labels = mapply(FUN = function(p, f) {
-				if (is.null(f)) {
-					if (length(p) > 1) warning("the number of supplied panel labels is", length(p), "but only one is supported because no facets are defined", call. = FALSE)
-					p[1]
-				} else {
-					if (length(p[p!=""]) != length(f)) warning("the number of supplied panel labels does not correspond to the number of panels", call. = FALSE)
-					rep_len(p, length(f))
-				}
-			}, panel.labels, fl[1:2], SIMPLIFY = FALSE)
+			if (is.null(panel.labels[[1]])) {
+				panel.labels[1] = fl[3]
+			}
 		}
-
-
-
 
 		npages = ceiling(n / (nrows * ncols))
 
