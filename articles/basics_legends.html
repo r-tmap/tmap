@@ -143,17 +143,6 @@
 <span>      title <span class="op">=</span> <span class="st">"Happy Planex Index"</span>, </span>
 <span>      orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
 <span>      width <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
@@ -168,18 +157,7 @@
 <span>      title <span class="op">=</span> <span class="st">"Happy Planex Index"</span>, </span>
 <span>      orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
 <span>      width <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -192,18 +170,7 @@
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    shape <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -215,18 +182,7 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -240,18 +196,7 @@
 <span>    fill <span class="op">=</span> <span class="st">"grey80"</span>, </span>
 <span>    shape <span class="op">=</span> <span class="fl">22</span>, </span>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, </span>
-<span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_legends_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -270,18 +215,7 @@
 <span>        item.r <span class="op">=</span> <span class="fl">0</span>, </span>
 <span>        item.space <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>        item.na.space <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>        title.align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>        title.align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -138,18 +138,7 @@ The groups can be defined using a categorical data variable. In the following pl
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span><span class="st">"province"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "province"</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span><span class="st">"province"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_facets_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>In this example, there is <em>one facet variable</em>. For these kind of plots, and the facets are either <strong>wrapped</strong> or <strong>stacked</strong>, with <code><a href="../reference/tm_facets.html">tm_facets_wrap()</a></code> or <code><a href="../reference/tm_facets.html">tm_facets_stack()</a></code>. The general purpose function <code><a href="../reference/tm_facets.html">tm_facets()</a></code> determines the faceting type, which is in this example <code>wrap</code>.</p>
 <p>Groups can also be defined by specifying multiple data variable names for one visual variable:</p>
@@ -160,18 +149,7 @@ The groups can be defined using a categorical data variable. In the following pl
 <span>    fill.scale <span class="op">=</span> </span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-brewer.reds"</span><span class="op">)</span>,</span>
 <span>         <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.purples"</span><span class="op">)</span>,</span>
-<span>         <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.blues"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "VARS__"</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>         <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.blues"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_facets_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>Because different data variables are used, tmap uses (by default) multiple scales, one for each variable. These can be changed by putting the <code><a href="../reference/tm_scale.html">tm_scale()</a></code> functions in a list, as shown above. In case the same scale should be used, <code>fill.free</code> should be set to <code>FALSE</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -179,18 +157,7 @@ The groups can be defined using a categorical data variable. In the following pl
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pop_0_14"</span>, <span class="st">"pop_25_44"</span>, <span class="st">"pop_65plus"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Percentage"</span><span class="op">)</span>,</span>
-<span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "VARS__"</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_facets_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -206,18 +173,7 @@ In that case, <code><a href="../reference/tm_facets.html">tm_facets_grid()</a></
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-brewer.reds"</span><span class="op">)</span>,</span>
 <span>         <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.purples"</span><span class="op">)</span>,</span>
 <span>         <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.blues"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="st">"province"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "VARS__"</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; [1] "province"</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="st">"province"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_facets_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level2">

@@ -183,18 +183,7 @@
 <span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
 <span>        scale <span class="op">=</span> <span class="fl">1.0</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div>
 <p><img src="examples_raster_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -205,18 +194,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sent</span> <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">sent_image</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">sent</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_discrete.html">tm_scale_discrete</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">sent</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_discrete.html">tm_scale_discrete</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_raster_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -226,33 +204,11 @@
 <code class="sourceCode R"><span><span class="va">clc2018_poznan</span> <span class="op">=</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"https://github.com/Nowosad/comparing-spatial-patterns-2024/raw/refs/heads/main/data/clc2018_poznan.tif"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">clc2018_poznan</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_raster_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">clc2018_poznan</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Land cover"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;====================  v ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  b ===============&gt;</span></span>
-<span><span class="co">#&gt; integer(0)</span></span>
-<span><span class="co">#&gt; &lt;====================  by1 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by2 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;====================  by3 ===============&gt;</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span>col.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Land cover"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_raster_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
