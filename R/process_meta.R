@@ -550,14 +550,29 @@ process_meta = function(o, d, cdt, aux) {
 		# panel.label.size = panel.label.size * scale
 
 
-		if (is.na(panel.labels)) {
+		if (is.na(panel.labels[1])) {
 			# quick fix
 			# to do: checks
-			panel.labels = fl[1:2]
+			panel.labels = fl[1:3]
 			if (is.null(panel.labels[[1]])) {
 				panel.labels[1] = fl[3]
 			}
+		} else {
+			if (!is.list(panel.labels)) {
+				panel.labels = list(panel.labels, NULL)
+			}
 		}
+		if (type %in% c("stack", "wrap")) {
+			if (!is.null(panel.labels[[1]])) {
+				panel.labels.dim = 1
+			} else if (!is.null(panel.labels[[3]])) {
+				panel.labels.dim = 3
+			} else {
+				panel.type = "none"
+			}
+		}
+
+
 
 		npages = ceiling(n / (nrows * ncols))
 

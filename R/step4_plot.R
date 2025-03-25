@@ -524,36 +524,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		}
 		d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 
-
-		### facet.flip and reverse
-		# if (o$facet.flip) {
-		# 	labcols= o$panel.labels[[1]]
-		# 	labrows = o$panel.labels[[2]]
-		# 	nr = o$nrows
-		# 	o$nrows = o$ncols
-		# 	o$ncols = nr
-		# } else {
-		# 	labrows = o$panel.labels[[1]]
-		# 	labcols = o$panel.labels[[2]]
-		# }
-		#
-
-
-		# # reverse if specified (with '-' in front of row/col/page variable name in tm_facets)
-		# if (o$rev1) {
-		# 	labs1 = o$panel.labels[[1]]
-		# 	d[, by1:=(1L+length(labs1)) - by1]
-		# 	o$panel.labels[[1]] = structure(rev(labs1), showNA = attr(labs1, "showNA"))
-		# }
-		# if (o$rev2) {
-		# 	labs2 = o$panel.labels[[2]]
-		# 	d[, by2:=(1L+length(labs2)) - by2]
-		# 	o$panel.labels[[2]] = rev(labs2)
-		# }
-		# if (o$rev3) {
-		# 	d[, by3:=(1L+max(by3)) - by3]
-		# }
-		#
 	}
 
 
@@ -712,10 +682,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 		for (i in seq_len(nrow(d))) {
 			bbx = d$bbox[[i]]
-			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 			if (is.na(d$asp[i])) next
 			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-
 
 			# plot grid labels
 			if (o$grid.show && !o$grid.labels.inside_frame) {
