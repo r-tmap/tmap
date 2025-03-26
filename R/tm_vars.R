@@ -30,7 +30,16 @@ tmapVV = function(x) {
 
 	cls = if (inherits(x, "AsIs")) "tmapAsIs" else if (inherits(x, "tmapUsrCls")) "tmapUsrCls" else "tbd"
 
+
 	isL = is.list(x)
+
+	if (cls == "tbd" && !isL) {
+		if (is.character(x) && all(substr(x, 1, 1) == "*")) {
+			x = substr(x, 2, nchar(x))
+			return(tm_vars(x, animate = TRUE))
+		}
+	}
+
 	isNestedL = isL && any(vapply(x, is.list, FUN.VALUE = logical(1)))
 	isSpecialL = isL && !setequal(class(x), "list")
 	isSpecialNestedL = isL && is.list(x[[1]]) &&  !setequal(class(x[[1]]), "list")

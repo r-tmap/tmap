@@ -316,14 +316,14 @@ step1_rearrange_facets = function(tmo, o) {
 		nrvd = as.integer(vn > 1L) # number of required variable dimensions (0 or 1)
 		nrd = nrsd + nrvd # number of required by-dimensions
 
-		trans_animate = !is.null(.TMAP$animate)
-
-		nad = as.integer(animate)
 
 		tmg$tmf = within(tmg$tmf, {
 				by1 = rows
 				by2 = columns
 				by3 = pages
+
+				trans_animate = !is.null(.TMAP$animate)
+				nad = as.integer(trans_animate)
 
 				if (trans_animate) {
 					if (is.null(by3)) {

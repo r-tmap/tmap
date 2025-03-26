@@ -1,7 +1,7 @@
 tmapGridRun = function(o, q, show, knit, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
-		ani = o$animate
+		ani = o$animate || o$trans_animate # animate is multiple variables/facets, trans_animate for transition animation only
 		if (ani) {
 			d <- paste(tempdir(), "/tmap_plots", sep="/")
 			dir.create(d, showWarnings = FALSE)
