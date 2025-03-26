@@ -66,6 +66,8 @@ get_tmf = function(tmfs) {
 	tmf$fl = gl
 	tmf$fn = gn
 	tmf$n = prod(gn)
+	tmf$npp = prod(gn[1L:2L])
+
 
 	if (tmf$type %in% "wrapstack") {
 		tmf$type = if ((!is.na(tmf$ncols) && tmf$ncols %in% c(tmf$n, 1)) ||
@@ -73,12 +75,7 @@ get_tmf = function(tmfs) {
 			"stack"
 		} else if (!is.na(tmf$ncols) || !is.na(tmf$nrows)) {
 			"wrap"
-		} else if (tmf$n > 3) "wrap" else "stack"
-
-	}
-
-	if (!is.na(tmf$ncols) && !is.na(tmf$nrows)) {
-		if ((tmf$ncols * tmf$nrows) < tmf$n) tmf$type = "page"
+		} else if (tmf$npp > 3) "wrap" else "stack"
 	}
 
 	tmf

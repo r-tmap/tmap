@@ -1,7 +1,7 @@
 tmapGridRun = function(o, q, show, knit, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
-		ani = o$nby[3] > 1 || o$animate
+		ani = o$animate
 		if (ani) {
 			d <- paste(tempdir(), "/tmap_plots", sep="/")
 			dir.create(d, showWarnings = FALSE)

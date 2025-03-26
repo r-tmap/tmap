@@ -4,7 +4,13 @@
 \alias{tm_vars}
 \title{tmap function to specify variables}
 \usage{
-tm_vars(x = NA, dimvalues = NULL, n = NA, multivariate = FALSE)
+tm_vars(
+  x = NA,
+  dimvalues = NULL,
+  n = NA,
+  multivariate = FALSE,
+  animate = FALSE
+)
 }
 \arguments{
 \item{x}{variable names, variable indices, or a dimension name}
@@ -14,6 +20,8 @@ tm_vars(x = NA, dimvalues = NULL, n = NA, multivariate = FALSE)
 \item{n}{if specified the first \code{n} variables are taken (or the first \code{n} dimension values)}
 
 \item{multivariate}{in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate visual variable?}
+
+\item{animate}{should the variable(s) be animated? (experimental)}
 }
 \description{
 tmap function to specify all variables in the shape object

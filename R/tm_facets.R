@@ -46,6 +46,10 @@
 #' @param type `"grid"`, `"wrap"` or `"stack"`
 #' @param along deprecated Please use `tm_facets_pagewise()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
+#' @param animate in case of 'pages' are used: should facets be shown as a (gif) animation, or plotted on multiple pages? `FALSE` by default
+#' @param nframes number of animation frames
+#' @param fps frames per second. Default: 30 for `tm_facets_animate` and 2 for `tm_facets_animate_slow`.
+#' @param play how should the animation be played? One of `"loop"`, `"pingpong"`, and `"once"`
 #' @param ... used to catch deprecated arguments
 #' @example ./examples/tm_facets.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
@@ -102,29 +106,8 @@ tm_facets = function(by = NULL,
 		pages = along
 	}
 
-	if (!is.null(by)) {
-		if (is.na(type)) type = "wrapstack"
-		rows = NULL
-		columns = NULL
-		pages = NULL
-	}
-
-	if (!is.null(pages)) {
-		if (is.na(type)) {
-			if (!is.null(rows) || !is.null(columns)) {
-				type = "grid"
-				by = NULL
-			} else {
-				type = "wrapstack"
-				rows = NULL
-				columns = NULL
-			}
-		}
-	}
-
 	if (!is.null(rows) || !is.null(columns)) {
-		if (is.na(type)) type = "grid"
-		by = NULL
+		type = "grid"
 	}
 
 	x = tm_element_list(tm_element(
@@ -132,6 +115,7 @@ tm_facets = function(by = NULL,
 		by = by,
 		rows = rows,
 		columns = columns,
+		pages = pages,
 		as.layers = as.layers,
 		pages = pages,
 		nrows = nrow,
@@ -191,51 +175,42 @@ tm_facets_wrap = function(by = "VARS__",
 #' @export
 #' @rdname tm_facets
 tm_facets_pagewise = function(by = "VARS__",
-						  nrow = 1,
-						  ncol = 1,
-						  byrow = TRUE,
-						  ...) {
-	args = list(...)
-	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
-
-	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page"), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = args_called
-	tm
-}
-
-#' @export
-#' @rdname tm_facets
-tm_facets_animate2 = function(by = "VARS__",
-							  nrow = 1,
-							  ncol = 1,
 							  byrow = TRUE,
-							  animate = TRUE,
 							  ...) {
 	args = list(...)
-	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
+	args_called = names(rlang::call_match()[-1])
 
-	tm = do.call("tm_facets", c(list(by = by, nrow = nrow, ncol = ncol, byrow = byrow, type = "page", animate = animate), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(pages = by, byrow = byrow, type = NA), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm
 }
 
 #' @export
 #' @rdname tm_facets
-tm_facets_animate = function(nframes = 60,
-							 fps = 30,
-							 play = c("loop", "pingpong", "once"),
-							 by = NULL,
-							 rows = NULL,
-							 columns = NULL,
-							 pages = "VARS__",
-							 nrow = NA,
-							 ncol = NA,
-							 byrow = TRUE,
-							 ...) {
+tm_facets_animate = function(by = "VARS__",
+							  nframes = 60,
+							  fps = 30,
+							  play = c("loop", "pingpong", "once"),
+							  ...) {
 	args = list(...)
-	args_called = unique(c(names(rlang::call_match()[-1]), "nrow", "ncol"))
+	args_called = names(rlang::call_match()[-1])
 
-	tm = do.call("tm_facets", c(list(by = by, pages = pages, nrow = nrow, ncol = ncol, byrow = byrow, nframes = nframes, fps = fps, play = play, type = NA), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(pages = by, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play), args[setdiff(names(args), "type")]))
+	tm[[1]]$calls = args_called
+	tm
+}
+
+#' @export
+#' @rdname tm_facets
+tm_facets_animate_slow = function(by = "VARS__",
+								   nframes = 60,
+								   fps = 2,
+								   play = c("loop", "pingpong", "once"),
+							  ...) {
+	args = list(...)
+	args_called = names(rlang::call_match()[-1])
+
+	tm = do.call("tm_facets", c(list(pages = by, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm
 }

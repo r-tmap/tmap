@@ -21,12 +21,6 @@ process_components = function(cdt, o) {
 	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
 	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) NA_integer_ else x})
 
-	# to make sure legends positions are based on one-facet-per-page
-	if (o$type == "page") {
-		cdt[, by3__ := by1__]
-		cdt[, by1__ := NA]
-	}
-
 
 	if (gs != "Grid") {
 		cdt[class == "out", class := "in"]
@@ -174,16 +168,6 @@ process_components2 = function(cdt, o) {
 			ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)),
 			ifelse(cell.h == "by", as.character(by2__),
 			ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
-	if (o$type == "page") {
-		cdt[cell.v == "by", facet_row := "1"]
-		cdt[cell.h == "by", facet_col := "1"]
-	}
-
-	if (o$type == "page") {
-		cdt[, by1__ := by3__]
-		cdt[, by3__ := NA]
-	}
-
 
 	cdt
 }
@@ -401,7 +385,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		d = d[!is.na(asp)]
 
 
-		if (!(o$type %in% c("grid", "page")) && !is.na(o$nrows) && !is.na(o$ncols)) {
+		if (o$type != "grid" && !is.na(o$nrows) && !is.na(o$ncols)) {
 			# limit facets
 			n_lim = limit_nx(o$n)
 			if (n_lim != o$n) {
@@ -524,36 +508,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		}
 		d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 
-
-		### facet.flip and reverse
-		# if (o$facet.flip) {
-		# 	labcols= o$panel.labels[[1]]
-		# 	labrows = o$panel.labels[[2]]
-		# 	nr = o$nrows
-		# 	o$nrows = o$ncols
-		# 	o$ncols = nr
-		# } else {
-		# 	labrows = o$panel.labels[[1]]
-		# 	labcols = o$panel.labels[[2]]
-		# }
-		#
-
-
-		# # reverse if specified (with '-' in front of row/col/page variable name in tm_facets)
-		# if (o$rev1) {
-		# 	labs1 = o$panel.labels[[1]]
-		# 	d[, by1:=(1L+length(labs1)) - by1]
-		# 	o$panel.labels[[1]] = structure(rev(labs1), showNA = attr(labs1, "showNA"))
-		# }
-		# if (o$rev2) {
-		# 	labs2 = o$panel.labels[[2]]
-		# 	d[, by2:=(1L+length(labs2)) - by2]
-		# 	o$panel.labels[[2]] = rev(labs2)
-		# }
-		# if (o$rev3) {
-		# 	d[, by3:=(1L+max(by3)) - by3]
-		# }
-		#
 	}
 
 
@@ -712,10 +666,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 		for (i in seq_len(nrow(d))) {
 			bbx = d$bbox[[i]]
-			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 			if (is.na(d$asp[i])) next
 			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-
 
 			# plot grid labels
 			if (o$grid.show && !o$grid.labels.inside_frame) {
@@ -885,11 +838,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 	toI = function(x) {
 		as.integer(strsplit(x, split = "_")[[1]])
-	}
-
-	if (o$type == "page") {
-		# to fix #1027
-		cdt$page = d$page[match(cdt$by1__, d$by1)]
 	}
 
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {

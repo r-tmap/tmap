@@ -310,90 +310,72 @@ step1_rearrange_facets = function(tmo, o) {
 		if (split_stars_dim != "") {
 			smeta = tmapGetShapeMeta1(shp, o)
 			if (dev) timing_add(s3 = "get_shape_meta1_2")
-
 		}
 
 		nrsd = length(smeta$dims) # number of required shape dimensions
 		nrvd = as.integer(vn > 1L) # number of required variable dimensions (0 or 1)
 		nrd = nrsd + nrvd # number of required by-dimensions
 
+		trans_animate = !is.null(.TMAP$animate)
+
+		nad = as.integer(animate)
+
 		tmg$tmf = within(tmg$tmf, {
-
-
-
-			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
-
-
-			if (!is.null(.TMAP$animate) && nrvd <= 2L) {
-				by3 = "FRAME__"
-			} else {
-				by3 = NULL
-			}
-
-
-			if (type %in% c("wrapstack", "wrap", "stack", "page")) {
-				rev1 = is_rev(by)
-				rev2 = FALSE
-				rev3 = FALSE
-
-				by1 = if (rev1) remove_min(by) else by
-				by2 = NULL
-
-
-
-				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
-
-
-
-				if (nrd > 1L) {
-					if (nrsd > 1L) stop("Cannot use tm_facets_wrap/tm_facets_stack, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
-					# so there is exactly 1 shape dim
-					nrvd = 0L
-					nrd = 1L
-					if (nsbd == 1L) {
-						warning("by variable specified and multiple variables while there is a shape dimensions which cannot be ignored. The by variable will therefore be ignored. Also, only the first variable is shown. Use tm_facet_grid to show multiple variables", call. = FALSE)
-					}
-					by1 = NULL
-					limitvars = TRUE
-				} else if (nrd == 1L) {
-					if (nrsd == 1L) {
-						if (nsbd == 1L) {
-							warning("by variable specified while there is a shape dimension which cannot be ignored. The by variable will therefore be ignored", call. = FALSE)
-						}
-						by1 = NULL
-						limitvars = FALSE
-					} else {
-						if (nsbd == 1L) {
-							warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a 'by'-variable", call. = FALSE)
-							nrvd = 0L
-							limitvars = TRUE
-						} else {
-							limitvars = FALSE
-						}
-					}
-				} else {
-					limitvars = FALSE
-				}
-				if (is.null(by1)) {
-					by1 = if (nrsd == 1L) {
-						smeta$dims[1]
-					} else {
-						"VARS__"
-					}
-					if (!is.null(.TMAP$animate)) {
-
-
-						#by3 = by1
-						#by1 = NULL
-						#nrows = 1
-						#ncols = 1
-					}
-				}
-
-			} else {
 				by1 = rows
 				by2 = columns
 				by3 = pages
+
+				if (trans_animate) {
+					if (is.null(by3)) {
+						by3 = "FRAME__"
+					} else {
+						if (by3 == "VARS__") {
+							if (nrvd == 0) {
+								by3 = "FRAME__"
+							} else {
+								if (is.null(by1)) {
+									by1 = "VARS__"
+									by3 = "FRAME__"
+								} else if (is.null(by2)) {
+									by2 = "VARS__"
+									by3 = "FRAME__"
+								} else {
+									ani = names(.TMAP$animate)
+									cli::cli_abort("transformation animation for variable {.val {ani}} cannot be used when pages is already specified to multiple variables")
+								}
+
+							}
+						} else {
+							ani = names(.TMAP$animate)
+							cli::cli_abort("transformation animation for variable {.val {ani}} cannot be used when pages is already specified to {.val {by3}}")
+						}
+					}
+				}
+
+
+
+				# if (animate) {
+				# 	if (!is.null(by3) {
+				#
+				# 		if (nrvd == 1) {
+				#
+				# 	} else if ()
+				#
+				# 	}
+				# }
+
+
+				if (!is.null(by)) {
+					if (is.null(by1)) {
+						by1 = by
+					} else if (is.null(by2)) {
+						by2 = by
+					} else if (is.null(by3)) {
+						by3 = by
+					} else {
+						stop("Too many dimensions") # quick&dirty, to do: move to other checks
+					}
+				}
 
 				rev1 = is_rev(by1)
 				rev2 = is_rev(by2)
@@ -402,6 +384,8 @@ step1_rearrange_facets = function(tmo, o) {
 				if (rev1) by1 = remove_min(by1)
 				if (rev2) by2 = remove_min(by2)
 				if (rev3) by3 = remove_min(by3)
+
+
 
 
 				if (nrd > 3L) {
@@ -434,7 +418,7 @@ step1_rearrange_facets = function(tmo, o) {
 					}
 				}
 
-			}
+			# }
 
 			bys = c(by1, by2, by3)
 			if (length(bys)) {
@@ -443,6 +427,11 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 			if (!all(bys %in% c("VARS__", "FRAME__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
 			if (is.na(na.text)) na.text = o$label.na
+
+			if (is.na(type)) {
+				type = if (!is.null(by1) && !is.null(by2)) "grid" else "wrapstack"
+			}
+
 		})
 
 		smeta$vars = get("used_vars", envir = .TMAP)
@@ -475,7 +464,7 @@ step1_rearrange_facets = function(tmo, o) {
 				byi = get(paste0("by", i))
 				if (!is.null(byi)) {
 					if (byi == "FRAME__") {
-						gl[i] = list(1:nframes)
+						gl[i] = list(NULL)
 						gn[i] = as.integer(nframes)
 					} else
 					if (byi == "VARS__") {
@@ -492,7 +481,7 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 			if (is.na(free.coords)) {
-				if (type %in% c("wrapstack", "wrap", "stack", "page")) {
+				if (type %in% c("wrapstack", "wrap", "stack")) {
 					free.coords = rep(!any(c(by1, by2, by3) == "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
@@ -502,12 +491,9 @@ step1_rearrange_facets = function(tmo, o) {
 			}
 
 
-			#v = which(c(by1, by2, by3) == "VARS__")
-			v = which(c(by1, by2, by3) %in% c("VARS__"))
+			v = which(vapply(list(by1, by2, by3), identical, FUN.VALUE = logical(1), "VARS__"))
 
 			b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
-
-			#n = length(v) + length(b)
 
 			by123 = paste0("by", 1L:3L)
 			by123__ = paste0("by", 1L:3L, "__")

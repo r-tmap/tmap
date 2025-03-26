@@ -60,6 +60,7 @@ tmap_mode = function(mode = NULL) {
 	if (is.null(mode)) {
 		cli::cli_inform(c(
 			"i" = "Current tmap mode is {.val {current.mode}}.",
+			"i" = "Other mode{if (length(modes)>2) 's' else ''}: {.val {setdiff(modes, current.mode)}}.",
 			"i" = "Call {.run tmap::ttm()} to switch mode."
 		))
 	} else {

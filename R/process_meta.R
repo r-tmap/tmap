@@ -38,23 +38,25 @@ preprocess_meta = function(o, cdt) {
 	within(o, {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)
-		n = prod(nby)          # total number of facets
-		npp = prod(nby[1L:2L]) # number of facets per page
 
 		if (is.na(panel.type)) panel.type = if (identical(panel.show, FALSE)) {
 			"none"
 		} else if (identical(panel.show, TRUE)) {
 			# force panel labels
-			if (type %in% c("wrap", "stack", "page") || (npp == 1)) {
+			if (type %in% c("wrap", "stack") || (npp == 1)) {
 				"wrap"
 			} else {
 				"xtab"
 			}
 		} else if ((npp == 1) && is.na(panel.labels[[1]])) {
-			"none"
+			if (n > 1) {
+				"wrap"
+			} else {
+				"none"
+			}
 		} else if (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]) {
 			"none"
-		} else if ((type %in% c("wrap", "stack", "page")) || (npp == 1)) {
+		} else if ((type %in% c("wrap", "stack")) || (npp == 1)) {
 			"wrap"
 		} else {
 			"xtab"
@@ -72,7 +74,7 @@ preprocess_meta = function(o, cdt) {
 			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE, per_facet = FALSE)
 			legend.present.fix = rep(FALSE, 4)
 		} else {
-			if (type %in% c("wrap", "stack", "page")) {
+			if (type %in% c("wrap", "stack")) {
 				#o$legend.present.auto = c(all = any(is.na(cdt$by1__) & cdt$class == "autoout"), per_row = any(!is.na(cdt$by1__) & cdt$class == "autoout"), per_col = FALSE)
 				legend.present.auto = c(all = any(cdt$class == "autoout" & is.na(cdt$by1__)),
 										per_row = FALSE, per_col = FALSE,
@@ -333,7 +335,7 @@ process_meta = function(o, d, cdt, aux) {
 
 
 		if (gs == "Grid") {
-			if (type %in% c("stack", "page")) {
+			if (type =="stack") {
 				if (is.na(orientation)) {
 					if (nrow(cdt)) {
 						legs_auto = cdt[class=="autoout"]
@@ -342,7 +344,9 @@ process_meta = function(o, d, cdt, aux) {
 					}
 
 
-					if (nrow(legs_auto) && (type == "page" || n == 1)) {
+
+					if (nrow(legs_auto) && npp == 1) {
+
 
 						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto_margins[c(2,4)]))
 						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto_margins[c(1,3)]))
@@ -495,9 +499,6 @@ process_meta = function(o, d, cdt, aux) {
 		if (type %in% c("grid", "anigrid")) {
 			nrows = nby[1]
 			ncols = nby[2]
-		} else if (type %in% c("page")) {
-			if (is.na(nrows)) nrows = 1
-			if (is.na(ncols)) ncols = 1
 		} else if (type %in% c("stack", "anistack")) {
 			if (orientation == "horizontal") {
 				nrows = 1
@@ -550,22 +551,24 @@ process_meta = function(o, d, cdt, aux) {
 		# panel.label.size = panel.label.size * scale
 
 
-		# update panel labels
 		if (is.na(panel.labels[1])) {
-			panel.labels = fl[1:2]
+			# quick fix
+			# to do: checks
+			panel.labels = fl[1:3]
 		} else {
-			if (!is.list(panel.labels)) panel.labels = list(panel.labels, "")
-			panel.labels = mapply(FUN = function(p, f) {
-				if (is.null(f)) {
-					if (length(p) > 1) warning("the number of supplied panel labels is", length(p), "but only one is supported because no facets are defined", call. = FALSE)
-					p[1]
-				} else {
-					if (length(p[p!=""]) != length(f)) warning("the number of supplied panel labels does not correspond to the number of panels", call. = FALSE)
-					rep_len(p, length(f))
-				}
-			}, panel.labels, fl[1:2], SIMPLIFY = FALSE)
+			if (!is.list(panel.labels)) {
+				panel.labels = list(panel.labels, NULL)
+			}
 		}
-
+		if (type %in% c("stack", "wrap")) {
+			if (!is.null(panel.labels[[1]])) {
+				panel.labels.dim = 1
+			} else if (!is.null(panel.labels[[3]])) {
+				panel.labels.dim = 3
+			} else {
+				panel.type = "none"
+			}
+		}
 
 
 
