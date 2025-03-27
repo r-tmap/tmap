@@ -71,7 +71,7 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 
 	even = if (gif) round else {
 		function(x) round(x / 2) *2
-	} # av requires height to be divisible by 2
+	} # av requires dimensions to be divisible by 2
 
 
 	if (inherits(tm, "tmap_arrange") || (is.list(tm) && !inherits(tm, "tmap"))) {
@@ -79,6 +79,10 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 		if (progress) pb = txtProgressBar()
 
 		if (is.na(width) || is.na(height)) stop("The arguments width and height need to be specified both.")
+
+		width = even(width)
+		height = even(height)
+
 		for (i in 1:length(tm)) {
 			if (progress) setTxtProgressBar(pb, i/length(tm))
 			tmi = tm[[i]]
@@ -90,15 +94,18 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 			sasp <- get_asp_ratio(tm, width = 700, height = 700, res = dpi)
 
 			if (is.na(width) && is.na(height)) {
-				height <- even(sqrt(.tmapOptions$output.size / sasp) * dpi)
-				width <- round(height * sasp)
+				height <- sqrt(.tmapOptions$output.size / sasp) * dpi
+				width <- height * sasp
 			} else if (is.na(width)) {
-				width = round(height * sasp)
+				width = height * sasp
 			} else {
-				height = even(width / sasp)
+				height = width / sasp
 			}
 		}
-		if (!gif) height = even(height)
+
+		# round and in case of av to even numbers
+		width = even(width)
+		height = even(height)
 
 		suppressMessages(tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height, dpi=dpi, outer.margins=outer.margins, asp=asp, scale=scale))
 	} else {
@@ -130,6 +137,7 @@ create_animation = function(filename, files, width = NA, height = NA, delay = 40
 					   loop = loop)
 	} else {
 		args = list(...)
+		args = args[intersect(names(args), names(formals(av::av_encode_video)))]
 		if (!("verbose" %in% names(args))) args$verbose = FALSE
 		do.call(av::av_encode_video,
 				c(list(files,

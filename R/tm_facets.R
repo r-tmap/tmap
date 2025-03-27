@@ -1,10 +1,10 @@
 #' Specify facets
 #'
 #' @description
-#' * `tm_facets_wrap()` specify facets for one grouping variable (so one faceting dimension).
+#' * `tm_facets_wrap()` specify facets for one grouping variable (so one faceting dimension)
 #' * `tm_facets_(hv)stack()` stacks the facets either horizontally or vertically (one grouping variable).
-#' * `tm_facets_grid()` supports up to three faceting dimensions.
-#' * `tm_facets_pagewise()` can be used to replace the old `along` argument.
+#' * `tm_facets_grid()` specify facets for two grouping variables in a grid of rows and columns.
+#' * `tm_facets_pagewise()` same as wrap, but the facets are drawn on different plots (pages). Replaces the `along` argument from version 3.
 #' * `tm_facets_flip()` can be used to flip facets.
 #' * `tm_facets()` is the core function, but it is recommended to use the other functions.
 #'
@@ -44,13 +44,9 @@
 #'   especially text, are often too small to read, a higher value is recommended.
 #'   By default, `scale.factor = 2`.
 #' @param type `"grid"`, `"wrap"` or `"stack"`
-#' @param along deprecated Please use `tm_facets_pagewise()`
 #' @param free.scales deprecated. Please use the `.free` arguments in the layer functions, e.g. `fill.free` in `tm_polygons`.
-#' @param animate in case of 'pages' are used: should facets be shown as a (gif) animation, or plotted on multiple pages? `FALSE` by default
-#' @param nframes number of animation frames
-#' @param fps frames per second. Default: 30 for `tm_facets_animate` and 2 for `tm_facets_animate_slow`.
-#' @param play how should the animation be played? One of `"loop"`, `"pingpong"`, and `"once"`
 #' @param ... used to catch deprecated arguments
+#' @seealso [tm_animate()]
 #' @example ./examples/tm_facets.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
 #' @export
@@ -70,19 +66,12 @@ tm_facets = function(by = NULL,
 					 sync = TRUE,
 					 na.text = NA,
 					 scale.factor=2,
-					 type = NA, # grid, wrap or stack
-					 along = NULL,
+					 type = NA,
 					 free.scales = NULL,
-					 animate = FALSE,
-					 nframes = 60,
-					 fps = 30,
-					 play = c("loop", "pingpong", "once"),
 					 ...) {
 
 	args = list(...)
 	args_called = names(rlang::call_match()[-1])
-
-	play = match.arg(play)
 
 	if (any(v3_only("tm_facets") %in% names(args))) {
 		layer_fun = "facets"
@@ -100,10 +89,18 @@ tm_facets = function(by = NULL,
 
 	}
 
+	if (!("animate" %in% args_called)) {
+		args$animate = FALSE
+		#dummy values:
+		args$nframes = 60L
+		args$fps = 30L
+		args$play = "loop"
+	}
 
-	if (!is.null(along)) {
+
+	if ("along" %in% args_called) {
 		warning("The 'along' argument of 'tm_facets()' is deprecated as of tmap 4.0. Please use 'pages' instead.", call. = FALSE)
-		pages = along
+		pages = args$along
 	}
 
 	if (!is.null(rows) || !is.null(columns)) {
@@ -128,10 +125,10 @@ tm_facets = function(by = NULL,
 		sync = sync,
 		na.text = na.text,
 		scale.factor = scale.factor,
-		animate = animate,
-		nframes = as.integer(nframes),
-		fps = as.integer(fps),
-		play = play,
+		animate = args$animate,
+		nframes = as.integer(args$nframes),
+		fps = as.integer(args$fps),
+		play = args$play,
 		calls = args_called,
 		subclass = "tm_facets"))
 
@@ -181,36 +178,6 @@ tm_facets_pagewise = function(by = "VARS__",
 	args_called = names(rlang::call_match()[-1])
 
 	tm = do.call("tm_facets", c(list(pages = by, byrow = byrow, type = NA), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = args_called
-	tm
-}
-
-#' @export
-#' @rdname tm_facets
-tm_facets_animate = function(by = "VARS__",
-							  nframes = 60,
-							  fps = 30,
-							  play = c("loop", "pingpong", "once"),
-							  ...) {
-	args = list(...)
-	args_called = names(rlang::call_match()[-1])
-
-	tm = do.call("tm_facets", c(list(pages = by, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = args_called
-	tm
-}
-
-#' @export
-#' @rdname tm_facets
-tm_facets_animate_slow = function(by = "VARS__",
-								   nframes = 60,
-								   fps = 2,
-								   play = c("loop", "pingpong", "once"),
-							  ...) {
-	args = list(...)
-	args_called = names(rlang::call_match()[-1])
-
-	tm = do.call("tm_facets", c(list(pages = by, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm
 }

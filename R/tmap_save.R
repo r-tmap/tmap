@@ -227,6 +227,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 		if (!is.na(outer.margins[1])) args$outer.margins = outer.margins
 		if (!missing(asp)) args$asp = asp
 		if (!is.na(scale)) args$scale = scale
+		args$animate_disable = TRUE
 		print(tm + do.call("tm_options", args))
 	}
 
@@ -325,6 +326,7 @@ plot_device = function(device, ext, filename, dpi, units_target){
 		png = function(..., width, height)
 				grDevices::png(
 					...,
+					type = "cairo-png", # several advantages, main: default "cairo" doesn't respect width and height (breaks av animations)
 					width = width,
 					height = height,
 					res = dpi,

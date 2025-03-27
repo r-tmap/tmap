@@ -1,7 +1,7 @@
 tmapGridRun = function(o, q, show, knit, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
-		ani = o$animate || o$trans_animate # animate is multiple variables/facets, trans_animate for transition animation only
+		ani = is.null(o$animate_disable) && (o$animate || o$trans_animate) # animate is multiple variables/facets, trans_animate for transition animation only
 		if (ani) {
 			d <- paste(tempdir(), "/tmap_plots", sep="/")
 			dir.create(d, showWarnings = FALSE)
@@ -36,7 +36,7 @@ tmapGridRun = function(o, q, show, knit, args) {
 	}
 	if (length(gts) == 1) gts = gts[[1]]
 
-	if (ani) {
+	if (show && ani) {
 		files = list.files(path = d, pattern = "^plot[0-9]{3}\\.png$", full.names = TRUE)
 		if (o$play == "pingpong") files = c(files, rev(files))
 		filename = tempfile(fileext = ".gif")

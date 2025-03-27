@@ -5,8 +5,6 @@
 \alias{tm_facets_grid}
 \alias{tm_facets_wrap}
 \alias{tm_facets_pagewise}
-\alias{tm_facets_animate}
-\alias{tm_facets_animate_slow}
 \alias{tm_facets_stack}
 \alias{tm_facets_hstack}
 \alias{tm_facets_vstack}
@@ -31,12 +29,7 @@ tm_facets(
   na.text = NA,
   scale.factor = 2,
   type = NA,
-  along = NULL,
   free.scales = NULL,
-  animate = FALSE,
-  nframes = 60,
-  fps = 30,
-  play = c("loop", "pingpong", "once"),
   ...
 )
 
@@ -45,22 +38,6 @@ tm_facets_grid(rows = NULL, columns = NULL, pages = NULL, ...)
 tm_facets_wrap(by = "VARS__", nrow = NA, ncol = NA, byrow = TRUE, ...)
 
 tm_facets_pagewise(by = "VARS__", byrow = TRUE, ...)
-
-tm_facets_animate(
-  by = "VARS__",
-  nframes = 60,
-  fps = 30,
-  play = c("loop", "pingpong", "once"),
-  ...
-)
-
-tm_facets_animate_slow(
-  by = "VARS__",
-  nframes = 60,
-  fps = 2,
-  play = c("loop", "pingpong", "once"),
-  ...
-)
 
 tm_facets_stack(by = "VARS__", orientation = NA, ...)
 
@@ -124,26 +101,16 @@ By default, \code{scale.factor = 2}.}
 
 \item{type}{\code{"grid"}, \code{"wrap"} or \code{"stack"}}
 
-\item{along}{deprecated Please use \code{tm_facets_pagewise()}}
-
 \item{free.scales}{deprecated. Please use the \code{.free} arguments in the layer functions, e.g. \code{fill.free} in \code{tm_polygons}.}
-
-\item{animate}{in case of 'pages' are used: should facets be shown as a (gif) animation, or plotted on multiple pages? \code{FALSE} by default}
-
-\item{nframes}{number of animation frames}
-
-\item{fps}{frames per second. Default: 30 for \code{tm_facets_animate} and 2 for \code{tm_facets_animate_slow}.}
-
-\item{play}{how should the animation be played? One of \code{"loop"}, \code{"pingpong"}, and \code{"once"}}
 
 \item{...}{passed on to \code{tm_facets()}}
 }
 \description{
 \itemize{
-\item \code{tm_facets_wrap()} specify facets for one grouping variable (so one faceting dimension).
+\item \code{tm_facets_wrap()} specify facets for one grouping variable (so one faceting dimension)
 \item \verb{tm_facets_(hv)stack()} stacks the facets either horizontally or vertically (one grouping variable).
-\item \code{tm_facets_grid()} supports up to three faceting dimensions.
-\item \code{tm_facets_pagewise()} can be used to replace the old \code{along} argument.
+\item \code{tm_facets_grid()} specify facets for two grouping variables in a grid of rows and columns.
+\item \code{tm_facets_pagewise()} same as wrap, but the facets are drawn on different plots (pages). Replaces the \code{along} argument from version 3.
 \item \code{tm_facets_flip()} can be used to flip facets.
 \item \code{tm_facets()} is the core function, but it is recommended to use the other functions.
 }
@@ -168,5 +135,7 @@ tm_layout(panel.labels = c("Gender Inequality Index (GII)", "World Press Freedom
 }
 }
 \seealso{
+\code{\link[=tm_animate]{tm_animate()}}
+
 \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
 }
