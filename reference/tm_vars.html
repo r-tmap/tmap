@@ -82,7 +82,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_vars</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NA</span>, dimvalues <span class="op">=</span> <span class="cn">NULL</span>, n <span class="op">=</span> <span class="cn">NA</span>, multivariate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_vars</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dimvalues <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  multivariate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  animate <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -103,6 +109,10 @@
 
 <dt id="arg-multivariate">multivariate<a class="anchor" aria-label="anchor" href="#arg-multivariate"></a></dt>
 <dd><p>in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate visual variable?</p></dd>
+
+
+<dt id="arg-animate">animate<a class="anchor" aria-label="anchor" href="#arg-animate"></a></dt>
+<dd><p>should the variable(s) be animated? (experimental)</p></dd>
 
 </dl></div>
 
