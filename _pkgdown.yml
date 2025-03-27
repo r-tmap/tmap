@@ -35,9 +35,10 @@ reference:
   - tm_text
   - tm_iso
   - tm_sf
-- title: Specify facets
+- title: Specify facets and animations
   contents:
   - tm_facets
+  - tm_animate
 - title: Add auxiliary map layers
   contents:
   - tm_tiles
