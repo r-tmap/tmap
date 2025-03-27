@@ -16,7 +16,7 @@ tmapGridRun = function(o, q, show, knit, args) {
 
 		mapply(function(gt,i) {
 			if (ani) {
-				png(paste0(d, "/plot", sprintf("%03d", i), ".png"), width = devsize[1], height = devsize[2], res = 72, type = "cairo")
+				png(paste0(d, "/plot", sprintf("%03d", i), ".png"), width = devsize[1], height = devsize[2], res = 72, type = "cairo-png")
 				grid::grid.newpage()
 			} else {
 				if (is.null(o$vp) && i != 1L) grid::grid.newpage()
