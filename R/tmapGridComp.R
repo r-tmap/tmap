@@ -204,9 +204,10 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
  		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
 	} else NULL
 
-	align_comp = FALSE # needs to an argument/option be somethere #1053
+	equalize = comp[[1]]$equalize
 
-	if (align_comp) {
+
+	if (equalize) {
 		if (stack == "horizontal") {
 			legFH = grid::unit(1, "npc")
 			legFW = legW
@@ -233,7 +234,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 		}
 		gridCell(iH, iW, {
 			grid::gList(
-				if (align_comp) {
+				if (equalize) {
 					grid::grobTree(frame, vp = grid::viewport(width = fW, height = fH))
 				} else {
 					grid::grobTree(frame, vp = grid::viewport(x = x, y = y, width = fW, height = fH))
@@ -319,13 +320,13 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		component.offset.h = 0
 		component.offset.v = 0
 	} else {
-		component.offset.h = get_option_class(o$component.offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
-		component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+		component.offset.h = get_option_class(comp[[1]]$offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
+		component.offset.v = get_option_class(comp[[1]]$offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
 	}
 
 	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
 	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
-	marginIn = o$component.stack_margin * o$lin
+	marginIn = comp[[1]]$stack_margin * o$lin
 
 	marginInTot = (n - 1L) * marginIn
 	offsetInTot.h  = 2 * offsetIn.h

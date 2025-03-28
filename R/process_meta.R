@@ -422,7 +422,7 @@ process_meta = function(o, d, cdt, aux) {
 				}
 
 
-				stacks = o$legend.stack
+				stacks = o$component.stack
 
 				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.all$cell.h, cell.v = legend.position.all$cell.v)]
 				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.sides$cell.h, cell.v = "by")]

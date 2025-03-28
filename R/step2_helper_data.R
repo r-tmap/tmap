@@ -17,7 +17,25 @@ update_l = function(o, l, v, mfun, unm, active) {
 
 	if ("position" %in% names(l)) l$position = process_position(l$position, o)
 
+
 	l = complete_options(l, oleg)
+
+
+	# general component options
+	ot2 = get_prefix_opt(class = "tm_component", o = o)
+	ot2$position = NULL
+	l = complete_options(l, ot2)
+
+	# override with tm_comp_group
+	comp_grp = paste("component", l$position$pos.h, l$position$pos.v, sep = "_")
+
+	if (comp_grp %in% names(o)) {
+		oc = o[[comp_grp]]
+		oc$pos.h = NULL
+		oc$pos.v = NULL
+		l[names(oc)] = oc
+	}
+
 	l$call = call
 	l$mfun = mfun
 	l$unm = unm
@@ -42,6 +60,13 @@ update_crt = function(o, crt, v, mfun, unm, active) {
 	if ("position" %in% names(crt)) crt$position = process_position(crt$position, o)
 
 	crt = complete_options(crt, ocrt)
+
+
+	# general component options
+	ot2 = get_prefix_opt(class = "tm_component", o = o)
+	ot2$position = NULL
+	crt = complete_options(crt, ot2)
+
 	crt$call = call
 	crt$mfun = mfun
 	crt$unm = unm

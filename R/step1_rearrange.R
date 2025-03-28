@@ -403,7 +403,6 @@ process_position = function(position, o) {
 		if (exists("just.v")) just.v = check_v(just.v, "just", h_is_num = is.numeric(just.h))
 	})
 
-	position
 }
 
 process_padding = function(padding) {
