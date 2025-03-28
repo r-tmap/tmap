@@ -135,11 +135,11 @@ transwarp = function(x, crs, raster.warp) {
 				stars::st_warp(x, crs = crs)
 			}
 		}, error = function(e) {
-			warning("Unable to warp stars. Stars will be transformed now (which will take some time).", call. = FALSE)
+			cli::cli_warn(c("!" = "Unable to warp stars. Stars will be transformed now (which will take some time)."))
 			tryCatch({
 				sf::st_transform(x, crs = crs)
 			}, error = function(e) {
-				stop("Also unable to transform stars", call. = FALSE)
+				cli::cli_abort("Also unable to transform stars", call = NULL)
 			})
 		})
 	} else {

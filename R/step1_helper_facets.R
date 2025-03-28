@@ -251,7 +251,7 @@ step1_rearrange_facets = function(tmo, o) {
 				split_stars_dim = get_split_stars_dim(mapping.aes)
 
 		        if (length(hover) > 1) {
-		          stop("hover should have length <= 1", call. = FALSE)
+		          cli::cli_abort("hover should have length <= 1, not {length(hover)}.", call = NULL)
 		        }
 
 				if (is.na(hover)) {
@@ -389,7 +389,7 @@ step1_rearrange_facets = function(tmo, o) {
 
 
 				if (nrd > 3L) {
-					if (nrsd > 3L) stop("The shape object has more than 3 dimensions, so even tm_facets_grid cannot be used.", call. = FALSE)
+					if (nrsd > 3L) cli::cli_abort("The shape object has more than 3 dimensions, so even {.fn tm_facets_grid} cannot be used.")
 					nrvd = 0L
 					nrd = 3L
 					limitvars = TRUE
@@ -443,7 +443,7 @@ step1_rearrange_facets = function(tmo, o) {
 			for (v in convert2density) {
 				sunit = tmg$tms$unit
 				if (is.null(sunit)) sunit = o$unit
-				shape.unit <- ifelse(sunit=="metric", "km", ifelse(sunit=="imperial", "mi", sunit))
+				shape.unit <- ifelse(sunit == "metric", "km", ifelse(sunit == "imperial", "mi", sunit))
 				u = paste(shape.unit, shape.unit)
 				if (is.numeric(shp[[v]])) shp[[v]] = shp[[v]] / units::set_units(shp$AREA, u, mode = "standard")
 			}

@@ -20,13 +20,21 @@ check_fix = function(sfc, shp_name, reproj, messages) {
 				sf::st_make_valid(sfc)
 			}, error = function(e) {
 				suppressMessages(sf::sf_use_s2(s2))
-				warning("Unable to make ", shp_name, " valid. Invalid geometries are left out", call. = FALSE)
+				cli::cli_warn(c(
+					"Unable to make {.code {shp_name}} valid.",
+					i = "Invalid geometries are left out"
+				))
 				isv = which(sf::st_is_valid(sfc))
 				sfc = sfc[isv]
 				attr(sfc, "is_valid") = isv
 				sfc
 			})
-			if (messages) message("Shape ", shp_name, " has been fixed with s2 = ", !s2, ". If the map doesn't look correct, please run sf::sf_use_s2(", !s2, ") before running the tmap code again.")
+			if (messages) {
+				cli::cli_inform(c(
+					"Shape {shp_name} has been fixed with {.code s2 = {!s2}.",
+					"If the map doesn't look correct, please run {.code sf::sf_use_s2({!s2})} before running the tmap code again."
+				))
+			}
 
 		}
 	}
