@@ -20,9 +20,7 @@ tm_chart_histogram = function(breaks,
 							  width,
 							  height,
 							  stack,
-							  z,
-							  group.frame,
-							  resize_as_group) {
+							  z) {
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
@@ -42,9 +40,7 @@ tm_chart_bar = function(plot.axis.x,
 						width,
 						height,
 						stack,
-						z,
-						group.frame,
-						resize_as_group) {
+						z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -61,9 +57,7 @@ tm_chart_donut = function(position,
 						  width,
 						  height,
 						  stack,
-						  z,
-						  group.frame,
-						  resize_as_group) {
+						  z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -79,9 +73,7 @@ tm_chart_violin = function(position,
 						   width,
 						   height,
 						   stack,
-						   z,
-						   group.frame,
-						   resize_as_group) {
+						   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -97,9 +89,7 @@ tm_chart_box = function(position,
 					    width,
 					    height,
 					    stack,
-					    z,
-					    group.frame,
-					    resize_as_group) {
+					    z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_
@@ -123,9 +113,7 @@ tm_chart_heatmap = function(position,
 							width,
 							height,
 							stack,
-							z,
-							group.frame,
-							resize_as_group) {
+							z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	if (!("z" %in% (names(args)))) args$z = NA_integer_

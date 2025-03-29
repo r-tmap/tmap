@@ -102,8 +102,6 @@
 #' @param legend.width `r .doc_opt("legend.width")`
 #' @param legend.height `r .doc_opt("legend.height")`
 #' @param legend.stack `r .doc_opt("legend.stack")`
-#' @param legend.group.frame `r .doc_opt("legend.group.frame")`
-#' @param legend.resize_as_group `r .doc_opt("legend.resize_as_group")`
 #' @param legend.reverse `r .doc_opt("legend.reverse")`
 #' @param legend.na.show `r .doc_opt("legend.na.show")`
 #' @param legend.title.color `r .doc_opt("legend.title.color")`
@@ -142,8 +140,6 @@
 #' @param chart.width `r .doc_opt("chart.width")`
 #' @param chart.height `r .doc_opt("chart.height")`
 #' @param chart.stack `r .doc_opt("chart.stack")`
-#' @param chart.group.frame `r .doc_opt("chart.group.frame")`
-#' @param chart.resize_as_group `r .doc_opt("chart.resize_as_group")`
 #' @param chart.reverse `r .doc_opt("chart.reverse")`
 #' @param chart.na.show `r .doc_opt("chart.na.show")`
 #' @param chart.title.color `r .doc_opt("chart.title.color")`
@@ -186,8 +182,6 @@
 #' @param title.stack `r .doc_opt("title.stack")`
 #' @param title.position `r .doc_opt("title.position")`
 #' @param title.width `r .doc_opt("title.width")`
-#' @param title.group.frame `r .doc_opt("title.group.frame")`
-#' @param title.resize_as_group `r .doc_opt("title.resize_as_group")`
 #' @param credits.size `r .doc_opt("credits.size")`
 #' @param credits.color `r .doc_opt("credits.color")`
 #' @param credits.fontface `r .doc_opt("credits.fontface")`
@@ -203,8 +197,6 @@
 #' @param credits.position `r .doc_opt("credits.position")`
 #' @param credits.width `r .doc_opt("credits.width")`
 #' @param credits.height `r .doc_opt("credits.height")`
-#' @param credits.group.frame `r .doc_opt("credits.group.frame")`
-#' @param credits.resize_as_group `r .doc_opt("credits.resize_as_group")`
 #' @param compass.north `r .doc_opt("compass.north")`
 #' @param compass.type `r .doc_opt("compass.type")`
 #' @param compass.text.size `r .doc_opt("compass.text.size")`
@@ -223,8 +215,6 @@
 #' @param compass.frame `r .doc_opt("compass.frame")`
 #' @param compass.frame.lwd `r .doc_opt("compass.frame.lwd")`
 #' @param compass.frame.r `r .doc_opt("compass.frame.r")`
-#' @param compass.group.frame `r .doc_opt("compass.group.frame")`
-#' @param compass.resize_as_group `r .doc_opt("compass.resize_as_group")`
 #' @param logo.height `r .doc_opt("logo.height")`
 #' @param logo.margins `r .doc_opt("logo.margins")`
 #' @param logo.between_margin `r .doc_opt("logo.between_margin")`
@@ -233,8 +223,6 @@
 #' @param logo.frame `r .doc_opt("logo.frame")`
 #' @param logo.frame.lwd `r .doc_opt("logo.frame.lwd")`
 #' @param logo.frame.r `r .doc_opt("logo.frame.r")`
-#' @param logo.group.frame `r .doc_opt("logo.group.frame")`
-#' @param logo.resize_as_group `r .doc_opt("logo.resize_as_group")`
 #' @param scalebar.breaks `r .doc_opt("scalebar.breaks")`
 #' @param scalebar.width `r .doc_opt("scalebar.width")`
 #' @param scalebar.text.size `r .doc_opt("scalebar.text.size")`
@@ -251,8 +239,6 @@
 #' @param scalebar.frame `r .doc_opt("scalebar.frame")`
 #' @param scalebar.frame.lwd `r .doc_opt("scalebar.frame.lwd")`
 #' @param scalebar.frame.r `r .doc_opt("scalebar.frame.r")`
-#' @param scalebar.group.frame `r .doc_opt("scalebar.group.frame")`
-#' @param scalebar.resize_as_group `r .doc_opt("scalebar.resize_as_group")`
 #' @param grid.show `r .doc_opt("grid.show")`
 #' @param grid.labels.pos `r .doc_opt("grid.labels.pos")`
 #' @param grid.x `r .doc_opt("grid.x")`
@@ -330,7 +316,7 @@
 #' @export
 #' @example ./examples/tmap_options.R
 #' @name tmap_options
-tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, raster.warp, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.alpha, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.alpha, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, text.alpha, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.group.frame, legend.resize_as_group, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.title.alpha, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.xlab.alpha, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.ylab.alpha, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.text.alpha, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.group.frame, chart.resize_as_group, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.title.alpha, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.xlab.alpha, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.ylab.alpha, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.text.alpha, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.size, title.color, title.fontface, title.fontfamily, title.alpha, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, title.group.frame, title.resize_as_group, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.alpha, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.height, credits.group.frame, credits.resize_as_group, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, compass.group.frame, compass.resize_as_group, logo.height, logo.margins, logo.between_margin, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, logo.group.frame, logo.resize_as_group, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, scalebar.group.frame, scalebar.resize_as_group, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
+tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, raster.warp, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.alpha, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.alpha, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, text.alpha, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.title.alpha, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.xlab.alpha, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.ylab.alpha, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.text.alpha, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.title.alpha, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.xlab.alpha, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.ylab.alpha, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.text.alpha, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.size, title.color, title.fontface, title.fontfamily, title.alpha, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.alpha, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.height, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, logo.height, logo.margins, logo.between_margin, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
 						crs_extra,
 						crs_global,
 						use_gradient, # plot mode

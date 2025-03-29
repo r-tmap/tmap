@@ -21,8 +21,6 @@ tm_inset = function(x = NULL,
 					frame,
 					frame.lwd,
 					frame.r,
-					group.frame,
-					resize_as_group,
 					z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$z = args$z %||% NA_integer_

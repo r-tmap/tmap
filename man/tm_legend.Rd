@@ -19,8 +19,6 @@ tm_legend(
   height,
   stack,
   z,
-  group.frame,
-  resize_as_group,
   title.color,
   title.size,
   title.fontface,
@@ -102,10 +100,6 @@ tm_legend_bivariate(
 \item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
-
-\item{group.frame}{put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the \code{frame} argument of the  'main' (first) component.}
-
-\item{resize_as_group}{in case a component if rescaled because of the limited space, rescale the other components proportionally?}
 
 \item{title.color}{The color of the title of the legend.}
 

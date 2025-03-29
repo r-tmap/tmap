@@ -18,12 +18,10 @@
 #' @param bg.alpha Background transparency
 #' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @param width,height width and height of the component.
-#' @param group.frame put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
-#' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
@@ -58,7 +56,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @param ... to catch deprecated arguments
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize_as_group, z, ...) {
+tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	args$z = args$z %||% NA_integer_
 	if ("align" %in% names(args)) {
@@ -245,8 +243,6 @@ tm_logo = function(file,
 				   frame,
 				   frame.lwd,
 				   frame.r,
-				   group.frame,
-				   resize_as_group,
 				   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$z = args$z %||% NA_integer_

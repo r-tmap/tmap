@@ -302,7 +302,7 @@
 		component.stack_margin = 0,
 		component.autoscale = TRUE,
 		component.resize_as_group = FALSE,
-		component.group.frame = TRUE,
+		component.frame_combine = TRUE,
 		component.stack = "vertical",
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),
 		chart.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", all_row = "vertical", all_col = "horizontal", manual = "vertical"),

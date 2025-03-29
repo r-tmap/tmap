@@ -20,9 +20,7 @@ tm_chart_histogram(
   width,
   height,
   stack,
-  z,
-  group.frame,
-  resize_as_group
+  z
 )
 
 tm_chart_bar(
@@ -33,36 +31,18 @@ tm_chart_bar(
   width,
   height,
   stack,
-  z,
-  group.frame,
-  resize_as_group
+  z
 )
 
-tm_chart_donut(position, width, height, stack, z, group.frame, resize_as_group)
+tm_chart_donut(position, width, height, stack, z)
 
-tm_chart_violin(
-  position,
-  width,
-  height,
-  stack,
-  z,
-  group.frame,
-  resize_as_group
-)
+tm_chart_violin(position, width, height, stack, z)
 
-tm_chart_box(position, width, height, stack, z, group.frame, resize_as_group)
+tm_chart_box(position, width, height, stack, z)
 
 tm_chart_none()
 
-tm_chart_heatmap(
-  position,
-  width,
-  height,
-  stack,
-  z,
-  group.frame,
-  resize_as_group
-)
+tm_chart_heatmap(position, width, height, stack, z)
 }
 \arguments{
 \item{breaks}{The breaks of the bins (for histograms)}
@@ -78,10 +58,6 @@ tm_chart_heatmap(
 \item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
-
-\item{group.frame}{put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the \code{frame} argument of the  'main' (first) component.}
-
-\item{resize_as_group}{in case a component if rescaled because of the limited space, rescale the other components proportionally?}
 }
 \description{
 Legend charts are small charts that are added to the map, usually in addition to legends.

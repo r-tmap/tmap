@@ -67,8 +67,6 @@ tm_layout(
   legend.width,
   legend.height,
   legend.stack,
-  legend.group.frame,
-  legend.resize_as_group,
   legend.reverse,
   legend.na.show,
   legend.title.color,
@@ -107,8 +105,6 @@ tm_layout(
   chart.width,
   chart.height,
   chart.stack,
-  chart.group.frame,
-  chart.resize_as_group,
   chart.reverse,
   chart.na.show,
   chart.title.color,
@@ -151,8 +147,6 @@ tm_layout(
   title.stack,
   title.position,
   title.width,
-  title.group.frame,
-  title.resize_as_group,
   credits.size,
   credits.color,
   credits.fontface,
@@ -168,8 +162,6 @@ tm_layout(
   credits.position,
   credits.width,
   credits.height,
-  credits.group.frame,
-  credits.resize_as_group,
   compass.north,
   compass.type,
   compass.text.size,
@@ -188,8 +180,6 @@ tm_layout(
   compass.frame,
   compass.frame.lwd,
   compass.frame.r,
-  compass.group.frame,
-  compass.resize_as_group,
   logo.height,
   logo.margins,
   logo.between_margin,
@@ -198,8 +188,6 @@ tm_layout(
   logo.frame,
   logo.frame.lwd,
   logo.frame.r,
-  logo.group.frame,
-  logo.resize_as_group,
   scalebar.breaks,
   scalebar.width,
   scalebar.text.size,
@@ -216,8 +204,6 @@ tm_layout(
   scalebar.frame,
   scalebar.frame.lwd,
   scalebar.frame.r,
-  scalebar.group.frame,
-  scalebar.resize_as_group,
   grid.show,
   grid.labels.pos,
   grid.x,
@@ -410,10 +396,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.stack}{The stack of the legend.}
 
-\item{legend.group.frame}{The frame of the group of the legend.}
-
-\item{legend.resize_as_group}{The resize_as_group of the legend.}
-
 \item{legend.reverse}{The reverse of the legend.}
 
 \item{legend.na.show}{The visibility of the na of the legend. \code{TRUE} or \code{FALSE}.}
@@ -489,10 +471,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{chart.height}{The height of the chart.}
 
 \item{chart.stack}{The stack of the chart.}
-
-\item{chart.group.frame}{The frame of the group of the chart.}
-
-\item{chart.resize_as_group}{The resize_as_group of the chart.}
 
 \item{chart.reverse}{The reverse of the chart.}
 
@@ -578,10 +556,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{title.width}{The width of the title.}
 
-\item{title.group.frame}{The frame of the group of the title.}
-
-\item{title.resize_as_group}{The resize_as_group of the title.}
-
 \item{credits.size}{The size of the credits.}
 
 \item{credits.color}{The color of the credits.}
@@ -611,10 +585,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{credits.width}{The width of the credits.}
 
 \item{credits.height}{The height of the credits.}
-
-\item{credits.group.frame}{The frame of the group of the credits.}
-
-\item{credits.resize_as_group}{The resize_as_group of the credits.}
 
 \item{compass.north}{The north of the compass.}
 
@@ -652,10 +622,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{compass.frame.r}{The r (radius) of the frame of the compass.}
 
-\item{compass.group.frame}{The frame of the group of the compass.}
-
-\item{compass.resize_as_group}{The resize_as_group of the compass.}
-
 \item{logo.height}{The height of the logo.}
 
 \item{logo.margins}{The margins of the logo. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
@@ -671,10 +637,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{logo.frame.lwd}{The line width of the frame of the logo. See \code{graphics::par}, option 'lwd'.}
 
 \item{logo.frame.r}{The r (radius) of the frame of the logo.}
-
-\item{logo.group.frame}{The frame of the group of the logo.}
-
-\item{logo.resize_as_group}{The resize_as_group of the logo.}
 
 \item{scalebar.breaks}{The break values of the scalebar.}
 
@@ -707,10 +669,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{scalebar.frame.lwd}{The line width of the frame of the scalebar. See \code{graphics::par}, option 'lwd'.}
 
 \item{scalebar.frame.r}{The r (radius) of the frame of the scalebar.}
-
-\item{scalebar.group.frame}{The frame of the group of the scalebar.}
-
-\item{scalebar.resize_as_group}{The resize_as_group of the scalebar.}
 
 \item{grid.show}{The visibility of the grid. \code{TRUE} or \code{FALSE}.}
 
