@@ -95,6 +95,7 @@ tm_facets = function(by = NULL,
 		args$nframes = 60L
 		args$fps = 30L
 		args$play = "loop"
+		args$dpr = 2
 	}
 
 
@@ -129,6 +130,7 @@ tm_facets = function(by = NULL,
 		nframes = as.integer(args$nframes),
 		fps = as.integer(args$fps),
 		play = args$play,
+		dpr = args$dpr,
 		calls = args_called,
 		subclass = "tm_facets"))
 

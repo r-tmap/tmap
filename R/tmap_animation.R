@@ -116,7 +116,7 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 	create_animation(filename = filename, files, width = width, height = height, dpi = dpi, delay = delay, fps = fps, loop = loop, progress = progress, gif = gif, showAni = showAni, ...)
 }
 
-create_animation = function(filename, files, width = NA, height = NA, delay = 40, fps = NA, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, ...) {
+create_animation = function(filename, files, width = NA, height = NA, delay = 40, fps = NA, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, dpr = 2, ...) {
 	k <- length(files)
 
 	if (is.na(width) || is.na(height)) {
@@ -151,13 +151,29 @@ create_animation = function(filename, files, width = NA, height = NA, delay = 40
 	unlink(dirname(files[1]), recursive = TRUE)
 
 	if (showAni) {
-		viewer = getOption("viewer", utils::browseURL)
-		if (is.function(viewer)) {
-			viewer(filename)
-		} else {
-			if (progress) cat("Unable to open animation in viewer nor browser. Animation saved to", suppressWarnings(normalizePath(filename)), "\n")
-			invisible()
-		}
+		file_base64 <- base64enc::dataURI(file = filename, mime = "image/gif")
+		print(htmltools::browsable(
+			htmltools::tagList(list(
+				htmltools::tags$div(
+					style = paste0(
+						"width: auto",
+						"height: auto"
+					),
+					htmltools::tags$img(
+						src = file_base64,
+						alt = "Animation",
+						style = paste0(
+							"max-width: 99%; ",
+							"min-width: 99%; ",
+							"width: auto; ",
+							"height: auto; ",
+							"margin: 0 auto; "
+						)
+					)
+				)
+			))
+		)
+		)
 	} else {
 		if (progress) cat("Animation saved to", suppressWarnings(normalizePath(filename)), "\n")
 		invisible()

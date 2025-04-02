@@ -149,7 +149,10 @@ step1_rearrange = function(tmel) {
 		tms = tmo[[ids[1]]]$tms
 
 
+		# determine whether to animate
+		tmf$show_gif_ani = is.null(o$animate_disable) && (tmf$animate || tmf$trans_animate) # animate is multiple variables/facets, trans_animate for transition animation only
 
+		#if (tmf$show_gif_ani) o$scale = o$scale * 2
 
 	} else {
 		tmo = NULL

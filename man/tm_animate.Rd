@@ -3,13 +3,14 @@
 \name{tm_animate}
 \alias{tm_animate}
 \alias{tm_animate_slow}
-\title{Specify an animation}
+\title{Specify an animation (experimental)}
 \usage{
 tm_animate(
   by = "VARS__",
   nframes = 60L,
   fps = 20L,
   play = c("loop", "pingpong", "once"),
+  dpr = 2,
   ...
 )
 
@@ -18,6 +19,7 @@ tm_animate_slow(
   nframes = 60L,
   fps = 2L,
   play = c("loop", "pingpong", "once"),
+  dpr = 2,
   ...
 )
 }
@@ -29,6 +31,8 @@ tm_animate_slow(
 \item{fps}{frames per second. Default: 30 for \code{tm_facets_animate} and 2 for \code{tm_facets_animate_slow}.}
 
 \item{play}{how should the animation be played? One of \code{"loop"}, \code{"pingpong"}, and \code{"once"}}
+
+\item{dpr}{device pixel ratio. The ratio between the physical pixel density of a device and its logical pixel density.}
 
 \item{...}{passed on to \code{\link[=tm_facets]{tm_facets()}}}
 }

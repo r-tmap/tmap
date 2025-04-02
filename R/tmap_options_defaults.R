@@ -49,6 +49,7 @@
 		output.dpi = 300,
 		animation.dpi = 100,
 
+
 		# default visual variable values
 		value.const = list(fill.polygons = "grey85",
 						   fill.symbols = "grey60",

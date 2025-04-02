@@ -1,22 +1,16 @@
 tmapGridRun = function(o, q, show, knit, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
-		ani = is.null(o$animate_disable) && (o$animate || o$trans_animate) # animate is multiple variables/facets, trans_animate for transition animation only
-		if (ani) {
+		if (o$show_gif_ani) {
 			d <- paste(tempdir(), "/tmap_plots", sep="/")
 			dir.create(d, showWarnings = FALSE)
-			gasp2 = get("gasp2", .TMAP_GRID)
-			devsize = c(grid::convertWidth(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE) * 72,
-						grid::convertHeight(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE) * 72)
-			dasp = devsize[1] / devsize[2]
-			if (gasp2 > dasp) {
-				#
-			}
+			devsize = c(grid::convertWidth(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE) * 72 * o$dpr,
+						grid::convertHeight(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE) * 72 * o$dpr)
 		}
 
 		mapply(function(gt,i) {
-			if (ani) {
-				png(paste0(d, "/plot", sprintf("%03d", i), ".png"), width = devsize[1], height = devsize[2], res = 72, type = "cairo-png")
+			if (o$show_gif_ani) {
+				png(paste0(d, "/plot", sprintf("%03d", i), ".png"), width = devsize[1], height = devsize[2], res = 72*o$dpr, type = "cairo-png")
 				grid::grid.newpage()
 			} else {
 				if (is.null(o$vp) && i != 1L) grid::grid.newpage()
@@ -27,7 +21,7 @@ tmapGridRun = function(o, q, show, knit, args) {
 			}, error = function(e) {
 				stop("Plot error. Try adding + tm_check_fix()", call. = FALSE)
 			})
-			if (ani) {
+			if (o$show_gif_ani) {
 				dev.off()
 			}
 
@@ -36,11 +30,11 @@ tmapGridRun = function(o, q, show, knit, args) {
 	}
 	if (length(gts) == 1) gts = gts[[1]]
 
-	if (show && ani) {
+	if (show && o$show_gif_ani) {
 		files = list.files(path = d, pattern = "^plot[0-9]{3}\\.png$", full.names = TRUE)
 		if (o$play == "pingpong") files = c(files, rev(files))
 		filename = tempfile(fileext = ".gif")
-		create_animation(filename = filename, files = files, width = devsize[1], height = devsize[2], delay = NA, fps = o$fps, loop = o$play != "once", progress = FALSE, gif = TRUE, showAni = TRUE)
+		create_animation(filename = filename, files = files, width = devsize[1], height = devsize[2], delay = NA, fps = o$fps, loop = o$play != "once", progress = FALSE, gif = TRUE, showAni = TRUE, dpr = o$dpr)
 	}
 
 	gts
