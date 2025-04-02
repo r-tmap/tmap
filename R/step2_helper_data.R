@@ -444,7 +444,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				} else if (islistof(aes$scale, "tm_scale")) {
 					scale = rep(aes$scale, length.out = nvars)
 				} else {
-					stop("incorrect scale specification")
+					cli::cli_abort("incorrect scale specification")
 				}
 
 				if (inherits(aes$legend, "tm_legend")) {
@@ -452,7 +452,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				} else if (islistof(aes$legend, "tm_legend")) {
 					legend = rep(aes$legend, length.out = nvars)
 				} else {
-					stop("incorrect legend specification")
+					cli::cli_abort("incorrect legend specification")
 				}
 
 				if (inherits(aes$chart, "tm_chart")) {
@@ -460,7 +460,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				} else if (islistof(aes$chart, "tm_chart")) {
 					crt = rep(aes$chart, length.out = nvars)
 				} else {
-					stop("incorrect chart specification")
+					cli::cli_abort("incorrect chart specification")
 				}
 
 
@@ -495,7 +495,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				} else if (islistof(aes$scale, "tm_scale")) {
 					s = aes$scale[[1]]
 				} else {
-					stop("incorrect scale specification")
+					cli::cli_abort("incorrect scale specification")
 				}
 
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
@@ -503,19 +503,19 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				if (inherits(aes$legend, "tm_legend")) {
 					l = aes$legend
 				} else if (islistof(aes$legend, "tm_legend")) {
-					warning("multiple legends are specified, while only one is required; the first will be used")
+					cli::cli_warn("multiple legends are specified, while only one is required; the first will be used")
 					l = aes$legend[[1]]
 				} else {
-					stop("incorrect legend specification")
+					cli::cli_abort("incorrect legend specification")
 				}
 
 				if (inherits(aes$chart, "tm_chart")) {
 					crt = aes$chart
 				} else if (islistof(aes$chart, "tm_chart")) {
-					warning("multiple charts are specified, while only one is required; the first will be used")
+					cli::cli_warn("multiple charts are specified, while only one is required; the first will be used")
 					crt = aes$chart[[1]]
 				} else {
-					stop("incorrect chart specification")
+					cli::cli_abort("incorrect chart specification")
 				}
 
 				dtl = apply_scale(s, l, crt, val, unm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)

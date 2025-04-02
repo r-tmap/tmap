@@ -4,14 +4,14 @@ tmapValuesCheck_col = function(x, is_var = TRUE) {
 	isnum = is.numeric(x)
 	if (isnum) {
 		structure(FALSE,
-				  info = {if (is_var) "Variable should be data varible name or color name" else " Values should be numeric (between -50 and 50)."}
+				  info = {if (is_var) "Variable should be data variable name or color name" else " Values should be numeric (between -50 and 50)."}
 		)
 	} else {
 		is_c4a = !is.null(getPalMeta(x[1])) && length(x) == 1L && !valid_colors(x[1])
 		if (is_c4a) {
 			if (is_var) {
 				structure(FALSE,
-						  info = " Variable should be a data variable name or a single color (not a color palette).")
+						  info = "Variable should be a data variable name or a single color (not a color palette).")
 			} else {
 				TRUE
 			}
@@ -19,7 +19,7 @@ tmapValuesCheck_col = function(x, is_var = TRUE) {
 			all_cols = all(valid_colors(x))
 			if (!all_cols) {
 				structure(FALSE,
-						  info = if (is_var) " Variable should a data variable name or a single color." else " Values should be color names or a color palette (run  cols4all::c4a_palettes() for available ones.")
+						  info = if (is_var) "Variable should a data variable name or a single color." else "Values should be color names or a color palette (run {.run cols4all::c4a_palettes()} for available ones.")
 			} else {
 				TRUE
 			}

@@ -43,7 +43,7 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-
+### Note: this is written for the upcoming version 4.1
 
 ## Basemaps
 
@@ -51,7 +51,7 @@ By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. B
 
 ## Plot mode
 
-To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas" (run `tmap_options("basemap.server")` to see this option). This can be changed, e.g. `"OpenTopoMap"`. 
+To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas". This can be changed, e.g. `"OpenTopoMap"`. 
 
 ```{r, fig.height = 3.5}
 tm_shape(metro) +
@@ -61,9 +61,22 @@ tm_shape(metro) +
 
 The options are:
 
-```{r}
-names(maptiles::get_providers())
+```{r, eval=FALSE}
+tmap_providers()
 ```
+
+<details>
+<summary>Show</summary>
+```{r, eval=TRUE, echo=FALSE}
+tmap_providers()
+```
+</details> 
+
+
+Tip: `.tmap_providers` contains the same information, but stored as an environment, which is convenient with auto-completion (e.g. RStudio); type `.tmap_providers$` and the list of options will appear.
+
+Note: for Thunderforest and Stadia, a (free for personal use) API key is required.
+
 
 See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
 
@@ -73,7 +86,7 @@ tm_shape(metro) +
 	tm_basemap("CartoDB.PositronNoLabels")
 ```
 
-Note: the Esri basemaps (also the default) do not render well [issue](https://github.com/r-tmap/tmap/issues/1026)
+
 
 ## View mode
 
@@ -113,3 +126,5 @@ tm_shape(metro) +
 	tm_basemap(NULL)
 ```
 
+## Defaults
+(run `tmap_options("basemap.server")` to see this option)

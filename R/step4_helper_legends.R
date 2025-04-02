@@ -83,7 +83,7 @@ step4_plot_collect_legends = function(tmx) {
 							k = length(l$vvalues)
 							l$clones = lapply(clns, function(cl) {
 								vv = cl$vvalues
-								if (k != length(vv)) stop("legends could not be shared; the number of legend items is different", call. = FALSE)
+								if (k != length(vv)) cli::cli_abort("legends could not be shared; the number of legend items is different")
 								vv
 							})
 							names(l$clones) = names(clones[w])

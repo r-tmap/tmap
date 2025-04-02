@@ -212,9 +212,13 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		}
 
 		q <- tryCatch({
-			suppressWarnings(do.call(classInt::classIntervals, c(list(x, n, style= style, intervalClosure=interval.closure), args)))
+			suppressWarnings(do.call(classInt::classIntervals, c(list(x, n, style = style, intervalClosure = interval.closure), args)))
 		}, error = function(e) {
-			stop("Calculating interval classes failed for the variable ", var, " with style = '", style, "'. The error message from classInt::classIntervals: ", e$message, call. = FALSE)
+			cli::cli_abort(c(
+				"Calculating interval classes failed for the variable {.var {var}} with {.code style = {.val {style}}}."
+			    ),
+			    parent = e
+			)
 		})
 
 
@@ -224,18 +228,18 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	}
 
 	if (approx && style != "fixed") {
-		if (n >= length(unique(x)) && style=="equal") {
+		if (n >= length(unique(x)) && style == "equal") {
 			# to prevent classIntervals to set style to "unique"
-			q <- list(var = x, brks = seq(min(x, na.rm=TRUE), max(x, na.rm=TRUE), length.out=n))
+			q <- list(var = x, brks = seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = n))
 			attr(q, "intervalClosure") <- interval.closure
 			class(q) <- "classIntervals"
 		} else {
 			brks <- q$brks
 
 			# to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
-			qm1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n-1, style= style, intervalClosure=interval.closure), args)))
+			qm1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n - 1, style = style, intervalClosure = interval.closure), args)))
 			brksm1 <- qm1$brks
-			qp1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n+1, style= style, intervalClosure=interval.closure), args)))
+			qp1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n + 1, style = style, intervalClosure = interval.closure), args)))
 			brksp1 <- qp1$brks
 			if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
 				q <- qm1

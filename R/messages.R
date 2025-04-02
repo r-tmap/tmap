@@ -46,12 +46,12 @@ message_c4a = function(old_palette_name, info, fullname = FALSE) {
 	if (!message_thrown(mess)) {
 		if (fullname) {
 			cli::cli_inform(
-				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.code cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.str {new1}}",
+				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.run cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.val {new1}}",
 				.frequency_id = "cols4all"
 			)
 		} else {
 			cli::cli_inform(
-				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.code cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.str {new2}} (in long format {.str {new1}})",
+				"{.field [cols4all]} color palettes: use palettes from the R package cols4all. Run {.run cols4all::c4a_gui()} to explore them. The old palette name {.str {old_palette_name}} is named {.str {new2}} (in long format {.str {new1}})",
 				.frequency_id = "cols4all"
 			)
 
@@ -82,9 +82,9 @@ message_wrapstack = function(horizontal = TRUE) {
 
 message_pos_auto = function(type) {
 	if (!message_thrown("pos_auto")) {
-		fun = if (type == "autoout") "tm_pos_auto_out()" else "tm_pos_auto_in()"
-		fun2 = if (type == "autoout") "tm_pos_out()" else "tm_pos_in()"
-		cli::cli_inform("{.field [position]} use {.val {fun2}} instead of {.val {fun}}. The latter should be used with {.fn tmap_options}.")
+		fun = if (type == "autoout") "tm_pos_auto_out" else "tm_pos_auto_in"
+		fun2 = if (type == "autoout") "tm_pos_out" else "tm_pos_in"
+		cli::cli_inform("{.field [position]} use {.fn {fun2}} instead of {.fn {fun}}. The latter should be used with {.fn tmap_options}.")
 		message_reg("pos_auto")
 	}
 	NULL

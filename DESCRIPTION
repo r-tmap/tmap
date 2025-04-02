@@ -34,6 +34,7 @@ Imports:
     grid,
     htmltools,
     htmlwidgets,
+    base64enc,
     leafem (>= 0.1),
     leafgl,
     leaflegend,

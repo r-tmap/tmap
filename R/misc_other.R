@@ -175,7 +175,7 @@ leaflet2crs = function(x) {
 	} else if (!is.null(x$proj4def)) {
 		sf::st_crs(x$proj4def)
 	} else {
-		stop("Unable to extract crs from leafletCRS object")
+		cli::cli_abort("Unable to extract crs from leafletCRS object.")
 	}
 }
 
@@ -226,7 +226,7 @@ number_text_lines = function(txt) {
 
 nonempty_text = function(txt) {
 	if (is.character(txt)) {
-		txt!=""
+		nzchar(txt)
 	} else rep(TRUE, length(txt))
 }
 
@@ -261,7 +261,7 @@ process_just = function(just, interactive) {
 	isnum = is_num_string(just)
 
 	if (!all(isnum | (just %in% c("left", "right", "top", "bottom", "center", "centre"))) && show.warnings) {
-		warning("wrong specification of argument just", call. = FALSE)
+		cli::cli_warn("{.arg just} is not correctly specified. ")
 	}
 
 	just[just == "centre"] = "center"
@@ -277,7 +277,7 @@ process_just = function(just, interactive) {
 			if (show.messages) message("In interactive mode, just cannot be a numeric value. Therefore, ", justnum, " has been cenverted to \"", just, "\".")
 		}
 	} else {
-		if (n > 2 && show.warnings) warning("The just argument should be a single value or a vector of 2 values.", call. = FALSE)
+		if (n > 2 && show.warnings) cli::cli_warn("{.arg just} should be a single value or a vector of 2 values.")
 		if (n == 1) {
 			if (just %in% c("top", "bottom")) {
 				just = c("center", just)
@@ -293,7 +293,9 @@ process_just = function(just, interactive) {
 						   ifelse(just[1] == "right", 1,
 						   	   ifelse(just[1] == "center", .5, NA))))
 		if (is.na(x)) {
-			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
+			if (show.warnings) {
+				cli::cli_warn("{.arg just} is not correctly specified. ")
+			}
 			x = 0.5
 		}
 
@@ -302,7 +304,9 @@ process_just = function(just, interactive) {
 						  ifelse(just[2] == "top", 1,
 						  	   ifelse(just[2] == "center", .5, NA))))
 		if (is.na(y)) {
-			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
+			if (show.warnings) {
+				cli::cli_warn("{.arg just} is not correctly specified. ")
+			}
 			y = 0.5
 		}
 		just = c(x, y)
@@ -444,7 +448,7 @@ native_to_npc_to_native <- function(x, scale) {
 	z2 <- grDevices::xy.coords(xs2, ys2, recycle = TRUE)
 	xy2 <- toUserCoords(z2)
 
-	list(poly=polygonGrob(unit(xy2$x, "native"), grid::unit(xy2$y, "native"), id=id, gp=rg$gp))
+	list(poly = polygonGrob(unit(xy2$x, "native"), grid::unit(xy2$y, "native"), id = id, gp = rg$gp))
 	#list(poly=rectGrob(unit(x, "native"), unit(y, "native"), width = unit(w, "native"), height=unit(h, "native"), gp = rg$gp))
 }
 
