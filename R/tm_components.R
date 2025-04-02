@@ -17,12 +17,14 @@
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
 #' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
+#' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_group_comp()] where its argument `id` should correspond to `group_id`.
 #' @param width,height width and height of the component.
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
@@ -32,6 +34,7 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, sta
 #' @rdname tm_title
 tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
@@ -42,6 +45,7 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 #' @rdname tm_title
 tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
@@ -56,8 +60,9 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @param ... to catch deprecated arguments
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, z, ...) {
+tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	if ("align" %in% names(args)) {
 		args$position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = args$align, align.v = "top", just.h = "left", just.v = "bottom")
@@ -100,6 +105,7 @@ tm_compass <- function(north,
 					   color.light,
 					   lwd,
 					   position,
+					   group_id,
 					   bg.color,
 					   bg.alpha,
 					   stack,
@@ -111,6 +117,9 @@ tm_compass <- function(north,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
+
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
 }
@@ -140,6 +149,7 @@ tm_scalebar = function(breaks,
 						color.light,
 						lwd,
 						position,
+						group_id,
 						bg.color,
 						bg.alpha,
 						size = "deprecated",
@@ -158,6 +168,7 @@ tm_scalebar = function(breaks,
 	}
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
@@ -186,8 +197,10 @@ tm_scale_bar = function(...) {
 #' @export
 tm_mouse_coordinates <- function(stack,
 								 position,
+								 group_id,
 								 z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
 }
@@ -211,9 +224,11 @@ tm_minimap <- function(server,
 					   toggle,
 					   stack,
 					   position,
+					   group_id,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
 }
@@ -240,11 +255,13 @@ tm_logo = function(file,
 				   between_margin,
 				   stack,
 				   position,
+				   group_id,
 				   frame,
 				   frame.lwd,
 				   frame.r,
 				   z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
 }

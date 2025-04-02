@@ -4,7 +4,7 @@
 \alias{tm_minimap}
 \title{Map component: minimap}
 \usage{
-tm_minimap(server, toggle, stack, position, z, ...)
+tm_minimap(server, toggle, stack, position, group_id, z, ...)
 }
 \arguments{
 \item{server}{name of the provider or an URL (see \code{\link{tm_tiles}}).

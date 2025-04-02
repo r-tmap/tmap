@@ -5,8 +5,8 @@
 \title{Group components}
 \usage{
 tm_comp_group(
-  pos.h,
-  pos.v,
+  id,
+  position,
   stack,
   frame_combine,
   resize_as_group,
@@ -18,7 +18,7 @@ tm_comp_group(
 )
 }
 \arguments{
-\item{pos.h, pos.v}{Position. Only components (legends, titles, compasses etc.) with the same position are selected}
+\item{id}{id of the component group. Refers to the \code{group_id} argument of each component function, such as \code{\link[=tm_legend]{tm_legend()}} and \code{\link[=tm_title]{tm_title()}}.}
 
 \item{stack}{stacking Horizontal or vertical}
 

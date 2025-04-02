@@ -1,6 +1,6 @@
 #' Group components
 #'
-#' @param pos.h,pos.v Position. Only components (legends, titles, compasses etc.) with the same position are selected
+#' @param id id of the component group. Refers to the `group_id` argument of each component function, such as [tm_legend()] and [tm_title()].
 #' @param stack stacking Horizontal or vertical
 #' @param frame_combine put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
 #' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
@@ -12,7 +12,8 @@
 #' @return A [`tmap-element`]
 #' @export
 tm_comp_group = function(
-		pos.h, pos.v,
+		id,
+		position,
 		stack,     # was 'stack' in each tm_legend or tm_<comp> function
 		frame_combine,
 		resize_as_group,        # from tm_legend/tm_<comp>.
@@ -25,8 +26,7 @@ tm_comp_group = function(
 		bg.alpha) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	name = paste(pos.h, pos.v, sep = "_")
-	optname = paste0("component_", name)
+	optname = paste0("component_", id)
 	x = structure(list(args), names= optname)
 	do.call(tm_options, x)
 }

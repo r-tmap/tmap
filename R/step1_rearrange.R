@@ -444,31 +444,3 @@ check_v = function(x, var, h_is_num) {
 		}
 	}
 }
-
-impute_comp = function(a, o) {
-	ca = class(a)
-
-	call = names(a)
-	a$position = process_position(a$position, o)
-	a$padding = process_padding(a$padding)
-
-	ot = get_prefix_opt(class = ca[1], o = o)
-	a = complete_options(a, ot)
-
-	if (length(ca) > 1L) {
-		ot2 = get_prefix_opt(class = ca[2], o = o)
-		if (!is.null(a$position) || ("tm_add_legend" %in% ca)) ot2$position = NULL
-		# otherwise the position lists (in and out) get mixed
-		# for tm_add_legend, keep it empty because it will be imputed in update_l (using legend. defaults)
-		a = complete_options(a, ot2)
-	}
-
-	a$call = call
-
-	#a$position = NULL
-
-	class(a) = ca
-	a
-}
-
-

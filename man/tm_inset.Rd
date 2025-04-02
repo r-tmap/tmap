@@ -10,8 +10,8 @@ tm_inset(
   width,
   margins,
   between_margin,
-  stack,
   position,
+  group_id,
   frame,
   frame.lwd,
   frame.r,
@@ -29,9 +29,9 @@ tm_inset(
 
 \item{between_margin}{Margin between}
 
-\item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
-
 \item{position}{An object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
+
+\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_group_comp]{tm_group_comp()}} where its argument \code{id} should correspond to \code{group_id}.}
 
 \item{frame}{frame}
 

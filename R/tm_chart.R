@@ -17,14 +17,19 @@ tm_chart_histogram = function(breaks,
 							  plot.axis.y,
 							  extra.ggplot2,
 							  position,
+							  group_id,
 							  width,
 							  height,
 							  stack,
-							  z) {
+							  z,
+							  ...) {
 
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "histogram"
 	args$summary = "binned"
@@ -37,13 +42,18 @@ tm_chart_bar = function(plot.axis.x,
 						plot.axis.y,
 						extra.ggplot2,
 						position,
+						group_id,
 						width,
 						height,
 						stack,
-						z) {
+						z,
+						...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "bar"
 	args$summary = "binned"
@@ -54,13 +64,19 @@ tm_chart_bar = function(plot.axis.x,
 #' @rdname tm_chart
 #' @export
 tm_chart_donut = function(position,
+						  group_id,
 						  width,
 						  height,
 						  stack,
-						  z) {
+						  z,
+						  ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "donut"
 	args$summary = "binned"
@@ -70,13 +86,18 @@ tm_chart_donut = function(position,
 #' @rdname tm_chart
 #' @export
 tm_chart_violin = function(position,
+						   group_id,
 						   width,
 						   height,
 						   stack,
-						   z) {
+						   z,
+						   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "violin"
 	args$summary = "raw_nna"
@@ -86,13 +107,18 @@ tm_chart_violin = function(position,
 #' @rdname tm_chart
 #' @export
 tm_chart_box = function(position,
+						group_id,
 					    width,
 					    height,
 					    stack,
-					    z) {
+					    z,
+						...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "box"
 	args$summary = "raw_nna"
@@ -102,7 +128,7 @@ tm_chart_box = function(position,
 #' @rdname tm_chart
 #' @export
 tm_chart_none = function() {
-	structure(list(show = FALSE, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))
+	structure(list(show = FALSE, group_id = NA_character_, z = NA_integer_, summary = "none"), class = c("tm_chart_none", "tm_chart", "tm_component", "list"))
 }
 
 
@@ -110,13 +136,18 @@ tm_chart_none = function() {
 #' @rdname tm_chart
 #' @export
 tm_chart_heatmap = function(position,
+							group_id,
 							width,
 							height,
 							stack,
-							z) {
+							z,
+							...){
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args = warning_group_args(args)
 
-	if (!("z" %in% (names(args)))) args$z = NA_integer_
+	args$z = args$z %||% NA_integer_
+	args$group_id = args$group_id %||% NA_character_
+
 	args$show = TRUE
 	args$type = "heatmap"
 	args$summary = "binned2D"

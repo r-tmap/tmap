@@ -7,7 +7,6 @@
 #' @param width width of the component in number of text line heights.
 #' @param margins margins
 #' @param between_margin Margin between
-#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @inheritParams tm_title
 #' @example ./examples/tm_inset.R
 #' @export
@@ -16,13 +15,15 @@ tm_inset = function(x = NULL,
 					width,
 					margins,
 					between_margin,
-					stack,
 					position,
+					group_id,
 					frame,
 					frame.lwd,
 					frame.r,
 					z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 
 	cls = if (is.null(x) || (inherits(x, "bbox"))) {
@@ -31,7 +32,7 @@ tm_inset = function(x = NULL,
 		"tmap"
 	} else if (inherits(x, "ggplot")) {
 		"gg"
-	} else if (inherits(x, "grob")) {
+	} else if (inherits(x, c("grob", "gList"))) {
 		"grob"
 	} else if (is.character(x)) {
 		"image"

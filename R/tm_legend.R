@@ -53,9 +53,9 @@ tm_legend = function(title,
 					 reverse,
 					 na.show,
 					 position,
+					 group_id,
 					 width,
 					 height,
-					 stack,
 					 z,
 					 title.color,
 					 title.size,
@@ -92,9 +92,12 @@ tm_legend = function(title,
 					 ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
+	args = warning_group_args(args)
+
 	args$title = args$title %||% NA
 	args$xlab = args$xlab %||% NA
 	args$ylab = args$ylab %||% NA
+	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }

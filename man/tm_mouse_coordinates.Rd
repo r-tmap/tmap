@@ -4,7 +4,7 @@
 \alias{tm_mouse_coordinates}
 \title{Map component: mouse coordinates}
 \usage{
-tm_mouse_coordinates(stack, position, z)
+tm_mouse_coordinates(stack, position, group_id, z)
 }
 \arguments{
 \item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}

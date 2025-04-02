@@ -451,14 +451,14 @@ process_meta = function(o, d, cdt, aux) {
 
 							cdt2b[stack_auto == TRUE, stack:= ifelse(npp==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 
-							c(sum(sum(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
-								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
-							  sum(sum(c(0,cdt2b[cell.h == "left" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW)),
-							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1],
-							  sum(sum(c(0,cdt2b[cell.v == "top" & stack == "vertical", legH,by = c("cell.h", "cell.v")]$legH)),
-							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", legH,by = c("cell.h", "cell.v")]$legH))) / o$devsize[2],
-							  sum(sum(c(0,cdt2b[cell.h == "right" & stack == "horizontal", legW,by = c("cell.h", "cell.v")]$legW)),
-							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", legW,by = c("cell.h", "cell.v")]$legW))) / o$devsize[1])
+							c(max(max(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", .(V=sum(legH)),by = "cell.h"]$V)),
+								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", .(V=sum(legH)),by = "cell.h"]$V))) / o$devsize[2],
+							  max(max(c(0,cdt2b[cell.h == "left" & stack == "horizontal", .(V=sum(legW)),by = "cell.v"]$V)),
+							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", .(V=sum(legW)),by = "cell.v"]$V))) / o$devsize[1],
+							  max(max(c(0,cdt2b[cell.v == "top" & stack == "vertical", .(V=sum(legH)),by = "cell.h"]$V)),
+							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", .(V=sum(legH)),by = "cell.h"]$V))) / o$devsize[2],
+							  max(max(c(0,cdt2b[cell.h == "right" & stack == "horizontal", .(V=sum(legW)),by = "cell.v"]$V)),
+							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", .(V=sum(legW)),by = "cell.v"]$V))) / o$devsize[1])
 						})))
 					} else {
 						meta.auto_margins = pmin(meta.auto_margins,
