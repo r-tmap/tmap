@@ -311,8 +311,16 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		component.offset.h = 0
 		component.offset.v = 0
 	} else {
-		component.offset.h = get_option_class(comp[[1]]$offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
-		component.offset.v = get_option_class(comp[[1]]$offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+		offset = comp[[1]]$offset
+		if (!is.null(names(offset)) && all(c("inside", "INSIDE", "outside", "OUTSIDE") %in% names(offset))) {
+			component.offset.h = get_option_class(offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
+			component.offset.v = get_option_class(offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+		} else {
+			offset = rep_len(offset, 2L)
+			component.offset.h = offset[1]
+			component.offset.v = offset[2]
+
+		}
 	}
 
 	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
