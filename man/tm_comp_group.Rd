@@ -5,7 +5,7 @@
 \title{Group components}
 \usage{
 tm_comp_group(
-  id,
+  group_id,
   position,
   stack,
   frame_combine,
@@ -18,9 +18,11 @@ tm_comp_group(
 )
 }
 \arguments{
-\item{id}{id of the component group. Refers to the \code{group_id} argument of each component function, such as \code{\link[=tm_legend]{tm_legend()}} and \code{\link[=tm_title]{tm_title()}}.}
+\item{group_id}{id of the component group. Refers to the \code{group_id} argument of each component function, such as \code{\link[=tm_legend]{tm_legend()}} and \code{\link[=tm_title]{tm_title()}}.}
 
-\item{stack}{stacking Horizontal or vertical}
+\item{position}{The position specification of the components in this group: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
+
+\item{stack}{stacking \code{"horizontal"} or \code{"vertical"}}
 
 \item{frame_combine}{put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the \code{frame} argument of the  'main' (first) component.}
 
@@ -30,7 +32,7 @@ tm_comp_group(
 
 \item{offset}{Offset margin between frame and the components block}
 
-\item{frame}{Frane of the components. Is usually set in each component function, but if specified here, it will overwrite them.}
+\item{frame}{Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.}
 
 \item{bg.color}{Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.}
 

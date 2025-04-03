@@ -828,12 +828,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		}
 	}
 
-
-
-
-
-
-
 	legfun = paste0("tmap", gs, "Comp")
 
 	toI = function(x) {
@@ -844,7 +838,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		klegs = cdt[is.na(page) | (page == k), ] # was by3__ instead of page
 		klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
 		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
-		klegs[, id:=paste(pos.h.id, pos.v.id, class, sep = "__")] ## split by class needed to distinguish tm_pos_on_top from tm_pos_in
+
+		## split by class needed to distinguish tm_pos_on_top from tm_pos_in, and to distinguish different just values
+		klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
+		klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]
 
 		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}

@@ -162,6 +162,7 @@ step1_rearrange = function(tmel) {
 		tmf$n = 1
 		tmf$fl = list(NULL, NULL, NULL)
 		tmf$type = "wrap"
+		tmf$npp = 1
 		ids = 0
 
 	}
@@ -418,29 +419,33 @@ check_h = function(x, var) {
 		x
 	} else {
 		y = tolower(x)
-		if (y %in% c("center", "centre")) {
+		is_upper = (x != y)
+		y2 = if (y %in% c("center", "centre")) {
 			"center"
 		} else if (y %in% c("left", "right")) {
 			y
 		} else {
 			stop("position arguments: incorrect ", var, ".h; it should be 'left', 'center', 'right' or a numeric value", call. = FALSE)
 		}
+		if (is_upper) toupper(y2) else y
 	}
 }
 
 check_v = function(x, var, h_is_num) {
 	if (is.numeric(x)) {
-		if (!h_is_num) stop("position argument: for ", var, ".h and .v should both be numeric or character values", call. = FALSE)
+		if (!h_is_num) stop("position argument ", var, ".h and .v should both be numeric or character values", call. = FALSE)
 		x
 	} else {
 		y = tolower(x)
-		if (h_is_num) stop("position argument: for ", var, ".h and .v should both be numeric or character values", call. = FALSE)
-		if (y %in% c("center", "centre")) {
+		is_upper = (x != y)
+		if (h_is_num) stop("position argument ", var, ".h and .v should both be numeric or character values", call. = FALSE)
+		y2 = if (y %in% c("center", "centre")) {
 			"center"
 		} else if (y %in% c("top", "bottom")) {
 			y
 		} else {
 			stop("position argument: incorrect ", var, ".v; it should be 'top', 'center', 'bottom' or a numeric value", call. = FALSE)
 		}
+		if (is_upper) toupper(y2) else y
 	}
 }

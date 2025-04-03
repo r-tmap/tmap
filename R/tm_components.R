@@ -16,8 +16,8 @@
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
-#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
-#' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_group_comp()] where its argument `id` should correspond to `group_id`.
+#' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_comp_group()].
+#' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_comp_group()] where its argument `id` should correspond to `group_id`.
 #' @param width,height width and height of the component.
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
@@ -190,10 +190,8 @@ tm_scale_bar = function(...) {
 #'
 #' Map component that adds mouse coordinates
 #'
-#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
-#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
-#' @param z z
+#' @inheritParams tm_title
 #' @export
 tm_mouse_coordinates <- function(stack,
 								 position,
@@ -213,10 +211,7 @@ tm_mouse_coordinates <- function(stack,
 #'   By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
 #'   Note the latter does not happen when `server` is specified.
 #' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
-#' @param position An object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
-#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
-#' @param position position
-#' @param z z
+#' @inheritParams tm_title
 #' @inheritDotParams leaflet::addMiniMap
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
@@ -244,7 +239,6 @@ tm_minimap <- function(server,
 #'   If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param margins margins
 #' @param between_margin Margin between
-#' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @inheritParams tm_title
 #' @example ./examples/tm_logo.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}

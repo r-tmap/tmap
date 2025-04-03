@@ -1,6 +1,6 @@
 complete_with_comp_group = function(comp, o) {
 	# complete all non-called options from tm_legend and tm_<component> with the tm_comp_group specs
-	if (is.na(comp$group_id)) comp$group_id == paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, sep = "_")
+	if (is.na(comp$group_id)) comp$group_id == paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
 
 	grp_name = paste("component", comp$group_id, sep = "_")
 

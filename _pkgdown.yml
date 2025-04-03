@@ -73,6 +73,10 @@ reference:
   desc: Always use those in this form `<vv>.chart = tm_chart*()`
   contents:
   - starts_with("tm_chart")
+- title: Configure legend and component position
+  contents:
+  - tm_pos
+  - tm_comp_group
 - title: Set layout options
   contents:
   - tm_layout
@@ -111,7 +115,6 @@ reference:
 - title: Helper functions
   contents:
   - tm_const
-  - tm_pos
   - tm_seq
   - tm_vars
   - tm_plot_order
@@ -196,6 +199,8 @@ navbar:
           href: articles/adv_multivariate
         - text: Positioning of components
           href: articles/adv_positions
+        - text: Grouping of components
+          href: articles/adv_comp_group
         - text: Options and styles
           href: articles/adv_options
         - text: Margins and aspect ratio

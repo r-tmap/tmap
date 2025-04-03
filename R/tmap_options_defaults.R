@@ -518,6 +518,8 @@
 		inset.frame = TRUE,
 		inset.frame.lwd = 1,
 		inset.frame.r = 2,
+		inset.bg.color = "#ffffff",
+		inset.bg.alpha = 1,
 
 		inset_grob.height = 7,
 		inset_grob.width = 7,
