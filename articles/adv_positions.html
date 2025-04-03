@@ -44,7 +44,7 @@
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
     <li><a class="dropdown-item" href="../articles/basics_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/basics_basemaps">Basemaps</a></li>
+    <li><a class="dropdown-item" href="../articles/basics_basemaps">Basemaps (updated!)</a></li>
     <li><a class="dropdown-item" href="../articles/basics_components">Components</a></li>
     <li><a class="dropdown-item" href="../articles/basics_charts">Charts</a></li>
     <li><a class="dropdown-item" href="../articles/basics_layout">Layout</a></li>
@@ -84,8 +84,8 @@
 <li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components (updated!)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components (new!)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
@@ -117,6 +117,9 @@
 
     
     
+<div class="section level4">
+<h4 id="note-this-is-written-for-the-upcoming-version-4-1">Note: this is written for the upcoming version 4.1<a class="anchor" aria-label="anchor" href="#note-this-is-written-for-the-upcoming-version-4-1"></a>
+</h4>
 <p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/07_basic_components">vignette about components</a> that the <code>position</code> argument of map components specifies their position.</p>
 <p>It can be specified in two ways:</p>
 <ul>
@@ -134,30 +137,35 @@
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span>gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.45</span><span class="op">)</span>, </span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level2">
 <h2 id="shortcut-method-inside-the-map-frame">Shortcut method (inside the map frame)<a class="anchor" aria-label="anchor" href="#shortcut-method-inside-the-map-frame"></a>
 </h2>
 <p>The <code>position</code> can be a vector of two values, where the first is the horizontal position and the second the vertical position. It is a shortcut for <code><a href="../reference/tm_pos.html">tm_pos_in()</a></code>, which is explained in the next sections.</p>
 <p>There are two options:</p>
-<ol style="list-style-type: decimal">
-<li>
-<p>Character vector of two: (gold boxes in the example below)</p>
+<div class="section level3">
+<h3 id="character-vector-of-two">Character vector of two<a class="anchor" aria-label="anchor" href="#character-vector-of-two"></a>
+</h3>
 <ul>
 <li>the first value specifies the horizontal position (<code>"left"</code>, <code>"center"</code>, <code>"right"</code>), and</li>
 <li>the second one the vertical position (<code>"top"</code>, <code>"center"</code>, <code>"bottom"</code>).</li>
 </ul>
 <p>Upper case means tight to the frame. Otherwise an offset margin is applied (can be specified with <code>offset</code>, see below).</p>
-</li>
-<li>
-<p>Numeric vector of two: (blue boxes in the example below)</p>
+</div>
+<div class="section level3">
+<h3 id="numeric-vector-of-two">Numeric vector of two<a class="anchor" aria-label="anchor" href="#numeric-vector-of-two"></a>
+</h3>
 <p>This can be seen as the ‘manual’ mode, because it provides more freedom.</p>
 <ul>
 <li>the first value specifies the horizontal position, where 0 corresponds to left and 1 to right.</li>
 <li>the second value specifies the vertical position where 0 is bottom and 1 top.</li>
 </ul>
-<p>By defailt, these values will specify the position of the <strong>left top corner</strong> of the component. This justification point can be changed using the <code>just.h</code> and <code>just.v</code> arguments of [tm_pos()], see below.</p>
-</li>
-</ol>
+<p>By default, these values will specify the position of the <strong>left top corner</strong> of the component. This justification point can be changed using the <code>just.h</code> and <code>just.v</code> arguments of [tm_pos()], see below.</p>
+</div>
+<div class="section level3">
+<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h3>
+<p>The character positioned components are in gold and the numeric positioned components in blue.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -168,6 +176,7 @@
 <span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.5, 0.5"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>       </span>
 <span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.9, 1"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>     </span></code></pre></div>
 <p><img src="adv_positions_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="advanced-method-with-tm_pos">Advanced method with <code>tm_pos()</code><a class="anchor" aria-label="anchor" href="#advanced-method-with-tm_pos"></a>
@@ -185,7 +194,8 @@
 </ul>
 </div>
 <div class="section level3">
-<h3 id="the-arguments-cell-h-and-cell-v">The arguments <code>cell.h</code> and <code>cell.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-cell-h-and-cell-v"></a>
+<h3 id="cell-h-and-cell-v">
+<code>cell.h</code> and <code>cell.v</code><a class="anchor" aria-label="anchor" href="#cell-h-and-cell-v"></a>
 </h3>
 <p>The arguments <code>cell.h</code> and <code>cell.v</code> determine the grid cell. These should only be used for <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code>. For the other position function, they are already set to <code>"center"</code> (the center grid cell in which the map is drawn).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -205,7 +215,8 @@
 <p>Note that we used <code>pos.h</code> and <code>pos.v</code>. These will be explained in the next section.</p>
 </div>
 <div class="section level3">
-<h3 id="the-arguments-pos-h-and-pos-v">The arguments <code>pos.h</code> and <code>pos.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-pos-h-and-pos-v"></a>
+<h3 id="pos-h-and-pos-v">
+<code>pos.h</code> and <code>pos.v</code><a class="anchor" aria-label="anchor" href="#pos-h-and-pos-v"></a>
 </h3>
 <p>The position of a component within a cell. These values are similar to the shortcut values described above:</p>
 <ul>
@@ -231,7 +242,8 @@
 <p>Recall that the <strong>justification point</strong> for the numeric specifications is the <strong>top left corner</strong> of the component. This can be adjusted via <code>just.h</code> and <code>just.v</code> as explained next.</p>
 </div>
 <div class="section level3">
-<h3 id="the-arguments-just-h-and-just-v">The arguments <code>just.h</code> and <code>just.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-just-h-and-just-v"></a>
+<h3 id="just-h-and-just-v">
+<code>just.h</code> and <code>just.v</code><a class="anchor" aria-label="anchor" href="#just-h-and-just-v"></a>
 </h3>
 <p>In case <code>pos.h</code> and <code>pos.v</code> are numbers, the justification can be set with</p>
 <ul>
@@ -255,7 +267,8 @@
 <p><img src="adv_positions_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level3">
-<h3 id="the-arguments-align-h-and-align-v">The arguments <code>align.h</code> and <code>align.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-align-h-and-align-v"></a>
+<h3 id="align-h-and-align-v">
+<code>align.h</code> and <code>align.v</code><a class="anchor" aria-label="anchor" href="#align-h-and-align-v"></a>
 </h3>
 <p>In case there are multiple components in the same position (see next section), the alignment determines how a component is aligned.</p>
 <p>The alignment of components within the same cell:</p>
@@ -282,6 +295,11 @@
 </h3>
 <p>The default position of legends and map components are in some cases done automatically. Automatic positioning can be achieved by setting a <code>position</code> argument to <code><a href="../reference/tm_pos.html">tm_pos_auto_in()</a></code> or <code><a href="../reference/tm_pos.html">tm_pos_auto_out()</a></code>. The former checks in which map corner is most space available (and bases <code>pos.h</code> and <code>pos.v</code> on that). The latter calculates in which grid cell (so <code>cell.h</code> and <code>cell.v</code>) the map components can be positioned, which is based on the aspect ratio and margins.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="grouping-components">Grouping components<a class="anchor" aria-label="anchor" href="#grouping-components"></a>
+</h2>
+<p>What happens when components share the same position? See <a href="https://r-tmap.github.io/tmap/articles/adv_comp_group">next vignette</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
