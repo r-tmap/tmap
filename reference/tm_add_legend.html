@@ -56,6 +56,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
@@ -90,9 +91,9 @@
 <span>  design <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  orientation <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_id <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
-<span>  resize.as.group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  z <span class="op">=</span> <span class="cn">NA_integer_</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -134,6 +135,10 @@ Options: <code>"symbols"</code> (default), <code>"lines"</code>, <code>"polygons
 <dd><p>The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details</p></dd>
 
 
+<dt id="arg-group-id">group_id<a class="anchor" aria-label="anchor" href="#arg-group-id"></a></dt>
+<dd><p>Component group id name. All components (e.g. legends, titles, etc) with the same <code>group_id</code> will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in <code><a href="tm_comp_group.html">tm_comp_group()</a></code> where its argument <code>id</code> should correspond to <code>group_id</code>.</p></dd>
+
+
 <dt id="arg-group">group<a class="anchor" aria-label="anchor" href="#arg-group"></a></dt>
 <dd><p>Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see <code>group.control</code>)</p></dd>
@@ -147,15 +152,27 @@ buttons (meaning only one group can be shown), <code>"check"</code> for check bo
 (the group cannot be (de)selected).</p></dd>
 
 
-<dt id="arg-resize-as-group">resize.as.group<a class="anchor" aria-label="anchor" href="#arg-resize-as-group"></a></dt>
-<dd><p>resize.as.group</p></dd>
-
-
 <dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
-<dd><p>z</p></dd>
+<dd><p>z index, e.g. the place of the component relative to the other componets</p></dd>
 
 </dl></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"OpenStreetMap"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_add_legend</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Motorway"</span>, <span class="st">"Primary road"</span>, <span class="st">"Secondary road"</span>, <span class="st">"Railway"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>          col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E892A1"</span>, <span class="st">"#FCD6A4"</span>, <span class="st">"#F8FABF"</span>, <span class="st">"#707070"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>          lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"solid"</span>, <span class="st">"solid"</span>, <span class="st">"solid"</span>, <span class="st">"dotted"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>          lwd <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>          type <span class="op">=</span> <span class="st">"lines"</span>,</span></span>
+<span class="r-in"><span>          bg.color <span class="op">=</span> <span class="st">"grey92"</span>,</span></span>
+<span class="r-in"><span>          bg.alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

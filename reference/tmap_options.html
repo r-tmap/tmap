@@ -56,6 +56,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
@@ -171,8 +172,6 @@
 <span>  <span class="va">legend.width</span>,</span>
 <span>  <span class="va">legend.height</span>,</span>
 <span>  <span class="va">legend.stack</span>,</span>
-<span>  <span class="va">legend.group.frame</span>,</span>
-<span>  <span class="va">legend.resize_as_group</span>,</span>
 <span>  <span class="va">legend.reverse</span>,</span>
 <span>  <span class="va">legend.na.show</span>,</span>
 <span>  <span class="va">legend.title.color</span>,</span>
@@ -211,8 +210,6 @@
 <span>  <span class="va">chart.width</span>,</span>
 <span>  <span class="va">chart.height</span>,</span>
 <span>  <span class="va">chart.stack</span>,</span>
-<span>  <span class="va">chart.group.frame</span>,</span>
-<span>  <span class="va">chart.resize_as_group</span>,</span>
 <span>  <span class="va">chart.reverse</span>,</span>
 <span>  <span class="va">chart.na.show</span>,</span>
 <span>  <span class="va">chart.title.color</span>,</span>
@@ -255,8 +252,6 @@
 <span>  <span class="va">title.stack</span>,</span>
 <span>  <span class="va">title.position</span>,</span>
 <span>  <span class="va">title.width</span>,</span>
-<span>  <span class="va">title.group.frame</span>,</span>
-<span>  <span class="va">title.resize_as_group</span>,</span>
 <span>  <span class="va">credits.size</span>,</span>
 <span>  <span class="va">credits.color</span>,</span>
 <span>  <span class="va">credits.fontface</span>,</span>
@@ -272,8 +267,6 @@
 <span>  <span class="va">credits.position</span>,</span>
 <span>  <span class="va">credits.width</span>,</span>
 <span>  <span class="va">credits.height</span>,</span>
-<span>  <span class="va">credits.group.frame</span>,</span>
-<span>  <span class="va">credits.resize_as_group</span>,</span>
 <span>  <span class="va">compass.north</span>,</span>
 <span>  <span class="va">compass.type</span>,</span>
 <span>  <span class="va">compass.text.size</span>,</span>
@@ -292,8 +285,6 @@
 <span>  <span class="va">compass.frame</span>,</span>
 <span>  <span class="va">compass.frame.lwd</span>,</span>
 <span>  <span class="va">compass.frame.r</span>,</span>
-<span>  <span class="va">compass.group.frame</span>,</span>
-<span>  <span class="va">compass.resize_as_group</span>,</span>
 <span>  <span class="va">logo.height</span>,</span>
 <span>  <span class="va">logo.margins</span>,</span>
 <span>  <span class="va">logo.between_margin</span>,</span>
@@ -302,8 +293,6 @@
 <span>  <span class="va">logo.frame</span>,</span>
 <span>  <span class="va">logo.frame.lwd</span>,</span>
 <span>  <span class="va">logo.frame.r</span>,</span>
-<span>  <span class="va">logo.group.frame</span>,</span>
-<span>  <span class="va">logo.resize_as_group</span>,</span>
 <span>  <span class="va">scalebar.breaks</span>,</span>
 <span>  <span class="va">scalebar.width</span>,</span>
 <span>  <span class="va">scalebar.text.size</span>,</span>
@@ -320,8 +309,6 @@
 <span>  <span class="va">scalebar.frame</span>,</span>
 <span>  <span class="va">scalebar.frame.lwd</span>,</span>
 <span>  <span class="va">scalebar.frame.r</span>,</span>
-<span>  <span class="va">scalebar.group.frame</span>,</span>
-<span>  <span class="va">scalebar.resize_as_group</span>,</span>
 <span>  <span class="va">grid.show</span>,</span>
 <span>  <span class="va">grid.labels.pos</span>,</span>
 <span>  <span class="va">grid.x</span>,</span>
@@ -775,14 +762,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The stack of the legend.</p></dd>
 
 
-<dt id="arg-legend-group-frame">legend.group.frame<a class="anchor" aria-label="anchor" href="#arg-legend-group-frame"></a></dt>
-<dd><p>The frame of the group of the legend.</p></dd>
-
-
-<dt id="arg-legend-resize-as-group">legend.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-legend-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the legend.</p></dd>
-
-
 <dt id="arg-legend-reverse">legend.reverse<a class="anchor" aria-label="anchor" href="#arg-legend-reverse"></a></dt>
 <dd><p>The reverse of the legend.</p></dd>
 
@@ -933,14 +912,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-chart-stack">chart.stack<a class="anchor" aria-label="anchor" href="#arg-chart-stack"></a></dt>
 <dd><p>The stack of the chart.</p></dd>
-
-
-<dt id="arg-chart-group-frame">chart.group.frame<a class="anchor" aria-label="anchor" href="#arg-chart-group-frame"></a></dt>
-<dd><p>The frame of the group of the chart.</p></dd>
-
-
-<dt id="arg-chart-resize-as-group">chart.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-chart-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the chart.</p></dd>
 
 
 <dt id="arg-chart-reverse">chart.reverse<a class="anchor" aria-label="anchor" href="#arg-chart-reverse"></a></dt>
@@ -1111,14 +1082,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The width of the title.</p></dd>
 
 
-<dt id="arg-title-group-frame">title.group.frame<a class="anchor" aria-label="anchor" href="#arg-title-group-frame"></a></dt>
-<dd><p>The frame of the group of the title.</p></dd>
-
-
-<dt id="arg-title-resize-as-group">title.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-title-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the title.</p></dd>
-
-
 <dt id="arg-credits-size">credits.size<a class="anchor" aria-label="anchor" href="#arg-credits-size"></a></dt>
 <dd><p>The size of the credits.</p></dd>
 
@@ -1177,14 +1140,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-credits-height">credits.height<a class="anchor" aria-label="anchor" href="#arg-credits-height"></a></dt>
 <dd><p>The height of the credits.</p></dd>
-
-
-<dt id="arg-credits-group-frame">credits.group.frame<a class="anchor" aria-label="anchor" href="#arg-credits-group-frame"></a></dt>
-<dd><p>The frame of the group of the credits.</p></dd>
-
-
-<dt id="arg-credits-resize-as-group">credits.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-credits-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the credits.</p></dd>
 
 
 <dt id="arg-compass-north">compass.north<a class="anchor" aria-label="anchor" href="#arg-compass-north"></a></dt>
@@ -1259,14 +1214,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The r (radius) of the frame of the compass.</p></dd>
 
 
-<dt id="arg-compass-group-frame">compass.group.frame<a class="anchor" aria-label="anchor" href="#arg-compass-group-frame"></a></dt>
-<dd><p>The frame of the group of the compass.</p></dd>
-
-
-<dt id="arg-compass-resize-as-group">compass.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-compass-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the compass.</p></dd>
-
-
 <dt id="arg-logo-height">logo.height<a class="anchor" aria-label="anchor" href="#arg-logo-height"></a></dt>
 <dd><p>The height of the logo.</p></dd>
 
@@ -1297,14 +1244,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-logo-frame-r">logo.frame.r<a class="anchor" aria-label="anchor" href="#arg-logo-frame-r"></a></dt>
 <dd><p>The r (radius) of the frame of the logo.</p></dd>
-
-
-<dt id="arg-logo-group-frame">logo.group.frame<a class="anchor" aria-label="anchor" href="#arg-logo-group-frame"></a></dt>
-<dd><p>The frame of the group of the logo.</p></dd>
-
-
-<dt id="arg-logo-resize-as-group">logo.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-logo-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the logo.</p></dd>
 
 
 <dt id="arg-scalebar-breaks">scalebar.breaks<a class="anchor" aria-label="anchor" href="#arg-scalebar-breaks"></a></dt>
@@ -1369,14 +1308,6 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 <dt id="arg-scalebar-frame-r">scalebar.frame.r<a class="anchor" aria-label="anchor" href="#arg-scalebar-frame-r"></a></dt>
 <dd><p>The r (radius) of the frame of the scalebar.</p></dd>
-
-
-<dt id="arg-scalebar-group-frame">scalebar.group.frame<a class="anchor" aria-label="anchor" href="#arg-scalebar-group-frame"></a></dt>
-<dd><p>The frame of the group of the scalebar.</p></dd>
-
-
-<dt id="arg-scalebar-resize-as-group">scalebar.resize_as_group<a class="anchor" aria-label="anchor" href="#arg-scalebar-resize-as-group"></a></dt>
-<dd><p>The resize_as_group of the scalebar.</p></dd>
 
 
 <dt id="arg-grid-show">grid.show<a class="anchor" aria-label="anchor" href="#arg-grid-show"></a></dt>
@@ -2111,8 +2042,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─meta.auto_margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.4, 0.4, 0.4, 0.4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─between_margin: <span style="color: #0000BB;">0.5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.margin&lt;dbl [2]&gt;: <span style="color: #0000BB;">0.4, 0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.stack_margin: <span style="color: #0000BB;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.mark.height: <span style="color: #0000BB;">2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─xylab.height: <span style="color: #0000BB;">1.25</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─coords.height: <span style="color: #0000BB;">1.25</span></span>
@@ -2165,7 +2094,15 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├─just.h: <span style="color: #0000BB;">"left"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├─just.v: <span style="color: #0000BB;">"top"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   └─type: <span style="color: #0000BB;">"out"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.stack_margin: <span style="color: #0000BB;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.autoscale: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.frame_combine: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.stack: <span style="color: #0000BB;">"vertical"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.equalize: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.show: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.design: <span style="color: #0000BB;">"standard"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span>
@@ -2181,9 +2118,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"autoout"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.width: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.height: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.reverse: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.na.show: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.title.color: &lt;NULL&gt;</span>
@@ -2284,9 +2218,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"autoout"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.width&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 20, 10, 20, 10, 10, 10, 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.height&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 10, 10, 10, 10, 10, 10, 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.reverse: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.na.show: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.title.color: &lt;NULL&gt;</span>
@@ -2326,7 +2257,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.frame: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─cell.h: <span style="color: #0000BB;">"center"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─cell.v: <span style="color: #0000BB;">"top"</span></span>
@@ -2338,8 +2268,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"out"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.width: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.size: <span style="color: #0000BB;">0.7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.color: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.fontface: &lt;NULL&gt;</span>
@@ -2351,7 +2279,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.frame: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2362,8 +2289,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.width: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.height: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.north: <span style="color: #0000BB;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.type: <span style="color: #0000BB;">"arrow"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.text.size: <span style="color: #0000BB;">0.8</span></span>
@@ -2377,7 +2302,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.bg.color: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2389,12 +2313,9 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.frame: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.height: <span style="color: #0000BB;">3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.between_margin: <span style="color: #0000BB;">0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2406,13 +2327,10 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.frame: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─logo.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.height: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.width: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2424,13 +2342,10 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.height: <span style="color: #0000BB;">3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.width: <span style="color: #0000BB;">3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.between_margin: <span style="color: #0000BB;">0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2442,8 +2357,8 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.height: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.width: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_gg.height: <span style="color: #0000BB;">7</span></span>
@@ -2461,7 +2376,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.size: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.01, 0.01, 0.01, 0.01</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2473,8 +2387,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.frame: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.group.frame: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.resize_as_group: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.show: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.labels.pos&lt;chr [2]&gt;: <span style="color: #0000BB;">"left", "bottom"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.x: <span style="color: #0000BB;">NA</span></span>
@@ -2502,7 +2414,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.ticks: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.lines: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─grid.ndiscr: <span style="color: #0000BB;">100</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─mouse_coordinates.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─mouse_coordinates.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
@@ -2513,7 +2424,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.server: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.toggle: <span style="color: #0000BB;">TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.stack: <span style="color: #0000BB;">"vertical"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>

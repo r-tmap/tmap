@@ -85,6 +85,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
@@ -116,122 +117,171 @@
 
     
     
-<div class="section level2">
-<h2 id="component-positionining">Component positionining<a class="anchor" aria-label="anchor" href="#component-positionining"></a>
-</h2>
-<p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/07_basic_components">vignette about components</a> that the <code>position</code> argument of map components and legends is used to position them.</p>
-<p>Let’s enable the ‘design mode’ of tmap for the rest of this vignette</p>
+<p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/07_basic_components">vignette about components</a> that the <code>position</code> argument of map components specifies their position.</p>
+<p>It can be specified in two ways:</p>
+<ul>
+<li>An object from the <code><a href="../reference/tm_pos.html">tm_pos()</a></code>, or one of its wrappers, such as <code><a href="../reference/tm_pos.html">tm_pos_in()</a></code> and <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code>.</li>
+<li>A vector of length two, which is a shortcut for placement inside the map frame, a shortcut for <code><a href="../reference/tm_pos.html">tm_pos_in()</a></code>
+</li>
+</ul>
+<p>We will use a self-made map component, made with the grid package that we show via <code><a href="../reference/tm_inset.html">tm_inset()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_design_mode.html">tmap_design_mode</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; design.mode: ON</span></span></code></pre></div>
-</div>
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">text</span><span class="op">)</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.grob.html" class="external-link">gList</a></span><span class="op">(</span></span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span>gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.45</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">text</span><span class="op">)</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.grob.html" class="external-link">gList</a></span><span class="op">(</span></span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span>gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.45</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="shortcut-vector-of-two">Shortcut: vector of two<a class="anchor" aria-label="anchor" href="#shortcut-vector-of-two"></a>
+<h2 id="shortcut-method-inside-the-map-frame">Shortcut method (inside the map frame)<a class="anchor" aria-label="anchor" href="#shortcut-method-inside-the-map-frame"></a>
 </h2>
-<p>A vector of two, where the first is the horizontal position and the second the vertical position. These shortcut will place the component inside the map frame. They are a shortcut for <code>tm_pos_in</code>, explained below</p>
-<div class="section level3">
-<h3 id="character">Character<a class="anchor" aria-label="anchor" href="#character"></a>
-</h3>
-<p>(<code>"left"</code>, <code>"center"</code>, <code>"right"</code>), the second one the vertical position (<code>"top"</code>, <code>"center"</code>, <code>"bottom"</code>)</p>
+<p>The <code>position</code> can be a vector of two values, where the first is the horizontal position and the second the vertical position. It is a shortcut for <code><a href="../reference/tm_pos.html">tm_pos_in()</a></code>, which is explained in the next sections.</p>
+<p>There are two options:</p>
+<ol style="list-style-type: decimal">
+<li>
+<p>Character vector of two: (gold boxes in the example below)</p>
+<ul>
+<li>the first value specifies the horizontal position (<code>"left"</code>, <code>"center"</code>, <code>"right"</code>), and</li>
+<li>the second one the vertical position (<code>"top"</code>, <code>"center"</code>, <code>"bottom"</code>).</li>
+</ul>
+<p>Upper case means tight to the frame. Otherwise an offset margin is applied (can be specified with <code>offset</code>, see below).</p>
+</li>
+<li>
+<p>Numeric vector of two: (blue boxes in the example below)</p>
+<p>This can be seen as the ‘manual’ mode, because it provides more freedom.</p>
+<ul>
+<li>the first value specifies the horizontal position, where 0 corresponds to left and 1 to right.</li>
+<li>the second value specifies the vertical position where 0 is bottom and 1 top.</li>
+</ul>
+<p>By defailt, these values will specify the position of the <strong>left top corner</strong> of the component. This justification point can be changed using the <code>just.h</code> and <code>just.v</code> arguments of [tm_pos()], see below.</p>
+</li>
+</ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"edu_appl_sci"</span>,</span>
-<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Statistics Netherlands (CBS)"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"left, top"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"right, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"LEFT, BOTTOM"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LEFT"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.3, 0.3"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.5, 0.5"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>       </span>
+<span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.9, 1"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>     </span></code></pre></div>
 <p><img src="adv_positions_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 </div>
-<div class="section level3">
-<h3 id="numeric">Numeric<a class="anchor" aria-label="anchor" href="#numeric"></a>
-</h3>
-<p>It is also possible to specify two numbers to set the location. The coordinates are between 0 and 1, where (0,0) is bottom left.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="st">"edu_appl_sci"</span>,</span>
-<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Statistics Netherlands (CBS)"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-</div>
-</div>
 <div class="section level2">
-<h2 id="advanced-positioning-with-tm_pos">Advanced positioning with <code>tm_pos()</code><a class="anchor" aria-label="anchor" href="#advanced-positioning-with-tm_pos"></a>
+<h2 id="advanced-method-with-tm_pos">Advanced method with <code>tm_pos()</code><a class="anchor" aria-label="anchor" href="#advanced-method-with-tm_pos"></a>
 </h2>
-<p><code><a href="../reference/tm_pos.html">tm_pos_in()</a></code> draws the component inside the map frame and <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code> draws the component outside the map frame.</p>
-<div class="section level4">
-<h4 id="cell-h-and-cell-v">
-<code>cell.h</code> and <code>cell.v</code><a class="anchor" aria-label="anchor" href="#cell-h-and-cell-v"></a>
-</h4>
-<p>The total plot area (i.e. device) is a 3 x 3 grid. The map is draw in the middle grid cell.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"left"</span>, cell.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm2</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"center"</span>, cell.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm3</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"right"</span>, cell.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tm1</span>, <span class="va">tm2</span>, <span class="va">tm3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
-<p>Notes:</p>
+<div class="section level3">
+<h3 id="the-3-x-3-grid">The 3 x 3 grid<a class="anchor" aria-label="anchor" href="#the-3-x-3-grid"></a>
+</h3>
+<p>The whole plot area is a 3 x 3 grid, where the map (or facets) are drawn in the center grid cell.</p>
+<p>There are three variants (wrappers) of the main function <code><a href="../reference/tm_pos.html">tm_pos()</a></code>:</p>
 <ul>
-<li>the sizes of the cells are automatically determined based on the content and the margins (see <a href="https://r-tmap.github.io/tmap/articles/42_margins">vignette</a>)</li>
 <li>
-<code><a href="../reference/tm_pos.html">tm_pos_in()</a></code> is a shortcut for <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code> with both <code>cell.h</code> and <code>cell.v</code> set to <code>"center"</code>.</li>
+<code><a href="../reference/tm_pos.html">tm_pos_out()</a></code> draws the component outside the map frame (so in one of the 3 x 3 grid cells)</li>
+<li>
+<code><a href="../reference/tm_pos.html">tm_pos_in()</a></code> and <code><a href="../reference/tm_pos.html">tm_pos_on_top()</a></code> draw the component in the middle grid cell. The difference is that the former takes the frame (and offset from it) into account while the latter doesn’t.</li>
 </ul>
 </div>
-<div class="section level4">
-<h4 id="pos-h-and-pos-v">
-<code>pos.h</code> and <code>pos.v</code><a class="anchor" aria-label="anchor" href="#pos-h-and-pos-v"></a>
-</h4>
-<p>The position of a component within a cell:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">8</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span>cell.h <span class="op">=</span> <span class="st">"left"</span>, cell.v <span class="op">=</span> <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
-<p>The values can either be characters or numbers (as explained <a href="https://r-tmap.github.io/tmap/articles/41_adv_positions#shortcut-vector-of-two">above</a>).</p>
+<div class="section level3">
+<h3 id="the-arguments-cell-h-and-cell-v">The arguments <code>cell.h</code> and <code>cell.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-cell-h-and-cell-v"></a>
+</h3>
+<p>The arguments <code>cell.h</code> and <code>cell.v</code> determine the grid cell. These should only be used for <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code>. For the other position function, they are already set to <code>"center"</code> (the center grid cell in which the map is drawn).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"center, center"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_on_top</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"left, center"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"right, center"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"left, top"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"center, top"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"top"</span>, pos.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"right, top"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"left, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"center, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span>, pos.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"right, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p>Note that we used <code>pos.h</code> and <code>pos.v</code>. These will be explained in the next section.</p>
 </div>
 <div class="section level3">
-<h3 id="just-h-and-just-v">
-<code>just.h</code> and <code>just.v</code><a class="anchor" aria-label="anchor" href="#just-h-and-just-v"></a>
+<h3 id="the-arguments-pos-h-and-pos-v">The arguments <code>pos.h</code> and <code>pos.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-pos-h-and-pos-v"></a>
 </h3>
-<p>In case <code>pos.h</code> and <code>pos.v</code> are numbers, the justification can be set with <code>just.h</code> and <code>just.v</code>:</p>
+<p>The position of a component within a cell. These values are similar to the shortcut values described above:</p>
+<ul>
+<li>Character values: <code>"left"</code>, <code>"center"</code>, or <code>"right"</code> (or in upper case) for <code>pos.h</code> and <code>"top"</code>, <code>"center"</code>, and <code>"bottom"</code> for <code>pos.v</code>.</li>
+<li>Numeric values: 0 (left) to 1 (right) for <code>pos.h</code>, and 0 (bottom) to 1 (top) for <code>pos.v</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"pos.v = \"top\" in\ncell (left, center)"</span><span class="op">)</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"pos.v = \"bottom\" in\ncell (right, center)"</span><span class="op">)</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"pos.h = 0.0\npos.v = 0.0\nin center cell"</span><span class="op">)</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">0.0</span>, pos.v <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"pos.h = 0.5\npos.v = 0.5\nin center cell"</span><span class="op">)</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">0.5</span>, pos.v <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"pos.h = 1\npos.v = 1\nin center cell"</span><span class="op">)</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">1</span>, pos.v <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p>Recall that the <strong>justification point</strong> for the numeric specifications is the <strong>top left corner</strong> of the component. This can be adjusted via <code>just.h</code> and <code>just.v</code> as explained next.</p>
+</div>
+<div class="section level3">
+<h3 id="the-arguments-just-h-and-just-v">The arguments <code>just.h</code> and <code>just.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-just-h-and-just-v"></a>
+</h3>
+<p>In case <code>pos.h</code> and <code>pos.v</code> are numbers, the justification can be set with</p>
+<ul>
+<li>
+<code>just.h</code>: <code>"left"</code>, <code>"center"</code>, or <code>"right"</code>
+</li>
+<li>
+<code>just.v</code>: <code>"top"</code>, <code>"center"</code>, and <code>"bottom"</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"center, center"</span><span class="op">)</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, just.h <span class="op">=</span> <span class="st">"center"</span>, just.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"left, top"</span><span class="op">)</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, just.h <span class="op">=</span> <span class="st">"left"</span>, just.v <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"right, bottom"</span><span class="op">)</span>, </span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, just.h <span class="op">=</span> <span class="st">"right"</span>, just.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="the-arguments-align-h-and-align-v">The arguments <code>align.h</code> and <code>align.v</code><a class="anchor" aria-label="anchor" href="#the-arguments-align-h-and-align-v"></a>
+</h3>
+<p>In case there are multiple components in the same position (see next section), the alignment determines how a component is aligned.</p>
+<p>The alignment of components within the same cell:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">.5</span>, pos.v <span class="op">=</span> <span class="fl">.5</span>, just.h <span class="op">=</span> <span class="st">"center"</span>, just.v <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm2</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">.5</span>, pos.v <span class="op">=</span> <span class="fl">.5</span>, just.h <span class="op">=</span> <span class="st">"left"</span>, just.v <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm3</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">4</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">.5</span>, pos.v <span class="op">=</span> <span class="fl">.5</span>, just.h <span class="op">=</span> <span class="st">"right"</span>, just.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tm1</span>, <span class="va">tm2</span>, <span class="va">tm3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey85"</span>, col <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">""</span><span class="op">)</span>, </span>
+<span>  width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"left"</span><span class="op">)</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span>, align.h <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"right"</span><span class="op">)</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span>, align.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">""</span><span class="op">)</span>, </span>
+<span>  width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_positions_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level3">
-<h3 id="align-h-and-align-v">
-<code>align.h</code> and <code>align.v</code><a class="anchor" aria-label="anchor" href="#align-h-and-align-v"></a>
+<h3 id="automatic-positioning">Automatic positioning<a class="anchor" aria-label="anchor" href="#automatic-positioning"></a>
 </h3>
-<p>The alignment of components within the same cell:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm2</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">tm3</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"8star"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="st">"right"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span>, align.h <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tm1</span>, <span class="va">tm2</span>, <span class="va">tm3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p>The default position of legends and map components are in some cases done automatically. Automatic positioning can be achieved by setting a <code>position</code> argument to <code><a href="../reference/tm_pos.html">tm_pos_auto_in()</a></code> or <code><a href="../reference/tm_pos.html">tm_pos_auto_out()</a></code>. The former checks in which map corner is most space available (and bases <code>pos.h</code> and <code>pos.v</code> on that). The latter calculates in which grid cell (so <code>cell.h</code> and <code>cell.v</code>) the map components can be positioned, which is based on the aspect ratio and margins.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="automatic-positioning">Automatic positioning<a class="anchor" aria-label="anchor" href="#automatic-positioning"></a>
-</h2>
-<p>The default position of legends and map components are in some cases done automatically. Automatic positioning can be achieved by setting a <code>.position</code> argument to <code><a href="../reference/tm_pos.html">tm_pos_auto_in()</a></code> or <code><a href="../reference/tm_pos.html">tm_pos_auto_out()</a></code>. The former checks in which map corner is most space available (and bases <code>pos.h</code> and <code>pos.v</code> on that). The latter calculates in which grid cell (so <code>cell.h</code> and <code>cell.v</code>) the map components can be positioned, which is based on the aspect ratio and margins.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

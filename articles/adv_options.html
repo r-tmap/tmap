@@ -85,6 +85,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode only)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
@@ -495,8 +496,6 @@
 <span><span class="co">#&gt; ├─meta.auto_margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.4, 0.4, 0.4, 0.4</span></span></span>
 <span><span class="co">#&gt; ├─between_margin: <span style="color: #0000BB;">0.5</span></span></span>
 <span><span class="co">#&gt; ├─panel.margin&lt;dbl [2]&gt;: <span style="color: #0000BB;">0.4, 0</span></span></span>
-<span><span class="co">#&gt; ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span></span>
-<span><span class="co">#&gt; ├─component.stack_margin: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─grid.mark.height: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─xylab.height: <span style="color: #0000BB;">1.25</span></span></span>
 <span><span class="co">#&gt; ├─coords.height: <span style="color: #0000BB;">1.25</span></span></span>
@@ -549,7 +548,15 @@
 <span><span class="co">#&gt; │   ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │   ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │   └─type: <span style="color: #0000BB;">"out"</span></span></span>
+<span><span class="co">#&gt; ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span></span>
+<span><span class="co">#&gt; ├─component.stack_margin: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─component.autoscale: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame_combine: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
+<span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
+<span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
+<span><span class="co">#&gt; ├─component.equalize: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.show: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.design: <span style="color: #0000BB;">"standard"</span></span></span>
 <span><span class="co">#&gt; ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span></span>
@@ -565,9 +572,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"autoout"</span></span></span>
 <span><span class="co">#&gt; ├─legend.width: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.height: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
-<span><span class="co">#&gt; ├─legend.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─legend.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.na.show: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.color: &lt;NULL&gt;</span></span>
@@ -668,9 +672,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"autoout"</span></span></span>
 <span><span class="co">#&gt; ├─chart.width&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 20, 10, 20, 10, 10, 10, 15</span></span></span>
 <span><span class="co">#&gt; ├─chart.height&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 10, 10, 10, 10, 10, 10, 10</span></span></span>
-<span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
-<span><span class="co">#&gt; ├─chart.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─chart.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.na.show: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.color: &lt;NULL&gt;</span></span>
@@ -710,7 +711,6 @@
 <span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─title.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─title.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─cell.h: <span style="color: #0000BB;">"center"</span></span></span>
 <span><span class="co">#&gt; │ ├─cell.v: <span style="color: #0000BB;">"top"</span></span></span>
@@ -722,8 +722,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"out"</span></span></span>
 <span><span class="co">#&gt; ├─title.width: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─title.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─title.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─credits.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─credits.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.fontface: &lt;NULL&gt;</span></span>
@@ -735,7 +733,6 @@
 <span><span class="co">#&gt; ├─credits.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─credits.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─credits.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -746,8 +743,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─credits.width: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.height: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─credits.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─credits.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─compass.north: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─compass.type: <span style="color: #0000BB;">"arrow"</span></span></span>
 <span><span class="co">#&gt; ├─compass.text.size: <span style="color: #0000BB;">0.8</span></span></span>
@@ -761,7 +756,6 @@
 <span><span class="co">#&gt; ├─compass.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─compass.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─compass.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─compass.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─compass.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -773,12 +767,9 @@
 <span><span class="co">#&gt; ├─compass.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─compass.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─compass.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─compass.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─compass.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─logo.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─logo.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─logo.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─logo.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─logo.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -790,13 +781,10 @@
 <span><span class="co">#&gt; ├─logo.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─logo.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─logo.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─logo.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─logo.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -808,13 +796,10 @@
 <span><span class="co">#&gt; ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─inset.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.width: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─inset.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─inset.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -826,8 +811,8 @@
 <span><span class="co">#&gt; ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─inset.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span></span>
+<span><span class="co">#&gt; ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_gg.height: <span style="color: #0000BB;">7</span></span></span>
@@ -845,7 +830,6 @@
 <span><span class="co">#&gt; ├─scalebar.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.size: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─scalebar.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.01, 0.01, 0.01, 0.01</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -857,8 +841,6 @@
 <span><span class="co">#&gt; ├─scalebar.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.show: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.labels.pos&lt;chr [2]&gt;: <span style="color: #0000BB;">"left", "bottom"</span></span></span>
 <span><span class="co">#&gt; ├─grid.x: <span style="color: #0000BB;">NA</span></span></span>
@@ -886,7 +868,6 @@
 <span><span class="co">#&gt; ├─grid.ticks: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─grid.lines: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─grid.ndiscr: <span style="color: #0000BB;">100</span></span></span>
-<span><span class="co">#&gt; ├─mouse_coordinates.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─mouse_coordinates.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -897,7 +878,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─minimap.server: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─minimap.toggle: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─minimap.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─minimap.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1317,8 +1297,6 @@
 <span><span class="co">#&gt; ├─meta.auto_margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.4, 0.4, 0.4, 0.4</span></span></span>
 <span><span class="co">#&gt; ├─between_margin: <span style="color: #0000BB;">0.5</span></span></span>
 <span><span class="co">#&gt; ├─panel.margin&lt;dbl [2]&gt;: <span style="color: #0000BB;">0.4, 0</span></span></span>
-<span><span class="co">#&gt; ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span></span>
-<span><span class="co">#&gt; ├─component.stack_margin: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─grid.mark.height: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─xylab.height: <span style="color: #0000BB;">1.25</span></span></span>
 <span><span class="co">#&gt; ├─coords.height: <span style="color: #0000BB;">1.25</span></span></span>
@@ -1371,7 +1349,15 @@
 <span><span class="co">#&gt; │   ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │   ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │   └─type: <span style="color: #0000BB;">"out"</span></span></span>
+<span><span class="co">#&gt; ├─component.offset&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.75, 0, 0, 0</span></span></span>
+<span><span class="co">#&gt; ├─component.stack_margin: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─component.autoscale: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame_combine: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
+<span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
+<span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
+<span><span class="co">#&gt; ├─component.equalize: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.show: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.design: <span style="color: #0000BB;">"standard"</span></span></span>
 <span><span class="co">#&gt; ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span></span>
@@ -1385,9 +1371,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─legend.width: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.height: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
-<span><span class="co">#&gt; ├─legend.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─legend.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.na.show: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.color: &lt;NULL&gt;</span></span>
@@ -1488,9 +1471,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"autoout"</span></span></span>
 <span><span class="co">#&gt; ├─chart.width&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 20, 10, 20, 10, 10, 10, 15</span></span></span>
 <span><span class="co">#&gt; ├─chart.height&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 10, 10, 10, 10, 10, 10, 10</span></span></span>
-<span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
-<span><span class="co">#&gt; ├─chart.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─chart.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.na.show: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.color: &lt;NULL&gt;</span></span>
@@ -1530,7 +1510,6 @@
 <span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─title.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─title.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─cell.h: <span style="color: #0000BB;">"center"</span></span></span>
 <span><span class="co">#&gt; │ ├─cell.v: <span style="color: #0000BB;">"top"</span></span></span>
@@ -1542,8 +1521,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"out"</span></span></span>
 <span><span class="co">#&gt; ├─title.width: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─title.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─title.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─credits.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─credits.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.fontface: &lt;NULL&gt;</span></span>
@@ -1555,7 +1532,6 @@
 <span><span class="co">#&gt; ├─credits.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─credits.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─credits.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1566,8 +1542,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─credits.width: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.height: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─credits.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─credits.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─compass.north: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; ├─compass.type: <span style="color: #0000BB;">"arrow"</span></span></span>
 <span><span class="co">#&gt; ├─compass.text.size: <span style="color: #0000BB;">0.8</span></span></span>
@@ -1581,7 +1555,6 @@
 <span><span class="co">#&gt; ├─compass.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─compass.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─compass.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─compass.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─compass.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1593,12 +1566,9 @@
 <span><span class="co">#&gt; ├─compass.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─compass.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─compass.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─compass.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─compass.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─logo.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─logo.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─logo.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─logo.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─logo.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1610,13 +1580,10 @@
 <span><span class="co">#&gt; ├─logo.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─logo.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─logo.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─logo.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─logo.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1628,13 +1595,10 @@
 <span><span class="co">#&gt; ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─inset.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.width: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─inset.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
-<span><span class="co">#&gt; ├─inset.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1646,8 +1610,8 @@
 <span><span class="co">#&gt; ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─inset.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span></span>
+<span><span class="co">#&gt; ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_gg.height: <span style="color: #0000BB;">7</span></span></span>
@@ -1665,7 +1629,6 @@
 <span><span class="co">#&gt; ├─scalebar.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.size: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─scalebar.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.01, 0.01, 0.01, 0.01</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1677,8 +1640,6 @@
 <span><span class="co">#&gt; ├─scalebar.frame: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─scalebar.frame.r: <span style="color: #0000BB;">2</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.group.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.resize_as_group: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.show: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.labels.pos&lt;chr [2]&gt;: <span style="color: #0000BB;">"left", "bottom"</span></span></span>
 <span><span class="co">#&gt; ├─grid.x: <span style="color: #0000BB;">NA</span></span></span>
@@ -1706,7 +1667,6 @@
 <span><span class="co">#&gt; ├─grid.ticks: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─grid.lines: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─grid.ndiscr: <span style="color: #0000BB;">100</span></span></span>
-<span><span class="co">#&gt; ├─mouse_coordinates.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─mouse_coordinates.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1717,7 +1677,6 @@
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─minimap.server: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─minimap.toggle: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─minimap.stack: <span style="color: #0000BB;">"vertical"</span></span></span>
 <span><span class="co">#&gt; ├─minimap.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
