@@ -839,6 +839,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
 		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
 
+		just.id = NULL
 		## split by class needed to distinguish tm_pos_on_top from tm_pos_in, and to distinguish different just values
 		klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
 		klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]

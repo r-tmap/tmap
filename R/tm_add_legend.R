@@ -14,6 +14,7 @@
 #' @param design `r .doc_opt("legend.design")`
 #' @param orientation `r .doc_opt("legend.orientation")`
 #' @param position `r .doc_opt("legend.position")`
+#' @inheritParams tm_title
 #' @param group Name of the group to which this layer belongs. This is only
 #'   relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how
@@ -21,8 +22,7 @@
 #'   buttons (meaning only one group can be shown), `"check"` for check boxes
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
-#' @param resize.as.group resize.as.group
-#' @param z z
+#' @example ./examples/tm_add_legend.R
 #' @export
 tm_add_legend = function(...,
 						 labels = "",
@@ -31,12 +31,14 @@ tm_add_legend = function(...,
 						 design = NULL,
 						 orientation = NULL,
 						 position = NULL,
+						 group_id = NA_character_,
 						 group = NA,
 						 group.control = "check",
-						 resize.as.group = FALSE,
 						 z = NA_integer_) {
 
 	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
+
+	args = warning_group_args(args)
 
 	if (type %in% c("fill", "symbol", "line")) {
 		args$type = v3_add_legend(type, names(args))

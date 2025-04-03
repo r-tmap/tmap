@@ -111,7 +111,7 @@ tm_legend_hide = function() {
 #' @rdname tm_legend
 #' @export
 tm_legend_combine = function(variable) {
-	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = variable), class = c("tm_legend", "tm_component", "list"))
+	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = variable, group_id = NA_character_), class = c("tm_legend", "tm_component", "list"))
 }
 
 #' @rdname tm_legend

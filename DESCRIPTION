@@ -47,12 +47,12 @@ Imports:
     stars (>= 0.4-2),
     stats,
     s2,
-    transformr,
     tmaptools (>= 3.1),
     units (>= 0.6-1),
     servr
 Suggests:
     av,
+    transformr,
     colorspace,
     ggplot2,
     gifski,

@@ -15,6 +15,7 @@ trans_sf = function(sf1, sf2, nframes, ease) {
 }
 
 trans_shpTM = function(shpTM1, shpDT, nframes, ease) {
+	rlang::check_installed("transformr")
 	shpTM2 = shpDT$shpTM[[1 ]]
 	s = trans_sf(shpTM1$shp, shpTM2$shp[match(shpTM1$tmapID, shpTM2$tmapID)], nframes, ease)
 

@@ -12,9 +12,9 @@ tm_add_legend(
   design = NULL,
   orientation = NULL,
   position = NULL,
+  group_id = NA_character_,
   group = NA,
   group.control = "check",
-  resize.as.group = FALSE,
   z = NA_integer_
 )
 }
@@ -38,6 +38,8 @@ Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \cod
 
 \item{position}{The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
+\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_comp_group]{tm_comp_group()}} where its argument \code{id} should correspond to \code{group_id}.}
+
 \item{group}{Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see \code{group.control})}
 
@@ -47,10 +49,22 @@ buttons (meaning only one group can be shown), \code{"check"} for check boxes
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
 
-\item{resize.as.group}{resize.as.group}
-
-\item{z}{z}
+\item{z}{z index, e.g. the place of the component relative to the other componets}
 }
 \description{
 Map component that adds a manual legend.
+}
+\examples{
+\dontrun{
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_basemap("OpenStreetMap") +
+	tm_add_legend(labels = c("Motorway", "Primary road", "Secondary road", "Railway"),
+				  col = c("#E892A1", "#FCD6A4", "#F8FABF", "#707070"),
+				  lty = c("solid", "solid", "solid", "dotted"),
+				  lwd = 3,
+				  type = "lines",
+				  bg.color = "grey92",
+				  bg.alpha = 1)
+}
 }
