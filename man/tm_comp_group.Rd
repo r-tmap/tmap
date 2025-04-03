@@ -9,6 +9,7 @@ tm_comp_group(
   position,
   stack,
   frame_combine,
+  equalize,
   resize_as_group,
   stack_margin,
   offset,
@@ -25,6 +26,8 @@ tm_comp_group(
 \item{stack}{stacking \code{"horizontal"} or \code{"vertical"}}
 
 \item{frame_combine}{put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the \code{frame} argument of the  'main' (first) component.}
+
+\item{equalize}{in case \code{frame_combine} is \code{FALSE}, should the separate frames be equalized, i.e. have the same width (when stacked vertically) or height (when stacked horizontally)?}
 
 \item{resize_as_group}{in case a component if rescaled because of the limited space, rescale the other components proportionally?}
 

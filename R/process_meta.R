@@ -35,6 +35,7 @@ prepreprocess_meta = function(o, vp) {
 	})
 }
 preprocess_meta = function(o, cdt) {
+	npp = NULL
 	within(o, {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)

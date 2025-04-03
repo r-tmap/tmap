@@ -61,6 +61,8 @@ remove_min = function(x) substr(x, 2, nchar(x))
 
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo, o) {
+	nframes = NULL
+
 	#o = tmap_options_mode()
 	dev = getOption("tmap.devel.mode")
 

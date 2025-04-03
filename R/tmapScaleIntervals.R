@@ -26,6 +26,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	fun = paste0("interval_", cls[1])
 
 	# pre-checks
+	midpoint = NULL
 	scale = within(scale, {
 		allna = all(is.na(x1))
 		if (anyDuplicated(breaks)) stop("breaks specified in the ", aes,  ".scale scaling function contains duplicates.", call. = FALSE)
@@ -254,6 +255,10 @@ interval_date = function(scale, x1, aes, layer) {
 }
 
 interval_datetime = function(scale, x1, aes, layer) {
+	style = NULL
+	interval.closure = NULL
+	udiv = NULL
+	show.messages = NULL
 	within(scale, {
 		local({
 			styles = c("fixed", "pretty")
