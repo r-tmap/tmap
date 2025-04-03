@@ -4,6 +4,7 @@
 #' @param position The position specification of the components in this group: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
 #' @param stack stacking `"horizontal"` or `"vertical"`
 #' @param frame_combine put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
+#' @param equalize in case `frame_combine` is `FALSE`, should the separate frames be equalized, i.e. have the same width (when stacked vertically) or height (when stacked horizontally)?
 #' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
 #' @param stack_margin Margin between components
 #' @param offset Offset margin between frame and the components block
@@ -17,6 +18,7 @@ tm_comp_group = function(
 		position,
 		stack,     # was 'stack' in each tm_legend or tm_<comp> function
 		frame_combine,
+		equalize,
 		resize_as_group,        # from tm_legend/tm_<comp>.
 		stack_margin,     # margin between components
 		offset,            # offset margin

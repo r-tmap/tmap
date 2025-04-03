@@ -48,6 +48,8 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
+### Note: this is written for the upcoming version 4.1
+
 Recall from the [vignette about components](https://r-tmap.github.io/tmap/articles/07_basic_components) that the `position` argument of map components specifies their position.
 
 It can be specified in two ways:
@@ -73,21 +75,25 @@ The `position` can be a vector of two values, where the first is the horizontal 
 
 There are two options:
 
-1. Character vector of two: (gold boxes in the example below)
+## Character vector of two
 
-	* the first value specifies the horizontal position (`"left"`, `"center"`, `"right"`), and 
-	* the second one the vertical position (`"top"`, `"center"`, `"bottom"`). 
+* the first value specifies the horizontal position (`"left"`, `"center"`, `"right"`), and 
+* the second one the vertical position (`"top"`, `"center"`, `"bottom"`). 
 
-	Upper case means tight to the frame. Otherwise an offset margin is applied (can be specified with `offset`, see below).
+Upper case means tight to the frame. Otherwise an offset margin is applied (can be specified with `offset`, see below).
 
-2. Numeric vector of two: (blue boxes in the example below)
+## Numeric vector of two
 	
-	This can be seen as the 'manual' mode, because it provides more freedom. 
+This can be seen as the 'manual' mode, because it provides more freedom. 
 
-	* the first value specifies the horizontal position, where 0 corresponds to left and 1 to right.
-	* the second value specifies the vertical position where 0 is bottom and 1 top. 
-	
-	By defailt, these values will specify the position of the **left top corner** of the component. This justification point can be changed using the `just.h` and `just.v` arguments of [tm_pos()], see below.
+* the first value specifies the horizontal position, where 0 corresponds to left and 1 to right.
+* the second value specifies the vertical position where 0 is bottom and 1 top. 
+
+By default, these values will specify the position of the **left top corner** of the component. This justification point can be changed using the `just.h` and `just.v` arguments of [tm_pos()], see below.
+
+## Example
+
+The character positioned components are in gold and the numeric positioned components in blue.
 
 ```{r, fig.height = 6}
 tm_shape(NLD_muni) +
@@ -112,7 +118,7 @@ There are three variants (wrappers) of the main function `tm_pos()`:
 * `tm_pos_in()` and `tm_pos_on_top()` draw the component in the middle grid cell. The difference is that the former takes the frame (and offset from it) into account while the latter doesn't.
 
 
-## The arguments `cell.h` and `cell.v`
+## `cell.h` and `cell.v`
 
 The arguments `cell.h` and `cell.v` determine the grid cell. These should only be used for `tm_pos_out()`. For the other position function, they are already set to `"center"` (the center grid cell in which the map is drawn).
 
@@ -134,7 +140,7 @@ tm_layout(asp = 1, frame = "blue", frame.lwd = 2)
 
 Note that we used `pos.h` and `pos.v`. These will be explained in the next section.
 
-## The arguments `pos.h` and `pos.v`
+## `pos.h` and `pos.v`
 
 The position of a component within a cell. These values are similar to the shortcut values described above:
 
@@ -159,7 +165,7 @@ tm_layout(asp = 1, frame = "blue", frame.lwd = 2)
 
 Recall that the **justification point** for the numeric specifications is the **top left corner** of the component. This can be adjusted via `just.h` and `just.v` as explained next.
 
-## The arguments `just.h` and `just.v`
+## `just.h` and `just.v`
 
 In case `pos.h` and `pos.v` are numbers, the justification can be set with
 
@@ -180,7 +186,7 @@ tm_layout(asp = 1, frame = "blue", frame.lwd = 2)
 
 
 
-## The arguments `align.h` and `align.v`
+## `align.h` and `align.v`
 
 In case there are multiple components in the same position (see next section), the alignment determines how a component is aligned.
 
@@ -208,3 +214,7 @@ tm_layout(asp = 1, frame = "blue", frame.lwd = 2)
 ## Automatic positioning
 
 The default position of legends and map components are in some cases done automatically. Automatic positioning can be achieved by setting a `position` argument to `tm_pos_auto_in()` or `tm_pos_auto_out()`. The former checks in which map corner is most space available (and bases `pos.h` and `pos.v` on that). The latter calculates in which grid cell (so `cell.h` and `cell.v`) the map components can be positioned, which is based on the aspect ratio and margins.
+
+# Grouping components
+
+What happens when components share the same position? See [next vignette](https://r-tmap.github.io/tmap/articles/adv_comp_group)

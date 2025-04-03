@@ -47,6 +47,8 @@ impute_comp = function(a, o) {
 
 	#a$position = NULL
 
+	if ("margins" %in% names(a)) a$margins = rep_len(a$margins, 4L)
+
 	class(a) = ca
 	a
 }

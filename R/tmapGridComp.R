@@ -22,7 +22,7 @@ process_comp_box = function(comp, sc, o) {
 	comp
 }
 
-tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums, fH, fW) {
+tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginInH, marginInV, are_nums, fH, fW) {
 	#return(grid::rectGrob(gp=gpar(fill = "gold")))
 
 
@@ -103,13 +103,13 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 		W = max(legWin)
 		H = sum(legHin)
 
-		Hs = unit_add_between(legHin, marginIn)
+		Hs = unit_add_between(legHin, marginInV)
 		Ws = W
 	} else {
 		W = sum(legWin)
 		H = max(legHin)
 
-		Ws = unit_add_between(legWin, marginIn)
+		Ws = unit_add_between(legWin, marginInH)
 		Hs = H
 	}
 
@@ -325,14 +325,24 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 
 	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
 	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
-	marginIn = comp[[1]]$stack_margin * o$lin
 
-	marginInTot = (n - 1L) * marginIn
+	stack_margin = comp[[1]]$stack_margin
+	if (!is.null(names(stack_margin)) && all(c("combined", "apart") %in% names(stack_margin))) {
+		stack_margin = rep_len(get_option_class(stack_margin, class = ifelse(comp[[1]]$frame_combine, "combined", "apart"), spatial_class = FALSE), 2L)
+	} else {
+		stack_margin = rep_len(stack_margin, 2L)
+	}
+
+	marginInH = stack_margin[1] * o$lin
+	marginInV = stack_margin[2] * o$lin
+
+	marginInTotH = (n - 1L) * marginInH
+	marginInTotV = (n - 1L) * marginInV
 	offsetInTot.h  = 2 * offsetIn.h
 	offsetInTot.v  = 2 * offsetIn.v
 
-	totH = sum(rowsIn) - offsetInTot.v - marginInTot
-	totW = sum(colsIn) - offsetInTot.h - marginInTot
+	totH = sum(rowsIn) - offsetInTot.v - marginInTotH
+	totW = sum(colsIn) - offsetInTot.h - marginInTotV
 	w1 = which(pos.v=="bottom" & pos.h=="left")
 	w2 = which(pos.v=="top" & pos.h=="left")
 	w3 = which(pos.v=="top" & pos.h=="right")
@@ -403,7 +413,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	getH = function(s, lH) {
 		if (!length(s)) return(NULL)
 		if (s[1] == "vertical") {
-			sum(unit_add_between(lH, marginIn))
+			sum(unit_add_between(lH, marginInV))
 		} else {
 			max(lH)
 		}
@@ -413,7 +423,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		if (s[1] == "vertical") {
 			max(lW)
 		} else {
-			sum(unit_add_between(lW, marginIn))
+			sum(unit_add_between(lW, marginInH))
 		}
 	}
 
@@ -464,7 +474,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 				# get first stack argument
 				stck = stack[id[1]]
 			}
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginInH = marginInH, marginInV = marginInV, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
 		}
 	}))
 

@@ -141,7 +141,7 @@ navbar:
           href: articles/basics_facets
         - text: Legends
           href: articles/basics_legends
-        - text: Basemaps
+        - text: Basemaps (updated!)
           href: articles/basics_basemaps
         - text: Components
           href: articles/basics_components
@@ -197,9 +197,9 @@ navbar:
           href: articles/adv_groups
         - text: Multivariate visual variables
           href: articles/adv_multivariate
-        - text: Positioning of components
+        - text: Positioning of components (updated!)
           href: articles/adv_positions
-        - text: Grouping of components
+        - text: Grouping of components (new!)
           href: articles/adv_comp_group
         - text: Options and styles
           href: articles/adv_options

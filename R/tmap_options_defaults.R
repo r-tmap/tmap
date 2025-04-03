@@ -300,7 +300,7 @@
 								  		   pos.h = "left", pos.v = "top",
 								  		   align.h = "left", align.v = "top", just.h = "left", just.v = "top")),
 		component.offset = c(inside = 0.75, INSIDE = 0, outside = 0, OUTSIDE = 0),
-		component.stack_margin = 0,
+		component.stack_margin = c(combined = 0, apart = 0.5),
 		component.autoscale = TRUE,
 		component.resize_as_group = FALSE,
 		component.frame_combine = TRUE,
