@@ -179,6 +179,10 @@ tm_facets_pagewise = function(by = "VARS__",
 	args = list(...)
 	args_called = names(rlang::call_match()[-1])
 
+	if (any(c("nrow", "ncol") %in% args_called) && (args$nrow != 1 || args$ncol != 1)) {
+		cli::cli_warn("tm_facets_pagewise does not support multiple facets per page. Please use tm_facets instead")
+	}
+
 	tm = do.call("tm_facets", c(list(pages = by, byrow = byrow, type = NA), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
 	tm

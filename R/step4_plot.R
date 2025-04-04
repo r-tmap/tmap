@@ -764,7 +764,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 				cli::cli_abort("multiple pages cannot be created over two facet dimensions")
 			}
 			if (by1_clip) {
-				legs_out[!is.na(by1__), ':='(page = ((by1__-1L) %/% o$nrows) + 1L, facet_col = ((by1__-1L) %% o$nrows) + 1L)]
+				legs_out[!is.na(by1__), ':='(page = ((by1__-1L) %/% o$nrows) + 1L, facet_row = ((by1__-1L) %% o$nrows) + 1L)]
 			} else if (by2_clip) {
 				legs_out[!is.na(by2__), ':='(page = ((by2__-1L) %/% o$ncols) + 1L, facet_col = ((by2__-1L) %% o$ncols) + 1L)]
 			}
