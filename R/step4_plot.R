@@ -752,11 +752,24 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			legs_in = NULL
 		}
 
+
 		legs_out = copy(cdt[!is_in])
 		legs_out[, page:=NA_integer_]
+		if (nrow(legs_out) >= 1L) {
+			legs_out[!is.na(by3__), page := by3__]
 
-		# legs_out[, bbox:=list()]
-		# legs_out[, units:=list()]
+			by1_clip =  (length(which(legs_out$by1__ > o$nrows)) > 0L) && all(legs_out$facet_row == legs_out$by1__)
+			by2_clip =  (length(which(legs_out$by2__ > o$ncols)) > 0L) && all(legs_out$facet_col == legs_out$by2__)
+			if (by1_clip && by2_clip) {
+				cli::cli_abort("multiple pages cannot be created over two facet dimensions")
+			}
+			if (by1_clip) {
+				legs_out[!is.na(by1__), ':='(page = ((by1__-1L) %/% o$nrows) + 1L, facet_col = ((by1__-1L) %% o$nrows) + 1L)]
+			} else if (by2_clip) {
+				legs_out[!is.na(by2__), ':='(page = ((by2__-1L) %/% o$ncols) + 1L, facet_col = ((by2__-1L) %% o$ncols) + 1L)]
+			}
+
+		}
 
 		# ad-hoc method: take first bbox and units
 		bbox_nb = d$bbox[1]

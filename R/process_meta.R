@@ -497,6 +497,10 @@ process_meta = function(o, d, cdt, aux) {
 		# determine number of rows and cols
 		npp = prod(nby[1:2]) # number per page
 
+		if (!is.na(o$ncols) && !is.na(o$nrows)) {
+			npp = min(npp, o$ncols * o$nrows)
+		}
+
 		if (type %in% c("grid", "anigrid")) {
 			nrows = nby[1]
 			ncols = nby[2]
