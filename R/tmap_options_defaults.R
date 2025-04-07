@@ -11,7 +11,7 @@
 					 view = list(name = "Leaflet",
 					 			use_browser = FALSE,
 					 			use_WebGL = NA,
-					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 					 			crs_basemap = list(dimensions = 3857, 4326),
 					 			facet.max = 16,
 					 			#legend.bg.alpha = 0.8,
@@ -457,7 +457,7 @@
 		title.frame = NA,
 		title.frame.lwd = 1,
 		title.frame.r = 2,
-		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		title.position = tm_pos_out(cell.h = "center", cell.v ="top", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		title.width = NA,
 		credits.size = .7,
 		credits.color = NA,
@@ -470,7 +470,7 @@
 		credits.frame = NA,
 		credits.frame.lwd = 1,
 		credits.frame.r = 2,
-		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		credits.width = NA,
 		credits.height = NA,
 		compass.north=0,
@@ -488,7 +488,7 @@
 		compass.margins = c(0.25, 0.25, 0.25, 0.25),
 
 		# standard arguments:
-		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		compass.frame = NA,
 		compass.frame.lwd = 1,
 		compass.frame.r = 2,
@@ -496,7 +496,7 @@
 		logo.height = 3,
 		logo.margins = c(0.2, 0.2, 0.2, 0.2),
 		logo.between_margin = 0.2,
-		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		logo.frame = NA,
 		logo.frame.lwd = 1,
 		logo.frame.r = 2,
@@ -505,7 +505,7 @@
 		inset_map.width = 7,
 		inset_map.margins = c(0.2, 0.2, 0.2, 0.2),
 		inset_map.between_margin = 0.2,
-		inset_map.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		inset_map.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		inset_map.frame = TRUE,
 		inset_map.frame.lwd = 1,
 		inset_map.frame.r = 2,
@@ -514,7 +514,7 @@
 		inset.width = 3,
 		inset.margins = c(0.2, 0.2, 0.2, 0.2),
 		inset.between_margin = 0.2,
-		inset.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		inset.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		inset.frame = TRUE,
 		inset.frame.lwd = 1,
 		inset.frame.r = 2,
@@ -542,7 +542,7 @@
 		scalebar.margins = c(0.01,0.01,0.01,0.01),
 
 		# standard arguments:
-		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		scalebar.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		scalebar.frame = NA,
 		scalebar.frame.lwd = 1,
 		scalebar.frame.r = 2,
@@ -577,7 +577,7 @@
 
 		# standard arguments:
 		# mouse.stack = "vertical",
-		# mouse.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		# mouse.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		# mouse.frame = FALSE,
 		# mouse.frame.lwd = 1,
 		# mouse.frame.r = 2,
@@ -585,11 +585,11 @@
 		# mouse.resize_as_group = FALSE,
 		#
 
-		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		mouse_coordinates.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 
 		minimap.server = NA,
 		minimap.toggle = TRUE,
-		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
+		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 
 		panel.show = NA, # depends on type: TRUE for facets
 		panel.labels = NA,
@@ -683,9 +683,9 @@ styles = list(
 						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
 		frame.r = 0,
-		title.position = tm_pos_in(pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		title.position = tm_pos_in(pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		title.size = 1.3,
-		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		legend.text.size = 0.7,
 		legend.title.size = 0.9,
 		legend.frame = FALSE,
