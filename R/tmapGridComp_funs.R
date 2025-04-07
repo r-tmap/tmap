@@ -297,12 +297,6 @@ tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
 	compass = gridCell(3,3, {
 		gTree(children=gList(grobBG,
-						 if (!is.na(comp$bg.color)) {
-						 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-						 	rectGrob(gp=gpar(col=NA, fill=bg.col))
-						 } else {
-						 	NULL
-						 },
 						 grobComp,
 						 grobLabels),
 		  name="compass")

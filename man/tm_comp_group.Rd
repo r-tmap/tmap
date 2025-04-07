@@ -14,6 +14,7 @@ tm_comp_group(
   stack_margin,
   offset,
   frame,
+  frame.lwd,
   bg.color,
   bg.alpha
 )
@@ -35,7 +36,7 @@ tm_comp_group(
 
 \item{offset}{Offset margin between frame and the components block}
 
-\item{frame}{Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.}
+\item{frame, frame.lwd}{Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.}
 
 \item{bg.color}{Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.}
 

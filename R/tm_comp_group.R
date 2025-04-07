@@ -8,7 +8,7 @@
 #' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
 #' @param stack_margin Margin between components
 #' @param offset Offset margin between frame and the components block
-#' @param frame Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.
+#' @param frame,frame.lwd Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.color Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.alpha Background alpha transparency of the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @return A [`tmap-element`]
@@ -23,6 +23,7 @@ tm_comp_group = function(
 		stack_margin,     # margin between components
 		offset,            # offset margin
 		frame ,
+		frame.lwd,
 		bg.color,
 		bg.alpha) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
