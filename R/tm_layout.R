@@ -143,7 +143,7 @@ tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 #' @param left,right,top,bottom extra margins
 #' @export
 #' @name tm_extra_innner_margin
-tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
+tm_extra_inner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
