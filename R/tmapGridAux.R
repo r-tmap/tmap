@@ -590,7 +590,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	sely <- (length(cogridy) > 0)
 
 	# find margins due to grid labels
-	if (!is.na(o$frame)) {
+	if (o$frame) {
 		if (o$frame.double_line) {
 			fw <- (6 * grid::convertWidth(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fW
 			fh <- (6 * grid::convertHeight(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fH

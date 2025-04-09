@@ -18,6 +18,8 @@ tm_inset = function(x = NULL,
 					position,
 					group_id,
 					frame,
+					frame.color,
+					frame.alpha,
 					frame.lwd,
 					frame.r,
 					z) {

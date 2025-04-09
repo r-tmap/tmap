@@ -20,7 +20,9 @@ tm_scale_bar(...)
     \item{\code{size}}{Deprecated (use \code{text.size} instead)}
     \item{\code{stack}}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
     \item{\code{margins}}{margins}
-    \item{\code{frame}}{frame}
+    \item{\code{frame}}{frame should a frame be drawn?}
+    \item{\code{frame.color}}{frame color}
+    \item{\code{frame.alpha}}{frame alpha transparancy}
     \item{\code{frame.lwd}}{frame line width}
     \item{\code{frame.r}}{Radius of the rounded frame corners. 0 means no rounding.}
     \item{\code{bg.color}}{Background color}

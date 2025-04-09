@@ -17,6 +17,8 @@ tm_title(
   stack,
   just,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   bg.color,
@@ -51,7 +53,11 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{just}{just}
 
-\item{frame}{frame}
+\item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
 
 \item{frame.lwd}{frame line width}
 

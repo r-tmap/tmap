@@ -15,8 +15,8 @@ legapply = function(cdt, fun, ...) {
 
 process_comp_box = function(comp, sc, o) {
 	comp = within(comp, {
-		frame.lwd = if (identical(frame, FALSE)) 0 else frame.lwd * sc
-		frame.col = if (identical(frame, FALSE)) NA else if (identical(frame, TRUE)) o$attr.color else frame
+		frame.lwd = if (!frame) 0 else frame.lwd * sc
+		frame.color = if (!frame) NA else if (is.null(frame.color)) o$attr.color else frame.color
 		frame.r = frame.r * sc
 	})
 	comp
@@ -225,7 +225,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, fH, fW, iW, iH) {
 		frame = if (draw_rect && !frame_combine) {
-			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, alpha = leg$bg.alpha, col = leg$frame, lwd = leg$frame.lwd), r = leg$frame.r)
+			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, alpha = leg$bg.alpha, col = leg$frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
 		if (stack == "vertical") {
 			x = switch(leg$position$align.h, "left" = lW/2, "right" = grid::unit(W, "inch") -lW/2, grid::unit(0.5, "npc"))

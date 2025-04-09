@@ -19,6 +19,8 @@ tm_scalebar(
   size = "deprecated",
   stack,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   margins,
@@ -52,7 +54,11 @@ tm_scalebar(
 
 \item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
-\item{frame}{frame}
+\item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
 
 \item{frame.lwd}{frame line width}
 

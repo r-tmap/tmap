@@ -136,9 +136,9 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 							grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols), widths = cols, heights = rows), name = "vp_main")
 	)
 
-	bgcol = if (is.na(o$frame) && !o$earth_boundary) {
+	bgcol = if (!o$frame && !o$earth_boundary) {
 		o$bg.color
-	} else if (is.na(o$frame) && o$earth_boundary) {
+	} else if (!o$frame && o$earth_boundary) {
 		o$space.color
 	} else o$outer.bg.color
 

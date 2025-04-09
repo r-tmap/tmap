@@ -22,6 +22,8 @@ tm_compass(
   stack,
   just,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   margins,
@@ -62,7 +64,11 @@ tm_compass(
 
 \item{just}{just}
 
-\item{frame}{frame}
+\item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
 
 \item{frame.lwd}{frame line width}
 

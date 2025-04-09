@@ -1,3 +1,6 @@
+# similar as rlang::'%||%' but than for NA
+'%--%' = function (x, y) if (is.na(x[1])) y else x
+
 islistof = function(x, class) {
 	is.list(x) && all(vapply(x, inherits, logical(1), what = class))
 }

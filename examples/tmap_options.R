@@ -10,7 +10,7 @@ if (requireNamespace("lobstr")) {
 tmap_options(
   bg.color = "steelblue",
   outer.bg.color = "salmon",
-  frame = "purple3",
+  frame.color = "purple3",
   frame.lwd = 5,
   compass.type = "8star",
   legend.bg.color = "gold",

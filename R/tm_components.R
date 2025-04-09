@@ -11,7 +11,9 @@
 #' @param alpha alpha transparency of the text
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param just just
-#' @param frame frame
+#' @param frame frame should a frame be drawn?
+#' @param frame.color frame color
+#' @param frame.alpha frame alpha transparancy
 #' @param frame.lwd frame line width
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg.color Background color
@@ -22,7 +24,7 @@
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.color, frame.alpha, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
@@ -111,6 +113,8 @@ tm_compass <- function(north,
 					   stack,
 					   just,
 					   frame,
+					   frame.color,
+					   frame.alpha,
 					   frame.lwd,
 					   frame.r,
 					   margins,
@@ -155,6 +159,8 @@ tm_scalebar = function(breaks,
 						size = "deprecated",
 						stack,
 						frame,
+						frame.color,
+						frame.alpha,
 						frame.lwd,
 						frame.r,
 						margins,
@@ -251,6 +257,8 @@ tm_logo = function(file,
 				   position,
 				   group_id,
 				   frame,
+				   frame.color,
+				   frame.alpha,
 				   frame.lwd,
 				   frame.r,
 				   z) {

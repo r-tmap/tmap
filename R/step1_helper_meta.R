@@ -12,41 +12,15 @@ preprocess_meta_step1 = function(o) {
 		#
 		# panel.label.size = panel.label.size * scale
 
-		space.color = ifelse(is.null(space.color), bg.color, space.color[1])
-		earth_boundary.color = ifelse(is.null(earth_boundary.color), attr.color, earth_boundary.color[1])
-		legend.text.color =  ifelse(is.null(legend.text.color), attr.color, legend.text.color[1])
-		legend.title.color = ifelse(is.null(legend.title.color), attr.color, legend.title.color[1])
-		title.color = ifelse(is.null(title.color), attr.color, title.color[1])
+		space.color = space.color %--% attr.color
+		earth_boundary.color = earth_boundary.color %--% attr.color
+		legend.text.color =  legend.text.color %--% attr.color
+		legend.title.color = legend.title.color %--% attr.color
+		title.color = title.color %--% attr.color
+		frame.color = frame.color %--% attr.color
+		legend.frame.color = legend.frame.color %--% attr.color
+		panel.label.frame.color = panel.label.frame.color %--% attr.color
 
-		legend.inside.box = if (!is.logical(legend.frame)) {
-			TRUE
-		} else {
-			legend.frame
-		}
-
-		if (isTRUE(title.bg.color)) {
-			title.bg.color = bg.color
-		}
-
-		if (isTRUE(frame)) {
-			frame = attr.color
-		} else if (isFALSE(frame)) {
-			frame = NA
-		}
-
-		if (is.logical(legend.frame)) {
-			if (isTRUE(legend.frame)) {
-				legend.frame = attr.color
-			}  else {
-				legend.frame = NA
-			}
-		}
-		#
-		# 		between_margin.in <- convertHeight(unit(between_margin, "lines") * scale, "inch", valueOnly=TRUE)
-		#
-		# 		between_margin.y <-convertHeight(unit(between_margin.in, "inch"), "npc", valueOnly=TRUE) * gf$nrow
-		# 		between_margin.x <-convertWidth(unit(between_margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
-		#
 
 		outer.margins = rep(outer.margins, length.out = 4)
 
@@ -67,18 +41,20 @@ preprocess_meta_step1 = function(o) {
 		#main.title.color = do.call("process_color", c(list(col=main.title.color), pc))
 		legend.text.color = do.call("process_color", c(list(col=legend.text.color), pc))
 		legend.title.color = do.call("process_color", c(list(col=legend.title.color), pc))
-		if (!is.na(frame)) frame = do.call("process_color", c(list(col=frame), pc))
-		if (!is.na(legend.frame)) legend.frame = do.call("process_color", c(list(col=legend.frame), pc))
+		frame.color = do.call("process_color", c(list(col=frame.color), pc))
+		legend.frame.color = do.call("process_color", c(list(col=legend.frame.color), pc))
 
 		panel.label.color = do.call("process_color", c(list(col=panel.label.color), pc))
 		panel.label.bg.color = do.call("process_color", c(list(col=panel.label.bg.color), pc))
+		panel.label.frame.color = do.call("process_color", c(list(col=panel.label.frame.color), pc))
 
 		earth_boundary.color = do.call("process_color", c(list(col=earth_boundary.color), pc))
 
 		if (is.na(bg.color) && pc$sepia_intensity != 0) bg.color = "#FFFFFF"
-		bg.color = do.call("process_color", c(list(col=bg.color), pc))
+		if (is.na(outer.bg.color) && pc$sepia_intensity != 0) outer.bg.color = "#FFFFFF"
 
-		if (!is.null(outer.bg.color)) outer.bg.color = do.call("process_color", c(list(col=outer.bg.color), pc))
+		bg.color = do.call("process_color", c(list(col=bg.color), pc))
+		outer.bg.color = do.call("process_color", c(list(col=outer.bg.color), pc))
 
 		if (is.na(legend.bg.color)) legend.bg.color = !is.na(legend.frame)
 		if (!is.na(legend.bg.color)) {

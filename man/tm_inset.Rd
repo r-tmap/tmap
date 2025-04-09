@@ -13,6 +13,8 @@ tm_inset(
   position,
   group_id,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   z
@@ -33,7 +35,11 @@ tm_inset(
 
 \item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_comp_group]{tm_comp_group()}} where its argument \code{id} should correspond to \code{group_id}.}
 
-\item{frame}{frame}
+\item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
 
 \item{frame.lwd}{frame line width}
 

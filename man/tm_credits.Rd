@@ -46,7 +46,7 @@ tm_credits(
 
 \item{just}{just}
 
-\item{frame}{frame}
+\item{frame}{frame should a frame be drawn?}
 
 \item{frame.lwd}{frame line width}
 
