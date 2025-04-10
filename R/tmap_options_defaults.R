@@ -496,7 +496,7 @@
 		compass.bg.color=NA,
 		compass.bg.alpha=1,
 		compass.margins = c(0.25, 0.25, 0.25, 0.25),
-
+		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		# standard arguments:
 		inset.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 
