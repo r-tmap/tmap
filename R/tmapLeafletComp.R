@@ -190,6 +190,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   # 	prettyNum(trns(x), format = "f", big.mark = ",", digits =
 										   # 			  	3, scientific = FALSE)
 										   # },
+										   labels = cmp$labels,
 										   bins = head(val, -2),
 										   naLabel = textNA,
 										   title=title,
