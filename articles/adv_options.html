@@ -483,6 +483,8 @@
 <span><span class="co">#&gt; ├─bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─outer.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─frame.double_line: <span style="color: #0000BB;">FALSE</span></span></span>
@@ -557,6 +559,11 @@
 <span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
 <span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
 <span><span class="co">#&gt; ├─component.equalize: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─legend.show: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.design: <span style="color: #0000BB;">"standard"</span></span></span>
 <span><span class="co">#&gt; ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span></span>
@@ -574,27 +581,29 @@
 <span><span class="co">#&gt; ├─legend.height: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.na.show: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─legend.title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.title.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.xlab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.xlab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.xlab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.xlab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.xlab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.xlab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.ylab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.ylab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.ylab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.ylab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.ylab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.ylab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.text.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.text.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.text.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─legend.text.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.text.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.text.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─legend.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─legend.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─legend.bg.color: <span style="color: #0000BB;">NA</span></span></span>
@@ -674,41 +683,45 @@
 <span><span class="co">#&gt; ├─chart.height&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 10, 10, 10, 10, 10, 10, 10</span></span></span>
 <span><span class="co">#&gt; ├─chart.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.na.show: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─chart.title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.title.alpha: &lt;NULL&gt;</span></span>
-<span><span class="co">#&gt; ├─chart.xlab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.xlab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.xlab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.xlab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.xlab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.xlab.alpha: &lt;NULL&gt;</span></span>
-<span><span class="co">#&gt; ├─chart.ylab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.ylab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.ylab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.ylab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.ylab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.ylab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─chart.text.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.text.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.text.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─chart.text.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.text.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.text.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─chart.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─chart.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─chart.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.object.color: <span style="color: #0000BB;">"#DDDDDD"</span></span></span>
 <span><span class="co">#&gt; ├─title.size: <span style="color: #0000BB;">1.3</span></span></span>
-<span><span class="co">#&gt; ├─title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─title.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─title.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─title.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─title.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
@@ -730,9 +743,6 @@
 <span><span class="co">#&gt; ├─credits.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─credits.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -762,11 +772,16 @@
 <span><span class="co">#&gt; │ ├─align.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─align.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
+<span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span></span>
+<span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
+<span><span class="co">#&gt; ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
+<span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
+<span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
+<span><span class="co">#&gt; │ ├─align.h: <span style="color: #0000BB;">"right"</span></span></span>
+<span><span class="co">#&gt; │ ├─align.v: <span style="color: #0000BB;">"top"</span></span></span>
+<span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─logo.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─logo.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─logo.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
@@ -778,9 +793,6 @@
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
@@ -794,8 +806,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.width: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
@@ -809,8 +819,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─inset.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span></span>
 <span><span class="co">#&gt; ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.height: <span style="color: #0000BB;">7</span></span></span>
@@ -838,9 +846,6 @@
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─grid.show: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.labels.pos&lt;chr [2]&gt;: <span style="color: #0000BB;">"left", "bottom"</span></span></span>
 <span><span class="co">#&gt; ├─grid.x: <span style="color: #0000BB;">NA</span></span></span>
@@ -895,6 +900,8 @@
 <span><span class="co">#&gt; ├─panel.label.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.bg.color: <span style="color: #0000BB;">"grey80"</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─panel.label.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─panel.label.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.height: <span style="color: #0000BB;">1</span></span></span>
@@ -907,10 +914,10 @@
 <span><span class="co">#&gt; ├─qtm.minimap: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─qtm.mouse_coordinates: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─earth_boundary: <span style="color: #0000BB;">FALSE</span></span></span>
-<span><span class="co">#&gt; ├─earth_boundary.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─earth_boundary.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─earth_boundary.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─earth_datum: <span style="color: #0000BB;">"OGC:CRS84"</span></span></span>
-<span><span class="co">#&gt; ├─space.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─space.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─check_and_fix: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─basemap.show: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─basemap.server&lt;chr [3]&gt;: <span style="color: #0000BB;">"Esri.WorldGr...", "OpenStreetMap", "Esri.WorldTo..."</span></span></span>
@@ -1284,6 +1291,8 @@
 <span><span class="co">#&gt; ├─bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─outer.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─frame.double_line: <span style="color: #0000BB;">FALSE</span></span></span>
@@ -1358,6 +1367,11 @@
 <span><span class="co">#&gt; ├─legend.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
 <span><span class="co">#&gt; ├─chart.stack&lt;chr [6]&gt;: <span style="color: #0000BB;">"vertical", "horizontal", "horizontal", "vertical", "horizontal", "vertical"</span></span></span>
 <span><span class="co">#&gt; ├─component.equalize: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
+<span><span class="co">#&gt; ├─component.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─legend.show: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─legend.design: <span style="color: #0000BB;">"standard"</span></span></span>
 <span><span class="co">#&gt; ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span></span>
@@ -1373,27 +1387,29 @@
 <span><span class="co">#&gt; ├─legend.height: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─legend.na.show: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─legend.title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.title.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.xlab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.xlab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.xlab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.xlab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.xlab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.xlab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.ylab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.ylab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.ylab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─legend.ylab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.ylab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.ylab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─legend.text.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─legend.text.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─legend.text.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─legend.text.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.text.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─legend.text.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─legend.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─legend.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─legend.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─legend.bg.color: <span style="color: #0000BB;">NA</span></span></span>
@@ -1473,41 +1489,45 @@
 <span><span class="co">#&gt; ├─chart.height&lt;dbl [8]&gt;: <span style="color: #0000BB;">10, 10, 10, 10, 10, 10, 10, 10</span></span></span>
 <span><span class="co">#&gt; ├─chart.reverse: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─chart.na.show: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─chart.title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.title.alpha: &lt;NULL&gt;</span></span>
-<span><span class="co">#&gt; ├─chart.xlab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.xlab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.xlab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.xlab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.xlab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.xlab.alpha: &lt;NULL&gt;</span></span>
-<span><span class="co">#&gt; ├─chart.ylab.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.ylab.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.ylab.size: <span style="color: #0000BB;">0.9</span></span></span>
 <span><span class="co">#&gt; ├─chart.ylab.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.ylab.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.ylab.alpha: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─chart.text.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─chart.text.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.text.size: <span style="color: #0000BB;">0.7</span></span></span>
 <span><span class="co">#&gt; ├─chart.text.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.text.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─chart.text.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─chart.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─chart.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─chart.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─chart.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─chart.object.color: <span style="color: #0000BB;">"#DDDDDD"</span></span></span>
 <span><span class="co">#&gt; ├─title.size: <span style="color: #0000BB;">1.3</span></span></span>
-<span><span class="co">#&gt; ├─title.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─title.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.fontface: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─title.fontfamily: &lt;NULL&gt;</span></span>
 <span><span class="co">#&gt; ├─title.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─title.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─title.frame: <span style="color: #0000BB;">FALSE</span></span></span>
+<span><span class="co">#&gt; ├─title.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─title.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─title.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─title.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
@@ -1529,9 +1549,6 @@
 <span><span class="co">#&gt; ├─credits.bg.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─credits.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─credits.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─credits.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
@@ -1561,11 +1578,16 @@
 <span><span class="co">#&gt; │ ├─align.h: <span style="color: #0000BB;">"right"</span></span></span>
 <span><span class="co">#&gt; │ ├─align.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
+<span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"bottom"</span></span></span>
+<span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
+<span><span class="co">#&gt; ├─inset.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
+<span><span class="co">#&gt; │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span></span>
+<span><span class="co">#&gt; │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span></span>
+<span><span class="co">#&gt; │ ├─align.h: <span style="color: #0000BB;">"right"</span></span></span>
+<span><span class="co">#&gt; │ ├─align.v: <span style="color: #0000BB;">"top"</span></span></span>
+<span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─compass.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─logo.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─logo.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
 <span><span class="co">#&gt; ├─logo.between_margin: <span style="color: #0000BB;">0.2</span></span></span>
@@ -1577,9 +1599,6 @@
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─logo.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.height: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.width: <span style="color: #0000BB;">7</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
@@ -1593,8 +1612,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─inset_map.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset.height: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.width: <span style="color: #0000BB;">3</span></span></span>
 <span><span class="co">#&gt; ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span></span>
@@ -1608,8 +1625,6 @@
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
 <span><span class="co">#&gt; ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; ├─inset.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─inset.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span></span>
 <span><span class="co">#&gt; ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─inset_grob.height: <span style="color: #0000BB;">7</span></span></span>
@@ -1637,9 +1652,6 @@
 <span><span class="co">#&gt; │ ├─just.h: <span style="color: #0000BB;">"left"</span></span></span>
 <span><span class="co">#&gt; │ ├─just.v: <span style="color: #0000BB;">"top"</span></span></span>
 <span><span class="co">#&gt; │ └─type: <span style="color: #0000BB;">"in"</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame: <span style="color: #0000BB;">NA</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
-<span><span class="co">#&gt; ├─scalebar.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─grid.show: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─grid.labels.pos&lt;chr [2]&gt;: <span style="color: #0000BB;">"left", "bottom"</span></span></span>
 <span><span class="co">#&gt; ├─grid.x: <span style="color: #0000BB;">NA</span></span></span>
@@ -1694,6 +1706,8 @@
 <span><span class="co">#&gt; ├─panel.label.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.bg.color: <span style="color: #0000BB;">"grey80"</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; ├─panel.label.frame.color: <span style="color: #0000BB;">NA</span></span></span>
+<span><span class="co">#&gt; ├─panel.label.frame.alpha: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.frame.r: <span style="color: #0000BB;">2</span></span></span>
 <span><span class="co">#&gt; ├─panel.label.height: <span style="color: #0000BB;">1</span></span></span>
@@ -1706,10 +1720,10 @@
 <span><span class="co">#&gt; ├─qtm.minimap: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─qtm.mouse_coordinates: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─earth_boundary: <span style="color: #0000BB;">FALSE</span></span></span>
-<span><span class="co">#&gt; ├─earth_boundary.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─earth_boundary.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─earth_boundary.lwd: <span style="color: #0000BB;">1</span></span></span>
 <span><span class="co">#&gt; ├─earth_datum: <span style="color: #0000BB;">"OGC:CRS84"</span></span></span>
-<span><span class="co">#&gt; ├─space.color: &lt;NULL&gt;</span></span>
+<span><span class="co">#&gt; ├─space.color: <span style="color: #0000BB;">NA</span></span></span>
 <span><span class="co">#&gt; ├─check_and_fix: <span style="color: #0000BB;">FALSE</span></span></span>
 <span><span class="co">#&gt; ├─basemap.show: <span style="color: #0000BB;">TRUE</span></span></span>
 <span><span class="co">#&gt; ├─basemap.server&lt;chr [3]&gt;: <span style="color: #0000BB;">"Esri.WorldGr...", "OpenStreetMap", "Esri.WorldTo..."</span></span></span>
@@ -1877,7 +1891,7 @@
 <span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span></span>
 <span>  bg.color <span class="op">=</span> <span class="st">"steelblue"</span>,</span>
 <span>  outer.bg.color <span class="op">=</span> <span class="st">"salmon"</span>,</span>
-<span>  frame <span class="op">=</span> <span class="st">"purple3"</span>,</span>
+<span>  frame.color <span class="op">=</span> <span class="st">"purple3"</span>,</span>
 <span>  frame.lwd <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  compass.type <span class="op">=</span> <span class="st">"8star"</span>,</span>
 <span>  legend.bg.color <span class="op">=</span> <span class="st">"gold"</span>,</span>
@@ -1890,7 +1904,7 @@
 <span><span class="co">#&gt; <span style="color: #555555;">&lt;list&gt;</span></span></span>
 <span><span class="co">#&gt; ├─bg.color: <span style="color: #0000BB;">"steelblue"</span></span></span>
 <span><span class="co">#&gt; ├─outer.bg.color: <span style="color: #0000BB;">"salmon"</span></span></span>
-<span><span class="co">#&gt; ├─frame: <span style="color: #0000BB;">"purple3"</span></span></span>
+<span><span class="co">#&gt; ├─frame.color: <span style="color: #0000BB;">"purple3"</span></span></span>
 <span><span class="co">#&gt; ├─frame.lwd: <span style="color: #0000BB;">5</span></span></span>
 <span><span class="co">#&gt; ├─legend.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span></span>
 <span><span class="co">#&gt; │ ├─cell.h: <span style="color: #0000BB;">"right"</span></span></span>
