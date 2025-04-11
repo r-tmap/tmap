@@ -2,8 +2,10 @@
 #'
 #' @description
 #' * `tmap_mode()` informs of the current mode (if called without argument).
-#' * `ttm()` switches mode automatically.
-#' * `ttmp()` switches mode and calls [tmap_last()] to display the last map in the other mode.
+#' * `ttm()` toggles between the most recent two modes.
+#' * `ttmp()` same as `ttm()` and calls [tmap_last()] to display the last map in the new mode.
+#' * `rtm()` rotary switches between all modes
+#' * `rtmp()` same as `rtm()` and calls [tmap_last()] to display the last map in the new mode.
 #'
 #' Set tmap mode to static plotting or interactive viewing.
 #' The global option `tmap.mode` determines the whether thematic maps are plot
@@ -175,6 +177,19 @@ so = function(...) {
 ttm = function() {
 	current.mode = getOption("tmap.mode")
 
+	new.mode = .TMAP$mode_toggle
+
+	.TMAP$mode_toggle = current.mode
+
+	tmap_mode(new.mode)
+	invisible(current.mode)
+}
+
+#' @rdname tmap_mode
+#' @export
+rtm = function() {
+	current.mode = getOption("tmap.mode")
+
 	modes = get_modes()
 
 	id = match(current.mode, modes) + 1L
@@ -190,6 +205,14 @@ ttmp = function() {
 	ttm()
 	tmap_last()
 }
+
+#' @rdname tmap_mode
+#' @export
+rtmp = function() {
+	rtm()
+	tmap_last()
+}
+
 
 check_unit = function(unit) {
 	if (!unit %in% c("metric", "imperial", "km", "m", "mi", "miles", "ft", "feet")) stop("incorrect unit", call. = FALSE)

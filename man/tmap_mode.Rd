@@ -3,14 +3,20 @@
 \name{tmap_mode}
 \alias{tmap_mode}
 \alias{ttm}
+\alias{rtm}
 \alias{ttmp}
+\alias{rtmp}
 \title{Set tmap mode to static plotting or interactive viewing}
 \usage{
 tmap_mode(mode = NULL)
 
 ttm()
 
+rtm()
+
 ttmp()
+
+rtmp()
 }
 \arguments{
 \item{mode}{One of \code{"plot"} or \code{"view"}. See Details for more info.}
@@ -26,8 +32,10 @@ The previous tmap mode before switching.
 \description{
 \itemize{
 \item \code{tmap_mode()} informs of the current mode (if called without argument).
-\item \code{ttm()} switches mode automatically.
-\item \code{ttmp()} switches mode and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the other mode.
+\item \code{ttm()} toggles between the most recent two modes.
+\item \code{ttmp()} same as \code{ttm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
+\item \code{rtm()} rotary switches between all modes
+\item \code{rtmp()} same as \code{rtm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
 }
 
 Set tmap mode to static plotting or interactive viewing.

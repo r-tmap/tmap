@@ -32,6 +32,8 @@
 			})
 	})) # needed for pretty ticks for continuous scale with trans enabled (like log scale)
 
+	.TMAP$mode_toggle = "view"
+
 	fill_providers()
 }
 
