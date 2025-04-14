@@ -44,6 +44,8 @@ preprocess_meta_step1 = function(o) {
 		frame.color = do.call("process_color", c(list(col=frame.color), pc))
 		legend.frame.color = do.call("process_color", c(list(col=legend.frame.color), pc))
 
+		panel.label.rot = rep_len(panel.label.rot, 4L)
+
 		panel.label.color = do.call("process_color", c(list(col=panel.label.color), pc))
 		panel.label.bg.color = do.call("process_color", c(list(col=panel.label.bg.color), pc))
 		panel.label.frame.color = do.call("process_color", c(list(col=panel.label.frame.color), pc))

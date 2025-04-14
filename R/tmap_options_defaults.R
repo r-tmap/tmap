@@ -602,7 +602,7 @@
 		panel.label.frame.lwd = 1,
 		panel.label.frame.r = 2,
 		panel.label.height = 1,
-		panel.label.rot = c(90, 0),
+		panel.label.rot = c(90, 0, 270, 0),
 
 		#
 		bbox = NULL,

@@ -79,9 +79,9 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 	cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -2, ifelse(o$panel.wrap.pos  == "right", 2, 0))
 	rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -2, ifelse(o$panel.wrap.pos  == "bottom", 2, 0))
 
-	panel_col_rot = 0
-	panel_row_rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)
-	panel_rot = ifelse(o$panel.wrap.pos  == "left", 90, ifelse(o$panel.wrap.pos  == "right", 270, 0))
+	panel_col_rot = ifelse(o$panel.xtab.pos[2] == "top", o$panel.label.rot[2], o$panel.label.rot[4])
+	panel_row_rot = ifelse(o$panel.xtab.pos[1] == "left", o$panel.label.rot[1], o$panel.label.rot[3])
+	panel_rot = ifelse(o$panel.wrap.pos  == "left", o$panel.label.rot[1], ifelse(o$panel.wrap.pos  == "right", o$panel.label.rot[3], ifelse(o$panel.wrap.pos  == "top", o$panel.label.rot[2], o$panel.label.rot[4])))
 
 	#}
 	#####

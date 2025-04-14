@@ -283,8 +283,7 @@
 #' @param panel.label.frame.lwd `r .doc_opt("panel.label.frame.lwd")`
 #' @param panel.label.frame.r `r .doc_opt("panel.label.frame.r")`
 #' @param panel.label.height `r .doc_opt("panel.label.height")`
-#' @param panel.label.rot `r .doc_opt("panel.label.rot")`
-# For set_bounds, set_view, set_zoom_limits
+#' @param panel.label.rot Rotation angles of the panel labels. Vector of four values that determine the panel label rotation when they are placed left, top, right, and bottom. The default angles are 90, 0, 270 and 0 respectively. Note that the second value is the most common, since labels are by default shown on top (see `panel.wrap.pos`). In cross-table facets created with `tm_facets_grid()`, the first two values are used by default (see `panel.xtab.pos`).
 #' @inheritParams tm_view
 #' @param qtm.scalebar `r .doc_opt("qtm.scalebar")`
 #' @param qtm.minimap `r .doc_opt("qtm.minimap")`
