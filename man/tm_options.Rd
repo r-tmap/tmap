@@ -841,7 +841,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.label.height}{The height of the label of the panel.}
 
-\item{panel.label.rot}{The rot of the label of the panel.}
+\item{panel.label.rot}{Rotation angles of the panel labels. Vector of four values that determine the panel label rotation when they are placed left, top, right, and bottom. The default angles are 90, 0, 270 and 0 respectively. Note that the second value is the most common, since labels are by default shown on top (see \code{panel.wrap.pos}). In cross-table facets created with \code{tm_facets_grid()}, the first two values are used by default (see \code{panel.xtab.pos}).}
 
 \item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
 

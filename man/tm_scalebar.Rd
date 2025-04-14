@@ -14,6 +14,7 @@ tm_scalebar(
   lwd,
   position,
   group_id,
+  bg,
   bg.color,
   bg.alpha,
   size = "deprecated",
@@ -45,6 +46,8 @@ tm_scalebar(
 \item{position}{The position specification of the component: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use \code{group_id} and specify \code{component} in \code{\link[=tm_comp_group]{tm_comp_group()}}.}
 
 \item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_comp_group]{tm_comp_group()}} where its argument \code{id} should correspond to \code{group_id}.}
+
+\item{bg}{Show background?}
 
 \item{bg.color}{Background color}
 

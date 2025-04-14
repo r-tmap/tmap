@@ -227,8 +227,10 @@
 		asp = NA,
 
 		# background
-		bg.color = NA,
-		outer.bg.color = NA,
+		bg = TRUE,
+		bg.color = "white",
+		outer.bg = FALSE,
+		outer.bg.color = "white",
 
 		# frame
 		frame = TRUE,
@@ -317,6 +319,10 @@
 		component.frame.lwd = 1,
 		component.frame.r = 2,
 
+		component.bg = TRUE,
+		component.bg.color = "white",
+		component.bg.alpha = 1,
+
 		# legend
 		legend.show = TRUE,
 		legend.design = "standard",
@@ -353,7 +359,8 @@
 		legend.frame.alpha = 1,
 		legend.frame.lwd = 1,
 		legend.frame.r = 2,
-		legend.bg.color = NA,
+		legend.bg = TRUE,
+		legend.bg.color = "white",
 		legend.bg.alpha = 1,
 		legend.only = FALSE,
 		legend.absolute_fontsize = 14,
@@ -452,7 +459,8 @@
 		chart.frame.alpha = 1,
 		chart.frame.lwd = 1,
 		chart.frame.r = 2,
-		chart.bg.color = NA,
+		chart.bg = TRUE,
+		chart.bg.color = "white",
 		chart.bg.alpha = 1,
 		chart.object.color = "#DDDDDD",
 
@@ -462,8 +470,6 @@
 		title.fontface = NULL,
 		title.fontfamily = NULL,
 		title.alpha = 1,
-		title.bg.color = NA,
-		title.bg.alpha = 1,
 		title.padding = c(0.25, 0.25, 0.25, 0.25),
 		title.frame = FALSE,
 		title.frame.color = NA,
@@ -477,8 +483,6 @@
 		credits.fontface = NULL,
 		credits.fontfamily = NULL,
 		credits.alpha = 1,
-		credits.bg.color = NA,
-		credits.bg.alpha = 1,
 		credits.padding = c(0.25, 0.25, 0.25, 0.25),
 		credits.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		credits.width = NA,
@@ -493,8 +497,6 @@
 		compass.color.dark=NA,
 		compass.color.light=NA,
 		compass.lwd=1,
-		compass.bg.color=NA,
-		compass.bg.alpha=1,
 		compass.margins = c(0.25, 0.25, 0.25, 0.25),
 		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "bottom"),
 		# standard arguments:
@@ -518,6 +520,7 @@
 		inset.between_margin = 0.2,
 		inset.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		inset.frame = TRUE,
+		inset.bg = TRUE,
 		inset.bg.color = "#ffffff",
 		inset.bg.alpha = 1,
 
@@ -536,8 +539,6 @@
 		scalebar.color.dark = "black",
 		scalebar.color.light = "white",
 		scalebar.lwd = 1,
-		scalebar.bg.color = NA,
-		scalebar.bg.alpha = 1,
 		scalebar.size = NULL,
 		scalebar.margins = c(0.01,0.01,0.01,0.01),
 
@@ -595,6 +596,7 @@
 		panel.label.fontface = NULL,
 		panel.label.fontfamily = NULL,
 		panel.label.alpha = 1,
+		panel.label.bg = TRUE,
 		panel.label.bg.color = "grey80",
 		panel.label.frame = TRUE,
 		panel.label.frame.color = NA,
@@ -761,6 +763,7 @@ styles = list(
 		basemap.server = "Esri.NatGeoWorldMap",
 		basemap.alpha = 1),
 	cobalt = list(bg.color = "#002240",
+				  outer.bg = TRUE,
 				  outer.bg.color = "#002240",
 				  value.const = list(fill.polygons = "#0088FF",
 				  				   fill = "#FF9D00",

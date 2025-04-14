@@ -198,12 +198,11 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
 
-	draw_rect = comp[[1]]$frame.lwd!=0 || (!is.na(comp[[1]]$frame && !identical(comp[[1]]$frame, FALSE))) || ("bg.color" %in% comp[[1]]$call)
+	draw_rect = comp[[1]]$frame.lwd!=0 || (!is.na(comp[[1]]$frame && !identical(comp[[1]]$frame, FALSE))) || (comp[[1]]$bg)
 
 	groupframe = if (draw_rect && frame_combine) {
-		bg = comp[[1]]$bg.color
-		if (is.null(bg)) bg = NA
- 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
+		bg.color = if (comp[[1]]$bg) comp[[1]]$bg.color else NA
+ 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
 	} else NULL
 
 	equalize = comp[[1]]$equalize
@@ -225,7 +224,8 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, fH, fW, iW, iH) {
 		frame = if (draw_rect && !frame_combine) {
-			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, alpha = leg$bg.alpha, col = leg$frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
+			bg.color = if (leg$bg) leg$bg.color else NA
+			rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = leg$bg.alpha, col = leg$frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
 		if (stack == "vertical") {
 			x = switch(leg$position$align.h, "left" = lW/2, "right" = grid::unit(W, "inch") -lW/2, grid::unit(0.5, "npc"))

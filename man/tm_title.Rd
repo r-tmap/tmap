@@ -21,6 +21,7 @@ tm_title(
   frame.alpha,
   frame.lwd,
   frame.r,
+  bg,
   bg.color,
   bg.alpha,
   position,
@@ -62,6 +63,8 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 \item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Show background?}
 
 \item{bg.color}{Background color}
 

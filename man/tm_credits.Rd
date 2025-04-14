@@ -17,6 +17,7 @@ tm_credits(
   frame,
   frame.lwd,
   frame.r,
+  bg,
   bg.color,
   bg.alpha,
   position,
@@ -51,6 +52,8 @@ tm_credits(
 \item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Show background?}
 
 \item{bg.color}{Background color}
 

@@ -35,6 +35,7 @@ tm_legend(
   frame,
   frame.lwd,
   frame.r,
+  bg,
   bg.color,
   bg.alpha,
   absolute_fontsize,
@@ -132,6 +133,8 @@ tm_legend_bivariate(
 \item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Show background?}
 
 \item{bg.color}{The color of the bg of the legend.}
 

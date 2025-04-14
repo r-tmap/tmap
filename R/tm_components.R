@@ -16,6 +16,7 @@
 #' @param frame.alpha frame alpha transparancy
 #' @param frame.lwd frame line width
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
+#' @param bg Show background?
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
 #' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_comp_group()].
@@ -24,7 +25,7 @@
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.color, frame.alpha, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z) {
+tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha, position, group_id, width, height, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
@@ -62,7 +63,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #' @param ... to catch deprecated arguments
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
-tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, group_id, width, height, z, ...) {
+tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg, bg.color, bg.alpha, position, group_id, width, height, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
@@ -108,6 +109,7 @@ tm_compass <- function(north,
 					   lwd,
 					   position,
 					   group_id,
+					   bg,
 					   bg.color,
 					   bg.alpha,
 					   stack,
@@ -154,6 +156,7 @@ tm_scalebar = function(breaks,
 						lwd,
 						position,
 						group_id,
+						bg,
 						bg.color,
 						bg.alpha,
 						size = "deprecated",
