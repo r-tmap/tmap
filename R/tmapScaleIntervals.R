@@ -43,9 +43,11 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 				na.show = TRUE
 				x1 = x1[1]
 			})
-			return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+			return = tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord)
 		}
 	})
+
+	if (!is.null(scale$return)) return(scale$return)
 
 	# data-type dependent processing
 	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer))

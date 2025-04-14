@@ -21,7 +21,7 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
 
-	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = value.na, label.na = label.na, label.show = label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
+	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, chart = chart, value.na = scale$value.na, label.na = scale$label.na, label.show = scale$label.show, na.show = legend$na.show, sortRev = sortRev, bypass_ord = bypass_ord))
 
 	with(scale, {
 
