@@ -1487,7 +1487,7 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 
 
 <dt id="arg-panel-label-rot">panel.label.rot<a class="anchor" aria-label="anchor" href="#arg-panel-label-rot"></a></dt>
-<dd><p>The rot of the label of the panel.</p></dd>
+<dd><p>Rotation angles of the panel labels. Vector of four values that determine the panel label rotation when they are placed left, top, right, and bottom. The default angles are 90, 0, 270 and 0 respectively. Note that the second value is the most common, since labels are by default shown on top (see <code>panel.wrap.pos</code>). In cross-table facets created with <code><a href="tm_facets.html">tm_facets_grid()</a></code>, the first two values are used by default (see <code>panel.xtab.pos</code>).</p></dd>
 
 
 <dt id="arg-bbox">bbox<a class="anchor" aria-label="anchor" href="#arg-bbox"></a></dt>
@@ -2026,8 +2026,10 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─label.na: <span style="color: #0000BB;">"Missing"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scale: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─asp: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─bg.color: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─outer.bg.color: <span style="color: #0000BB;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─bg: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─bg.color: <span style="color: #0000BB;">"white"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─outer.bg: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─outer.bg.color: <span style="color: #0000BB;">"white"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─frame.color: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─frame.alpha: <span style="color: #0000BB;">1</span></span>
@@ -2110,6 +2112,9 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.frame.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.frame.r: <span style="color: #0000BB;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.bg: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.bg.color: <span style="color: #0000BB;">"white"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─component.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.show: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.design: <span style="color: #0000BB;">"standard"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.orientation: <span style="color: #0000BB;">"portrait"</span></span>
@@ -2152,7 +2157,8 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.frame.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.bg.color: <span style="color: #0000BB;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.bg: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.bg.color: <span style="color: #0000BB;">"white"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.only: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.absolute_fontsize: <span style="color: #0000BB;">14</span></span>
@@ -2254,7 +2260,8 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.frame.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.frame.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.frame.r: <span style="color: #0000BB;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.bg.color: <span style="color: #0000BB;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.bg: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.bg.color: <span style="color: #0000BB;">"white"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─chart.object.color: <span style="color: #0000BB;">"#DDDDDD"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.size: <span style="color: #0000BB;">1.3</span></span>
@@ -2262,8 +2269,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.fontface: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.fontfamily: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.alpha: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.bg.color: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.frame: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─title.frame.color: <span style="color: #0000BB;">NA</span></span>
@@ -2286,8 +2291,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.fontface: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.fontfamily: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.alpha: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.bg.color: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.padding&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─credits.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
@@ -2309,8 +2312,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.color.dark: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.color.light: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.lwd: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.bg.color: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.25, 0.25, 0.25, 0.25</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─compass.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
@@ -2365,6 +2366,7 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"top"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.frame: <span style="color: #0000BB;">TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.height: <span style="color: #0000BB;">7</span></span>
@@ -2380,8 +2382,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.color.dark: <span style="color: #0000BB;">"black"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.color.light: <span style="color: #0000BB;">"white"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.lwd: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.bg.color: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.bg.alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.size: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.01, 0.01, 0.01, 0.01</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─scalebar.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
@@ -2444,6 +2444,7 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.fontface: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.fontfamily: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.alpha: <span style="color: #0000BB;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.bg: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.bg.color: <span style="color: #0000BB;">"grey80"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.frame.color: <span style="color: #0000BB;">NA</span></span>
