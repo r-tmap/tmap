@@ -10,9 +10,13 @@ tm_style(style, ...)
 tm_layout(
   scale,
   asp,
+  bg,
   bg.color,
+  outer.bg,
   outer.bg.color,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   frame.double_line,
@@ -23,8 +27,6 @@ tm_layout(
   meta.auto_margins,
   between_margin,
   panel.margin,
-  component.offset,
-  component.stack_margin,
   grid.mark.height,
   xylab.height,
   coords.height,
@@ -59,14 +61,29 @@ tm_layout(
   text.fontfamily,
   text.alpha,
   component.position,
+  component.offset,
+  component.stack_margin,
   component.autoscale,
+  component.resize_as_group,
+  component.frame_combine,
+  component.stack,
+  legend.stack,
+  chart.stack,
+  component.equalize,
+  component.frame,
+  component.frame.color,
+  component.frame.alpha,
+  component.frame.lwd,
+  component.frame.r,
+  component.bg,
+  component.bg.color,
+  component.bg.alpha,
   legend.show,
   legend.design,
   legend.orientation,
   legend.position,
   legend.width,
   legend.height,
-  legend.stack,
   legend.reverse,
   legend.na.show,
   legend.title.color,
@@ -90,21 +107,24 @@ tm_layout(
   legend.text.fontfamily,
   legend.text.alpha,
   legend.frame,
+  legend.frame.color,
+  legend.frame.alpha,
   legend.frame.lwd,
   legend.frame.r,
+  legend.bg,
   legend.bg.color,
   legend.bg.alpha,
   legend.only,
   legend.absolute_fontsize,
   legend.settings.standard.portrait,
   legend.settings.standard.landscape,
+  add_legend.position,
   chart.show,
   chart.plot.axis.x,
   chart.plot.axis.y,
   chart.position,
   chart.width,
   chart.height,
-  chart.stack,
   chart.reverse,
   chart.na.show,
   chart.title.color,
@@ -128,8 +148,11 @@ tm_layout(
   chart.text.fontfamily,
   chart.text.alpha,
   chart.frame,
+  chart.frame.color,
+  chart.frame.alpha,
   chart.frame.lwd,
   chart.frame.r,
+  chart.bg,
   chart.bg.color,
   chart.bg.alpha,
   chart.object.color,
@@ -138,13 +161,12 @@ tm_layout(
   title.fontface,
   title.fontfamily,
   title.alpha,
-  title.bg.color,
-  title.bg.alpha,
   title.padding,
   title.frame,
+  title.frame.color,
+  title.frame.alpha,
   title.frame.lwd,
   title.frame.r,
-  title.stack,
   title.position,
   title.width,
   credits.size,
@@ -152,13 +174,7 @@ tm_layout(
   credits.fontface,
   credits.fontfamily,
   credits.alpha,
-  credits.bg.color,
-  credits.bg.alpha,
   credits.padding,
-  credits.frame,
-  credits.frame.lwd,
-  credits.frame.r,
-  credits.stack,
   credits.position,
   credits.width,
   credits.height,
@@ -172,38 +188,43 @@ tm_layout(
   compass.color.dark,
   compass.color.light,
   compass.lwd,
-  compass.bg.color,
-  compass.bg.alpha,
   compass.margins,
-  compass.stack,
   compass.position,
-  compass.frame,
-  compass.frame.lwd,
-  compass.frame.r,
+  inset.position,
   logo.height,
   logo.margins,
   logo.between_margin,
-  logo.stack,
   logo.position,
-  logo.frame,
-  logo.frame.lwd,
-  logo.frame.r,
+  inset_map.height,
+  inset_map.width,
+  inset_map.margins,
+  inset_map.between_margin,
+  inset_map.position,
+  inset_map.frame,
+  inset.height,
+  inset.width,
+  inset.margins,
+  inset.between_margin,
+  inset.frame,
+  inset.bg,
+  inset.bg.color,
+  inset.bg.alpha,
+  inset_grob.height,
+  inset_grob.width,
+  inset_gg.height,
+  inset_gg.width,
   scalebar.breaks,
   scalebar.width,
   scalebar.text.size,
   scalebar.text.color,
+  scalebar.text.fontface,
+  scalebar.text.fontfamily,
   scalebar.color.dark,
   scalebar.color.light,
   scalebar.lwd,
-  scalebar.bg.color,
-  scalebar.bg.alpha,
   scalebar.size,
   scalebar.margins,
-  scalebar.stack,
   scalebar.position,
-  scalebar.frame,
-  scalebar.frame.lwd,
-  scalebar.frame.r,
   grid.show,
   grid.labels.pos,
   grid.x,
@@ -217,6 +238,8 @@ tm_layout(
   grid.labels.show,
   grid.labels.size,
   grid.labels.col,
+  grid.labels.fontface,
+  grid.labels.fontfamily,
   grid.labels.rot,
   grid.labels.format,
   grid.labels.cardinal,
@@ -228,14 +251,10 @@ tm_layout(
   grid.ticks,
   grid.lines,
   grid.ndiscr,
-  mouse_coordinates.stack,
   mouse_coordinates.position,
-  mouse_coordinates.show,
   minimap.server,
   minimap.toggle,
-  minimap.stack,
   minimap.position,
-  minimap.show,
   panel.show,
   panel.labels,
   panel.label.size,
@@ -243,13 +262,16 @@ tm_layout(
   panel.label.fontface,
   panel.label.fontfamily,
   panel.label.alpha,
+  panel.label.bg,
   panel.label.bg.color,
+  panel.label.bg.alpha,
   panel.label.frame,
+  panel.label.frame.color,
+  panel.label.frame.alpha,
   panel.label.frame.lwd,
   panel.label.frame.r,
   panel.label.height,
   panel.label.rot,
-  bbox,
   qtm.scalebar,
   qtm.minimap,
   qtm.mouse_coordinates,
@@ -268,6 +290,9 @@ tm_layout(
   tiles.alpha,
   tiles.zoom,
   attr.color,
+  crs_extra,
+  crs_global,
+  crs_basemap,
   title = NULL,
   ...
 )
@@ -282,11 +307,19 @@ tm_layout(
 \item{asp}{Aspect ratio of each map. When \code{asp} is set to \code{NA} (default) the aspect ratio will be adjusted to the used shapes. When set to 0 the aspect ratio is
 adjusted to the size of the device divided by the number of columns and rows.}
 
+\item{bg}{Draw map background?}
+
 \item{bg.color}{Background color of the map.}
+
+\item{outer.bg}{Draw map background (outside the frame)?}
 
 \item{outer.bg.color}{Background color of map outside the frame.}
 
-\item{frame}{Overall frame of the map}
+\item{frame}{Draw map frame?}
+
+\item{frame.color}{The color of the frame.}
+
+\item{frame.alpha}{The alpha transparency of the frame.}
 
 \item{frame.lwd}{The line width of the frame. See \code{graphics::par}, option 'lwd'.}
 
@@ -307,10 +340,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{between_margin}{Margin between the map.}
 
 \item{panel.margin}{The margin of the panel.}
-
-\item{component.offset}{The offset of the component.}
-
-\item{component.stack_margin}{The stack_margin of the component.}
 
 \item{grid.mark.height}{The height of the mark of the grid.}
 
@@ -380,7 +409,39 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{component.position}{The position of the component. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
+\item{component.offset}{The offset of the component.}
+
+\item{component.stack_margin}{The stack_margin of the component.}
+
 \item{component.autoscale}{The autoscale of the component.}
+
+\item{component.resize_as_group}{The resize_as_group of the component.}
+
+\item{component.frame_combine}{The frame_combine of the component.}
+
+\item{component.stack}{The stack of the component.}
+
+\item{legend.stack}{The stack of the legend.}
+
+\item{chart.stack}{The stack of the chart.}
+
+\item{component.equalize}{The equalize of the component.}
+
+\item{component.frame}{The frame of the component.}
+
+\item{component.frame.color}{The color of the frame of the component.}
+
+\item{component.frame.alpha}{The alpha transparency of the frame of the component.}
+
+\item{component.frame.lwd}{The line width of the frame of the component. See \code{graphics::par}, option 'lwd'.}
+
+\item{component.frame.r}{The r (radius) of the frame of the component.}
+
+\item{component.bg}{The bg of the component.}
+
+\item{component.bg.color}{The color of the bg of the component.}
+
+\item{component.bg.alpha}{The alpha transparency of the bg of the component.}
 
 \item{legend.show}{The visibility of the legend. \code{TRUE} or \code{FALSE}.}
 
@@ -393,8 +454,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{legend.width}{The width of the legend.}
 
 \item{legend.height}{The height of the legend.}
-
-\item{legend.stack}{The stack of the legend.}
 
 \item{legend.reverse}{The reverse of the legend.}
 
@@ -442,9 +501,15 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.frame}{The frame of the legend.}
 
+\item{legend.frame.color}{The color of the frame of the legend.}
+
+\item{legend.frame.alpha}{The alpha transparency of the frame of the legend.}
+
 \item{legend.frame.lwd}{The line width of the frame of the legend. See \code{graphics::par}, option 'lwd'.}
 
 \item{legend.frame.r}{The r (radius) of the frame of the legend.}
+
+\item{legend.bg}{The bg of the legend.}
 
 \item{legend.bg.color}{The color of the bg of the legend.}
 
@@ -458,6 +523,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.settings.standard.landscape}{The landscape of the standard of the settings of the legend.}
 
+\item{add_legend.position}{The position of the add_legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
+
 \item{chart.show}{The visibility of the chart. \code{TRUE} or \code{FALSE}.}
 
 \item{chart.plot.axis.x}{The x of the axis of the plot of the chart.}
@@ -469,8 +536,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{chart.width}{The width of the chart.}
 
 \item{chart.height}{The height of the chart.}
-
-\item{chart.stack}{The stack of the chart.}
 
 \item{chart.reverse}{The reverse of the chart.}
 
@@ -518,9 +583,15 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{chart.frame}{The frame of the chart.}
 
+\item{chart.frame.color}{The color of the frame of the chart.}
+
+\item{chart.frame.alpha}{The alpha transparency of the frame of the chart.}
+
 \item{chart.frame.lwd}{The line width of the frame of the chart. See \code{graphics::par}, option 'lwd'.}
 
 \item{chart.frame.r}{The r (radius) of the frame of the chart.}
+
+\item{chart.bg}{The bg of the chart.}
 
 \item{chart.bg.color}{The color of the bg of the chart.}
 
@@ -538,19 +609,17 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{title.alpha}{The alpha transparency of the title.}
 
-\item{title.bg.color}{The color of the bg of the title.}
-
-\item{title.bg.alpha}{The alpha transparency of the bg of the title.}
-
 \item{title.padding}{The padding of the title. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
 \item{title.frame}{The frame of the title.}
 
+\item{title.frame.color}{The color of the frame of the title.}
+
+\item{title.frame.alpha}{The alpha transparency of the frame of the title.}
+
 \item{title.frame.lwd}{The line width of the frame of the title. See \code{graphics::par}, option 'lwd'.}
 
 \item{title.frame.r}{The r (radius) of the frame of the title.}
-
-\item{title.stack}{The stack of the title.}
 
 \item{title.position}{The position of the title. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
@@ -566,19 +635,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{credits.alpha}{The alpha transparency of the credits.}
 
-\item{credits.bg.color}{The color of the bg of the credits.}
-
-\item{credits.bg.alpha}{The alpha transparency of the bg of the credits.}
-
 \item{credits.padding}{The padding of the credits. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
-
-\item{credits.frame}{The frame of the credits.}
-
-\item{credits.frame.lwd}{The line width of the frame of the credits. See \code{graphics::par}, option 'lwd'.}
-
-\item{credits.frame.r}{The r (radius) of the frame of the credits.}
-
-\item{credits.stack}{The stack of the credits.}
 
 \item{credits.position}{The position of the credits. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
@@ -606,21 +663,11 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{compass.lwd}{The line width of the compass. See \code{graphics::par}, option 'lwd'.}
 
-\item{compass.bg.color}{The color of the bg of the compass.}
-
-\item{compass.bg.alpha}{The alpha transparency of the bg of the compass.}
-
 \item{compass.margins}{The margins of the compass. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
-
-\item{compass.stack}{The stack of the compass.}
 
 \item{compass.position}{The position of the compass. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
-\item{compass.frame}{The frame of the compass.}
-
-\item{compass.frame.lwd}{The line width of the frame of the compass. See \code{graphics::par}, option 'lwd'.}
-
-\item{compass.frame.r}{The r (radius) of the frame of the compass.}
+\item{inset.position}{The position of the inset. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
 \item{logo.height}{The height of the logo.}
 
@@ -628,15 +675,43 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{logo.between_margin}{The between_margin of the logo.}
 
-\item{logo.stack}{The stack of the logo.}
-
 \item{logo.position}{The position of the logo. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
-\item{logo.frame}{The frame of the logo.}
+\item{inset_map.height}{The height of the inset_map.}
 
-\item{logo.frame.lwd}{The line width of the frame of the logo. See \code{graphics::par}, option 'lwd'.}
+\item{inset_map.width}{The width of the inset_map.}
 
-\item{logo.frame.r}{The r (radius) of the frame of the logo.}
+\item{inset_map.margins}{The margins of the inset_map. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+
+\item{inset_map.between_margin}{The between_margin of the inset_map.}
+
+\item{inset_map.position}{The position of the inset_map. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
+
+\item{inset_map.frame}{The frame of the inset_map.}
+
+\item{inset.height}{The height of the inset.}
+
+\item{inset.width}{The width of the inset.}
+
+\item{inset.margins}{The margins of the inset. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+
+\item{inset.between_margin}{The between_margin of the inset.}
+
+\item{inset.frame}{The frame of the inset.}
+
+\item{inset.bg}{The bg of the inset.}
+
+\item{inset.bg.color}{The color of the bg of the inset.}
+
+\item{inset.bg.alpha}{The alpha transparency of the bg of the inset.}
+
+\item{inset_grob.height}{The height of the inset_grob.}
+
+\item{inset_grob.width}{The width of the inset_grob.}
+
+\item{inset_gg.height}{The height of the inset_gg.}
+
+\item{inset_gg.width}{The width of the inset_gg.}
 
 \item{scalebar.breaks}{The break values of the scalebar.}
 
@@ -646,29 +721,21 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{scalebar.text.color}{The color of the text of the scalebar.}
 
+\item{scalebar.text.fontface}{The font face of the text of the scalebar. See \code{graphics::par}, option 'font'.}
+
+\item{scalebar.text.fontfamily}{The font family of the text of the scalebar. See \code{graphics::par}, option 'family'.}
+
 \item{scalebar.color.dark}{The dark of the color of the scalebar.}
 
 \item{scalebar.color.light}{The light of the color of the scalebar.}
 
 \item{scalebar.lwd}{The line width of the scalebar. See \code{graphics::par}, option 'lwd'.}
 
-\item{scalebar.bg.color}{The color of the bg of the scalebar.}
-
-\item{scalebar.bg.alpha}{The alpha transparency of the bg of the scalebar.}
-
 \item{scalebar.size}{The size of the scalebar.}
 
 \item{scalebar.margins}{The margins of the scalebar. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{scalebar.stack}{The stack of the scalebar.}
-
 \item{scalebar.position}{The position of the scalebar. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
-
-\item{scalebar.frame}{The frame of the scalebar.}
-
-\item{scalebar.frame.lwd}{The line width of the frame of the scalebar. See \code{graphics::par}, option 'lwd'.}
-
-\item{scalebar.frame.r}{The r (radius) of the frame of the scalebar.}
 
 \item{grid.show}{The visibility of the grid. \code{TRUE} or \code{FALSE}.}
 
@@ -696,6 +763,10 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{grid.labels.col}{The color of the labels of the grid.}
 
+\item{grid.labels.fontface}{The font face of the labels of the grid. See \code{graphics::par}, option 'font'.}
+
+\item{grid.labels.fontfamily}{The font family of the labels of the grid. See \code{graphics::par}, option 'family'.}
+
 \item{grid.labels.rot}{The rot of the labels of the grid.}
 
 \item{grid.labels.format}{The format of the labels of the grid.}
@@ -718,21 +789,13 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{grid.ndiscr}{The ndiscr of the grid.}
 
-\item{mouse_coordinates.stack}{The stack of the mouse_coordinates.}
-
 \item{mouse_coordinates.position}{The position of the mouse_coordinates. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
-
-\item{mouse_coordinates.show}{The visibility of the mouse_coordinates. \code{TRUE} or \code{FALSE}.}
 
 \item{minimap.server}{The server of the minimap.}
 
 \item{minimap.toggle}{The toggle of the minimap.}
 
-\item{minimap.stack}{The stack of the minimap.}
-
 \item{minimap.position}{The position of the minimap. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
-
-\item{minimap.show}{The visibility of the minimap. \code{TRUE} or \code{FALSE}.}
 
 \item{panel.show}{The visibility of the panel. \code{TRUE} or \code{FALSE}.}
 
@@ -748,9 +811,17 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{panel.label.alpha}{The alpha transparency of the label of the panel.}
 
+\item{panel.label.bg}{The bg of the label of the panel.}
+
 \item{panel.label.bg.color}{The color of the bg of the label of the panel.}
 
+\item{panel.label.bg.alpha}{The alpha transparency of the bg of the label of the panel.}
+
 \item{panel.label.frame}{The frame of the label of the panel.}
+
+\item{panel.label.frame.color}{The color of the frame of the label of the panel.}
+
+\item{panel.label.frame.alpha}{The alpha transparency of the frame of the label of the panel.}
 
 \item{panel.label.frame.lwd}{The line width of the frame of the label of the panel. See \code{graphics::par}, option 'lwd'.}
 
@@ -759,8 +830,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{panel.label.height}{The height of the label of the panel.}
 
 \item{panel.label.rot}{Rotation angles of the panel labels. Vector of four values that determine the panel label rotation when they are placed left, top, right, and bottom. The default angles are 90, 0, 270 and 0 respectively. Note that the second value is the most common, since labels are by default shown on top (see \code{panel.wrap.pos}). In cross-table facets created with \code{tm_facets_grid()}, the first two values are used by default (see \code{panel.xtab.pos}).}
-
-\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
 
 \item{qtm.scalebar}{The scalebar of the qtm.}
 
@@ -797,6 +866,12 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{tiles.zoom}{The zoom of the tiles.}
 
 \item{attr.color}{The color of the attr.}
+
+\item{crs_extra}{Only used internally (work in progress)}
+
+\item{crs_global}{The used crs for world maps}
+
+\item{crs_basemap}{The crs_basemap of the .}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 }

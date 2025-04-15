@@ -4,6 +4,10 @@
 # x = sapply(args, function(a) paste0("#' @param ", a, " `r .doc_opt(\"", a, "\")`"))
 # cat(paste(x, collapse = "\n"))
 #
+# To generate param records:
+# cat(paste(sapply(names, function(x) {
+#	paste0("#' @param ", x, " `r .doc_opt(\"", x ,"\")`")
+# }), collapse = "\n"))
 # To generate option topics (the 'what', last part)
 # nms = names(tmap_options())
 # nms_s = strsplit(nms, split = ".", fixed = TRUE)
@@ -45,9 +49,13 @@
 #' @param scale Overall scale of the map
 #' @param asp Aspect ratio of each map. When `asp` is set to `NA` (default) the aspect ratio will be adjusted to the used shapes. When set to 0 the aspect ratio is
 #'   adjusted to the size of the device divided by the number of columns and rows.
+#' @param bg Draw map background?
 #' @param bg.color Background color of the map.
+#' @param outer.bg Draw map background (outside the frame)?
 #' @param outer.bg.color Background color of map outside the frame.
-#' @param frame Overall frame of the map
+#' @param frame Draw map frame?
+#' @param frame.color `r .doc_opt("frame.color")`
+#' @param frame.alpha `r .doc_opt("frame.alpha")`
 #' @param frame.lwd `r .doc_opt("frame.lwd")`
 #' @param frame.r `r .doc_opt("frame.r")`
 #' @param frame.double_line `r .doc_opt("frame.double_line")`
@@ -173,13 +181,10 @@
 #' @param title.fontface `r .doc_opt("title.fontface")`
 #' @param title.fontfamily `r .doc_opt("title.fontfamily")`
 #' @param title.alpha `r .doc_opt("title.alpha")`
-#' @param title.bg.color `r .doc_opt("title.bg.color")`
-#' @param title.bg.alpha `r .doc_opt("title.bg.alpha")`
 #' @param title.padding `r .doc_opt("title.padding")`
 #' @param title.frame `r .doc_opt("title.frame")`
 #' @param title.frame.lwd `r .doc_opt("title.frame.lwd")`
 #' @param title.frame.r `r .doc_opt("title.frame.r")`
-#' @param title.stack `r .doc_opt("title.stack")`
 #' @param title.position `r .doc_opt("title.position")`
 #' @param title.width `r .doc_opt("title.width")`
 #' @param credits.size `r .doc_opt("credits.size")`
@@ -187,13 +192,7 @@
 #' @param credits.fontface `r .doc_opt("credits.fontface")`
 #' @param credits.fontfamily `r .doc_opt("credits.fontfamily")`
 #' @param credits.alpha `r .doc_opt("credits.alpha")`
-#' @param credits.bg.color `r .doc_opt("credits.bg.color")`
-#' @param credits.bg.alpha `r .doc_opt("credits.bg.alpha")`
 #' @param credits.padding `r .doc_opt("credits.padding")`
-#' @param credits.frame `r .doc_opt("credits.frame")`
-#' @param credits.frame.lwd `r .doc_opt("credits.frame.lwd")`
-#' @param credits.frame.r `r .doc_opt("credits.frame.r")`
-#' @param credits.stack `r .doc_opt("credits.stack")`
 #' @param credits.position `r .doc_opt("credits.position")`
 #' @param credits.width `r .doc_opt("credits.width")`
 #' @param credits.height `r .doc_opt("credits.height")`
@@ -207,22 +206,12 @@
 #' @param compass.color.dark `r .doc_opt("compass.color.dark")`
 #' @param compass.color.light `r .doc_opt("compass.color.light")`
 #' @param compass.lwd `r .doc_opt("compass.lwd")`
-#' @param compass.bg.color `r .doc_opt("compass.bg.color")`
-#' @param compass.bg.alpha `r .doc_opt("compass.bg.alpha")`
 #' @param compass.margins `r .doc_opt("compass.margins")`
-#' @param compass.stack `r .doc_opt("compass.stack")`
 #' @param compass.position `r .doc_opt("compass.position")`
-#' @param compass.frame `r .doc_opt("compass.frame")`
-#' @param compass.frame.lwd `r .doc_opt("compass.frame.lwd")`
-#' @param compass.frame.r `r .doc_opt("compass.frame.r")`
 #' @param logo.height `r .doc_opt("logo.height")`
 #' @param logo.margins `r .doc_opt("logo.margins")`
 #' @param logo.between_margin `r .doc_opt("logo.between_margin")`
-#' @param logo.stack `r .doc_opt("logo.stack")`
 #' @param logo.position `r .doc_opt("logo.position")`
-#' @param logo.frame `r .doc_opt("logo.frame")`
-#' @param logo.frame.lwd `r .doc_opt("logo.frame.lwd")`
-#' @param logo.frame.r `r .doc_opt("logo.frame.r")`
 #' @param scalebar.breaks `r .doc_opt("scalebar.breaks")`
 #' @param scalebar.width `r .doc_opt("scalebar.width")`
 #' @param scalebar.text.size `r .doc_opt("scalebar.text.size")`
@@ -230,15 +219,9 @@
 #' @param scalebar.color.dark `r .doc_opt("scalebar.color.dark")`
 #' @param scalebar.color.light `r .doc_opt("scalebar.color.light")`
 #' @param scalebar.lwd `r .doc_opt("scalebar.lwd")`
-#' @param scalebar.bg.color `r .doc_opt("scalebar.bg.color")`
-#' @param scalebar.bg.alpha `r .doc_opt("scalebar.bg.alpha")`
 #' @param scalebar.size `r .doc_opt("scalebar.size")`
 #' @param scalebar.margins `r .doc_opt("scalebar.margins")`
-#' @param scalebar.stack `r .doc_opt("scalebar.stack")`
 #' @param scalebar.position `r .doc_opt("scalebar.position")`
-#' @param scalebar.frame `r .doc_opt("scalebar.frame")`
-#' @param scalebar.frame.lwd `r .doc_opt("scalebar.frame.lwd")`
-#' @param scalebar.frame.r `r .doc_opt("scalebar.frame.r")`
 #' @param grid.show `r .doc_opt("grid.show")`
 #' @param grid.labels.pos `r .doc_opt("grid.labels.pos")`
 #' @param grid.x `r .doc_opt("grid.x")`
@@ -263,14 +246,10 @@
 #' @param grid.ticks `r .doc_opt("grid.ticks")`
 #' @param grid.lines `r .doc_opt("grid.lines")`
 #' @param grid.ndiscr `r .doc_opt("grid.ndiscr")`
-#' @param mouse_coordinates.stack `r .doc_opt("mouse_coordinates.stack")`
 #' @param mouse_coordinates.position `r .doc_opt("mouse_coordinates.position")`
-#' @param mouse_coordinates.show `r .doc_opt("mouse_coordinates.show")`
 #' @param minimap.server `r .doc_opt("minimap.server")`
 #' @param minimap.toggle `r .doc_opt("minimap.toggle")`
-#' @param minimap.stack `r .doc_opt("minimap.stack")`
 #' @param minimap.position `r .doc_opt("minimap.position")`
-#' @param minimap.show `r .doc_opt("minimap.show")`
 #' @param panel.show `r .doc_opt("panel.show")`
 #' @param panel.labels `r .doc_opt("panel.labels")`
 #' @param panel.label.size `r .doc_opt("panel.label.size")`
@@ -309,15 +288,62 @@
 #' @param main.title deprecated See [tm_title()]
 #' @param main.title.size,main.title.color,main.title.fontface,main.title.fontfamily,main.title.position deprecated. Use the `title.` options instead.
 #' @param fontface,fontfamily renamed to `text.fontface` and `text.fontfamily`
+#' @param component.resize_as_group `r .doc_opt("component.resize_as_group")`
+#' @param component.frame_combine `r .doc_opt("component.frame_combine")`
+#' @param component.stack `r .doc_opt("component.stack")`
+#' @param component.equalize `r .doc_opt("component.equalize")`
+#' @param component.frame `r .doc_opt("component.frame")`
+#' @param component.frame.color `r .doc_opt("component.frame.color")`
+#' @param component.frame.alpha `r .doc_opt("component.frame.alpha")`
+#' @param component.frame.lwd `r .doc_opt("component.frame.lwd")`
+#' @param component.frame.r `r .doc_opt("component.frame.r")`
+#' @param component.bg `r .doc_opt("component.bg")`
+#' @param component.bg.color `r .doc_opt("component.bg.color")`
+#' @param component.bg.alpha `r .doc_opt("component.bg.alpha")`
+#' @param legend.frame.color `r .doc_opt("legend.frame.color")`
+#' @param legend.frame.alpha `r .doc_opt("legend.frame.alpha")`
+#' @param legend.bg `r .doc_opt("legend.bg")`
+#' @param add_legend.position `r .doc_opt("add_legend.position")`
+#' @param chart.frame.color `r .doc_opt("chart.frame.color")`
+#' @param chart.frame.alpha `r .doc_opt("chart.frame.alpha")`
+#' @param chart.bg `r .doc_opt("chart.bg")`
+#' @param title.frame.color `r .doc_opt("title.frame.color")`
+#' @param title.frame.alpha `r .doc_opt("title.frame.alpha")`
+#' @param inset.position `r .doc_opt("inset.position")`
+#' @param inset_map.height `r .doc_opt("inset_map.height")`
+#' @param inset_map.width `r .doc_opt("inset_map.width")`
+#' @param inset_map.margins `r .doc_opt("inset_map.margins")`
+#' @param inset_map.between_margin `r .doc_opt("inset_map.between_margin")`
+#' @param inset_map.position `r .doc_opt("inset_map.position")`
+#' @param inset_map.frame `r .doc_opt("inset_map.frame")`
+#' @param inset.height `r .doc_opt("inset.height")`
+#' @param inset.width `r .doc_opt("inset.width")`
+#' @param inset.margins `r .doc_opt("inset.margins")`
+#' @param inset.between_margin `r .doc_opt("inset.between_margin")`
+#' @param inset.frame `r .doc_opt("inset.frame")`
+#' @param inset.bg `r .doc_opt("inset.bg")`
+#' @param inset.bg.color `r .doc_opt("inset.bg.color")`
+#' @param inset.bg.alpha `r .doc_opt("inset.bg.alpha")`
+#' @param inset_grob.height `r .doc_opt("inset_grob.height")`
+#' @param inset_grob.width `r .doc_opt("inset_grob.width")`
+#' @param inset_gg.height `r .doc_opt("inset_gg.height")`
+#' @param inset_gg.width `r .doc_opt("inset_gg.width")`
+#' @param scalebar.text.fontface `r .doc_opt("scalebar.text.fontface")`
+#' @param scalebar.text.fontfamily `r .doc_opt("scalebar.text.fontfamily")`
+#' @param grid.labels.fontface `r .doc_opt("grid.labels.fontface")`
+#' @param grid.labels.fontfamily `r .doc_opt("grid.labels.fontfamily")`
+#' @param panel.label.bg `r .doc_opt("panel.label.bg")`
+#' @param panel.label.bg.alpha `r .doc_opt("panel.label.bg.alpha")`
+#' @param panel.label.frame.color `r .doc_opt("panel.label.frame.color")`
+#' @param panel.label.frame.alpha `r .doc_opt("panel.label.frame.alpha")`
+#' @param crs_basemap `r .doc_opt("crs_basemap")`
 #' @inheritParams tm_plot
 # For bbox
 #' @inheritParams tm_shape
 #' @export
 #' @example ./examples/tmap_options.R
 #' @name tmap_options
-tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, raster.warp, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg.color, outer.bg.color, frame, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, component.offset, component.stack_margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.alpha, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.alpha, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, text.alpha, component.position, component.autoscale, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.stack, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.title.alpha, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.xlab.alpha, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.ylab.alpha, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.text.alpha, legend.frame, legend.frame.lwd, legend.frame.r, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.stack, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.title.alpha, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.xlab.alpha, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.ylab.alpha, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.text.alpha, chart.frame, chart.frame.lwd, chart.frame.r, chart.bg.color, chart.bg.alpha, chart.object.color, title.size, title.color, title.fontface, title.fontfamily, title.alpha, title.bg.color, title.bg.alpha, title.padding, title.frame, title.frame.lwd, title.frame.r, title.stack, title.position, title.width, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.alpha, credits.bg.color, credits.bg.alpha, credits.padding, credits.frame, credits.frame.lwd, credits.frame.r, credits.stack, credits.position, credits.width, credits.height, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.bg.color, compass.bg.alpha, compass.margins, compass.stack, compass.position, compass.frame, compass.frame.lwd, compass.frame.r, logo.height, logo.margins, logo.between_margin, logo.stack, logo.position, logo.frame, logo.frame.lwd, logo.frame.r, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.bg.color, scalebar.bg.alpha, scalebar.size, scalebar.margins, scalebar.stack, scalebar.position, scalebar.frame, scalebar.frame.lwd, scalebar.frame.r, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.stack, mouse_coordinates.position, mouse_coordinates.show, minimap.server, minimap.toggle, minimap.stack, minimap.position, minimap.show, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg.color, panel.label.frame, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, bbox, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color,
-						crs_extra,
-						crs_global,
+tmap_options = function(..., crs, facet.max, facet.flip, free.scales, raster.max_cells, raster.warp, show.messages, show.warnings, output.format, output.size, output.dpi, animation.dpi, value.const, value.na, value.null, value.blank, values.var, values.range, value.neutral, values.scale, scales.var, scale.misc.args, continuous.nclass_per_legend_break, continuous.nclasses, label.format, label.na, scale, asp, bg, bg.color, outer.bg, outer.bg.color, frame, frame.color, frame.alpha, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin, grid.mark.height, xylab.height, coords.height, xlab.show, xlab.text, xlab.size, xlab.color, xlab.rotation, xlab.space, xlab.fontface, xlab.fontfamily, xlab.alpha, xlab.side, ylab.show, ylab.text, ylab.size, ylab.color, ylab.rotation, ylab.space, ylab.fontface, ylab.fontfamily, ylab.alpha, ylab.side, panel.type, panel.wrap.pos, panel.xtab.pos, unit, color.sepia_intensity, color.saturation, color_vision_deficiency_sim, text.fontface, text.fontfamily, text.alpha, component.position, component.offset, component.stack_margin, component.autoscale, component.resize_as_group, component.frame_combine, component.stack, legend.stack, chart.stack, component.equalize, component.frame, component.frame.color, component.frame.alpha, component.frame.lwd, component.frame.r, component.bg, component.bg.color, component.bg.alpha, legend.show, legend.design, legend.orientation, legend.position, legend.width, legend.height, legend.reverse, legend.na.show, legend.title.color, legend.title.size, legend.title.fontface, legend.title.fontfamily, legend.title.alpha, legend.xlab.color, legend.xlab.size, legend.xlab.fontface, legend.xlab.fontfamily, legend.xlab.alpha, legend.ylab.color, legend.ylab.size, legend.ylab.fontface, legend.ylab.fontfamily, legend.ylab.alpha, legend.text.color, legend.text.size, legend.text.fontface, legend.text.fontfamily, legend.text.alpha, legend.frame, legend.frame.color, legend.frame.alpha, legend.frame.lwd, legend.frame.r, legend.bg, legend.bg.color, legend.bg.alpha, legend.only, legend.absolute_fontsize, legend.settings.standard.portrait, legend.settings.standard.landscape, add_legend.position, chart.show, chart.plot.axis.x, chart.plot.axis.y, chart.position, chart.width, chart.height, chart.reverse, chart.na.show, chart.title.color, chart.title.size, chart.title.fontface, chart.title.fontfamily, chart.title.alpha, chart.xlab.color, chart.xlab.size, chart.xlab.fontface, chart.xlab.fontfamily, chart.xlab.alpha, chart.ylab.color, chart.ylab.size, chart.ylab.fontface, chart.ylab.fontfamily, chart.ylab.alpha, chart.text.color, chart.text.size, chart.text.fontface, chart.text.fontfamily, chart.text.alpha, chart.frame, chart.frame.color, chart.frame.alpha, chart.frame.lwd, chart.frame.r, chart.bg, chart.bg.color, chart.bg.alpha, chart.object.color, title.size, title.color, title.fontface, title.fontfamily, title.alpha, title.padding, title.frame, title.frame.color, title.frame.alpha, title.frame.lwd, title.frame.r, title.position, title.width, credits.size, credits.color, credits.fontface, credits.fontfamily, credits.alpha, credits.padding, credits.position, credits.width, credits.height, compass.north, compass.type, compass.text.size, compass.size, compass.show.labels, compass.cardinal.directions, compass.text.color, compass.color.dark, compass.color.light, compass.lwd, compass.margins, compass.position, inset.position, logo.height, logo.margins, logo.between_margin, logo.position, inset_map.height, inset_map.width, inset_map.margins, inset_map.between_margin, inset_map.position, inset_map.frame, inset.height, inset.width, inset.margins, inset.between_margin, inset.frame, inset.bg, inset.bg.color, inset.bg.alpha, inset_grob.height, inset_grob.width, inset_gg.height, inset_gg.width, scalebar.breaks, scalebar.width, scalebar.text.size, scalebar.text.color, scalebar.text.fontface, scalebar.text.fontfamily, scalebar.color.dark, scalebar.color.light, scalebar.lwd, scalebar.size, scalebar.margins, scalebar.position, grid.show, grid.labels.pos, grid.x, grid.y, grid.n.x, grid.n.y, grid.crs, grid.col, grid.lwd, grid.alpha, grid.labels.show, grid.labels.size, grid.labels.col, grid.labels.fontface, grid.labels.fontfamily, grid.labels.rot, grid.labels.format, grid.labels.cardinal, grid.labels.margin.x, grid.labels.margin.y, grid.labels.space.x, grid.labels.space.y, grid.labels.inside_frame, grid.ticks, grid.lines, grid.ndiscr, mouse_coordinates.position, minimap.server, minimap.toggle, minimap.position, panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg, panel.label.bg.color, panel.label.bg.alpha, panel.label.frame, panel.label.frame.color, panel.label.frame.alpha, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, qtm.scalebar, qtm.minimap, qtm.mouse_coordinates, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color, check_and_fix, basemap.show, basemap.server, basemap.alpha, basemap.zoom, tiles.show, tiles.server, tiles.alpha, tiles.zoom, attr.color, crs_extra, crs_global, crs_basemap,
 						use_gradient, # plot mode
 						use_browser, use_WebGL, control.position, control.bases, control.overlays, control.collapse, set_bounds, # view mode
 						set_view, set_zoom_limits, use_circle_markers, leaflet.options, # view mode

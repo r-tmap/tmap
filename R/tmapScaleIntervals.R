@@ -50,7 +50,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	if (!is.null(scale$return)) return(scale$return)
 
 	# data-type dependent processing
-	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer))
+	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer, show.messages = show.messages, show.warnings = show.warnings))
 
 	# visual variable processing
 	with(scale, {
@@ -171,7 +171,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	})
 }
 
-interval_num = function(scale, x1, aes, layer) {
+interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 	within(scale, {
 		local({
 			styles = c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "maximum", "box", "log10", "log10_pretty")
@@ -256,7 +256,7 @@ interval_date = function(scale, x1, aes, layer) {
 	interval_datetime(scale, x1, aes, layer)
 }
 
-interval_datetime = function(scale, x1, aes, layer) {
+interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings) {
 	style = NULL
 	interval.closure = NULL
 	udiv = NULL
