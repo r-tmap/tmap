@@ -598,6 +598,7 @@
 		panel.label.alpha = 1,
 		panel.label.bg = TRUE,
 		panel.label.bg.color = "grey80",
+		panel.label.bg.alpha = 1,
 		panel.label.frame = TRUE,
 		panel.label.frame.color = NA,
 		panel.label.frame.alpha = 1,
@@ -605,12 +606,6 @@
 		panel.label.frame.r = 2,
 		panel.label.height = 1,
 		panel.label.rot = c(90, 0, 270, 0),
-
-		#
-		bbox = NULL,
-		set_bounds = FALSE,
-		set_view = NA,
-		set_zoom_limits = NA,
 
 		qtm.scalebar = FALSE,
 		qtm.minimap = FALSE,
