@@ -245,30 +245,39 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	  }
 	}
 
-	if (verbose) {
-		message("Map saved to ", suppressWarnings(normalizePath(filename)))
-		if (ext %in% c("png", "jpg", "jpeg", "bmp", "tiff")) {
-			if (units_target == "px") {
-				wp = format(width)
-				hp = format(height)
-				wi = format(convert_to_inches(width, "px"))
-				hi = format(convert_to_inches(height, "px"))
-			} else {
-				wi = format(width)
-				hi = format(height)
-				wp = format(convert_to_pixels(width, "in"))
-				hp = format(convert_to_pixels(height, "in"))
-			}
-			message("Resolution: ", format(wp), " by ", format(hp), " pixels")
-			message("Size: ", wi, " by ", hi, " inches (", format(dpi), " dpi)")
+	if (verbose) message("Map saved to ", suppressWarnings(normalizePath(filename)))
+	if (ext %in% c("png", "jpg", "jpeg", "bmp", "tiff")) {
+		if (units_target == "px") {
+			wp = width
+			hp = height
+			wi = convert_to_inches(width, "px")
+			hi = convert_to_inches(height, "px")
 		} else {
-			wi = format(width)
-			hi = format(height)
-			message("Size: ", wi, " by ", hi, " inches")
+			wi = width
+			hi = height
+			wp = convert_to_pixels(width, "in")
+			hp = convert_to_pixels(height, "in")
 		}
+		if (verbose) message("Resolution: ", format(wp), " by ", format(hp), " pixels")
+		if (verbose) message("Size: ", format(wi), " by ", format(hi), " inches (", format(dpi), " dpi)")
+	} else {
+		wi = width
+		hi = height
+		if (verbose) message("Size: ", format(wi), " by ", format(hi), " inches")
 	}
+
 	options(tmap.mode=tmap.mode)
-	invisible(filename)
+
+	output = list(filename = filename)
+	if (ext %in% c("png", "jpg", "jpeg", "bmp", "tiff")) {
+		output$size_pixels = c(width = wp, height = hp)
+		output$dpi = dpi
+	}
+	output$size_inch = c(width = wi, height = hi)
+
+	output = c(output, .TMAP$geo_ref)
+
+	invisible(output)
 }
 
 plot_device = function(device, ext, filename, dpi, units_target){

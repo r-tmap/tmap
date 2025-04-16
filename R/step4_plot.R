@@ -540,8 +540,15 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		if (nrow(cdt)) cdt = process_components2(cdt, o)
 
 		# init
-		asp = do.call(FUNinit, c(list(o = o, return.asp = return.asp, vp = vp, prx = prx), args))
-		if (return.asp) return(asp)
+		res = do.call(FUNinit, c(list(o = o, return.asp = return.asp, vp = vp, prx = prx), args))
+		if (return.asp) {
+			return(res)
+		} else {
+			.TMAP$geo_ref = get_geo_ref(bbx = db$bbox[[1]],
+										crs = crs,
+										inner_margins = o$inner.margins,
+										dev_size = res$dev[1:2], map_size = res$map[1:2], offset = res$margins)
+		}
 
 		## prepare aux layers
 		if (length(aux)) {
@@ -867,4 +874,30 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	}
 
 	do.call(FUNrun, list(o = o, q = q, show = show, knit = knit, args))
+}
+
+# bb_ext reversing
+bb_ext_rev = function(bbx, ext = c(0, 0, 0, 0)) {
+	dx = (bbx[3] - bbx[1]) / (1 + ext[2] + ext[4])
+	dy = (bbx[4] - bbx[2]) / (1 + ext[1] + ext[3])
+
+	bbx[2] = bbx[2] + ext[1] * dy
+	bbx[1] = bbx[1] + ext[2] * dx
+	bbx[4] = bbx[4] - ext[3] * dy
+	bbx[3] = bbx[3] - ext[4] * dx
+	bbx
+}
+
+get_geo_ref = function(bbx, crs, inner_margins, dev_size, map_size, offset) {
+	bbx_crop = bb_ext_rev(bbx, inner_margins)
+
+	x1 = offset[2] / dev_size[1]
+	x2 = (dev_size[1] - offset[4]) / dev_size[1]
+
+	y1 = offset[1] / dev_size[2]
+	y2 = (dev_size[2] - offset[3]) / dev_size[2]
+
+	xy_crop = bb_ext_rev(c(x1, y1, x2, y2), inner_margins)
+	names(xy_crop) = c("xmin", "ymin", "xmin", "xmax")
+	list(crs = crs, bbx = bbx_crop, rel_coords = xy_crop)
 }
