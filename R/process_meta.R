@@ -370,7 +370,11 @@ process_meta = function(o, d, cdt, aux) {
 				}
 			}
 		} else {
-			orientation = if ((npp == 1 && (pasp > masp)) || (npp > 1 && (pasp < masp))) "horizontal" else "vertical"
+			if (is.na(o$nrows) || is.na(o$ncols)) {
+				orientation = if ((npp == 1 && (pasp > masp)) || (npp > 1 && (pasp < masp))) "horizontal" else "vertical"
+			} else {
+				orientation = if (o$ncols >= o$nrows) "horizontal" else "vertical"
+			}
 		}
 
 		if (gs == "Grid") {

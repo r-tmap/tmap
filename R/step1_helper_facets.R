@@ -242,10 +242,29 @@ step1_rearrange_facets = function(tmo, o) {
 			b
 		}
 
+		gs = tmap_graphics_name()
 
 		# preprocess layers: check aes values
 		tmg$tmls = lapply(tmg$tmls, function(tml) {
 			within(tml, {
+				if (!exists(paste0("tmap", gs, mapping.fun))) {
+					mode = getOption("tmap.mode")
+
+					modes = get_modes()
+					gss = vapply(modes, tmap_graphics_name, FUN.VALUE = character(1))
+
+					exs = vapply(1L:length(modes), function(i) {
+						exists(paste0("tmap", gss[i], mapping.fun))
+					}, FUN.VALUE = logical(1))
+					modes2 = modes[exs]
+
+					if (length(modes2)) {
+						cli::cli_abort("Map layer {.code tm_{layer}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
+					} else {
+						cli::cli_abort("Map layer {.code tm_{layer}} not available for mode {.str {mode}} and also not for the other modes")
+					}
+				}
+
 				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = trans.args)
 				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = mapping.args)
 
