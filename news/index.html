@@ -79,12 +79,16 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.1" id="tmap-41-in-development">tmap 4.1 (in development)<a class="anchor" aria-label="anchor" href="#tmap-41-in-development"></a></h2>
 <p>This fixes a few regressions in the tmap v4 release and adds improvements.</p>
-<ul><li><p>[!] basemaps in plot mode much sharper, added <code><a href="../reference/tmap_providers.html">tmap_providers()</a></code> (<a href="https://github.com/r-tmap/tmap/issues/1041" class="external-link">#1041</a>, <a href="https://github.com/r-tmap/tmap/issues/1042" class="external-link">#1042</a>)</p></li>
-<li><p><code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> works again in Shiny (<a href="https://github.com/r-tmap/tmap/issues/1044" class="external-link">#1044</a>)</p></li>
-<li><p><code><a href="../reference/tm_logo.html">tm_logo()</a></code> works again in view mode (<a href="https://github.com/r-tmap/tmap/issues/1038" class="external-link">#1038</a>).</p></li>
-<li><p>Few fixes in legend computing and size (<a href="https://github.com/r-tmap/tmap/issues/1039" class="external-link">#1039</a>, <a href="https://github.com/r-tmap/tmap/issues/1032" class="external-link">#1032</a>)</p></li>
-<li><p>Improve documentation (<a href="https://github.com/r-tmap/tmap/issues/1033" class="external-link">#1033</a>, thanks <a href="https://github.com/nickbearman" class="external-link">@nickbearman</a>)</p></li>
-<li><p>Improve some v3-&gt;v4 upgrade messages for a smoother transition.</p></li>
+<ul><li>[!] basemaps in plot mode much sharper, added <code><a href="../reference/tmap_providers.html">tmap_providers()</a></code> (<a href="https://github.com/r-tmap/tmap/issues/1041" class="external-link">#1041</a>, <a href="https://github.com/r-tmap/tmap/issues/1042" class="external-link">#1042</a>)</li>
+<li>[!] tm_comp_group() added to specify grouped components (incl legends)</li>
+<li>[!] added tm_animate() (main use case: cartograms)</li>
+<li>for the background and frame we introduce: <code>bg</code>/<code>bg.color</code> and <code>frame</code>/<code>frame.color</code>
+</li>
+<li>
+<code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> works again in Shiny (<a href="https://github.com/r-tmap/tmap/issues/1044" class="external-link">#1044</a>)</li>
+<li>
+<code><a href="../reference/tm_logo.html">tm_logo()</a></code> works again in view mode (<a href="https://github.com/r-tmap/tmap/issues/1038" class="external-link">#1038</a>).</li>
+<li>few fixes in legend computing and size (<a href="https://github.com/r-tmap/tmap/issues/1039" class="external-link">#1039</a>, <a href="https://github.com/r-tmap/tmap/issues/1032" class="external-link">#1032</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.0" id="tmap-40">tmap 4.0<a class="anchor" aria-label="anchor" href="#tmap-40"></a></h2><p class="text-muted">CRAN release: 2025-01-27</p>
