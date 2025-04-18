@@ -123,7 +123,7 @@ This type of extension is the most difficult one. It requires:
 
 A package in development [`tmap.mapgl`](https://github.com/r-tmap/tmap.mapgl) contains two new modes, `"mapbox"` and `"maplibre"`.
 
-The shiny integration does not work yet.
+The shiny integration may not work yet.
 
 ```{r}
 library(tmap.mapgl)

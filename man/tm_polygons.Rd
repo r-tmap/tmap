@@ -118,9 +118,6 @@ features. Only used for \code{"view"} mode.}
 Map layer that draws polygons. Supported visual variables are: \code{fill} (the fill color),
 \code{col} (the border color), \code{lwd} (line width), \code{lty} (line type),
 \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
-
-The family of \verb{opt_*()} functions can be used to specify options in the different \verb{tm_*()}
-functions.
 }
 \details{
 The visual variable arguments (e.g. \code{col}) can be specified with either a data
@@ -192,11 +189,6 @@ tm_layout(frame = FALSE)
 # bivariate scale
 tm_shape(World) +
 	tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
-tm_shape(World) +
-  tm_polygons(
-
-   )
-
 }
 \seealso{
 \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
