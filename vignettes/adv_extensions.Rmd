@@ -111,7 +111,7 @@ tm_shape(sfn) +
 
 ## New mode
 
-This type of extension is by far the most difficult one. It requires:
+This type of extension is the most difficult one. It requires:
 
 * Initialization
 * Loading of the used spatial object
@@ -121,17 +121,17 @@ This type of extension is by far the most difficult one. It requires:
 * Run the plot
 * Shiny integration functions
 
-As a proof of concept we created [`tmap.deckgl`](https://github.com/r-tmap/tmap.deckgl). It remains a proof-of-concept because the underlying  package [`deckgl`](https://github.com/crazycapivara/deckgl) hasn't been updated the last 2 years.
+A package in development [`tmap.mapgl`](https://github.com/r-tmap/tmap.mapgl) contains two new modes, `"mapbox"` and `"maplibre"`.
 
-For this proof of concept, only one map layer is `tm_polygons()`. The shiny integration does not work yet.
+The shiny integration does not work yet.
 
 ```{r}
-library(tmap.deckgl)
+library(tmap.mapgl)
 ```
 
 
 ```{r, fig.height = 3.5}
-tmap_mode("deck")
+tmap_mode("maplibre")
 
 tm_shape(NLD_dist) +
   tm_polygons(
@@ -140,7 +140,7 @@ tm_shape(NLD_dist) +
     lwd = 0.1) +
 tm_shape(NLD_muni) +
   tm_polygons(fill = NULL, lwd = 1) +
-tm_deck(pitch = 75)
+tm_maplibre(pitch = 75)
 ```
 
 

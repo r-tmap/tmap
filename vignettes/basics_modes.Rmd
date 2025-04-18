@@ -47,7 +47,9 @@ tmap_options(scale = 0.75)
 
 ## Modes
 
-tmap facilitates two output modes: `"plot"`, which produces static maps, and `"view"` which produces (using the same tmap code) interactive maps. As of version 4, tmap can also be extended with other modes, as demonstrated below.
+tmap facilitates two output modes: `"plot"`, which produces static maps, and `"view"` which produces (using the same tmap code) interactive maps (using the JavaScript library Leaflet as backend).
+
+Via the extension package, `tmap.mapgl`, two new modes are available: `"mapbox"` and `"maplibre"`, as demonstrated below.
 
  
 ## Switching between modes
@@ -63,10 +65,10 @@ tmap_mode("view")
 tmap_mode("plot")
 ```
 
-The handy function `ttm()` is used to toggle between the modes.
+The handy function `ttm()` is used to toggle between the modes. When more than two modes are loaded, `rtm()` can be used to rotate between modes.
 
 
-## Plot mode
+## Mode `"plot"`
 
 We start with cerating the plot and assign it to a variable called `tm`.
 
@@ -89,7 +91,7 @@ tm
 ```
 
 
-## View mode
+## Mode `"view"`
 
 The same map in view mode:
 
@@ -121,17 +123,16 @@ tm +
 For a more detailed description of options, see [vignette about options](https://r-tmap.github.io/tmap/articles/42_adv_options).
 
 
-## Other modes
+## `mapgl` modes: `"mapbox" and `"maplibre"`.
 
-As of version 4, tmap can be extended with other modes. See ([vignette about extensions](https://r-tmap.github.io/tmap/articles/44_adv_extensions)).
+The new package `mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is requires.
 
+```{r, fig.height = 3.5}
+library(tmap.mapgl)
+tmap_mode("maplibre")
 
-```{r, message=FALSE}
-library(tmap.deckgl)
-tmap_mode("deck")
 tm
 ```
 
-The proof-of-concept package `tmap.deckgl` only features the map layer function `tm_polygons()` (so the bubbles are not working yet).
 
 

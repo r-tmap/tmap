@@ -34,7 +34,7 @@ The previous tmap mode before switching.
 \item \code{tmap_mode()} informs of the current mode (if called without argument).
 \item \code{ttm()} toggles between the most recent two modes.
 \item \code{ttmp()} same as \code{ttm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
-\item \code{rtm()} rotary switches between all modes
+\item \code{rtm()} rotate between between all modes
 \item \code{rtmp()} same as \code{rtm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
 }
 
