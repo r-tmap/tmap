@@ -367,21 +367,10 @@ tm_borders = function(col = tm_const(), ...) {
 	do.call(tm_polygons, c(list(col = col), args))
 }
 
-#' Specify options to map layers
-#'
-#' @description
-#' The family of `opt_*()` functions can be used to specify options in the different `tm_*()`
-#' functions.
-#'
-#' @rdname tm_polygons
+
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @rdname tm_polygons
 #' @export
-#' @examples
-#' tm_shape(World) +
-#'   tm_polygons(
-#'
-#'    )
-#'
 opt_tm_polygons = function(polygons.only = "ifany") {
 	list(trans.args = list(polygons.only = polygons.only),
 		 mapping.args = list())
