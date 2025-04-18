@@ -4,7 +4,7 @@
 #' * `tmap_mode()` informs of the current mode (if called without argument).
 #' * `ttm()` toggles between the most recent two modes.
 #' * `ttmp()` same as `ttm()` and calls [tmap_last()] to display the last map in the new mode.
-#' * `rtm()` rotary switches between all modes
+#' * `rtm()` rotate between between all modes
 #' * `rtmp()` same as `rtm()` and calls [tmap_last()] to display the last map in the new mode.
 #'
 #' Set tmap mode to static plotting or interactive viewing.
@@ -52,28 +52,85 @@
 #' Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
 tmap_mode = function(mode = NULL) {
+	set_mode(mode, show.messages = get("tmapOptions", envir = .TMAP)$show.messages, type = "set")
+}
+
+
+#' @rdname tmap_mode
+#' @export
+ttm = function() {
+	set_mode(show.messages = get("tmapOptions", envir = .TMAP)$show.messages, type = "toggle")
+}
+
+#' @rdname tmap_mode
+#' @export
+rtm = function() {
+	set_mode(show.messages = get("tmapOptions", envir = .TMAP)$show.messages, type = "rotate")
+}
+
+
+set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 	current.mode = getOption("tmap.mode")
 
 	tOpt = get("tmapOptions", envir = .TMAP)
 	show.messages = tOpt$show.messages
 
 	modes = get_modes()
+	id = match(current.mode, modes)
+
+	if (type == "toggle") {
+		mode = .TMAP$mode_last
+	} else if (type == "rotate") {
+		id = id + 1L
+		if (id > length(modes)) id = 1L
+		mode = modes[id]
+	}
+
+	modes_str = paste0("{.val ", modes, "}")
+	modes_str[id] = paste0("{.strong ", modes_str[id], "}")
+	rotate_str = paste(modes_str, collapse = " -> ")
+
 
 	if (is.null(mode)) {
-		cli::cli_inform(c(
-			"i" = "Current tmap mode is {.val {current.mode}}.",
-			"i" = "Other mode{if (length(modes)>2) 's' else ''}: {.val {setdiff(modes, current.mode)}}.",
-			"i" = "Call {.run tmap::ttm()} to switch mode."
-		))
+		others = setdiff(modes, current.mode)
+		tmode = .TMAP$mode_last
+		if (length(modes) == 2) {
+			cli::cli_inform(c(
+				"i" = "Current tmap mode is {.val {current.mode}}.",
+				"i" = "Call {.run tmap::ttm()} to switch to mode {.val {tmode}}."))
+		} else {
+			cli::cli_inform(c(
+				"i" = "Current tmap mode is {.val {current.mode}}.",
+				"i" = "Call {.run tmap::ttm()} to switch to mode {.val {tmode}}.",
+				"i" = paste0("Call {.run tmap::rtm()} to rotate between all modes: ", rotate_str)
+			))
+		}
+
 	} else {
 		rlang::arg_match0(mode, modes)
 		if (current.mode != mode) .TMAP$mode_last = current.mode
 		options(tmap.mode = mode)
 		fill_providers()
-		if (show.messages) cli::cli_inform(c(i = "tmap mode set to {.val {mode}}."))
+		if (show.messages) {
+			if (type == "set") {
+				cli::cli_inform(c(i = "tmap mode set to {.val {mode}}."))
+			} else if (type == "toggle") {
+				cli::cli_inform(c("i" = "tmap mode set to {.val {mode}}.",
+								  "i" = "switch back to {.val {current.mode}} mode with {.run tmap::ttm()}"))
+			} else {
+				nid = id + 1L
+				if (nid > length(modes)) nid = 1L
+				nmode = modes[nid]
+				str = paste0("rotate cycle ", rotate_str, " with {.run tmap::rtm()}")
+				cli::cli_inform(c("i" = "tmap mode rotated to {.val {modes[id]}}.",
+								  "i" = str))
+
+			}
+		}
 	}
 	invisible(current.mode)
 }
+
 
 # tmap_graphics = function(mode = NULL) {
 # 	if (is.null(mode)) mode = getOption("tmap.mode")
@@ -171,31 +228,6 @@ so = function(...) {
 	}
 
 	invisible()
-}
-
-#' @rdname tmap_mode
-#' @export
-ttm = function() {
-	current.mode = getOption("tmap.mode")
-
-	new.mode = .TMAP$mode_last
-
-	tmap_mode(new.mode)
-	invisible(current.mode)
-}
-
-#' @rdname tmap_mode
-#' @export
-rtm = function() {
-	current.mode = getOption("tmap.mode")
-
-	modes = get_modes()
-
-	id = match(current.mode, modes) + 1L
-	if (id > length(modes)) id = 1L
-
-	tmap_mode(modes[id])
-	invisible(current.mode)
 }
 
 #' @rdname tmap_mode
