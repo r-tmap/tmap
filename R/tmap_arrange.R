@@ -82,6 +82,9 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 
 		curdev <- grDevices::dev.cur()
 		rmc = tmap_options(raster.max_cells = 36)
+
+		on.exit(tmap_options(rmc))
+
 		tasps <- suppressMessages({
 			vapply(tms, function(tm) {
 				asp <- get_asp_ratio(tm, width = 700, height = 700, res = 100)

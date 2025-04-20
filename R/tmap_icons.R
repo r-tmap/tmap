@@ -64,12 +64,19 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 
 	# adjust to png dimensions
 	if (keep.asp) {
-		if (file_extension(localfile) != "png") {
+		ext = file_extension(localfile)
+
+		if (ext %in% c("jpg", "bmp", "jpeg", "tiff")) {
 			x = stars::read_stars(localfile)
 			dms = unname(dim(x))
-		} else {
+		} else if (ext == "png") {
 			x <- png::readPNG(localfile)
 			dms = dim(x)
+		} else {
+			rlang::check_installed("rsvg")
+			bitmap <- rsvg(localfile, width = width)
+			dim(bitmap) # h*w*c
+			dms = dim(bitmap)
 		}
 
 		xasp <- dms[2]/dms[1]
@@ -120,13 +127,17 @@ pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dp
 		file <- tmpfile
 	}
 
-	if (file_extension(file) == "png") {
+	ext = file_extension(file)
+	if (ext == "png") {
 		x <- png::readPNG(file)
-	} else {
+	} else if (ext %in% c("jpg", "bmp", "jpeg", "tiff")){
 		x <- aperm(stars::read_stars(file)[[1]], c(2, 1, 3))
 		if (max(x) > 1) {
 			x[] = x[] / max(x)
 		}
+	} else {
+		rlang::check_installed("rsvg")
+		x <- rsvg(file, height = height.inch * target.dpi)
 	}
 
 	if (fix.borders) {

@@ -63,6 +63,7 @@ Suggests:
     testthat (>= 3.2.0),
     widgetframe,
     lobstr,
+    rsvg,
     rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom
