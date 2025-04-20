@@ -120,9 +120,9 @@ create_animation = function(filename, files, width = NA, height = NA, delay = 40
 	k <- length(files)
 
 	if (is.na(width) || is.na(height)) {
-		x = png::readPNG(files[1])
-		width = dim(x)[2]
-		height = dim(x)[1]
+		x = stars::read_stars(files[1])
+		width = dim(x)[1]
+		height = dim(x)[2]
 	}
 	if (!is.na(fps)) delay = 100 / fps
 

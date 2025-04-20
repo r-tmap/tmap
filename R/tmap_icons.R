@@ -66,12 +66,10 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 	if (keep.asp) {
 		ext = file_extension(localfile)
 
-		if (ext %in% c("jpg", "bmp", "jpeg", "tiff")) {
+		if (ext %in% c("png", "jpg", "bmp", "jpeg", "tiff")) {
 			x = stars::read_stars(localfile)
 			dms = unname(dim(x))
-		} else if (ext == "png") {
-			x <- png::readPNG(localfile)
-			dms = dim(x)
+			dms[1:2] = dms[2:1]
 		} else {
 			rlang::check_installed("rsvg")
 			bitmap <- rsvg::rsvg(localfile, width = width)
@@ -128,9 +126,7 @@ pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dp
 	}
 
 	ext = file_extension(file)
-	if (ext == "png") {
-		x <- png::readPNG(file)
-	} else if (ext %in% c("jpg", "bmp", "jpeg", "tiff")){
+	if (ext %in% c("png", "jpg", "bmp", "jpeg", "tiff")){
 		x <- aperm(stars::read_stars(file)[[1]], c(2, 1, 3))
 		if (max(x) > 1) {
 			x[] = x[] / max(x)
