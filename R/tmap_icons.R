@@ -74,7 +74,7 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 			dms = dim(x)
 		} else {
 			rlang::check_installed("rsvg")
-			bitmap <- rsvg(localfile, width = width)
+			bitmap <- rsvg::rsvg(localfile, width = width)
 			dim(bitmap) # h*w*c
 			dms = dim(bitmap)
 		}
@@ -137,7 +137,7 @@ pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dp
 		}
 	} else {
 		rlang::check_installed("rsvg")
-		x <- rsvg(file, height = height.inch * target.dpi)
+		x <- rsvg::rsvg(file, height = height.inch * target.dpi)
 	}
 
 	if (fix.borders) {
