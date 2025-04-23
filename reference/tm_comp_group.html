@@ -93,7 +93,11 @@
 <span>  <span class="va">stack_margin</span>,</span>
 <span>  <span class="va">offset</span>,</span>
 <span>  <span class="va">frame</span>,</span>
+<span>  <span class="va">frame.color</span>,</span>
+<span>  <span class="va">frame.alpha</span>,</span>
 <span>  <span class="va">frame.lwd</span>,</span>
+<span>  <span class="va">frame.r</span>,</span>
+<span>  <span class="va">bg</span>,</span>
 <span>  <span class="va">bg.color</span>,</span>
 <span>  <span class="va">bg.alpha</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -135,8 +139,28 @@
 <dd><p>Offset margin between frame and the components block</p></dd>
 
 
-<dt id="arg-frame-frame-lwd">frame, frame.lwd<a class="anchor" aria-label="anchor" href="#arg-frame-frame-lwd"></a></dt>
-<dd><p>Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.</p></dd>
+<dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
+<dd><p>Should a frame be drawn? By default <code>TRUE</code> for legends, charts and insets, and <code>FALSE</code> otherwise.</p></dd>
+
+
+<dt id="arg-frame-color">frame.color<a class="anchor" aria-label="anchor" href="#arg-frame-color"></a></dt>
+<dd><p>frame color</p></dd>
+
+
+<dt id="arg-frame-alpha">frame.alpha<a class="anchor" aria-label="anchor" href="#arg-frame-alpha"></a></dt>
+<dd><p>frame alpha transparancy</p></dd>
+
+
+<dt id="arg-frame-lwd">frame.lwd<a class="anchor" aria-label="anchor" href="#arg-frame-lwd"></a></dt>
+<dd><p>frame line width</p></dd>
+
+
+<dt id="arg-frame-r">frame.r<a class="anchor" aria-label="anchor" href="#arg-frame-r"></a></dt>
+<dd><p>Radius of the rounded frame corners. 0 means no rounding.</p></dd>
+
+
+<dt id="arg-bg">bg<a class="anchor" aria-label="anchor" href="#arg-bg"></a></dt>
+<dd><p>Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.</p></dd>
 
 
 <dt id="arg-bg-color">bg.color<a class="anchor" aria-label="anchor" href="#arg-bg-color"></a></dt>
