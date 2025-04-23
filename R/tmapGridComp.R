@@ -22,25 +22,13 @@ process_comp_box = function(comp, sc, o) {
 	comp
 }
 
-tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginInH, marginInV, are_nums, fH, fW) {
-	#return(grid::rectGrob(gp=gpar(fill = "gold")))
-
-
+tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginInH, marginInV, are_nums, fH, fW) {
 	n = length(comp)
-	# if (stack == "vertical") {
-	# 	maxH = totH - marginInTot
-	# 	maxW = totW
-	# } else {
-	# 	maxW = totW - marginInTot
-	# 	maxH = totH
-	# }
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 
-	#legWin = 10
-
 	group.just = c(pos.h, pos.v)
-	frame_combine = comp[[1]]$frame_combine
+	frame_combine = grp$frame_combine
 
 	legWin[is.infinite(legWin)] = maxW
 	legHin[is.infinite(legHin)] = maxH
@@ -60,7 +48,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	clipW = pmax(1, scaleW)
 	clipH = pmax(1, scaleH)
-	if (comp[[1]]$resize_as_group) {
+	if (grp$resize_as_group) {
 		clipT = rep(max(clipW, clipH), n)
 	} else {
 		clipT = pmax(clipW, clipH)
@@ -119,8 +107,8 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	if (are_nums) {
 		group.just = as.numeric(group.just)
-		just.h = comp[[1]]$position$just.h
-		just.v = comp[[1]]$position$just.v
+		just.h = grp$position$just.h
+		just.v = grp$position$just.v
 
 		# add dummy offsets
 		Hs = unit_add_sides(Hs, 0)
@@ -198,14 +186,14 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
 
-	draw_rect = comp[[1]]$frame.lwd!=0 || (!is.na(comp[[1]]$frame && !identical(comp[[1]]$frame, FALSE))) || (comp[[1]]$bg)
+	draw_rect = grp$frame.lwd!=0 || (!is.na(grp$frame && !identical(grp$frame, FALSE))) || (grp$bg)
 
 	groupframe = if (draw_rect && frame_combine) {
-		bg.color = if (comp[[1]]$bg) comp[[1]]$bg.color else NA
- 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = comp[[1]]$bg.alpha, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
+		bg.color = if (grp$bg) grp$bg.color else NA
+ 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = grp$bg.alpha, col = grp$frame, lwd = grp$frame.lwd), r = grp$frame.r))
 	} else NULL
 
-	equalize = comp[[1]]$equalize
+	equalize = grp$equalize
 
 
 	if (equalize) {
@@ -259,6 +247,28 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 }
 
 tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
+	# get component group settings
+	grp = comp[[1]][c("position",
+					  "stack",
+					  "frame_combine",
+					  "equalize",
+					  "resize_as_group",
+					  "stack_margin",
+					  "offset",
+					  "frame" ,
+					  "frame.lwd",
+					  "frame.r",
+					  "bg",
+					  "bg.color",
+					  "bg.alpha")]
+
+	any_legend_chart_inset = any(vapply(comp, inherits, FUN.VALUE = logical(1), c("tm_legend", "tm_chart", "tm_inset")))
+	grp_called = setdiff(unique(do.call(c, lapply(comp, FUN = "[[", "called_via_comp_group"))), "group_id")
+
+	if (!("frame" %in% grp_called)) grp$frame = any_legend_chart_inset
+	if (!("bg" %in%grp_called)) grp$bg = any_legend_chart_inset
+
+
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 
@@ -296,13 +306,20 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	cols = seq(min(cols), max(cols))
 
 
+	# multiple not needed anymore
+	stack = stack[1] # check what happens when stack_auto is T, e.g. facet_stack
+	pos.h = pos.h[1]
+	pos.v = pos.v[1]
+
+
+
 	rowsIn = g$rowsIn[rows]
 	colsIn = g$colsIn[cols]
-	if (any(pos.h %in% c("LEFT", "RIGHT"))) {
+	if (pos.h %in% c("LEFT", "RIGHT")) {
 		pos.h = tolower(pos.h)
 		CASE.h = toupper
 	} else CASE.h = function(x)x
-	if (any(pos.v %in% c("TOP", "BOTTOM"))) {
+	if (pos.v %in% c("TOP", "BOTTOM")) {
 		pos.v = tolower(pos.v)
 		CASE.v = toupper
 	} else CASE.v = function(x)x
@@ -313,7 +330,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		component.offset.h = 0
 		component.offset.v = 0
 	} else {
-		offset = comp[[1]]$offset
+		offset = grp$offset
 		if (!is.null(names(offset)) && all(c("inside", "INSIDE", "outside", "OUTSIDE") %in% names(offset))) {
 			component.offset.h = get_option_class(offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
 			component.offset.v = get_option_class(offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
@@ -328,7 +345,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
 	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
 
-	stack_margin = comp[[1]]$stack_margin
+	stack_margin = grp$stack_margin
 	if (!is.null(names(stack_margin)) && all(c("combined", "apart") %in% names(stack_margin))) {
 		stack_margin = rep_len(get_option_class(stack_margin, class = ifelse(comp[[1]]$frame_combine, "combined", "apart"), spatial_class = FALSE), 2L)
 	} else {
@@ -345,17 +362,6 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 
 	totH = sum(rowsIn) - offsetInTot.v - marginInTotH
 	totW = sum(colsIn) - offsetInTot.h - marginInTotV
-	w1 = which(pos.v=="bottom" & pos.h=="left")
-	w2 = which(pos.v=="top" & pos.h=="left")
-	w3 = which(pos.v=="top" & pos.h=="right")
-	w4 = which(pos.v=="bottom" & pos.h=="right")
-	w5 = setdiff(seq_len(n), c(w1, w2, w3, w4))
-	#########
-	#2     3#
-	#       #
-	#1     4#
-	#########
-	# 5 is rect category consisting of "center"s or numbers
 
 	## update scale_bar width: identified by the WnativeID = 3 item (null for other components)
 	comp = mapply(function(cmp, bb) {
@@ -403,10 +409,6 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		cmp
 	}, comp, bbox, SIMPLIFY = FALSE)
 
-
-	qH = rep(totH, 5)
-	qW = rep(totW, 5)
-
 	legWin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(comp, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(comp, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(comp, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 
@@ -429,58 +431,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		}
 	}
 
-
-	align_values = function(id, dir) {
-		w1 = get(paste0("w", id[1]))
-		w2 = get(paste0("w", id[2]))
-		s1 = stack[w1[1]]
-		s2 = stack[w2[1]]
-		x1 = switch(dir, v = legHin[w1], h = legWin[w1])
-		x2 = switch(dir, v = legHin[w2], h = legWin[w2])
-		t1 = if (dir == "v") {
-			getH(s1, x1)
-		} else {
-			getW(s1, x1)
-		}
-		t2 = if (dir == "v") {
-			getH(s2, x2)
-		} else {
-			getW(s2, x2)
-		}
-		tot = switch(dir, v = totH, h = totW)
-		if (is.infinite(t1) || is.infinite(t2)) {
-			c(tot/2,tot/2)
-		} else {
-			scale = sum(t1, t2) / tot
-			if (scale > 1) {
-				t1 = t1 / scale
-				t2 = t2 / scale
-			}
-			c(t1, t2)
-		}
-	}
-
-	if (length(w1) && length(w2)) qH[1:2] = align_values(1:2, "v") # left edge
-	if (length(w3) && length(w4)) qH[3:4] = align_values(3:4, "v") # right edge
-	if (length(w2) && length(w3)) qW[2:3] = align_values(2:3, "h") # top edge
-	if (length(w1) && length(w4)) qW[c(1,4)] = align_values(c(1,4), "h") # bottom edge
-
-
-	grbs = do.call(grid::gList, lapply(1:5, function(i) {
-		id = get(paste0("w", i))
-		if (length(id)) {
-			if (!all(stack_auto[id])) {
-				# get first specified 'stack' argument
-				stck = stack[id][which(!stack_auto[id])[1]]
-			} else {
-				# get first stack argument
-				stck = stack[id[1]]
-			}
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stck, pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginInH = marginInH, marginInV = marginInV, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
-		}
-	}))
-
-	#grbs = grid::rectGrob(gp=gpar(fill = "gold"))
+	grbs = tmapGridComp2(grp = grp, comp = comp, o = o, stack = stack, pos.h = pos.h, pos.v = pos.v, maxH = totH, maxW = totW, offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginInH = marginInH, marginInV = marginInV, are_nums = are_nums, fH = totH, fW = totW)#sum(rowsIn), fW = sum(colsIn))
 
 	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 

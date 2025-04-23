@@ -14,7 +14,14 @@ complete_with_comp_group = function(comp, o) {
 			# happens when component position is taken. Other positions already have been processed in impute_comp and update_l/crt
 			oc$position = process_position(oc$position, o)
 		}
-		if (length(oc)) comp[names(oc)] = oc
+		if (length(oc)) {
+			comp[names(oc)] = oc
+			comp$called_via_comp_group = names(oc)
+		} else {
+			comp$called_via_comp_group = character()
+		}
+	} else {
+		comp$called_via_comp_group = character()
 	}
 	comp
 }
@@ -72,7 +79,10 @@ update_l = function(o, l, v, mfun, unm, active) {
 	oleg = c(oleg, o[[settings_name]])
 
 
-	if ("position" %in% names(l)) l$position = process_position(l$position, o)
+	if ("position" %in% names(l)) {
+		l$position = process_position(l$position, o)
+		oleg$position = NULL
+	}
 
 
 	l = complete_options(l, oleg)
@@ -92,7 +102,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l = complete_with_comp_group(l, o)
 
 	# update legend class
-	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l))
+	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
 	l
 }
 

@@ -159,15 +159,24 @@ process_components2 = function(cdt, o) {
 	}
 
 
+	# # manual outside legends -2 is top or left, -1 is bottom or right
+	# cdt[class %in% c("autoout", "out"), ':='(facet_row =
+	# 		ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)),
+	# 		ifelse(cell.v == "by", as.character(by1__),
+	# 		ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+	# 	facet_col =
+	# 		ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)),
+	# 		ifelse(cell.h == "by", as.character(by2__),
+	# 		ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 	# manual outside legends -2 is top or left, -1 is bottom or right
 	cdt[class %in% c("autoout", "out"), ':='(facet_row =
-			ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)),
-			ifelse(cell.v == "by", as.character(by1__),
-			ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
-		facet_col =
-			ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)),
-			ifelse(cell.h == "by", as.character(by2__),
-			ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+											 	ifelse(cell.v == "center", toC(1:o$nrows),
+											 		   ifelse(cell.v == "by", as.character(by1__),
+											 		   	   ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+											 facet_col =
+											 	ifelse(cell.h == "center", toC(1:o$ncols),
+											 		   ifelse(cell.h == "by", as.character(by2__),
+											 		   	   ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 
 	cdt
 }
@@ -856,14 +865,14 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
 		klegs = cdt[is.na(page) | (page == k), ] # was by3__ instead of page
-		klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
-		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
+		#klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
+		#klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
 
-		just.id = NULL
-		## split by class needed to distinguish tm_pos_on_top from tm_pos_in, and to distinguish different just values
-		klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
-		klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]
-
+		# find group ids
+		klegs$id = sapply(klegs$comp, function(comp) paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_"))
+		# just.id = NULL
+		# klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
+		# klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]
 		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}
 
