@@ -653,7 +653,7 @@ tm_markers = function(text = tm_const(),
 	names(a_dots) = substr(names(a_dots), 6, nchar(names(a_dots)))
 
 	args_dots = c(a_dots, list(plot.order = plot.order, zindex = zindex, group = group, group.control = group.control, options = options$dots))
-	args_text = c(e, a_other)
+	args_text = c(e, a_other, list(called_from = "tm_markers"))
 
 	tm_t = do.call(tm_text, args_text)
 	tm_t[[1]]$layer = c("labels", "text")
