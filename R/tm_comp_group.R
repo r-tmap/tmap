@@ -8,7 +8,12 @@
 #' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
 #' @param stack_margin Margin between components
 #' @param offset Offset margin between frame and the components block
-#' @param frame,frame.lwd, frame.r Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.
+#' @param frame Should a frame be drawn? By default `TRUE` for legends, charts and insets, and `FALSE` otherwise.
+#' @param frame.color frame color
+#' @param frame.alpha frame alpha transparancy
+#' @param frame.lwd frame line width
+#' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
+#' @param bg Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.color Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.alpha Background alpha transparency of the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @return A [`tmap-element`]
@@ -23,6 +28,8 @@ tm_comp_group = function(
 		stack_margin,     # margin between components
 		offset,            # offset margin
 		frame ,
+		frame.color,
+		frame.alpha,
 		frame.lwd,
 		frame.r,
 		bg,

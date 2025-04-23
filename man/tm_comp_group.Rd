@@ -14,7 +14,11 @@ tm_comp_group(
   stack_margin,
   offset,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
+  frame.r,
+  bg,
   bg.color,
   bg.alpha
 )
@@ -36,7 +40,17 @@ tm_comp_group(
 
 \item{offset}{Offset margin between frame and the components block}
 
-\item{frame, frame.lwd}{Frame of the components. Is usually set in each component function, but if specified here, it will overwrite them.}
+\item{frame}{Should a frame be drawn? By default \code{TRUE} for legends, charts and insets, and \code{FALSE} otherwise.}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
+
+\item{frame.lwd}{frame line width}
+
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.}
 
 \item{bg.color}{Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.}
 
