@@ -79,7 +79,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	oleg = c(oleg, o[[settings_name]])
 
 
-	if ("position" %in% names(l)) {
+	if ("position" %in% names(l) && !is.null(l$position)) {
 		l$position = process_position(l$position, o)
 		oleg$position = NULL
 	}
