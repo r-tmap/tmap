@@ -188,6 +188,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	cmp = tm$cmp
 	prx = tm$prx
 
+	# check if mode is the same as in step1
+	# tmap_mode() may be executed in between (#1082)
+	gs = tmap_graphics_name()
+	if (o$name != gs) cli::cli_abort("tmap mode changed during execution; did you run {.code tmap_mode()} inside a shiny app?")
+
+
 	# shortcut if no data layers are used, but only a tm_shape
 	if (length(tmx)) {
 		bbx_def = vapply(o$main, function(mid) {
