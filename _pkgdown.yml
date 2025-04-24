@@ -125,7 +125,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, basics, foundations, example, comparison, advanced, news]
+    left:  [reference, basics, foundations, example, comparison, extensions, advanced, news]
   components:
     home: ~
     basics:
@@ -188,7 +188,7 @@ navbar:
         - text: tmap vs mapsf
           href: articles/versus_mapsf
 
-    Extensions:
+    extensions:
       text: Extensions
       menu:
         - text: tmap.mapgl
