@@ -624,13 +624,13 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 
 
-		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha, size) {
+		grItems = mapply(function(id, gpari, txt, bgcol, bgcol_alpha) {
 			gridCell(id, 3, {
 				grid::gList(
-					rndrectGrob(width = grid::unit(grid::convertWidth(grid::stringWidth(txt), "inches")* size, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = grid::gpar(fill = bgcol, alpha = bgcol_alpha, col = NA), r = comp$item.r),
+					rndrectGrob(width = grid::unit(grid::convertWidth(grid::stringWidth(txt), "inches")* gpari$cex, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = grid::gpar(fill = bgcol, alpha = bgcol_alpha, col = NA), r = comp$item.r),
 					grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari))
 			})
-		}, comp$item_ids, gpars, gp$text, bgcols, bgcols_alpha, gp$cex, SIMPLIFY = FALSE)
+		}, comp$item_ids, gpars, gp$text, bgcols, bgcols_alpha, SIMPLIFY = FALSE)
 
 	} else if (comp$type == "bivariate") {
 		gpars = gp_to_gpar(gp, sel = "all", split_to_n = n*m, o = o, type = comp$type)#lapply(gps, gp_to_gpar)

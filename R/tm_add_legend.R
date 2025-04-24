@@ -75,7 +75,7 @@ tmapAddedLegend = function(comp, o) {
 	for (gpi in names(gp)) {
 		if (gpi %in% names(l)) {
 			gp[[gpi]] = l[[gpi]]
-		} else {
+		} else if (!is.na(gp[[gpi]])) {
 			gp[[gpi]] = getAesOption("value.const", o, aes = gpi, layer = comp$type)
 		}
 	}
