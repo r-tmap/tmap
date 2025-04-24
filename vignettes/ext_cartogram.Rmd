@@ -1,0 +1,95 @@
+---
+title: "tmap extensions: tmap.mapgl"
+output: 
+  bookdown::html_vignette2:
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.cartogram)
+tmap_options(scale = 0.75)
+```
+
+## Cartograms
+
+In cartograms, areal regions are distorted such that the obtained area sizes are proportional to a quantitative variable. There are three types: contiguous, non-contiguous and dorling cartogram.
+
+It is strongly recommended to use an equal area crs (see [instructions](https://r-tmap.github.io/tmap.cartogram/articles/intro#map-projection)).
+
+## Contiguous cartogram
+
+The shapes of the polygons are distorted, where the neighborhood relationships between them are preserved as much as possible.
+
+```{r, fig.height=6}
+Africa = World[World$continent == "Africa", ]
+
+tm_shape(Africa, crs = "+proj=robin") +
+	tm_cartogram(size = "pop_est", 
+				 fill = "life_exp",
+				 fill.scale = tm_scale_intervals(values = "-cols4all.bu_br_div"),
+				 fill.legend = tm_legend("Age"),
+				 options = opt_tm_cartogram(itermax = 15)) +
+tm_title("Life Expectancy")
+```
+
+## Non-contiguous cartograms
+
+Here, the polygons are only resized while they keep their shape.
+
+```{r, fig.height=6}
+tm_shape(Africa, crs = "+proj=robin") +
+	tm_cartogram_ncont(size = "pop_est", 
+					   fill = "inequality",
+					   fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", values.range = c(0, 0.5)),
+					   fill.legend = tm_legend(""),
+					   options = opt_tm_cartogram_ncont()) +
+	tm_text("name", options = opt_tm_text(point.label = TRUE)) +
+tm_title("Income inequality (Gini coefficient)")
+```
+
+## Dorling cartogram
+
+Polygons are replaced by non-overlapping bubbles.
+
+```{r, fig.height=4}
+tm_shape(World, crs = "+proj=robin") +
+	tm_cartogram_dorling(size = "pop_est", 
+						 fill = "press",
+						 fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", midpoint = 50),
+						 fill.legend = tm_legend("", height = 30)) +
+tm_title("World Press Freedom Index")
+```

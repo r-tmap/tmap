@@ -70,7 +70,7 @@ The handy function `ttm()` is used to toggle between the modes. When more than t
 
 ## Mode `"plot"`
 
-We start with cerating the plot and assign it to a variable called `tm`.
+We start with creating the plot and assign it to a variable called `tm`.
 
 ```{r}
 tm = tm_shape(World, crs = 8857) +

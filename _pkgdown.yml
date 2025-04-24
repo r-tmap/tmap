@@ -188,6 +188,18 @@ navbar:
         - text: tmap vs mapsf
           href: articles/versus_mapsf
 
+    Extensions:
+      text: Extensions
+      menu:
+        - text: tmap.mapgl
+          href: articles/ext_mapgl
+        - text: tmap.cartogram
+          href: articles/ext_cartogram
+        - text: tmap.glyphs
+          href: articles/ext_glyphs
+        - text: tmap.networks
+          href: articles/ext_networks
+
     advanced:
       text: Advanced
       menu:

@@ -1,0 +1,67 @@
+---
+title: "tmap extensions: tmap.networks"
+output: 
+  bookdown::html_vignette2:
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.networks)
+tmap_options(scale = 0.75)
+```
+
+With **tmap.networks** network visualizations can be made. It will handle `sfnetwork` objects (from the package [sfnetworks](https://luukvdmeer.github.io/sfnetworks/index.html)) natively.
+
+```{r}
+library(sfnetworks)
+library(tmap.networks)
+
+(sfn = as_sfnetwork(roxel))
+```
+
+Besides this new spatial data class `"sfnetwork"`, this package also features new map layers, albeit very basic so far:
+
+```{r, fig.height = 8, out.width = "100%", dpi = 300, fig.width = 7.2916667}
+tm_shape(sfn) +
+	tm_network()
+```	
+
+```{r, fig.height = 8, out.width = "100%", dpi = 300, fig.width = 7.2916667}
+tm_shape(sfn) +
+	tm_edges(col = "type", lwd = 4) +
+	tm_nodes()
+```
