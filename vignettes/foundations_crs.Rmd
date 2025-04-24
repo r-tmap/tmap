@@ -64,12 +64,12 @@ The used coordinates are latitudes and longitudes. Latitudes define north/south 
 
 ```{r, fig.width=6,fig.height=6}
 tm_shape(World, 
-    bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs = 4326)) +
+    bbox = "FULL",
+    crs = "+proj=ortho +lat_0=30 +lon_0=0") +
   tm_polygons() +
 tm_style("natural") + 
 tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
-tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1) +
-tm_crs("+proj=ortho +lat_0=30 +lon_0=0")
+tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1)
 ```
 
 
