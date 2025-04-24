@@ -155,8 +155,9 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 #' @export
 tmapSubsetShp.stars = function(shp, vars) {
-	ids = unique(c(which(names(shp) %in% vars),
-				   which(names(shp) %in% vars)))
+	ids = which(names(shp) %in% vars)
+	nom = setdiff(vars, names(shp))
+	if (length(nom)) cli::cli_abort("dimension values {.arg {nom}} not found in shape. Options are {.arg {names(shp)}}")
 	shp2 = shp[ids]
 	if (!length(vars)) {
 		shp2$dummy__ = TRUE

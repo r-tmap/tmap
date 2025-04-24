@@ -40,7 +40,7 @@ tmapScaleRGB_RGBA = function(xlist, scale, legend, chart, o, aes, layer, layer_a
 	cutoff = function(x, probs, stretch.method = "percent", max_color_value = 255L) {
 		if (stretch.method == "percent") {
 			qs = if (all(probs == c(0, 1)))
-				range(x)
+				range(x, na.rm = TRUE)
 			else quantile(x, probs, na.rm = TRUE)
 			x = (x - qs[1])/(qs[2] - qs[1])
 			x[x > 1] = 1
