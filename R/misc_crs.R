@@ -10,8 +10,8 @@ crs_ortho_visible = function(crs, projected = TRUE, max_cells = 1e5) {
 
 	b = s2::s2_buffer_cells(s2::as_s2_geography(paste0("POINT(", lon0, " ", lat0, ")")), 9800000, max_cells = max_cells) # visible half
 
-	pole_n = s2_intersects("POINT(0 90)", b)
-	pole_s = s2_intersects("POINT(0 -90)", b)
+	pole_n = s2::s2_intersects("POINT(0 90)", b)
+	pole_s = s2::s2_intersects("POINT(0 -90)", b)
 
 	sfc = sf::st_as_sfc(b)
 	co = sf::st_coordinates(sfc)[,1:2]
