@@ -268,6 +268,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		# assign to tml$group
 		# disable multiple basemaps
 
+		e = environment()
+		any_radio = FALSE
 		tmx = lapply(tmx, function(tmxi) {
 			lys = mapply(function(tml, tml_name) {
 				lys2 = lapply(1:nrow(bys), function(i) {
@@ -282,8 +284,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 						}
 						ml
 					})
-					tml$group.control = "radio"
 					tml$group = labs[i]
+					if (tml$group.control == "radio") assign("any_radio", value = TRUE, envir = e)
 					tml$lid = tml$lid + i
 					tml
 				})
@@ -293,6 +295,13 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			tmxi$layers = do.call(c, lys)
 			tmxi
 		})
+
+		if (length(aux) && any_radio) {
+			multi_tile = any(vapply(aux, function(ai) {
+				(ai$mapping.fun == "Tiles" && length(ai$args$server) > 1)
+			}, FUN.VALUE = logical(1L), USE.NAMES = FALSE))
+			if (multi_tile) cli::cli_inform("When {.code as.layers = TRUE} with radio buttons, it may be easier to have only one basemap, e.g. {.code + tm_basemap({.str OpenStreetMap})}")
+		}
 
 		o$n = 1
 		o$fl = list(NULL,NULL,NULL)
