@@ -239,6 +239,71 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 	# split tm in case of as.layers in tm_facets
 	# TODO
 
+	# function to subset data
+	get_dt = function(dt, by1, by2, by3, remove_by = FALSE) {
+		b = list(by1, by2, by3)
+		bynames = intersect(names(dt), paste0("by", 1:3, "__"))
+		byids = as.integer(substr(bynames, 3, 3))
+
+		sel = rep(TRUE, nrow(dt))
+		if (length(bynames)) {
+			for (i in 1:length(bynames)) {
+				sel = sel & (is.na(dt[[bynames[i]]]) | dt[[bynames[i]]] %in% b[[byids[i]]])
+			}
+		}
+		if (remove_by) {
+			nms = setdiff(names(dt), bynames)
+			dt[which(sel), nms, with = FALSE]
+		} else {
+			dt[which(sel),]
+		}
+	}
+
+	if (o$as.layers) {
+		bys = do.call(expand.grid, lapply(o$fn, seq, from = 1))
+
+		bys_labs = lapply(o$fl, function(x) if (is.null(x)) "" else x)
+		labs = do.call(mapply, c(list(FUN = paste0, USE.NAMES = FALSE), mapply("[", bys_labs, bys, SIMPLIFY = FALSE, USE.NAMES = FALSE)))
+		# to do: take labels from o$fl
+		# assign to tml$group
+		# disable multiple basemaps
+
+		tmx = lapply(tmx, function(tmxi) {
+			lys = mapply(function(tml, tml_name) {
+				lys2 = lapply(1:nrow(bys), function(i) {
+					tml$mapping_dt = get_dt(tml$mapping_dt, bys$Var1[i], bys$Var2[i], bys$Var3[i], remove_by = TRUE)
+					tml$mapping_legend = lapply(tml$mapping_legend, function(ml) {
+						ml = get_dt(ml, bys$Var1[i], bys$Var2[i], bys$Var3[i], remove_by = TRUE)
+						for (j in 1:nrow(ml)) {
+							id_old = ml$legnr[j]
+							leg_old = .TMAP$legs[[ml$legnr[j]]]
+							leg_old$group = labs[i]
+							ml$legnr[j] = legend_save(leg_old)
+						}
+						ml
+					})
+					tml$group.control = "radio"
+					tml$group = labs[i]
+					tml$lid = tml$lid + i
+					tml
+				})
+				names(lys2) = paste0(tml_name, "_", sprintf("%02d", 1:length(lys2)))
+				lys2
+			}, tmxi$layers, names(tmxi$layers), SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			tmxi$layers = do.call(c, lys)
+			tmxi
+		})
+
+		o$n = 1
+		o$fl = list(NULL,NULL,NULL)
+		o$fn = rep(1L, 3)
+		o$ncols = 1
+		o$nrows = 1
+
+	}
+
+
+
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 
@@ -309,20 +374,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		shpDT$shpTM[which(sel)]
 	}
 
-	# function to subset data
-	get_dt = function(dt, by1, by2, by3) {
-		b = list(by1, by2, by3)
-		bynames = intersect(names(dt), paste0("by", 1:3, "__"))
-		byids = as.integer(substr(bynames, 3, 3))
 
-		sel = rep(TRUE, nrow(dt))
-		if (length(bynames)) {
-			for (i in 1:length(bynames)) {
-				sel = sel & (is.na(dt[[bynames[i]]]) | dt[[bynames[i]]] %in% b[[byids[i]]])
-			}
-		}
-		dt[which(sel),]
-	}
 
 	# function to get bbox per facet, also take into account bbm (for groups without data-layers)
 	get_bbox = function(by1, by2, by3) {
