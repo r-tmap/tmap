@@ -137,11 +137,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 							grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols), widths = cols, heights = rows), name = "vp_main")
 	)
 
-	bgcol = if (!o$frame && !o$earth_boundary) {
-		o$bg.color
-	} else if (!o$frame && o$earth_boundary) {
-		o$space.color
-	} else o$outer.bg.color
+	bgcol = o$outer.bg.color
 
 	outerRect = if (!is.na(bgcol)) rndrectGrob(gp=grid::gpar(col=NA, lwd = 0, fill = bgcol), name = "outer_rect") else NULL
 
