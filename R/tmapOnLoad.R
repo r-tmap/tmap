@@ -1,6 +1,6 @@
 # envir = environment()
 .onLoad = function(...) {
-	options(tmap.style = "white", tmap.mode = "plot", tmap.design.mode = TRUE,
+	options(tmap.style = "white", tmap.mode = "plot", tmap.design.mode = FALSE,
 			tmap.devel.mode = FALSE)
 	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
 
