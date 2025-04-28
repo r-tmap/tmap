@@ -276,9 +276,11 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					tml$mapping_dt = get_dt(tml$mapping_dt, bys$Var1[i], bys$Var2[i], bys$Var3[i], remove_by = TRUE)
 					tml$mapping_legend = lapply(tml$mapping_legend, function(ml) {
 						ml = get_dt(ml, bys$Var1[i], bys$Var2[i], bys$Var3[i], remove_by = TRUE)
+						fixed = (nrow(ml) == 1L && tml$group.control == "check")
 						for (j in 1:nrow(ml)) {
 							id_old = ml$legnr[j]
 							leg_old = .TMAP$legs[[ml$legnr[j]]]
+							leg_old$layerId = paste0("fixed", ml$legnr[j])
 							leg_old$group = labs[i]
 							ml$legnr[j] = legend_save(leg_old)
 						}

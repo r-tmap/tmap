@@ -112,8 +112,17 @@ make_equal_list = function(x) {
 tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	group = cmp$group
 	leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
-	layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo
-	.TMAP_LEAFLET$leg_id = .TMAP_LEAFLET$leg_id + 1
+
+
+
+	if ("layerId" %in% names(cmp)) {
+		layerId = cmp$layerId
+		group = "always_on"
+	} else {
+		layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo
+		.TMAP_LEAFLET$leg_id = .TMAP_LEAFLET$leg_id + 1
+	}
+
 
 
 	lab = cmp$labels
