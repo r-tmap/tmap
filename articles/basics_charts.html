@@ -137,13 +137,7 @@
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"World Press\nFreedom Index"</span><span class="op">)</span>,</span>
 <span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.33 4.80 1.11 |</span></span>
-<span><span class="co">#&gt; | facets area   5.33 2.71 1.97 |</span></span>
-<span><span class="co">#&gt; | map area      5.33 2.63 2.03 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -158,43 +152,19 @@
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_donut</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[tip]</span> Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_box</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_box</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_violin</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_violin</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -204,25 +174,13 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"economy"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"economy"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_donut</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_donut</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -232,12 +190,6 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"well_being"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_heatmap</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     5.44 4.80 1.13 |</span></span>
-<span><span class="co">#&gt; | facets area   5.44 2.71 2.01 |</span></span>
-<span><span class="co">#&gt; | map area      5.44 2.63 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span>
 <span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "2 to 3" =&gt; "2"</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
@@ -253,13 +205,7 @@
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"World Press\nFreedom Index"</span><span class="op">)</span>,</span>
 <span>    fill.chart <span class="op">=</span> <span class="fu"><a href="../reference/tm_chart.html">tm_chart_bar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span>, pos.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
-<span><span class="co">#&gt; | plot area     6.46 5.76 1.12 |</span></span>
-<span><span class="co">#&gt; | facets area   6.46 3.27 1.98 |</span></span>
-<span><span class="co">#&gt; | map area      6.46 3.19 2.03 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 <p>Or, in case we would like the chart to be next to the legend, but in a different frame:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -273,13 +219,7 @@
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Component group arguments, such as `group.frame`, are deprecated as of 4.1.</span></span>
 <span><span class="co">#&gt; Please use `group_id = <span style="color: #0000BB;">"ID"</span>` in combination with `tm_comp_group(frame_combine =</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">FALSE</span>)` instead.</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
-<span><span class="co">#&gt; | plot area     6.46 5.76 1.12 |</span></span>
-<span><span class="co">#&gt; | facets area   6.46 3.27 1.98 |</span></span>
-<span><span class="co">#&gt; | map area      6.46 3.19 2.03 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #0000BB;">FALSE</span>)` instead.</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -295,13 +235,7 @@
 <span>      extra.ggplot2 <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
 <span>        panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
 <span>      <span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
-<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
-<span><span class="co">#&gt; | plot area     6.60 5.76 1.15 |</span></span>
-<span><span class="co">#&gt; | facets area   6.60 3.27 2.02 |</span></span>
-<span><span class="co">#&gt; | map area      6.60 3.19 2.07 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div>
 <p><img src="basics_charts_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
