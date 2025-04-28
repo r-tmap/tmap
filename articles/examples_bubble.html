@@ -147,7 +147,25 @@
 <span>    <span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_muni</span>, title <span class="op">=</span> <span class="st">"NLD_mini: 345 municipalities"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_prov</span>, title <span class="op">=</span> <span class="st">"NLD_prov: 12 provinces"</span><span class="op">)</span>,</span>
 <span>    ncol <span class="op">=</span> <span class="fl">3</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.430 3.500 0.694 |</span></span>
+<span><span class="co">#&gt; | plot area     2.333 3.360 0.694 |</span></span>
+<span><span class="co">#&gt; | facets area   2.333 3.061 0.762 |</span></span>
+<span><span class="co">#&gt; | map area      2.333 2.986 0.781 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.430 3.500 0.694 |</span></span>
+<span><span class="co">#&gt; | plot area     2.333 3.360 0.694 |</span></span>
+<span><span class="co">#&gt; | facets area   2.333 3.061 0.762 |</span></span>
+<span><span class="co">#&gt; | map area      2.333 2.986 0.781 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.430 3.500 0.694 |</span></span>
+<span><span class="co">#&gt; | plot area     2.333 3.360 0.694 |</span></span>
+<span><span class="co">#&gt; | facets area   2.333 3.061 0.762 |</span></span>
+<span><span class="co">#&gt; | map area      2.333 2.986 0.781 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
 <p>The variables in the <code>NLD_dist</code> and <code>NLD_muni</code> are the same:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -174,7 +192,13 @@
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    lwd <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale.html">tm_scale</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 7.000 1.041 |</span></span>
+<span><span class="co">#&gt; | plot area     6.569 6.720 0.977 |</span></span>
+<span><span class="co">#&gt; | facets area   5.764 6.720 0.858 |</span></span>
+<span><span class="co">#&gt; | map area      5.689 6.720 0.847 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>Note the scale function <code><a href="../reference/tm_scale.html">tm_scale()</a></code> is general purpose. Because the data is categorical, it will forward its arguments to <code><a href="../reference/tm_scale_categorical.html">tm_scale_categorical()</a></code>.</p>
 </div>
@@ -189,7 +213,13 @@
 <span>    fill <span class="op">=</span> <span class="st">"income_high"</span>,</span>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, values <span class="op">=</span> <span class="st">"-tol.rainbow_wh_br"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, values <span class="op">=</span> <span class="st">"-tol.rainbow_wh_br"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 7.000 1.041 |</span></span>
+<span><span class="co">#&gt; | plot area     6.998 6.261 1.118 |</span></span>
+<span><span class="co">#&gt; | facets area   5.449 6.261 0.870 |</span></span>
+<span><span class="co">#&gt; | map area      5.374 6.261 0.858 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>In order to find a suitable color palette for this example, we used</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">

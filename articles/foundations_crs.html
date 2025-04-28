@@ -151,7 +151,13 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"natural"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span><span class="fu"><a href="../reference/tm_grid.html">tm_graticules</a></span><span class="op">(</span>n.x <span class="op">=</span> <span class="fl">20</span>, n.y <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, labels.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_xlab.html">tm_xlab</a></span><span class="op">(</span><span class="st">"Longitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span><span class="fu"><a href="../reference/tm_xlab.html">tm_ylab</a></span><span class="op">(</span><span class="st">"Latitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_xlab.html">tm_xlab</a></span><span class="op">(</span><span class="st">"Longitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span><span class="fu"><a href="../reference/tm_xlab.html">tm_ylab</a></span><span class="op">(</span><span class="st">"Latitudes"</span>, size <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        6.00 6.00 1.00 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.26 1.09 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.26 1.09 |</span></span>
+<span><span class="co">#&gt; | map area      4.98 4.96 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>The latitude and longitude coordinates are specified using the WGS84 geodetic datum, an ellipsoid model of the earth. There are other standards, but WGS84 is by far the most popular and also used by GPS.</p>
 <p>Besides using latitude longitude coordinates as references for real locations on earth, they can obviously also be used to draw maps:</p>
@@ -162,6 +168,18 @@
 <span><span class="fu"><a href="../reference/tm_grid.html">tm_grid</a></span><span class="op">(</span>n.x <span class="op">=</span> <span class="fl">16</span>, n.y <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Latitude/longitude (4326) coordinates"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[tip]</span> Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; | device        7.29 4.00 1.82 |</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; | plot area     7.00 3.81 1.84 |</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; | facets area   7.00 3.51 1.99 |</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; | map area      6.70 3.24 2.07 |</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>However, this is not a good map because areas near the poles are too large (and therefore overemphasized).</p>
@@ -179,7 +197,13 @@
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Polygons shrinked to real area sizes"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: tm_cartogram requires projected coordinates, not longlat degrees. A</span></span>
 <span><span class="co">#&gt; projected CRS can be specified in tm_shape (argument crs)</span></span>
-<span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
+<span><span class="co">#&gt; Cartogram in progress...</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 4.00 1.82 |</span></span>
+<span><span class="co">#&gt; | plot area     7.00 3.59 1.95 |</span></span>
+<span><span class="co">#&gt; | facets area   7.00 3.29 2.12 |</span></span>
+<span><span class="co">#&gt; | map area      7.00 3.22 2.17 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>Therefore, mathematicians thought about other ways how to ‘flatten down the earth’. Bring in CRS…</p>
 </div>
@@ -202,7 +226,109 @@
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use tmap_arrange</span></span>
-<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tms</span>, ncol<span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tms</span>, ncol<span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        2.43 1.67 1.46 |</span></span>
+<span><span class="co">#&gt; | plot area     2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   2.33 1.60 1.46 |</span></span>
+<span><span class="co">#&gt; | map area      2.33 1.40 1.67 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <p>The panel names are abbreviations for: Winkel Tripel, Robinson, Eckert I to VI, Mollweide, Wagner I to VII and Equal Earth.
 The can be used as follows:</p>
@@ -211,7 +337,13 @@ The can be used as follows:</p>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Happy Planet Index"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 3.50 2.08 |</span></span>
+<span><span class="co">#&gt; | plot area     6.62 3.36 1.97 |</span></span>
+<span><span class="co">#&gt; | facets area   5.98 3.06 1.95 |</span></span>
+<span><span class="co">#&gt; | map area      5.91 2.99 1.98 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -224,7 +356,13 @@ The can be used as follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
+<span><span class="co">#&gt; Cartogram in progress...</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 3.50 2.08 |</span></span>
+<span><span class="co">#&gt; | plot area     6.32 3.36 1.88 |</span></span>
+<span><span class="co">#&gt; | facets area   6.32 3.36 1.88 |</span></span>
+<span><span class="co">#&gt; | map area      6.32 3.36 1.88 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -234,7 +372,13 @@ The can be used as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 3.50 2.08 |</span></span>
+<span><span class="co">#&gt; | plot area     7.00 3.17 2.21 |</span></span>
+<span><span class="co">#&gt; | facets area   6.36 3.17 2.01 |</span></span>
+<span><span class="co">#&gt; | map area      6.28 3.17 1.98 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 </div>
 </div>

@@ -485,6 +485,12 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span>      col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      size.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      size.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ----------------W (in)--H (in)--asp---</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | device        7.00 7.00 1.00 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | plot area     6.72 3.25 2.07 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | facets area   6.72 3.25 2.07 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | map area      6.72 3.25 2.07 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------------</span>
 <span class="r-plt img"><img src="tm_text-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">metro</span><span class="op">$</span><span class="va">upside_down</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="fl">180</span>, <span class="fl">0</span><span class="op">)</span></span></span>
@@ -495,6 +501,12 @@ so the <code>*.free</code> argument requires only one logical value.</p></li>
 <span class="r-in"><span>      col.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#9900BB"</span>, <span class="st">"#228822"</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      col.legend <span class="op">=</span> <span class="fu"><a href="tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_title.html">tm_title_out</a></span><span class="op">(</span><span class="st">"Which Hemisphere?"</span>, position <span class="op">=</span> <span class="fu"><a href="tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"top"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ----------------W (in)--H (in)--asp---</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | device        7.00 7.00 1.00 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | plot area     6.72 2.75 2.44 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | facets area   6.72 2.35 2.86 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> | map area      6.72 2.25 2.98 |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------------</span>
 <span class="r-plt img"><img src="tm_text-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

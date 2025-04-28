@@ -156,7 +156,13 @@
 <span></span>
 <span><span class="va">tm</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>Note that the actual grouping is done by position alone: all components with the same position are considered as a group and therefore stacked instead of drawn on top of each other.
 The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a></code> is only to specify position and group related arguments (which we discuss in this vignette) directly for multiple components.</p>
@@ -165,6 +171,12 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
 <span><span class="co">#&gt; therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
@@ -180,7 +192,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, stack <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>, stack <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>, stack <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -194,7 +212,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, z <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, z <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 </div>
@@ -213,7 +237,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -228,7 +258,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 </div>
@@ -247,7 +283,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 <p>Note: currently both <code>offset</code> and <code>stack_margin</code> are applied for all components for which <code>pos.h</code> and <code>pos.v</code> are specified as characters.</p>
 </div>
@@ -262,7 +304,13 @@ The goal of <code><a href="../reference/tm_comp_group.html">tm_comp_group()</a><
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span>, margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">T</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">T</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 </div>
 </div>
@@ -278,7 +326,13 @@ This can be set for each component individually, or, in case it is the same for 
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span>, align.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span>, align.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -291,7 +345,13 @@ This can be set for each component individually, or, in case it is the same for 
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, bg.color <span class="op">=</span> <span class="st">"purple"</span>, bg.alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_comp_group.html">tm_comp_group</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, bg.color <span class="op">=</span> <span class="st">"purple"</span>, bg.alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | facets area   5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; | map area      5.76 5.76 1.00 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

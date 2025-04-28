@@ -141,13 +141,25 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pop_0_14"</span>, <span class="st">"pop_25_44"</span>, <span class="st">"pop_65plus"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Percentage"</span><span class="op">)</span>,</span>
-<span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
+<span><span class="co">#&gt; | plot area     6.998 4.268 1.640 |</span></span>
+<span><span class="co">#&gt; | facets area   6.998 2.921 2.395 |</span></span>
+<span><span class="co">#&gt; | map area      2.283 2.696 0.847 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
 <p>A facet is create for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
-<span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">12</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">12</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
+<span><span class="co">#&gt; | plot area     6.998 4.375 1.599 |</span></span>
+<span><span class="co">#&gt; | facets area   6.998 4.375 1.599 |</span></span>
+<span><span class="co">#&gt; | map area      1.693 2.000 0.847 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>Or the first 3 variables:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -160,6 +172,12 @@
 <span><span class="co">#&gt; Warning: Number of levels of the variable assigned to the aesthetic "fill" of</span></span>
 <span><span class="co">#&gt; the layer "polygons" is 345, which is larger than n.max (which is 30), so</span></span>
 <span><span class="co">#&gt; levels are combined.</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 3.000 2.430 |</span></span>
+<span><span class="co">#&gt; | plot area     3.628 2.880 1.260 |</span></span>
+<span><span class="co">#&gt; | facets area   3.628 1.595 2.275 |</span></span>
+<span><span class="co">#&gt; | map area      1.159 1.370 0.847 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
@@ -198,7 +216,13 @@ There are two</p>
 <p>Note that the channels are included in the dimenison <code>"band"</code>. We can use the argument <code>dimvalues</code> to select them:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>dimvalues <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>dimvalues <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 6.000 1.215 |</span></span>
+<span><span class="co">#&gt; | plot area     5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; | facets area   5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; | map area      5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <p>Alternatively, we can split the <code>stars</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -219,7 +243,13 @@ There are two</p>
 <p>and plot it like this:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7split</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.290 6.000 1.215 |</span></span>
+<span><span class="co">#&gt; | plot area     5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; | facets area   5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; | map area      5.711 5.760 0.991 |</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -238,7 +268,13 @@ There are two</p>
 <span>    parts <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"income_low"</span>, <span class="st">"income_middle"</span>, <span class="st">"income_high"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-pu_gn_div"</span><span class="op">)</span>,             </span>
 <span>    size <span class="op">=</span> <span class="st">"population"</span>,</span>
-<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50000</span>, <span class="fl">100000</span>, <span class="fl">250000</span>, <span class="fl">500000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50000</span>, <span class="fl">100000</span>, <span class="fl">250000</span>, <span class="fl">500000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; | device        7.29 6.00 1.22 |</span></span>
+<span><span class="co">#&gt; | plot area     7.00 4.21 1.66 |</span></span>
+<span><span class="co">#&gt; | facets area   4.72 4.21 1.12 |</span></span>
+<span><span class="co">#&gt; | map area      4.64 4.21 1.10 |</span></span>
+<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 <p>The visual variable <code>parts</code> (introduced in <code>tmap.glyphs</code>) is specified as multivariate visual variable. It specifies the parts (slices) of the donut charts and uses this also for the <code>fill</code> color.</p>
 </div>
