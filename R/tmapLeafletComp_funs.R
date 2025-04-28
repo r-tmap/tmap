@@ -76,7 +76,7 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 
 #' @export
 tmapLeafletLegPlot.tm_compass = function(comp, lf, o) {
-	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), src = "local", position = leaflet_pos(comp$position), width = 120, height = 120)
+	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), position = leaflet_pos(comp$position), width = 120, height = 120)
 }
 
 
@@ -208,9 +208,17 @@ tmapLeafletLegPlot.tm_minimap = function(comp, lf, o) {
 
 #' @export
 tmapLeafletCompPrepare.tm_logo = function(comp, o) {
+	height = 20 * comp$height
 	comp$logo = lapply(comp$file, function(lf){
-		tmap_icons(lf)
+		x = tmap_icons(lf)
+		scale = height / x$iconHeight
+		x$iconWidth = x$iconWidth * scale
+		x$iconHeight = x$iconHeight * scale
+		x$iconAnchorX = x$iconAnchorX * scale
+		x$iconAnchorY = x$iconAnchorY * scale
+		x
 	})
+
 	comp$asp = vapply(comp$logo, function(lg) {
 		lg$iconWidth / lg$iconHeight
 	}, FUN.VALUE = numeric(1))
@@ -234,7 +242,7 @@ tmapLeafletLegPlot.tm_logo = function(comp, lf, o) {
 	ws = c(rev(cumsum(vapply(comp$logo, function(l)l$iconWidth,FUN.VALUE = numeric(1)) + 10))[-1], 0)
 
 	for (i in 1:length(comp$logo)) {
-		lf = lf %>% leafem::addLogo(comp$logo[[i]]$iconUrl, src = "local", position = leaflet_pos(comp$position), width = comp$logo[[i]]$iconWidth, height = comp$logo[[i]]$iconHeight, offset.x = 10 + ws[i], offset.y = 20)
+		lf = lf %>% leafem::addLogo(comp$logo[[i]]$iconUrl, position = leaflet_pos(comp$position), width = comp$logo[[i]]$iconWidth, height = comp$logo[[i]]$iconHeight, offset.x = 10 + ws[i], offset.y = 20)
 	}
 	lf
 }
