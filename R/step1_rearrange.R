@@ -97,9 +97,8 @@ step1_rearrange = function(tmel) {
 		}
 
 		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
-			o = tmap_options_mode(default.options = TRUE, mode.specific = FALSE)
-			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
-			if (!is.null(styleOptions)) o = complete_options(styleOptions, o)
+			check_style(o2$style)
+			o = tmap_options_mode(style = o2$style, mode.specific = FALSE)
 			o2$style = NULL
 		}
 		o = complete_options(o2, o)
