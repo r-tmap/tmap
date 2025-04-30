@@ -153,11 +153,19 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
 
-		chart = do.call(chartFun, list(chart,
-									   bin_colors = vvalues,
-									   breaks_def = breaks,
-									   na.show = na.show,
-									   x1 = x1))
+		chartArgs = list(chart,
+						 bin_colors = vvalues,
+						 breaks_def = breaks,
+						 na.show = na.show,
+						 x1 = x1)
+
+		# if breaks are user specified via tm_chart, use them
+		if ("breaks" %in% names(chart) && !is.null(chart$breaks)) {
+			chartArgs["bin_colors"] = list(NULL)
+			chartArgs$breaks_def = chart$breaks
+		}
+
+		chart = do.call(chartFun, chartArgs)
 
 		if (submit_legend) {
 			if (bypass_ord) {
