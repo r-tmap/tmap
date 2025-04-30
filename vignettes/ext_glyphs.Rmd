@@ -46,7 +46,7 @@ tmap_options(scale = 0.75)
 
 Glyphs in spatial data visualization are graphical symbols that represent data values at specific geographic locations. Each glyph can encode multiple data variables.
 
-With the extension package **tmap.glyphs** (in development) glyphs can be created. Currently only the donut and flower glyphs are implemented.
+With the extension package [**tmap.glyphs**](https://github.com/r-tmap/tmap.glyphs/) (in development) glyphs can be created. Currently only the donut and flower glyphs are implemented.
 
 ## Donut maps
 
