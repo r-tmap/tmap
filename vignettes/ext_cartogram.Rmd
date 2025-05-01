@@ -48,6 +48,8 @@ tmap_options(scale = 0.75)
 
 In cartograms, areal regions are distorted such that the obtained area sizes are proportional to a quantitative variable. There are three types: contiguous, non-contiguous and dorling cartogram.
 
+The extension package [**tmap.cartogram**](https://r-tmap.github.io/tmap.cartogram/) provides new layer functions for tmap to create various types of cartograms.
+
 It is strongly recommended to use an equal area crs (see [instructions](https://r-tmap.github.io/tmap.cartogram/articles/intro#map-projection)).
 
 ## Contiguous cartogram
