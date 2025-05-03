@@ -4,6 +4,12 @@ complete_with_comp_group = function(comp, o) {
 
 	grp_name = paste("component", comp$group_id, sep = "_")
 
+	if ("called" %in% names(comp)) {
+		comp$called_via_comp_group = comp$called
+	} else {
+		comp$called_via_comp_group = character()
+	}
+
 	if (grp_name %in% names(o)) {
 		oc = o[[grp_name]]
 		if (!is.null(comp$call)) {
@@ -16,12 +22,8 @@ complete_with_comp_group = function(comp, o) {
 		}
 		if (length(oc)) {
 			comp[names(oc)] = oc
-			comp$called_via_comp_group = names(oc)
-		} else {
-			comp$called_via_comp_group = character()
+			comp$called_via_comp_group = unique(c(comp$called_via_comp_group, names(oc)))
 		}
-	} else {
-		comp$called_via_comp_group = character()
 	}
 	comp
 }

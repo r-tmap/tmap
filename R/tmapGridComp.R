@@ -186,12 +186,23 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
 
-	draw_rect = grp$frame.lwd!=0 || (!is.na(grp$frame && !identical(grp$frame, FALSE))) || (grp$bg)
+	draw_rect = grp$frame || grp$bg
+	if (draw_rect && frame_combine) {
+		if (grp$frame) {
+			groupframe = gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = NA, col = grp$frame.color, lwd = grp$frame.lwd), r = grp$frame.r))
+		} else {
+			groupframe = NULL
+		}
 
-	groupframe = if (draw_rect && frame_combine) {
-		bg.color = if (grp$bg) grp$bg.color else NA
- 		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = grp$bg.alpha, col = grp$frame, lwd = grp$frame.lwd), r = grp$frame.r))
-	} else NULL
+		if (grp$bg) {
+			groupbg = gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = grp$bg.color, alpha = grp$bg.alpha, col = NA, lwd = 0), r = grp$frame.r))
+		} else {
+			groupbg = NULL
+		}
+	} else {
+		groupbg = NULL
+		groupframe = NULL
+	}
 
 	equalize = grp$equalize
 
@@ -213,7 +224,8 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, fH, fW, iW, iH) {
 		frame = if (draw_rect && !frame_combine) {
 			bg.color = if (leg$bg) leg$bg.color else NA
-			rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = leg$bg.alpha, col = leg$frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
+			frame.color = if (leg$frame) leg$frame.color else NA
+			rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = leg$bg.alpha, col = frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
 		if (stack == "vertical") {
 			x = switch(leg$position$align.h, "left" = lW/2, "right" = grid::unit(W, "inch") -lW/2, grid::unit(0.5, "npc"))
@@ -243,7 +255,7 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 		grDesign = NULL
 	}
 
-	do.call(grid::grobTree, c(list(groupframe), grbs, grDesign, list(vp=vp)))
+	do.call(grid::grobTree, c(list(groupbg), grbs, list(groupframe), grDesign, list(vp=vp)))
 }
 
 tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
@@ -256,6 +268,7 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 					  "stack_margin",
 					  "offset",
 					  "frame" ,
+					  "frame.color",
 					  "frame.lwd",
 					  "frame.r",
 					  "bg",

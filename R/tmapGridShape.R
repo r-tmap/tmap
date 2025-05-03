@@ -42,7 +42,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	gt = gts[[facet_page]]
 
 	rc_text = frc(facet_row, facet_col)
-
+if (getOption("tmap.devel.mode")) po(o$frame, o$frame.r, o$frame.color, o$frame.lwd, o$scale)
 	frame.lwd = if (!o$frame) 0 else o$frame.lwd * o$scale
 	r = o$frame.r * o$scale
 
@@ -70,6 +70,8 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 		}
 
 	} else NULL
+
+	if (getOption("tmap.devel.mode")) po(gframe)
 
 
 	#gt_name = paste0("gt_facet_", rc_text)
