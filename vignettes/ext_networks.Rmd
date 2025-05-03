@@ -44,7 +44,7 @@ library(tmap.networks)
 tmap_options(scale = 0.75)
 ```
 
-With **tmap.networks** network visualizations can be made. It will handle `sfnetwork` objects (from the package [sfnetworks](https://luukvdmeer.github.io/sfnetworks/index.html)) natively.
+With [**tmap.networks**](https://r-tmap.github.io/tmap.networks/) network visualizations can be made. It will handle `sfnetwork` objects (from the package [sfnetworks](https://luukvdmeer.github.io/sfnetworks/index.html)) natively.
 
 ```{r}
 library(sfnetworks)
