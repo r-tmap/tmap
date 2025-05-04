@@ -18,7 +18,12 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 			grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=0, lineend="square"), r = o$frame.r, name = "inner_rect"),
 						sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world"))
 		} else {
-			rndrectGrob(gp=gpar(fill=o$bg.color, lwd=0, lineend="square"), r = o$frame.r, name = "inner_rect")
+			if (o$frame) {
+				col = o$frame.color
+			} else {
+				col = o$bg.color
+			}
+			rndrectGrob(gp=gpar(fill=o$bg.color, lwd=0, col = col, lineend="square"), r = o$frame.r, name = "inner_rect")
 	}
 
 	clip = if (is.na(o$bg.color) && o$earth_boundary) {
