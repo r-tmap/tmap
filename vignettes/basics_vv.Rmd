@@ -87,7 +87,7 @@ s <- tm_shape(World, crs = "+proj=eqearth")
 
 ## Constant visual values
 
-Each visual variable can be assigned with a contant value. E.g. `fill = "red"` or `size = 2`.
+Each visual variable can be assigned a constant value. E.g. `fill = "red"` or `size = 2`.
 
 An example where several visual variables are specified with constant values:
 

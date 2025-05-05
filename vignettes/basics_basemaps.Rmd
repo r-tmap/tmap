@@ -51,7 +51,7 @@ By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. B
 
 ## Plot mode
 
-To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap server is "Esri.WorldGrayCanvas". This can be changed, e.g. `"OpenTopoMap"`. 
+To enable a basemap in plot mode, the package [`maptiles`](https://github.com/riatelab/maptiles/) is required. When specified without arguments, the default basemap is "Esri.WorldGrayCanvas". This can be changed, e.g. `"OpenTopoMap"`. 
 
 ```{r, fig.height = 3.5}
 tm_shape(metro) +
@@ -113,7 +113,7 @@ tm_shape(metro) +
 	tm_basemap(NULL)
 ```
 
-Now it is also possible to use different map projections (see [vignette](https://r-tmap.github.io/tmap/articles/12_foundations_crs)):
+Now it is also possible to use different map projections (see [vignette](https://r-tmap.github.io/tmap/articles/foundations_crs)):
 
 ```{r}
 tmap_mode("view")

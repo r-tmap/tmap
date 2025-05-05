@@ -55,7 +55,7 @@ With layout we mean all aspects of how the plot looks like, except for
 
 * specifications of data-driven [visual variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 * the layout of [legends](https://r-tmap.github.io/tmap/articles/basics_legends#layout)
-* the layout ovf [map components](https://r-tmap.github.io/tmap/articles/basics_components)
+* the layout of [map components](https://r-tmap.github.io/tmap/articles/basics_components)
 
 What is left? Background colors, frames, panels, fonts, margins, etc.
 
@@ -118,7 +118,7 @@ tm_layout(bg.color = "skyblue",
 
 ## Panels
 
-To change the appearance of panels the options with the prefix `panel.` are usd:
+To change the appearance of panels the options with the prefix `panel.` are used:
 
 ```{r, fig.height = 7}
 tm_shape(World, crs = "+proj=eqearth") +

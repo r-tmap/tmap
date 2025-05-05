@@ -53,13 +53,13 @@ tmap_options(scale = 1)
 
 ## Static maps (plot mode)
 
-Maps in plot mode van be exported in many formats including: 
+Maps in plot mode can be exported in many formats including: 
 
 **pixel based** png, jpg, bmp, tiff.
 
-**vectorized** pdf, eps, svg, and 
+**vectorized** pdf, eps, svg.
 
-The `width` and `height` are specified in either pixels or inches (you can don't need to specify the units).
+The `width` and `height` are specified in either pixels or inches (you can but don't need to specify the units).
 
 For the pixel based formats, the relation between pixels and inches are specified via the argument `dpi` (dots-per-inch).
 
@@ -83,19 +83,19 @@ Exporting maps is done via `tmap_save()`.
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300)
 ```
 
-Values of `width` and `height` less than 50  are considered inches, whereas greater than 50 pixels are considered pixels:
+Values of `width` and `height` less than 50  are considered to be inches, whereas those greater than 50 pixels are considered to be pixels:
 
 ```{r}
 tmap_save(tm, filename = "world.png", width = 2100, height = 1200, dpi = 300)
 ```
 
-Therefore, both examples result in the exactly the same file:
+Therefore, both examples result in exactly the same file:
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 4}
 tm + tm_layout(scale = 1)
 ```
 
-Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make to use a sufficient number of pixels. For **web publications** at least 144 dpi is required. This may seem overkill, but is required for *retina* (high point-per-inch) displaces. For **printing** 300 or even 600 dpi is required.
+Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make sure to use a sufficient number of pixels. For **web publications** at least 144 dpi is required. This may seem overkill, but is required for *retina* (high point-per-inch) displays. For **printing** 300 or even 600 dpi is required.
 
 ### Aspect ratio
 
