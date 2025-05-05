@@ -92,7 +92,7 @@ tm_legend = function(title,
 					 item_text.margin,
 					 ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-
+	args$called = names(args)
 	args = warning_group_args(args)
 
 	args$title = args$title %||% NA
