@@ -128,10 +128,10 @@
 <div class="section level2">
 <h2 id="static-maps-plot-mode">Static maps (plot mode)<a class="anchor" aria-label="anchor" href="#static-maps-plot-mode"></a>
 </h2>
-<p>Maps in plot mode van be exported in many formats including:</p>
+<p>Maps in plot mode can be exported in many formats including:</p>
 <p><strong>pixel based</strong> png, jpg, bmp, tiff.</p>
-<p><strong>vectorized</strong> pdf, eps, svg, and</p>
-<p>The <code>width</code> and <code>height</code> are specified in either pixels or inches (you can don’t need to specify the units).</p>
+<p><strong>vectorized</strong> pdf, eps, svg.</p>
+<p>The <code>width</code> and <code>height</code> are specified in either pixels or inches (you can but don’t need to specify the units).</p>
 <p>For the pixel based formats, the relation between pixels and inches are specified via the argument <code>dpi</code> (dots-per-inch).</p>
 <p>Let’s create a standard country level choropleth:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -151,15 +151,15 @@
 <span><span class="co">#&gt; Map saved to world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
-<p>Values of <code>width</code> and <code>height</code> less than 50 are considered inches, whereas greater than 50 pixels are considered pixels:</p>
+<p>Values of <code>width</code> and <code>height</code> less than 50 are considered to be inches, whereas those greater than 50 pixels are considered to be pixels:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">2100</span>, height <span class="op">=</span> <span class="fl">1200</span>, dpi <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
-<p>Therefore, both examples result in the exactly the same file:</p>
+<p>Therefore, both examples result in exactly the same file:</p>
 <p><img src="basics_exporting_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
-<p>Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make to use a sufficient number of pixels. For <strong>web publications</strong> at least 144 dpi is required. This may seem overkill, but is required for <em>retina</em> (high point-per-inch) displaces. For <strong>printing</strong> 300 or even 600 dpi is required.</p>
+<p>Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make sure to use a sufficient number of pixels. For <strong>web publications</strong> at least 144 dpi is required. This may seem overkill, but is required for <em>retina</em> (high point-per-inch) displays. For <strong>printing</strong> 300 or even 600 dpi is required.</p>
 </div>
 <div class="section level3">
 <h3 id="aspect-ratio">Aspect ratio<a class="anchor" aria-label="anchor" href="#aspect-ratio"></a>
