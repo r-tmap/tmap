@@ -15,15 +15,10 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 	bg = if (o$earth_boundary) {
 			eotw = end_of_the_world(o$crs_step4, earth_datum = o$earth_datum)
-			grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, col = o$space.color, lwd=0, lineend="square"), r = o$frame.r, name = "inner_rect"),
-						sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = 0), name = "inner_world"))
+			grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect"),
+						sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = NA), name = "inner_world"))
 		} else {
-			if (o$frame) {
-				col = o$frame.color
-			} else {
-				col = o$bg.color
-			}
-			rndrectGrob(gp=gpar(fill=o$bg.color, lwd=0, col = col, lineend="square"), r = o$frame.r, name = "inner_rect")
+			rndrectGrob(gp=gpar(fill=o$bg.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect")
 	}
 
 	clip = if (is.na(o$bg.color) && o$earth_boundary) {

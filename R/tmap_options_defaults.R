@@ -115,7 +115,7 @@
 			col = "#00000000",
 			bgcol = "#00000000",
 			lty = "blank",
-			lwd = 0,
+			lwd = NA,
 			text = "",
 			fontface = NULL,
 			fill_alpha = 0,
