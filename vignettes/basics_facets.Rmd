@@ -98,7 +98,7 @@ tm_shape(NLD_muni) +
 
 ## Facets: two or three dimensions
 
-Facets can also be defined for two or three dimensions, obtained via `tm_facets_grid()` These three dimensions correspond to *rows*, *columns*, and *pages* respectively. The most common use case is two just dimensions, rows and columns.
+Facets can also be defined for two or three dimensions, using `tm_facets_grid()`. These three dimensions correspond to *rows*, *columns*, and *pages* respectively. The most common use case is two just dimensions, rows and columns.
 In that case, `tm_facets_grid()` is used.
 
 

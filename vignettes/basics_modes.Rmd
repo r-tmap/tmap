@@ -84,7 +84,7 @@ tm_shape(metro) +
     size.scale = tm_scale_continuous(values.scale = 0.8, n = 8))
 ```
 
-We are in `"plot"` mode. Now we can plot the map by printing `tm` object:
+We are in `"plot"` mode. Now we can plot the map by printing the `tm` object:
 
 ```{r, fig.height = 3.5, out.width = "100%", dpi = 300, fig.width = 7.2916667}
 tm
@@ -100,7 +100,7 @@ ttm()
 tm
 ```
 
-Note that there is big difference: in this `"view"` mode there are basemaps, and in `"plot"` mode none. This is caused by different default option.
+Note that there is a big difference: in `"view"` mode there are basemaps, and in `"plot"` mode none. This is caused by different default options.
 
 Basemaps can be enabled or disabled via `tm_basemap()`: 
 
@@ -108,11 +108,11 @@ Basemaps can be enabled or disabled via `tm_basemap()`:
 tm + tm_basemap(NULL)
 ```
 
-See [vignette about basemaps](https://r-tmap.github.io/tmap/articles/06_basics_basemaps).
+See [vignette about basemaps](https://r-tmap.github.io/tmap/articles/basics_basemaps).
 
 ## Mode specific options
 
-Mode specific layout options can be set via `tm_plot()` and `tm_view()`. The number of options in `tm_plot()` is limited to just one, because it uses all general purpose options. In contrast, `tm_view()` contains more options, e.g. there to position the control box and what the default zoom level is:
+Mode specific layout options can be set via `tm_plot()` and `tm_view()`. The number of options in `tm_plot()` is limited to just two, because it uses all general purpose options. In contrast, `tm_view()` contains more options, e.g. the position of the control box and the default zoom level:
 
 ```{r, fig.height = 3.5}
 tm +
@@ -120,12 +120,12 @@ tm +
 			set_view = 2)
 ```
 
-For a more detailed description of options, see [vignette about options](https://r-tmap.github.io/tmap/articles/42_adv_options).
+For a more detailed description of the available options, see the [vignette about options](https://r-tmap.github.io/tmap/articles/adv_options).
 
 
 ## `mapgl` modes: `"mapbox" and `"maplibre"`.
 
-The new package `mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is requires.
+The new package `mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is required.
 
 ```{r, fig.height = 3.5}
 library(tmap.mapgl)
