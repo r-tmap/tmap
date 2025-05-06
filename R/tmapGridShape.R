@@ -65,7 +65,7 @@ if (getOption("tmap.devel.mode")) po(o$frame, o$frame.r, o$frame.color, o$frame.
 				rndrectGrob(gp=gpar(col=o$frame.color, fill=NA, lwd=1.5*frame.lwd, lineend="square"), r = r, name = "between_frame"),
 				rndrectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square"), r = r, name = "inner_frame"))
 		} else {
-			rndrectGrob(width = 1-0.5*pW, height = 1-0.5*pH, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square"), r = r, name = "outer_frame")
+			rndrectGrob(width = 1, height = 1, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square"), r = r, name = "outer_frame")
 			#rectGrob(width = 1-0.5*pW, height = 1-0.5*pH, gp=gpar(col=frame.col, fill=NA, lwd=frame.lwd, lineend="square"), name = "outer_frame")
 		}
 
