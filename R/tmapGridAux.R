@@ -43,7 +43,12 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 
 	serv = a$server[1]
 
-	if (substr(serv, 1, 6) %in% c("Thunde", "Stadia")) {
+	if (substr(serv, 1, 4) == "http") {
+		serv = maptiles::create_provider("", url = serv, citation = "" )
+		api = if (!is.null(a$api)) {
+			a$api
+		} else NULL
+	} else if (substr(serv, 1, 6) %in% c("Thunde", "Stadia")) {
 		is_stadia = substr(serv, 1, 6) == "Stadia"
 		api = if (!is.null(a$api)) {
 			a$api
