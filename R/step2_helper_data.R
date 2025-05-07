@@ -60,7 +60,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				crt = update_crt(o = o, crt = aes$chart, v = "value", mfun = mfun, unm = unm, active = TRUE)
 
 				s = aes$scale
-				f = s$FUN
+				._f = s$FUN
 				s$FUN = NULL
 				# update label.format
 				s$label.format = process_label_format(s$label.format, o$label.format)
@@ -74,7 +74,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 							   sortRev = NA,
 							   bypass_ord = TRUE,
 							   submit_legend = TRUE)
-				dtl[, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), .SDcols = "value"]
+				dtl[, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), .SDcols = "value"]
 
 				list(val = paste(dtl[[varname]], collapse = "__"),
 					 legnr = dtl$legnr_1[1],
@@ -252,7 +252,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
-				f = s$FUN
+				._f = s$FUN
 				s$FUN = NULL
 				# update label.format
 				format_called = (length(s$label.format) > 0L)
@@ -284,9 +284,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 					if (all(is.ena(l$title))) l$title = paste0(names(v), attr(cls, "units"), unit)
 				}
 
-				if (f != "tmapScaleAuto") {
+				if (._f != "tmapScaleAuto") {
 					# number of variables needed
-					fnames = names(formals(f))
+					fnames = names(formals(._f))
 					fnvar =  which(fnames == "scale") - 1L
 					if (fnames[1] != "...") {
 						if (fnvar > length(v)) {
@@ -322,15 +322,15 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 
 					if (is.na(value.null)) stop("value.null not specified for aesthetic ", unm, call. = FALSE)
 					if (bypass_ord) {
-						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
-						dtl[sel__ == TRUE, c(varname, ordname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, ordname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				} else {
 					if (bypass_ord) {
-						dtl[, c(varname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
-						dtl[, c(varname, ordname, legname, crtname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[, c(varname, ordname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				}
 				if (!q$drop.units) {
