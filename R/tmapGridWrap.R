@@ -15,6 +15,10 @@ get_panel_grob = function(label, o, g, rot, row, col) {
 
 	# resize due to not fitting
 	gpar_text$cex = determine_scale(label = label, rot = rot, row = row, col = col, g = g, scale = gpar_text$cex)
+
+	if (!is.na(label)) label = decode_expr(label)
+
+
 	grid::grobTree(
 		if (panel.show) {
 			rndrectGrob(gp = gpar_panel, r = o$panel.label.frame.r * o$scale)

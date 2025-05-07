@@ -20,6 +20,9 @@ tm_layout = function(
 
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	args$called_from = "tm_layout"
+
+	# 1106: need to use this for other texts as well
+	if ("panel.labels" %in% names(args)) args$panel.labels = encode_expr(args$panel.labels)
 	do.call(tm_options, args)
 }
 
