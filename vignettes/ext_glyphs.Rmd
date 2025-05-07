@@ -1,5 +1,5 @@
 ---
-title: "tmap extensions: tmap.mapgl"
+title: "tmap extensions: tmap.glyphs"
 output: 
   bookdown::html_vignette2:
 bibliography: '`r system.file("tmap.bib", package="tmap")`'

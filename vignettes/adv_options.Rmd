@@ -66,7 +66,7 @@ library(lobstr)
 tree(opt)
 ```
 
-## Mode specific options
+## Mode-specific options
 
 Note that the first option, called `"modes"` is not really an option, but rather a list of mode-specific options, where the first subitem of each item is the name of that mode. Here, the technical rather than the user interface mode names are used: `"Grid"` for the `"plot"` mode and `"Leaflet"` for the `"view"` mode. The other subitems are either totally new options, or standard options (also listed further below) but with different defaults.
 
@@ -83,7 +83,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 
 This last method is used internally throughout tmap. It takes both the mode and the style into account.
 
-## Style specific options
+## Style-specific options
 
 Let's enable a certain style, say `"cobalt"`
 
@@ -101,9 +101,9 @@ tree(tmap_options_diff())
 
 All options with the name prefix `value(s)` refer to default values for visual variables/values. E.g. `value.const` and subitem `fill.polygons` is the default polygon fill color.
 
-The options `scales.var` specifies which scale are used by default to map data variables to visual variables. This depends on the visual variable and the data type. E.g. for numeric data ("num") and the visual variable `size`, the `continuous` scale is used, so `tm_scale_continuous()`. For the visual variable `text` (of `tm_text()`) the scale `asis` is used, so `tm_scale_asis()`.
+The `scales.var` options specify which scales are used by default to map data variables to visual variables. This depends on the visual variable and the data type. E.g. for numeric data ("num") and the visual variable `size`, the `continuous` scale is used, so `tm_scale_continuous()`. For the visual variable `text` (of `tm_text()`) the scale `asis` is used, so `tm_scale_asis()`.
 
-There are several options that deal with the margins and aspect ratio. These are explained in [another vigette](https://r-tmap.github.io/tmap/articles/adv_margins).
+There are several options that deal with the margins and aspect ratio. These are explained in [another vignette](https://r-tmap.github.io/tmap/articles/adv_margins).
 
 Most other options are default values of arguments of component functions. E.g., `compass.type` specifies the default compass type.
 
