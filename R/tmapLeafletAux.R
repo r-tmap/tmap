@@ -20,7 +20,15 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	}
 	if (!is.na(o$set_zoom_limits[2])) opt$maxZoom = o$set_zoom_limits[2]
 
-	for (s in tiles$server) if (s != "") lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
+	for (s in tiles$server) {
+		if (s != "") {
+			if ((substr(s, 1, 4) == "http")) {
+				lf = leaflet::addTiles(lf, urlTemplate = s, group = s, options = opt)
+			} else {
+				lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
+			}
+		}
+	}
 
 	assign_lf(lf, facet_row, facet_col, facet_page)
 	NULL
