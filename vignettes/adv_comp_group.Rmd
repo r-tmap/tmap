@@ -54,6 +54,7 @@ tmap_options(scale = 0.75)
 When component share the same position (see [vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)), we can specify how they are grouped via `tm_comp_group()`.
 
 We will use a self-made map component, made with the grid package that we show via `tm_inset()`.
+
 ```{r, fig.height = 6}
 g = function(text) grid::gList(
   grid::rectGrob(gp=grid::gpar(fill = "gold")), 
