@@ -46,7 +46,7 @@ tmap_options(scale = 0.75)
 
 There are two modes included in **tmap**: `"plot"` for static mapping and `"view"` for interactive mapping. See [introduction](https://r-tmap.github.io/tmap/articles/basics_modes). The `"view"` mode uses the JavaScript library Leaflet as backend.
 
-The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. An API key is requires to use `"mapbox"` (free for personal use), but `"maplibre"` is (as the name suggestions) free for any use.
+The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. An API key is required to use `"mapbox"` (free for personal use), but `"maplibre"` is (as the name suggests) free for any use.
 
 Note that *tmap.mapgl* is a bridge between the R packages *mapgl* and *tmap*. It makes the functionality of *mapgl* (making the JavaScript libraries available to R) also available via the *tmap* user interface.
 
