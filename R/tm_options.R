@@ -26,7 +26,13 @@ tm_options = function(crs, facet.max, facet.flip, free.scales, raster.max_cells,
 	}
 	args$called_from = NULL
 
-	if ("panel.labels" %in% names(args)) args$panel.labels = encode_expr(args$panel.labels)
+	if ("panel.labels" %in% names(args)) {
+		if (is.list(args$panel.labels)) {
+			args$panel.labels = lapply(args$panel.labels, encode_expr)
+		} else {
+			args$panel.labels = encode_expr(args$panel.labels)
+		}
+	}
 
 	if (!is.null(args$scale) && is.character(args$scale)) {
 		# probably caused by tm_layout("my title"
