@@ -152,7 +152,12 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		lf
 	} else if (cmp$type == "gradient") {
 		nbins = length(val)
-		val = c(val, cmp$limits)
+
+		outside = val < cmp$limits[1] | val > cmp$limits[2]
+
+		bins = val[!outside]
+		val = c(cmp$limits[1], bins, cmp$limits[2])
+		labs = lab[!outside]
 
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
@@ -163,6 +168,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			colNA = tail(cmp$gp2[[vary]], 1)
 			textNA = lab[length(lab)]
 			val = c(val, NA)
+			#labs = c(labs, "")
 		} else {
 			pal = cmp$gp2[[vary]]
 			colNA = NA
@@ -199,8 +205,8 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   # 	prettyNum(trns(x), format = "f", big.mark = ",", digits =
 										   # 			  	3, scientific = FALSE)
 										   # },
-										   labels = cmp$labels,
-										   bins = head(val, -2),
+										   labels = labs,
+										   bins = bins,
 										   naLabel = textNA,
 										   title=title,
 										   fillOpacity=opacity,
