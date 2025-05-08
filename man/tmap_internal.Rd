@@ -203,7 +203,7 @@ An object of class \code{environment} of length 9.
 
 An object of class \code{environment} of length 0.
 
-An object of class \code{environment} of length 0.
+An object of class \code{environment} of length 1.
 }
 \usage{
 toTitleCase(x)

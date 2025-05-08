@@ -34,6 +34,8 @@
 
 	.TMAP$mode_last = "view"
 
+	.TMAP_GRID$maptiles_urls = character(0) # needed for caching
+
 	fill_providers()
 }
 

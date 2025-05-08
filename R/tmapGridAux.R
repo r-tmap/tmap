@@ -44,7 +44,14 @@ tmapGridTilesPrep = function(a, bs, id, o) {
 	serv = a$server[1]
 
 	if (substr(serv, 1, 4) == "http") {
-		serv = maptiles::create_provider("", url = serv, citation = "" )
+		if (serv %in% .TMAP_GRID$maptiles_urls) {
+			tile_id = which(serv == .TMAP_GRID$maptiles_urls)[1]
+		} else {
+			tile_id = length(.TMAP_GRID$maptiles_urls) + 1L
+			.TMAP_GRID$maptiles_urls = c(.TMAP_GRID$maptiles_urls, serv)
+		}
+		sub = if (is.na(a$sub)) NA else strsplit(a$sub, split = "")[[1]]
+		serv = maptiles::create_provider(paste0("id_", tile_id), url = serv, citation = "", sub = sub)
 		api = if (!is.null(a$api)) {
 			a$api
 		} else NULL

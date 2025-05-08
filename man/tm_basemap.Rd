@@ -11,6 +11,7 @@ tm_basemap(
   zoom = NULL,
   api = NULL,
   max.native.zoom = 17,
+  sub = "abc",
   zindex = 0,
   group = NA,
   group.control = "radio"
@@ -21,6 +22,7 @@ tm_tiles(
   alpha = NULL,
   zoom = NULL,
   max.native.zoom = 17,
+  sub = "abc",
   zindex = NA,
   group = NA,
   group.control = "check"
@@ -42,6 +44,9 @@ Use \code{NULL} in \code{tm_basemap()} to disable basemaps.}
 
 \item{max.native.zoom}{Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in \code{tm_view()}.}
+
+\item{sub}{subdomain of the tile server. Only used when \code{server} is a url template. The
+default is \code{"abc"} which works for most tile servers.}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the
 layer number plus 400. By default, the tmap layers will therefore be placed

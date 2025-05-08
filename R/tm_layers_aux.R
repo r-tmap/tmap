@@ -19,6 +19,8 @@
 #' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode. See details
 #' @param max.native.zoom Maximum native zoom level (only used in view mode).
 #'   The minimum and maximum zoom levels are determined in `tm_view()`.
+#' @param sub subdomain of the tile server. Only used when `server` is a url template. The
+#'   default is `"abc"` which works for most tile servers.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the
 #'   layer number plus 400. By default, the tmap layers will therefore be placed
 #'   in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the base tile
@@ -36,7 +38,7 @@
 #' @export
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemap examples}
 #' @example ./examples/tm_basemap.R
-tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.native.zoom = 17, zindex = 0, group = NA, group.control = "radio") {
+tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.native.zoom = 17, sub = "abc", zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {
 		disable = TRUE
 	} else {
@@ -47,7 +49,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.na
 	}
 
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, type = "basemap", disable = disable),
+		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, sub = sub, type = "basemap", disable = disable),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
@@ -57,7 +59,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.na
 
 #' @export
 #' @rdname tm_basemap
-tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, zindex = NA, group = NA, group.control = "check") {
+tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, sub = "abc", zindex = NA, group = NA, group.control = "check") {
 	if (is.null(server)) {
 		disable = TRUE
 	} else {
@@ -68,7 +70,7 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 	}
 
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, type = "overlay", disable = disable),
+		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, sub = sub, type = "overlay", disable = disable),
 		mapping.fun = "Tiles",
 		zindex = zindex,
 		group = group,
