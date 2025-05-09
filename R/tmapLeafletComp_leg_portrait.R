@@ -71,7 +71,7 @@ tmapLeafletCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
 		if (type == "gradient") {
 			height = if (is.na(height)) {
-				get_legend_option(item.height, "gradient") * nitems * absolute_fontsize
+				get_legend_option(item.height, "gradient") * nitems * absolute_fontsize * 0.7
 			} else {
 				if (height < 0) {
 					-height
