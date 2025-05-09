@@ -613,7 +613,7 @@
 		earth_boundary.color = NA,
 		earth_boundary.lwd = 1,
 		earth_datum = "OGC:CRS84",
-		space.color = NA,
+		space.color = "#ffffff",
 
 		check_and_fix = FALSE,
 
@@ -759,6 +759,7 @@ styles = list(
 	cobalt = list(bg.color = "#002240",
 				  outer.bg = TRUE,
 				  outer.bg.color = "#002240",
+				  space.color = "#002240",
 				  value.const = list(fill.polygons = "#0088FF",
 				  				   fill = "#FF9D00",
 				  				   col.lines = "#FFEE80",
@@ -785,6 +786,7 @@ styles = list(
 	albatross = list(bg.color = "#00007F",
 					 outer.bg = TRUE,
 					 outer.bg.color = "#000000",
+					 space.color = "#000000",
 					 value.const = list(fill.polygons = "#4C4C88",
 					 				   fill = "#BFBFFF",
 					 				   col.lines = "#BFBFFF",

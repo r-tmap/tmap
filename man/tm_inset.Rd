@@ -17,6 +17,9 @@ tm_inset(
   frame.alpha,
   frame.lwd,
   frame.r,
+  bg,
+  bg.color,
+  bg.alpha,
   z
 )
 }
@@ -44,6 +47,12 @@ tm_inset(
 \item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Show background?}
+
+\item{bg.color}{Background color}
+
+\item{bg.alpha}{Background transparency}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
 }

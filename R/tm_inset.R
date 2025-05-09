@@ -17,11 +17,7 @@ tm_inset = function(x = NULL,
 					between_margin,
 					position,
 					group_id,
-					frame,
-					frame.color,
-					frame.alpha,
-					frame.lwd,
-					frame.r,
+					frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha,
 					z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
