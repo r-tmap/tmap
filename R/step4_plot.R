@@ -976,6 +976,6 @@ get_geo_ref = function(bbx, crs, inner_margins, dev_size, map_size, offset) {
 	y2 = (dev_size[2] - offset[3]) / dev_size[2]
 
 	xy_crop = bb_ext_rev(c(x1, y1, x2, y2), inner_margins)
-	names(xy_crop) = c("xmin", "ymin", "xmin", "xmax")
+	names(xy_crop) = c("xmin", "ymin", "xmax", "ymax")
 	list(crs = crs, bbx = bbx_crop, rel_coords = xy_crop)
 }
