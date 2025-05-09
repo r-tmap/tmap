@@ -294,6 +294,14 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		} else {
 			id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 
+			if (sum(!is.na(id)) < 2) {
+				if (is.null(scale$ticks)) {
+					cli::cli_abort("{.field [tm_scale_continuous]} too few tick labels specified. Either increase {.arg n} or specify tick values via {.arg ticks}")
+				} else {
+					cli::cli_abort("{.field [tm_scale_continuous]} too few tick labels specified via {.arg ticks}")
+				}
+			}
+
 			# impute missing head and tail (#1039)
 			missing_head = is.na(id[1])
 			if (missing_head) id[1] = 2 * id[2] - id[3]
@@ -370,6 +378,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			limits = limits
 			layer_args = layer_args
 		})
+
+
 		# NOTE: tr and limits are included in the output to facilitate the transformation of the leaflet continuous legend ticks (https://github.com/rstudio/leaflet/issues/665)
 		#vvalues_mids = sapply(cont_split(vvalues), "[", nvv/2)
 		#vvalues_mids[vvalues_mids == "NA"] = NA

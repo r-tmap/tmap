@@ -153,11 +153,29 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	} else if (cmp$type == "gradient") {
 		nbins = length(val)
 
-		outside = val < cmp$limits[1] | val > cmp$limits[2]
 
-		bins = val[!outside]
-		val = c(cmp$limits[1], bins, cmp$limits[2])
-		labs = lab[!outside]
+
+		incl.na = cmp$na.show
+		if (incl.na) {
+			sel = head(cmp$labels_select, -1)
+		} else {
+			sel = cmp$labels_select
+		}
+
+		bins = val[sel]
+		val = val[sel]
+
+		if (!head(sel, 1)) {
+			val = c(cmp$limits[1], val)
+		} else {
+			val = c(val[1] - (val[2] - val[1]) * 0.5, val)
+		}
+
+		if (!tail(sel, 1)) {
+			val = c(val, cmp$limits[2])
+		} else {
+			val = c(val, val[length(val)] + diff(tail(val, 2))/2)
+		}
 
 		vary = if ("fill" %in% cmp$varying) "fillColor" else "color"
 		#vary_alpha = paste0(vary, "_alpha")
@@ -167,12 +185,14 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			pal = head(cmp$gp2[[vary]], -1)
 			colNA = tail(cmp$gp2[[vary]], 1)
 			textNA = lab[length(lab)]
+			labs = head(lab, -1)[sel]
 			val = c(val, NA)
 			#labs = c(labs, "")
 		} else {
 			pal = cmp$gp2[[vary]]
 			colNA = NA
 			textNA = NA
+			labs = lab[sel]
 		}
 		pal = colorNumeric(palette = pal,
 						   domain = val,
@@ -192,6 +212,14 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			cmp$gp2$fillOpacity
 		} else {
 			cmp$gp2$opacity
+		}
+
+		if (orientation == "horizontal") {
+			cli::cli_inform("{.field [landscape legend in view mode]} doesn't support labels yet",
+							.frequency_id = "landscape_legend_view",
+							.frequency = "once")
+			labs = NULL
+
 		}
 
 		lf %>% leaflegend::addLegendNumeric(position=legpos,
