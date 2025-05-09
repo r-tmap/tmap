@@ -894,6 +894,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					} else {
 						crs_i = o_i$crs_step4
 					}
+					o_i$outer.bg = FALSE
 
 					# set legends to inactive
 					tmo_i = lapply(tmo_i, function(tmg) {

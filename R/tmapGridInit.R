@@ -139,7 +139,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 
 	bgcol = o$outer.bg.color
 
-	outerRect = if (!is.na(bgcol)) rndrectGrob(gp=grid::gpar(lwd = NA, fill = bgcol), name = "outer_rect") else NULL
+	outerRect = if (o$outer.bg) rndrectGrob(gp=grid::gpar(lwd = NA, fill = bgcol), name = "outer_rect") else NULL
 
 	gts = lapply(1L:o$npages, function(ip) {
 		grid::grobTree(
