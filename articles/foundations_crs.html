@@ -201,7 +201,11 @@
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use tmap_arrange</span></span>
-<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tms</span>, ncol<span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tms</span>, ncol<span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in CPL_transform(x, crs, aoi, pipeline, reverse, desired_accuracy, :</span></span>
+<span><span class="co">#&gt; GDAL Error 1: PROJ: pipeline: Pipeline: Inverse operation for wag7 is not</span></span>
+<span><span class="co">#&gt; available</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[nothing to show]</span> no data layers defined after `tm_shape()`</span></span></code></pre></div>
 <p><img src="foundations_crs_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <p>The panel names are abbreviations for: Winkel Tripel, Robinson, Eckert I to VI, Mollweide, Wagner I to VII and Equal Earth.
 The can be used as follows:</p>

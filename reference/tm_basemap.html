@@ -105,6 +105,7 @@ order in which this layer is called, just like other map layers.</p>
 <span>  zoom <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  api <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max.native.zoom <span class="op">=</span> <span class="fl">17</span>,</span>
+<span>  sub <span class="op">=</span> <span class="st">"abc"</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"radio"</span></span>
@@ -115,6 +116,7 @@ order in which this layer is called, just like other map layers.</p>
 <span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  zoom <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max.native.zoom <span class="op">=</span> <span class="fl">17</span>,</span>
+<span>  sub <span class="op">=</span> <span class="st">"abc"</span>,</span>
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span></span>
@@ -149,6 +151,11 @@ Use <code>NULL</code> in <code>tm_basemap()</code> to disable basemaps.</p></dd>
 <dt id="arg-max-native-zoom">max.native.zoom<a class="anchor" aria-label="anchor" href="#arg-max-native-zoom"></a></dt>
 <dd><p>Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in <code><a href="tm_view.html">tm_view()</a></code>.</p></dd>
+
+
+<dt id="arg-sub">sub<a class="anchor" aria-label="anchor" href="#arg-sub"></a></dt>
+<dd><p>subdomain of the tile server. Only used when <code>server</code> is a url template. The
+default is <code>"abc"</code> which works for most tile servers.</p></dd>
 
 
 <dt id="arg-zindex">zindex<a class="anchor" aria-label="anchor" href="#arg-zindex"></a></dt>
