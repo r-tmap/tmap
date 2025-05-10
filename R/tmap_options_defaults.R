@@ -752,7 +752,6 @@ styles = list(
 		legend.frame = TRUE,
 		legend.bg.color = "grey90",
 		frame = FALSE,
-		crs = "auto",
 		earth_boundary = TRUE,
 		basemap.server = "Esri.NatGeoWorldMap",
 		basemap.alpha = 1),
