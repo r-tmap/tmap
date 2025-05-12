@@ -43,8 +43,6 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-### Note: this is written for the upcoming version 4.1
-
 ## Basemaps
 
 By default, basemaps are only shown in `"view"` mode, so not in `"plot"` mode. Basemaps can be enabled or disabled via `tm_basemap()`. 

@@ -51,19 +51,17 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ## Installation
 
-Installation of **tmap** (version 4) is straightforward:
+Installation of **tmap** is straightforward:
 
 ```{r eval=FALSE}
 install.packages("tmap")
 ```
 
-The old version of **tmap** (version 3) is available in the [CRAN archive](https://cran.r-project.org/src/contrib/Archive/tmap/),
-but we recommend moving to the new version 4.
+In case it fails, please check the dependencies below.
 
 ### Development version
 
-The development version can be installed from the GitHub repository using
-`remotes` and `pak` packages or from the [R-universe repository](https://r-tmap.r-universe.dev/tmap).
+The development version can be installed from the GitHub repository using one of the following functions:
 
 ```{r eval=FALSE}
 # install.packages("remotes")
@@ -76,16 +74,13 @@ pak::pak("r-tmap/tmap")
 install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
+## Dependencies
 
-**Windows**
-No additional installation required.
+tmap depend on other R packages, which will automatically be installed along. However, two packages **sf** and **s2** have additional system requirements: for Windows users, these are also installed along. For Linux and MacOS users, these additional libraries may need to be installed manually.
 
-**Linux (Ubuntu)**
-See https://geocompx.org/post/2020/installing-r-spatial-packages-linux/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/150).
+Instructions for the libraries GEOS, GDAL and PROJ (required by **sf**): see the installation instructions of **terra** which requires the same libraries: [MacOS] (https://rspatial.github.io/terra/index.html?q=installation#macos) and [Linux](https://rspatial.github.io/terra/index.html?q=installation#linux)
 
-**macOS**
-See https://www.kyngchaos.com/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
+Instructions for the libraries Abseil and OpenSS (required by **s2**): see the [installation instructions](https://r-spatial.github.io/s2/#installation).
 
 ## Getting started
 

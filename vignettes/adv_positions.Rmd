@@ -48,8 +48,6 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-### Note: this is written for the upcoming version 4.1
-
 Recall from the [vignette about components](https://r-tmap.github.io/tmap/articles/basics_components) that the `position` argument of map components specifies their position.
 
 It can be specified in two ways:
