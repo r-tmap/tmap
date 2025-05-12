@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,10 +99,13 @@
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed on to <code><a href="tm_scalebar.html">tm_scalebar</a></code></p><dl><dt><code>breaks</code></dt>
-<dd><p>breaks</p></dd>
+<dd><p>breaks. E.g. <code>c(0, 10, 50)</code> places scale bar breaks at 0, 10, and 50 units. These units are specified in <code><a href="tm_shape.html">tm_shape()</a></code>.</p></dd>
 
     <dt><code>width</code></dt>
-<dd><p>width of the scale bar. Units are number of text line heights, which is similar to the number of characters.</p></dd>
+<dd><p>width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case <code>beaks</code> are specified, the <code>width</code> is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.</p></dd>
+
+    <dt><code>allow_clipping</code></dt>
+<dd><p>should clipping of the last label by allowed? If <code>TRUE</code> (default), the last break label including unit is printed even when it doesn't fit the frame. If <code>FALSE</code> it will not be printed. Instead the unit suffix is added to the second last label.</p></dd>
 
     <dt><code>text.size</code></dt>
 <dd><p>text size</p></dd>

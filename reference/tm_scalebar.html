@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,6 +93,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_scalebar</span><span class="op">(</span></span>
 <span>  <span class="va">breaks</span>,</span>
 <span>  <span class="va">width</span>,</span>
+<span>  <span class="va">allow_clipping</span>,</span>
 <span>  <span class="va">text.size</span>,</span>
 <span>  <span class="va">text.color</span>,</span>
 <span>  <span class="va">color.dark</span>,</span>
@@ -120,11 +121,15 @@
 
 
 <dl><dt id="arg-breaks">breaks<a class="anchor" aria-label="anchor" href="#arg-breaks"></a></dt>
-<dd><p>breaks</p></dd>
+<dd><p>breaks. E.g. <code>c(0, 10, 50)</code> places scale bar breaks at 0, 10, and 50 units. These units are specified in <code><a href="tm_shape.html">tm_shape()</a></code>.</p></dd>
 
 
 <dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>width of the scale bar. Units are number of text line heights, which is similar to the number of characters.</p></dd>
+<dd><p>width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case <code>beaks</code> are specified, the <code>width</code> is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.</p></dd>
+
+
+<dt id="arg-allow-clipping">allow_clipping<a class="anchor" aria-label="anchor" href="#arg-allow-clipping"></a></dt>
+<dd><p>should clipping of the last label by allowed? If <code>TRUE</code> (default), the last break label including unit is printed even when it doesn't fit the frame. If <code>FALSE</code> it will not be printed. Instead the unit suffix is added to the second last label.</p></dd>
 
 
 <dt id="arg-text-size">text.size<a class="anchor" aria-label="anchor" href="#arg-text-size"></a></dt>
