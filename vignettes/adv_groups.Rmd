@@ -47,7 +47,7 @@ tmap_options(scale = 0.75)
 
 Via the `group` and `group.control` argument in the map layer functions it is possible group layers and (de)select in the leaflet layer control box.
 
-```{r}
+```{r, eval = FALSE}
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(
@@ -72,7 +72,7 @@ Note that if the `group` argument is not specified, such as in the province laye
 
 ## Switching between layers
 
-```{r}
+```{r, eval = FALSE}
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(
@@ -103,7 +103,7 @@ tm_view(set_zoom_limits = c(8,14))
 
 Via `tm_group` it is possible to set the `group.control` and moreover to specify at which zoom levels this group is plotted.
 
-```{r}
+```{r, eval = FALSE}
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(
