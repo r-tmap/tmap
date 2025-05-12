@@ -118,6 +118,7 @@ tmap_options_reset()
 
 tmap_options(
   bg.color = "steelblue",
+  outer.bg = TRUE,
   outer.bg.color = "salmon",
   frame.color = "purple3",
   frame.lwd = 5,

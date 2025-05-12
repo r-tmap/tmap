@@ -37,6 +37,7 @@ impute_comp = function(a, o) {
 	a$padding = process_padding(a$padding)
 
 	ot = get_prefix_opt(class = ca[1], o = o)
+	if (!is.null(a$position)) ot$position = NULL
 	a = complete_options(a, ot)
 
 	# add options from parent classes

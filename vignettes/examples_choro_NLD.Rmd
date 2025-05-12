@@ -113,7 +113,7 @@ tm_shape(NLD_dist) +
     tm_polygons(
         fill = "edu_appl_sci",
         fill.scale = tm_scale_continuous(values = "-orange_blue_diverging"),
-        fill.legend = tm_legend("", position = tm_pos_in("left", "top")),
+        fill.legend = tm_legend("", group_id = "top"),
         col = NULL
     ) + 
 tm_shape(NLD_muni) +
@@ -122,10 +122,11 @@ tm_shape(NLD_prov) +
 	tm_borders(lwd = 3) + 
 tm_title("Proportion of Population Aged 15–75 with a University or Applied Sciences Degree by District (as of October 1, 2022)", 
     width = 15, 
-    position = tm_pos_in("left", "top"), 
+    group_id = "top",
     z = 0) +
-tm_compass(position = tm_pos_in("left", "bottom")) +
-tm_scalebar(position = tm_pos_in("left", "bottom")) +
-tm_credits("© Data: Statistics Netherlands, Software: R-tmap",
-    position = tm_pos_in("left", "bottom"))
+tm_compass(group_id = "bottom") +
+tm_scalebar(group_id = "bottom", breaks = c(0, 10, 50)) +
+tm_credits("© Data: Statistics Netherlands, Software: R-tmap", group_id = "bottom") +
+tm_comp_group("top", position = tm_pos_in("left", "top"), frame = FALSE, bg = FALSE) +
+tm_comp_group("bottom", position = tm_pos_in("left", "bottom", align.h = "left"))
 ```

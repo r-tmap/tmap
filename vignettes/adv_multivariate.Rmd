@@ -79,8 +79,8 @@ tm_shape(NLD_muni) +
 
 Or the first 3 variables:
 
-```{r}
-tm_shape(NLD_muni, fig.height = 8) +
+```{r, fig.height = 8}
+tm_shape(NLD_muni) +
   tm_polygons(
     fill = tm_vars(n = 3))
 ```

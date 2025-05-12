@@ -530,6 +530,7 @@
 
 		scalebar.breaks = NULL,
 		scalebar.width = 12,
+		scalebar.allow_clipping = TRUE,
 		scalebar.text.size = .5,
 		scalebar.text.color = NA,
 		scalebar.text.fontface = NULL,

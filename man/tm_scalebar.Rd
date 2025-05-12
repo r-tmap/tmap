@@ -7,6 +7,7 @@
 tm_scalebar(
   breaks,
   width,
+  allow_clipping,
   text.size,
   text.color,
   color.dark,
@@ -29,9 +30,11 @@ tm_scalebar(
 )
 }
 \arguments{
-\item{breaks}{breaks}
+\item{breaks}{breaks. E.g. \code{c(0, 10, 50)} places scale bar breaks at 0, 10, and 50 units. These units are specified in \code{\link[=tm_shape]{tm_shape()}}.}
 
-\item{width}{width of the scale bar. Units are number of text line heights, which is similar to the number of characters.}
+\item{width}{width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case \code{beaks} are specified, the \code{width} is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.}
+
+\item{allow_clipping}{should clipping of the last label by allowed? If \code{TRUE} (default), the last break label including unit is printed even when it doesn't fit the frame. If \code{FALSE} it will not be printed. Instead the unit suffix is added to the second last label.}
 
 \item{text.size}{text size}
 

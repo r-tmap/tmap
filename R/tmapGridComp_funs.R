@@ -399,29 +399,14 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	wsu = comp$wsu
 	hsu = comp$hsu
 
-	wsu[1] = unit(0, "inch")
-	wsu[5] = unit(0, "inch")
 	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
 												   nrow = length(hsu),
 												   widths = wsu,
 												   heights = hsu))
 
 
-	# g = grid::grobTree(grid::rectGrob(gp=gpar(fill = "pink")), vp = vp)
-	# g = gridCell(3,3, {
-	# 	gTree(children=gList(
-	# 		g
-	# 	), name="scalebar")
-	# })
-	#
-	# g = grid::grobTree(g, vp = vp)
-	#
-	#
-	# return(g)
-
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
-	#xrange = (comp$bbox[3] - comp$bbox[1]) * fW_fact
 
 	xrange = fW * comp$cpi
 
@@ -492,16 +477,19 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 	lineHeight = convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
 
 	unitWidth = text_width_inch(unit) * size
-	#width = sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n
 
 	xtext = x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 
+
 	# if "unit" text is clipped, remove last label and move unit to previous label
-	xright = xtext + labelsW / 2
-	if (tail(xright, 1) > W) {
-		labels = c(head(labels, -2), unit)
-		xtext = x[1] + c(head(ticks3, -1), ticks3[n-1] + .5*ticksWidths[n-1]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
+	if (!comp$allow_clipping) {
+		xright = xtext + labelsW / 2
+		if (tail(xright, 1) > W) {
+			labels = c(head(labels, -2), unit)
+			xtext = x[1] + c(head(ticks3, -1), ticks3[n-1] + .5*ticksWidths[n-1]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
+		}
 	}
+
 
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
 
@@ -511,13 +499,6 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 		gTree(children=gList(
 
 			grobBG,
-			# if (!is.na(comp$bg.color)) {
-			# 	bg.col = do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-			# 	rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
-			# } else {
-			# 	NULL
-			# },
-			#rectGrob(gp=gpar(col = "green", fill= NA))
 			rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
 			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=comp$text.fontface, fontfamily=comp$text.fontfamily))
 			), name="scalebar")

@@ -139,8 +139,9 @@ tm_compass <- function(north,
 #'
 #' Map component that adds a scale bar.
 #'
-#' @param breaks breaks
-#' @param width width of the scale bar. Units are number of text line heights, which is similar to the number of characters.
+#' @param breaks breaks. E.g. `c(0, 10, 50)` places scale bar breaks at 0, 10, and 50 units. These units are specified in [tm_shape()].
+#' @param width width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case `beaks` are specified, the `width` is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.
+#' @param allow_clipping should clipping of the last label by allowed? If `TRUE` (default), the last break label including unit is printed even when it doesn't fit the frame. If `FALSE` it will not be printed. Instead the unit suffix is added to the second last label.
 #' @param text.size text size
 #' @param text.color text.color
 #' @param color.dark color.dark
@@ -154,6 +155,7 @@ tm_compass <- function(north,
 #' @export
 tm_scalebar = function(breaks,
 						width,
+						allow_clipping,
 						text.size,
 						text.color,
 						color.dark,

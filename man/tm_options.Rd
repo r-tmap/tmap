@@ -238,6 +238,7 @@ tm_options(
   inset_gg.width,
   scalebar.breaks,
   scalebar.width,
+  scalebar.allow_clipping,
   scalebar.text.size,
   scalebar.text.color,
   scalebar.text.fontface,
@@ -794,9 +795,11 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{inset_gg.width}{The width of the inset_gg.}
 
-\item{scalebar.breaks}{The break values of the scalebar.}
+\item{scalebar.breaks}{See \code{\link[=tm_scalebar]{tm_scalebar()}}}
 
-\item{scalebar.width}{The width of the scalebar.}
+\item{scalebar.width}{See \code{\link[=tm_scalebar]{tm_scalebar()}}}
+
+\item{scalebar.allow_clipping}{See \code{\link[=tm_scalebar]{tm_scalebar()}}}
 
 \item{scalebar.text.size}{The size of the text of the scalebar.}
 
