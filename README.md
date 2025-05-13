@@ -57,8 +57,9 @@ installed manually.
 
 Instructions for the libraries GEOS, GDAL and PROJ (required by **sf**):
 see the installation instructions of **terra** which requires the same
-libraries: \[MacOS\]
-(<https://rspatial.github.io/terra/index.html?q=installation#macos>) and
+libraries:
+[MacOS](https://rspatial.github.io/terra/index.html?q=installation#macos)
+and
 [Linux](https://rspatial.github.io/terra/index.html?q=installation#linux)
 
 Instructions for the libraries Abseil and OpenSS (required by **s2**):
@@ -91,6 +92,13 @@ tm_shape(World, crs = "+proj=robin") +
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+## Online tmap course
+
+3-6 June, organized jointly by
+[PRStats](https://www.prstats.org/course/visual-exploration-analysis-and-presentation-of-spatial-data-using-the-tmap-package-tmap01/)
+and
+[Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization)
 
 ## Additional Resources for Learning **tmap**
 
