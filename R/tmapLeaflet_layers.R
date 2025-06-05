@@ -334,16 +334,17 @@ tmapLeafletSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	#po(sort(gp2$width, decreasing = T))
 
+	shp2 = sf::st_as_sf(as.data.frame(coords), coords = c("X", "Y"), crs = st_crs(shp))
 
 	if (o$use_WebGL) {
-		lf |>  leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
+		lf |>  leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else if (use_circleMarkers) {
 		gp2$strokeWidth[gp2$shape %in% c("solid-circle-md", "solid-circle-bg", "solid-circle-sm")] = 0
 		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
 		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
 
-		lf |>  leaflet::addCircleMarkers(data = sf::st_sf(shp), layerId = idt,
+		lf |>  leaflet::addCircleMarkers(data = shp2, layerId = idt,
 										 color = gp2$color,
 										 opacity = gp2$opacity,
 										 weight = gp2$strokeWidth,

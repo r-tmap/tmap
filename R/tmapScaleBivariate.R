@@ -2,7 +2,7 @@
 #' @rdname tmap_internal
 tmapScaleBivariate = function(x1, x2, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
 
-	if (!(aes %in% c("fill", "color", "shape"))) stop("tm_scale_bivariate cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	if (!(aes %in% c("fill", "col", "shape"))) stop("tm_scale_bivariate cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 
 	scale = get_scale_defaults(scale, o, aes, layer, cls = "biv")
 
