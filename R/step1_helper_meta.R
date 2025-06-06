@@ -32,12 +32,12 @@ preprocess_meta_step1 = function(o) {
 		attr.color.light = is_light(attr.color)
 		panel.label.rot = rep_len(panel.label.rot, 4L)
 
-		earth.bounds = if (is.logical(earth_boundary)) {
-			c(-180, -90, 180, 90)
-		} else {
-			as.vector(bb(earth_boundary))
-		}
-		earth_boundary = !isFALSE(earth_boundary)
+		# earth.bounds = if (is.logical(earth_boundary)) {
+		# 	c(-180, -90, 180, 90)
+		# } else {
+		# 	as.vector(bb(earth_boundary))
+		# }
+		# earth_boundary = !isFALSE(earth_boundary)
 
 		earth_boundary.lwd = earth_boundary.lwd * scale
 		#frame.lwd = frame.lwd * scale
