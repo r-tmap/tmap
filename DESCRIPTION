@@ -71,7 +71,7 @@ Suggests:
     rstudioapi
 Config/Needs/check: Nowosad/spDataLarge, lwgeom, r-tmap/tmap
 Config/Needs/coverage: Nowosad/spDataLarge, lwgeom, r-tmap/tmap
-Config/Needs/website: bookdown, rmarkdown, sfnetworks, tmap.glyphs, tmap.networks, r-tmap/tmap.mapgl, geofacet
+Config/Needs/website: bookdown, rmarkdown, sfnetworks, tmap.glyphs, tmap.networks, r-tmap/tmap.mapgl, geofacet, sits
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
