@@ -40,8 +40,8 @@ tmapGridCompWidth.tm_title = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
-	tmapGridLegPlot_text(comp, o)
+tmapGridCompPlot.tm_title = function(comp, o, fH, fW) {
+	tmapGridCompPlot_text(comp, o)
 }
 
 #' @export
@@ -60,8 +60,8 @@ tmapGridCompWidth.tm_credits = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
-	tmapGridLegPlot_text(comp, o, fH, fW)
+tmapGridCompPlot.tm_credits = function(comp, o, fH, fW) {
+	tmapGridCompPlot_text(comp, o, fH, fW)
 }
 
 #' @export
@@ -130,7 +130,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_compass = function(comp, o, fH, fW) {
 
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
@@ -391,7 +391,7 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 
@@ -517,7 +517,7 @@ tmapGridLegPlot.tm_scalebar = function(comp, o, fH, fW) {
 
 
 
-tmapGridLegPlot_text = function(comp, o, fH, fW) {
+tmapGridCompPlot_text = function(comp, o, fH, fW) {
 
 	textS = if (comp$text == "") 0 else comp$size * comp$scale #* o$scale
 
@@ -682,7 +682,7 @@ tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
 	NULL
 }
 
@@ -706,7 +706,7 @@ tmapGridCompWidth.tm_minimap = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_minimap = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
 	NULL
 }
 
@@ -761,7 +761,7 @@ tmapGridCompWidth.tm_logo = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_logo = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 
 	k = length(comp$logo)
 
@@ -835,7 +835,7 @@ tmapGridCompWidth.tm_inset_grob = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_inset_grob = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_inset_grob = function(comp, o, fH, fW) {
 
 	k = length(comp$logo)
 
@@ -903,7 +903,7 @@ tmapGridCompWidth.tm_inset_map = function(comp, o) {
 }
 
 #' @export
-tmapGridLegPlot.tm_inset_map = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 
 	k = length(comp$logo)
 

@@ -259,9 +259,9 @@ step1_rearrange_facets = function(tmo, o) {
 					modes2 = modes[exs]
 
 					if (length(modes2)) {
-						cli::cli_abort("Map layer {.code tm_{layer}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
+						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
 					} else {
-						cli::cli_abort("Map layer {.code tm_{layer}} not available for mode {.str {mode}} and also not for the other modes")
+						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer}} not available for mode {.str {mode}} and also not for the other modes")
 					}
 				}
 

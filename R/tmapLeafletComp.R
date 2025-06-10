@@ -312,12 +312,12 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 }
 
 #' @export
-tmapLeafletLegPlot.tm_legend_standard_portrait = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_legend_standard_portrait = function(comp, lf, o) {
 	tmapLeaflet_legend(comp, lf, o, orientation = "vertical")
 }
 
 #' @export
-tmapLeafletLegPlot.tm_legend_standard_landscape = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_legend_standard_landscape = function(comp, lf, o) {
 	tmapLeaflet_legend(comp, lf, o, orientation = "horizontal")
 }
 
@@ -329,7 +329,7 @@ tmapLeafletComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pa
 
 
 	for (cmp in comp) {
-		lf = tmapLeafletLegPlot(cmp, lf, o)
+		lf = tmapLeafletCompPlot(cmp, lf, o)
 	}
 
 

@@ -178,7 +178,7 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}, comp, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
 
-	legGrobs = lapply(comp, tmapGridLegPlot, o = o, fH = fH, fW = fW)
+	legGrobs = lapply(comp, tmapGridCompPlot, o = o, fH = fH, fW = fW)
 
 
 	#sq = function(x) do.call(seq, as.list(unname(range(x))))

@@ -1,3 +1,11 @@
+#' Internal methods for map components in plot and view mode
+#'
+#' Internal methods for map components
+#' @export
+#' @param comp component
+#' @param o options
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapGridCompPrepare = function(comp, o) {
 	UseMethod("tmapGridCompPrepare")
 }
@@ -10,9 +18,23 @@ tmapGridCompWidth = function(comp, o) {
 	UseMethod("tmapGridCompWidth")
 }
 
-tmapGridLegPlot = function(comp, o, fH, fW) {
-	UseMethod("tmapGridLegPlot")
+tmapGridCompPlot = function(comp, o, fH, fW) {
+	UseMethod("tmapGridCompPlot")
 }
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridCompPrepare.default = function(comp, o) {
+	cls = class(comp)[1]
+	id = paste("plot_mode", cls, sep = "_")
+	cli::cli_inform("{.field [plot mode]} Map component {.fun {cls}} not supported in {.str plot} mode.",
+					.frequency_id = id,
+					.frequency = "once")
+	comp$show = FALSE
+	comp
+}
+
 
 #' @export
 tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
@@ -141,7 +163,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 
 #' @export
-tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	if (comp$type != "gradient") comp$labels_select = TRUE # labels_select only needed for continuous legends (#1039)
 
 

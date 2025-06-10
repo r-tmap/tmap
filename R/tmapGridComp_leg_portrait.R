@@ -253,7 +253,7 @@ add_user_specified_values = function(gp, usr) {
 
 
 #' @export
-tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 
 	if (comp$type != "gradient") comp$labels_select = TRUE # labels_select only needed for continuous legends (#1039)
 

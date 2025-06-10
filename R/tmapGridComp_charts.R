@@ -72,15 +72,15 @@ tmapGridCompHeight.tm_chart = function(comp, o) {
 
 }
 
-#' @method tmapGridLegPlot tm_chart_histogram
+#' @method tmapGridCompPlot tm_chart_histogram
 #' @export
-tmapGridLegPlot.tm_chart_histogram = function(comp, o, fH, fW) {
-	tmapGridLegPlot.tm_chart_bar(comp, o, fH, fW)
+tmapGridCompPlot.tm_chart_histogram = function(comp, o, fH, fW) {
+	tmapGridCompPlot.tm_chart_bar(comp, o, fH, fW)
 }
 
-#' @method tmapGridLegPlot tm_chart_bar
+#' @method tmapGridCompPlot tm_chart_bar
 #' @export
-tmapGridLegPlot.tm_chart_bar = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_chart_bar = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	scale = o$scale * comp$scale
@@ -137,9 +137,9 @@ lwd_to_mm = function(value, unit = "bigpts") {
 
 
 
-#' @method tmapGridLegPlot tm_chart_donut
+#' @method tmapGridCompPlot tm_chart_donut
 #' @export
-tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_chart_donut = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	scale = o$scale * comp$scale
@@ -186,9 +186,9 @@ tmapGridLegPlot.tm_chart_donut = function(comp, o, fH, fW) {
 
 
 
-#' @method tmapGridLegPlot tm_chart_violin
+#' @method tmapGridCompPlot tm_chart_violin
 #' @export
-tmapGridLegPlot.tm_chart_violin = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_chart_violin = function(comp, o, fH, fW) {
 	scale = o$scale * comp$scale
 	textsize = o$chart.text.size * scale
 
@@ -221,9 +221,9 @@ tmapGridLegPlot.tm_chart_violin = function(comp, o, fH, fW) {
 }
 
 
-#' @method tmapGridLegPlot tm_chart_box
+#' @method tmapGridCompPlot tm_chart_box
 #' @export
-tmapGridLegPlot.tm_chart_box = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_chart_box = function(comp, o, fH, fW) {
 	scale = o$scale * comp$scale
 	textsize = o$chart.text.size * scale
 
@@ -256,9 +256,9 @@ tmapGridLegPlot.tm_chart_box = function(comp, o, fH, fW) {
 }
 
 
-#' @method tmapGridLegPlot tm_chart_heatmap
+#' @method tmapGridCompPlot tm_chart_heatmap
 #' @export
-tmapGridLegPlot.tm_chart_heatmap = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_chart_heatmap = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	scale = o$scale * comp$scale

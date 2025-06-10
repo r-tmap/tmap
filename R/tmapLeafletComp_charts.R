@@ -24,13 +24,13 @@ tmapLeafletCompHeight.tm_chart = function(comp, o) {
 	comp
 }
 
-#' @method tmapLeafletLegPlot tm_chart_histogram
+#' @method tmapLeafletCompPlot tm_chart_histogram
 #' @export
-tmapLeafletLegPlot.tm_chart_histogram = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_chart_histogram = function(comp, lf, o) {
 	lf
 }
-#' @method tmapLeafletLegPlot tm_chart
+#' @method tmapLeafletCompPlot tm_chart
 #' @export
-tmapLeafletLegPlot.tm_chart = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_chart = function(comp, lf, o) {
 	lf
 }

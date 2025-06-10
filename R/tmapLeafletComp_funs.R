@@ -18,7 +18,7 @@ tmapLeafletCompWidth.tm_title = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_title = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_title = function(comp, lf, o) {
 	if (inherits(lf, "shiny.tag.list")) {
 		ncld <- length(lf[[1]])
 		lf[[1]] <- mapply(function(l, i) {
@@ -75,7 +75,7 @@ tmapLeafletCompWidth.tm_compass = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_compass = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_compass = function(comp, lf, o) {
 	lf %>% leafem::addLogo(system.file(paste0("img/compass_", comp$type, ".png"), package = "tmap"), position = leaflet_pos(comp$position), width = 120, height = 120)
 }
 
@@ -100,7 +100,7 @@ tmapLeafletCompWidth.tm_scalebar = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_scalebar = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_scalebar = function(comp, lf, o) {
 	lf %>% leaflet::addScaleBar(position = leaflet_pos(comp$position))
 }
 
@@ -126,7 +126,7 @@ tmapLeafletCompWidth.tm_credits = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_credits = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_credits = function(comp, lf, o) {
 	#lf %>% leafem::addLogo(system.file(paste0("img/credits_", comp$type, ".png"), package = "tmsap"), src = "local", position = paste(unlist(comp$position[c("pos.v", "pos.h")]), collapse = ""), width = 120, height = 120)
 	#message("tm_credits not implemented yet for view mode")
 	lf %>% leaflet::addTiles(urlTemplate = "", attribution = comp$text)
@@ -152,7 +152,7 @@ tmapLeafletCompWidth.tm_mouse_coordinates = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_mouse_coordinates = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_mouse_coordinates = function(comp, lf, o) {
 	lf %>% leafem::addMouseCoordinates()
 }
 
@@ -183,7 +183,7 @@ tmapLeafletCompWidth.tm_minimap = function(comp, o) {
 
 
 #' @export
-tmapLeafletLegPlot.tm_minimap = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_minimap = function(comp, lf, o) {
 	comp$args$tiles = if (comp$specified_tiles) {
 		comp$server
 	} else if (length(.TMAP_LEAFLET$tiles)) {
@@ -238,7 +238,7 @@ tmapLeafletCompWidth.tm_logo = function(comp, o) {
 }
 
 #' @export
-tmapLeafletLegPlot.tm_logo = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_logo = function(comp, lf, o) {
 	ws = c(rev(cumsum(vapply(comp$logo, function(l)l$iconWidth,FUN.VALUE = numeric(1)) + 10))[-1], 0)
 
 	for (i in 1:length(comp$logo)) {
@@ -267,7 +267,7 @@ tmapLeafletCompWidth.tm_inset = function(comp, o) {
 }
 
 #' @export
-tmapLeafletLegPlot.tm_inset = function(comp, lf, o) {
+tmapLeafletCompPlot.tm_inset = function(comp, lf, o) {
 	lf
 }
 

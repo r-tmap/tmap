@@ -1,3 +1,6 @@
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapLeafletCompPrepare = function(comp, o) {
 	UseMethod("tmapLeafletCompPrepare")
 }
@@ -10,10 +13,22 @@ tmapLeafletCompWidth = function(comp, o) {
 	UseMethod("tmapLeafletCompWidth")
 }
 
-tmapLeafletLegPlot = function(comp, lf, o) {
-	UseMethod("tmapLeafletLegPlot")
+tmapLeafletCompPlot = function(comp, lf, o) {
+	UseMethod("tmapLeafletCompPlot")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletCompPrepare.default = function(comp, o) {
+	cls = class(comp)[1]
+	id = paste("view_mode", cls, sep = "_")
+	cli::cli_inform("{.field [view mode]} Map component {.fun {cls}} not supported in {.str view} mode.",
+					.frequency_id = id,
+					.frequency = "once")
+	comp$show = FALSE
+	comp
+}
 
 #' @export
 tmapLeafletCompPrepare.tm_legend_standard_portrait = function(comp, o) {
