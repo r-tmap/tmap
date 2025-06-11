@@ -50,7 +50,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.na
 
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, sub = sub, type = "basemap", disable = disable),
-		mapping.fun = "Tiles",
+		mapping.fun = "tm_aux_basemap",
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
@@ -71,7 +71,7 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, sub = sub, type = "overlay", disable = disable),
-		mapping.fun = "Tiles",
+		mapping.fun = "tm_aux_tiles",
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
@@ -220,7 +220,7 @@ tm_grid = function(x = NA,
 	}
 	tm_element_list(tm_element(
 		args = c(list(show = TRUE), as.list(environment())),
-		mapping.fun = "Grid",
+		mapping.fun = "tm_aux_grid",
 		zindex = zindex,
 		group = group,
 		group.control = group.control,

@@ -9,7 +9,33 @@ findZoom = function(b) {
 	zoom = as.integer(min(zoomlon, zoomlat))
 }
 
-tmapGridTilesPrep = function(a, bs, id, o) {
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare = function(a, bs, id, o) {
+	UseMethod("tmapGridAuxPrepare")
+}
+
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	UseMethod("tmapGridAuxPlot")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
+	tmapGridAuxPrepare.tm_aux_tiles(a, bs, id, o)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 	rlang::check_installed("maptiles")
 
@@ -179,8 +205,17 @@ pretty30 = function(x, n, longlat) {
 	}
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare.tm_aux_graticules = function(a, bs, id, o) {
+	tmapGridAuxPrepare.tm_aux_grid(a, bs, id, o)
+}
 
-tmapGridGridPrep = function(a, bs, id, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 
 
@@ -399,8 +434,17 @@ tmapGridGridPrep = function(a, bs, id, o) {
 	return("grid")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot.tm_aux_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	tmapGridAuxPlot.tm_aux_tiles(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+}
 
-tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	g = get("g", envir = .TMAP_GRID)
 
 	# id is on aux level
@@ -577,9 +621,17 @@ tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot.tm_aux_graticules = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	tmapGridAuxPlot.tm_aux_grid(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+}
 
-
-tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot.tm_aux_grid = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	rc_text = frc(facet_row, facet_col)
 
 	g = get("g", envir = .TMAP_GRID)

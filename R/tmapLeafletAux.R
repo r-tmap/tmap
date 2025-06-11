@@ -1,10 +1,45 @@
-tmapLeafletTilesPrep = function(a, bs, id, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPrepare = function(a, bs, id, o) {
+	UseMethod("tmapLeafletAuxPrepare")
+}
+
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	UseMethod("tmapLeafletAuxPlot")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
+	tmapLeafletAuxPrepare.tm_aux_tiles(a, bs, id, o)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	tiles = lapply(1L:length(bs), function(i) a)
 	.TMAP_LEAFLET$tiles[[id]] = tiles
 	paste0(a$server, collapse = "__")
 }
 
-tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPlot.tm_aux_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	tmapLeafletAuxPlot.tm_aux_tiles(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 
 	lf = get_lf(facet_row, facet_col, facet_page)
 
@@ -34,7 +69,17 @@ tmapLeafletTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane,
 	NULL
 }
 
-tmapLeafletGridPrep = function(a, bs, id, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPrepare.tm_aux_graticules = function(a, bs, id, o) {
+	tmapLeafletAuxPrepare.tm_aux_grid(a, bs, id, o)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 
 	grid_intervals = vapply(bs, function(b) {
 		# implementation similarish as plot mode but needs polishing
@@ -54,7 +99,17 @@ tmapLeafletGridPrep = function(a, bs, id, o) {
 	return("grid")
 }
 
-tmapLeafletGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPlot.tm_aux_graticules = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	tmapLeafletAuxPlot.tm_aux_gridn(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapLeafletAuxPlot.tm_aux_grid = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	rc_text = frc(facet_row, facet_col)
 
