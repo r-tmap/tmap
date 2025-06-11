@@ -16,9 +16,13 @@
 \alias{tmapGridCompPrepare.default}
 \alias{tmapLeafletAuxPrepare}
 \alias{tmapLeafletAuxPlot}
+\alias{tmapLeafletAuxPrepare.tm_aux_basemap}
 \alias{tmapLeafletAuxPrepare.tm_aux_tiles}
+\alias{tmapLeafletAuxPlot.tm_aux_basemap}
 \alias{tmapLeafletAuxPlot.tm_aux_tiles}
+\alias{tmapLeafletAuxPrepare.tm_aux_graticules}
 \alias{tmapLeafletAuxPrepare.tm_aux_grid}
+\alias{tmapLeafletAuxPlot.tm_aux_graticules}
 \alias{tmapLeafletAuxPlot.tm_aux_grid}
 \alias{tmapLeafletCompPrepare}
 \alias{tmapLeafletCompPrepare.default}
@@ -118,7 +122,22 @@ tmapLeafletAuxPlot(
   o
 )
 
+\method{tmapLeafletAuxPrepare}{tm_aux_basemap}(a, bs, id, o)
+
 \method{tmapLeafletAuxPrepare}{tm_aux_tiles}(a, bs, id, o)
+
+\method{tmapLeafletAuxPlot}{tm_aux_basemap}(
+  a,
+  bi,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o
+)
 
 \method{tmapLeafletAuxPlot}{tm_aux_tiles}(
   a,
@@ -133,7 +152,22 @@ tmapLeafletAuxPlot(
   o
 )
 
+\method{tmapLeafletAuxPrepare}{tm_aux_graticules}(a, bs, id, o)
+
 \method{tmapLeafletAuxPrepare}{tm_aux_grid}(a, bs, id, o)
+
+\method{tmapLeafletAuxPlot}{tm_aux_graticules}(
+  a,
+  bi,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o
+)
 
 \method{tmapLeafletAuxPlot}{tm_aux_grid}(
   a,

@@ -103,7 +103,7 @@ tmapLeafletAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 #' @keywords internal
 #' @rdname tmapGridLeaflet
 tmapLeafletAuxPlot.tm_aux_graticules = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-	tmapLeafletAuxPlot.tm_aux_gridn(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+	tmapLeafletAuxPlot.tm_aux_grid(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
 }
 
 #' @export
