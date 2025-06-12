@@ -17,6 +17,13 @@ tmapGridAuxPrepare = function(a, bs, id, o) {
 	UseMethod("tmapGridAuxPrepare")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPrepare.default = function(a, bs, id, o) {
+	""
+}
+
 
 #' @export
 #' @keywords internal
@@ -24,6 +31,14 @@ tmapGridAuxPrepare = function(a, bs, id, o) {
 tmapGridAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	UseMethod("tmapGridAuxPlot")
 }
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
+tmapGridAuxPlot.default = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	NULL
+}
+
 
 #' @export
 #' @keywords internal
