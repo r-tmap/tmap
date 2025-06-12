@@ -122,6 +122,7 @@ reference:
   - tmap_tip
   - tmap_icons
   - tmap_providers
+  - tmap_overview
 
 navbar:
   structure:

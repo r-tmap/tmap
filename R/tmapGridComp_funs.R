@@ -663,52 +663,6 @@ tmapGridCompWidth_text = function(comp, o) {
 }
 
 
-#' @export
-tmapGridCompPrepare.tm_mouse_coordinates = function(comp, o) {
-	message("tm_mouse_coordinates ignored for 'plot' mode")
-	comp$show = FALSE
-	comp
-}
-
-
-#' @export
-tmapGridCompHeight.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompPlot.tm_mouse_coordinates = function(comp, o, fH, fW) {
-	NULL
-}
-
-
-#' @export
-tmapGridCompPrepare.tm_minimap = function(comp, o) {
-	message("tm_minimap ignored for 'plot' mode")
-	comp$show = FALSE
-	comp
-}
-
-
-#' @export
-tmapGridCompHeight.tm_minimap = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompWidth.tm_minimap = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
-	NULL
-}
 
 
 

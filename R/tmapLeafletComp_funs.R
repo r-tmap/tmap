@@ -246,29 +246,3 @@ tmapLeafletCompPlot.tm_logo = function(comp, lf, o) {
 	}
 	lf
 }
-
-
-
-#' @export
-tmapLeafletCompPrepare.tm_inset = function(comp, o) {
-	comp$show = FALSE
-	comp
-}
-
-
-#' @export
-tmapLeafletCompHeight.tm_inset = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapLeafletCompWidth.tm_inset = function(comp, o) {
-	comp
-}
-
-#' @export
-tmapLeafletCompPlot.tm_inset = function(comp, lf, o) {
-	lf
-}
-
-
