@@ -1,7 +1,6 @@
 #' @export
-#' @rdname tmap_internal
-tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	args = list(...)
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_symbols = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 
 	g = get("g", .TMAP_GRID)
@@ -59,13 +58,13 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 			grobs <- lapply(1:length(gp$shape), function(i) {
 				shi = gp$shape[[i]]
 
-				just = if (is.na(args$just[1])) c(0.5, 0.5) else args$just
+				just = if (is.na(a$just[1])) c(0.5, 0.5) else a$just
 				jst = if (!is.na(shi) && shi>999) {
 					js = justLib[[shi-999]]
 					if (!is.na(js[1])) {
 						js
-					} else if (!is.na(args$just[1])) {
-						args$just
+					} else if (!is.na(a$just[1])) {
+						a$just
 					} else {
 						just
 					}
@@ -79,7 +78,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 
 
 				if (!is.na(shi) && shi>999) {
-					size = gp$size[i]*9/10 * args$icon.scale
+					size = gp$size[i]*9/10 * a$icon.scale
 					lwdid = if (length(gp$lwd) == 1L) 1 else i
 					grbs <- gList(shapeLib[[shi-999]])
 					gTree(children=grbs, vp=viewport(x=grid::unit(coords[i,1] + justx * size, "native"),

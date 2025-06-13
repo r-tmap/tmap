@@ -247,14 +247,15 @@ step1_rearrange_facets = function(tmo, o) {
 		# preprocess layers: check aes values
 		tmg$tmls = lapply(tmg$tmls, function(tml) {
 			within(tml, {
-				if (!exists(paste0("tmap", gs, mapping.fun))) {
+				if (!(mapping.fun %in% get_method_classes(paste0("tmap", gs, "DataPlot")))) {
+
 					mode = getOption("tmap.mode")
 
 					modes = get_modes()
 					gss = vapply(modes, tmap_graphics_name, FUN.VALUE = character(1))
 
 					exs = vapply(1L:length(modes), function(i) {
-						exists(paste0("tmap", gss[i], mapping.fun))
+						mapping.fun %in% get_method_classes(paste0("tmap", gss[i], "DataPlot"))
 					}, FUN.VALUE = logical(1))
 					modes2 = modes[exs]
 

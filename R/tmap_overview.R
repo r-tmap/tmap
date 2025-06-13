@@ -15,9 +15,9 @@ tmap_overview = function() {
 
 	gs = vapply(modes, function(m) om[[m]]$name, FUN.VALUE = character(1))
 
-	funs = c("CompPrepare", "AuxPrepare")
-	nms = c("components", "aux_layers")
-	rem = c("", "aux_")
+	funs = c("DataPlot", "AuxPrepare", "CompPrepare")
+	nms = c("data_layers", "aux_layers", "components")
+	rem = c("data_", "aux_", "")
 
 	res = mapply(function(funi, remi) {
 		dt = data.table::rbindlist(mapply(function(g, nm) {

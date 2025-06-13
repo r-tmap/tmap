@@ -1,6 +1,6 @@
 #' @export
-#' @rdname tmap_internal
-tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 
 	rc_text = frc(facet_row, facet_col)
 

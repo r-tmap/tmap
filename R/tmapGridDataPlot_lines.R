@@ -1,17 +1,6 @@
-
 #' @export
-#' @param comp component
-#' @param o options
-#' @keywords internal
 #' @rdname tmapGridLeaflet
-tmapGridDataLines = function(comp, o) {
-	UseMethod("tmapGridCompPrepare")
-}
-
-
-#' @export
-#' @rdname tmap_internal
-tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_lines = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 
 	rc_text = frc(facet_row, facet_col)
 

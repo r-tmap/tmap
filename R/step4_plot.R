@@ -785,9 +785,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					if (nrow(mdt) != 0) {
 						gp = bl$gp
 
-						FUN = paste0("tmap", gs, bl$mapping_fun)
+						bl$mapping_fun
+						FUN = paste0("tmap", gs, "DataPlot")
 
-						do.call(FUN, c(list(shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
+						a = structure(bl$mapping_args, class = bl$mapping_fun)
+
+						do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o)))
 					}
 
 				} else {

@@ -1,7 +1,6 @@
 #' @export
-#' @rdname tmap_internal
-tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	args = list(...)
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 
@@ -80,7 +79,7 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		}
 		m[is.na(m)] = NA #"#0000FF"
 
-		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = args$interpolate, name = paste0("raster_", id)) #gpl$raster.misc$interpolate
+		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = a$interpolate, name = paste0("raster_", id)) #gpl$raster.misc$interpolate
 		gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)

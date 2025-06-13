@@ -502,3 +502,10 @@ native_to_npc_to_native <- function(x, scale) {
 `%||%` = function(x, y) {
 	if (is.null(x)) y else x
 }
+
+get_method_classes <- function(generic) {
+	meths <- methods(generic)
+	# Remove generic. prefix and exclude default
+	sub(paste0("^", generic, "\\."), "", meths[!grepl("\\.default$", meths)])
+}
+

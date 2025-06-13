@@ -1,12 +1,10 @@
 #' @export
-#' @rdname tmap_internal
-tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	args = list(...)
-
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 
 	if (("prop_angle" %in% names(shpTM))) {
-		args$point.label = FALSE
+		a$point.label = FALSE
 	}
 
 	res = select_sf(shpTM, dt[!is.na(dt$size), ])
@@ -17,7 +15,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 
 	# specials non-vv (later on lost after gp_to_gpar)
-	shadow = args$shadow
+	shadow = a$shadow
 
 
 	gp = impute_gp(gp, dt)
@@ -34,7 +32,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 	# by default point.label = NA for tm_labels
 	# for small n (< 500) it will be set to TRUE
-	if (is.na(args$point.label)) args$point.label = (n < 500)
+	if (is.na(a$point.label)) a$point.label = (n < 500)
 
 	if (cp$expanded) {
 		shpTM_match = match(shpTM$tmapID_expanded, shpTM$tmapID)
@@ -62,8 +60,8 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 
 
-	just = process_just(args$just, interactive = FALSE)
-	if (args$point.label) {
+	just = process_just(a$just, interactive = FALSE)
+	if (a$point.label) {
 		if (!all(just == 0.5)) {
 			just = c(0.5, 0.5)
 			if (get("tmapOptions", envir = .TMAP)$show.messages) message("Point labeling is enabled. Therefore, just will be ignored.")
@@ -86,10 +84,10 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	gp = gp_to_gpar(gp, sel = "col", o = o, type = "text")
 
 	with_bg = any(bgcol_alpha != 0)
-	with_shadow = (!identical(args$shadow, FALSE))
+	with_shadow = (!identical(a$shadow, FALSE))
 
 
-	if (with_bg || with_shadow || args$remove_overlap || args$point.label) {
+	if (with_bg || with_shadow || a$remove_overlap || a$point.label) {
 		# grobs are processed seperately because of the order: backgrond1, shadow1, text1, background2, shadow2, text2, etc.
 		# becaues it is less efficient when there is no background/shadow (majority of use cases), this is a separate routine
 
@@ -104,13 +102,13 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
 			gps_sh = split_gp(gp_sh, n)
 			grobTextShList = mapply(function(x, y, txt, g, a) {
-				grid::textGrob(x = grid::unit(x + args$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  args$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = a)
+				grid::textGrob(x = grid::unit(x + a$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  a$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = a)
 			}, coords[,1], coords[,2], text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
 		}
 
-		if (with_bg || args$remove_overlap) {
+		if (with_bg || a$remove_overlap) {
 			tGH = vapply(grobTextList, function(grb) {
 				grb$rot = 0
 				convertHeight(grobHeight(grb), "inch", valueOnly = TRUE)
@@ -131,8 +129,8 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			tGX = unit(coords[,1] + justx * tGW, "native")
 			tGY = unit(coords[,2] + justy * tGH, "native")
 
-			tGH = unit(tGH + args$bg.padding * yIn * lineIn, "native")
-			tGW = unit(tGW + args$bg.padding * xIn * lineIn, "native")
+			tGH = unit(tGH + a$bg.padding * yIn * lineIn, "native")
+			tGW = unit(tGW + a$bg.padding * xIn * lineIn, "native")
 
 			grobTextBGList = mapply(function(x, y, w, h, b, a, rot) {
 				rect = rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
@@ -146,12 +144,12 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			grobTextBGList = NULL
 		}
 
-		#if (args$auto.placement || args$remove_overlap) {
+		#if (a$auto.placement || a$remove_overlap) {
 		# grobs to sf
 		s = do.call(c,lapply(grobTextBGList, .grob2Poly))
 		#}
 
-		if (args$point.label) {
+		if (a$point.label) {
 			get_rect_coords = function(polygon) {
 				co = sf::st_coordinates(polygon)
 				xr = range(co[,1])
@@ -164,7 +162,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 
 			rect = do.call(rbind, lapply(s, get_rect_coords))
 
-			res = pointLabel2(x = rect[,1], y = rect[,2], width = rect[,3], height = rect[,4], bbx = bbx, gap = yIn * lineIn * args$point.label.gap, method = args$point.label.method)
+			res = pointLabel2(x = rect[,1], y = rect[,2], width = rect[,3], height = rect[,4], bbx = bbx, gap = yIn * lineIn * a$point.label.gap, method = a$point.label.method)
 
 			sx = res$x - rect[,1]
 			sy = res$y - rect[,2]
@@ -192,7 +190,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			}
 		}
 
-		if (args$remove_overlap) {
+		if (a$remove_overlap) {
 			im = sf::st_intersects(s, sparse = FALSE)
 			sel = rep(TRUE, length(s))
 			rs = rowSums(im)
@@ -207,7 +205,7 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 			sel = TRUE
 		}
 
-		if (!with_bg && args$remove_overlap) {
+		if (!with_bg && a$remove_overlap) {
 			grobTextBGList = NULL
 		}
 
