@@ -346,6 +346,8 @@
 		legend.ylab.size = 0.9,
 		legend.ylab.fontface = NULL,
 		legend.ylab.fontfamily = NULL,
+		legend.xlab.rot = 0,
+		legend.ylab.rot = 0,
 		legend.ylab.alpha = 1,
 		legend.text.color = NA,
 		legend.text.size = 0.7,

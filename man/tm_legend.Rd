@@ -64,6 +64,7 @@ tm_legend_bivariate(
   ylab,
   xlab.color,
   xlab.size,
+  xlab.rot,
   xlab.fontface,
   xlab.fontfamily,
   xlab.alpha,
@@ -71,6 +72,7 @@ tm_legend_bivariate(
   xlab.align,
   ylab.color,
   ylab.size,
+  ylab.rot,
   ylab.fontface,
   ylab.fontfamily,
   ylab.alpha,
@@ -180,6 +182,8 @@ tm_legend_bivariate(
 
 \item{xlab.size}{The size of the xlab of the legend.}
 
+\item{xlab.rot}{The rot of the xlab of the legend.}
+
 \item{xlab.fontface}{The font face of the xlab of the legend. See \code{graphics::par}, option 'font'.}
 
 \item{xlab.fontfamily}{The font family of the xlab of the legend. See \code{graphics::par}, option 'family'.}
@@ -193,6 +197,8 @@ tm_legend_bivariate(
 \item{ylab.color}{The color of the ylab of the legend.}
 
 \item{ylab.size}{The size of the ylab of the legend.}
+
+\item{ylab.rot}{The rot of the ylab of the legend.}
 
 \item{ylab.fontface}{The font face of the ylab of the legend. See \code{graphics::par}, option 'font'.}
 

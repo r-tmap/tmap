@@ -305,6 +305,7 @@ tmapGridCompPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			ylabS = comp$ylab.size * comp$scale
 			grYlab = gridCell(comp$item_ids[1:m], 3,
 							  grid::textGrob(comp$ylab,
+							  			   rot = comp$ylab.rot,
 							  			   x = grid::unit(comp$ylab.padding[2] * ylabS * o$lin, units = "inch"),
 							  			   just = "left",
 							  			   gp = grid::gpar(col = comp$ylab.color, cex = ylabS)))
@@ -317,6 +318,7 @@ tmapGridCompPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 			xlabS = comp$xlab.size * comp$scale
 			grXlab = gridCell(comp$item_ids[m] + 4, 7:(6+n),
 							  grid::textGrob(comp$xlab,
+							  			   rot = comp$xlab.rot,
 							  			   x = grid::unit(comp$xlab.padding[2] * xlabS * o$lin, units = "inch"),
 							  			   just = "left",
 							  			   gp = grid::gpar(col = comp$xlab.color, cex = xlabS))

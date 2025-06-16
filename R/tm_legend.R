@@ -120,6 +120,7 @@ tm_legend_combine = function(variable) {
 #' @param ylab label for the y dimension (columns)
 #' @param xlab.color `r .doc_opt("legend.xlab.color")`
 #' @param xlab.size `r .doc_opt("legend.xlab.size")`
+#' @param xlab.rot `r .doc_opt("legend.xlab.rot")`
 #' @param xlab.fontface `r .doc_opt("legend.xlab.fontface")`
 #' @param xlab.fontfamily `r .doc_opt("legend.xlab.fontfamily")`
 #' @param xlab.alpha `r .doc_opt("legend.xlab.alpha")`
@@ -127,6 +128,7 @@ tm_legend_combine = function(variable) {
 #' @param xlab.align `r .doc_opt("legend.xlab.align")`
 #' @param ylab.color `r .doc_opt("legend.ylab.color")`
 #' @param ylab.size `r .doc_opt("legend.ylab.size")`
+#' @param ylab.rot `r .doc_opt("legend.ylab.rot")`
 #' @param ylab.fontface `r .doc_opt("legend.ylab.fontface")`
 #' @param ylab.fontfamily `r .doc_opt("legend.ylab.fontfamily")`
 #' @param ylab.alpha `r .doc_opt("legend.ylab.alpha")`
@@ -137,6 +139,7 @@ tm_legend_bivariate = function(xlab,
 							   ylab,
 							   xlab.color,
 							   xlab.size,
+							   xlab.rot,
 							   xlab.fontface,
 							   xlab.fontfamily,
 							   xlab.alpha,
@@ -144,6 +147,7 @@ tm_legend_bivariate = function(xlab,
 							   xlab.align,
 							   ylab.color,
 							   ylab.size,
+							   ylab.rot,
 							   ylab.fontface,
 							   ylab.fontfamily,
 							   ylab.alpha,

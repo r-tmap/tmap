@@ -124,11 +124,13 @@ tmap_options(
   legend.title.alpha,
   legend.xlab.color,
   legend.xlab.size,
+  legend.xlab.rot,
   legend.xlab.fontface,
   legend.xlab.fontfamily,
   legend.xlab.alpha,
   legend.ylab.color,
   legend.ylab.size,
+  legend.ylab.rot,
   legend.ylab.fontface,
   legend.ylab.fontfamily,
   legend.ylab.alpha,
@@ -588,6 +590,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.xlab.size}{The size of the xlab of the legend.}
 
+\item{legend.xlab.rot}{The rot of the xlab of the legend.}
+
 \item{legend.xlab.fontface}{The font face of the xlab of the legend. See \code{graphics::par}, option 'font'.}
 
 \item{legend.xlab.fontfamily}{The font family of the xlab of the legend. See \code{graphics::par}, option 'family'.}
@@ -597,6 +601,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{legend.ylab.color}{The color of the ylab of the legend.}
 
 \item{legend.ylab.size}{The size of the ylab of the legend.}
+
+\item{legend.ylab.rot}{The rot of the ylab of the legend.}
 
 \item{legend.ylab.fontface}{The font face of the ylab of the legend. See \code{graphics::par}, option 'font'.}
 
