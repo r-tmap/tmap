@@ -261,68 +261,73 @@ step1_rearrange_facets = function(tmo, o) {
 					modes2 = modes[exs]
 
 					if (length(modes2)) {
-						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer[1]}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
+						cli::cli_inform("{.field [{mode} mode]} map layer {.code tm_{layer[1]}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
 					} else {
-						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer[1]}} not available for mode {.str {mode}} and also not for the other modes")
+						cli::cli_inform("{.field [{mode} mode]} map layer {.code tm_{layer[1]}} not available for mode {.str {mode}} and also not for the other modes")
 					}
-				}
-
-				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = trans.args)
-				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = mapping.args)
-
-				# get first non-empty split_stars_dim, the dimension specificied by tm_vars_dim
-				split_stars_dim = get_split_stars_dim(mapping.aes)
-
-		        if (length(hover) > 1) {
-		          cli::cli_abort("hover should have length <= 1, not {length(hover)}.", call = NULL)
-		        }
-
-				if (is.na(hover)) {
-					hover = id
-				} else if (is.logical(hover)) {
-					hover = ifelse(hover, id, "")
-				}
-
-				if (hover != "" && !hover %in% smeta$vars) rlang::arg_match0(hover, smeta$vars, arg_nm = "hover", error_call = NULL)
-				if (hover != "") add_used_vars(hover, is_title = TRUE)
-				if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)
-				if (id != "") add_used_vars(id, is_title = TRUE)
-
-				if (isTRUE(popup.vars)) {
-					popup.vars = smeta$vars
-				} else if (isFALSE(popup.vars)) {
-					popup.vars = character(0)
-				} else if (is.na(popup.vars[1])) {
-					popup.vars = smeta$vars
-				}
-
-				if (!all(popup.vars %in% smeta$vars)) {
-					rlang::arg_match(popup.vars, values = smeta$vars, multiple = TRUE)
-				}
-				if (length(popup.vars)) add_used_vars(popup.vars)
-
-
-				if (length(popup.format) != 0 && !is.null(names(popup.format)) && all(names(popup.format) %in% popup.vars)) {
-					popup.called = names(popup.format)
-					popup.format = lapply(popup.vars, function(pv) {
-						if (pv %in% names(popup.format)) {
-							process_label_format(popup.format[[pv]], o$label.format)
-						} else {
-							process_label_format(list(), o$label.format)
-						}
-					})
+					remove = TRUE
 				} else {
-					popup.called = character(0)
-					one.popup.format = process_label_format(popup.format, o$label.format)
-					popup.format = lapply(popup.vars, function(pv) {
-						one.popup.format
-					})
-				}
-				names(popup.format) = popup.vars
-				attr(popup.format, "called") = popup.called
+					remove = FALSE
+					if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = trans.args)
+					if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars, args = mapping.args)
 
+					# get first non-empty split_stars_dim, the dimension specificied by tm_vars_dim
+					split_stars_dim = get_split_stars_dim(mapping.aes)
+
+					if (length(hover) > 1) {
+						cli::cli_abort("hover should have length <= 1, not {length(hover)}.", call = NULL)
+					}
+
+					if (is.na(hover)) {
+						hover = id
+					} else if (is.logical(hover)) {
+						hover = ifelse(hover, id, "")
+					}
+
+					if (hover != "" && !hover %in% smeta$vars) rlang::arg_match0(hover, smeta$vars, arg_nm = "hover", error_call = NULL)
+					if (hover != "") add_used_vars(hover, is_title = TRUE)
+					if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)
+					if (id != "") add_used_vars(id, is_title = TRUE)
+
+					if (isTRUE(popup.vars)) {
+						popup.vars = smeta$vars
+					} else if (isFALSE(popup.vars)) {
+						popup.vars = character(0)
+					} else if (is.na(popup.vars[1])) {
+						popup.vars = smeta$vars
+					}
+
+					if (!all(popup.vars %in% smeta$vars)) {
+						rlang::arg_match(popup.vars, values = smeta$vars, multiple = TRUE)
+					}
+					if (length(popup.vars)) add_used_vars(popup.vars)
+
+
+					if (length(popup.format) != 0 && !is.null(names(popup.format)) && all(names(popup.format) %in% popup.vars)) {
+						popup.called = names(popup.format)
+						popup.format = lapply(popup.vars, function(pv) {
+							if (pv %in% names(popup.format)) {
+								process_label_format(popup.format[[pv]], o$label.format)
+							} else {
+								process_label_format(list(), o$label.format)
+							}
+						})
+					} else {
+						popup.called = character(0)
+						one.popup.format = process_label_format(popup.format, o$label.format)
+						popup.format = lapply(popup.vars, function(pv) {
+							one.popup.format
+						})
+					}
+					names(popup.format) = popup.vars
+					attr(popup.format, "called") = popup.called				}
 			})
 		})
+
+		tmg$tmls = tmg$tmls[vapply(tmg$tmls, function(l) {
+			!l$remove
+		}, FUN.VALUE = logical(1))]
+
 
 		vl = get("vl", envir = .TMAP)
 		vn = get("vn", envir = .TMAP)
