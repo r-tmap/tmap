@@ -787,7 +787,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 
 						FUN = paste0("tmap", gs, "DataPlot")
 
-						a = structure(bl$mapping_args, class = bl$mapping_fun)
+						a = structure(bl$mapping_args, class = c(bl$mapping_fun, "list"))
 
 						do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o)))
 					}

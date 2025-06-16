@@ -1,7 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
 tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	args = list(...)
 	lf = get_lf(facet_row, facet_col, facet_page)
 
 	rc_text = frc(facet_row, facet_col)
@@ -139,7 +138,7 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 			symbols_icons <- merge_icons(iconLib)
 
 			size = gp2dfU$width[sid2] / gp2dfU$baseSize[sid2]
-			size = size * args$icon.scale/3
+			size = size * a$icon.scale/3
 
 			for (i in seq_along(sid2)) {
 				symbols$iconUrl[sid2[i]] = symbols_icons$iconUrl[i]
