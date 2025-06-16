@@ -80,7 +80,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal methods for tmap extensions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_add_legend.R" class="external-link"><code>R/tm_add_legend.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_element.R" class="external-link"><code>R/tm_element.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tmapChart.R" class="external-link"><code>R/tmapChart.R</code></a>, and 17 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_add_legend.R" class="external-link"><code>R/tm_add_legend.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_element.R" class="external-link"><code>R/tm_element.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tmapChart.R" class="external-link"><code>R/tmapChart.R</code></a>, and 11 more</small>
       <div class="d-none name"><code>tmap_internal.Rd</code></div>
     </div>
 
@@ -135,171 +135,6 @@
 <span><span class="fu">tmapTpar</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">lwd_to_mm</span><span class="op">(</span><span class="va">value</span>, unit <span class="op">=</span> <span class="st">"bigpts"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapGridLines</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapGridPolygons</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapGridRaster</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapGridSymbols</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapGridText</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapLeafletPolygons</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapLeafletLines</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapLeafletSymbols</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapLeafletRaster</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapLeafletText</span><span class="op">(</span></span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">.TMAP</span></span>
 <span></span>
@@ -837,16 +672,16 @@
 <dd><p>visual variables</p></dd>
 
 
-<dt id="arg-shptm">shpTM<a class="anchor" aria-label="anchor" href="#arg-shptm"></a></dt>
-<dd><p>shpTM</p></dd>
-
-
 <dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
 <dd><p>scale</p></dd>
 
 
 <dt id="arg-args">args<a class="anchor" aria-label="anchor" href="#arg-args"></a></dt>
 <dd><p>args</p></dd>
+
+
+<dt id="arg-shptm">shpTM<a class="anchor" aria-label="anchor" href="#arg-shptm"></a></dt>
+<dd><p>shpTM</p></dd>
 
 
 <dt id="arg-xmod-ymod">xmod, ymod<a class="anchor" aria-label="anchor" href="#arg-xmod-ymod"></a></dt>
