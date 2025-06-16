@@ -330,7 +330,6 @@ tm_polygons = function(fill = tm_const(),
 						lineend = lineend),
 		tpar = tmapTpar(area = "AREA"),
 		plot.order = plot.order,
-		mapping.fun = "tm_data_polygons",
 		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
@@ -351,7 +350,9 @@ tm_fill = function(...) {
 		args["col"] = list(NULL)
 	}
 	args$called_from = if (names(args)[1] == "") "tm_fill" else  "tm_polygons"
-	do.call(tm_polygons, args)
+	tm = do.call(tm_polygons, args)
+	tm[[1]]$layer = c("fill", "polygons")
+	tm
 }
 
 #' @rdname tm_polygons
@@ -364,7 +365,9 @@ tm_borders = function(col = tm_const(), ...) {
 	args$called_from = "tm_borders"
 	args$popup.vars = FALSE
 	args$hover = FALSE
-	do.call(tm_polygons, c(list(col = col), args))
+	tm = do.call(tm_polygons, c(list(col = col), args))
+	tm[[1]]$layer = c("borders", "polygons")
+	tm
 }
 
 

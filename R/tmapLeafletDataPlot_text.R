@@ -117,3 +117,17 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 
 	NULL
 }
+
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_labels = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+

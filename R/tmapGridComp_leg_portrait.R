@@ -12,9 +12,9 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
 			"symbols"
-		} else if (mfun == "Lines") {
+		} else if ("tm_data_lines" %in% mfun) {
 			"lines"
-		} else if (mfun == "Text") {
+		} else if ("tm_data_text" %in% mfun) {
 			"text"
 		} else {
 			"rect"

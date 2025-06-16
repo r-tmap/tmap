@@ -247,7 +247,8 @@ step1_rearrange_facets = function(tmo, o) {
 		# preprocess layers: check aes values
 		tmg$tmls = lapply(tmg$tmls, function(tml) {
 			within(tml, {
-				if (!(mapping.fun %in% get_method_classes(paste0("tmap", gs, "DataPlot")))) {
+				mapping.fun = paste0("tm_data_", layer)
+				if (!(mapping.fun[1] %in% get_method_classes(paste0("tmap", gs, "DataPlot")))) {
 
 					mode = getOption("tmap.mode")
 
@@ -255,14 +256,14 @@ step1_rearrange_facets = function(tmo, o) {
 					gss = vapply(modes, tmap_graphics_name, FUN.VALUE = character(1))
 
 					exs = vapply(1L:length(modes), function(i) {
-						mapping.fun %in% get_method_classes(paste0("tmap", gss[i], "DataPlot"))
+						mapping.fun[1] %in% get_method_classes(paste0("tmap", gss[i], "DataPlot"))
 					}, FUN.VALUE = logical(1))
 					modes2 = modes[exs]
 
 					if (length(modes2)) {
-						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
+						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer[1]}} not available for mode {.str {mode}}. This map layer is only available for modes {.str {modes2}}")
 					} else {
-						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer}} not available for mode {.str {mode}} and also not for the other modes")
+						cli::cli_abort("{.field [{mode} mode]} Map layer {.code tm_{layer[1]}} not available for mode {.str {mode}} and also not for the other modes")
 					}
 				}
 

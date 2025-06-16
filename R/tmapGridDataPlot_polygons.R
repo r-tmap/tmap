@@ -38,3 +38,17 @@ tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, f
 	assign("gts", gts, envir = .TMAP_GRID)
 	NULL
 }
+
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_fill = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_borders = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}

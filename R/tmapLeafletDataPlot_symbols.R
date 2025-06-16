@@ -184,3 +184,28 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 
 	NULL
 }
+
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_dots = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_bubbles = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_squares = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapLeafletDataPlot.tm_data_markers = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}

@@ -236,3 +236,16 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 	NULL
 }
 
+#' @export
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_labels = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}
+
+
+
+#' @export
+#' @rdname tmapGridLeaflet
+tmapGridDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	NextMethod()
+}

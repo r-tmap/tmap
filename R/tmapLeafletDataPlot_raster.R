@@ -72,7 +72,8 @@ tmapLeafletDataPlot.tm_data_raster = function(a, shpTM, dt, pdt, popup.format, h
 
 
 		gp$lty = "solid"
-		tmapLeafletPolygons(shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+		a2 = structure(list(), class = "tm_data_polygons")
+		tmapLeafletDataPlot(a2, shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
 		#grid.shape(s, gp=gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL

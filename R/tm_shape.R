@@ -47,7 +47,7 @@
 #' @import leaflegend
 #' @import stats
 #' @importFrom methods as
-#' @importFrom utils head tail download.file txtProgressBar str data capture.output setTxtProgressBar
+#' @importFrom utils head tail download.file txtProgressBar str data capture.output setTxtProgressBar methods
 #' @importFrom rlang missing_arg expr
 #' @importFrom s2 s2_buffer_cells as_s2_geography s2_intersects
 #' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb

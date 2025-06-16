@@ -188,7 +188,6 @@ tm_symbols = function(size = tm_const(),
 						lineend = NA),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
-		mapping.fun = "tm_data_symbols",
 		mapping.args = options$mapping.args,
 		zindex = zindex,
 		group = group,
@@ -488,8 +487,6 @@ tm_dots = function(fill = tm_const(),
 		tm = do.call(tm_symbols, args)
 		tm[[1]]$layer = c("dots", "symbols")
 		tm
-
-
 }
 
 
@@ -657,6 +654,7 @@ tm_markers = function(text = tm_const(),
 
 	tm_t = do.call(tm_text, args_text)
 	tm_t[[1]]$layer = c("labels", "text")
+
 	tm_d = do.call(tm_dots, args_dots)
 	tm_d[[1]]$layer = c("markers", "symbols")
 

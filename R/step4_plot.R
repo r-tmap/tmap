@@ -785,7 +785,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 					if (nrow(mdt) != 0) {
 						gp = bl$gp
 
-						bl$mapping_fun
 						FUN = paste0("tmap", gs, "DataPlot")
 
 						a = structure(bl$mapping_args, class = bl$mapping_fun)

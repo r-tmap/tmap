@@ -27,9 +27,17 @@
 \alias{tmapGridDataPlot.default}
 \alias{tmapGridDataPlot.tm_data_lines}
 \alias{tmapGridDataPlot.tm_data_polygons}
+\alias{tmapGridDataPlot.tm_data_fill}
+\alias{tmapGridDataPlot.tm_data_borders}
 \alias{tmapGridDataPlot.tm_data_raster}
 \alias{tmapGridDataPlot.tm_data_symbols}
+\alias{tmapGridDataPlot.tm_data_dots}
+\alias{tmapGridDataPlot.tm_data_bubbles}
+\alias{tmapGridDataPlot.tm_data_squares}
+\alias{tmapGridDataPlot.tm_data_markers}
 \alias{tmapGridDataPlot.tm_data_text}
+\alias{tmapGridDataPlot.tm_data_labels}
+\alias{tmapGridDataPlot.tm_data_labels_highlighted}
 \alias{tmapLeafletAuxPrepare}
 \alias{tmapLeafletAuxPlot}
 \alias{tmapLeafletAuxPrepare.tm_aux_basemap}
@@ -44,9 +52,17 @@
 \alias{tmapLeafletCompPrepare.default}
 \alias{tmapLeafletDataPlot.tm_data_lines}
 \alias{tmapLeafletDataPlot.tm_data_polygons}
+\alias{tmapLeafletDataPlot.tm_data_fill}
+\alias{tmapLeafletDataPlot.tm_data_borders}
 \alias{tmapLeafletDataPlot.tm_data_raster}
 \alias{tmapLeafletDataPlot.tm_data_symbols}
+\alias{tmapLeafletDataPlot.tm_data_dots}
+\alias{tmapLeafletDataPlot.tm_data_bubbles}
+\alias{tmapLeafletDataPlot.tm_data_squares}
+\alias{tmapLeafletDataPlot.tm_data_markers}
 \alias{tmapLeafletDataPlot.tm_data_text}
+\alias{tmapLeafletDataPlot.tm_data_labels}
+\alias{tmapLeafletDataPlot.tm_data_labels_highlighted}
 \alias{tmapLeafletDataPlot}
 \alias{tmapLeafletDataPlot.default}
 \title{Internal methods for map components in plot and view mode}
@@ -209,6 +225,38 @@ tmapGridDataPlot(
   ...
 )
 
+\method{tmapGridDataPlot}{tm_data_fill}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_borders}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
 \method{tmapGridDataPlot}{tm_data_raster}(
   a,
   shpTM,
@@ -241,7 +289,103 @@ tmapGridDataPlot(
   ...
 )
 
+\method{tmapGridDataPlot}{tm_data_dots}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_bubbles}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_squares}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_markers}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
 \method{tmapGridDataPlot}{tm_data_text}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_labels}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_labels_highlighted}(
   a,
   shpTM,
   dt,
@@ -376,6 +520,46 @@ tmapLeafletCompPrepare(comp, o)
   ...
 )
 
+\method{tmapLeafletDataPlot}{tm_data_fill}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_borders}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
 \method{tmapLeafletDataPlot}{tm_data_raster}(
   a,
   shpTM,
@@ -416,7 +600,127 @@ tmapLeafletCompPrepare(comp, o)
   ...
 )
 
+\method{tmapLeafletDataPlot}{tm_data_dots}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_bubbles}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_squares}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_markers}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
 \method{tmapLeafletDataPlot}{tm_data_text}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_labels}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_labels_highlighted}(
   a,
   shpTM,
   dt,
