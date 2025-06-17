@@ -61,10 +61,10 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 			bgcol = substr(o$bg.color, 1, 7) # remove transparency
 			grid::grobTree(
 				rndrectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=bgcol, fill=NA, lwd=4*frame.lwd, lineend="square"), r = r, name = "outer_frame"),
-				rndrectGrob(gp=gpar(col=o$frame.color, fill=NA, lwd=1.5*frame.lwd, lineend="square"), r = r, name = "between_frame"),
-				rndrectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square"), r = r, name = "inner_frame"))
+				rndrectGrob(gp=gpar(col=o$frame.color, fill=NA, lwd=1.5*frame.lwd, lineend="square", alpha = o$frame.alpha), r = r, name = "between_frame"),
+				rndrectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square", alpha = o$frame.alpha), r = r, name = "inner_frame"))
 		} else {
-			rndrectGrob(width = 1, height = 1, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square"), r = r, name = "outer_frame")
+			rndrectGrob(width = 1, height = 1, gp=gpar(col=o$frame.color, fill=NA, lwd=frame.lwd, lineend="square", alpha = o$frame.alpha), r = r, name = "outer_frame")
 			#rectGrob(width = 1-0.5*pW, height = 1-0.5*pH, gp=gpar(col=frame.col, fill=NA, lwd=frame.lwd, lineend="square"), name = "outer_frame")
 		}
 
