@@ -208,6 +208,8 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	dev = plot_device(device = device, ext = ext, filename = filename,
 					   dpi = dpi, units_target = units_target)
 
+	folder = dirname(filename)
+	if (!dir.exists(folder)) dir.create(folder, recursive = TRUE)
 	dev(filename = filename, width = width, height = height, ...)
 
 	on.exit(capture.output({
