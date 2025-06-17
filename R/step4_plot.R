@@ -868,7 +868,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		bbox_nb = d$bbox[1]
 		attr(bbox_nb, "borrow") = list(col = d$col[1], row = d$row[1])
 		legs_out[, bbox:=list(bbox_nb)]
-		legs_out[, units:=d$units[1]]
+		legs_out[, units:=list(d$units[1])]
 
 
 		cdt = data.table::rbindlist(c(list(legs_out), legs_in))
