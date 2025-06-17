@@ -12,7 +12,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			levels(x1) = vapply(res, "[", 1, FUN.VALUE = character(1))
 			ct = vapply(res, "[", 2, FUN.VALUE = character(1))
 
-			if (defcols_nocats && !legend$called) {
+			if (defcols_nocats && !legend$legend_called) {
 				legend$show = FALSE
 			}
 		} else {
