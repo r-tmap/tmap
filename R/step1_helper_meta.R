@@ -6,13 +6,23 @@ preprocess_meta_step1 = function(o) {
 		color.saturation = NULL
 		color_vision_deficiency_sim = NULL
 
+		# attr color is the standard for all component colors
+		# attr.color.light is the 'opposite', only used in compass and scalebar
+		#   it is white if the attr.color is dark and black if it is light
+		attr.color.light = is_light(attr.color)
+		attr.color = do.call(process_color, c(list(col = attr.color), pc))
+		attr.color.light = if (attr.color.light) "#000000" else "#ffffff"
+		attr.color.light = do.call(process_color, c(list(col = attr.color.light), pc))
+
+
 		# color options: replace NA with attr.color
 		# process colors: apply sepia and cvd sim
-		for (nm in names(o)[grep("color(\\.light|\\.dark)?$", names(o))]) {
+		for (nm in setdiff(names(o)[grep("color(\\.light|\\.dark)?$", names(o))], "attr.color")) {
 			assign(nm, local({
 				x = get(nm)
-				if (is.na(x)) x = attr.color
-				do.call("process_color", c(list(col=x), pc))
+				if (is.na(x)) {
+					if (length(grep("color(\\.light)$", nm))) attr.color.light else attr.color
+				} else do.call("process_color", c(list(col=x), pc))
 			}))
 		}
 
@@ -29,7 +39,7 @@ preprocess_meta_step1 = function(o) {
 		}
 		inner.margins.extra = NULL
 
-		attr.color.light = is_light(attr.color)
+
 		panel.label.rot = rep_len(panel.label.rot, 4L)
 
 		# earth.bounds = if (is.logical(earth_boundary)) {

@@ -66,17 +66,11 @@ tmapGridCompPlot.tm_credits = function(comp, o, fH, fW) {
 
 #' @export
 tmapGridCompPrepare.tm_compass = function(comp, o) {
-	o$attr.color.light = is_light(o$attr.color)
+	typs = c("arrow", "4star", "8star", "radar", "rose")
 	within(comp, {
+
+		if (!(type %in% typs)) cli::cli_abort("{.field [tm_compass]} wrong compass type, should be one of: {.str {typs}}")
 		text.size = text.size * o$scale
-
-		if (is.na(text.color)) text.color = o$attr.color
-		text.color = do.call("process_color", c(list(col=text.color), o$pc))
-
-		if (is.na(color.dark)) color.dark = ifelse(o$attr.color.light, o$attr.color, o$attr.color)
-		if (is.na(color.light)) color.light = ifelse(o$attr.color.light, "black", "white")
-		color.dark = do.call("process_color", c(list(col=color.dark), o$pc))
-		color.light = do.call("process_color", c(list(col=color.light), o$pc))
 
 		asp = if (type == "arrow") 0.5 else 1
 
@@ -135,8 +129,8 @@ tmapGridCompPlot.tm_compass = function(comp, o, fH, fW) {
 	u = 1/(comp$nlines)
 	#vpComp = viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 
-	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
+	light = comp$color.light
+	dark = comp$color.dark
 
 
 	wsu = comp$wsu
@@ -284,7 +278,7 @@ tmapGridCompPlot.tm_compass = function(comp, o, fH, fW) {
 	} else if (comp$type=="rose") {
 		gTree(children = gList(
 			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			polygonGrob(x=x[[4]], y=y[[4]], id=id, gp=gpar(lwd=1*LWD, fill=fill)),
+			polygonGrob(x=x[[4]], y=y[[4]], id=id, gp=gpar(lwd=1*LWD, col=dark, fill=fill)),
 			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
 			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
 			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
@@ -392,8 +386,8 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 
 #' @export
 tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
-	light = do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
-	dark = do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
+	light = comp$color.light
+	dark = comp$color.dark
 
 
 	wsu = comp$wsu
