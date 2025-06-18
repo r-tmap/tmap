@@ -752,6 +752,8 @@ tmapGridCompPrepare.tm_inset_gg = function(comp, o) {
 	comp
 }
 
+
+
 #' @export
 tmapGridCompHeight.tm_inset_grob = function(comp, o) {
 	marH = comp$margins[c(3,1)] * o$lin
@@ -783,9 +785,19 @@ tmapGridCompWidth.tm_inset_grob = function(comp, o) {
 }
 
 #' @export
+tmapGridCompPrepare.tm_inset_image = function(comp, o) {
+	comp$file = comp$x
+	comp = tmapGridCompPrepare.tm_logo(comp, o)
+	class(comp) = c("tm_logo", class(comp))
+	comp
+}
+
+
+
+
+#' @export
 tmapGridCompPlot.tm_inset_grob = function(comp, o, fH, fW) {
 
-	k = length(comp$logo)
 
 	wsu = comp$wsu
 	hsu = comp$hsu
@@ -803,7 +815,6 @@ tmapGridCompPlot.tm_inset_grob = function(comp, o, fH, fW) {
 	do.call(grid::grobTree, c(list(gBG, g), list(vp = vp)))
 
 }
-
 
 
 
@@ -853,7 +864,6 @@ tmapGridCompWidth.tm_inset_map = function(comp, o) {
 #' @export
 tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 
-	k = length(comp$logo)
 
 	wsu = comp$wsu
 	hsu = comp$hsu

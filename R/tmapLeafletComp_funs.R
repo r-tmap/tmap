@@ -246,3 +246,46 @@ tmapLeafletCompPlot.tm_logo = function(comp, lf, o) {
 	}
 	lf
 }
+
+
+
+#' @export
+tmapLeafletCompPrepare.tm_inset_image = function(comp, o) {
+	comp$file = comp$x
+	comp = tmapLeafletCompPrepare.tm_logo(comp, o)
+	class(comp) = c("tm_logo", class(comp))
+	comp
+}
+
+#' @export
+tmapLeafletCompPrepare.tm_inset_grob = function(comp, o) {
+	height = 20 * comp$height
+	width = 20 * comp$width
+
+	grob.dim = c(width=width, height=height, render.width=width, render.height=height)
+
+	comp$logo = list(grob2icon(comp$x, grob.dim = grob.dim, just = c(0.5, 0.5)))
+	comp$logo = lapply(comp$logo, function(x){
+		scale = height / x$iconHeight
+		x$iconWidth = unname(x$iconWidth * scale)
+		x$iconHeight = unname(x$iconHeight * scale)
+		x$iconAnchorX = unname(x$iconAnchorX * scale)
+		x$iconAnchorY = unname(x$iconAnchorY * scale)
+		x
+	})
+
+	comp$asp = vapply(comp$logo, function(lg) {
+		lg$iconWidth / lg$iconHeight
+	}, FUN.VALUE = numeric(1))
+	comp$show = TRUE
+	class(comp) = c("tm_logo", class(comp))
+	comp
+
+}
+
+#' @export
+tmapLeafletCompPrepare.tm_inset_gg = function(comp, o) {
+	rlang::check_installed("ggplot2", reason = "for plotting ggplot2 charts")
+	comp$x = ggplot2::ggplotGrob(comp$x)
+	tmapLeafletCompPrepare.tm_inset_grob(comp, o)
+}

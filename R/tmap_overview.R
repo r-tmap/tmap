@@ -16,16 +16,16 @@ tmap_overview = function() {
 	gs = vapply(modes, function(m) om[[m]]$name, FUN.VALUE = character(1))
 
 	funs = c("DataPlot", "AuxPrepare", "CompPrepare")
-	nms = c("data_layers", "aux_layers", "components")
+	nms = c("data_layer", "aux_layer", "component")
 	rem = c("data_", "aux_", "")
 
-	res = mapply(function(funi, remi) {
+	res = rbindlist(mapply(function(funi, remi, ni) {
 		dt = data.table::rbindlist(mapply(function(g, nm) {
 			ms = utils::methods(paste0("tmap", g, funi))
 			df = attr(ms, "info")
 
-
 			x = data.table::data.table(layer = sub(paste0("^[^.]*\\.(tm_)?(", remi, ")?"), "\\1", rownames(df)),
+									   type = ni,
 						   package = sub("^[^.]*\\.", "\\.", df$from),
 						   mode = nm)
 			x[x$layer != "default", ]
@@ -33,15 +33,13 @@ tmap_overview = function() {
 
 		wide_dt <- data.table::dcast(
 			dt,
-			layer ~ mode,
+			layer + type ~ mode,
 			value.var = "package",fill = ""
 		)
 		data.table::setcolorder(
 			wide_dt,
-			c("layer", "plot", "view", sort(setdiff(names(wide_dt), c("layer", "plot", "view"))))
+			c("layer", "type", "plot", "view", sort(setdiff(names(wide_dt), c("layer", "type", "plot", "view"))))
 		)
-		res = as.data.frame(wide_dt)
-	}, funs, rem, SIMPLIFY = FALSE)
-	names(res) = nms
-	res
+	}, funs, rem, nms, SIMPLIFY = FALSE))
+	as.data.frame(res)
 }
