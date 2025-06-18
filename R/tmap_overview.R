@@ -24,21 +24,21 @@ tmap_overview = function() {
 			ms = utils::methods(paste0("tmap", g, funi))
 			df = attr(ms, "info")
 
-			x = data.table::data.table(layer = sub(paste0("^[^.]*\\.(tm_)?(", remi, ")?"), "\\1", rownames(df)),
+			x = data.table::data.table(element = sub(paste0("^[^.]*\\.(tm_)?(", remi, ")?"), "\\1", rownames(df)),
 									   type = ni,
 						   package = sub("^[^.]*\\.", "\\.", df$from),
 						   mode = nm)
-			x[x$layer != "default", ]
+			x[x$element != "default", ]
 		}, gs, names(gs), SIMPLIFY = FALSE))
 
 		wide_dt <- data.table::dcast(
 			dt,
-			layer + type ~ mode,
+			element + type ~ mode,
 			value.var = "package",fill = ""
 		)
 		data.table::setcolorder(
 			wide_dt,
-			c("layer", "type", "plot", "view", sort(setdiff(names(wide_dt), c("layer", "type", "plot", "view"))))
+			c("element", "type", "plot", "view", sort(setdiff(names(wide_dt), c("element", "type", "plot", "view"))))
 		)
 	}, funs, rem, nms, SIMPLIFY = FALSE))
 	as.data.frame(res)

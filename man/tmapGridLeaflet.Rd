@@ -26,6 +26,7 @@
 \alias{tmapGridDataPlot}
 \alias{tmapGridDataPlot.default}
 \alias{tmapGridDataPlot.tm_data_lines}
+\alias{tmapGridDataPlot.tm_data_iso}
 \alias{tmapGridDataPlot.tm_data_polygons}
 \alias{tmapGridDataPlot.tm_data_fill}
 \alias{tmapGridDataPlot.tm_data_borders}
@@ -51,6 +52,7 @@
 \alias{tmapLeafletCompPrepare}
 \alias{tmapLeafletCompPrepare.default}
 \alias{tmapLeafletDataPlot.tm_data_lines}
+\alias{tmapLeafletDataPlot.tm_data_iso}
 \alias{tmapLeafletDataPlot.tm_data_polygons}
 \alias{tmapLeafletDataPlot.tm_data_fill}
 \alias{tmapLeafletDataPlot.tm_data_borders}
@@ -194,6 +196,22 @@ tmapGridDataPlot(
 )
 
 \method{tmapGridDataPlot}{tm_data_lines}(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapGridDataPlot}{tm_data_iso}(
   a,
   shpTM,
   dt,
@@ -481,6 +499,26 @@ tmapLeafletCompPrepare(comp, o)
 \method{tmapLeafletCompPrepare}{default}(comp, o)
 
 \method{tmapLeafletDataPlot}{tm_data_lines}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapLeafletDataPlot}{tm_data_iso}(
   a,
   shpTM,
   dt,
