@@ -185,6 +185,7 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	sc = min(1/clipT) * o$scale
 
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
+	grp = process_comp_box(grp, sc, o)
 
 	draw_rect = grp$frame || grp$bg
 	if (draw_rect && frame_combine) {
