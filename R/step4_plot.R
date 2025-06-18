@@ -465,7 +465,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		d = d[!is.na(asp)]
 
 
-		if (o$type != "grid" && !is.na(o$nrows) && !is.na(o$ncols)) {
+		if (o$type != "grid" && is.na(o$nrows) && is.na(o$ncols)) {
 			# limit facets
 			n_lim = limit_nx(o$n)
 			if (n_lim != o$n) {

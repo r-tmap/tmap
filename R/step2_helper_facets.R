@@ -166,7 +166,7 @@ limit_nx = function(nx) {
 
 	ox = tmapOptions$facet.max
 
-	if (ox < nx) warning("Number of facets for mode \"", mode, "\" is limited to ", ox, " Change the option facet.max (with tmap_options) to allow more facets.", call. = FALSE)
+	if (ox < nx) cli::cli_warn("{.field number of facets}. Number of facets for mode {.str {mode}} is limited to {ox}. Change the option facet.max to allow more facets, with {.code tmap_options(facet.max = {ox})} or {.code + tm_options(facet.max = {ox})}")
 	min(ox, nx)
 }
 
