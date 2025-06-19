@@ -49,7 +49,7 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-When component share the same position (see [vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)), we can specify how they are grouped via `tm_comp_group()`.
+When component share the same position (see [vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)), we can specify how they are grouped via `tm_components()`.
 
 We will use a self-made map component, made with the grid package that we show via `tm_inset()`.
 
@@ -77,19 +77,19 @@ tm_inset(b("B2"), group_id = "B", height = 3, width = 3) +
 tm_layout(asp = 1)
 
 tm + 
-  tm_comp_group("A", position = tm_pos_in("left", "top")) +
-  tm_comp_group("B", position = tm_pos_in("right", "bottom"))
+  tm_components("A", position = tm_pos_in("left", "top")) +
+  tm_components("B", position = tm_pos_in("right", "bottom"))
 ```
 
 Note that the actual grouping is done by position alone: all components with the same position are considered as a group and therefore stacked instead of drawn on top of each other.
-The goal of `tm_comp_group()` is only to specify position and group related arguments (which we discuss in this vignette) directly for multiple components.
+The goal of `tm_components()` is only to specify position and group related arguments (which we discuss in this vignette) directly for multiple components.
 
 In this example components of A and B have the same position and are therefore grouped:
 
 ```{r, fig.height = 6}
 tm + 
-  tm_comp_group("A", position = tm_pos_in("right", "bottom")) +
-  tm_comp_group("B", position = tm_pos_in("right", "bottom"))
+  tm_components("A", position = tm_pos_in("right", "bottom")) +
+  tm_components("B", position = tm_pos_in("right", "bottom"))
 ```
 
 
@@ -101,8 +101,8 @@ The `stack` argument is either `"horizontal"` or `"vertical"`:
 
 ```{r, fig.height = 6}
 tm + 
-  tm_comp_group("A", position = tm_pos_in("left", "top"), stack = "horizontal") +
-  tm_comp_group("B", position = tm_pos_in("right", "bottom"), stack = "vertical")
+  tm_components("A", position = tm_pos_in("left", "top"), stack = "horizontal") +
+  tm_components("B", position = tm_pos_in("right", "bottom"), stack = "vertical")
 ```
 
 ## Order
@@ -116,7 +116,7 @@ tm_inset(g("A1"), group_id = "A", z = 1) +
 tm_inset(g("A2"), group_id = "A", z = 3) +
 tm_inset(g("A3"), group_id = "A", z = 2) +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top")) 
+tm_components("A", position = tm_pos_in("left", "top")) 
 ```
 
 # Frame
@@ -133,7 +133,7 @@ tm_inset(g("A1"), group_id = "A") +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3) +
 tm_inset(g("A3"), group_id = "A") +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top"), frame_combine = FALSE) 
+tm_components("A", position = tm_pos_in("left", "top"), frame_combine = FALSE) 
 ```
 
 ## `equalize`
@@ -147,7 +147,7 @@ tm_inset(g("A1"), group_id = "A") +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3) +
 tm_inset(g("A3"), group_id = "A") +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top"), frame_combine = FALSE, equalize = FALSE) 
+tm_components("A", position = tm_pos_in("left", "top"), frame_combine = FALSE, equalize = FALSE) 
 ```
 
 # Margins
@@ -165,7 +165,7 @@ tm_inset(g("A1"), group_id = "A") +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3) +
 tm_inset(g("A3"), group_id = "A") +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top"), frame_combine = FALSE, equalize = FALSE, offset = 0, stack_margin = 1)
+tm_components("A", position = tm_pos_in("left", "top"), frame_combine = FALSE, equalize = FALSE, offset = 0, stack_margin = 1)
 ```
 
 Note: currently both `offset` and `stack_margin` are applied for all components for which `pos.h` and `pos.v` are specified as characters.
@@ -182,13 +182,13 @@ tm_inset(g("A1"), group_id = "A", margins = 0) +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3, margins = 0) +
 tm_inset(g("A3"), group_id = "A", margins = 0) +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top"), frame_combine = T, frame = TRUE, offset = 0, stack_margin = 0)
+tm_components("A", position = tm_pos_in("left", "top"), frame_combine = T, frame = TRUE, offset = 0, stack_margin = 0)
 ```
 
 # Alignment
 
 Recall that the `align.h` and `align.v` arguments of `tm_pos()` specify the alignment of the components [see vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)).
-This can be set for each component individually, or, in case it is the same for all components inside `tm_comp_group()`.
+This can be set for each component individually, or, in case it is the same for all components inside `tm_components()`.
 
 ```{r, fig.height = 6}
 tm_shape(NLD_muni) +
@@ -197,7 +197,7 @@ tm_inset(g("A1"), group_id = "A") +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3) +
 tm_inset(g("A3"), group_id = "A") +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "top", align.h = "right"), frame_combine = FALSE, equalize = FALSE, offset = 0, stack_margin = 0) 
+tm_components("A", position = tm_pos_in("left", "top", align.h = "right"), frame_combine = FALSE, equalize = FALSE, offset = 0, stack_margin = 0) 
 ```
 
 # Frame and background color and alpha
@@ -209,5 +209,5 @@ tm_inset(g("A1"), group_id = "A") +
 tm_inset(g("A2"), group_id = "A", width = 3, height = 3) +
 tm_inset(g("A3"), group_id = "A") +
 tm_layout(asp = 1) +
-tm_comp_group("A", position = tm_pos_in("left", "bottom"), frame = TRUE, bg.color = "purple", bg.alpha = 0.5)
+tm_components("A", position = tm_pos_in("left", "bottom"), frame = TRUE, bg.color = "purple", bg.alpha = 0.5)
 ```

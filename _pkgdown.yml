@@ -76,7 +76,7 @@ reference:
 - title: Configure legend and component position
   contents:
   - tm_pos
-  - tm_comp_group
+  - tm_components
 - title: Set layout options
   contents:
   - tm_layout

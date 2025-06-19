@@ -12,7 +12,9 @@
 #' @example ./examples/tm_layout.R
 #' @export
 tm_layout = function(
-		scale, asp, bg, bg.color, outer.bg, outer.bg.color, frame, frame.color, frame.alpha, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin, panel.margin,
+		scale, asp, bg, bg.color, outer.bg, outer.bg.color, frame, frame.color, frame.alpha, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin,
+		text.fontfamily, text.fontface, attr.color,
+		panel.margin,
 		panel.type, panel.wrap.pos, panel.xtab.pos, color.sepia_intensity, color.saturation, color_vision_deficiency_sim,
 		panel.show, panel.labels, panel.label.size, panel.label.color, panel.label.fontface, panel.label.fontfamily, panel.label.alpha, panel.label.bg, panel.label.bg.color, panel.label.bg.alpha, panel.label.frame, panel.label.frame.color, panel.label.frame.alpha, panel.label.frame.lwd, panel.label.frame.r, panel.label.height, panel.label.rot, earth_boundary, earth_boundary.color, earth_boundary.lwd, earth_datum, space.color,
 		...

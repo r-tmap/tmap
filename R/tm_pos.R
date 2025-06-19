@@ -87,7 +87,7 @@
 #' @export
 tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-	args$type = "na"
+	args$type = "out"
 	structure(args, class = "tm_pos")
 }
 

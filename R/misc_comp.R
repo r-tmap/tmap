@@ -1,6 +1,16 @@
-complete_with_comp_group = function(comp, o) {
-	# complete all non-called options from tm_legend and tm_<component> with the tm_comp_group specs
-	if (is.na(comp$group_id)) comp$group_id = paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
+complete_with_comp_group = function(comp, o, comp_type) {
+	# complete all non-called options from tm_legend and tm_<component> with the tm_components specs
+	if ("component_ALL" %in% names(o)) {
+		comp$group_id = "ALL"
+	} else if ("component_LEGENDS" %in% names(o) && comp_type == "legend") {
+		comp$group_id = "LEGENDS"
+	} else if ("component_CHARTS" %in% names(o) && comp_type == "chart") {
+		comp$group_id = "CHARTS"
+	} else if ("component_OTHERS" %in% names(o) && comp_type == "other") {
+		comp$group_id = "OTHERS"
+	} else if (is.na(comp$group_id)) {
+		comp$group_id = paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
+	}
 
 	grp_name = paste("component", comp$group_id, sep = "_")
 
@@ -51,7 +61,7 @@ impute_comp = function(a, o) {
 		}
 	}
 
-	if (!("tm_add_legend" %in% ca)) a = complete_with_comp_group(a, o)
+	if (!("tm_add_legend" %in% ca)) a = complete_with_comp_group(a, o, comp_type = "other")
 
 	a$call = call
 
@@ -102,7 +112,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l$unm = unm
 	l$active = active
 
-	l = complete_with_comp_group(l, o)
+	l = complete_with_comp_group(l, o, comp_type = "legend")
 
 	# update legend class
 	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
@@ -130,7 +140,7 @@ update_crt = function(o, crt, v, mfun, unm, active) {
 	ot2$position = NULL
 	crt = complete_options(crt, ot2)
 
-	crt = complete_with_comp_group(crt, o)
+	crt = complete_with_comp_group(crt, o, comp_type = "chart")
 
 
 	crt$call = call
@@ -157,7 +167,7 @@ warning_group_args = function(args) {
 			cli::format_inline(paste0("{n} = {.val {v}}"))
 		}, old[match(x, old)], new[match(x, old)], args[x], SIMPLIFY = FALSE), list(sep = ", ")))
 
-		cli::cli_warn(paste0("Component group arguments, such as {.var {x}}, are deprecated as of 4.1. Please use {.code group_id = {.val ID}} in combination with {.code tm_comp_group(", s, ")} instead."))
+		cli::cli_warn(paste0("Component group arguments, such as {.var {x}}, are deprecated as of 4.1. Please use {.code group_id = {.val ID}} in combination with {.code tm_components(", s, ")} instead."))
 
 		if ("group.frame" %in% names(args)) {
 			args$frame_combine = args$group.frame

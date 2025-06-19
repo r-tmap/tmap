@@ -1,4 +1,10 @@
-# tmap 4.1 (in development)
+# tmap 4.2 (in development)
+
+- tmap_overview added, which provides an overview of all map elements (layers and components)
+- tm_layout arguments limited to the useful ones
+- tm_components (was tm_comp_group) can also work for all (legend/other) components
+
+# tmap 4.1
 
 This fixes a few regressions in the tmap v4 release and adds improvements.
 

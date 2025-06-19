@@ -127,6 +127,6 @@ tm_title("Proportion of Population Aged 15–75 with a University or Applied Sci
 tm_compass(group_id = "bottom") +
 tm_scalebar(group_id = "bottom", breaks = c(0, 10, 50)) +
 tm_credits("© Data: Statistics Netherlands, Software: R-tmap", group_id = "bottom") +
-tm_comp_group("top", position = tm_pos_in("left", "top"), frame = FALSE, bg = FALSE) +
-tm_comp_group("bottom", position = tm_pos_in("left", "bottom", align.h = "left"))
+tm_components("top", position = tm_pos_in("left", "top"), frame = FALSE, bg = FALSE) +
+tm_components("bottom", position = tm_pos_in("left", "bottom", align.h = "left"))
 ```

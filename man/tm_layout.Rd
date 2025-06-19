@@ -26,6 +26,9 @@ tm_layout(
   meta.margins,
   meta.auto_margins,
   between_margin,
+  text.fontfamily,
+  text.fontface,
+  attr.color,
   panel.margin,
   panel.type,
   panel.wrap.pos,
@@ -99,6 +102,12 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{meta.auto_margins}{The auto_margins of the meta.}
 
 \item{between_margin}{Margin between the map.}
+
+\item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
+
+\item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
+
+\item{attr.color}{The color of the attr.}
 
 \item{panel.margin}{The margin of the panel.}
 

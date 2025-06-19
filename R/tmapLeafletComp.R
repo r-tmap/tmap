@@ -327,7 +327,7 @@ tmapLeafletComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pa
 
 	rc_text = frc(facet_row, facet_col)
 
-	# grp = tmapGetCompGroupArgs(comp) none of the tm_comp_group args are used yet in view mode
+	# grp = tmapGetCompGroupArgs(comp) none of the tm_components args are used yet in view mode
 
 	for (cmp in comp) {
 		lf = tmapLeafletCompPlot(cmp, lf, o)
