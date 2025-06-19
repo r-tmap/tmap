@@ -11,8 +11,8 @@ preprocess_meta_step1 = function(o) {
 		#   it is white if the attr.color is dark and black if it is light
 		attr.color.light = is_light(attr.color)
 		attr.color = do.call(process_color, c(list(col = attr.color), pc))
-		attr.color.light = if (attr.color.light) "#000000" else "#ffffff"
-		attr.color.light = do.call(process_color, c(list(col = attr.color.light), pc))
+		attr.color_light = if (attr.color.light) "#000000" else "#ffffff"
+		attr.color_light = do.call(process_color, c(list(col = attr.color_light), pc))
 
 
 		# color options: replace NA with attr.color
@@ -21,7 +21,7 @@ preprocess_meta_step1 = function(o) {
 			assign(nm, local({
 				x = get(nm)
 				if (is.na(x)) {
-					if (length(grep("color(\\.light)$", nm))) attr.color.light else attr.color
+					if (length(grep("color(\\.light)$", nm))) attr.color_light else attr.color
 				} else do.call("process_color", c(list(col=x), pc))
 			}))
 		}

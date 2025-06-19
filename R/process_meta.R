@@ -457,13 +457,13 @@ process_meta = function(o, d, cdt, aux) {
 							cdt2b[stack_auto == TRUE, stack:= ifelse(npp==1, ifelse(cell.h %in% c("left", "right"), o$legend.stack["all_row"], o$legend.stack["all_col"]), ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"]))]
 
 							c(max(max(c(0,cdt2b[cell.v == "bottom" & stack == "vertical", .(V=sum(legH)),by = c("cell.h", "by3__")]$V)),
-								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", .(V=sum(legH)),by = c("cell.h", "by3__")]$V))) / o$devsize[2],
+								  max(c(0,cdt2b[cell.v == "bottom" & stack == "horizontal", .(V=max(c(0, legH))),by = c("cell.h", "by3__")]$V))) / o$devsize[2],
 							  max(max(c(0,cdt2b[cell.h == "left" & stack == "horizontal", .(V=sum(legW)),by = c("cell.v", "by3__")]$V)),
-							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", .(V=sum(legW)),by = c("cell.v", "by3__")]$V))) / o$devsize[1],
+							  	max(c(0,cdt2b[cell.h == "left" & stack == "vertical", .(V=max(c(0, legW))),by = c("cell.v", "by3__")]$V))) / o$devsize[1],
 							  max(max(c(0,cdt2b[cell.v == "top" & stack == "vertical", .(V=sum(legH)),by = c("cell.h", "by3__")]$V)),
-							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", .(V=sum(legH)),by = c("cell.h", "by3__")]$V))) / o$devsize[2],
+							  	max(c(0,cdt2b[cell.v == "top" & stack == "horizontal", .(V=max(c(0, legH))),by = c("cell.h", "by3__")]$V))) / o$devsize[2],
 							  max(max(c(0,cdt2b[cell.h == "right" & stack == "horizontal", .(V=sum(legW)),by = c("cell.v", "by3__")]$V)),
-							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", .(V=sum(legW)),by = c("cell.v", "by3__")]$V))) / o$devsize[1])
+							  	max(c(0,cdt2b[cell.h == "right" & stack == "vertical", .(V=max(c(0, legW))),by = c("cell.v", "by3__")]$V))) / o$devsize[1])
 						})))
 					} else {
 						meta.auto_margins = pmin(meta.auto_margins,
