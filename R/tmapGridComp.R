@@ -259,7 +259,9 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	do.call(grid::grobTree, c(list(groupbg), grbs, list(groupframe), grDesign, list(vp=vp)))
 }
 
-tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
+#' @export
+#' @rdname tmap_internal
+tmapGetCompGroupArgs = function(comp) {
 	# get component group settings
 	grp = comp[[1]][c("position",
 					  "stack",
@@ -281,6 +283,13 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 
 	if (!("frame" %in% grp_called)) grp$frame = any_legend_chart_inset
 	if (!("bg" %in%grp_called)) grp$bg = any_legend_chart_inset
+	grp
+}
+
+
+tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
+
+	grp = tmapGetCompGroupArgs(comp)
 
 
 	gts = get("gts", envir = .TMAP_GRID)

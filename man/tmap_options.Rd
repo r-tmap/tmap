@@ -58,9 +58,6 @@ tmap_options(
   meta.auto_margins,
   between_margin,
   panel.margin,
-  grid.mark.height,
-  xylab.height,
-  coords.height,
   xlab.show,
   xlab.text,
   xlab.size,
@@ -457,12 +454,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{between_margin}{Margin between the map.}
 
 \item{panel.margin}{The margin of the panel.}
-
-\item{grid.mark.height}{The height of the mark of the grid.}
-
-\item{xylab.height}{The height of the xylab.}
-
-\item{coords.height}{The height of the coords.}
 
 \item{xlab.show}{The visibility of the xlab. \code{TRUE} or \code{FALSE}.}
 

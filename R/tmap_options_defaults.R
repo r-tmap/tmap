@@ -248,10 +248,6 @@
 		between_margin = 0.5,
 		panel.margin = c(xtab = 0.4, 0),
 
-		grid.mark.height = 2,
-		xylab.height = 1.25,
-		coords.height = 1.25,
-
 		# xlab, ylab
 		xlab.show = FALSE,
 		xlab.text = "",
