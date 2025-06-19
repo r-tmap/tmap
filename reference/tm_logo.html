@@ -80,7 +80,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Map component: logo</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_components.R" class="external-link"><code>R/tm_components.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_component_functions.R" class="external-link"><code>R/tm_component_functions.R</code></a></small>
       <div class="d-none name"><code>tm_logo.Rd</code></div>
     </div>
 
@@ -134,11 +134,11 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 
 <dt id="arg-position">position<a class="anchor" aria-label="anchor" href="#arg-position"></a></dt>
-<dd><p>The position specification of the component: an object created with <code><a href="tm_pos.html">tm_pos_in()</a></code> or <code><a href="tm_pos.html">tm_pos_out()</a></code>. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is <code>"left"</code>, <code>"center"</code> or <code>"right"</code> (or upper case, meaning tighter to the map frame), the second <code>"top"</code>, <code>"center"</code> or <code>"bottom"</code>. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also <a href="https://r-tmap.github.io/tmap/articles/adv_positions">vignette about positioning</a>. In case multiple components should be combined (stacked), use <code>group_id</code> and specify <code>component</code> in <code><a href="tm_comp_group.html">tm_comp_group()</a></code>.</p></dd>
+<dd><p>The position specification of the component: an object created with <code><a href="tm_pos.html">tm_pos_in()</a></code> or <code><a href="tm_pos.html">tm_pos_out()</a></code>. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is <code>"left"</code>, <code>"center"</code> or <code>"right"</code> (or upper case, meaning tighter to the map frame), the second <code>"top"</code>, <code>"center"</code> or <code>"bottom"</code>. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also <a href="https://r-tmap.github.io/tmap/articles/adv_positions">vignette about positioning</a>. In case multiple components should be combined (stacked), use <code>group_id</code> and specify <code>component</code> in <code><a href="tm_components.html">tm_components()</a></code>.</p></dd>
 
 
 <dt id="arg-group-id">group_id<a class="anchor" aria-label="anchor" href="#arg-group-id"></a></dt>
-<dd><p>Component group id name. All components (e.g. legends, titles, etc) with the same <code>group_id</code> will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in <code><a href="tm_comp_group.html">tm_comp_group()</a></code> where its argument <code>id</code> should correspond to <code>group_id</code>.</p></dd>
+<dd><p>Component group id name. All components (e.g. legends, titles, etc) with the same <code>group_id</code> will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in <code><a href="tm_components.html">tm_components()</a></code> where its argument <code>id</code> should correspond to <code>group_id</code>.</p></dd>
 
 
 <dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
