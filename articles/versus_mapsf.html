@@ -161,7 +161,7 @@
 <div class="section level3">
 <h3 id="styling-and-themes">Styling and themes<a class="anchor" aria-label="anchor" href="#styling-and-themes"></a>
 </h3>
-<p>Both packages offer styling options and themes. In both packages own styles can be created. However, <code>tmap</code> has much more styling options available. See <code><a href="https://riatelab.github.io/mapsf/reference/mf_theme.html" class="external-link">mf_theme()</a></code> and [tm_layout()].</p>
+<p>Both packages offer styling options and themes. In both packages own styles can be created. However, <code>tmap</code> has much more styling options available. See <code><a href="https:/riatelab.github.io/mapsf/man/mf_theme.html">mf_theme()</a></code> and [tm_layout()].</p>
 </div>
 <div class="section level3">
 <h3 id="base-vs-grid-graphics">Base vs grid graphics<a class="anchor" aria-label="anchor" href="#base-vs-grid-graphics"></a>
@@ -180,9 +180,9 @@
 <p>An example of <code>mapsf</code> applied to the tmap dataset [NLD_muni].</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://riatelab.github.io/mapsf/" class="external-link">mapsf</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_map.html" class="external-link">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_map.html" class="external-link">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"population"</span>, type <span class="op">=</span> <span class="st">"prop"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_layout.html" class="external-link">mf_layout</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_map.html">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_map.html">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"population"</span>, type <span class="op">=</span> <span class="st">"prop"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_layout.html">mf_layout</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Population in Dutch municipalities in 2022"</span>,</span>
 <span>  credits <span class="op">=</span> <span class="st">"Statistics Netherlands (CBS)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="versus_mapsf_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
@@ -212,8 +212,8 @@
 <h2 id="choropleth">Choropleth<a class="anchor" aria-label="anchor" href="#choropleth"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_map.html" class="external-link">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"edu_appl_sci"</span>, type <span class="op">=</span> <span class="st">"choro"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_layout.html" class="external-link">mf_layout</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_map.html">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"edu_appl_sci"</span>, type <span class="op">=</span> <span class="st">"choro"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_layout.html">mf_layout</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Population share with (applied) university degree in 2022"</span>,</span>
 <span>  credits <span class="op">=</span> <span class="st">"Statistics Netherlands (CBS)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="versus_mapsf_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
@@ -236,8 +236,8 @@
 <h2 id="shadow-layer-1">Shadow layer<a class="anchor" aria-label="anchor" href="#shadow-layer-1"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_shadow.html" class="external-link">mf_shadow</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://riatelab.github.io/mapsf/reference/mf_map.html" class="external-link">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"edu_appl_sci"</span>, type <span class="op">=</span> <span class="st">"choro"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_shadow.html">mf_shadow</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https:/riatelab.github.io/mapsf/man/mf_map.html">mf_map</a></span><span class="op">(</span><span class="va">NLD_muni</span>, var <span class="op">=</span> <span class="st">"edu_appl_sci"</span>, type <span class="op">=</span> <span class="st">"choro"</span>, leg_pos <span class="op">=</span> <span class="st">"topright"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="versus_mapsf_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 <p><code>tmap</code> does not has a similar layer function (yet), but it can be done with geometric manipulation in <code>sf</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
