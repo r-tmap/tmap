@@ -431,7 +431,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 				if (!is.null(bbo)) {
 					bbm = tmaptools::bb(bbo, projection = crs)
 				} else {
-					bbm = sf::st_transform(sf::st_bbox(), crs = crs)
+					bbm = full_bbox(crs)
 				}
 				if (o$earth_boundary) {
 					bbm = bb_ext(bbm, o$inner.margins)
@@ -447,7 +447,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 			if (!is.null(bbo)) {
 				bbm = tmaptools::bb(bbo, projection = crs)
 			} else {
-				bbm = sf::st_transform(sf::st_bbox(), crs = crs)
+				bbm = full_bbox(crs)
 			}
 		} else {
 			bbm = sf::st_transform(bbm, crs = crs)

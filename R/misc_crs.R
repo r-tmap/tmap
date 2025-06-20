@@ -2,6 +2,19 @@ crs_is_ortho = function(crs) {
 	grepl("Orthographic", crs$wkt, fixed = TRUE)
 }
 
+
+full_bbox = function(crs) {
+	if (sf::st_is_longlat(crs)) {
+		sf::st_bbox(sf::st_transform(sf::st_bbox(), crs = crs))
+	} else {
+		# to make sure the projected full bounding box is returned
+		spl = suppressMessages(sf::st_bbox() |> st_sample(1e4, type = "regular") |> sf::st_sfc(crs = 4326))
+		spl2 = sf::st_cast(tmaptools::bb_poly(sf::st_bbox()), "POINT")
+		spl12 = c(spl, spl2)
+		sf::st_bbox(sf::st_transform(spl12, crs = crs))
+	}
+}
+
 crs_ortho_visible = function(crs, projected = TRUE, max_cells = 1e5) {
 	wkt = sf::st_crs(crs)$wkt
 	lst = strsplit(wkt, ",")[[1]]
