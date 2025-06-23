@@ -1,4 +1,4 @@
-step1_rearrange = function(tmel) {
+step1_rearrange = function(tmel, knit_opts) {
 	message_init()
 	dev = getOption("tmap.devel.mode")
 
@@ -103,7 +103,7 @@ step1_rearrange = function(tmel) {
 		}
 		o = complete_options(o2, o)
 	}
-	o = preprocess_meta_step1(o)
+	o = preprocess_meta_step1(o, knit_opts)
 
 
 	any_data_layer = length(tmel_spl) > 0L

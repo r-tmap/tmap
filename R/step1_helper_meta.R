@@ -1,5 +1,8 @@
-preprocess_meta_step1 = function(o) {
+preprocess_meta_step1 = function(o, knit_opts = NULL) {
 	within(o, {
+		if (!is.null(knit_opts)) {
+			scale = scale / ((knit_opts$dpi / 300) * knit_opts$fig.retina)
+		}
 
 		pc = list(sepia_intensity=color.sepia_intensity, saturation=color.saturation, color_vision_deficiency_sim=color_vision_deficiency_sim)
 		color.sepia_intensity = NULL

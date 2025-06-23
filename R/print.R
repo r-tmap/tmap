@@ -22,7 +22,7 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
-	x2 = step1_rearrange(x)
+	x2 = step1_rearrange(x, knit_opts = options)
 	if (dev) timing_add("step 1")
 	x3 = step2_data(x2)
 	if (dev) timing_add("step 2")

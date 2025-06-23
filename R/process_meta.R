@@ -22,7 +22,6 @@ prepreprocess_meta = function(o, vp) {
 			cw = 1
 		}
 
-
 		lin = graphics::par("cin")[2]# * scale
 
 		lineH = lin / devsize[2] * scale
