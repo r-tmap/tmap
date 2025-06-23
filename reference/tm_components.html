@@ -91,7 +91,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_components</span><span class="op">(</span></span>
-<span>  group_id <span class="op">=</span> <span class="st">"ALL"</span>,</span>
+<span>  group_id <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  <span class="va">position</span>,</span>
 <span>  <span class="va">stack</span>,</span>
 <span>  <span class="va">frame_combine</span>,</span>
@@ -115,7 +115,7 @@
 
 
 <dl><dt id="arg-group-id">group_id<a class="anchor" aria-label="anchor" href="#arg-group-id"></a></dt>
-<dd><p>id of the component group. Refers to the <code>group_id</code> argument of each component function, such as <code><a href="tm_legend.html">tm_legend()</a></code> and <code><a href="tm_title.html">tm_title()</a></code>. By default set to <code>"ALL"</code>, which will apply to all components. Other special values are: <code>"LEGENDS"</code> which applied to all legends and <code>"CHARTS"</code> which applies to all charts, and <code>"OTHERS"</code> which applies to other map components (title, scalebar, compass, etc).</p></dd>
+<dd><p>id of the component group. By default set to <code>""</code>, which will apply to all components. There are two other options. 1) To use the same (self-chosen) name that corresponds to the <code>group_id</code> argument of a component function, such as <code><a href="tm_legend.html">tm_legend()</a></code> and <code><a href="tm_title.html">tm_title()</a></code>. 2) To specify one (or more) component function names, e.g. <code>"tm_legend"</code> or <code>c("tm_scalebar", "tm_compass")</code>.</p></dd>
 
 
 <dt id="arg-position">position<a class="anchor" aria-label="anchor" href="#arg-position"></a></dt>
