@@ -29,6 +29,7 @@ tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, sta
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_title")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
@@ -40,6 +41,7 @@ tm_title_in = function(text, ..., position = tm_pos_in("left", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_title_in")
 	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
@@ -52,6 +54,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_title_out")
 	args$z = args$z %||% NA_integer_
 	args$position = position
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component"
@@ -70,6 +73,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_credits")
 	args$z = args$z %||% NA_integer_
 	if ("align" %in% names(args)) {
 		args$position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = args$align, align.v = "top", just.h = "left", just.v = "bottom")
@@ -131,6 +135,7 @@ tm_compass <- function(north,
 	args = warning_group_args(args)
 
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_compass")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
 }
@@ -186,6 +191,7 @@ tm_scalebar = function(breaks,
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_scalebar")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
@@ -217,6 +223,7 @@ tm_mouse_coordinates <- function(stack,
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_mouse_coordinates")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_mouse_coordinates", "tm_component")))))
 }
@@ -243,6 +250,7 @@ tm_minimap <- function(server,
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_minimap")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_minimap", "tm_component")))))
 }
@@ -278,6 +286,7 @@ tm_logo = function(file,
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_<other>", "tm_logo")
 	args$z = args$z %||% NA_integer_
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_logo", "tm_component")))))
 }

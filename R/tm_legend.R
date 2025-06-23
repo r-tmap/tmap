@@ -99,6 +99,7 @@ tm_legend = function(title,
 	args$xlab = args$xlab %||% NA
 	args$ylab = args$ylab %||% NA
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_legend"
 	args$z = args$z %||% NA_integer_
 	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
@@ -160,6 +161,7 @@ tm_legend_bivariate = function(xlab,
 	args$xlab = args$xlab %||% NA
 	args$ylab = args$ylab %||% NA
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_legend_bivariate"
 	args$z = args$z %||% NA_integer_
 	args$orientation = "portrait"
 	structure(args, class = c("tm_legend", "tm_component", "list"))

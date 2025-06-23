@@ -29,6 +29,7 @@ tm_chart_histogram = function(breaks,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "histogram"
@@ -53,6 +54,7 @@ tm_chart_bar = function(plot.axis.x,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "bar"
@@ -76,6 +78,7 @@ tm_chart_donut = function(position,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "donut"
@@ -97,6 +100,7 @@ tm_chart_violin = function(position,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "violin"
@@ -118,6 +122,7 @@ tm_chart_box = function(position,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "box"
@@ -147,6 +152,7 @@ tm_chart_heatmap = function(position,
 
 	args$z = args$z %||% NA_integer_
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_chart"
 
 	args$show = TRUE
 	args$type = "heatmap"

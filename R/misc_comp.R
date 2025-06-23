@@ -1,40 +1,41 @@
-complete_with_comp_group = function(comp, o, comp_type) {
+complete_with_comp_group = function(comp, o) {
 	# complete all non-called options from tm_legend and tm_<component> with the tm_components specs
-	if ("component_ALL" %in% names(o)) {
-		comp$group_id = "ALL"
-	} else if ("component_LEGENDS" %in% names(o) && comp_type == "legend") {
-		comp$group_id = "LEGENDS"
-	} else if ("component_CHARTS" %in% names(o) && comp_type == "chart") {
-		comp$group_id = "CHARTS"
-	} else if ("component_OTHERS" %in% names(o) && comp_type == "other") {
-		comp$group_id = "OTHERS"
-	} else if (is.na(comp$group_id)) {
+
+	comp_grps = names(o)[grepl("component_", names(o))]
+	grps = gsub(".*component_", "", comp_grps)
+
+	if (is.na(comp$group_id)) {
 		comp$group_id = paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
 	}
 
-	grp_name = paste("component", comp$group_id, sep = "_")
+	ids = c("", comp$group_id, comp$group_type)
+	comp_ids = paste("component", ids, sep = "_")
 
+
+	# take called from component itself (component function call)
 	if ("called" %in% names(comp)) {
 		comp$called_via_comp_group = comp$called
 	} else {
 		comp$called_via_comp_group = character()
 	}
 
-	if (grp_name %in% names(o)) {
-		oc = o[[grp_name]]
-		if (!is.null(comp$call)) {
-			callo = intersect(names(oc), comp$call)
-			if (length(callo)) oc[callo] = NULL
-		}
-		if ("position" %in% names(oc)) {
-			# happens when component position is taken. Other positions already have been processed in impute_comp and update_l/crt
-			oc$position = process_position(oc$position, o)
-		}
-		if (length(oc)) {
-			comp[names(oc)] = oc
-			comp$called_via_comp_group = unique(c(comp$called_via_comp_group, names(oc)))
+	for (i in seq_along(grps)) {
+		if (any(grps[i] %in% ids)) {
+			oc = o[[comp_grps[i]]]
+			if ("position" %in% names(oc)) {
+				oc$position = process_position(oc$position, o)
+			}
+			if (length(oc)) {
+				comp[names(oc)] = oc
+				comp$called_via_comp_group = unique(c(comp$called_via_comp_group, names(oc)))
+			}
 		}
 	}
+
+	# TO DO:
+	# - loop through grp_ids(2)
+	# - if any ids is equal to grp, do old script
+
 	comp
 }
 
@@ -61,7 +62,7 @@ impute_comp = function(a, o) {
 		}
 	}
 
-	if (!("tm_add_legend" %in% ca)) a = complete_with_comp_group(a, o, comp_type = "other")
+	if (!("tm_add_legend" %in% ca)) a = complete_with_comp_group(a, o)
 
 	a$call = call
 
@@ -112,7 +113,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l$unm = unm
 	l$active = active
 
-	l = complete_with_comp_group(l, o, comp_type = "legend")
+	l = complete_with_comp_group(l, o)
 
 	# update legend class
 	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
@@ -140,7 +141,7 @@ update_crt = function(o, crt, v, mfun, unm, active) {
 	ot2$position = NULL
 	crt = complete_options(crt, ot2)
 
-	crt = complete_with_comp_group(crt, o, comp_type = "chart")
+	crt = complete_with_comp_group(crt, o)
 
 
 	crt$call = call
