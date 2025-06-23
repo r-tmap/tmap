@@ -161,7 +161,7 @@ tmapChartBinned_numeric = function(chart, bin_colors, breaks_def, na.show, x1) {
 	xcat = res$xcat
 	ids = res$ids
 
-	if (!predefined || (length(bin_colors) != (length(breaks_def) -1))) {
+	if (!predefined || (length(bin_colors) != (length(breaks_def) -1+na.show))) {
 		bin_colors = chart$object.color
 	}
 

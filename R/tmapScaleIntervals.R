@@ -121,7 +121,9 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 				attr(labels, "brks") = labels.brks[length(labels):1L,]
 			}
 			attr(labels, "align") = labels.align
-			vvalues = rev(vvalues)
+			vvalues_rev = rev(vvalues)
+		} else {
+			vvalues_rev = vvalues
 		}
 
 
@@ -138,13 +140,14 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			}
 			attr(labels, "align") = labels.align
 			vvalues = c(vvalues, value.na)
+			vvalues_rev = c(vvalues_rev, value.na)
 		}
 
 		legend = within(legend, {
 			nitems = length(labels)
 			labels = labels
 			dvalues = values
-			vvalues = vvalues
+			vvalues = vvalues_rev
 			vneutral = value.neutral
 			na.show = get("na.show", envir = parent.env(environment()))
 			scale = "intervals"
