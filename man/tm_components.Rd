@@ -5,7 +5,7 @@
 \title{Group components}
 \usage{
 tm_components(
-  group_id = "ALL",
+  group_id = "",
   position,
   stack,
   frame_combine,
@@ -24,7 +24,7 @@ tm_components(
 )
 }
 \arguments{
-\item{group_id}{id of the component group. Refers to the \code{group_id} argument of each component function, such as \code{\link[=tm_legend]{tm_legend()}} and \code{\link[=tm_title]{tm_title()}}. By default set to \code{"ALL"}, which will apply to all components. Other special values are: \code{"LEGENDS"} which applied to all legends and \code{"CHARTS"} which applies to all charts, and \code{"OTHERS"} which applies to other map components (title, scalebar, compass, etc).}
+\item{group_id}{id of the component group. By default set to \code{""}, which will apply to all components. There are two other options. 1) To use the same (self-chosen) name that corresponds to the \code{group_id} argument of a component function, such as \code{\link[=tm_legend]{tm_legend()}} and \code{\link[=tm_title]{tm_title()}}. 2) To specify one (or more) component function names, e.g. \code{"tm_legend"} or \code{c("tm_scalebar", "tm_compass")}.}
 
 \item{position}{The position specification of the components in this group: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.}
 
