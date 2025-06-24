@@ -37,7 +37,7 @@ tm_components = function(
 		bg.alpha) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
-	optname = paste0("component_", group_id)
+	optname = paste0("component_", paste(group_id, collapse = "^"))
 	x = structure(list(args), names= optname)
 	do.call(tm_options, x)
 }

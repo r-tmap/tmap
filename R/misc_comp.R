@@ -3,6 +3,7 @@ complete_with_comp_group = function(comp, o) {
 
 	comp_grps = names(o)[grepl("component_", names(o))]
 	grps = gsub(".*component_", "", comp_grps)
+	grps_lst = strsplit(grps, "^", fixed = TRUE)
 
 	if (is.na(comp$group_id)) {
 		comp$group_id = paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
@@ -20,7 +21,7 @@ complete_with_comp_group = function(comp, o) {
 	}
 
 	for (i in seq_along(grps)) {
-		if (any(grps[i] %in% ids)) {
+		if (length(intersect(grps_lst[[i]], ids))) {
 			oc = o[[comp_grps[i]]]
 			if ("position" %in% names(oc)) {
 				oc$position = process_position(oc$position, o)

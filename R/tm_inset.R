@@ -22,6 +22,7 @@ tm_inset = function(x = NULL,
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 
 	args$group_id = args$group_id %||% NA_character_
+	args$group_type = c("tm_inset")
 	args$z = args$z %||% NA_integer_
 
 	cls = if (is.null(x) || (inherits(x, "bbox"))) {
