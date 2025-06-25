@@ -32,7 +32,7 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 		if (!is.na(ticks[1])) {
 			if (!all(u %in% ticks)) stop("Values have been found for which no ticks have been specified", call. = FALSE)
 		} else {
-			for (n in c(3, 5, 10, 15, 20, 30, 50)) {
+			for (n in c(1, 2, 3, 5, 10, 15, 20, 30, 50)) {
 				ticks_candidate = pretty(rng, n = n)
 
 				found_ticks = all(u %in% ticks_candidate)
