@@ -22,7 +22,7 @@ tm_view(
 \arguments{
 \item{use_browser}{If \code{TRUE} it opens an external browser, and \code{FALSE} (default) it opens the internal IDEs (e.g. RStudio) browser.}
 
-\item{use_WebGL}{use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of visual variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only \code{TRUE} for large spatial objects (500 or more features) when the mentioned criteria are met.
+\item{use_WebGL}{use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of visual variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only \code{TRUE} for large spatial objects (1000 or more features) when the mentioned criteria are met.
 By default \code{TRUE} if no other visual variables are used.}
 
 \item{control.position}{The position of the control. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}

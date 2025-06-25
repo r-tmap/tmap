@@ -240,6 +240,13 @@ step1_rearrange = function(tmel, knit_opts) {
 		}
 	}
 
+	if (!.TMAP$proxy) {
+		.TMAP$shiny_crs = crs_step4
+	} else {
+		crs_step4 = .TMAP$shiny_crs
+	}
+
+
 	if (inherits(crs_step3, "leaflet_crs")) crs_step3 = leaflet2crs(crs_step3)
 
 	if (inherits(crs_step4, "leaflet_crs")) {
