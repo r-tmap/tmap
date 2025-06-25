@@ -290,7 +290,7 @@
 		# text
 		text.fontface = "plain",
 		text.fontfamily = "",
-		text.alpha = 1,
+		r = 2,
 
 		component.position = list('in' = tm_pos_in(pos.h = "left", pos.v = "top",
 											  align.h = "left", align.v = "top", just.h = "left", just.v = "top"),

@@ -117,7 +117,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l = complete_with_comp_group(l, o)
 
 	# update legend class
-	class(l) = c(paste0("tm_legend_", ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
+	class(l) = c(paste0("tm_legend", ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
 	l
 }
 
