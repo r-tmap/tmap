@@ -1,0 +1,74 @@
+---
+title: "test_tmap_qmd"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+## ggplot2 retina 1
+
+```{r}
+#| fig-retina: 1
+#| fig-width: 6
+#| fig-asp: 0.618
+#| fig-show: "hold"
+#| out-width: "100%"
+#| dev: "ragg_png"
+
+library(ggplot2)
+library(spData)
+ggplot(nz, aes(Median_income, Sex_ratio)) + 
+  geom_point()
+```
+
+## tmap retina 1
+
+```{r}
+#| fig-retina: 1
+#| fig-width: 6
+#| fig-asp: 0.618
+#| fig-show: "hold"
+#| out-width: "100%"
+#| dev: "ragg_png"
+
+library(stars)
+#library(tmap)
+devtools::load_all("..")
+
+tm_shape(World) + tm_polygons("HPI") 
+```
+
+## ggplot2 retina 2
+
+```{r}
+#| fig-retina: 2
+#| fig-width: 6
+#| fig-asp: 0.618
+#| fig-show: "hold"
+#| out-width: "100%"
+#| dev: "ragg_png"
+
+library(ggplot2)
+library(spData)
+ggplot(nz, aes(Median_income, Sex_ratio)) + 
+  geom_point()
+```
+
+## tmap retina 2
+
+```{r}
+#| fig-retina: 2
+#| fig-width: 6
+#| fig-asp: 0.618
+#| fig-show: "hold"
+#| out-width: "100%"
+#| dev: "ragg_png"
+
+library(stars)
+#library(tmap)
+devtools::load_all("..")
+
+tm_shape(World) + tm_polygons("HPI") 
+```
+
