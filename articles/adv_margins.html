@@ -171,6 +171,7 @@
 <span><span class="co">#&gt; | map area      4.064 4.800 0.847 |</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<p>This vector of four numbers correspond to respectively the bottom, left, top, and right margin.</p>
 <p>The outer margins are the margins between the map frame and the device frame.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
@@ -184,6 +185,11 @@
 <span><span class="co">#&gt; | map area      2.540 3.000 0.847 |</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="meta-margins">Meta margins<a class="anchor" aria-label="anchor" href="#meta-margins"></a>
+</h2>
+<p>Besides inner and outer margins, there is another type of margins: the meta margins. This space dedicated for map components that are outside the map (see <a href="https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v">vignette about component positions</a>. For single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, <code>meta.margins</code> is set to <code>c(0, 0, 0, 0)</code>. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.</p>
 </div>
 <div class="section level2">
 <h2 id="aspect-ratio">Aspect ratio<a class="anchor" aria-label="anchor" href="#aspect-ratio"></a>
