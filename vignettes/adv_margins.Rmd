@@ -89,6 +89,8 @@ tm_shape(NLD_muni) +
 		inner.margins = c(0.2, 0.2, 0.2, 0.2))
 ```
 
+This vector of four numbers correspond to respectively the bottom, left, top, and right margin.
+
 The outer margins are the margins between the map frame and the device frame.
 
 
@@ -98,6 +100,10 @@ tm_shape(NLD_muni) +
 	tm_layout(
 		outer.margins = c(0.2, 0.2, 0.2, 0.2))
 ```
+
+## Meta margins
+
+Besides inner and outer margins, there is another type of margins: the meta margins. This space dedicated for map components that are outside the map (see [vignette about component   positions](https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v). For single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, `meta.margins` is set to `c(0, 0, 0, 0)`. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.
 
 ## Aspect ratio
 
