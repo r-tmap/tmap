@@ -93,9 +93,14 @@ preprocess_meta = function(o, cdt) {
 
 
 		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
+		legend_move_all = FALSE
+
+		# legend_move_all is needed to move the 'global' legend not in a stacked-per-facets cell, but in the other orientation (#1071)
+
 		if (legend.present.auto[4] && (!any(legend.present.auto[2:3]))) {
 
 			if (type == "stack") {
+				if (all(legend.present.auto[c(1, 4)])) legend_move_all = TRUE
 				legend.present.auto[1] = TRUE
 				legend.present.auto[4] = FALSE
 				set_to_stack_message = FALSE
@@ -382,11 +387,15 @@ process_meta = function(o, d, cdt, aux) {
 				if (!legend.present.auto[2] & !legend.present.auto[3]) {
 					# only 'all facets' outside legends (either bottom or right)
 					# was: n > 1 && masp > pasp
-					if ((type != "stack" && npp == 1 && pasp > masp) || (type != "stack" && npp > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
-						legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
-					} else {
-						legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
-					}
+					legend.position.all = local({
+						moving = function(x) if (legend_move_all) !x else x
+						if (moving((type != "stack" && npp == 1 && pasp > masp) || (type != "stack" && npp > 1 && masp < 1) || (type == "stack" && orientation == "horizontal"))) {
+							list(cell.h = "center", cell.v = legend.position$cell.v)
+						} else {
+							list(cell.h = legend.position$cell.h, cell.v = "center")
+						}
+					})
+
 				} else if (legend.present.auto[2] & !legend.present.auto[3]) {
 					# central goes center bottom
 					legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
@@ -396,10 +405,21 @@ process_meta = function(o, d, cdt, aux) {
 				}
 			}
 
-			margins.used.all = c(legend.position.all$cell.v == "bottom",
-								 legend.position.all$cell.h == "left",
-								 legend.position.all$cell.v == "top",
-								 legend.position.all$cell.h == "right") * legend.present.auto[1]
+			if (legend_move_all) {
+				# 'all' legend is set via legend.position.all
+				# the per stack-per-facet legend is 'the other' position
+				# so both (left or right) and (top or bottom) should be enabled
+				margins.used.all = c(legend.position$cell.v == "bottom",
+									 legend.position$cell.h == "left",
+									 legend.position$cell.v == "top",
+									 legend.position$cell.h == "right") * legend.present.auto[1]
+
+			} else {
+				margins.used.all = c(legend.position.all$cell.v == "bottom",
+									 legend.position.all$cell.h == "left",
+									 legend.position.all$cell.v == "top",
+									 legend.position.all$cell.h == "right") * legend.present.auto[1]
+			}
 
 			margins.used.sides = c(bottom = legend.position.sides$cell.v == "bottom",
 								   left = legend.position.sides$cell.h == "left",
