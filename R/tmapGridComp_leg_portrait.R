@@ -1,5 +1,5 @@
 #' @export
-tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
+tmapGridCompPrepare.tm_legend_portrait = function(comp, o) {
 	within(comp, {
 		bg.color = do.call("process_color", c(list(col=bg.color), o$pc))
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
@@ -43,7 +43,7 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 
 
 #' @export
-tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
+tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 
 	nlev = if (comp$type == "bivariate") attr(comp$gp$fill, "m") + 1L else comp$nitems
 
@@ -152,7 +152,7 @@ fontface2nr = function(face) {
 
 
 #' @export
-tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
+tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 
 	ni = if (comp$type == "bivariate") attr(comp$gp$fill, "n") else 1L
 	mi = if (comp$type == "bivariate") attr(comp$gp$fill, "m") else 1L
@@ -253,7 +253,7 @@ add_user_specified_values = function(gp, usr) {
 
 
 #' @export
-tmapGridCompPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 	if (comp$type != "gradient") comp$labels_select = TRUE # labels_select only needed for continuous legends (#1039)
 

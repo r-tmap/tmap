@@ -79,7 +79,7 @@ tm_options(
   color_vision_deficiency_sim,
   text.fontface,
   text.fontfamily,
-  text.alpha,
+  r,
   component.position,
   component.offset,
   component.stack_margin,
@@ -99,7 +99,6 @@ tm_options(
   component.bg.color,
   component.bg.alpha,
   legend.show,
-  legend.design,
   legend.orientation,
   legend.position,
   legend.width,
@@ -138,8 +137,8 @@ tm_options(
   legend.bg.alpha,
   legend.only,
   legend.absolute_fontsize,
-  legend.settings.standard.portrait,
-  legend.settings.standard.landscape,
+  legend.settings.portrait,
+  legend.settings.landscape,
   add_legend.position,
   chart.show,
   chart.plot.axis.x,
@@ -480,7 +479,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
 
-\item{text.alpha}{The alpha transparency of the text.}
+\item{r}{The r (radius) (overall).}
 
 \item{component.position}{The position of the component. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
@@ -519,8 +518,6 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{component.bg.alpha}{The alpha transparency of the bg of the component.}
 
 \item{legend.show}{The visibility of the legend. \code{TRUE} or \code{FALSE}.}
-
-\item{legend.design}{The design of the legend.}
 
 \item{legend.orientation}{The orientation of the legend.}
 
@@ -598,9 +595,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.absolute_fontsize}{The absolute fontsize of the legend. So far, only used to calculate legend dimensions}
 
-\item{legend.settings.standard.portrait}{The portrait of the standard of the settings of the legend.}
+\item{legend.settings.portrait}{The portrait of the settings of the legend.}
 
-\item{legend.settings.standard.landscape}{The landscape of the standard of the settings of the legend.}
+\item{legend.settings.landscape}{The landscape of the settings of the legend.}
 
 \item{add_legend.position}{The position of the add_legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
@@ -952,7 +949,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{crs_global}{The used crs for world maps}
 
-\item{crs_basemap}{The crs_basemap of the .}
+\item{crs_basemap}{The crs_basemap (overall).}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 

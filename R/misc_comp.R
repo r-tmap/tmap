@@ -79,8 +79,8 @@ impute_comp = function(a, o) {
 
 update_l = function(o, l, v, mfun, unm, active) {
 	# update legend options
-	oltype = o[c("legend.design", "legend.orientation")]
-	names(oltype) = c("design", "orientation")
+	oltype = o["legend.orientation"]
+	names(oltype) = "orientation"
 	if (all(v %in% c("AREA", "LENGTH", "MAP_COLORS")) && is.null(l$show)) {
 		l$show = FALSE
 	}
@@ -90,7 +90,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l = complete_options(l, oltype)
 	oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
 	names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
-	settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
+	settings_name = paste0("legend.settings.", l$orientation)
 	oleg = c(oleg, o[[settings_name]])
 
 
@@ -117,7 +117,7 @@ update_l = function(o, l, v, mfun, unm, active) {
 	l = complete_with_comp_group(l, o)
 
 	# update legend class
-	class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
+	class(l) = c(paste0("tm_legend_", ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), "tm_legend", "tm_component", class(l))
 	l
 }
 

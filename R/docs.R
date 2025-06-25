@@ -112,8 +112,12 @@
 	if (is.na(extra_text)) extra_text = ""
 
 
-	cls_texts = paste(rev(cls_text), collapse = " of the ")
-	paste0("The ", what_text, " of the ", cls_texts, ".", extra_text)
+	if (length(cls) == 0L) {
+		cls_texts = " (overall)"
+	} else {
+		cls_texts = paste(" of the", paste(rev(cls_text), collapse = " of the "))
+	}
+	paste0("The ", what_text, cls_texts, ".", extra_text)
 }
 
 .doc_vv = function(x) {

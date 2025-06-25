@@ -3,13 +3,6 @@ gridCell = function(rows, cols, e) {
 	grid::grobTree(e, vp = vp)
 }
 
-legapply = function(cdt, fun, ...) {
-	lapply(cdt, function(leg) {
-		d = leg$design
-		f = get(paste0("leg_", d))[[fun]]
-		do.call(f, c(list(leg = leg), list(...)))
-	})
-}
 
 
 

@@ -5,7 +5,6 @@ tm_shape(World) +
     fill = "HPI",
     fill.legend = tm_legend(
       title = "Home Price Index",
-      design = "standard",
       title.color = "orange",
       bg.color = "purple",
       show = TRUE

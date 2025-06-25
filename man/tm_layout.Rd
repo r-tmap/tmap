@@ -28,6 +28,7 @@ tm_layout(
   between_margin,
   text.fontfamily,
   text.fontface,
+  r,
   attr.color,
   panel.margin,
   panel.type,
@@ -106,6 +107,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{text.fontfamily}{The font family of the text. See \code{graphics::par}, option 'family'.}
 
 \item{text.fontface}{The font face of the text. See \code{graphics::par}, option 'font'.}
+
+\item{r}{The r (radius) (overall).}
 
 \item{attr.color}{The color of the attr.}
 

@@ -11,7 +11,6 @@ tm_legend(
   title,
   show,
   orientation,
-  design,
   reverse,
   na.show,
   position,
@@ -87,8 +86,6 @@ tm_legend_bivariate(
 \item{show}{Show legend?}
 
 \item{orientation}{Orientation of the legend: \code{"portrait"} or \code{"landscape"}}
-
-\item{design}{Legend design \code{"standard"}. No other designs implemented yet.}
 
 \item{reverse}{Should the legend be reversed?}
 
@@ -224,7 +221,6 @@ tm_shape(World) +
     fill = "HPI",
     fill.legend = tm_legend(
       title = "Home Price Index",
-      design = "standard",
       title.color = "orange",
       bg.color = "purple",
       show = TRUE

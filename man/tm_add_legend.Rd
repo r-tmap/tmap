@@ -9,7 +9,6 @@ tm_add_legend(
   labels = "",
   type = "symbols",
   title = "",
-  design = NULL,
   orientation = NULL,
   position = NULL,
   group_id = NA_character_,
@@ -31,8 +30,6 @@ The number of legend items will be equal to the maximum number of specific value
 Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \code{"text"}.}
 
 \item{title}{The title of the legend.}
-
-\item{design}{The design of the legend.}
 
 \item{orientation}{The orientation of the legend.}
 

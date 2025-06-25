@@ -5,7 +5,6 @@
 #' @param title Legend title
 #' @param show Show legend?
 #' @param orientation Orientation of the legend: `"portrait"` or `"landscape"`
-#' @param design Legend design `"standard"`. No other designs implemented yet.
 #' @param reverse Should the legend be reversed?
 #' @param na.show Show `NA` values in legend?
 #' @param width Width of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option `absolute_fontsize`.
@@ -49,7 +48,6 @@
 tm_legend = function(title,
 					 show,
 					 orientation,
-					 design,
 					 reverse,
 					 na.show,
 					 position,

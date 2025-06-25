@@ -27,6 +27,16 @@ preprocess_meta_step1 = function(o, knit_opts = NULL) {
 			}))
 		}
 
+		# radius: replace NA with r
+		for (nm in names(o)[grep("\\.r$", names(o))]) {
+			assign(nm, local({
+				x = get(nm)
+				if (is.na(x)) r else x
+			}))
+		}
+		if (is.na(legend.settings.landscape$item.r)) legend.settings.landscape$item.r = r
+		if (is.na(legend.settings.portrait$item.r)) legend.settings.portrait$item.r = r
+
 		outer.margins = rep(outer.margins, length.out = 4)
 
 		inner.margins.extra = rep(inner.margins.extra, length.out = 4)

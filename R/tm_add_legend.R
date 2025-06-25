@@ -11,7 +11,6 @@
 #' @param type the layer type from which the visual variables (see `...`) are taken.
 #'   Options: `"symbols"` (default), `"lines"`, `"polygons"`, and `"text"`.
 #' @param title `r .doc_opt("legend.title")`
-#' @param design `r .doc_opt("legend.design")`
 #' @param orientation `r .doc_opt("legend.orientation")`
 #' @param position `r .doc_opt("legend.position")`
 #' @inheritParams tm_title
@@ -28,7 +27,6 @@ tm_add_legend = function(...,
 						 labels = "",
 						 type = "symbols",
 						 title = "",
-						 design = NULL,
 						 orientation = NULL,
 						 position = NULL,
 						 group_id = NA_character_,

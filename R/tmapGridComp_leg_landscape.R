@@ -37,15 +37,15 @@ tmapGridCompPrepare.default = function(comp, o) {
 
 
 #' @export
-tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
-	tmapGridCompPrepare.tm_legend_standard_portrait(comp, o)
+tmapGridCompPrepare.tm_legend_landscape = function(comp, o) {
+	tmapGridCompPrepare.tm_legend_portrait(comp, o)
 }
 
 
 
 
 #' @export
-tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
+tmapGridCompHeight.tm_legend_landscape = function(comp, o) {
 	nlev = comp$nitems
 	textS = comp$text.size #* o$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * number_text_lines(comp$title)#* o$scale
@@ -84,7 +84,7 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 
 
 #' @export
-tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
+tmapGridCompWidth.tm_legend_landscape = function(comp, o) {
 	nlev = comp$nitems
 	textS = comp$text.size #* o$scale
 	titleS = if (comp$title == "") 0 else comp$title.size #* o$scale
@@ -163,7 +163,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 
 #' @export
-tmapGridCompPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
+tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 	if (comp$type != "gradient") comp$labels_select = TRUE # labels_select only needed for continuous legends (#1039)
 
 
