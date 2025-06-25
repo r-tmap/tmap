@@ -1,6 +1,6 @@
 #' Create animation
 #'
-#' Create a gif animation or video from a tmap plot.
+#' Create a gif animation or video from an animated tmap plot. First use [tm_animate()] or [tm_animate_fast()] to animate the plot, and then apply [tmap_animation()] to save it as a gif or video file (e.g. mp4).
 #'
 #' @param tm tmap or a list of tmap objects. If `tm` is a tmap object,
 #'   facets should be created, where `nrow` and `ncol` in [tm_facets()] have to
@@ -17,11 +17,6 @@
 #'   determined by the aspect ratio of the map.
 #' @param dpi dots per inch. By default 100, but this can be set with the option
 #'   `animation.dpi` in [tmap_options()].
-#' @param delay delay time between images (in 1/100th of a second). See also `fps`
-#' @param fps frames per second, calculated as `100 / delay`. If `fps` is specified,
-#'   the `delay` will be set to `100/fps`.
-#' @param loop logical that determined whether the animation is looped, or an
-#'   integer value that determines how many times the animation is looped.
 #' @param outer.margins (passed on to [tmap_save()]) overrides the outer.margins
 #'   argument of `tm_layout()` (unless set to `NA`)
 #' @param asp (passed on to [tmap_save()]) if specified, it overrides the `asp`
@@ -29,14 +24,32 @@
 #'   the edges of the image.
 #' @param scale (passed on to [tmap_save()]) overrides the scale argument of
 #'   [tm_layout()] (unless set to `NA`)
-#' @param restart.delay not used anymore.
 #' @param ... arguments passed on to [av::av_encode_video()]
 #' @note Not only tmap plots are supported, but any series of R plots.
 #' @concept animation
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = NA, delay = 40, fps = NA, loop = TRUE, outer.margins = NA, asp = NULL, scale = NA, restart.delay = NULL, ...) {
+tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = NA, outer.margins = NA, asp = NULL, scale = NA, ...) {
+	args = list(...)
+	args_called = names(rlang::call_match()[-1])
+
+	if (any(c("fps", "delay") %in% args_called)) {
+		cli::cli_inform("{.filed [{.fun tmap_animation}]} please specify the frames per second {.arg fps} in {.fun tm_animate}")
+		args$fps = NULL
+		args$delay = NULL
+	}
+
+	if ("loop" %in% names(args)) {
+
+		if (args$loop) {
+			cli::cli_inform("{.filed [{.fun tmap_animation}]} please use {.code play = {.str loop}} in {.fun tm_animate} instead of {.code loop = TRUE}")
+		} else {
+			cli::cli_inform("{.filed [{.fun tmap_animation}]} please use {.code play = {.str once}} in {.fun tm_animate} instead of {.code loop = FALSE}")
+		}
+		args$loop = NULL
+	}
+
 	.tmapOptions <- get("tmapOptions", envir = .TMAP)
 
 	showAni = missing(filename)
@@ -44,11 +57,6 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 
 	progress = .tmapOptions$show.messages
 
-	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
-	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)
-	#if (!is.numeric(restart.delay) || !(length(restart.delay) == 1L)) stop("restart.delay must be a numeric value", call. = FALSE)
-
-	if (!is.na(fps)) delay = 100 / fps
 	if (is.na(dpi)) dpi <- .tmapOptions$animation.dpi
 
 	gif = substr(filename, nchar(filename) - 2, nchar(filename)) == "gif"
@@ -112,11 +120,22 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 		stop("tm should be a tmap object or a list of tmap objects")
 	}
 
+	fps = .TMAP$animation$fps
+	play = .TMAP$animation$play
+
 	files <- list.files(path = d, pattern = "^plot[0-9]{3}\\.png$", full.names = TRUE)
-	create_animation(filename = filename, files, width = width, height = height, dpi = dpi, delay = delay, fps = fps, loop = loop, progress = progress, gif = gif, showAni = showAni, ...)
+
+	if (play == "pingpong") files = c(files, rev(files))
+
+	if (play != "once" && !gif) {
+		cli::cli_inform("{.field [tmap_animation]} looped animations are only supported for gif videos")
+	}
+
+	do.call(create_animation, c(list(filename = filename, files, width = width, height = height, fps = fps, loop = (play != "once"), progress = progress, gif = gif, showAni = showAni), args))
 }
 
-create_animation = function(filename, files, width = NA, height = NA, delay = 40, fps = NA, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, dpr = 2, ...) {
+create_animation = function(filename, files, width = NA, height = NA, fps = 2, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, dpr = 2, ...) {
+
 	k <- length(files)
 
 	if (is.na(width) || is.na(height)) {

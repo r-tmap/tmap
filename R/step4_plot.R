@@ -628,6 +628,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 										crs = crs,
 										inner_margins = o$inner.margins,
 										dev_size = res$dev[1:2], map_size = res$map[1:2], offset = res$margins)
+			.TMAP$animation = list(fps = o$fps, play = o$play)
 		}
 
 		## prepare aux layers

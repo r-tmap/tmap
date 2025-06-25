@@ -10,13 +10,9 @@ tmap_animation(
   width = NA,
   height = NA,
   dpi = NA,
-  delay = 40,
-  fps = NA,
-  loop = TRUE,
   outer.margins = NA,
   asp = NULL,
   scale = NA,
-  restart.delay = NULL,
   ...
 )
 }
@@ -40,14 +36,6 @@ determined by the aspect ratio of the map.}
 \item{dpi}{dots per inch. By default 100, but this can be set with the option
 \code{animation.dpi} in \code{\link[=tmap_options]{tmap_options()}}.}
 
-\item{delay}{delay time between images (in 1/100th of a second). See also \code{fps}}
-
-\item{fps}{frames per second, calculated as \code{100 / delay}. If \code{fps} is specified,
-the \code{delay} will be set to \code{100/fps}.}
-
-\item{loop}{logical that determined whether the animation is looped, or an
-integer value that determines how many times the animation is looped.}
-
 \item{outer.margins}{(passed on to \code{\link[=tmap_save]{tmap_save()}}) overrides the outer.margins
 argument of \code{tm_layout()} (unless set to \code{NA})}
 
@@ -58,12 +46,10 @@ the edges of the image.}
 \item{scale}{(passed on to \code{\link[=tmap_save]{tmap_save()}}) overrides the scale argument of
 \code{\link[=tm_layout]{tm_layout()}} (unless set to \code{NA})}
 
-\item{restart.delay}{not used anymore.}
-
 \item{...}{arguments passed on to \code{\link[av:encoding]{av::av_encode_video()}}}
 }
 \description{
-Create a gif animation or video from a tmap plot.
+Create a gif animation or video from an animated tmap plot. First use \code{\link[=tm_animate]{tm_animate()}} or \code{\link[=tm_animate_fast]{tm_animate_fast()}} to animate the plot, and then apply \code{\link[=tmap_animation]{tmap_animation()}} to save it as a gif or video file (e.g. mp4).
 }
 \note{
 Not only tmap plots are supported, but any series of R plots.
