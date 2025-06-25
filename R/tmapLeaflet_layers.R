@@ -80,7 +80,7 @@ impute_webgl = function(use_WebGL, dt, supported, checkif = NULL, type, hover, p
 				}
 			} else if ((is.na(use_WebGL))) {
 				n = nrow(dt)
-				use_WebGL = (n >= 500)
+				use_WebGL = (n >= 1000)
 			}
 		}
 	}
