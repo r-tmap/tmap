@@ -167,24 +167,27 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 
 		if (legend$reverse) {
 			labs = rev(labs)
-			values = rev(values)
+			values_rev = rev(values)
+		} else {
+			values_rev = values
 		}
 
 		if (na.show) {
 			labs = c(labs, label.na)
 			values = c(values, value.na)
+			values_rev = c(values_rev, value.na)
 		}
 		attr(labs, "align") = label.format$text.align
 
 
 		# SPECIAL CASE: if icons are used, specify this information in the symbol legend, such that it can be taken (in step4_plot_collect_legends) by other legends (e.g. for symbol sizes)
-		icon_scale = if ((aes == "shape") && any(values > 999) && getOption("tmap.mode") == "plot") layer_args$icon.scale else 1
+		icon_scale = if ((aes == "shape") && any(values_rev > 999) && getOption("tmap.mode") == "plot") layer_args$icon.scale else 1
 
 		legend = within(legend, {
 			nitems = length(labs)
 			labels = labs
 			dvalues = vals
-			vvalues = values
+			vvalues = values_rev
 			vneutral = value.neutral
 			icon_scale = icon_scale
 			na.show = get("na.show", envir = parent.env(environment()))
