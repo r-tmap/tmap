@@ -18,8 +18,8 @@ tmap_animation(
 }
 \arguments{
 \item{tm}{tmap or a list of tmap objects. If \code{tm} is a tmap object,
-facets should be created, where \code{nrow} and \code{ncol} in \code{\link[=tm_facets]{tm_facets()}} have to
-be set to 1 in order to create one map per frame.}
+animation frames should be created using either \code{\link[=tm_animate]{tm_animate()}} or
+\code{\link[=tm_animate_fast]{tm_animate_fast()}}.}
 
 \item{filename}{filename. If omitted (default), the animation will be shown
 in the viewer or browser. If specified, it should be a gif file or a video

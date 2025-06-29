@@ -30,7 +30,7 @@ tm_animate(
 
 \item{fps}{frames per second. Default: 30 for \code{tm_facets_animate} and 2 for \code{tm_facets_animate_slow}.}
 
-\item{play}{how should the animation be played? One of \code{"loop"}, \code{"pingpong"}, and \code{"once"}}
+\item{play}{how should the animation be played? One of \code{"loop"} (default), \code{"pingpong"}, and \code{"once"}, where \code{"loop"} means that the animation will loop indefinitely, \code{"pingpong"} means that it will play forward and then backward, and \code{"once"} means that it will play only once.}
 
 \item{dpr}{device pixel ratio. The ratio between the physical pixel density of a device and its logical pixel density.}
 
@@ -40,7 +40,7 @@ tm_animate(
 \code{tm_animate}
 }
 \details{
-Specify an animation from a tmap plot. This is similar to creating facets with \code{\link[=tm_facets]{tm_facets()}}. In stead of showing the facets next to each other, they are shown as animation frames. The animation subsequently be exported to a gif or video file (e.g. mp4) with \code{\link[=tmap_animation]{tmap_animation()}}. If the tmap plot with \code{\link[=tm_animate]{tm_animate()}} is printed, the animation will be previewed. The default \code{\link[=tm_animate]{tm_animate()}} will show the individual frames slowly (frame per seconds (fps) set to 2) whereas \code{\link[=tm_animate_fast]{tm_animate_fast()}} will show them like a movie (with a fps set to 24).
+Specify an animation from a tmap plot. This is similar to creating facets with \code{\link[=tm_facets]{tm_facets()}}. Instead of showing facets next to each other, they are shown as animation frames. The animation subsequently can be exported to a gif or video file (e.g. mp4) with \code{\link[=tmap_animation]{tmap_animation()}}. If the tmap plot with \code{\link[=tm_animate]{tm_animate()}} is printed, the animation will be previewed. The default \code{\link[=tm_animate]{tm_animate()}} will show the individual frames slowly (frame per seconds (fps) set to 2) whereas \code{\link[=tm_animate_fast]{tm_animate_fast()}} will show them like a movie (with a fps set to 24).
 }
 \seealso{
 \code{\link[=tm_facets]{tm_facets()}} which is the core function, and \code{\link[=tmap_animation]{tmap_animation()}} used to save the animation
