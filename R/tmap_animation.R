@@ -3,8 +3,8 @@
 #' Create a gif animation or video from an animated tmap plot. First use [tm_animate()] or [tm_animate_fast()] to animate the plot, and then apply [tmap_animation()] to save it as a gif or video file (e.g. mp4).
 #'
 #' @param tm tmap or a list of tmap objects. If `tm` is a tmap object,
-#'   facets should be created, where `nrow` and `ncol` in [tm_facets()] have to
-#'   be set to 1 in order to create one map per frame.
+#'   animation frames should be created using either [tm_animate()] or
+#'   [tm_animate_fast()].
 #' @param filename filename. If omitted (default), the animation will be shown
 #'   in the viewer or browser. If specified, it should be a gif file or a video
 #'   file (i.e. mp4). The package `gifski` is required to create a gif animation.
