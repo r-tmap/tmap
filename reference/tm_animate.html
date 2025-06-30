@@ -126,7 +126,7 @@
 
 
 <dt id="arg-play">play<a class="anchor" aria-label="anchor" href="#arg-play"></a></dt>
-<dd><p>how should the animation be played? One of <code>"loop"</code>, <code>"pingpong"</code>, and <code>"once"</code></p></dd>
+<dd><p>how should the animation be played? One of <code>"loop"</code> (default), <code>"pingpong"</code>, and <code>"once"</code>, where <code>"loop"</code> means that the animation will loop indefinitely, <code>"pingpong"</code> means that it will play forward and then backward, and <code>"once"</code> means that it will play only once.</p></dd>
 
 
 <dt id="arg-dpr">dpr<a class="anchor" aria-label="anchor" href="#arg-dpr"></a></dt>
@@ -139,7 +139,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Specify an animation from a tmap plot. This is similar to creating facets with <code><a href="tm_facets.html">tm_facets()</a></code>. In stead of showing the facets next to each other, they are shown as animation frames. The animation subsequently be exported to a gif or video file (e.g. mp4) with <code><a href="tmap_animation.html">tmap_animation()</a></code>. If the tmap plot with <code>tm_animate()</code> is printed, the animation will be previewed. The default <code>tm_animate()</code> will show the individual frames slowly (frame per seconds (fps) set to 2) whereas <code>tm_animate_fast()</code> will show them like a movie (with a fps set to 24).</p>
+    <p>Specify an animation from a tmap plot. This is similar to creating facets with <code><a href="tm_facets.html">tm_facets()</a></code>. Instead of showing facets next to each other, they are shown as animation frames. The animation subsequently can be exported to a gif or video file (e.g. mp4) with <code><a href="tmap_animation.html">tmap_animation()</a></code>. If the tmap plot with <code>tm_animate()</code> is printed, the animation will be previewed. The default <code>tm_animate()</code> will show the individual frames slowly (frame per seconds (fps) set to 2) whereas <code>tm_animate_fast()</code> will show them like a movie (with a fps set to 24).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
