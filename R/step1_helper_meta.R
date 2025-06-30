@@ -17,6 +17,19 @@ preprocess_meta_step1 = function(o, knit_opts = NULL) {
 		attr.color_light = if (attr.color.light) "#000000" else "#ffffff"
 		attr.color_light = do.call(process_color, c(list(col = attr.color_light), pc))
 
+		# bg.color = NA was used to disable background
+		# as of 4.2, bg = FALSE will be used (#1119)
+		for (nm in names(o)[grep("bg\\.color$", names(o))]) {
+			tmp = get(nm)
+			if (!is.null(tmp) && is.na(tmp)) {
+				nm2 = gsub("\\.color", "", nm)
+				assign(nm, "white") #dummy
+				assign(nm2, FALSE)
+				cli::cli_alert("{.field [layout options]} use {.code {nm2} = FALSE} instead of {.code {nm} = NA}")
+			}
+			rm(tmp)
+		}
+
 
 		# color options: replace NA with attr.color
 		# process colors: apply sepia and cvd sim
