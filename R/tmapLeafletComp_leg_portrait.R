@@ -20,6 +20,15 @@ tmapLeafletCompPlot = function(comp, lf, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapGridLeaflet
+tmapLeafletCompPrepare.tm_chart_none = function(comp, o) {
+	comp$show = FALSE
+	comp
+}
+
+
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapLeafletCompPrepare.default = function(comp, o) {
 	cls = class(comp)[1]
 	id = paste("view_mode", cls, sep = "_")

@@ -50,6 +50,7 @@
 \alias{tmapLeafletAuxPlot.tm_aux_graticules}
 \alias{tmapLeafletAuxPlot.tm_aux_grid}
 \alias{tmapLeafletCompPrepare}
+\alias{tmapLeafletCompPrepare.tm_chart_none}
 \alias{tmapLeafletCompPrepare.default}
 \alias{tmapLeafletDataPlot.tm_data_lines}
 \alias{tmapLeafletDataPlot.tm_data_iso}
@@ -495,6 +496,8 @@ tmapLeafletAuxPlot(
 )
 
 tmapLeafletCompPrepare(comp, o)
+
+\method{tmapLeafletCompPrepare}{tm_chart_none}(comp, o)
 
 \method{tmapLeafletCompPrepare}{default}(comp, o)
 
