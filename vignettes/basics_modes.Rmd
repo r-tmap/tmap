@@ -127,7 +127,7 @@ For a more detailed description of the available options, see the [vignette abou
 
 The new package `mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is required.
 
-```{r, fig.height = 3.5}
+```{r, eval = FALSE, fig.height = 3.5}
 library(tmap.mapgl)
 tmap_mode("maplibre")
 
