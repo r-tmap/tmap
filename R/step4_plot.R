@@ -577,7 +577,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 		} else {
 			# wrap
-			if (o$facet.flip) {
+			if (xor(o$facet.flip, !o$byrow)) {
 				d[, row := as.integer((i - 1) %% o$nrows + 1)]
 				d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 			} else {
