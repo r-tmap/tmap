@@ -58,9 +58,9 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 	for (s in tiles$server) {
 		if (s != "") {
 			if ((substr(s, 1, 4) == "http")) {
-				lf = leaflet::addTiles(lf, urlTemplate = s, group = s, options = opt)
+				lf = leaflet::addTiles(lf, urlTemplate = s, group = group, options = opt)
 			} else {
-				lf = leaflet::addProviderTiles(lf, provider = s, group = s, options = opt)
+				lf = leaflet::addProviderTiles(lf, provider = s, group = group, options = opt)
 			}
 		}
 	}
