@@ -181,7 +181,7 @@ process_components2 = function(cdt, o) {
 	cdt
 }
 
-step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
+step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
@@ -961,7 +961,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, args) {
 		.TMAP$q = q
 	}
 
-	do.call(FUNrun, list(o = o, q = q, show = show, knit = knit, args))
+	do.call(FUNrun, list(o = o, q = q, show = show, knit = knit, knit_opts = knit_opts, args))
 }
 
 # bb_ext reversing

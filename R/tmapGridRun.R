@@ -1,4 +1,4 @@
-tmapGridRun = function(o, q, show, knit, args) {
+tmapGridRun = function(o, q, show, knit, knit_opts, args) {
 	gts = get("gts", .TMAP_GRID)
 	if (show) {
 		if (o$show_gif_ani) {
@@ -34,7 +34,16 @@ tmapGridRun = function(o, q, show, knit, args) {
 		files = list.files(path = d, pattern = "^plot[0-9]{3}\\.png$", full.names = TRUE)
 		if (o$play == "pingpong") files = c(files, rev(files))
 		filename = tempfile(fileext = ".gif")
-		create_animation(filename = filename, files = files, width = devsize[1], height = devsize[2], delay = NA, fps = o$fps, loop = o$play != "once", progress = FALSE, gif = TRUE, showAni = TRUE, dpr = o$dpr)
+		create_animation(filename = filename, files = files, width = devsize[1], height = devsize[2], delay = NA, fps = o$fps, loop = o$play != "once", progress = FALSE, gif = TRUE, showAni = TRUE, dpr = o$dpr, knit = knit, knit_opts = knit_opts)
+		if (knit) {
+			knitr_path <- knitr::fig_path('.gif', knit_opts)
+			dir.create(dirname(knitr_path), showWarnings = FALSE, recursive = TRUE)
+			file.copy(filename, knitr_path, overwrite = TRUE)
+			if (is.null(knit_opts$out.width)) {
+				knit_opts$out.width <- knit_opts$fig.width * knit_opts$dpi / (knit_opts$fig.retina %||% 1)
+			}
+			return(do.call(knitr::knit_print, c(list(x = knitr::include_graphics(knitr_path), options = knit_opts), args)))
+		}
 	}
 
 	gts

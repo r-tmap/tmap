@@ -28,7 +28,7 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	if (dev) timing_add("step 2")
 	x4 = step3_trans(x3)
 	if (dev) timing_add("step 3")
-	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, in.shiny = in.shiny, knit = knit, args)
+	res = step4_plot(x4, vp = vp, return.asp = return.asp, show = show, in.shiny = in.shiny, knit = knit, knit_opts = options, args)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
 
@@ -39,6 +39,8 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	if (knit && tmap_graphics_name() != "Grid") {
 		kp = get("knit_print", asNamespace("knitr"))
 		return(do.call(kp, c(list(x=res), args, list(options=options))))
+	} else if (inherits(res, "knit_asis")) {
+		return(res)
 	} else {
 		invisible(res)
 	}

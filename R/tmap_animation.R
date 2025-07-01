@@ -134,7 +134,7 @@ tmap_animation <- function(tm, filename = NULL, width = NA, height = NA, dpi = N
 	do.call(create_animation, c(list(filename = filename, files, width = width, height = height, fps = fps, loop = (play != "once"), progress = progress, gif = gif, showAni = showAni), args))
 }
 
-create_animation = function(filename, files, width = NA, height = NA, fps = 2, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, dpr = 2, ...) {
+create_animation = function(filename, files, width = NA, height = NA, fps = 2, loop = TRUE, progress = FALSE, gif = TRUE, showAni = FALSE, dpr = 2, knit = FALSE, knit_opts = NULL, ...) {
 
 	k <- length(files)
 

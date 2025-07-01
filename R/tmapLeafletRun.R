@@ -1,4 +1,4 @@
-tmapLeafletRun = function(o, q, show, knit, args) {
+tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 
 	# switchable zoom levels
