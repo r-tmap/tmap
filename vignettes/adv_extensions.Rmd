@@ -130,7 +130,7 @@ library(tmap.mapgl)
 ```
 
 
-```{r, eval=FALSE, fig.height = 3.5}
+```{r, fig.height = 3.5}
 tmap_mode("maplibre")
 
 tm_shape(NLD_dist) +

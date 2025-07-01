@@ -21,8 +21,11 @@ shapeTM = function(shp, tmapID = NULL, bbox = NULL, ...) {
 stm_bbox = function(shpTM, tmapID, crs) {
 	bbox = shpTM$bbox
 
+	full = FALSE
+
 	if (!is.null(bbox$x)) {
 		if (identical(bbox$x, "FULL")) {
+			full = TRUE
 			bbox$x = sf::st_bbox(c(xmin = -180, xmax = 180, ymax = 90, ymin = -90), crs = sf::st_crs(4326))
 		}
 		# to make sure the supplied bounding box will be converted in the correct crs
@@ -52,8 +55,9 @@ stm_bbox = function(shpTM, tmapID, crs) {
 		}
 		bbox$x = sf::st_bbox(shp)
 	}
-	do.call(tmaptools::bb, bbox)
-
+	b = do.call(tmaptools::bb, bbox)
+	attr(b, "full") = full
+	b
 }
 
 

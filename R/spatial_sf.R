@@ -7,7 +7,14 @@ tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 	} else {
 		shp2 = sf::st_transform(shp, crs)
 	}
-	if (!is.null(bbox$x)) bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+
+	if (!is.null(bbox$x)) {
+		if (identical(bbox$x, "FULL")) {
+			bbox = list(x = full_bbox(crs))
+		} else {
+			bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+		}
+	}
 	shapeTM(shp2, tmapID, bbox, ...)
 }
 

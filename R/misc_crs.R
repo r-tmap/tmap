@@ -3,13 +3,15 @@ crs_is_ortho = function(crs) {
 }
 
 
+# could be improved #1152
 full_bbox = function(crs) {
 	if (sf::st_is_longlat(crs)) {
 		sf::st_bbox(sf::st_transform(sf::st_bbox(), crs = crs))
 	} else {
 		# to make sure the projected full bounding box is returned
-		spl = suppressMessages(sf::st_bbox() |> sf::st_sample(1e4, type = "regular") |> sf::st_sfc(crs = 4326))
-		spl2 = sf::st_cast(tmaptools::bb_poly(sf::st_bbox()), "POINT")
+		ply = tmaptools::bb_poly(sf::st_bbox())
+		spl = suppressMessages(ply |> sf::st_sample(1e4, type = "regular") |> sf::st_sfc(crs = 4326))
+		spl2 = sf::st_cast(ply, "POINT")
 		spl12 = c(spl, spl2)
 		sf::st_bbox(sf::st_transform(spl12, crs = crs))
 	}

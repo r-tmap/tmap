@@ -9,7 +9,13 @@ tmapReproject.stars = function(shp, tmapID, bbox = NULL, ..., crs) {
 	tmapID2 = shp2[[1]]
 	shp2[[1]] = NA
 
-	if (!is.null(bbox$x)) bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+	if (!is.null(bbox$x)) {
+		if (identical(bbox$x, "FULL")) {
+			bbox = list(x = full_bbox(crs))
+		} else {
+			bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+		}
+	}
 
 	shapeTM(shp2, tmapID2, bbox, ...)
 }
@@ -30,7 +36,14 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 	tmapID2 = shp2[[1]]
 
 	d2 = stars::st_dimensions(shp2)
-	if (!is.null(bbox$x)) bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+
+	if (!is.null(bbox$x)) {
+		if (identical(bbox$x, "FULL")) {
+			bbox = list(x = full_bbox(crs))
+		} else {
+			bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
+		}
+	}
 
 	shapeTM(d2, tmapID2, bbox, ...)
 }
