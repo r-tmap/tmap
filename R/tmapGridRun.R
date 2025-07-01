@@ -35,7 +35,7 @@ tmapGridRun = function(o, q, show, knit, knit_opts, args) {
 		if (o$play == "pingpong") files = c(files, rev(files))
 		filename = tempfile(fileext = ".gif")
 		create_animation(filename = filename, files = files, width = devsize[1], height = devsize[2], delay = NA, fps = o$fps, loop = o$play != "once", progress = FALSE, gif = TRUE, showAni = TRUE, dpr = o$dpr, knit = knit, knit_opts = knit_opts)
-		if (knit) {
+		if (knit && !knitr::is_latex_output()) {
 			knitr_path <- knitr::fig_path('.gif', knit_opts)
 			dir.create(dirname(knitr_path), showWarnings = FALSE, recursive = TRUE)
 			file.copy(filename, knitr_path, overwrite = TRUE)

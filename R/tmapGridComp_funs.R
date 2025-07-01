@@ -885,7 +885,7 @@ tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 	comp$tm$o$inset = TRUE
 	comp$tm$o$bbox = comp$bbox
 
-	g = step4_plot(comp$tm, vp, return.asp = FALSE, show = FALSE, in.shiny = FALSE, knit = FALSE, args = list())
+	g = step4_plot(comp$tm, vp, return.asp = FALSE, show = FALSE, in.shiny = FALSE, knit = FALSE, knit_opts = list(), args = list())
 
 	#g = gridCell(3L, 3L, grid::rectGrob(gp=gpar(fill="red")))#comp$x)
 
