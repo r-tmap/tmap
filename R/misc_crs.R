@@ -17,6 +17,30 @@ full_bbox = function(crs) {
 	}
 }
 
+transform_ortho = function(shp, crs, tmapID = NULL) {
+	is_sfc = !is.null(tmapID) # also: inherits(shp, "sfc")
+	if (is_sfc) shp = st_sf(shp, tmapID = tmapID)
+	if (crs_is_ortho(crs)) {
+		tryCatch({
+			suppressWarnings({
+				shp4326 = sf::st_transform(shp, 4326)
+				visible = crs_ortho_visible(crs, projected = FALSE)
+				if (!sf::st_is_valid(visible)) visible = sf::st_make_valid(visible)
+				shp = suppressMessages(sf::st_intersection(shp4326, visible))
+			})
+		}, error = function(e) {
+			shp
+		})
+	}
+	shp2 = sf::st_transform(shp, crs = crs)
+
+	if (is_sfc) {
+		list(shp = st_geometry(shp2), tmapID = shp2$tmapID)
+	} else {
+		shp2
+	}
+}
+
 crs_ortho_visible = function(crs, projected = TRUE, max_cells = 1e5) {
 	wkt = sf::st_crs(crs)$wkt
 	lst = strsplit(wkt, ",")[[1]]

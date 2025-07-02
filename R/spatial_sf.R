@@ -2,10 +2,10 @@
 tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 	if (is.na(sf::st_crs(shp))) {
 		shp2 = shp
-		#sf::st_crs(shp2) = crs
-		#warning("Setting missing CRS to ", as.character(crs))
 	} else {
-		shp2 = sf::st_transform(shp, crs)
+		res = transform_ortho(shp, crs, tmapID)
+		shp2 = res$shp
+		tmapID = res$tmapID
 	}
 
 	if (!is.null(bbox$x)) {
@@ -24,19 +24,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 	reproj = (!is.null(crs) && !is.na(crs) && sf::st_crs(shp) != crs)
 
 	if (reproj) {
-		if (crs_is_ortho(crs)) {
-			tryCatch({
-				suppressWarnings({
-					shp4326 = sf::st_transform(shp, 4326)
-					visible = crs_ortho_visible(crs, projected = FALSE)
-					if (!sf::st_is_valid(visible)) visible = sf::st_make_valid(visible)
-					shp = suppressMessages(sf::st_intersection(shp4326, visible))
-				})
-			}, error = function(e) {
-				shp
-			})
-		}
-		shp = sf::st_transform(shp, crs = crs)
+		shp = transform_ortho(shp, crs)
 	}
 
 	sfc = sf::st_geometry(shp)
