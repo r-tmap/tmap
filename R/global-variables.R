@@ -22,7 +22,7 @@ utils::globalVariables(c(
   "split_geometry_collection", "stack_auto", "t1",
   "t2", "t3", "t4", "text.fontface", "text.fontfamily", "title.bg.alpha",
   "tmapID__", "vneutral",
-  "panel.show", "set_to_stack_message", "rev1", "rev2", "rev3", "facet.flip", "panel.show"
+  "panel.show", "set_to_stack_message", "rev1", "rev2", "rev3", "panel.show"
 ))
 
 # Add more to silence R CMD CHECK (see if some are false positive)

@@ -15,7 +15,6 @@ tmap_options(
   ...,
   crs,
   facet.max,
-  facet.flip,
   free.scales,
   raster.max_cells,
   raster.warp,
@@ -365,8 +364,6 @@ tmap_options_save(style)
 \item{crs}{Map crs (see \code{\link[=tm_shape]{tm_shape()}}). \code{NA} means the crs is specified in \code{\link[=tm_shape]{tm_shape()}}. The crs that is used by the transformation functions is defined in \code{\link[=tm_shape]{tm_shape()}}.}
 
 \item{facet.max}{Maximum number of facets}
-
-\item{facet.flip}{Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link[=tm_facets_flip]{tm_facets_flip()}}}
 
 \item{free.scales}{For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions}
 

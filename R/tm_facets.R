@@ -218,5 +218,6 @@ tm_facets_vstack = function(by = "VARS__",
 #' @export
 #' @rdname tm_facets
 tm_facets_flip = function(...) {
-	do.call(tm_facets, list(...)) + tm_options(facet.flip = TRUE)
+	cli::cli_warn("{.field [tm_facets_flip]} please use {.code tm_facets(byrow = FALSE)} instead of {.fun tm_facets_flip}")
+	do.call(tm_facets, c(list(byrow = FALSE), list(...)))
 }

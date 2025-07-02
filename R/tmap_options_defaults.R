@@ -32,7 +32,6 @@
 
 		# facets
 		facet.max = 64, # was max.facets
-		facet.flip = FALSE,
 		free.scales = NULL, # for backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions
 
 		# spatial object class specific options
