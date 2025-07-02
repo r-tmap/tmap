@@ -735,6 +735,14 @@ tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 }
 
 
+#' @export
+tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
+	asp = comp$width / comp$height
+	comp$x = tmap_grob(comp$x, asp = asp)
+	class(comp)[1] = "tm_inset_grob"
+	comp$show = TRUE
+	comp
+}
 
 
 #' @export
@@ -791,7 +799,6 @@ tmapGridCompPrepare.tm_inset_image = function(comp, o) {
 	class(comp) = c("tm_logo", class(comp))
 	comp
 }
-
 
 
 

@@ -20,7 +20,7 @@ tm_inset = function(x = NULL,
 					frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha,
 					z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
-
+	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
 	args$group_type = c("tm_inset")
 	args$z = args$z %||% NA_integer_
