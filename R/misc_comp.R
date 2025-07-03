@@ -4,7 +4,9 @@ complete_with_comp_group = function(comp, o) {
 	comp_grps = names(o)[grepl("component_", names(o))]
 	grps = gsub(".*component_", "", comp_grps)
 	grps_lst = strsplit(grps, "^", fixed = TRUE)
-
+	grps_lst = lapply(grps_lst, function(l) {
+		if (length(l) == 0) "" else l
+	})
 	if (is.na(comp$group_id)) {
 		comp$group_id = paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")
 	}
