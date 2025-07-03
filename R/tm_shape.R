@@ -24,7 +24,7 @@
 #' for eqdc: \url{https://proj.org/en/9.4/operations/projections/eqdc.html}
 #'
 #' @param shp Spatial object
-#' @param bbox Bounding box of the map (only used if `shp` is the main shape (see `is.main`). Three options: a [sf::st_bbox()] object, an Open Street Map query (passed on to [tmaptools::geocode_OSM()]), or `"FULL"`, which means the whole earth.
+#' @param bbox Bounding box of the map (only used if `shp` is the main shape (see `is.main`). Three options: a [sf::st_bbox()] object, an Open Street Map query (passed on to [tmaptools::geocode_OSM()]), or `"FULL"`, which means the whole earth (this also guarantees that transformations to another CRS keeps the whole earth, unlike [sf::st_bbox()])
 #' @param crs Map projection (CRS). Can be set to an `crs` object (see [sf::st_crs()]), a proj4string, an EPSG number, the value `"auto"` (automatic crs recommendation), or one the the following generic projections: `c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")`. See details.
 #' @param is.main Is `shp` the main shape, which determines the crs and
 #'   bounding box of the map? By default, `TRUE` if it is the first `tm_shape` call
