@@ -1196,17 +1196,17 @@ HTMLWidgets.widget({
             // Set the position correctly - fix position bug by using correct CSS positioning
             const position = x.layers_control.position || "top-left";
             if (position === "top-left") {
-              layersControl.style.top = "10px";
-              layersControl.style.left = "10px";
+              layersControl.style.top = (x.layers_control.margin_top || 10) + "px";
+              layersControl.style.left = (x.layers_control.margin_left || 10) + "px";
             } else if (position === "top-right") {
-              layersControl.style.top = "10px";
-              layersControl.style.right = "10px";
+              layersControl.style.top = (x.layers_control.margin_top || 10) + "px";
+              layersControl.style.right = (x.layers_control.margin_right || 10) + "px";
             } else if (position === "bottom-left") {
-              layersControl.style.bottom = "10px";
-              layersControl.style.left = "10px";
+              layersControl.style.bottom = (x.layers_control.margin_bottom || 10) + "px";
+              layersControl.style.left = (x.layers_control.margin_left || 10) + "px";
             } else if (position === "bottom-right") {
-              layersControl.style.bottom = "40px";
-              layersControl.style.right = "10px";
+              layersControl.style.bottom = (x.layers_control.margin_bottom || 40) + "px";
+              layersControl.style.right = (x.layers_control.margin_right || 10) + "px";
             }
 
             // Apply custom colors if provided
@@ -3621,17 +3621,17 @@ if (HTMLWidgets.shinyMode) {
         // Set the position correctly
         const position = message.position || "top-left";
         if (position === "top-left") {
-          layersControl.style.top = "10px";
-          layersControl.style.left = "10px";
+          layersControl.style.top = (message.margin_top || 10) + "px";
+          layersControl.style.left = (message.margin_left || 10) + "px";
         } else if (position === "top-right") {
-          layersControl.style.top = "10px";
-          layersControl.style.right = "10px";
+          layersControl.style.top = (message.margin_top || 10) + "px";
+          layersControl.style.right = (message.margin_right || 10) + "px";
         } else if (position === "bottom-left") {
-          layersControl.style.bottom = "10px";
-          layersControl.style.left = "10px";
+          layersControl.style.bottom = (message.margin_bottom || 10) + "px";
+          layersControl.style.left = (message.margin_left || 10) + "px";
         } else if (position === "bottom-right") {
-          layersControl.style.bottom = "40px";
-          layersControl.style.right = "10px";
+          layersControl.style.bottom = (message.margin_bottom || 40) + "px";
+          layersControl.style.right = (message.margin_right || 10) + "px";
         }
 
         // Apply custom colors if provided
