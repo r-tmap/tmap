@@ -29,6 +29,7 @@
 					 			leaflet.options = list())),
 
 		crs = NA,
+		bbox = NULL,
 
 		# facets
 		facet.max = 64, # was max.facets

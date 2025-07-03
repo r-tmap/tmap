@@ -421,19 +421,19 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
 		mains_in_grp = intersect(o$main[!bbx_def], grp_ids)
-		if (length(mains_in_grp) && !("inset" %in% names(o)) && !o$earth_boundary) {
+		if (length(mains_in_grp) && !("inset" %in% names(o)) && !o$earth_bbox) {
 			lookup = match(mains_in_grp, grp_ids)
 			tmain = unlist(unlist(tmx[lookup], recursive = FALSE, use.names = FALSE), recursive = FALSE, use.names = FALSE)
 			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 		} else {
 			if (is.null(bbm)) {
 				bbo = o$bbox
-				if (!is.null(bbo)) {
+				if (!is.null(bbo) && !identical(bbo, "FULL")) {
 					bbm = tmaptools::bb(bbo, projection = crs)
 				} else {
 					bbm = full_bbox(crs)
 				}
-				if (o$earth_boundary) {
+				if (o$earth_bbox) {
 					bbm = bb_ext(bbm, o$inner.margins)
 				}
 			} else {

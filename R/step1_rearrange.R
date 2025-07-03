@@ -151,6 +151,12 @@ step1_rearrange = function(tmel, knit_opts) {
 		# determine whether to animate
 		tmf$show_gif_ani = is.null(o$animate_disable) && (tmf$animate || tmf$trans_animate) # animate is multiple variables/facets, trans_animate for transition animation only
 
+		if (identical(tms$bbox$x, "FULL") || identical(o$bbox, "FULL") || o$earth_boundary) {
+			o$earth_bbox = TRUE
+		} else {
+			o$earth_bbox = FALSE
+		}
+
 		#if (tmf$show_gif_ani) o$scale = o$scale * 2
 
 	} else {
@@ -164,6 +170,11 @@ step1_rearrange = function(tmel, knit_opts) {
 		tmf$npp = 1
 		ids = 0
 
+		if (dentical(o$bbox, "FULL") || o$earth_boundary) {
+			o$earth_bbox = TRUE
+		} else {
+			o$earth_bbox = FALSE
+		}
 	}
 
 	# add basemaps
@@ -301,7 +312,7 @@ step1_rearrange = function(tmel, knit_opts) {
 
 
 	# disable s2 in case earth.boundaries are drawn
-	if (o$earth_boundary && sf::sf_use_s2()) {
+	if ((o$earth_boundary || o$earth_bbox) && sf::sf_use_s2()) {
 		suppressMessages(sf::sf_use_s2(FALSE))
 		.TMAP$set_s2 = TRUE
 	}

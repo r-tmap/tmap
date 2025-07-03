@@ -18,7 +18,7 @@ tm_shape(
 \arguments{
 \item{shp}{Spatial object}
 
-\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main})}
+\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main}). Three options: a \code{\link[sf:st_bbox]{sf::st_bbox()}} object, an Open Street Map query (passed on to \code{\link[tmaptools:geocode_OSM]{tmaptools::geocode_OSM()}}), or \code{"FULL"}, which means the whole earth.}
 
 \item{crs}{Map projection (CRS). Can be set to an \code{crs} object (see \code{\link[sf:st_crs]{sf::st_crs()}}), a proj4string, an EPSG number, the value \code{"auto"} (automatic crs recommendation), or one the the following generic projections: \code{c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")}. See details.}
 

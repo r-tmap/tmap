@@ -68,20 +68,7 @@ preprocess_meta_step1 = function(o, knit_opts = NULL) {
 
 		panel.label.rot = rep_len(panel.label.rot, 4L)
 
-		# earth.bounds = if (is.logical(earth_boundary)) {
-		# 	c(-180, -90, 180, 90)
-		# } else {
-		# 	as.vector(bb(earth_boundary))
-		# }
-		# earth_boundary = !isFALSE(earth_boundary)
-
 		earth_boundary.lwd = earth_boundary.lwd * scale
-		#frame.lwd = frame.lwd * scale
-
-		# set font face and family
-
-
-		## inherit values
 
 		# fontface
 		for (nm in names(o)[grep("fontface", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontface)
