@@ -2,7 +2,9 @@
 
 - tmap_overview added, which provides an overview of all map elements (layers and components)
 - tm_layout arguments limited to the useful ones
-- tm_components (was tm_comp_group) can also work for all (legend/other) components
+- tm_components (was tm_comp_group) improved: now also applicable to map component functions
+- bbox added to tm_crs. Special value is "FULL" which refers to the whole earth
+- tm_insets added: grobs, tmap objects, ggplot2 plots, and images are accepted
 
 # tmap 4.1
 

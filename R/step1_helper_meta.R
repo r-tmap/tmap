@@ -19,6 +19,15 @@ preprocess_meta_step1 = function(o, knit_opts = NULL) {
 
 		# bg.color = NA was used to disable background
 		# as of 4.2, bg = FALSE will be used (#1119)
+
+		# however, if a color is explicitly specified, override bg (also apply this to frame)
+		for (nm in c("bg", "outer.bg", "frame")) {
+			nmc = paste0(nm, ".color")
+			if (nmc %in% o$calls && !is.null(get(nmc))) {
+				assign(nm, TRUE)
+			}
+		}
+
 		for (nm in names(o)[grep("bg\\.color$", names(o))]) {
 			tmp = get(nm)
 			if (!is.null(tmp) && is.na(tmp)) {

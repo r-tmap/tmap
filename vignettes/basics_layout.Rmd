@@ -57,9 +57,7 @@ With layout we mean all aspects of how the plot looks like, except for
 * the layout of [legends](https://r-tmap.github.io/tmap/articles/basics_legends#layout)
 * the layout of [map components](https://r-tmap.github.io/tmap/articles/basics_components)
 
-What is left? Background colors, frames, panels, fonts, margins, etc.
-
-All these layout options can be changed via `tm_layout()`. The large number of arguments can be overwhelming. These also include all the default settings of legends and map components. See in-depth vignette on [tmap options](https://r-tmap.github.io/tmap/articles/adv_options).
+What is left? Background colors, frames, panels, fonts, margins, etc. All these layout options can be changed via `tm_layout()`. 
 
 In this vignette, we'll cover the most important layout settings. First, let's create a map:
 
@@ -78,6 +76,10 @@ tm + tm_layout(
   outer.bg.color = "gold")
 ```
 
+The backgrounds can be disabled by setting `bg` and `outer.bg` (inside and outside the frame respectively) to `FALSE`. Note that this does not change the layout of the map; this is accomplished via the margins (see below).
+
+
+
 ## Frame
 
 The map frame can be disabled by setting `frame = FALSE`:
@@ -88,15 +90,6 @@ tm + tm_layout(
   frame = FALSE)
 ```
 
-In that case, the background color of the whole area is determined by `bg.color` and not by `outer.bg.color` anymore.
-
-```{r, fig.height=3.5}
-tm + tm_layout(
-  bg.color = "skyblue",
-  earth_boundary = TRUE,
-  outer.bg.color = "gold",
-  space.color = "darkblue")
-```
 
 ## Earth boundaries
 
@@ -138,7 +131,7 @@ tm_layout(panel.show = FALSE)
 
 ## Margins
 
-Margins can be set with `inner.margins`, `outer.margins`, `meta.margins`. 
+Margins can be set with `inner.margins`, `outer.margins`, `meta.margins`. The inner margins are the margins between map and the frame
 
 ```{r, fig.height = 3.5}
 tm +
@@ -147,5 +140,14 @@ tm +
 
 The four numbers are the margins for bottom, left, top, and right respectively. The units are relative to the map frame, so 0.02 means (about) 2 percent of the frame height.
 
-Setting the margins is quite complex because it depends on the aspect ratios (width/height) of the spatial object and the graphics device. See [in-depth vignette](https://r-tmap.github.io/tmap/articles/adv_margins).
+The outer margins are the margins between map frame and plotting device:
 
+```{r, fig.height = 3.5}
+tm_shape(World, crs = "+proj=eqearth") + 
+	tm_polygons("HPI", 
+				fill.scale = tm_scale_intervals(values = "pu_gn"),
+				fill.legend = tm_legend(position = c("left", "bottom"))) +
+  tm_layout(outer.margins = c(0, 0, 0, 0), asp = 0)
+```
+
+In this example we also set `asp = 0` meaning that the map frame should fit inside the graphics device. That means that the inner margins are increased if the aspect ratio (width/height) of the graphics device is different than that of the map. Setting the margins can be quite difficult and is explained in detail in this [ vignette](https://r-tmap.github.io/tmap/articles/adv_margins).
