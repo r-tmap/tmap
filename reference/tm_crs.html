@@ -106,7 +106,7 @@
 
 
 <dt id="arg-bbox">bbox<a class="anchor" aria-label="anchor" href="#arg-bbox"></a></dt>
-<dd><p>bounding box. Three options: a <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code> object, an Open Street Map query (passed on to <code><a href="https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html">tmaptools::geocode_OSM()</a></code>), or <code>"FULL"</code>, which means the whole earth.</p></dd>
+<dd><p>bounding box. Three options: a <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code> object, an Open Street Map query (passed on to <code><a href="https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html">tmaptools::geocode_OSM()</a></code>), or <code>"FULL"</code>, which means the whole earth , which means the whole earth (this also guarantees that transformations to another CRS keep the whole earth, unlike <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
