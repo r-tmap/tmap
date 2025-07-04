@@ -53,9 +53,9 @@ tmap_options(scale = 0.75)
 
 Components are non-spatial parts of the plots:
 
-* titles and credits: [tm_title()] and [tm_credits()]
-* scale bars and compasses: [tm_scalebar()] and [tm_compass()]
-* legends: specified with the `.legend` compoments in the data layer functions (e.g. [tm_polygons()]).
+* titles and credits: `tm_title()` and `tm_credits()`
+* scale bars and compasses: `tm_scalebar()` and `tm_compass()`
+* legends: specified with the `.legend` compoments in the data layer functions (e.g. `tm_polygons()`).
 
 ## Title and credits
 
@@ -98,4 +98,25 @@ tm_scalebar(position = c("right", "bottom"))
 
 If the components should be placed tighter to the frame, use capital case instead; e.g. `c("LEFT", "BOTTOM") in stead of `c("left", "bottom")`.
 
-There are much more options to position map componets via `tm_pos()`, see the [vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)
+There are much more options to position map components via `tm_pos()`, see the [vignette about positions](https://r-tmap.github.io/tmap/articles/adv_positions)
+
+## Grouping of components (basics)
+
+Map components can be grouped via `tm_components`. Its first argument is the group id, which can either be a user specified name, or, as shown below, a vector of map component function names.
+
+```{r, fig.height = 6}
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "edu_appl_sci",
+    fill.legend = tm_legend(position = c("left", "top"))) +
+tm_credits("Statistics Netherlands (CBS)") +
+tm_compass(type = "8star") +
+tm_scalebar() + 
+tm_components(c("tm_legend", "tm_credits"), position = c("left", "top"), bg.color = "grey95") +
+tm_components(c("tm_compass", "tm_scalebar"), position = c("left", "bottom"))
+```
+
+In this case, all map components that are legends and credits are placed top left. Furthermore, the map component group frame obtains a light gray background.
+The compass and scalebar are positioned left bottom.
+
+More options regarding positioning, stacking, and alignment of components are explained in detail in the [vignette about grouping of components](https://r-tmap.github.io/tmap/articles/adv_comp_group)

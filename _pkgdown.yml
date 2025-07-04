@@ -142,7 +142,7 @@ navbar:
           href: articles/basics_facets
         - text: Legends
           href: articles/basics_legends
-        - text: Basemaps (updated!)
+        - text: Basemaps
           href: articles/basics_basemaps
         - text: Components
           href: articles/basics_components
@@ -206,17 +206,17 @@ navbar:
       menu:
         - text: Shiny integration
           href: articles/adv_shiny
-        - text: Layer groups (view mode only)
-          href: articles/adv_groups
         - text: Multivariate visual variables
           href: articles/adv_multivariate
-        - text: Positioning of components (updated!)
+        - text: Positioning of components
           href: articles/adv_positions
-        - text: Grouping of components (new!)
+        - text: Grouping of components
           href: articles/adv_comp_group
         - text: Options and styles
           href: articles/adv_options
-        - text: Margins and aspect ratio
+        - text: Margins and aspect ratio (plot mode)
           href: articles/adv_margins
+        - text: Layer groups (view mode)
+          href: articles/adv_groups
         - text: Extending tmap
           href: articles/adv_extensions

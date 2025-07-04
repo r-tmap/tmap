@@ -87,7 +87,7 @@ This can be seen as the 'manual' mode, because it provides more freedom.
 * the first value specifies the horizontal position, where 0 corresponds to left and 1 to right.
 * the second value specifies the vertical position where 0 is bottom and 1 top. 
 
-By default, these values will specify the position of the **left top corner** of the component. This justification point can be changed using the `just.h` and `just.v` arguments of [tm_pos()], see below.
+By default, these values will specify the position of the **left top corner** of the component. This justification point can be changed using the `just.h` and `just.v` arguments of `tm_pos()`, see below.
 
 ## Example
 
