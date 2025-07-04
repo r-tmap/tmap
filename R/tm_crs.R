@@ -4,7 +4,7 @@
 #'
 #' @param crs Map projection (CRS). Can be set to an `crs` object (see [sf::st_crs()]), a proj4string, an EPSG number, the value `"auto"` (automatic crs recommendation), or one the the following generic projections: `c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")`. See details.
 #' @param property Which property should the projection have? One of: `"global"`, `"area"` (equal-area), `"distance"` (equidistant), `"shape"` (conformal). Only applicable if `crs = "auto"`. See details.
-#' @param bbox bounding box. Three options: a [sf::st_bbox()] object, an Open Street Map query (passed on to [tmaptools::geocode_OSM()]), or `"FULL"`, which means the whole earth.
+#' @param bbox bounding box. Three options: a [sf::st_bbox()] object, an Open Street Map query (passed on to [tmaptools::geocode_OSM()]), or `"FULL"`, which means the whole earth , which means the whole earth (this also guarantees that transformations to another CRS keep the whole earth, unlike \code{\link[sf:st_bbox]{sf::st_bbox()}}).
 #' @note Plans are to migrate the functionality regarding generic crs and automatic crs recommendation to a separate package.
 #' @inherit tm_shape details
 #' @example ./examples/tm_crs.R
