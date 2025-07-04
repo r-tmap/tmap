@@ -11,7 +11,7 @@ tm_crs(crs = NA, property = NA, bbox = NULL)
 
 \item{property}{Which property should the projection have? One of: \code{"global"}, \code{"area"} (equal-area), \code{"distance"} (equidistant), \code{"shape"} (conformal). Only applicable if \code{crs = "auto"}. See details.}
 
-\item{bbox}{bounding box. Three options: a \code{\link[sf:st_bbox]{sf::st_bbox()}} object, an Open Street Map query (passed on to \code{\link[tmaptools:geocode_OSM]{tmaptools::geocode_OSM()}}), or \code{"FULL"}, which means the whole earth.}
+\item{bbox}{bounding box. Three options: a \code{\link[sf:st_bbox]{sf::st_bbox()}} object, an Open Street Map query (passed on to \code{\link[tmaptools:geocode_OSM]{tmaptools::geocode_OSM()}}), or \code{"FULL"}, which means the whole earth , which means the whole earth (this also guarantees that transformations to another CRS keep the whole earth, unlike \code{\link[sf:st_bbox]{sf::st_bbox()}}).}
 }
 \description{
 This function sets the map projection. It can also be set via \code{\link[=tm_shape]{tm_shape()}}, but \code{tm_crs} is generally recommended for most cases. It can also be determined automatically (see details); however, this is still work-in-progress.
