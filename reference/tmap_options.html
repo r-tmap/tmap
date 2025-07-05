@@ -389,6 +389,7 @@
 <span>  <span class="va">earth_boundary.color</span>,</span>
 <span>  <span class="va">earth_boundary.lwd</span>,</span>
 <span>  <span class="va">earth_datum</span>,</span>
+<span>  <span class="va">space</span>,</span>
 <span>  <span class="va">space.color</span>,</span>
 <span>  <span class="va">check_and_fix</span>,</span>
 <span>  <span class="va">basemap.show</span>,</span>
@@ -1630,6 +1631,10 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>Earth datum</p></dd>
 
 
+<dt id="arg-space">space<a class="anchor" aria-label="anchor" href="#arg-space"></a></dt>
+<dd><p>Should the space be drawn? Only applicable is earth_boundary is enabled.</p></dd>
+
+
 <dt id="arg-space-color">space.color<a class="anchor" aria-label="anchor" href="#arg-space-color"></a></dt>
 <dd><p>The color of the space.</p></dd>
 
@@ -2546,6 +2551,12 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"top"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.width: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.between_margin: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.frame: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─minimap.bg: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.show: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.labels: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─panel.label.size: <span style="color: #0000BB;">1</span></span>
@@ -2570,6 +2581,7 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─earth_boundary.color: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─earth_boundary.lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─earth_datum: <span style="color: #0000BB;">"OGC:CRS84"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─space: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─space.color: <span style="color: #0000BB;">"#ffffff"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─check_and_fix: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─basemap.show: <span style="color: #0000BB;">FALSE</span></span>
