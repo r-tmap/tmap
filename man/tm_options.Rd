@@ -300,6 +300,7 @@ tm_options(
   earth_boundary.color,
   earth_boundary.lwd,
   earth_datum,
+  space,
   space.color,
   check_and_fix,
   basemap.show,
@@ -919,6 +920,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{earth_boundary.lwd}{The line width of the earth_boundary. See \code{graphics::par}, option 'lwd'.}
 
 \item{earth_datum}{Earth datum}
+
+\item{space}{Should the space be drawn? Only applicable is earth_boundary is enabled.}
 
 \item{space.color}{The color of the space.}
 

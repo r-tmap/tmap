@@ -4,7 +4,26 @@
 \alias{tm_minimap}
 \title{Map component: minimap}
 \usage{
-tm_minimap(server, toggle, stack, position, group_id, z, ...)
+tm_minimap(
+  server,
+  toggle,
+  height,
+  width,
+  margins,
+  between_margin,
+  position,
+  group_id,
+  frame,
+  frame.color,
+  frame.alpha,
+  frame.lwd,
+  frame.r,
+  bg,
+  bg.color,
+  bg.alpha,
+  z,
+  ...
+)
 }
 \arguments{
 \item{server}{name of the provider or an URL (see \code{\link{tm_tiles}}).
@@ -13,11 +32,31 @@ Note the latter does not happen when \code{server} is specified.}
 
 \item{toggle}{should the minimap have a button to minimise it? By default \code{TRUE}.}
 
-\item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
+\item{width, height}{width and height of the component.}
+
+\item{margins}{margins}
+
+\item{between_margin}{Margin between}
 
 \item{position}{The position specification of the component: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use \code{group_id} and specify \code{component} in \code{\link[=tm_components]{tm_components()}}.}
 
 \item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_components]{tm_components()}} where its argument \code{id} should correspond to \code{group_id}.}
+
+\item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
+
+\item{frame.lwd}{frame line width}
+
+\item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
+
+\item{bg}{Show background?}
+
+\item{bg.color}{Background color}
+
+\item{bg.alpha}{Background transparency}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
 
@@ -25,8 +64,6 @@ Note the latter does not happen when \code{server} is specified.}
   Arguments passed on to \code{\link[leaflet:addMiniMap]{leaflet::addMiniMap}}
   \describe{
     \item{\code{map}}{a map widget object}
-    \item{\code{width}}{The width of the minimap in pixels. Defaults to 150.}
-    \item{\code{height}}{The height of the minimap in pixels. Defaults to 150.}
     \item{\code{collapsedWidth}}{The width of the toggle marker and the minimap
 when collapsed, in pixels. Defaults to 19.}
     \item{\code{collapsedHeight}}{The height of the toggle marker and the minimap

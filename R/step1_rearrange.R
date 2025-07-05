@@ -170,7 +170,7 @@ step1_rearrange = function(tmel, knit_opts) {
 		tmf$npp = 1
 		ids = 0
 
-		if (dentical(o$bbox, "FULL") || o$earth_boundary) {
+		if (identical(o$bbox, "FULL") || o$earth_boundary) {
 			o$earth_bbox = TRUE
 		} else {
 			o$earth_bbox = FALSE

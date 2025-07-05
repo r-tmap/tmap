@@ -237,14 +237,19 @@ tm_mouse_coordinates <- function(stack,
 #'   Note the latter does not happen when `server` is specified.
 #' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
 #' @inheritParams tm_title
+#' @inheritParams tm_inset
 #' @inheritDotParams leaflet::addMiniMap
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
 #' @export
 tm_minimap <- function(server,
 					   toggle,
-					   stack,
+					   height,
+					   width,
+					   margins,
+					   between_margin,
 					   position,
 					   group_id,
+					   frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha,
 					   z,
 					   ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())

@@ -584,6 +584,13 @@
 		minimap.server = NA,
 		minimap.toggle = TRUE,
 		minimap.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
+		minimap.height = 7,
+		minimap.width = 7,
+		minimap.margins = c(0.2, 0.2, 0.2, 0.2),
+		minimap.between_margin = 0.2,
+		minimap.frame = FALSE,
+		minimap.bg = TRUE,
+
 
 		panel.show = NA, # depends on type: TRUE for facets
 		panel.labels = NA,
@@ -611,6 +618,7 @@
 		earth_boundary.color = NA,
 		earth_boundary.lwd = 1,
 		earth_datum = "OGC:CRS84",
+		space = TRUE,
 		space.color = "#ffffff",
 
 		check_and_fix = FALSE,

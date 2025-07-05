@@ -901,3 +901,23 @@ tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 }
 
 
+
+#' @export
+tmapGridCompPrepare.tm_minimap = function(comp, o) {
+	comp$show = TRUE
+
+	tm = tm_shape(World) +
+		tm_crs("+proj=ortho +lat_0=10 +lon_0=0", bbox = "FULL")+
+		tm_polygons(col = NULL, fill = "#33AA33") +
+		tm_graticules(labels.show = FALSE, col = "#000000", lwd = 0.5) +
+		tm_layout(bg.color = "lightblue",
+				  earth_boundary = TRUE,
+				  frame = FALSE,
+				  space = FALSE)
+
+	comp$x = tm
+	comp = tmapGridCompPrepare.tm_inset_tmap(comp, o)
+
+	comp
+}
+
