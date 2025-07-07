@@ -71,7 +71,7 @@ tm_facets = function(by = NULL,
 					 ...) {
 
 	args = list(...)
-	args_called = names(rlang::call_match()[-1])
+	args_called = names(rlang::call_match(dots_expand = TRUE)[-1])
 
 	if (any(v3_only("tm_facets") %in% names(args))) {
 		layer_fun = "facets"
