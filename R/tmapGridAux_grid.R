@@ -155,9 +155,18 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsX = sf::st_sfc(lapply(x2, function(x) {
 						sf::st_linestring(matrix(c(rep(x,ndiscr), seq(y2.min, y2.max, length.out=ndiscr)), ncol=2))
 					}), crs = crs)
-					# note: keeping first grid line, some CRS's may have MULTILINESTRING grid lines
+
+
 					lnsX_proj_res <- transform_ortho(lnsX, crs = crs_bb, tmapID = 1:length(x2))
-					lnsX_proj = suppressWarnings(sf::st_cast(lnsX_proj_res$shp, "LINESTRING"))
+
+					# keeping longest grid line, however some CRS's may have MULTILINESTRING grid lines
+					lnsX_proj = local({
+						shp_splitted = sf_expand(lnsX_proj_res$shp)
+						do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
+							s$geometry[[which.max(sf::st_length(s))]]
+						}), list(crs = crs_bb)))
+					})
+
 					lnsX_proj_emp = sf::st_is_empty(lnsX_proj)
 					lnsX_proj <- lnsX_proj[!lnsX_proj_emp]
 
@@ -189,7 +198,14 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 						sf::st_linestring(matrix(c(seq(x2.min, x2.max, length.out=ndiscr), rep(y,ndiscr)), ncol=2))
 					}), crs = crs)
 					lnsY_proj_res <- transform_ortho(lnsY, crs = crs_bb, tmapID = 1:length(y2))
-					lnsY_proj = suppressWarnings(sf::st_cast(lnsY_proj_res$shp, "LINESTRING"))
+
+					lnsY_proj = local({
+						shp_splitted = sf_expand(lnsY_proj_res$shp)
+						do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
+							s$geometry[[which.max(sf::st_length(s))]]
+						}), list(crs = crs_bb)))
+					})
+
 					lnsY_proj_emp = sf::st_is_empty(lnsY_proj)
 					lnsY_proj <- lnsY_proj[!lnsY_proj_emp]
 
