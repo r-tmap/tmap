@@ -160,12 +160,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsX_proj_res <- transform_ortho(lnsX, crs = crs_bb, tmapID = 1:length(x2))
 
 					# keeping longest grid line, however some CRS's may have MULTILINESTRING grid lines
-					lnsX_proj = local({
-						shp_splitted = sf_expand(lnsX_proj_res$shp)
-						do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
-							s$geometry[[which.max(sf::st_length(s))]]
-						}), list(crs = crs_bb)))
-					})
+					lnsX_proj = to_longest_linestring(lnsX_proj_res$shp)
 
 					lnsX_proj_emp = sf::st_is_empty(lnsX_proj)
 					lnsX_proj <- lnsX_proj[!lnsX_proj_emp]
@@ -174,7 +169,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsX_emp[lnsX_proj_res$tmapID] <- lnsX_proj_emp
 
 					x2 <- x2[!lnsX_emp]
-					lnsX_proj <- lnsX_proj[!lnsX_emp]
+
 					xco <- sf::st_coordinates(lnsX_proj)
 					# co.x.lns
 					co.x <- lapply(unique(xco[,3]), function(i) {
@@ -199,12 +194,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					}), crs = crs)
 					lnsY_proj_res <- transform_ortho(lnsY, crs = crs_bb, tmapID = 1:length(y2))
 
-					lnsY_proj = local({
-						shp_splitted = sf_expand(lnsY_proj_res$shp)
-						do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
-							s$geometry[[which.max(sf::st_length(s))]]
-						}), list(crs = crs_bb)))
-					})
+					lnsY_proj = to_longest_linestring(lnsY_proj_res$shp)
 
 					lnsY_proj_emp = sf::st_is_empty(lnsY_proj)
 					lnsY_proj <- lnsY_proj[!lnsY_proj_emp]

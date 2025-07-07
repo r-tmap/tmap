@@ -183,3 +183,15 @@ crop_lat = function(bb, crs, limit_latitude_3857 = NULL) {
 		bb
 	}
 }
+
+
+to_longest_linestring = function(shp) {
+	if (st_geometry_type(shp, by_geometry = FALSE) == "LINESTRING") {
+		shp
+	} else {
+		shp_splitted = sf_expand(shp)
+		do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
+			s$geometry[[which.max(sf::st_length(s))]]
+		}), list(crs = crs_bb)))
+	}
+}
