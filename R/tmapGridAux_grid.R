@@ -257,16 +257,18 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 				}
 			})
 
-			# remove lines with one coordinate-row, and update related list items
-			cox_sel = vapply(co.x, nrow, FUN.VALUE = integer(1)) >= 2
-			co.x = co.x[cox_sel]
-			x2 = x2[cox_sel]
-			sel.x = which(x2 %in% x)
+			if (!is.na(crs)) {
+				# remove lines with one coordinate-row, and update related list items
+				cox_sel = vapply(co.x, nrow, FUN.VALUE = integer(1)) >= 2
+				co.x = co.x[cox_sel]
+				x2 = x2[cox_sel]
+				sel.x = which(x2 %in% x)
 
-			coy_sel = vapply(co.y, nrow, FUN.VALUE = integer(1)) >= 2
-			co.y = co.y[coy_sel]
-			y2 = y2[coy_sel]
-			sel.y = which(y2 %in% y)
+				coy_sel = vapply(co.y, nrow, FUN.VALUE = integer(1)) >= 2
+				co.y = co.y[coy_sel]
+				y2 = y2[coy_sel]
+				sel.y = which(y2 %in% y)
+			}
 
 		})
 
