@@ -833,7 +833,12 @@ tmapGridCompPrepare.tm_inset_map = function(comp, o) {
 		comp$x = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = limit_lat[1], ymax = limit_lat[2]), crs = 4326)
 		comp$crs = tmap_options()$crs_global
 	}
-	comp$bbox = comp$x
+
+	bbpoly = sf::st_transform(tmaptools::bb_poly(comp$x), o$crs_step4)
+
+	b = tmaptools::bb(bbpoly, asp.target = comp$width / comp$height)
+
+	comp$bbox = b
 	comp$show = TRUE
 	comp
 }

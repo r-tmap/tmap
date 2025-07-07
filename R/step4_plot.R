@@ -610,6 +610,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	FUNgridxlab = paste0("tmap", gs, "GridXLab")
 	FUNgridylab = paste0("tmap", gs, "GridYLab")
 
+	# for inset maps
+	inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
+
 	if (!o$legend.only) {
 		# create table with bounding boxes (the only important property, apart from settings)
 		db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
@@ -807,6 +810,35 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					do.call(FUNaux_plot, list(a = a_args, bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 
 				}
+
+
+
+			}
+
+			# inset map frame
+			if (length(inset_ids)) {
+				for (iid in inset_ids) {
+					ic = cdt$comp[[iid]]
+					ic$bbox
+
+					tb = tm_polygons()[[1]]
+
+
+					gp = tb$gpar
+
+					FUN = paste0("tmap", gs, "DataPlot")
+
+					a = structure(tb$mapping.args, class = c("tm_data_polygons", "list"))
+
+					shapepTM = shapeTM(sf::st_transform(tmaptools::bb_poly(ic$bbox), crs), tmapID = 1L)
+
+					shpTM = tmapTransPolygons(shapepTM, args = tb$trans.args, plot.order = tb$plot.order)
+
+					mdt = data.table(tmapID__ = 1L, fill = NA, col = "#FF0000", lwd = 2, lty = "solid", fill_alpha = 1, col_alpha = 1, ord__ = 1L)
+
+					do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
+
+				}
 			}
 			do.call(FUNoverlay, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		}
@@ -888,7 +920,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		crt_nr_dummy = chart_save(tm_chart_none())
 
 		# inset maps: prepare input for step4
-		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
 		if (length(inset_ids)) {
 			cdt$comp[inset_ids] = lapply(cdt$comp[inset_ids], function(comp) {
 					tmo_i = tm$tmo
