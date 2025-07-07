@@ -156,9 +156,13 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 						sf::st_linestring(matrix(c(rep(x,ndiscr), seq(y2.min, y2.max, length.out=ndiscr)), ncol=2))
 					}), crs = crs)
 					# note: keeping first grid line, some CRS's may have MULTILINESTRING grid lines
-					lnsX_proj <- suppressWarnings(st_cast(transform_ortho(lnsX, crs = crs_bb), "LINESTRING"))
+					lnsX_proj_res <- transform_ortho(lnsX, crs = crs_bb, tmapID = 1:length(x2))
+					lnsX_proj = suppressWarnings(sf::st_cast(lnsX_proj_res$shp, "LINESTRING"))
+					lnsX_proj_emp = sf::st_is_empty(lnsX_proj)
+					lnsX_proj <- lnsX_proj[!lnsX_proj_emp]
 
-					lnsX_emp <- sf::st_is_empty(lnsX_proj)
+					lnsX_emp = rep(TRUE, length(x2))
+					lnsX_emp[lnsX_proj_res$tmapID] <- lnsX_proj_emp
 
 					x2 <- x2[!lnsX_emp]
 					lnsX_proj <- lnsX_proj[!lnsX_emp]
@@ -173,6 +177,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsX <- NULL
 					lnsX_proj <- NULL
 					lnsX_emp <- NULL
+					lnsX_proj_res <- NULL
 
 					sel.x <- which(x2 %in% x)
 				} else {
@@ -183,11 +188,16 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsY = sf::st_sfc(lapply(y2, function(y) {
 						sf::st_linestring(matrix(c(seq(x2.min, x2.max, length.out=ndiscr), rep(y,ndiscr)), ncol=2))
 					}), crs = crs)
-					lnsY_proj <- suppressWarnings(st_cast(transform_ortho(lnsY, crs = crs_bb), "LINESTRING"))
-					lnsY_emp <- sf::st_is_empty(lnsY_proj)
+					lnsY_proj_res <- transform_ortho(lnsY, crs = crs_bb, tmapID = 1:length(y2))
+					lnsY_proj = suppressWarnings(sf::st_cast(lnsY_proj_res$shp, "LINESTRING"))
+					lnsY_proj_emp = sf::st_is_empty(lnsY_proj)
+					lnsY_proj <- lnsY_proj[!lnsY_proj_emp]
+
+					lnsY_emp = rep(TRUE, length(y2))
+					lnsY_emp[lnsY_proj_res$tmapID] <- lnsY_proj_emp
 
 					y2 <- y2[!lnsY_emp]
-					lnsY_proj <- lnsY_proj[!lnsY_emp]
+
 					yco <- sf::st_coordinates(lnsY_proj)
 					co.y <- lapply(unique(yco[,3]), function(i) {
 						lco <- yco[yco[,3]==i, 1:2,drop=FALSE]
@@ -198,6 +208,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsY <- NULL
 					lnsY_proj <- NULL
 					lnsY_emp <- NULL
+					lnsY_proj_res <- NULL
 
 					sel.y <- which(y2 %in% y)
 				}	else {
