@@ -69,9 +69,9 @@ Suggests:
     lobstr,
     rsvg,
     rstudioapi
-Config/Needs/check: Nowosad/spDataLarge, lwgeom, r-tmap/tmap
-Config/Needs/coverage: Nowosad/spDataLarge, lwgeom, r-tmap/tmap
-Config/Needs/website: bookdown, rmarkdown, sfnetworks, tmap.glyphs, tmap.networks, walkerke/mapgl, r-tmap/tmap.mapgl, geofacet, sits, tmap.cartogram, mapsf, mapview
+Config/Needs/check: Nowosad/spDataLarge, lwgeom, r-tmap/tmaptools, r-tmap/tmap
+Config/Needs/coverage: Nowosad/spDataLarge, lwgeom, r-tmap/tmaptools, r-tmap/tmap
+Config/Needs/website: bookdown, rmarkdown, sfnetworks, r-tmap/tmaptools, r-tmap/tmap.glyphs, r-tmap/tmap.networks, walkerke/mapgl, r-tmap/tmap.mapgl, geofacet, sits, tmap.cartogram, mapsf, mapview
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
