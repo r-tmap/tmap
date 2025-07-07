@@ -4,7 +4,12 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	cls = data_class(x1, midpoint_enabled = !is.null(scale$midpoint))
 	maincls = class(scale)[1]
 
-	if (attr(cls, "unique") && is.null(scale$breaks)) stop("Unique value, so cannot determine intervals scale range. Please specify breaks.", call. = FALSE)
+	if (attr(cls, "unique") && is.null(scale$breaks)) {
+		scale$ticks = NA
+		cli::cli_inform("The visual variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
+		return(tmapScaleDiscrete(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = submit_legend))
+
+	}
 
 	if (!(cls[1] %in% c("num", "datetime", "date"))) {
 		if (!is.factor(x1)) x1 = as.factor(x1)
