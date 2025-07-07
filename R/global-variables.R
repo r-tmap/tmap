@@ -34,5 +34,6 @@ utils::globalVariables(c(
 	"ylab.show", "ylab.side", "ylab.space", "ylab.text", "z",
 	"x", "y", "color", "freq", "bin", "bin1", "bin2",
 	"nitems", "item.width", "page", "stack",
-  "item.height", "absolute_fontsize", "rc_text", "show", "gp2", "trns", "nbins"
+  "item.height", "absolute_fontsize", "rc_text", "show", "gp2", "trns", "nbins",
+  "World", "World_rivers"
 ))

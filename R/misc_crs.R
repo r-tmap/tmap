@@ -187,7 +187,7 @@ crop_lat = function(bb, crs, limit_latitude_3857 = NULL) {
 
 to_longest_linestring = function(shp) {
 	crs = sf::st_crs(shp)
-	if (st_geometry_type(shp, by_geometry = FALSE) == "LINESTRING") {
+	if (sf::st_geometry_type(shp, by_geometry = FALSE) == "LINESTRING") {
 		shp
 	} else {
 		shp_splitted = sf_expand(shp)
