@@ -161,6 +161,8 @@ tmapLeafletCompPlot.tm_mouse_coordinates = function(comp, lf, o) {
 #' @export
 tmapLeafletCompPrepare.tm_minimap = function(comp, o) {
 	comp$show = TRUE
+	comp$height = 20 * comp$height
+	comp$width = 20 * comp$width
 
 	extra = comp[setdiff(intersect(names(comp), names(formals(leaflet::addMiniMap))), c("position", "map"))]
 
@@ -173,6 +175,8 @@ tmapLeafletCompPrepare.tm_minimap = function(comp, o) {
 
 #' @export
 tmapLeafletCompHeight.tm_minimap = function(comp, o) {
+
+
 	comp
 }
 
