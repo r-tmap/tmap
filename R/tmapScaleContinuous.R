@@ -25,15 +25,17 @@ substr2 = function(x, start, stop) {
 
 
 tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = TRUE) {
-
-
 	# update misc argument from tmap option scale.misc.args
 	scale = update_scale_args(substr2(class(scale)[1], 10, 0), scale, aes, o)
 
 	cls = data_class(x1, midpoint_enabled = !is.null(scale$midpoint))
 	maincls = class(scale)[1]
 
-	if (attr(cls, "unique") && is.null(scale$limits) && is.null(scale$ticks)) stop("Unique value, so cannot determine continuous scale range. Please specify limits and/or ticks.", call. = FALSE)
+	if (attr(cls, "unique") && is.na(scale$limits) && is.null(scale$ticks)) {
+		scale$ticks = NA
+		cli::cli_inform("The visual variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
+		return(tmapScaleDiscrete(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = submit_legend))
+	} #stop("Unique value, so cannot determine continuous scale range. Please specify limits and/or ticks.", call. = FALSE)
 
 	#if (cls[1] == "na") stop("data contain only NAs, so ", maincls, " cannot be applied", call. = FALSE)
 
