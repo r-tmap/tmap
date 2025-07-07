@@ -906,18 +906,51 @@ tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 tmapGridCompPrepare.tm_minimap = function(comp, o) {
 	comp$show = TRUE
 
+	comp
+}
+
+#' @export
+tmapGridCompHeight.tm_minimap = function(comp, o) {
+	tmapGridCompHeight.tm_inset_grob(comp, o)
+}
+
+#' @export
+tmapGridCompWidth.tm_minimap = function(comp, o) {
+	tmapGridCompWidth.tm_inset_grob(comp, o)
+}
+
+#' @export
+tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
+	poly = tmaptools::bb_poly(comp$bbox)
+	center = suppressWarnings(round(sf::st_transform(sf::st_centroid(poly), crs = 4326)[[1]][], 3))
+
+	# bound lat to -30,-10 or 10,30
+	center[2] = if (center[2] >= 0) {
+		max(min(center[2], 30), 10)
+	} else {
+		max(min(center[2], -10), -30)
+	}
+
+
+
+	#"+proj=ortho +lat_0=10 +lon_0=0"
+
 	tm = tm_shape(World) +
-		tm_crs("+proj=ortho +lat_0=10 +lon_0=0", bbox = "FULL")+
-		tm_polygons(col = NULL, fill = "#33AA33") +
+		tm_crs(ortho_lonlat(center[1], center[2]), bbox = "FULL")+
+		tm_polygons(col = NULL, fill = "#2CA02C") +
+	tm_shape(poly) +
+		tm_polygons(fill = NULL, col = "#EE8866", lwd = 3) +
+		#tm_polygons(fill = NULL, col = "#EE8866", lwd = 3, lty = "dotted") +
 		tm_graticules(labels.show = FALSE, col = "#000000", lwd = 0.5) +
-		tm_layout(bg.color = "lightblue",
+		tm_layout(bg.color = "#88CCEE",
 				  earth_boundary = TRUE,
 				  frame = FALSE,
 				  space = FALSE)
 
-	comp$x = tm
-	comp = tmapGridCompPrepare.tm_inset_tmap(comp, o)
-
-	comp
+	asp = comp$width / comp$height
+	comp$x = tmap_grob(tm, asp = asp)
+	class(comp)[1] = "tm_inset_grob"
+	tmapGridCompPlot.tm_inset_grob(comp, o, fH, fW)
 }
+
 

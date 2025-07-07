@@ -155,7 +155,9 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsX = sf::st_sfc(lapply(x2, function(x) {
 						sf::st_linestring(matrix(c(rep(x,ndiscr), seq(y2.min, y2.max, length.out=ndiscr)), ncol=2))
 					}), crs = crs)
-					lnsX_proj <- sf::st_transform(lnsX, crs = crs_bb)
+					# note: keeping first grid line, some CRS's may have MULTILINESTRING grid lines
+					lnsX_proj <- suppressWarnings(st_cast(transform_ortho(lnsX, crs = crs_bb), "LINESTRING"))
+
 					lnsX_emp <- sf::st_is_empty(lnsX_proj)
 
 					x2 <- x2[!lnsX_emp]
@@ -181,7 +183,7 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					lnsY = sf::st_sfc(lapply(y2, function(y) {
 						sf::st_linestring(matrix(c(seq(x2.min, x2.max, length.out=ndiscr), rep(y,ndiscr)), ncol=2))
 					}), crs = crs)
-					lnsY_proj <- sf::st_transform(lnsY, crs = crs_bb)
+					lnsY_proj <- suppressWarnings(st_cast(transform_ortho(lnsY, crs = crs_bb), "LINESTRING"))
 					lnsY_emp <- sf::st_is_empty(lnsY_proj)
 
 					y2 <- y2[!lnsY_emp]
@@ -243,6 +245,17 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					do.call("fancy_breaks", c(list(vec=y, intervals=FALSE), o$labels.format))
 				}
 			})
+
+			# remove lines with one coordinate-row, and update related list items
+			cox_sel = vapply(co.x, nrow, FUN.VALUE = integer(1)) >= 2
+			co.x = co.x[cox_sel]
+			x2 = x2[cox_sel]
+			sel.x = which(x2 %in% x)
+
+			coy_sel = vapply(co.y, nrow, FUN.VALUE = integer(1)) >= 2
+			co.y = co.y[coy_sel]
+			y2 = y2[coy_sel]
+			sel.y = which(y2 %in% y)
 
 		})
 

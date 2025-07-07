@@ -17,6 +17,11 @@ full_bbox = function(crs) {
 	}
 }
 
+
+ortho_lonlat = function(lon, lat) {
+	paste0("+proj=ortho +lat_0=", lat, " +lon_0=", lon)
+}
+
 transform_ortho = function(shp, crs, tmapID = NULL) {
 	is_sfc = !is.null(tmapID) # also: inherits(shp, "sfc")
 	if (is_sfc) shp = st_sf(shp, tmapID = tmapID)
