@@ -15,6 +15,11 @@ get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 complete_options = function(x, o) {
 	nmx = names(x)
 	nmo = names(o)
+	if ("calls" %in% nmx) {
+		o$calls = unique(c(x$calls, o$calls))
+		x$calls = NULL
+		nmx = setdiff(nmx, "calls")
+	}
 	if (length(x) == 0L) return(o)
 	if (is.null(nmo) || is.null(nmx)) return(x)
 	d = setdiff(nmx, nmo)
