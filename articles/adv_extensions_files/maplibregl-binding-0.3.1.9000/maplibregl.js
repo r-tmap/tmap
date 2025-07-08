@@ -819,15 +819,8 @@ HTMLWidgets.widget({
               const maptilerOptions = {
                 apiKey: x.geocoder_control.api_key,
                 maplibregl: maplibregl,
+                ...x.geocoder_control,
               };
-
-              // Apply additional options
-              if (x.geocoder_control.placeholder) {
-                maptilerOptions.placeholder = x.geocoder_control.placeholder;
-              }
-              if (typeof x.geocoder_control.collapsed !== "undefined") {
-                maptilerOptions.collapsed = x.geocoder_control.collapsed;
-              }
 
               // Create MapTiler geocoder
               geocoder = new maplibreglMaptilerGeocoder.GeocodingControl(maptilerOptions);
@@ -3610,15 +3603,8 @@ if (HTMLWidgets.shinyMode) {
           const maptilerOptions = {
             apiKey: message.options.api_key,
             maplibregl: maplibregl,
+            ...message.options,
           };
-
-          // Apply additional options
-          if (message.options.placeholder) {
-            maptilerOptions.placeholder = message.options.placeholder;
-          }
-          if (typeof message.options.collapsed !== "undefined") {
-            maptilerOptions.collapsed = message.options.collapsed;
-          }
 
           // Create MapTiler geocoder
           geocoder = new maplibreglMaptilerGeocoder.GeocodingControl(maptilerOptions);
