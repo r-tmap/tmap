@@ -14,7 +14,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	if (!(cls[1] %in% c("num", "datetime", "date"))) {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
-		# cls = c("num", "int", "seq")
+		cls = c("num", "int", "seq")
 		warning(maincls, " is supposed to be applied to numerical or date/time data", call. = FALSE)
 	}
 
@@ -268,9 +268,10 @@ interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 	})
 }
 
-interval_date = function(scale, x1, aes, layer) {
-	interval_datetime(scale, x1, aes, layer)
+interval_date = function(scale, x1, aes, layer, show.messages, show.warnings) {
+	interval_datetime(scale, x1, aes, layer, show.messages, show.warnings)
 }
+
 
 interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings) {
 	style = NULL

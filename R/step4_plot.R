@@ -123,7 +123,8 @@ process_components2 = function(cdt, o) {
 	#if (o$ncols > 1 && o$nrows > 1) {
 	if (o$type == "wrap") {
 		# all free legends inside
-		cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]
+		if (any((!is.na(cdt$by1) | !is.na(cdt$by2)) & cdt$class == "out")) cli::cli_inform("{.field {.fun tm_pos_out}} Legends per facets are placed outside. To align them with the facets, consider {.fun tm_facets_stack} or {.fun tmap_arrange}.")
+		cdt[(!is.na(by1__) | !is.na(by2__)) & class == "autoout", ':='(class = "in")]
 	} else if (o$type == "grid") {
 		# all free-per-facet legends inside
 		cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]
