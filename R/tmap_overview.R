@@ -19,22 +19,44 @@ tmap_overview = function() {
 	nms = c("data_layer", "aux_layer", "component")
 	rem = c("data_", "aux_", "")
 
+	# Helper to get package
+	find_env <- function(generic, class) {
+		# Get the actual method
+		fun <- tryCatch(
+			getS3method(generic, class),
+			error = function(e) NULL
+		)
+		if (is.null(fun)) return(NA)
+		# Get its environment
+		env <- environment(fun)
+		if (isNamespace(env)) {
+			return(unname(getNamespaceName(env)))
+		} else {
+			return(unname(as.character(env)))
+		}
+	}
+
 	res = rbindlist(mapply(function(funi, remi, ni) {
 		dt = data.table::rbindlist(mapply(function(g, nm) {
-			ms = utils::methods(paste0("tmap", g, funi))
+			guni = paste0("tmap", g, funi)
+			ms = utils::methods(guni)
 			df = attr(ms, "info")
 
+			cls = sub("^[^.]*\\.", "", rownames(df))
 			x = data.table::data.table(element = sub(paste0("^[^.]*\\.(tm_)?(", remi, ")?"), "\\1", rownames(df)),
-									   type = ni,
-						   package = sub("^[^.]*\\.", "\\.", df$from),
-						   mode = nm)
+									   type = ni)
+			x$package = vapply(cls, function(x) {
+				find_env(guni, x)
+			}, FUN.VALUE = character(1))
+
+			x$mode = nm
 			x[x$element != "default", ]
 		}, gs, names(gs), SIMPLIFY = FALSE))
 
 		wide_dt <- data.table::dcast(
 			dt,
 			element + type ~ mode,
-			value.var = "package",fill = ""
+			value.var = "package",fill = "----"
 		)
 		data.table::setcolorder(
 			wide_dt,
