@@ -1006,6 +1006,85 @@ HTMLWidgets.widget({
                 drawBar.style.flexDirection = "row";
               }
             }
+
+            // Add download button if requested
+            if (x.draw_control.download_button) {
+              // Add CSS for download button if not already added
+              if (!document.querySelector('#mapgl-draw-download-styles')) {
+                const style = document.createElement('style');
+                style.id = 'mapgl-draw-download-styles';
+                style.textContent = `
+                  .mapbox-gl-draw_download {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: block;
+                    height: 30px;
+                    width: 30px;
+                    padding: 0;
+                    outline: none;
+                  }
+                  .mapbox-gl-draw_download:hover {
+                    background-color: rgba(0, 0, 0, 0.05);
+                  }
+                  .mapbox-gl-draw_download svg {
+                    width: 20px;
+                    height: 20px;
+                    margin: 5px;
+                    fill: #333;
+                  }
+                `;
+                document.head.appendChild(style);
+              }
+
+              // Small delay to ensure Draw control is fully rendered
+              setTimeout(() => {
+                // Find the Draw control button group
+                const drawButtons = map.getContainer().querySelector('.maplibregl-ctrl-group:has(.mapbox-gl-draw_polygon)');
+                
+                if (drawButtons) {
+                  // Create download button
+                  const downloadBtn = document.createElement('button');
+                  downloadBtn.className = 'mapbox-gl-draw_download';
+                  downloadBtn.title = 'Download drawn features as GeoJSON';
+                  
+                  // Add SVG download icon
+                  downloadBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                  `;
+                  
+                  downloadBtn.addEventListener('click', () => {
+                    // Get all drawn features
+                    const data = draw.getAll();
+                    
+                    if (data.features.length === 0) {
+                      alert('No features to download. Please draw something first!');
+                      return;
+                    }
+                    
+                    // Convert to string with nice formatting
+                    const dataStr = JSON.stringify(data, null, 2);
+                    
+                    // Create blob and download
+                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${x.draw_control.download_filename}.geojson`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                  });
+                  
+                  // Append to the Draw control button group
+                  drawButtons.appendChild(downloadBtn);
+                }
+              }, 100);
+            }
           }
 
           // Helper function to add features from a source to draw
@@ -3391,6 +3470,85 @@ if (HTMLWidgets.shinyMode) {
             drawBar.style.display = "flex";
             drawBar.style.flexDirection = "row";
           }
+        }
+
+        // Add download button if requested
+        if (message.download_button) {
+          // Add CSS for download button if not already added
+          if (!document.querySelector('#mapgl-draw-download-styles')) {
+            const style = document.createElement('style');
+            style.id = 'mapgl-draw-download-styles';
+            style.textContent = `
+              .mapbox-gl-draw_download {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                height: 30px;
+                width: 30px;
+                padding: 0;
+                outline: none;
+              }
+              .mapbox-gl-draw_download:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+              }
+              .mapbox-gl-draw_download svg {
+                width: 20px;
+                height: 20px;
+                margin: 5px;
+                fill: #333;
+              }
+            `;
+            document.head.appendChild(style);
+          }
+
+          // Small delay to ensure Draw control is fully rendered
+          setTimeout(() => {
+            // Find the Draw control button group
+            const drawButtons = map.getContainer().querySelector('.maplibregl-ctrl-group:has(.mapbox-gl-draw_polygon)');
+            
+            if (drawButtons) {
+              // Create download button
+              const downloadBtn = document.createElement('button');
+              downloadBtn.className = 'mapbox-gl-draw_download';
+              downloadBtn.title = 'Download drawn features as GeoJSON';
+              
+              // Add SVG download icon
+              downloadBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+              `;
+              
+              downloadBtn.addEventListener('click', () => {
+                // Get all drawn features
+                const data = drawControl.getAll();
+                
+                if (data.features.length === 0) {
+                  alert('No features to download. Please draw something first!');
+                  return;
+                }
+                
+                // Convert to string with nice formatting
+                const dataStr = JSON.stringify(data, null, 2);
+                
+                // Create blob and download
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${message.download_filename || 'drawn-features'}.geojson`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              });
+              
+              // Append to the Draw control button group
+              drawButtons.appendChild(downloadBtn);
+            }
+          }, 100);
         }
       } else if (message.type === "get_drawn_features") {
         var drawControl = widget.drawControl || widget.getDraw();
