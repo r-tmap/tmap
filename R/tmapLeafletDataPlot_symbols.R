@@ -12,21 +12,6 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 	}
 	dt = res$dt
 
-	if (!is.null(idt)) {
-		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
-	}
-	if (!is.null(hdt)) {
-		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
-	}
-
-	if (is.null(pdt)) {
-		popups = NULL
-	} else {
-		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
-
-		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
-	}
-
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 
@@ -43,9 +28,24 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		shpTM_match = TRUE
 	}
 
-	idt = (if (is.null(idt)) sprintf("%07d", dt$tmapID__)[shpTM_match] else idt[shpTM_match]) |>
-		submit_labels("symbols", pane, group)
+	if (!is.null(idt)) {
+		idt = idt$id[match(dt$tmapID__[shpTM_match], idt$tmapID__)]
+	} else {
+		idt = sprintf("%07d", dt$tmapID__)[shpTM_match]
+	}
+	if (!is.null(hdt)) {
+		hdt = hdt$hover[match(dt$tmapID__[shpTM_match], hdt$tmapID__)]
+	}
+	if (is.null(pdt)) {
+		popups = NULL
+	} else {
+		pdt = pdt[match(dt$tmapID__[shpTM_match], pdt$tmapID__)][, tmapID__ := NULL]
 
+		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+	}
+
+
+	submit_labels(idt, "symbols", pane, group)
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 

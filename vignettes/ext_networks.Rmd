@@ -50,7 +50,7 @@ With [**tmap.networks**](https://r-tmap.github.io/tmap.networks/) network visual
 library(sfnetworks)
 library(tmap.networks)
 
-(sfn = as_sfnetwork(roxel))
+sfn = as_sfnetwork(roxel)
 ```
 
 Besides this new spatial data class `"sfnetwork"`, this package also features new map layers, albeit very basic so far:
