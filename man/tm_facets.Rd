@@ -111,7 +111,6 @@ By default, \code{scale.factor = 2}.}
 \item \verb{tm_facets_(hv)stack()} stacks the facets either horizontally or vertically (one grouping variable).
 \item \code{tm_facets_grid()} specify facets for two grouping variables in a grid of rows and columns.
 \item \code{tm_facets_pagewise()} same as wrap, but the facets are drawn on different plots (pages). Replaces the \code{along} argument from version 3.
-\item \code{tm_facets_flip()} can be used to flip facets.
 \item \code{tm_facets()} is the core function, but it is recommended to use the other functions.
 }
 }

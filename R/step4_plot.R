@@ -645,6 +645,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 				do.call(FUNaux_prep, list(a = a_args, bs = db$bbox, id = id, o = o))
 			}, aux, 1:length(aux))
 			aux_group = mapply(function(a, agd) {
+				ng = lengths(gregexpr("__", agd, fixed = TRUE))
 				if (is.na(a$group)) agd else as.character(a$group)
 			}, aux, aux_group_def, USE.NAMES = FALSE)
 

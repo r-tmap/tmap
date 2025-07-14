@@ -55,12 +55,16 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 	}
 	if (!is.na(o$set_zoom_limits[2])) opt$maxZoom = o$set_zoom_limits[2]
 
-	for (s in tiles$server) {
-		if (s != "") {
-			if ((substr(s, 1, 4) == "http")) {
-				lf = leaflet::addTiles(lf, urlTemplate = s, group = group, options = opt)
+	k = length(tiles$server)
+
+	groups = rep(strsplit(group, "__", fixed = TRUE)[[1]], length.out = k)
+
+	for (i in 1L:k) {
+		if (tiles$server[i] != "") {
+			if ((substr(tiles$server[i], 1, 4) == "http")) {
+				lf = leaflet::addTiles(lf, urlTemplate = tiles$server[i], group = groups[i], options = opt)
 			} else {
-				lf = leaflet::addProviderTiles(lf, provider = s, group = group, options = opt)
+				lf = leaflet::addProviderTiles(lf, provider = tiles$server[i], group = groups[i], options = opt)
 			}
 		}
 	}
