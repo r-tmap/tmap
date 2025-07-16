@@ -6,7 +6,7 @@
 \title{Specify an animation}
 \usage{
 tm_animate_fast(
-  by = "VARS__",
+  frames = "VARS__",
   nframes = 60L,
   fps = 24L,
   play = c("loop", "pingpong", "once"),
@@ -15,7 +15,7 @@ tm_animate_fast(
 )
 
 tm_animate(
-  by = "VARS__",
+  frames = "VARS__",
   nframes = 60L,
   fps = 2L,
   play = c("loop", "pingpong", "once"),
@@ -24,7 +24,7 @@ tm_animate(
 )
 }
 \arguments{
-\item{by}{group by variable used to create the animation frames. Note: it is called \code{pages} in the core function \code{\link[=tm_facets]{tm_facets()}}.}
+\item{frames}{group by variable used to create the animation frames. This is similar to the \code{by} argument of \code{\link[=tm_facets_wrap]{tm_facets_wrap()}}. Instead of showing facets next to each other, they are shown as animation frames. However, under the hood \code{frames} will be used to specify \code{pages} of \code{\link[=tm_facets]{tm_facets()}}. This makes it possible to create an animation of regular facets.}
 
 \item{nframes}{number of animation frames. So far, this only applied experimentally in transition map variables. See the extension package tmap.cartogram.}
 
@@ -34,13 +34,13 @@ tm_animate(
 
 \item{dpr}{device pixel ratio. The ratio between the physical pixel density of a device and its logical pixel density.}
 
-\item{...}{passed on to \code{\link[=tm_facets]{tm_facets()}}}
+\item{...}{passed on to \code{\link[=tm_facets]{tm_facets()}}. Note that for animated facets, \code{by} can be specified to create animated facet wraps, and \code{rows} and \code{cols} to created animated facet grids.}
 }
 \description{
 \code{tm_animate}
 }
 \details{
-Specify an animation from a tmap plot. This is similar to creating facets with \code{\link[=tm_facets]{tm_facets()}}. Instead of showing facets next to each other, they are shown as animation frames. The animation subsequently can be exported to a gif or video file (e.g. mp4) with \code{\link[=tmap_animation]{tmap_animation()}}. If the tmap plot with \code{\link[=tm_animate]{tm_animate()}} is printed, the animation will be previewed. The default \code{\link[=tm_animate]{tm_animate()}} will show the individual frames slowly (frame per seconds (fps) set to 2) whereas \code{\link[=tm_animate_fast]{tm_animate_fast()}} will show them like a movie (with a fps set to 24).
+Specify an animation from a tmap plot. This is similar to creating facets with \code{\link[=tm_facets]{tm_facets()}}. The animation subsequently can be exported to a gif or video file (e.g. mp4) with \code{\link[=tmap_animation]{tmap_animation()}}. If the tmap plot with \code{\link[=tm_animate]{tm_animate()}} is printed, the animation will be previewed. The default \code{\link[=tm_animate]{tm_animate()}} will show the individual frames slowly (frame per seconds (fps) set to 2) whereas \code{\link[=tm_animate_fast]{tm_animate_fast()}} will show them like a movie (with a fps set to 24).
 }
 \seealso{
 \code{\link[=tm_facets]{tm_facets()}} which is the core function, and \code{\link[=tmap_animation]{tmap_animation()}} used to save the animation
