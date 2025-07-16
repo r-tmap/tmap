@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,31 +135,7 @@ natively.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://luukvdmeer.github.io/sfnetworks/" class="external-link">sfnetworks</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.networks" class="external-link">tmap.networks</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="op">(</span><span class="va">sfn</span> <span class="op">=</span> <span class="fu"><a href="https://luukvdmeer.github.io/sfnetworks/reference/as_sfnetwork.html" class="external-link">as_sfnetwork</a></span><span class="op">(</span><span class="va">roxel</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"># A sfnetwork with</span> <span style="color: #555555;">701</span> <span style="color: #555555;">nodes and</span> <span style="color: #555555;">851</span> <span style="color: #555555;">edges</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; #</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; # CRS: </span> <span style="color: #555555;">EPSG:4326</span> </span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; #</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; # A directed multigraph with 14 components with spatially explicit edges</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; #</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; </span><span style="color: #949494;"># Node data: 701 × 1 (active)</span></span></span>
-<span><span class="co">#&gt;              geometry</span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (7.533722 51.95556)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> (7.533461 51.95576)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> (7.532442 51.95422)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  (7.53209 51.95328)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> (7.532709 51.95209)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> (7.532869 51.95257)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 695 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">#</span></span></span>
-<span><span class="co"><span style="color: #555555;">#&gt; </span><span style="color: #949494;"># Edge data: 851 × 5</span></span></span>
-<span><span class="co">#&gt;    from    to name                  type                                geometry</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;LINESTRING [°]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2 Havixbecker Strasse   residential (7.533722 51.95556, 7.533461 51…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3     4 Pienersallee          secondary   (7.532442 51.95422, 7.53236 51.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     6 Schulte-Bernd-Strasse residential (7.532709 51.95209, 7.532823 51…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 848 more rows</span></span></span></code></pre></div>
+<span><span class="va">sfn</span> <span class="op">=</span> <span class="fu"><a href="https://luukvdmeer.github.io/sfnetworks/reference/as_sfnetwork.html" class="external-link">as_sfnetwork</a></span><span class="op">(</span><span class="va">roxel</span><span class="op">)</span></span></code></pre></div>
 <p>Besides this new spatial data class <code>"sfnetwork"</code>, this
 package also features new map layers, albeit very basic so far:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_animate_fast</span><span class="op">(</span></span>
-<span>  by <span class="op">=</span> <span class="st">"VARS__"</span>,</span>
+<span>  frames <span class="op">=</span> <span class="st">"VARS__"</span>,</span>
 <span>  nframes <span class="op">=</span> <span class="fl">60L</span>,</span>
 <span>  fps <span class="op">=</span> <span class="fl">24L</span>,</span>
 <span>  play <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loop"</span>, <span class="st">"pingpong"</span>, <span class="st">"once"</span><span class="op">)</span>,</span>
@@ -100,7 +100,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_animate</span><span class="op">(</span></span>
-<span>  by <span class="op">=</span> <span class="st">"VARS__"</span>,</span>
+<span>  frames <span class="op">=</span> <span class="st">"VARS__"</span>,</span>
 <span>  nframes <span class="op">=</span> <span class="fl">60L</span>,</span>
 <span>  fps <span class="op">=</span> <span class="fl">2L</span>,</span>
 <span>  play <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loop"</span>, <span class="st">"pingpong"</span>, <span class="st">"once"</span><span class="op">)</span>,</span>
@@ -113,8 +113,8 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
-<dd><p>group by variable used to create the animation frames. Note: it is called <code>pages</code> in the core function <code><a href="tm_facets.html">tm_facets()</a></code>.</p></dd>
+<dl><dt id="arg-frames">frames<a class="anchor" aria-label="anchor" href="#arg-frames"></a></dt>
+<dd><p>group by variable used to create the animation frames. This is similar to the <code>by</code> argument of <code><a href="tm_facets.html">tm_facets_wrap()</a></code>. Instead of showing facets next to each other, they are shown as animation frames. However, under the hood <code>frames</code> will be used to specify <code>pages</code> of <code><a href="tm_facets.html">tm_facets()</a></code>. This makes it possible to create an animation of regular facets.</p></dd>
 
 
 <dt id="arg-nframes">nframes<a class="anchor" aria-label="anchor" href="#arg-nframes"></a></dt>
@@ -134,12 +134,12 @@
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>passed on to <code><a href="tm_facets.html">tm_facets()</a></code></p></dd>
+<dd><p>passed on to <code><a href="tm_facets.html">tm_facets()</a></code>. Note that for animated facets, <code>by</code> can be specified to create animated facet wraps, and <code>rows</code> and <code>cols</code> to created animated facet grids.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Specify an animation from a tmap plot. This is similar to creating facets with <code><a href="tm_facets.html">tm_facets()</a></code>. Instead of showing facets next to each other, they are shown as animation frames. The animation subsequently can be exported to a gif or video file (e.g. mp4) with <code><a href="tmap_animation.html">tmap_animation()</a></code>. If the tmap plot with <code>tm_animate()</code> is printed, the animation will be previewed. The default <code>tm_animate()</code> will show the individual frames slowly (frame per seconds (fps) set to 2) whereas <code>tm_animate_fast()</code> will show them like a movie (with a fps set to 24).</p>
+    <p>Specify an animation from a tmap plot. This is similar to creating facets with <code><a href="tm_facets.html">tm_facets()</a></code>. The animation subsequently can be exported to a gif or video file (e.g. mp4) with <code><a href="tmap_animation.html">tmap_animation()</a></code>. If the tmap plot with <code>tm_animate()</code> is printed, the animation will be previewed. The default <code>tm_animate()</code> will show the individual frames slowly (frame per seconds (fps) set to 2) whereas <code>tm_animate_fast()</code> will show them like a movie (with a fps set to 24).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
