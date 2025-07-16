@@ -271,7 +271,7 @@ tmapGetCompGroupArgs = function(comp) {
 					  "bg.color",
 					  "bg.alpha")]
 
-	any_legend_chart_inset = any(vapply(comp, inherits, FUN.VALUE = logical(1), c("tm_legend", "tm_chart", "tm_inset")))
+	any_legend_chart_inset = any(vapply(comp, inherits, FUN.VALUE = logical(1), c("tm_legend", "tm_chart")))
 	grp_called = setdiff(unique(do.call(c, lapply(comp, FUN = "[[", "called_via_comp_group"))), "group_id")
 
 	if (!("frame" %in% grp_called)) grp$frame = any_legend_chart_inset

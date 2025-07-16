@@ -502,12 +502,6 @@
 		logo.between_margin = 0.2,
 		logo.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 
-		inset_map.height = 7,
-		inset_map.width = 7,
-		inset_map.margins = c(0.2, 0.2, 0.2, 0.2),
-		inset_map.between_margin = 0.2,
-		inset_map.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
-		inset_map.frame = TRUE,
 
 		inset.height = 3,
 		inset.width = 3,
@@ -518,6 +512,13 @@
 		inset.bg = TRUE,
 		inset.bg.color = "#ffffff",
 		inset.bg.alpha = 1,
+
+		inset_map.height = 7,
+		inset_map.width = 7,
+		inset_map.margins = c(0.2, 0.2, 0.2, 0.2),
+		inset_map.between_margin = 0.2,
+		inset_map.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
+		inset_map.frame = FALSE,
 
 		inset_grob.height = 7,
 		inset_grob.width = 7,

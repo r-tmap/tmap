@@ -1,0 +1,105 @@
+---
+title: "tmap basics: inset maps and minimaps"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+## Introduction
+
+An inset map or minimap is a small map embedded in the main map.
+
+* We use `tm_inset()` to zoom in on areas that are too cluttered at the main maps's scale.
+* We use `tm_minimap(()` to show a broader geographic context; where on earth is the main map located?
+
+Note that both `tm_inset()` and `tm_minimap()` are map components (see [vignette](https://r-tmap.github.io/tmap/articles/basics_components))
+
+## Minimaps
+
+
+```{r, fig.height = 6}
+tmap_mode("plot")
+tm_shape(NLD_muni) +
+	tm_polygons(
+		fill = "edu_appl_sci") +
+	tm_title("Population share with (applied) university degree in 2022") +
+	tm_credits("Statistics Netherlands (CBS)") + 
+	tm_minimap(position = c("left", "top"))
+```
+
+The implementation in plot mode is experimental (and new as of tmap 4.2). It features a small globe. There are no options implemented yet to change the appearance.
+Note that it takes a few seconds to run due to the applied orthographic [map projection](https://r-tmap.github.io/tmap/articles/foundations_crs).
+
+The minimap is interactive in view mode.
+
+```{r, fig.height = 6}
+tmap_mode("view")
+tmap_last()
+```
+
+Note that the minimap is also supported in two other modes, `"maplibre"` and `"mapbox"` via the extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/).
+
+
+## Inset maps
+
+```{r, fig.height = 6}
+tmap_mode("plot")
+tm_shape(NLD_dist) +
+	tm_polygons(
+		fill = "edu_appl_sci",
+		col = NULL) +
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_title("Population share with (applied) university degree in 2022") +
+	tm_credits("Statistics Netherlands (CBS)") + 
+	tm_title("Amsterdam", size = 0.8, position = c("left", "top")) +
+	tm_inset(bb("Amsterdam"), position = c("left", "top")) +
+	tm_title("The Hague", size = 0.8, position = c("left", "top")) +
+	tm_inset(bb("The Hague"), position = c("left", "top"))
+```
+
+Currently, inset maps are only implemented in `"plot"` mode.

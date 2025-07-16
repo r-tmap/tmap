@@ -195,7 +195,7 @@ tmapLeafletCompPlot.tm_minimap = function(comp, lf, o) {
 	} else {
 		o$basemap.server[1]
 	}
-	lf2 = do.call(addMiniMap, c(list(map = lf), comp$args))
+	lf2 = do.call(addMiniMap, c(list(map = lf, position = leaflet_pos(comp$position)), comp$args))
 	if (!comp$specified_tiles && (length(comp$args$tiles) > 0)) {
 		lf2 <- lf2 %>%
 			htmlwidgets::onRender("

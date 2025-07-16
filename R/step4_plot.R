@@ -20,7 +20,7 @@ process_components = function(cdt, o) {
 	cdt$pos.h = sapply(cdt$comp, function(l) {x = l$position$pos.h; if (is.null(x)) NA else x})
 	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
 	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) NA_integer_ else x})
-
+	cdt[, zauto := .I]
 
 	if (gs != "Grid") {
 		cdt[class == "out", class := "in"]
@@ -91,8 +91,9 @@ process_components = function(cdt, o) {
 	cdt[, legH := getLH(comp)]
 
 	if (any(is.na(cdt$z))) {
-		cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
+		cdt[is.na(z), z := zauto]
 	}
+	cdt[, zauto:=NULL]
 	if (nrow(cdt)>0L) {
 		data.table::setorder(cdt, "z")
 	}
@@ -820,28 +821,29 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 			# inset map frame
 			if (length(inset_ids)) {
-				for (iid in inset_ids) {
+				sfc_bbxs = sf::st_transform(do.call(c, lapply(inset_ids, function(iid) {
 					ic = cdt$comp[[iid]]
-					ic$bbox
+					tmaptools::bb_poly(ic$bbox)
+				})), crs = crs)
 
-					tb = tm_polygons()[[1]]
+
+				tb = tm_polygons()[[1]]
 
 
-					gp = tb$gpar
+				gp = tb$gpar
 
-					FUN = paste0("tmap", gs, "DataPlot")
+				FUN = paste0("tmap", gs, "DataPlot")
 
-					a = structure(tb$mapping.args, class = c("tm_data_polygons", "list"))
+				a = structure(tb$mapping.args, class = c("tm_data_polygons", "list"))
 
-					shapepTM = shapeTM(sf::st_transform(tmaptools::bb_poly(ic$bbox), crs), tmapID = 1L)
+				shapepTM = shapeTM(sfc_bbxs, tmapID = seq_along(sfc_bbxs))
 
-					shpTM = tmapTransPolygons(shapepTM, args = tb$trans.args, plot.order = tb$plot.order)
+				shpTM = tmapTransPolygons(shapepTM, args = tb$trans.args, plot.order = tb$plot.order)
 
-					mdt = data.table(tmapID__ = 1L, fill = NA, col = "#FF0000", lwd = 2, lty = "solid", fill_alpha = 1, col_alpha = 1, ord__ = 1L)
+				mdt = data.table(tmapID__ = seq_along(sfc_bbxs), fill = NA, col = "#FF0000", lwd = 2, lty = "solid", fill_alpha = 1, col_alpha = 1, ord__ = 1L)
 
-					do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
+				do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
 
-				}
 			}
 			do.call(FUNoverlay, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		}
