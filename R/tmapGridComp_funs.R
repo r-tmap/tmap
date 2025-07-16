@@ -946,6 +946,8 @@ tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
 
 	#"+proj=ortho +lat_0=10 +lon_0=0"
 
+	lastcalln = x = get("last_map_new", envir = .TMAP)
+
 	tm = tm_shape(World) +
 		tm_crs(ortho_lonlat(center[1], center[2]), bbox = "FULL")+
 		tm_polygons(col = NULL, fill = "#2CA02C") +
@@ -959,7 +961,13 @@ tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
 				  space = FALSE)
 
 	asp = comp$width / comp$height
+
+
 	comp$x = tmap_grob(tm, asp = asp)
+
+	assign("last_map_new", lastcalln, envir = .TMAP)
+
+
 	class(comp)[1] = "tm_inset_grob"
 	tmapGridCompPlot.tm_inset_grob(comp, o, fH, fW)
 }
