@@ -927,7 +927,13 @@ tmapGridCompWidth.tm_minimap = function(comp, o) {
 #' @export
 tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
 	poly = tmaptools::bb_poly(comp$bbox)
-	center = suppressWarnings(round(sf::st_transform(sf::st_centroid(poly), crs = 4326)[[1]][], 3))
+
+	if (sf::st_is_longlat(comp$bbox)) {
+		center = c(mean(comp$bbox[c("xmin", "xmax")]),
+				   mean(comp$bbox[c("ymin", "ymax")]))
+	} else {
+		center = suppressWarnings(round(sf::st_transform(sf::st_centroid(poly), crs = 4326)[[1]][], 3))
+	}
 
 	# bound lat to -30,-10 or 10,30
 	center[2] = if (center[2] >= 0) {

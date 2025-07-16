@@ -192,6 +192,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	# check if mode is the same as in step1
 	# tmap_mode() may be executed in between (#1082)
 	gs = tmap_graphics_name()
+
 	if (o$name != gs) cli::cli_abort("tmap mode changed during execution; did you run {.code tmap_mode()} inside a shiny app?")
 
 
@@ -920,6 +921,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		leg_nr_dummy = legend_save(leg_dummy)
 		crt_nr_dummy = chart_save(tm_chart_none())
+
+		# update
+		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
+
 
 		# inset maps: prepare input for step4
 		if (length(inset_ids)) {
