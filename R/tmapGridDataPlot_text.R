@@ -102,7 +102,7 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 			gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
 			gps_sh = split_gp(gp_sh, n)
 			grobTextShList = mapply(function(x, y, txt, g, ai) {
-				grid::textGrob(x = grid::unit(x + a$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  a$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = ai)
+				grid::textGrob(x = grid::unit(x + a$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  a$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = ai, just = just)
 			}, coords[,1], coords[,2], text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
