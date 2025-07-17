@@ -13,6 +13,14 @@ process_components = function(cdt, o) {
 		cdt$comp[is_added_leg] = lapply(cdt$comp[is_added_leg], tmapAddedLegend, o = o)
 	}
 
+	# the option component.position is not a general fall-back option (in case the component is undefined for a mode),
+	# but used for imputation of not-specified tm_pos arguments
+	# in case there is no specific .position argument for the current mode specified, use the 'in' position for the time being
+	# the missing methods for the component is catched later via the missing tmap<gs>CompPrepare method
+	cdt$comp = lapply(cdt$comp, function(l) {
+		if ("in" %in% names(l$position)) l$position = l$position[["in"]]
+		l
+	})
 
 	cdt$class = sapply(cdt$comp, function(l) l$position$type)
 	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA else x})
@@ -351,7 +359,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	## place components top left
 	if (o$legend.only) {
 		cdt$comp = lapply(cdt$comp, function(cc) {
-			cc$position = l = complete_options(tm_pos_in("left", "top"), o$legend.position)
+			cc$position = complete_options(tm_pos_in("left", "top"), o$legend.position)
 			cc
 		})
 	}

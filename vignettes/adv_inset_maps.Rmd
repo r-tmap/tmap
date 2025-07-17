@@ -107,7 +107,7 @@ tm_shape(NLD_dist) +
 tm_shape(NLD_muni) +
 	tm_borders() +
 tm_title("Population share with (applied) university degree in 2022") +
-m_credits("Statistics Netherlands (CBS)") + 
+tm_credits("Statistics Netherlands (CBS)") + 
 tm_title("Amsterdam", size = 0.8, position = c("left", "top")) +
 tm_inset(bb("Amsterdam"), position = c("left", "top")) +
 tm_title("The Hague", size = 0.8, position = c("left", "top")) +
