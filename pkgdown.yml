@@ -2,9 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
+  adv_animations: adv_animations.html
   adv_comp_group: adv_comp_group.html
   adv_extensions: adv_extensions.html
   adv_groups: adv_groups.html
+  adv_inset_maps: adv_inset_maps.html
   adv_margins: adv_margins.html
   adv_multivariate: adv_multivariate.html
   adv_options: adv_options.html
@@ -36,7 +38,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2025-07-16T19:08Z
+last_built: 2025-07-17T14:14Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

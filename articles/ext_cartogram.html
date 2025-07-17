@@ -89,7 +89,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
+<li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
@@ -147,11 +149,11 @@ relationships between them are preserved as much as possible.</p>
 <code class="sourceCode R"><span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tm_cartogram</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
+<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
 <span>                 fill <span class="op">=</span> <span class="st">"life_exp"</span>,</span>
 <span>                 fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-cols4all.bu_br_div"</span><span class="op">)</span>,</span>
 <span>                 fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Age"</span><span class="op">)</span>,</span>
-<span>                 options <span class="op">=</span> <span class="fu">opt_tm_cartogram</span><span class="op">(</span>itermax <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                 options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram</a></span><span class="op">(</span>itermax <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Life Expectancy"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
 <p><img src="ext_cartogram_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
@@ -162,11 +164,11 @@ relationships between them are preserved as much as possible.</p>
 <p>Here, the polygons are only resized while they keep their shape.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tm_cartogram_ncont</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
+<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram_ncont</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
 <span>                       fill <span class="op">=</span> <span class="st">"inequality"</span>,</span>
 <span>                       fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"cols4all.pu_gn_div"</span>, values.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                       fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span>,</span>
-<span>                       options <span class="op">=</span> <span class="fu">opt_tm_cartogram_ncont</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                       options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram_ncont</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_text</a></span><span class="op">(</span>point.label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Income inequality (Gini coefficient)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
@@ -178,7 +180,7 @@ relationships between them are preserved as much as possible.</p>
 <p>Polygons are replaced by non-overlapping bubbles.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tm_cartogram_dorling</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
+<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram_dorling</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
 <span>                         fill <span class="op">=</span> <span class="st">"press"</span>,</span>
 <span>                         fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"cols4all.pu_gn_div"</span>, midpoint <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
 <span>                         fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span>, height <span class="op">=</span> <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>

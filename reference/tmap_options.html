@@ -59,7 +59,9 @@
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced"><li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced"><li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">Shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
@@ -2453,19 +2455,6 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"top"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.height: <span style="color: #0000BB;">7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.width: <span style="color: #0000BB;">7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.h: <span style="color: #0000BB;">"right"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.v: <span style="color: #0000BB;">"top"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"top"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.height: <span style="color: #0000BB;">3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.width: <span style="color: #0000BB;">3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
@@ -2482,6 +2471,21 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.color: <span style="color: #0000BB;">"#ffffff"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset.bg.alpha: <span style="color: #0000BB;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.width: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0.2, 0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.between_margin: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.position: <span style="color: #555555;">S3&lt;tm_pos&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pos.v: <span style="color: #0000BB;">"bottom"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.h: <span style="color: #0000BB;">"right"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─align.v: <span style="color: #0000BB;">"top"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.h: <span style="color: #0000BB;">"left"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─just.v: <span style="color: #0000BB;">"top"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ └─type: <span style="color: #0000BB;">"in"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_map.frame: <span style="color: #0000BB;">FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_tmap.height: <span style="color: #0000BB;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_tmap.width: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.height: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_grob.width: <span style="color: #0000BB;">7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─inset_gg.height: <span style="color: #0000BB;">7</span></span>
