@@ -206,6 +206,8 @@ navbar:
       menu:
         - text: Inset maps
           href: articles/adv_inset_maps
+        - text: Animations
+          href: articles/adv_animations
         - text: Shiny integration
           href: articles/adv_shiny
         - text: Multivariate visual variables

@@ -43,6 +43,6 @@ tm_animate = function(frames = "VARS__",
 	play = match.arg(play)
 
 	tm = do.call("tm_facets", c(list(pages = frames, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play, dpr = dpr), args[setdiff(names(args), "type")]))
-	tm[[1]]$calls = args_called
+	tm[[1]]$calls = unique(c(args_called, "frames"))
 	tm
 }
