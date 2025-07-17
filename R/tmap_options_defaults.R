@@ -520,6 +520,9 @@
 		inset_map.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "right", align.v = "top", just.h = "left", just.v = "top"),
 		inset_map.frame = FALSE,
 
+		inset_tmap.height = 7,
+		inset_tmap.width = 7,
+
 		inset_grob.height = 7,
 		inset_grob.width = 7,
 

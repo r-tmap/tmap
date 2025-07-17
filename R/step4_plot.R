@@ -614,7 +614,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	FUNgridylab = paste0("tmap", gs, "GridYLab")
 
 	# for inset maps
-	inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
+	inset_frame_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, function(cmp) "bbox" %in% names(cmp)))
 
 	if (!o$legend.only) {
 		# create table with bounding boxes (the only important property, apart from settings)
@@ -820,11 +820,11 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			}
 
 			# inset map frame
-			if (length(inset_ids)) {
-				sfc_bbxs = sf::st_transform(do.call(c, lapply(inset_ids, function(iid) {
+			if (length(inset_frame_ids)) {
+				sfc_bbxs = do.call(c, lapply(inset_frame_ids, function(iid) {
 					ic = cdt$comp[[iid]]
-					tmaptools::bb_poly(ic$bbox)
-				})), crs = crs)
+					sf::st_transform(tmaptools::bb_poly(ic$bbox), crs = crs)
+				}))
 
 
 				tb = tm_polygons()[[1]]
@@ -924,7 +924,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		leg_nr_dummy = legend_save(leg_dummy)
 		crt_nr_dummy = chart_save(tm_chart_none())
 
-		# update
+		# inset ids
 		inset_ids = if (nrow(cdt) == 0L) integer(0) else which(sapply(cdt$comp, inherits, "tm_inset_map"))
 
 

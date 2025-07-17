@@ -146,8 +146,6 @@ navbar:
           href: articles/basics_basemaps
         - text: Components
           href: articles/basics_components
-        - text: Inset maps
-          href: articles/basics_inset_maps
         - text: Charts
           href: articles/basics_charts
         - text: Layout
@@ -206,6 +204,8 @@ navbar:
     advanced:
       text: Advanced
       menu:
+        - text: Inset maps
+          href: articles/adv_inset_maps
         - text: Shiny integration
           href: articles/adv_shiny
         - text: Multivariate visual variables
