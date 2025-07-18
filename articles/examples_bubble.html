@@ -67,6 +67,7 @@
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -194,7 +195,7 @@
 <p><img src="examples_bubble_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>In order to find a suitable color palette for this example, we used</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">cols4all</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cols4all/man/c4a_gui.html" class="external-link">c4a_gui</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">cols4all</span><span class="fu">::</span><span class="fu"><a href="https://cols4all.github.io/reference/c4a_gui.html" class="external-link">c4a_gui</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>and selected a sequential ‘rainbow’ like color scale which is color blind friendly, and where the colors are not too bright and not too dark, because we would like to have sufficient contrast with both the black borders and the white background (see the <a href="https://mtennekes.github.io/cols4all/articles/01_paper.html" class="external-link">working paper of cols4all</a>). The <code>-</code> symbol indicates that we reverse the palette.</p>
 <p>Note that we set <code>n</code> the number of class intervals to 5. However, for the standard interval method, which is called <code>pretty</code>, the parameter <code>n</code> is the preferred number of classes. In this case the resulting number of classes is 5 (just like <code>pretty(c(0,60), 5)</code>).</p>
 </div>
