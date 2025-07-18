@@ -178,6 +178,8 @@ navbar:
           href: articles/examples_terrain
         - text: Gridmap
           href: articles/examples_gridmaps
+        - text: Bivariate choropleth
+          href: articles/examples_biv_choro
 
     comparison:
       text: Comparison

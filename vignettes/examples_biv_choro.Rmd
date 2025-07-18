@@ -1,0 +1,231 @@
+---
+title: "tmap example: bivariate choropleth"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+## About the data
+
+A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(World)
+```
+
+A bivariate choropleth is a choropleth where the polygon fill color is used to visualize two data variables. In this example we'll analyse the economic and gender inequality.
+
+
+
+
+## Step 1: minimal working example
+
+```{r, fig.height = 4}
+tm_shape(World) +
+    tm_polygons(fill = tm_vars(c("gender", "inequality"), multivariate = TRUE)) +
+tm_crs("auto")
+```
+
+The use of `tm_vars()` is required in order to specify a multivariate mapping. See [vignette](https://r-tmap.github.io/tmap/articles/adv_multivariate) for more information and other use cases. For now, we specify a vector of two variables, and set `multivariate` to `TRUE`. Recall that `fill = c("gender", "inequality")` will create two facets, one for each map (see [vignette](https://r-tmap.github.io/tmap/articles/basics_facets#facets-one-dimensional)).
+
+## Step 2: color palette
+
+By default, a purple-green bivariate palette is used, more specifically, `"pu_gn_bivs"` from the package [**cols4all**](https://cols4all.github.io/cols4all-R/index.html). 
+
+
+### Bivariate color palettes in cols4all
+By default, a purple-green bivariate palette is used, more specifically, `"pu_gn_bivs"` from the package [**cols4all**](https://cols4all.github.io/cols4all-R/index.html). The `"bivs"` suffix stands for sequential x sequential. There are four of these bivariate palette types.
+
+```{r, fig.height = 3, fig.show = "hold", out.width="45%"}
+library(cols4all)
+c4a_plot("pu_gn_bivs", n = 5)
+c4a_plot("brewer.qualseq", n = 3)
+```
+
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">Sequential x sequential</div>
+  <div style="flex: 1; text-align: left;">Sequential x categorical</div>
+</div>
+
+
+
+```{r, fig.height = 3, fig.show = "hold", out.width="45%"}
+library(cols4all)
+c4a_plot("cols4all.bu_br_bivd", n = 5)
+c4a_plot("cols4all.yl_rd_bivg", n = 5)
+```
+
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">Sequential x diverging</div>
+  <div style="flex: 1; text-align: left;">Sequential x desaturation</div>
+</div>
+
+### Flipping
+
+All bivariate palettes can be flipped. For this, the development version of cols4all is required. We use the bivariate sequential x diverging palette with 3 columns and 5 rows.
+
+```{r, fig.height = 5, fig.show = "hold", out.width="45%"}
+c4a_plot("cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("-cols4all.pu_gn_bivd", n = 3, m = 5)
+```
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">Normal order</div>
+  <div style="flex: 1; text-align: left;">\"-\" flip columns</div>
+</div>
+
+```{r, fig.height = 4, fig.show = "hold", out.width="45%"}
+c4a_plot("|cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("+cols4all.pu_gn_bivd", n = 3, m = 5)
+```
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">\"|\" Flip rows</div>
+  <div style="flex: 1; text-align: left;">\"+\" Flip rows and columns</div>
+</div>
+
+```{r, fig.height = 4, fig.show = "hold", out.width="45%"}
+c4a_plot("/cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("\\cols4all.pu_gn_bivd", n = 3, m = 5)
+```
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">\"/\" Flip diagonally</div>
+  <div style="flex: 1; text-align: left;">\"\\\" Flip other diagonal</div>
+</div>
+
+Note that we need the double `"\\"` becouase a single one is used as escape character.
+
+```{r, fig.height = 3, fig.show = "hold", out.width="45%"}
+c4a_plot("-/cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("-\\cols4all.pu_gn_bivd", n = 3, m = 5)
+```
+
+<div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
+  <div style="flex: 1; text-align: left;">\"-/\" Flip diagonally and rows</div>
+  <div style="flex: 1; text-align: left;">\"-\\\" Flip other-diagonally and rows</div>
+</div>
+
+### Using cols4all palettes in tmap
+
+A bivariate color palette can be specified in tmap via `tm_scale_bivariate`:
+
+```{r, fig.height = 4}
+tm_shape(World) +
+  tm_polygons(
+    fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
+    fill.scale = 
+      tm_scale_bivariate(values = "//bu_br_bivs")) +
+tm_crs("auto")
+```
+
+
+One inconvenience is that the origin of the palettes plotted above (with `c4a_plot()`) is top left, but the origin of a bivariate color legend in tmap is bottom right. Therefore, the diagonal prefixes need to be the other way round.
+
+
+### Using custom bivariate palettes in tmap
+
+```{r, fig.height = 4}
+tm_shape(World) +
+  tm_polygons(
+    fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
+    fill.scale = 
+      tm_scale_bivariate(values = 
+        matrix(c("#E8E8E8", "#E4ACAC", "#C85A5A",
+        		 "#B0D5DF", "#AD9EA5", "#985356",
+        		 "#64ACBE", "#627F8C", "#574249"),
+        		 byrow = TRUE, ncol = 3))) +
+tm_crs("auto")
+```
+
+This palette is also known as `"stevens.bluered"`. Note that this is not the most color blind friendly one. Check out `c4a_gui()` to analyse color blind friendliness, also for custom palettes.
+
+## Step 3: changing the individual scales
+
+Let's create three levels for each variable, and assign the intuitive labels, e.g. L, M, and H, standing for low, medium and high inequality.
+
+
+```{r, fig.height = 4}
+tm_shape(World) +
+  tm_polygons(
+    fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
+    fill.scale = 
+      tm_scale_bivariate(
+        scale1 = tm_scale_intervals(style = "kmeans", n = 3, labels = c("L", "M", "H")),
+      	scale2 = tm_scale_intervals(style = "kmeans", n = 3, labels = c("L", "M", "H")),
+      	values = "bu_br_bivs")) +
+tm_crs("auto") 
+```
+
+## Step 4: changing the legend
+
+```{r, fig.height = 4}
+tm_shape(World) +
+  tm_polygons(
+    fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
+    fill.scale = 
+      tm_scale_bivariate(
+        scale1 = tm_scale_intervals(style = "kmeans", n = 3, labels = c("L", "M", "H")),
+      	scale2 = tm_scale_intervals(style = "kmeans", n = 3, labels = c("L", "M", "H")),
+      	values = "bu_br_bivs"),
+    fill.legend = tm_legend_bivariate(
+      xlab = "Gender",
+      ylab = "Economic",
+      xlab.size = 1,
+      ylab.size = 1,
+      item.r = 0,
+      item.width = 2,
+      item.height = 2,
+      text.size = 1)) +
+tm_title("Inequality per country", z = 0) +
+tm_crs("auto") +
+tm_layout(inner.margins = c(0, 0.15, 0.02, 0.02)) +
+tm_components(position = c("left", "bottom"), frame = FALSE)
+```
+

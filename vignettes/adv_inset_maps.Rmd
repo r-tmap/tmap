@@ -2,10 +2,6 @@
 title: "tmap advanced: inset maps and minimaps"
 output: 
   bookdown::html_vignette2:
-pkgdown:
-  as_is: true
-template:
-  math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
 editor_options: 
@@ -15,9 +11,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  out.width = "100%",
-  dpi = 300,
-  fig.width = 7.2916667,
+  fig.width = 8,
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
