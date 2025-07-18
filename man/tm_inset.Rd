@@ -20,6 +20,19 @@ tm_inset(
   bg,
   bg.color,
   bg.alpha,
+  box_frame,
+  box_frame.color,
+  box_frame.alpha,
+  box_frame.lwd,
+  box_frame.lty,
+  box_bg,
+  box_bg.color,
+  box_bg.alpha,
+  main_frame,
+  main_frame.r,
+  main_frame.color,
+  main_frame.alpha,
+  main_frame.lwd,
   z
 )
 }
@@ -53,6 +66,18 @@ tm_inset(
 \item{bg.color}{Background color}
 
 \item{bg.alpha}{Background transparency}
+
+\item{box_frame}{Should a box frame be drawn in the main map that shows where the inset is? \code{TRUE} by default}
+
+\item{box_frame.color, box_frame.alpha, box_frame.lwd}{Properties of the box frame}
+
+\item{box_bg}{Should the frame box have a background? \code{FALSE} by default}
+
+\item{box_bg.color, box_bg.alpha}{Properties of the box background}
+
+\item{main_frame}{Should a frame be drawn around the inset map? Note that this is different from the general map component frame (the argument \code{frame})}
+
+\item{main_frame.r, main_frame.color, main_frame.alpha, main_frame.lwd}{Properties of the main frame}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
 }

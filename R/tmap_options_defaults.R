@@ -513,6 +513,21 @@
 		inset.bg.color = "#ffffff",
 		inset.bg.alpha = 1,
 
+		inset.box_frame = TRUE,
+		inset.box_frame.color = "#ee2211",
+		inset.box_frame.alpha = 1,
+		inset.box_frame.lwd = 2,
+		inset.box_frame.lty = "solid",
+		inset.box_bg = FALSE,
+		inset.box_bg.color = "#ffffff",
+		inset.box_bg.alpha = 1,
+
+		inset.main_frame = TRUE,
+		inset.main_frame.r = NA,
+		inset.main_frame.color = NA,
+		inset.main_frame.alpha = 1,
+		inset.main_frame.lwd = 2,
+
 		inset_map.height = 7,
 		inset_map.width = 7,
 		inset_map.margins = c(0.2, 0.2, 0.2, 0.2),

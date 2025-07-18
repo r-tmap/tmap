@@ -834,6 +834,26 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					sf::st_transform(tmaptools::bb_poly(ic$bbox), crs = crs)
 				}))
 
+				collect_properties = function(comps, props) {
+					res = lapply(props, function(p) {
+						sapply(comps, function(cmp) {
+							cmp[[p]]
+						})
+					})
+					names(res) = props
+					res
+				}
+
+				prp = collect_properties(cdt$comp[inset_frame_ids],
+										 c("box_frame", "box_frame.color", "box_frame.alpha", "box_frame.lwd", "box_frame.lty", "box_bg", "box_bg.color", "box_bg.alpha"))
+				calld = lapply(cdt$comp[inset_frame_ids], function(cmp) cmp$called)
+
+				prp$box_frame[vapply(calld, function(cl) "box_frame.color" %in% cl, FUN.VALUE = logical(1))] = TRUE
+				prp$box_bg[vapply(calld, function(cl) "box_bg.color" %in% cl, FUN.VALUE = logical(1))] = TRUE
+
+				prp$box_bg.color[!prp$box_bg] =  "#00000000"
+				prp$box_frame.color[!prp$box_frame] =  "#00000000"
+
 
 				tb = tm_polygons()[[1]]
 
@@ -848,7 +868,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 				shpTM = tmapTransPolygons(shapepTM, args = tb$trans.args, plot.order = tb$plot.order)
 
-				mdt = data.table(tmapID__ = seq_along(sfc_bbxs), fill = NA, col = "#FF0000", lwd = 2, lty = "solid", fill_alpha = 1, col_alpha = 1, ord__ = 1L)
+				mdt = data.table(tmapID__ = seq_along(sfc_bbxs), fill = prp$box_bg.color, col = prp$box_frame.color, lwd = prp$box_frame.lwd, lty = prp$box_frame.lty, fill_alpha = prp$box_bg.alpha, col_alpha = prp$box_frame.alpha, ord__ = 1L)
 
 				do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
 
@@ -952,6 +972,11 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 						crs_i = o_i$crs_step4
 					}
 					o_i$outer.bg = FALSE
+					o_i$frame = comp$main_frame
+					o_i$frame.color = comp$main_frame.color
+					o_i$frame.alpha = comp$main_frame.alpha
+					o_i$frame.lwd = comp$main_frame.lwd
+					o_i$frame.r = comp$main_frame.r
 
 					# set legends to inactive
 					tmo_i = lapply(tmo_i, function(tmg) {
