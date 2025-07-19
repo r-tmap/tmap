@@ -743,7 +743,7 @@ tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
 
 	b = .TMAP$geo_ref$bbx
 	rc = (c(0, 0, 1, 1) + c(1, 1, -1, -1) * .TMAP$geo_ref$rel_coords)[c(2,1,4,3)]
-	b2 = tmap:::bb_ext_rev(b, rc)
+	b2 = bb_ext_rev(b, rc)
 
 	comp$bbox = b2
 	comp$show = TRUE

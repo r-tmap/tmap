@@ -8,7 +8,7 @@
 #' @param margins margins
 #' @param between_margin Margin between
 #' @param box_frame Should a box frame be drawn in the main map that shows where the inset is? `TRUE` by default
-#' @param box_frame.color,box_frame.alpha,box_frame.lwd Properties of the box frame
+#' @param box_frame.color,box_frame.alpha,box_frame.lwd,box_frame.lty Properties of the box frame
 #' @param box_bg Should the frame box have a background? `FALSE` by default
 #' @param box_bg.color,box_bg.alpha Properties of the box background
 #' @param main_frame Should a frame be drawn around the inset map? Note that this is different from the general map component frame (the argument `frame`)

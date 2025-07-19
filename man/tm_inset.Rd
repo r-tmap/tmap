@@ -69,7 +69,7 @@ tm_inset(
 
 \item{box_frame}{Should a box frame be drawn in the main map that shows where the inset is? \code{TRUE} by default}
 
-\item{box_frame.color, box_frame.alpha, box_frame.lwd}{Properties of the box frame}
+\item{box_frame.color, box_frame.alpha, box_frame.lwd, box_frame.lty}{Properties of the box frame}
 
 \item{box_bg}{Should the frame box have a background? \code{FALSE} by default}
 
