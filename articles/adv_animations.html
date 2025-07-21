@@ -166,10 +166,8 @@
 <code class="sourceCode R"><span><span class="va">World</span><span class="op">$</span><span class="va">name</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_animate.html">tm_animate</a></span><span class="op">(</span>frames <span class="op">=</span> <span class="st">"name"</span>, fps <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: <span style="color: #00BB00;">number of facets</span>. Number of facets for mode "plot" is limited to 64. Change the</span></span>
-<span><span class="co">#&gt; option facet.max to allow more facets, with `tmap_options(facet.max = 177)` or</span></span>
-<span><span class="co">#&gt; `+ tm_options(facet.max = 177)`</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_animate.html">tm_animate</a></span><span class="op">(</span>frames <span class="op">=</span> <span class="st">"name"</span>, fps <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_options.html">tm_options</a></span><span class="op">(</span>facet.max <span class="op">=</span> <span class="fl">177</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_animations_files/figure-html/unnamed-chunk-4-1.gif" width="100%"></p>
 </div>
 <div class="section level3">
@@ -177,20 +175,6 @@
 </h3>
 <p>Internally, the argument <code>frames</code> of <code><a href="../reference/tm_animate.html">tm_animate()</a></code> is passed on as <code>pages</code> to <code><a href="../reference/tm_facets.html">tm_facets()</a></code>. The first two faceting dimensions of <code><a href="../reference/tm_facets.html">tm_facets()</a></code> are still available via <code><a href="../reference/tm_animate.html">tm_animate()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># keep Antarctica and Seven seas out (no data)</span></span>
-<span><span class="va">World5</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="op">!</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antarctica"</span>, <span class="st">"Seven seas (open ocean)"</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"inequality"</span>, <span class="st">"gender"</span>, <span class="st">"press"</span>, <span class="st">"footprint"</span>, <span class="st">"life_exp"</span><span class="op">)</span>,</span>
-<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.oranges"</span><span class="op">)</span>,</span>
-<span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.blues"</span><span class="op">)</span>,</span>
-<span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.purples"</span><span class="op">)</span>,</span>
-<span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.yl_or_br"</span><span class="op">)</span>,</span>
-<span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.greens"</span><span class="op">)</span>,</span>
-<span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.yl_or_rd"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_facets.html">tm_facets_grid</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_animations_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># keep Antarctica and Seven seas out (no data)</span></span>
 <span><span class="va">World5</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="op">!</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antarctica"</span>, <span class="st">"Seven seas (open ocean)"</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
@@ -203,7 +187,7 @@
 <span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.greens"</span><span class="op">)</span>,</span>
 <span>                                  <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.yl_or_rd"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_animate.html">tm_animate</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"continent"</span>, free.coords <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_animations_files/figure-html/unnamed-chunk-6-1.gif" width="100%"></p>
+<p><img src="adv_animations_files/figure-html/unnamed-chunk-5-1.gif" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -211,7 +195,7 @@
 </h2>
 <p>Most map variables are <em>visual</em>, e.g. polygon fill or symbol size. However, tmap also facilitates <em>tansition</em> map variables. These variables will alter spatial geometries in a data-driven way. The difference is that a visual variable will only change the appearance of a geometry (polygon fill color or symbol size), but a transition variable will change the geometry itself.</p>
 <p>Currently, the only implementation (and popular application) of transition variables is the cartogram, via the extension package <a href="https://r-tmap.github.io/tmap.cartogram/"><strong>tmap.cartogram</strong></a></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.cartogram" class="external-link">tmap.cartogram</a></span><span class="op">)</span></span>
 <span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span></span>
@@ -223,8 +207,8 @@
 <span>                 options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram</a></span><span class="op">(</span>itermax <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Life Expectancy"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
-<p><img src="adv_animations_files/figure-html/unnamed-chunk-7-1.gif" width="100%"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p><img src="adv_animations_files/figure-html/unnamed-chunk-6-1.gif" width="100%"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram_ncont</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"*pop_est"</span>, </span>
 <span>                   fill <span class="op">=</span> <span class="st">"inequality"</span>,</span>
@@ -234,7 +218,7 @@
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Income inequality (Gini coefficient)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_animate.html">tm_animate_fast</a></span><span class="op">(</span>play <span class="op">=</span> <span class="st">"pingpong"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
-<p><img src="adv_animations_files/figure-html/unnamed-chunk-8-1.gif" width="100%"></p>
+<p><img src="adv_animations_files/figure-html/unnamed-chunk-7-1.gif" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

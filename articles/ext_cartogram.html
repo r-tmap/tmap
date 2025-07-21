@@ -151,14 +151,15 @@ relationships between them are preserved as much as possible.</p>
 <code class="sourceCode R"><span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>, </span>
+<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"*pop_est"</span>, </span>
 <span>                 fill <span class="op">=</span> <span class="st">"life_exp"</span>,</span>
 <span>                 fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-cols4all.bu_br_div"</span><span class="op">)</span>,</span>
 <span>                 fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Age"</span><span class="op">)</span>,</span>
 <span>                 options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram</a></span><span class="op">(</span>itermax <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Life Expectancy"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Life Expectancy"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_animate.html">tm_animate_fast</a></span><span class="op">(</span>play <span class="op">=</span> <span class="st">"pingpong"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
-<p><img src="ext_cartogram_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
+<p><img src="ext_cartogram_files/figure-html/unnamed-chunk-3-1.gif"><!-- --></p>
 </div>
 <div class="section level2">
 <h2 id="non-contiguous-cartograms">Non-contiguous cartograms<a class="anchor" aria-label="anchor" href="#non-contiguous-cartograms"></a>
