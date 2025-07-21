@@ -334,11 +334,17 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	if (pos.h %in% c("LEFT", "RIGHT")) {
 		pos.h = tolower(pos.h)
 		CASE.h = toupper
-	} else CASE.h = function(x)x
+	} else {
+		if (pos.h %in% c("CENTER", "CENTRE")) pos.h = "center"
+		CASE.h = function(x)x
+	}
 	if (pos.v %in% c("TOP", "BOTTOM")) {
 		pos.v = tolower(pos.v)
 		CASE.v = toupper
-	} else CASE.v = function(x)x
+	} else {
+		if (pos.v %in% c("CENTER", "CENTRE")) pos.v = "center"
+		CASE.v = function(x)x
+	}
 
 	are_nums = !(any(is.na(suppressWarnings(as.numeric(c(pos.h, pos.v))))))
 
