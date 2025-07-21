@@ -596,11 +596,17 @@ process_meta = function(o, d, cdt, aux) {
 			} else {
 				panel.type = "none"
 			}
+			if (nby[3] != 1L) {
+				npages = nby[3]
+			} else {
+				npages = ceiling(n / (nrows * ncols))
+			}
+		} else {
+			npages = ceiling(n / (nrows * ncols))
 		}
 
 
 
-		npages = ceiling(n / (nrows * ncols))
 
 		legend.position = NA
 

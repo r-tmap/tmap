@@ -60,12 +60,13 @@ The shapes of the polygons are distorted, where the neighborhood relationships b
 Africa = World[World$continent == "Africa", ]
 
 tm_shape(Africa, crs = "+proj=robin") +
-	tm_cartogram(size = "pop_est", 
+	tm_cartogram(size = "*pop_est", 
 				 fill = "life_exp",
 				 fill.scale = tm_scale_intervals(values = "-cols4all.bu_br_div"),
 				 fill.legend = tm_legend("Age"),
 				 options = opt_tm_cartogram(itermax = 15)) +
-tm_title("Life Expectancy")
+tm_title("Life Expectancy") +
+	tm_animate_fast(play = "pingpong")
 ```
 
 ## Non-contiguous cartograms

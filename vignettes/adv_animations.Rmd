@@ -88,27 +88,14 @@ The `frames` argument of `tm_animate()` can be used to specify a group-by argume
 World$name = as.factor(World$name)
 tm_shape(World) +
 	tm_polygons(fill = "continent") +
-	tm_animate(frames = "name", fps = 3)
+	tm_animate(frames = "name", fps = 3) +
+	tm_options(facet.max = 177)
 ```
 
 ### Animated facets
 
 Internally, the argument `frames` of `tm_animate()` is passed on as `pages` to `tm_facets()`. The first two faceting dimensions of `tm_facets()` are still available via `tm_animate()`:
 
-```{r, fig.height = 6}
-# keep Antarctica and Seven seas out (no data)
-World5 = World[!World$continent %in% c("Antarctica", "Seven seas (open ocean)"), ]
-
-tm_shape(World5) +
-		tm_polygons(fill = c("well_being", "inequality", "gender", "press", "footprint", "life_exp"),
-				fill.scale = list(tm_scale_intervals(values = "brewer.oranges"),
-								  tm_scale_intervals(values = "brewer.blues"),
-								  tm_scale_intervals(values = "brewer.purples"),
-								  tm_scale_intervals(values = "brewer.yl_or_br"),
-								  tm_scale_intervals(values = "brewer.greens"),
-								  tm_scale_intervals(values = "brewer.yl_or_rd"))) +
-	tm_facets_grid(rows = "continent")
-```
 
 ```{r, fig.height = 6}
 # keep Antarctica and Seven seas out (no data)

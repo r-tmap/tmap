@@ -586,18 +586,32 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		if (o$type == "grid") {
 			d[, row := as.integer((i - 1) %% o$nrows + 1)]
 			d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+			d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 		} else {
-			# wrap
-			if (!o$byrow) {
-				d[, row := as.integer((i - 1) %% o$nrows + 1)]
-				d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
-			} else {
-				d[, col := as.integer((i - 1) %% o$ncols + 1)]
-				d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
-			}
 
+			# wrap
+			if (o$nby[3] == 1L) {
+				if (!o$byrow) {
+					d[, row := as.integer((i - 1) %% o$nrows + 1)]
+					d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+				} else {
+					d[, col := as.integer((i - 1) %% o$ncols + 1)]
+					d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+				}
+				d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
+			} else {
+				d[, j:= rep(1L:o$npp, length.out = nrow(d))]
+				if (!o$byrow) {
+					d[, row := as.integer((j - 1) %% o$nrows + 1)]
+					d[, col := as.integer((((j - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+				} else {
+					d[, col := as.integer((j - 1) %% o$ncols + 1)]
+					d[, row := as.integer((((j - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+				}
+				d[, page := by3]
+				d[, j:= NULL]
+			}
 		}
-		d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 
 	}
 
