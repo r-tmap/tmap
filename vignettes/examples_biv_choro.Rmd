@@ -75,6 +75,7 @@ The use of `tm_vars()` is required in order to specify a multivariate mapping. S
 ## Step 2: color palette
 
 By default, a purple-green bivariate palette is used, more specifically, `"pu_gn_bivs"` from the package [**cols4all**](https://cols4all.github.io/cols4all-R/index.html). 
+**Note:** please use the development version of cols4all (see [instructions](https://github.com/cols4all/cols4all-R?tab=readme-ov-file#installation)). 
 
 
 ### Bivariate color palettes in cols4all
