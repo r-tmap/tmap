@@ -139,7 +139,7 @@ transwarp = function(x, crs, raster.warp) {
 			tryCatch({
 				sf::st_transform(x, crs = crs)
 			}, error = function(e) {
-				cli::cli_abort("Also unable to transform stars", call = NULL)
+				cli::cli_abort("Unable to warp or transform stars", call = NULL)
 			})
 		})
 	} else {
