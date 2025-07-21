@@ -159,14 +159,15 @@ subStr = function(x, k) {
 
 
 
-limit_nx = function(nx) {
+limit_nx = function(nx, ox = NA) {
 	# bound number of facets
-	tmapOptions <- tmap::tmap_options_mode(mode.specific = FALSE)
 	mode = getOption("tmap.mode")
 
-	ox = tmapOptions$facet.max
-
-	if (ox < nx) cli::cli_warn("{.field number of facets}. Number of facets for mode {.str {mode}} is limited to {ox}. Change the option facet.max to allow more facets, with {.code tmap_options(facet.max = {ox})} or {.code + tm_options(facet.max = {ox})}")
+	if (is.na(ox)) {
+		tmapOptions <- tmap::tmap_options_mode(mode.specific = FALSE)
+		ox = tmapOptions$facet.max
+	}
+	if (ox < nx) cli::cli_warn("{.field number of facets}. Number of facets for mode {.str {mode}} is limited to {ox}. Change the option facet.max to allow more facets, with {.code tmap_options(facet.max = {nx})} or {.code + tm_options(facet.max = {nx})}")
 	min(ox, nx)
 }
 

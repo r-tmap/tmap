@@ -8,8 +8,24 @@ gridCell = function(rows, cols, e) {
 
 process_comp_box = function(comp, sc, o) {
 	comp = within(comp, {
-		frame.lwd = if (!frame) 0 else frame.lwd * sc
-		frame.color = if (!frame) NA else if (is.null(frame.color)) o$attr.color else frame.color
+		if ("frame.color" %in% comp$called) {
+			frame = TRUE
+			frame.lwd = frame.lwd * sc
+		} else {
+			if (!is.logical(frame)) {
+				cls = class(comp)[1]
+				if (valid_colors(frame)) {
+					cli::cli_warn("{.field {.fun {cls}}} use {.code frame.color = {.str {frame}}} instead of {.code frame = {.str {frame}}}")
+					frame.color = frame
+					frame = TRUE
+				} else {
+					cli::cli_abort("{.field {.fun {cls}}} {.arg frame} should be a logical")
+				}
+
+			}
+			frame.color = if (!frame) NA else if (is.null(frame.color)) o$attr.color else frame.color
+			frame.lwd = if (!frame) 0 else frame.lwd * sc
+		}
 		frame.r = frame.r * sc
 	})
 	comp
@@ -256,26 +272,15 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 #' @rdname tmap_internal
 tmapGetCompGroupArgs = function(comp) {
 	# get component group settings
-	grp = comp[[1]][c("position",
-					  "stack",
-					  "frame_combine",
-					  "equalize",
-					  "resize_as_group",
-					  "stack_margin",
-					  "offset",
-					  "frame" ,
-					  "frame.color",
-					  "frame.lwd",
-					  "frame.r",
-					  "bg",
-					  "bg.color",
-					  "bg.alpha")]
+	nms = setdiff(names(formals(tm_components)), "group_id")
+	grp = comp[[1]][nms]
 
 	any_legend_chart_inset = any(vapply(comp, inherits, FUN.VALUE = logical(1), c("tm_legend", "tm_chart")))
 	grp_called = setdiff(unique(do.call(c, lapply(comp, FUN = "[[", "called_via_comp_group"))), "group_id")
 
 	if (!("frame" %in% grp_called)) grp$frame = any_legend_chart_inset
 	if (!("bg" %in%grp_called)) grp$bg = any_legend_chart_inset
+	grp$called = comp[[1]]$called
 	grp
 }
 

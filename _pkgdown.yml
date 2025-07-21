@@ -210,8 +210,10 @@ navbar:
           href: articles/adv_inset_maps
         - text: Animations
           href: articles/adv_animations
-        - text: Shiny integration
+        - text: shiny integration
           href: articles/adv_shiny
+        - text: ggplot2 integration
+          href: articles/adv_ggplot2
         - text: Multivariate visual variables
           href: articles/adv_multivariate
         - text: Positioning of components
