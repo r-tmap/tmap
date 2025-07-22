@@ -992,6 +992,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					o_i$frame.lwd = comp$main_frame.lwd
 					o_i$frame.r = comp$main_frame.r
 
+
 					# set legends to inactive
 					tmo_i = lapply(tmo_i, function(tmg) {
 						lapply(tmg, function(tml) {

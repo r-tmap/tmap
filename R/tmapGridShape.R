@@ -85,18 +85,17 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 			} else {
 				gframe_path = viewport_frame_path()
 			}
-			gframe_path_native = local({
-				x = as.vector(gframe_path$x)
-				x2 = (x * diff(boundary$vp$xscale)) + boundary$vp$xscale[1]
-				y = as.vector(gframe_path$y)
-				y2 = (y * diff(boundary$vp$yscale)) + boundary$vp$yscale[1]
-				gframe_path$vp = NULL
-				gframe_path$x = unit(x2, "npc")
-				gframe_path$y = unit(y2, "npc")
-				gframe_path$vp = NULL#boundary$vp
-				gframe_path
+			boundary_npc = local({
+				x = as.vector(boundary$x)
+				x2 = (x - boundary$vp$xscale[1]) / diff(boundary$vp$xscale)
+				y = as.vector(boundary$y)
+				y2 = (y - boundary$vp$yscale[1]) / diff(boundary$vp$yscale)
+				boundary$vp = NULL
+				boundary$x = unit(x2, "npc")
+				boundary$y = unit(y2, "npc")
+				boundary
 			})
-			combine_paths(gframe_path_native, boundary, fill = o$space.color)
+			combine_paths(gframe_path, boundary_npc, fill = o$space.color)
 		})
 		gt = gt |>
 			grid::addGrob(space_fill, paste0("gt_facet_", rc_text))
@@ -121,7 +120,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 ## functions to create a grob that draws space 'space'
 ## needed because clipping by earth boundary does not always work (e.g. not for rasterGrobs #1170)
 
-combine_paths = function(pg1, pg2, rule = "evenodd", fill = "black") {
+combine_paths = function(pg1, pg2, rule = "winding", fill = "black") {
 	# Combine coordinates and assign IDs
 	combined_x = unit.c(pg1$x, pg2$x)
 	combined_y = unit.c(pg1$y, pg2$y)
@@ -133,8 +132,7 @@ combine_paths = function(pg1, pg2, rule = "evenodd", fill = "black") {
 		y = combined_y,
 		id = combined_id,
 		rule = rule,
-		gp = gpar(fill = fill, col = NA),
-		vp = pg2$vp
+		gp = gpar(fill = fill, col = NA)
 	)
 }
 

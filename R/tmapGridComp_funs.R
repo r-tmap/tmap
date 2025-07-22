@@ -964,7 +964,8 @@ tmapGridCompPlot.tm_minimap = function(comp, o, fH, fW) {
 		tm_layout(bg.color = "#88CCEE",
 				  earth_boundary = TRUE,
 				  frame = FALSE,
-				  space = FALSE)
+				  space = FALSE) +
+		tm_options(space_overlay = o$space_overlay)
 
 	asp = comp$width / comp$height
 
