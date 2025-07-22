@@ -132,25 +132,23 @@ c4a_plot("+cols4all.pu_gn_bivd", n = 3, m = 5)
 </div>
 
 ```{r, fig.height = 4, fig.show = "hold", out.width="45%"}
-c4a_plot("/cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("//cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("\\cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
 
 <div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
-  <div style="flex: 1; text-align: left;">\"/\" Flip diagonally</div>
-  <div style="flex: 1; text-align: left;">\"\\\" Flip other diagonal</div>
+  <div style="flex: 1; text-align: left;">\"//\" Flip diagonally</div>
+  <div style="flex: 1; text-align: left;">\"\\\\" Flip other diagonal</div>
 </div>
 
-Note that we need the double `"\\"` becouase a single one is used as escape character.
-
 ```{r, fig.height = 3, fig.show = "hold", out.width="45%"}
-c4a_plot("-/cols4all.pu_gn_bivd", n = 3, m = 5)
+c4a_plot("-//cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("-\\cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
 
 <div style="display: flex; justify-content: space-between; margin-top: 0.5em;">
-  <div style="flex: 1; text-align: left;">\"-/\" Flip diagonally and rows</div>
-  <div style="flex: 1; text-align: left;">\"-\\\" Flip other-diagonally and rows</div>
+  <div style="flex: 1; text-align: left;">\"-//" Flip diagonally and columns</div>
+  <div style="flex: 1; text-align: left;">\"-\\\\" Flip other-diagonally and columns</div>
 </div>
 
 ### Using cols4all palettes in tmap
