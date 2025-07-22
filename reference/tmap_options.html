@@ -395,6 +395,7 @@
 <span>  <span class="va">earth_datum</span>,</span>
 <span>  <span class="va">space</span>,</span>
 <span>  <span class="va">space.color</span>,</span>
+<span>  <span class="va">space_overlay</span>,</span>
 <span>  <span class="va">check_and_fix</span>,</span>
 <span>  <span class="va">basemap.show</span>,</span>
 <span>  <span class="va">basemap.server</span>,</span>
@@ -1643,6 +1644,10 @@ adjusted to the size of the device divided by the number of columns and rows.</p
 <dd><p>The color of the space.</p></dd>
 
 
+<dt id="arg-space-overlay">space_overlay<a class="anchor" aria-label="anchor" href="#arg-space-overlay"></a></dt>
+<dd><p>Should the space be drawn as overlay (to make sure spatial features or rasters do not exceed the earth boundary), or as background? By default <code>TRUE</code> when a raster is warped.</p></dd>
+
+
 <dt id="arg-check-and-fix">check_and_fix<a class="anchor" aria-label="anchor" href="#arg-check-and-fix"></a></dt>
 <dd><p>Should attempt to fix an invalid shapefile</p></dd>
 
@@ -2602,6 +2607,7 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─earth_datum: <span style="color: #0000BB;">"OGC:CRS84"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─space: <span style="color: #0000BB;">TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─space.color: <span style="color: #0000BB;">"#ffffff"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─space_overlay: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─check_and_fix: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─basemap.show: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─basemap.server&lt;chr [3]&gt;: <span style="color: #0000BB;">"Esri.WorldGr...", "OpenStreetMap", "Esri.WorldTo..."</span></span>
