@@ -23,9 +23,13 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 		rndrectGrob(gp=gpar(fill=o$bg.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect")
 	}
 
+	clip = if (is.na(o$bg.color) && o$earth_boundary && !o$space_overlay) {
+		grid::as.path(bg)
+	} else TRUE
+
 	gtmap = grid::grobTree(bg,
 						   vp = grid::vpStack(grid::viewport(layout.pos.col = colid, layout.pos.row = rowid, name = paste0("vp_facet_", rc_text)),
-						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = clip)), name = paste0("gt_facet_", rc_text))
 
 	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_main"))
 
@@ -74,7 +78,7 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 	rowid = g$rows_facet_ids[facet_row]
 	colid = g$cols_facet_ids[facet_col]
 
-	if (o$earth_boundary) {
+	if (o$earth_boundary && o$space_overlay) {
 		space_fill = local({
 			if (o$frame) {
 				gframe_path = roundrect_to_pathGrob(gframe)
@@ -89,13 +93,17 @@ tmapGridOverlay = function(bbx, facet_row, facet_col, facet_page, o) {
 				gframe_path$vp = NULL
 				gframe_path$x = unit(x2, "npc")
 				gframe_path$y = unit(y2, "npc")
-				gframe_path$vp = boundary$vp
+				gframe_path$vp = NULL#boundary$vp
 				gframe_path
 			})
 			combine_paths(gframe_path_native, boundary, fill = o$space.color)
 		})
 		gt = gt |>
-			grid::addGrob(space_fill, paste0("gt_facet_", rc_text)) |>
+			grid::addGrob(space_fill, paste0("gt_facet_", rc_text))
+	}
+
+	if (o$earth_boundary) {
+		gt = gt |>
 			grid::addGrob(boundary, paste0("gt_facet_", rc_text))
 	}
 
@@ -196,8 +204,8 @@ roundrect_to_pathGrob = function(roundrect, n_corner = 10, fill = "black", col =
 
 viewport_frame_path = function(fill = "black", col = NA, rule = "winding") {
 	# Clockwise path around the viewport (0,0) to (1,1)
-	x = unit(c(0, 1, 1, 0, 0), "npc")
-	y = unit(c(0, 0, 1, 1, 0), "npc")
+	x = unit(rev(c(0, 1, 1, 0, 0)), "npc")
+	y = unit(rev(c(0, 0, 1, 1, 0)), "npc")
 
 	pathGrob(
 		x = x,

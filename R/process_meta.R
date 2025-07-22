@@ -610,6 +610,10 @@ process_meta = function(o, d, cdt, aux) {
 
 		legend.position = NA
 
+		if (is.na(space_overlay)) {
+			space_overlay = .TMAP$raster_wrap
+		}
+
 		if (gs == "Leaflet") {
 			if (!is.logical(set_bounds)) if (length(set_bounds) !=4 || !is.numeric(set_bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 

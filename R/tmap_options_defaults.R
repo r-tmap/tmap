@@ -639,6 +639,7 @@
 		earth_datum = "OGC:CRS84",
 		space = TRUE,
 		space.color = "#ffffff",
+		space_overlay = NA,
 
 		check_and_fix = FALSE,
 

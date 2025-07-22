@@ -302,6 +302,7 @@ tm_options(
   earth_datum,
   space,
   space.color,
+  space_overlay,
   check_and_fix,
   basemap.show,
   basemap.server,
@@ -924,6 +925,8 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{space}{Should the space be drawn? Only applicable is earth_boundary is enabled.}
 
 \item{space.color}{The color of the space.}
+
+\item{space_overlay}{Should the space be drawn as overlay (to make sure spatial features or rasters do not exceed the earth boundary), or as background? By default \code{TRUE} when a raster is warped.}
 
 \item{check_and_fix}{Should attempt to fix an invalid shapefile}
 

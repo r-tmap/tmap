@@ -17,6 +17,7 @@ print.tmap = function(x, return.asp = FALSE, show = TRUE, vp = NULL, knit = FALS
 	.TMAP$proxy = proxy
 	.TMAP$set_s2 = NA
 	.TMAP$animate = NULL
+	.TMAP$raster_wrap = FALSE # needed for space_overlay (#1170)
 
 	# view mode will use panes, in principle one for each layer. They start at 400, unless shiny proxy is used
 
