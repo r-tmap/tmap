@@ -742,10 +742,8 @@ tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
 	class(comp)[1] = "tm_inset_grob"
 
 	b = .TMAP$geo_ref$bbx
-	rc = (c(0, 0, 1, 1) + c(1, 1, -1, -1) * .TMAP$geo_ref$rel_coords)[c(2,1,4,3)]
-	b2 = bb_ext_rev(b, rc)
 
-	comp$bbox = b2
+	comp$bbox = .TMAP$geo_ref$bbx_frame
 	comp$show = TRUE
 	comp
 }

@@ -61,7 +61,7 @@ timing_init = function() {
 
 timing_add = function(s1 = "", s2 = "", s3 = "", s4 = "") {
 	tsx = data.table(s1 = s1, s2 = s2, s3 = s3, s4 = s4, t = Sys.time())
-	ts = data.table::rbindlist(list(get("timings", envir = .TMAP), tsx))
+	ts = data.table::rbindlist(list(get("timings", envir = .TMAP)[, c("s1", "s2", "s3", "s4", "t")], tsx))
 	assign("timings", ts, envir = .TMAP)
 }
 

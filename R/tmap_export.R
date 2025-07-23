@@ -37,8 +37,9 @@ tmap_grob = function(x,
 					 show = FALSE,
 					 ...) {
 	current_mode = getOption("tmap.mode")
+	current_dev = getOption("tmap.devel.mode")
 	on.exit({
-		options(tmap.mode = current_mode)
+		options(tmap.mode = current_mode, tmap.devel.mode = current_dev)
 	})
 	options(tmap.mode = "plot")
 	print.tmap(x + tm_options(asp = asp, scale = scale), show = show, ...)
