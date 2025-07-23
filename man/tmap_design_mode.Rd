@@ -4,11 +4,13 @@
 \alias{tmap_design_mode}
 \title{Set the design mode}
 \usage{
-tmap_design_mode(design.mode)
+tmap_design_mode(design.mode, overall = TRUE)
 }
 \arguments{
 \item{design.mode}{Logical value that determines the design mode.
 If omitted then the design mode is toggled.}
+
+\item{overall}{logical. If \code{TRUE} the overall layout is shown (as areas), if \code{FALSE} the layout of map components is shown (as lines)}
 }
 \description{
 When the so-called "design mode" is enabled, inner and outer margins,

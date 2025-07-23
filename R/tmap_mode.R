@@ -150,24 +150,33 @@ get_modes = function() {
 #' When the so-called "design mode" is enabled, inner and outer margins,
 #' legend position, and aspect ratio are shown explicitly in plot mode.
 #' Also, information about aspect ratios is printed in the console.
+#' It has two options: "overall", which shows all the overall areas, and "component" which shows the layout of map components.
+#'
 #' This function sets the global option `tmap.design.mode`.
 #' It can be used as toggle function without arguments.
 #'
 #' @seealso [tmap_options()]
 #' @param design.mode Logical value that determines the design mode.
 #'   If omitted then the design mode is toggled.
+#' @param overall logical. If `TRUE` the overall layout is shown (as areas), if `FALSE` the layout of map components is shown (as lines)
 #' @export
-tmap_design_mode = function(design.mode) {
+tmap_design_mode = function(design.mode, overall = TRUE) {
+	args_called = names(rlang::call_match(dots_expand = FALSE)[-1])
+
 	dm = if (missing(design.mode)) {
-		!getOption("tmap.design.mode")
+		if ("overall" %in% args_called) {
+			TRUE
+		} else {
+			!getOption("tmap.design.mode")
+		}
 	} else {
 		if (!is.logical(design.mode)) stop("design.mode is not a logical")
 		design.mode[1]
 	}
 
-	options(tmap.design.mode = dm)
+	options(tmap.design.mode = dm, tmap.design.mode_overall = overall)
 	message(
-		"design.mode: ", if (!dm) "OFF" else "ON",
+		"design.mode: ", if (!dm) "OFF" else paste("ON", ifelse(overall, "(overall layout)", "(component layout)")),
 		if (dm && getOption("tmap.mode") == "view") " (only effective in plot mode)" else "")
 }
 

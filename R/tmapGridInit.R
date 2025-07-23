@@ -176,7 +176,10 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 		fasp = fasp,
 
 		colsIn = colsIn,
-		rowsIn = rowsIn
+		rowsIn = rowsIn,
+
+		nc = nc,
+		nr = nr
 	)
 
 
@@ -204,11 +207,28 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 		l <- max(max(nchar(pretext)) + max(nchar(posttext)) + 1, 25)
 		medtext <- vapply(l-lns, function(i)paste(rep(" ", i), collapse=""), character(1))
 
-		texts <- c("----------------W (in)--H (in)--asp---",
+		texts <- c("---------------W (in)-H (in)-asp---",
 				   paste("|", pretext, medtext, posttext, "|"),
 				   paste(rep("-", l+6), collapse=""))
 
-		for (tx in texts) message(tx)
+		if (getOption("tmap.design.mode_overall")) {
+			texts_colors = c("Color codings:",
+							 "- light blue  outer margins",
+							 "- dark blue   buffers around outside cells",
+							 "- light green outside cells",
+							 "- dark green  x and ylab cells",
+							 "- pink        panels",
+							 "- red         margins for outside grid labels",
+							 "- orange      margins around maps for grid labels",
+							 "- yellow      map area")
+		} else {
+			texts_colors = c("Color codings:",
+							 "- orange      map component grid lines",
+							 "- red         item positioning lines")
+		}
+
+
+		for (tx in c(texts, texts_colors)) message(tx)
 	}
 
 	# margins around first map (needed for georeferencing)
@@ -221,42 +241,6 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 		sum(g$colsIn[(cid+1L):nc]))
 
 
-	if (getOption("tmap.design.mode")) {
-		gts = lapply(gts, function(gt) {
-
-			p = rep(cols4all::c4a("brewer.paired"), 3)
-
-			gt = gt %>%
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) %>%  # outer
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) %>%   # meta buffer out
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) %>%   # meta margins
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) %>%   # meta buffer in
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4))  # xylab
-			if (o$panel.type == "xtab") {
-				#add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
-				gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
-			}
-
-			gt = gt %>%
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[6])), row = 7:(nr-6), col = 7:(nc-6)) %>%  # grid buffer
-				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[7])), row = 8:(nr-7), col = 8:(nc-7))  # grid
-
-
-			for (i in 1:o$nrows) {
-				for (j in 1:o$ncols) {
-					gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[11])), row = g$rows_facet_ids[i], col = g$cols_facet_ids[j])
-					if (o$panel.type == "wrap") {
-						gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[5])), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
-					}
-
-				}
-			}
-
-			gt
-		})
-
-
-	}
 
 
 	if (is.null(vp)) {
