@@ -141,15 +141,24 @@
 <span>   <span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tmap_design_mode.html">tmap_design_mode</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; design.mode: ON</span></span>
+<span><span class="co">#&gt; design.mode: ON (overall layout)</span></span>
 <span></span>
 <span><span class="va">tm</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.290 8.000 0.911 |</span></span>
 <span><span class="co">#&gt; | plot area     6.502 7.680 0.847 |</span></span>
 <span><span class="co">#&gt; | facets area   6.502 7.680 0.847 |</span></span>
 <span><span class="co">#&gt; | map area      6.502 7.680 0.847 |</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; Color codings:</span></span>
+<span><span class="co">#&gt; - light blue  outer margins</span></span>
+<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
+<span><span class="co">#&gt; - light green outside cells</span></span>
+<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
+<span><span class="co">#&gt; - pink        panels</span></span>
+<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
+<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
+<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/figures-side-1.png" width="47%"><img src="adv_margins_files/figure-html/figures-side-2.png" width="47%"></p>
 </div>
 <div class="section level2">
@@ -168,12 +177,21 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
 <span>        inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
 <span><span class="co">#&gt; | plot area     5.171 4.800 1.077 |</span></span>
 <span><span class="co">#&gt; | facets area   4.139 4.800 0.862 |</span></span>
 <span><span class="co">#&gt; | map area      4.064 4.800 0.847 |</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; Color codings:</span></span>
+<span><span class="co">#&gt; - light blue  outer margins</span></span>
+<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
+<span><span class="co">#&gt; - light green outside cells</span></span>
+<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
+<span><span class="co">#&gt; - pink        panels</span></span>
+<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
+<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
+<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
 <p>This vector of four numbers correspond to respectively the bottom, left, top, and right margin.</p>
 <p>The outer margins are the margins between the map frame and the device frame.</p>
@@ -182,12 +200,21 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
 <span>        outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
 <span><span class="co">#&gt; | plot area     3.648 3.000 1.216 |</span></span>
 <span><span class="co">#&gt; | facets area   2.615 3.000 0.872 |</span></span>
 <span><span class="co">#&gt; | map area      2.540 3.000 0.847 |</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; Color codings:</span></span>
+<span><span class="co">#&gt; - light blue  outer margins</span></span>
+<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
+<span><span class="co">#&gt; - light green outside cells</span></span>
+<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
+<span><span class="co">#&gt; - pink        panels</span></span>
+<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
+<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
+<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -204,12 +231,21 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Square map"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
 <span><span class="co">#&gt; | plot area     5.53 4.80 1.15 |</span></span>
 <span><span class="co">#&gt; | facets area   4.50 4.50 1.00 |</span></span>
 <span><span class="co">#&gt; | map area      4.43 4.43 1.00 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; Color codings:</span></span>
+<span><span class="co">#&gt; - light blue  outer margins</span></span>
+<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
+<span><span class="co">#&gt; - light green outside cells</span></span>
+<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
+<span><span class="co">#&gt; - pink        panels</span></span>
+<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
+<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
+<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>The special value 0 means that the aspect ratio is adjusted to meet the space that is left on the device after substracting the outer margins and space occupied by the outside components (in this case just the legends).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -217,12 +253,21 @@
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span>,</span>
 <span>              asp <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ----------------W (in)--H (in)--asp---</span></span>
+<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
 <span><span class="co">#&gt; | plot area     4.37 3.00 1.46 |</span></span>
 <span><span class="co">#&gt; | facets area   3.34 3.00 1.11 |</span></span>
 <span><span class="co">#&gt; | map area      3.27 3.00 1.09 |</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt; --------------------------------</span></span>
+<span><span class="co">#&gt; Color codings:</span></span>
+<span><span class="co">#&gt; - light blue  outer margins</span></span>
+<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
+<span><span class="co">#&gt; - light green outside cells</span></span>
+<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
+<span><span class="co">#&gt; - pink        panels</span></span>
+<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
+<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
+<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
