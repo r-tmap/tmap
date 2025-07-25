@@ -16,6 +16,9 @@ If omitted then the design mode is toggled.}
 When the so-called "design mode" is enabled, inner and outer margins,
 legend position, and aspect ratio are shown explicitly in plot mode.
 Also, information about aspect ratios is printed in the console.
+It has two options: "overall", which shows all the overall areas, and "component" which shows the layout of map components.
+}
+\details{
 This function sets the global option \code{tmap.design.mode}.
 It can be used as toggle function without arguments.
 }

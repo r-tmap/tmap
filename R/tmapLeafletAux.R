@@ -24,9 +24,15 @@ tmapLeafletAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
 #' @keywords internal
 #' @rdname tmapGridLeaflet
 tmapLeafletAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
+	nms = names(a$server)
+	a$server = unname(a$server)
 	tiles = lapply(1L:length(bs), function(i) a)
 	.TMAP_LEAFLET$tiles[[id]] = tiles
-	paste0(a$server, collapse = "__")
+	if (!is.null(nms)) {
+		paste0(nms, collapse = "__")
+	} else {
+		paste0(a$server, collapse = "__")
+	}
 }
 
 #' @export

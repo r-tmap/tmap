@@ -29,12 +29,12 @@ tm_tiles(
 )
 }
 \arguments{
-\item{server}{Name of the provider or an URL. The list of available providers
+\item{server}{Name of the provider or an URL. Or a vector of multiple values. The list of available providers
 can be obtained with \code{providers} (tip: in RStudio, type \verb{leaflet::providers$} to see
 the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/}
 for a preview of those. When a URL is provided, it should be in template format,
 e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}.
-Use \code{NULL} in \code{tm_basemap()} to disable basemaps.}
+Use \code{NULL} in \code{tm_basemap()} to disable basemaps. It can be a named vector. In that case these names will be used a group names, as alternative to the argument \code{group}.}
 
 \item{alpha}{Transparency level}
 

@@ -8,12 +8,12 @@
 #'  API keys. For Stadia and Thunderforest maps, an API key is required.
 #'  This can be set via the argument `api`. Alternatively they can be stored in environment variables `"STADIA_MAPS"` and `THUNDERFOREST_MAPS` with `Sys.setenv`
 #'
-#' @param server Name of the provider or an URL. The list of available providers
+#' @param server Name of the provider or an URL. Or a vector of multiple values. The list of available providers
 #'   can be obtained with `providers` (tip: in RStudio, type `leaflet::providers$` to see
 #'   the options). See <https://leaflet-extras.github.io/leaflet-providers/preview/>
 #'   for a preview of those. When a URL is provided, it should be in template format,
 #'   e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}.
-#'   Use `NULL` in `tm_basemap()` to disable basemaps.
+#'   Use `NULL` in `tm_basemap()` to disable basemaps. It can be a named vector. In that case these names will be used a group names, as alternative to the argument `group`.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
 #' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode. See details
@@ -48,6 +48,9 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.na
 		disable = FALSE
 	}
 
+	group = check_basemap_group(server, group, called_from = "tm_basemap")
+
+
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, sub = sub, type = "basemap", disable = disable),
 		mapping.fun = "tm_aux_basemap",
@@ -69,6 +72,9 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 		disable = FALSE
 	}
 
+	group = check_basemap_group(server, group, called_from = "tm_tiles")
+
+
 	tm_element_list(tm_element(
 		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, sub = sub, type = "overlay", disable = disable),
 		mapping.fun = "tm_aux_tiles",
@@ -78,9 +84,22 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 		subclass = c("tm_tiles", "tm_aux_layer")))
 }
 
-#' @importFrom leaflet providers
-#' @export
-leaflet::providers
+check_basemap_group = function(server, group, called_from) {
+	if (is.null(server)) return(group)
+	if (!is.na(group[1])) {
+		if (length(group) != length(server)) {
+			cli::cli_warn("{.field {.fun {called_from}}} multiple {.arg group} names specified, but unequal to the length of {.arg server}")
+		} else {
+			group = NA
+		}
+
+		if (!is.null(names(server))) {
+			cli::cli_warn("{.field {.fun {called_from}}} {.arg group} specified, but {.arg server} is already a named vector, so {.arg group} will be ignored")
+			group = NA
+		}
+	}
+	group
+}
 
 
 
