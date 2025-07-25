@@ -132,12 +132,12 @@ order in which this layer is called, just like other map layers.</p>
 
 
 <dl><dt id="arg-server">server<a class="anchor" aria-label="anchor" href="#arg-server"></a></dt>
-<dd><p>Name of the provider or an URL. The list of available providers
+<dd><p>Name of the provider or an URL. Or a vector of multiple values. The list of available providers
 can be obtained with <code>providers</code> (tip: in RStudio, type <code>leaflet::providers$</code> to see
 the options). See <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/preview/</a>
 for a preview of those. When a URL is provided, it should be in template format,
 e.g. <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>.
-Use <code>NULL</code> in <code>tm_basemap()</code> to disable basemaps.</p></dd>
+Use <code>NULL</code> in <code>tm_basemap()</code> to disable basemaps. It can be a named vector. In that case these names will be used a group names, as alternative to the argument <code>group</code>.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
