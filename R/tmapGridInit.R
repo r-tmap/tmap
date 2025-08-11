@@ -1,4 +1,4 @@
-tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
+tmapGridInit = function(o, show = TRUE, newpage = TRUE, return.asp = FALSE, vp, prx, ...) {
 	rlang::check_installed("grid")
 
 	rows = with(o, {
@@ -243,7 +243,7 @@ tmapGridInit = function(o, return.asp = FALSE, vp, prx, ...) {
 
 
 
-	if (is.null(vp)) {
+	if (is.null(vp) && show && newpage) {
 		grid.newpage()
 	}# else {
 	#	if (is.character(vp)) seekViewport(vp) else pushViewport(vp)

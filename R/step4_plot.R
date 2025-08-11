@@ -365,6 +365,18 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	}
 
 
+	if (gs == "Grid" && is.null(vp) && show) {
+		is_inset_tmap = sapply(cdt$comp, inherits, what = "tm_inset_tmap")
+		if (any(is_inset_tmap)) {
+			grid::grid.newpage()
+			newpage = FALSE
+		} else {
+			newpage = TRUE
+		}
+	} else {
+		newpage = TRUE
+	}
+
 	if (nrow(cdt)) cdt = process_components(cdt, o)
 
 	# determine panel type, inner margins, and automatic comp placement
@@ -648,7 +660,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		if (nrow(cdt)) cdt = process_components2(cdt, o)
 
 		# init
-		res = do.call(FUNinit, c(list(o = o, return.asp = return.asp, vp = vp, prx = prx), args))
+		res = do.call(FUNinit, c(list(o = o, show = show, newpage = newpage, return.asp = return.asp, vp = vp, prx = prx), args))
 		if (return.asp) {
 			return(res)
 		} else {

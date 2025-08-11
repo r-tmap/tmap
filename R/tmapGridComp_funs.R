@@ -738,7 +738,9 @@ tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 #' @export
 tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
 	asp = comp$width / comp$height
+
 	comp$x = tmap_grob(comp$x, asp = asp)
+	.TMAP$is_first_inset = FALSE
 	class(comp)[1] = "tm_inset_grob"
 
 	b = .TMAP$geo_ref$bbx
