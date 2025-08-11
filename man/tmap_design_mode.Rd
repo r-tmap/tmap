@@ -4,19 +4,16 @@
 \alias{tmap_design_mode}
 \title{Set the design mode}
 \usage{
-tmap_design_mode(design.mode, overall = TRUE)
+tmap_design_mode(design.mode)
 }
 \arguments{
 \item{design.mode}{Logical value that determines the design mode.
 If omitted then the design mode is toggled.}
-
-\item{overall}{logical. If \code{TRUE} the overall layout is shown (as areas), if \code{FALSE} the layout of map components is shown (as lines)}
 }
 \description{
 When the so-called "design mode" is enabled, inner and outer margins,
 legend position, and aspect ratio are shown explicitly in plot mode.
 Also, information about aspect ratios is printed in the console.
-It has two options: "overall", which shows all the overall areas, and "component" which shows the layout of map components.
 }
 \details{
 This function sets the global option \code{tmap.design.mode}.
