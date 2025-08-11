@@ -1,0 +1,47 @@
+dependencies:
+  - name: mapbox-gl-js
+    version: "3.12.0"
+    src:
+      href: "https://api.mapbox.com/mapbox-gl-js/"
+    script:
+      - "v3.12.0/mapbox-gl.js"
+      - "plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.js"
+    stylesheet:
+      - "v3.12.0/mapbox-gl.css"
+      - "plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css"
+  - name: mapbox-gl-draw
+    version: "1.4.3"
+    src:
+      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/"
+    script:
+      - "mapbox-gl-draw.js"
+    stylesheet:
+      - "mapbox-gl-draw.css"
+  - name: freehand-mode
+    version: 1.0.0
+    src: "htmlwidgets/lib/freehand-mode"
+    script:
+      - "freehand-mode.js"
+  - name: mapbox-gl-geocoder
+    version: 5.0.0
+    src:
+      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/"
+    script:
+      - "mapbox-gl-geocoder.min.js"
+    stylesheet:
+      - "mapbox-gl-geocoder.css"
+  - name: mapbox-gl-globe-minimap
+    version: 1.2.1
+    src: "htmlwidgets/lib/mapbox-gl-globe-minimap"
+    script:
+      - "bundle.js"
+  - name: pmtiles
+    version: 4.3.0
+    src: "htmlwidgets/lib/pmtiles"
+    script:
+      - "pmtiles.js"
+  - name: mapbox-pmtiles
+    version: 1.1.0
+    src: "htmlwidgets/lib/mapbox-pmtiles"
+    script:
+      - "pmtiles-source-optimized-v2.js"

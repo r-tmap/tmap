@@ -1,0 +1,55 @@
+dependencies:
+  - name: maplibre-gl
+    version: "5.6.0"
+    src: "htmlwidgets/lib/maplibre-gl"
+    script:
+      - "maplibre-gl.js"
+    stylesheet:
+      - "maplibre-gl.css"
+  - name: maplibre-gl-compare
+    version: 1
+    src: "htmlwidgets/lib/maplibre-gl-compare/"
+    script: "maplibre-gl-compare.js"
+    stylesheet: "maplibre-gl-compare.css"
+  - name: mapbox-gl-draw
+    version: "1.5.0"
+    src: "htmlwidgets/lib/mapbox-gl-draw"
+    script:
+      - "mapbox-gl-draw.js"
+    stylesheet:
+      - "mapbox-gl-draw.css"
+  - name: freehand-mode
+    version: 1.0.0
+    src: "htmlwidgets/lib/freehand-mode"
+    script:
+      - "freehand-mode.js"
+  - name: maplibre-gl-geocoder
+    version: 1.5.0
+    src: "htmlwidgets/lib/maplibre-gl-geocoder"
+    script:
+      - "maplibre-gl-geocoder.min.js"
+    stylesheet:
+      - "maplibre-gl-geocoder.css"
+  - name: mapbox-gl-globe-minimap
+    version: 1.2.1
+    src: "htmlwidgets/lib/mapbox-gl-globe-minimap"
+    script:
+      - "bundle.js"
+  - name: pmtiles
+    version: 4.3.0
+    src: "htmlwidgets/lib/pmtiles"
+    script:
+      - "pmtiles.js"
+  - name: h3j-h3t
+    version: 0.9.2
+    src: "htmlwidgets/lib/h3j-h3t"
+    script:
+      - "h3j_h3t.js"
+  - name: maptiler-geocoding-control
+    version: 2.1.7
+    src:
+      href: "https://cdn.maptiler.com/maptiler-geocoding-control/v2.1.7/"
+    script:
+      - "maplibregl.umd.js"
+    stylesheet:
+      - "style.css"
