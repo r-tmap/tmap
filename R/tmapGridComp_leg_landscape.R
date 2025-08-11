@@ -246,7 +246,7 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 		df = expand.grid(col = 1:length(comp$wsu),
 						 row = 1:length(comp$hsu))
 
-		grDesign = lapply(1:nrow(df), function(i) gridCell(df$row[i], df$col[i], grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))))
+		grDesign = lapply(1:nrow(df), function(i) gridCell(df$row[i], df$col[i], grid::rectGrob(gp=gpar(fill=NA,col="#000000", lwd=1))))
 	} else {
 		grDesign = NULL
 	}

@@ -495,14 +495,8 @@ tmapGridAuxPlot.tm_aux_grid = function(a, bi, bbx, facet_row, facet_col, facet_p
 	a = g$grid_comp_per_bbx[[bi]]
 	gp = list()
 
-	grobTextBG = grid::rectGrob(gp=grid::gpar(col = "orange", fill = NA))
-
-
-
 	fH = g$mapRowsIn[facet_row]
 	fW = g$mapColsIn[facet_col]
-
-
 
 
 	if (a$labels.inside_frame && any(a$ticks) && o$show.warnings) warning("Grid ticks are not supported when labels.inside_frame = TRUE", call. = FALSE)

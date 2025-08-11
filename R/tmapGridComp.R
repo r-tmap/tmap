@@ -196,6 +196,8 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	comp = lapply(comp, process_comp_box, sc = sc, o = o)
 	grp = process_comp_box(grp, sc, o)
 
+	design = getOption("tmap.design.mode")
+
 	draw_rect = grp$frame || grp$bg
 	if (draw_rect && frame_combine) {
 		if (grp$frame) {
@@ -204,7 +206,7 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 			groupframe = NULL
 		}
 
-		if (grp$bg) {
+		if (grp$bg && !design) {
 			groupbg = gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = grp$bg.color, alpha = grp$bg.alpha, col = NA, lwd = 0), r = grp$frame.r))
 		} else {
 			groupbg = NULL
@@ -233,7 +235,7 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lH, lW, fH, fW, iW, iH) {
 		frame = if (draw_rect && !frame_combine) {
-			bg.color = if (leg$bg) leg$bg.color else NA
+			bg.color = if (leg$bg && !design) leg$bg.color else NA
 			frame.color = if (leg$frame) leg$frame.color else NA
 			rndrectGrob(gp=grid::gpar(fill = bg.color, alpha = leg$bg.alpha, col = frame.color, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
@@ -256,11 +258,11 @@ tmapGridComp2 = function(grp, comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}, comp, legGrobs, legH, legW, legFH, legFW, Wid, Hid, SIMPLIFY = FALSE))
 
 
-	if (getOption("tmap.design.mode")) {
+	if (design) {
 		df = expand.grid(col = 1:ncol(vp$layout),
 						 row = 1:nrow(vp$layout))
 
-		grDesign = lapply(1:nrow(df), function(i) gridCell(df$row[i], df$col[i], grid::rectGrob(gp=gpar(fill=NA,col="orange", lwd=2))))
+		grDesign = lapply(1:nrow(df), function(i) gridCell(df$row[i], df$col[i], grid::rectGrob(gp=gpar(fill=NA,col="#000000", lwd=2))))
 	} else {
 		grDesign = NULL
 	}

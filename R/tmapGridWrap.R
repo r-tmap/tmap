@@ -1,7 +1,7 @@
 get_panel_grob = function(label, o, g, rot, row, col) {
 	panel.show = o$panel.label.frame || o$panel.label.bg
 	frame.col = if (o$panel.label.frame) o$panel.label.frame.color else NA
-	bg.col = if (o$panel.label.bg) o$panel.label.bg.color else NA
+	bg.col = if (o$panel.label.bg && !getOption("tmap.design.mode")) o$panel.label.bg.color else NA
 	if (panel.show) {
 		if (o$panel.label.bg.alpha != o$panel.label.frame.alpha) {
 			gpar_panel = grid::gpar(fill = bg.col, lwd=0, col = NA, alpha = o$panel.label.bg.alpha)

@@ -549,7 +549,7 @@ tmapGridCompPlot_text = function(comp, o, fH, fW) {
 							 gp = grid::gpar(col = comp$color, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily, alpha = comp$alpha))
 
 	if (getOption("tmap.design.mode")) {
-		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))
+		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="#000000", lwd=1))
 	} else {
 		grDesign = NULL
 	}

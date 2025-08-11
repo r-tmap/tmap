@@ -4,6 +4,7 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 
+	design = getOption("tmap.design.mode")
 
 
 	fbbx = bb_asp(bbx, g$fasp)
@@ -14,11 +15,13 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	colid = g$cols_facet_ids[facet_col]
 
 	bg = if (o$earth_boundary) {
-		if (!o$space) o$space.color = NA
+		if (!o$space || design) o$space.color = NA
 		eotw = end_of_the_world(o$crs_step4, earth_datum = o$earth_datum)
 		grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect"),
 					sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = NA), name = "inner_world"))
 
+	} else if (design) {
+		NULL
 	} else {
 		rndrectGrob(gp=gpar(fill=o$bg.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect")
 	}
