@@ -38,6 +38,9 @@ tm_add_legend = function(...,
 	args$called = names(args)
 
 	args = warning_group_args(args)
+	args$group_id = args$group_id %||% NA_character_
+	args$group_type = "tm_legend"
+	args$z = args$z %||% NA_integer_
 
 	if (type %in% c("fill", "symbol", "line")) {
 		args$type = v3_add_legend(type, names(args))
