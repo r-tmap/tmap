@@ -109,6 +109,7 @@ The function <code>tm_scale_intervals()</code> is used for numerical data.</p>
 <span>  style.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  interval.closure <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  label_cutpoints <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  midpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  as.count <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  values <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -147,6 +148,10 @@ The function <code>tm_scale_intervals()</code> is used for numerical data.</p>
 
 <dt id="arg-interval-closure">interval.closure<a class="anchor" aria-label="anchor" href="#arg-interval-closure"></a></dt>
 <dd><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. If <code>as.count = TRUE</code>, <code>inverval.closure</code> is always set to <code>"left"</code>.</p></dd>
+
+
+<dt id="arg-label-cutpoints">label_cutpoints<a class="anchor" aria-label="anchor" href="#arg-label-cutpoints"></a></dt>
+<dd><p>Should cut points be used in the legend? If <code>FALSE</code> (default) each interval will be labeled. If <code>TRUE</code> the legend will be similar to a continuous scale legend (but with discrete colors), where the breaks are labeled.</p></dd>
 
 
 <dt id="arg-midpoint">midpoint<a class="anchor" aria-label="anchor" href="#arg-midpoint"></a></dt>
