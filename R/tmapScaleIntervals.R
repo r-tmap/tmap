@@ -148,16 +148,50 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			vvalues_rev = c(vvalues_rev, value.na)
 		}
 
-		legend = within(legend, {
-			nitems = length(labels)
-			labels = labels
-			dvalues = values
-			vvalues = vvalues_rev
-			vneutral = value.neutral
-			na.show = get("na.show", envir = parent.env(environment()))
-			scale = "intervals"
-			layer_args = layer_args
-		})
+		if (label_cutpoints) {
+			if ((o$continuous.nclass_per_legend_break %% 2) != 0) cli::cli_abort("{.field options} the tmap option {.arg continuous.nclass_per_legend_break} should be even")
+			labels_select = c(rep(TRUE, length(breaks)), {if (na.show) TRUE else NULL})
+
+			labels_leg = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
+			vvalues = c(unlist(mapply(function(hd, tl) {
+				paste(c(rep(hd, o$continuous.nclass_per_legend_break/2),
+						rep(tl, o$continuous.nclass_per_legend_break/2)),
+						collapse = "_")
+			}, c(NA_character_, vvalues_rev[1L:(length(breaks)-1L)]), c(vvalues_rev[1L:(length(breaks)-1L)], NA_character_))), {if (na.show) value.na else NULL})
+			nitems = length(labels_leg)
+
+
+			legend = within(legend, {
+				nitems = nitems
+				labels = labels_leg
+				dvalues = breaks #not used?
+				vvalues = vvalues
+				vneutral = value.neutral
+				na.show = get("na.show", envir = parent.env(environment()))
+				scale = "intervals"
+				layer_args = layer_args
+
+				# continuous legend specific:
+				labels_select = labels_select
+				tr = trans_identity
+				limits = range(breaks)
+			})
+		} else {
+			legend = within(legend, {
+				nitems = length(labels)
+				labels = labels
+				dvalues = breaks #not used?
+				vvalues = vvalues_rev
+				vneutral = value.neutral
+				na.show = get("na.show", envir = parent.env(environment()))
+				scale = "intervals"
+				layer_args = layer_args
+			})
+		}
+
+
+
+
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
 
