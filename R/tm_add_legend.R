@@ -65,7 +65,7 @@ toTitleCase = function(x) {
 
 tmapAddedLegend = function(comp, o) {
 	#message("tm_mouse_coordinates ignored for 'plot' mode")
-	l = update_l(o = o, l = comp, v = "", mfun = toTitleCase(comp$type), unm = "", active = FALSE)
+	l = update_l(o = o, l = comp, v = "", mfun = paste0("tm_data_", comp$type), unm = "", active = FALSE)
 
 	fun = paste0("tm_", comp$type)
 	if (!exists(fun)) {
