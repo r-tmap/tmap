@@ -62,8 +62,7 @@
 #'   to a character vector of variable names to those those variables in the popups.
 #'   The default (`NA`) depends on whether visual variables (e.g.`fill`) are used.
 #'   If so, only those are shown. If not all variables in the shape object are shown.
-#' @param popup.format list of formatting options for the popup values.
-#'   See the argument `legend.format` for options. Only applicable for
+#' @param popup.format list of formatting options for the popup values. Output of [tm_label_format()]. Only applicable for
 #'   numeric data variables. If one list of formatting options is provided,
 #'   it is applied to all numeric variables of `popup.vars`. Also, a (named)
 #'   list of lists can be provided. In that case, each list of formatting options
@@ -112,7 +111,7 @@ tm_polygons = function(fill = tm_const(),
 					   group = NA,
 					   group.control = "check",
 					   popup.vars = NA,
-					   popup.format = list(),
+					   popup.format = tm_label_format(),
 					   hover = NA,
 					   id = "",
 					   options = opt_tm_polygons(),

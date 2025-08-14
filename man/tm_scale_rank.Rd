@@ -17,7 +17,7 @@ tm_scale_rank(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = list(),
+  label.format = tm_label_format(),
   unit = "rank"
 )
 }
@@ -46,7 +46,7 @@ tm_scale_rank(
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting. Output of \code{\link[=tm_label_format]{tm_label_format()}}}
 
 \item{unit}{The unit name of the values. By default \code{"rank"}.}
 }

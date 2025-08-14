@@ -27,7 +27,7 @@ tm_scale_continuous(
   labels = NULL,
   label.na = NA,
   label.null = NA,
-  label.format = list(),
+  label.format = tm_label_format(),
   trans.args = list()
 )
 
@@ -76,7 +76,7 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting. Output of \code{\link[=tm_label_format]{tm_label_format()}}}
 
 \item{trans.args}{list of additional argument for the transformation (generic transformation arguments)}
 

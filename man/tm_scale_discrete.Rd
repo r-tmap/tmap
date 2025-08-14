@@ -45,7 +45,7 @@ tm_scale_discrete(
 
 \item{label.null}{(generic scale argument) Label for null (out-of-scope) values}
 
-\item{label.format}{(generic scale argument) Label formatting (similar to \code{legend.format} in tmap3)}
+\item{label.format}{(generic scale argument) Label formatting. Output of \code{\link[=tm_label_format]{tm_label_format()}}}
 }
 \description{
 Scales in tmap are configured by the family of functions with prefix \code{tm_scale}.

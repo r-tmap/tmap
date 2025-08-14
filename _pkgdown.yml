@@ -117,6 +117,7 @@ reference:
   - tm_const
   - tm_seq
   - tm_vars
+  - tm_label_format
   - tm_plot_order
   - theme_ps
   - tmap_tip

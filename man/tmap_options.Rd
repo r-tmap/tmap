@@ -410,7 +410,7 @@ When a different projection (crs) is used, a (usually) regular raster will be}
 
 \item{continuous.nclasses}{the number of classes of a continuous scale. Should be odd.  The default value is 101.}
 
-\item{label.format}{Format for the labels (was \code{legend.format} in tmap v3).}
+\item{label.format}{Format for the labels. These are the default values for \code{\link[=tm_label_format]{tm_label_format()}}}
 
 \item{label.na}{Default label for missing values.}
 

@@ -86,7 +86,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @seealso [tm_scale()]
 #' @export
 tm_scale_categorical = function(n.max = 30,
@@ -119,6 +119,8 @@ tm_scale_categorical = function(n.max = 30,
 #' @param breaks Interval breaks (only used and required when `style = "fixed"`)
 #' @param interval.closure value that determines whether where the intervals are closed: `"left"` or `"right"`. If `as.count = TRUE`, `inverval.closure` is always set to `"left"`.
 #' @param breaks_show Should breaks be show in the legend? If `TRUE` the legend will be similar to a continuous scale legend (but with discrete colors), where the breaks are labeled. If `FALSE` (default) each interval will be labeled.
+#' @param breaks_select In case breaks are shown (`breaks_slow = TRUE`), which breaks should be shown with ticks and labels? By default `TRUE`, which means all. A logical vector is expected, which is repeated along the number of breaks.
+#' @param breaks_labels In case breaks are shown (`breaks_slow = TRUE`), what are the break labels? By default the breaks, formatted via `label.format`.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
 #' @param as.count Should the data variable be processed as a count variable? For instance, if `style = "pretty"`, `n = 2`, and the value range of the variable is 0 to 10, then the column classes for `as.count = TRUE` are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for `as.count = FALSE` they are 0 to 5; 5 to 10. Only applicable if `style` is `"pretty"`, `"fixed"`, or `"log10_pretty"`. By default `FALSE`.
 #' @inheritParams tm_scale_categorical
@@ -127,7 +129,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @param label.format (generic scale argument) Label formatting (similar to legend.format in tmap3)
+#' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_scales}{tmap basics: scales}
 #' @seealso [tm_scale()]
 #' @export
@@ -151,7 +153,7 @@ tm_scale_intervals = function(n = 5,
 							  labels = NULL,
 							  label.na = NA,
 							  label.null = NA,
-							  label.format = list()) {
+							  label.format = tm_label_format()) {
 	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale", "list"))
 }
 
@@ -174,7 +176,7 @@ tm_scale_intervals = function(n = 5,
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @seealso [tm_scale()]
 #' @export
 tm_scale_discrete = function(ticks = NA,
@@ -218,7 +220,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @param trans.args list of additional argument for the transformation (generic transformation arguments)
 #' @inheritParams scales::transform_pseudo_log
 #' @example ./examples/tm_scale_continuous.R
@@ -241,7 +243,7 @@ tm_scale_continuous = function(n = NULL,
 							   labels = NULL,
 							   label.na = NA,
 							   label.null = NA,
-							   label.format = list(),
+							   label.format = tm_label_format(),
 							   trans.args = list()) {
 
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale", "list"))
@@ -267,7 +269,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @param label.format (generic scale argument) Label formatting (similar to `legend.format` in tmap3)
+#' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @param unit The unit name of the values. By default `"rank"`.
 #' @seealso [tm_scale()]
 #' @export
@@ -283,7 +285,7 @@ tm_scale_rank = function(n = NULL,
 						 labels = NULL,
 						 label.na = NA,
 						 label.null = NA,
-						 label.format = list(),
+						 label.format = tm_label_format(),
 						 unit = "rank") {
 	structure(c(list(FUN = "tmapScaleRank"), as.list(environment())), class = c("tm_scale_rank", "tm_scale", "list"))
 }

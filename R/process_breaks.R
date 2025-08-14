@@ -2,6 +2,8 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 	args <- list(...)
 	n <- length(vec)
 
+	args$called = NULL
+
 	if (inherits(vec, c("POSIXct", "POSIXlt", "Date"))) {
 		x = format(vec)
 	} else if (!is.null(fun)) {

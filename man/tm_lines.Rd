@@ -33,7 +33,7 @@ tm_lines(
   group = NA,
   group.control = "check",
   popup.vars = NA,
-  popup.format = list(),
+  popup.format = tm_label_format(),
   hover = NA,
   id = "",
   options = opt_tm_lines(),
@@ -75,8 +75,7 @@ to a character vector of variable names to those those variables in the popups.
 The default (\code{NA}) depends on whether visual variables (e.g.\code{fill}) are used.
 If so, only those are shown. If not all variables in the shape object are shown.}
 
-\item{popup.format}{list of formatting options for the popup values.
-See the argument \code{legend.format} for options. Only applicable for
+\item{popup.format}{list of formatting options for the popup values. Output of \code{\link[=tm_label_format]{tm_label_format()}}. Only applicable for
 numeric data variables. If one list of formatting options is provided,
 it is applied to all numeric variables of \code{popup.vars}. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options

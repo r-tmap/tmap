@@ -43,7 +43,7 @@
 #' @param scale.misc.args Default values of scale function-specific arguments. A list is required with per scale function and optional per visual variable.
 #' @param continuous.nclass_per_legend_break The number of continuous legend breaks within one 'unit' (label).  The default value is 50.
 #' @param continuous.nclasses the number of classes of a continuous scale. Should be odd.  The default value is 101.
-#' @param label.format Format for the labels (was `legend.format` in tmap v3).
+#' @param label.format Format for the labels. These are the default values for [tm_label_format()]
 #' @param label.na Default label for missing values.
 #' @param scale Overall scale of the map
 #' @param asp Aspect ratio of each map. When `asp` is set to `NA` (default) the aspect ratio will be adjusted to the used shapes. When set to 0 the aspect ratio is

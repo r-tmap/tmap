@@ -35,7 +35,7 @@ tm_add_legend = function(...,
 						 z = NA_integer_) {
 
 	args = lapply(as.list(rlang::call_match(defaults = TRUE)[-1]), eval, envir = parent.frame())
-	args$called = names(args)
+	args$called = names(rlang::call_match(dots_expand = TRUE)[-1])
 
 	args = warning_group_args(args)
 	args$group_id = args$group_id %||% NA_character_
