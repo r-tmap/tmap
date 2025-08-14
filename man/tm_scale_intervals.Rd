@@ -10,7 +10,9 @@ tm_scale_intervals(
   style.args = list(),
   breaks = NULL,
   interval.closure = "left",
-  label_cutpoints = FALSE,
+  breaks_show = FALSE,
+  breaks_select = TRUE,
+  breaks_labels = NULL,
   midpoint = NULL,
   as.count = FALSE,
   values = NA,
@@ -37,7 +39,7 @@ tm_scale_intervals(
 
 \item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.}
 
-\item{label_cutpoints}{Should cut points be used in the legend? If \code{FALSE} (default) each interval will be labeled. If \code{TRUE} the legend will be similar to a continuous scale legend (but with discrete colors), where the breaks are labeled.}
+\item{breaks_show}{Should breaks be show in the legend? If \code{TRUE} the legend will be similar to a continuous scale legend (but with discrete colors), where the breaks are labeled. If \code{FALSE} (default) each interval will be labeled.}
 
 \item{midpoint}{The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 

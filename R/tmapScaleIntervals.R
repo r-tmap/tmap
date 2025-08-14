@@ -148,11 +148,17 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			vvalues_rev = c(vvalues_rev, value.na)
 		}
 
-		if (label_cutpoints) {
+		if (breaks_show) {
 			if ((o$continuous.nclass_per_legend_break %% 2) != 0) cli::cli_abort("{.field options} the tmap option {.arg continuous.nclass_per_legend_break} should be even")
-			labels_select = c(rep(TRUE, length(breaks)), {if (na.show) TRUE else NULL})
+			labels_select = c(rep(breaks_select, length.out = length(breaks)), {if (na.show) TRUE else NULL})
 
-			labels_leg = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
+			if (is.null(breaks_labels)) {
+				labels_leg = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
+			} else {
+				if (length(breaks_labels) != length(breaks)) cli::cli_abort("{.field tm_scale_intervals} {.arg breaks_labels} should have length {length(breaks)}")
+				labels_leg = c(breaks_labels, {if (na.show) label.na else NULL})
+			}
+
 			vvalues = c(unlist(mapply(function(hd, tl) {
 				paste(c(rep(hd, o$continuous.nclass_per_legend_break/2),
 						rep(tl, o$continuous.nclass_per_legend_break/2)),
@@ -170,6 +176,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 				na.show = get("na.show", envir = parent.env(environment()))
 				scale = "intervals"
 				layer_args = layer_args
+				is_discrete = TRUE
 
 				# continuous legend specific:
 				labels_select = labels_select
