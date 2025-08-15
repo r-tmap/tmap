@@ -52,6 +52,7 @@ stm_bbox = function(shpTM, tmapID, crs) {
 		}
 		bbox$x = sf::st_bbox(shp)
 	}
+	if (inherits(bbox$x, "SpatExtent")) bbox$x = sf::st_bbox(bbox$x)
 	do.call(tmaptools::bb, bbox)
 }
 

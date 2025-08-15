@@ -110,13 +110,24 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		# create legend values
 		#values = breaks[-nbrks]
 
-		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format))
+		if (label.style == "discrete") {
+			if (is.null(labels)) {
+				labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format))
+			} else {
+				if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
+				labels = rep(labels, length.out=nbrks-1)
+				attr(labels, "align") <- label.format$text.align
+			}
 		} else {
-			if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
-			labels = rep(labels, length.out=nbrks-1)
-			attr(labels, "align") <- label.format$text.align
+			if (is.null(labels)) {
+				labels = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
+			} else {
+				if (length(labels) != length(breaks)) cli::cli_abort("{.field tm_scale_intervals} {.arg labels} should have length {length(breaks)}")
+				labels = c(labels, {if (na.show) label.na else NULL})
+			}
 		}
+
+
 
 		if (legend$reverse) {
 			labels.brks <- attr(labels, "brks")
@@ -148,28 +159,33 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			vvalues_rev = c(vvalues_rev, value.na)
 		}
 
-		if (breaks_show) {
-			if ((o$continuous.nclass_per_legend_break %% 2) != 0) cli::cli_abort("{.field options} the tmap option {.arg continuous.nclass_per_legend_break} should be even")
-			labels_select = c(rep(breaks_select, length.out = length(breaks)), {if (na.show) TRUE else NULL})
+		if (label.style == "discrete") {
+			legend = within(legend, {
+				nitems = length(labels)
+				labels = labels
+				dvalues = breaks #not used?
+				vvalues = vvalues_rev
+				vneutral = value.neutral
+				na.show = get("na.show", envir = parent.env(environment()))
+				scale = "intervals"
+				layer_args = layer_args
+			})
 
-			if (is.null(breaks_labels)) {
-				labels_leg = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
-			} else {
-				if (length(breaks_labels) != length(breaks)) cli::cli_abort("{.field tm_scale_intervals} {.arg breaks_labels} should have length {length(breaks)}")
-				labels_leg = c(breaks_labels, {if (na.show) label.na else NULL})
-			}
+		} else {
+			if ((o$continuous.nclass_per_legend_break %% 2) != 0) cli::cli_abort("{.field options} the tmap option {.arg continuous.nclass_per_legend_break} should be even")
+			labels_select = c(rep(label.select, length.out = length(breaks)), {if (na.show) TRUE else NULL})
 
 			vvalues = c(unlist(mapply(function(hd, tl) {
 				paste(c(rep(hd, o$continuous.nclass_per_legend_break/2),
 						rep(tl, o$continuous.nclass_per_legend_break/2)),
 						collapse = "_")
 			}, c(NA_character_, vvalues_rev[1L:(length(breaks)-1L)]), c(vvalues_rev[1L:(length(breaks)-1L)], NA_character_))), {if (na.show) value.na else NULL})
-			nitems = length(labels_leg)
+			nitems = length(labels)
 
 
 			legend = within(legend, {
 				nitems = nitems
-				labels = labels_leg
+				labels = labels
 				dvalues = breaks #not used?
 				vvalues = vvalues
 				vneutral = value.neutral
@@ -183,22 +199,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 				tr = trans_identity
 				limits = range(breaks)
 			})
-		} else {
-			legend = within(legend, {
-				nitems = length(labels)
-				labels = labels
-				dvalues = breaks #not used?
-				vvalues = vvalues_rev
-				vneutral = value.neutral
-				na.show = get("na.show", envir = parent.env(environment()))
-				scale = "intervals"
-				layer_args = layer_args
-			})
 		}
-
-
-
-
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
 
