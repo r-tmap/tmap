@@ -93,7 +93,7 @@
 #' @param unit Unit of the coordinate
 #' @param color.sepia_intensity `r .doc_opt("color.sepia_intensity")`
 #' @param color.saturation `r .doc_opt("color.saturation")`
-#' @param color_vision_deficiency_sim `Color vision deficiency simulation
+#' @param color_vision_deficiency_sim Color vision deficiency simulation. Either `"protan"`, `"deutan"`, or `"tritan"`.
 #' @param text.fontface `r .doc_opt("text.fontface")`
 #' @param text.fontfamily `r .doc_opt("text.fontfamily")`
 #' @param r `r .doc_opt("r")`
