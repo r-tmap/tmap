@@ -153,6 +153,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	} else if (cmp$type == "gradient") {
 		breaks_show =  ("is_discrete" %in% names(cmp)) && cmp$is_discrete
 
+
 		nbins = length(val)
 
 
@@ -169,6 +170,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		val = val[sel]
 
 		if (!breaks_show) {
+			cli::cli_warn("{.field tm_scale_intervals} {.code label.style = {.str continuous}} implementation in view mode work in progress")
 			if (!head(sel, 1)) {
 				val = c(cmp$limits[1], val)
 			} else {

@@ -1,4 +1,4 @@
-fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, big.num.abbr = c("mln" = 6, "bln" = 9), prefix = "", suffix = "", text.separator="to", text.less.than=c("less", "than"), text.or.more=c("or", "more"), text.align="left", text.to.columns=FALSE, digits=NA, html.escape = TRUE, ...) {
+fancy_breaks <- function(vec, as.count = FALSE, unique_to = FALSE, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, big.num.abbr = c("mln" = 6, "bln" = 9), prefix = "", suffix = "", text.separator="to", text.less.than=c("less", "than"), text.or.more=c("or", "more"), text.align="left", text.to.columns=FALSE, digits=NA, html.escape = TRUE, ...) {
 	args <- list(...)
 	n <- length(vec)
 
@@ -44,8 +44,25 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 					while (anyDuplicated(substr(frm_sign, 1, nchar(frm_sign)-10 + digits)) && (digits < 10)) {
 						digits <- digits + 1
 					}
+
+					if (unique_to) {
+						## NEW
+						#update vec_fin
+						# add 'to' numbers and see if digits should be increased
+						vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+						while (anyDuplicated(vec_fin2)) {
+							digits = digits + 1
+							vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+						}
+						vec = c(vec, vec - 10^-digits)
+					}
+
 				}
 
+			} else {
+				if (unique_to) {
+					vec = c(vec, vec - 10^-digits)
+				}
 			}
 		}
 
@@ -82,6 +99,11 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 			x1 <- x[1:(n-1)]
 			x2 <- x[(n+2):(2*n)]
 			x1p1 <- x[(2*n+1):(3*n-1)]
+		} else if (unique_to) {
+			x1 = x[1:(n-1)]
+			x2 = x[(n+2):(2*n)]
+
+
 		}
 		# x <- formatC(vec, format = "f", digits = 0)
 		# x1 <- x[-n]
@@ -113,6 +135,10 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 			if (as.count) {
 				lbls <- x1
 				lbls[steps>1] <- paste(x1[steps>1], x2[steps>1], sep = paste0(" ", text.separator, " "))
+				if (vec[n]==Inf) lbls[n-1] <- paste(x1[n-1], paste(text.or.more, collapse = " "), sep = " ")
+			} else if (unique_to) {
+				lbls <- paste(x1, x2, sep = paste0(" ", text.separator, " "))
+				if (vec[1]==-Inf) lbls[1] <- paste(paste(text.less.than, collapse = " "), x2[1], sep = " ")
 				if (vec[n]==Inf) lbls[n-1] <- paste(x1[n-1], paste(text.or.more, collapse = " "), sep = " ")
 			} else {
 				x[vec==-Inf] <- ""

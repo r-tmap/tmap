@@ -112,7 +112,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 		if (label.style == "discrete") {
 			if (is.null(labels)) {
-				labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format))
+				labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, unique_to = unique_to, intervals=TRUE, interval.closure=int.closure), label.format))
 			} else {
 				if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 				labels = rep(labels, length.out=nbrks-1)

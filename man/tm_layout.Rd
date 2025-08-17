@@ -125,7 +125,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{color.saturation}{The saturation of the color.}
 
-\item{color_vision_deficiency_sim}{`Color vision deficiency simulation}
+\item{color_vision_deficiency_sim}{Color vision deficiency simulation. Either \code{"protan"}, \code{"deutan"}, or \code{"tritan"}.}
 
 \item{panel.show}{The visibility of the panel. \code{TRUE} or \code{FALSE}.}
 

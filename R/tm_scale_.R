@@ -122,6 +122,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param label.select Which labels are shown? A logical vector is expected, which is repeated along the number of labels. By default `TRUE`, which means all.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
 #' @param as.count Should the data variable be processed as a count variable? For instance, if `style = "pretty"`, `n = 2`, and the value range of the variable is 0 to 10, then the column classes for `as.count = TRUE` are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for `as.count = FALSE` they are 0 to 5; 5 to 10. Only applicable if `style` is `"pretty"`, `"fixed"`, or `"log10_pretty"`. By default `FALSE`.
+#' @param unique_to (in development) should the 'to' values of intervals be unique, i.e. different from the next 'from' value?
 #' @inheritParams tm_scale_categorical
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for [tm_polygons()]) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for `tm_symbols`) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. `shape` for `tm_symbols`) these are a set of symbols, etc. The tmap option `values.var` contains the default values per visual variable and in some cases also per data type.
 #' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"gray25"` to `"gray75"`), and `0, 0.5` means that only colors are used from black to middle grey (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
@@ -141,6 +142,7 @@ tm_scale_intervals = function(n = 5,
 							  label.select = TRUE,
 							  midpoint = NULL,
 							  as.count = FALSE,
+							  unique_to = FALSE,
 							  values = NA,
 							  values.repeat = FALSE,
 							  values.range  = NA,
