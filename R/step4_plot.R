@@ -204,6 +204,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 	if (o$name != gs) cli::cli_abort("tmap mode changed during execution; did you run {.code tmap_mode()} inside a shiny app?")
 
+	bbo = o$bbox
 
 	# shortcut if no data layers are used, but only a tm_shape
 	if (length(tmx)) {
@@ -434,6 +435,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	# main group (that determines bounding box)
 	# TODO take into account multiple main groups (see step1_rearrange and get_main_ids)
 
+
 	if (o$legend.only) {
 		d = NULL
 	} else if (any_data_layer) {
@@ -444,17 +446,17 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		grp_ids = as.integer(substr(names(tmx), 6, nchar(names(tmx))))
 		mains_in_grp = intersect(o$main[!bbx_def], grp_ids)
-		if (length(mains_in_grp) && !("inset" %in% names(o)) && !o$earth_bbox) {
+		if (length(mains_in_grp) && !("inset" %in% names(o)) && !o$earth_bbox && is.null(bbo)) {
 			lookup = match(mains_in_grp, grp_ids)
 			tmain = unlist(unlist(tmx[lookup], recursive = FALSE, use.names = FALSE), recursive = FALSE, use.names = FALSE)
 			d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 		} else {
-			if (is.null(bbm)) {
-				bbo = o$bbox
-				if (!is.null(bbo) && !identical(bbo, "FULL")) {
-					bbm = tmaptools::bb(bbo, projection = crs)
-				} else {
+			if (!is.null(bbo) || is.null(bbm)) {
+				if (!is.null(bbo) && identical(bbo, "FULL") || (is.null(bbo) && is.null(bbm))) {
 					bbm = full_bbox(crs)
+				} else {
+					if (inherits(bbo, "SpatExtent")) bbo = sf::st_bbox(bbo)
+					bbm = tmaptools::bb(bbo, projection = crs)
 				}
 				if (o$earth_bbox) {
 					bbm = bb_ext(bbm, o$inner.margins)
@@ -466,7 +468,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		}
 	} else {
 		if (is.null(bbm)) {
-			bbo = o$bbox
 			if (!is.null(bbo)) {
 				bbm = tmaptools::bb(bbo, projection = crs)
 			} else {

@@ -14,7 +14,6 @@ tm_scale_intervals(
   label.select = TRUE,
   midpoint = NULL,
   as.count = FALSE,
-  unique_to = FALSE,
   values = NA,
   values.repeat = FALSE,
   values.range = NA,
@@ -46,8 +45,6 @@ tm_scale_intervals(
 \item{midpoint}{The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
 \item{as.count}{Should the data variable be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default \code{FALSE}.}
-
-\item{unique_to}{(in development) should the 'to' values of intervals be unique, i.e. different from the next 'from' value?}
 
 \item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{\link[=tm_polygons]{tm_polygons()}}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 

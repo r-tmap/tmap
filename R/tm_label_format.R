@@ -6,10 +6,11 @@
 #' @param scientific Should the labels be formatted scientifically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable. By default, \code{FALSE}
 #' @param format By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific = TRUE} then \code{"g"}, which means that numbers are formatted scientifically, i.e. \code{n.dddE+nn} if needed to save space.
 #' @param digits Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise. By default \code{NA}, meaning as many as needed to have distinct numbers
+#' @param interval.disjoint In case of intervals (see [tm_scale_intervals()]), should the intervals appear disjoint, e.g. \code{0 to 999}, \code{1000 - 1999}, \code{2000 - 2999} (\code{TRUE}, default), or not: \code{0 - 1000}, \code{1000 - 2000}, \code{2000- 3000}.
 #' @param big.num.abbr Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to \code{NA} to disable abbrevations.  The default is \code{c("mln" = 6, "bln" = 9)}. For layers where \code{style} is set to \code{log10} or \code{log10_pretty}, the default is \code{NA}.
 #' @param prefix Prefix of each number
 #' @param suffix Suffix of each number
-#' @param text.separator Character string to use to separate numbers in the legend (default: \code{"to"}).
+#' @param text.separator Character string to use to separate numbers in an interval legend (default: \code{"to"}).
 #' @param text.less.than Character value(s) to use for 'less than'. Default \code{"Less than"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}
 #' @param text.or.more Character value(s) to use to  'or more'. Default is \code{"or more"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}
 #' @param text.align Not implemented in v4 (yet). Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}. By default \code{"left"}.
@@ -22,6 +23,7 @@ tm_label_format = function(fun,
 						   scientific,
 						   format,
 						   digits,
+						   interval.disjoint,
 						   big.num.abbr,
 						   prefix,
 						   suffix,
