@@ -1,4 +1,12 @@
-fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, big.num.abbr = c("mln" = 6, "bln" = 9), prefix = "", suffix = "", text.separator="to", text.less.than=c("less", "than"), text.or.more=c("or", "more"), text.align="left", text.to.columns=FALSE, digits=NA, html.escape = TRUE, ...) {
+paste2 = function(x, y, flipped) {
+	if (flipped) {
+		paste(y, x, sep = " ")
+	} else {
+		paste(x, y, sep = " ")
+	}
+}
+
+fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, big.num.abbr = c("mln" = 6, "bln" = 9), prefix = "", suffix = "", text.separator="to", text.less.than=c("less", "than"), text.less.than_as_prefix = TRUE, text.or.more=c("or", "more"), text.or.more_as_prefix = FALSE, text.align="left", text.to.columns=FALSE, digits=NA, html.escape = TRUE, ...) {
 	args <- list(...)
 	n <- length(vec)
 
@@ -135,17 +143,17 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 			if (as.count) {
 				lbls <- x1
 				lbls[steps>1] <- paste(x1[steps>1], x2[steps>1], sep = paste0(" ", text.separator, " "))
-				if (vec[n]==Inf) lbls[n-1] <- paste(x1[n-1], paste(text.or.more, collapse = " "), sep = " ")
+				if (vec[n]==Inf) lbls[n-1] <- paste2(x1[n-1], paste(text.or.more, collapse = " "), flipped = text.or.more_as_prefix)
 			} else if (interval.disjoint) {
 				lbls <- paste(x1, x2, sep = paste0(" ", text.separator, " "))
-				if (vec[1]==-Inf) lbls[1] <- paste(paste(text.less.than, collapse = " "), x2[1], sep = " ")
-				if (vec[n]==Inf) lbls[n-1] <- paste(x1[n-1], paste(text.or.more, collapse = " "), sep = " ")
+				if (vec[1]==-Inf) lbls[1] <- paste2(x2[1], paste(text.less.than, collapse = " "), flipped = text.less.than_as_prefix)
+				if (vec[n]==Inf) lbls[n-1] <- paste2(x1[n-1], paste(text.or.more, collapse = " "), flipped = text.or.more_as_prefix)
 			} else {
 				x[vec==-Inf] <- ""
 
 				lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
-				if (vec[1]==-Inf) lbls[1] <- paste(paste(text.less.than, collapse = " "), x[2], sep = " ")
-				if (vec[n]==Inf) lbls[n-1] <- paste(x[n-1], paste(text.or.more, collapse = " "), sep = " ")
+				if (vec[1]==-Inf) lbls[1] <- paste2(x[2], paste(text.less.than, collapse = " "), flipped = text.less.than_as_prefix)
+				if (vec[n]==Inf) lbls[n-1] <- paste2(x[n-1], paste(text.or.more, collapse = " "), flipped = text.or.more_as_prefix)
 			}
 
 			if (text.to.columns) {
