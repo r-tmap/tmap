@@ -15,9 +15,9 @@ tm_label_format(
   suffix,
   text.separator,
   text.less.than,
-  text.less.than_as_prefix,
+  text.less.than_as.prefix,
   text.or.more,
-  text.or.more_as_prefix,
+  text.or.more_as.prefix,
   text.align,
   text.to.columns,
   html.escape,
@@ -45,11 +45,11 @@ tm_label_format(
 
 \item{text.less.than}{Character value(s) to use for 'less than'. Default \code{"Less than"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
 
-\item{text.less.than_as_prefix}{Should \code{text.less.than} be used as prefix?}
+\item{text.less.than_as.prefix}{Should \code{text.less.than} be used as prefix?}
 
 \item{text.or.more}{Character value(s) to use to  'or more'. Default is \code{"or more"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
 
-\item{text.or.more_as_prefix}{Should \code{text.or.more} be used as prefix?}
+\item{text.or.more_as.prefix}{Should \code{text.or.more} be used as prefix?}
 
 \item{text.align}{Not implemented in v4 (yet). Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}. By default \code{"left"}.}
 

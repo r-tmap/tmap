@@ -211,9 +211,9 @@
 			suffix = "",
 			text.separator = "-",
 			text.less.than = "<",
-			text.less.than_as_prefix = TRUE,
+			text.less.than_as.prefix = TRUE,
 			text.or.more = "\u2265",
-			text.or.more_as_prefix = TRUE,
+			text.or.more_as.prefix = TRUE,
 			text.align = NA,
 			text.to.columns = FALSE,
 			html.escape = TRUE

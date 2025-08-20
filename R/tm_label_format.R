@@ -12,9 +12,9 @@
 #' @param suffix Suffix of each number
 #' @param text.separator Character string to use to separate numbers in an interval legend (default: \code{"to"}).
 #' @param text.less.than Character value(s) to use for 'less than'. Default \code{"Less than"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}
-#' @param text.less.than_as_prefix Should \code{text.less.than} be used as prefix?
+#' @param text.less.than_as.prefix Should \code{text.less.than} be used as prefix?
 #' @param text.or.more Character value(s) to use to  'or more'. Default is \code{"or more"}. When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}
-#' @param text.or.more_as_prefix Should \code{text.or.more} be used as prefix?
+#' @param text.or.more_as.prefix Should \code{text.or.more} be used as prefix?
 #' @param text.align Not implemented in v4 (yet). Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}. By default \code{"left"}.
 #' @param text.to.columns Not implemented in v4 (yet). Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.
 #' @param html.escape Logical that determins whther HTML code is escaped in the popups in view mode. By default \code{TRUE}. If set to \code{FALSE} HTML code can be added, e.g. to added white space via \code{&nbsp;}.
@@ -31,9 +31,9 @@ tm_label_format = function(fun,
 						   suffix,
 						   text.separator,
 						   text.less.than,
-						   text.less.than_as_prefix,
+						   text.less.than_as.prefix,
 						   text.or.more,
-						   text.or.more_as_prefix,
+						   text.or.more_as.prefix,
 						   text.align,
 						   text.to.columns,
 						   html.escape,
