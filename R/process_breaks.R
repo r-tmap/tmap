@@ -146,7 +146,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 				if (vec[n]==Inf) lbls[n-1] <- paste2(x1[n-1], paste(text.or.more, collapse = " "), flipped = text.or.more_as_prefix)
 			} else if (interval.disjoint) {
 				lbls <- paste(x1, x2, sep = paste0(" ", text.separator, " "))
-				if (vec[1]==-Inf) lbls[1] <- paste2(x2[1], paste(text.less.than, collapse = " "), flipped = text.less.than_as_prefix)
+				if (vec[1]==-Inf) lbls[1] <- paste2(x1[2], paste(text.less.than, collapse = " "), flipped = text.less.than_as_prefix)
 				if (vec[n]==Inf) lbls[n-1] <- paste2(x1[n-1], paste(text.or.more, collapse = " "), flipped = text.or.more_as_prefix)
 			} else {
 				x[vec==-Inf] <- ""
