@@ -168,18 +168,28 @@
 <p>These options are a subset of all tmap options, which can be set via <code>tmap_options</code> (a stand-alone function) or <code>tm_options</code>, which is supposed to be stacked with the <code>+</code> operator.</p>
 </div>
 <div class="section level2">
-<h2 id="inner-and-outer-margins">Inner and outer margins<a class="anchor" aria-label="anchor" href="#inner-and-outer-margins"></a>
+<h2 id="margins">Margins<a class="anchor" aria-label="anchor" href="#margins"></a>
 </h2>
-<p>Inner and outer margins can be set with the options <code>inner.margins</code> and <code>outer.margins</code>.</p>
-<p>The inner margins are the margins between the shape (i.e. spatial geometries) and the map frame. In the design mode, the shape area with the inner margins is shown with a yellow rectangle.</p>
+<p>There are three types of margins:</p>
+<ul>
+<li>
+<code>inner.margins</code> are the margins between the shape (i.e. spatial geometries) and the map frame. Vector of four numbers</li>
+<li>
+<code>meta.margins</code> are the margins in which map components are drawn.</li>
+<li>
+<code>outer.margins</code> are the margins between the plot (maps and components) and the device borders.</li>
+</ul>
+<p>Each is specified with a vector of four numbers that correspond to respectively the bottom, left, top, and right margin.The inner.margins are numbers relative to the map frame, and the meta.argins and outer.margins to the graphics device.</p>
+<p>An example where both inner and meta margins are specified:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
-<span>        inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span>        inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>        meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
-<span><span class="co">#&gt; | plot area     5.171 4.800 1.077 |</span></span>
+<span><span class="co">#&gt; | plot area     5.307 4.800 1.106 |</span></span>
 <span><span class="co">#&gt; | facets area   4.139 4.800 0.862 |</span></span>
 <span><span class="co">#&gt; | map area      4.064 4.800 0.847 |</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
@@ -193,40 +203,15 @@
 <span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
 <span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
 <p><img src="adv_margins_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
-<p>This vector of four numbers correspond to respectively the bottom, left, top, and right margin.</p>
-<p>The outer margins are the margins between the map frame and the device frame.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
-<span>        outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
-<span><span class="co">#&gt; | device        7.290 5.000 1.458 |</span></span>
-<span><span class="co">#&gt; | plot area     3.648 3.000 1.216 |</span></span>
-<span><span class="co">#&gt; | facets area   2.615 3.000 0.872 |</span></span>
-<span><span class="co">#&gt; | map area      2.540 3.000 0.847 |</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; Color codings:</span></span>
-<span><span class="co">#&gt; - light blue  outer margins</span></span>
-<span><span class="co">#&gt; - dark blue   buffers around outside cells</span></span>
-<span><span class="co">#&gt; - light green outside cells</span></span>
-<span><span class="co">#&gt; - dark green  x and ylab cells</span></span>
-<span><span class="co">#&gt; - pink        panels</span></span>
-<span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
-<span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
-<span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
-</div>
-<div class="section level2">
-<h2 id="meta-margins">Meta margins<a class="anchor" aria-label="anchor" href="#meta-margins"></a>
-</h2>
-<p>Besides inner and outer margins, there is another type of margins: the meta margins. This space dedicated for map components that are outside the map (see <a href="https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v">vignette about component positions</a>. For single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, <code>meta.margins</code> is set to <code>c(0, 0, 0, 0)</code>. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.</p>
+<p>Via the <strong>inner margins</strong>, the space between the borders of the Netherlands and the map frame is set to 0.2 in each direction. This value is relative to the width (for the left and right-handside margin) and height (top and bottom margin). In other words, the bounding box of the Netherlands occupies 60 percent of the horizontal space and 60 percent of the vertical space of the map frame, shown as the <strong>yellow</strong> box in design mode.</p>
+<p>The meta margins is the space dedicated for map components that are outside the map (see <a href="https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v">vignette about component positions</a>. The value of the right-handside meta margin 0.15 in this example means that 15 percent of the total device width is used for the ouside components (in this example the legend), shown in the <strong>green</strong> box. If not specified, for single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, <code>meta.margins</code> is set to <code>c(0, 0, 0, 0)</code>. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.</p>
+<p>The outer margins can also be specified. By default these are 0.02 in each dimension. This is shown in the light blue area. Note that the left and right-handside margin are larger. This is caused by a mismatch between the plot (map and outside components) and the device. Because the aspect ratio of the device is larger (more landscape) than that of the map and components, the ‘excess’ margin is also added to the outer margins. It is also possible to add this ‘excess’ margin to the inner margins by setting <code>asp = 0</code>. This is explained in the next section.</p>
 </div>
 <div class="section level2">
 <h2 id="aspect-ratio">Aspect ratio<a class="anchor" aria-label="anchor" href="#aspect-ratio"></a>
 </h2>
-<p>The aspect of the map frame can be set via the option <code>asp</code>. If so, the inner margins will be adjusted automatically.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>The aspect of the map frame can be set via the option <code>asp</code>. If so, the inner margins will be adjusted automatically. The aspect ratio is defined by width / height, so a value one mean square:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Square map"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -246,18 +231,18 @@
 <span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
 <span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
 <span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-<p>The special value 0 means that the aspect ratio is adjusted to meet the space that is left on the device after substracting the outer margins and space occupied by the outside components (in this case just the legends).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p>A special case is the value 0. Then the aspect ratio of the graphics device is taken. Now the ‘excess’ margin (see previous section) is added to the inner margins, and the outer margins are unchanged. Hence, a useful trick is to set both <code>asp</code> and <code>outer.margins</code> to 0:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"employment_rate"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>              asp <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ---------------W (in)-H (in)-asp---</span></span>
 <span><span class="co">#&gt; | device        7.29 5.00 1.46 |</span></span>
-<span><span class="co">#&gt; | plot area     4.37 3.00 1.46 |</span></span>
-<span><span class="co">#&gt; | facets area   3.34 3.00 1.11 |</span></span>
-<span><span class="co">#&gt; | map area      3.27 3.00 1.09 |</span></span>
+<span><span class="co">#&gt; | plot area     7.29 5.00 1.46 |</span></span>
+<span><span class="co">#&gt; | facets area   6.26 5.00 1.25 |</span></span>
+<span><span class="co">#&gt; | map area      6.18 5.00 1.24 |</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
 <span><span class="co">#&gt; Color codings:</span></span>
 <span><span class="co">#&gt; - light blue  outer margins</span></span>
@@ -268,7 +253,8 @@
 <span><span class="co">#&gt; - red         margins for outside grid labels</span></span>
 <span><span class="co">#&gt; - orange      margins around maps for grid labels</span></span>
 <span><span class="co">#&gt; - yellow      map area</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="adv_margins_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p>The result is that the map frame (if drawn) corresponds to the borders of the graphics device.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
