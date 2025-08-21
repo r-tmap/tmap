@@ -73,41 +73,37 @@ All options related to the layout of the map, such as background color and margi
 
 These options are a subset of all tmap options, which can be set via `tmap_options` (a stand-alone function) or `tm_options`, which is supposed to be stacked with the `+` operator.
 
-## Inner and outer margins
+## Margins
 
-Inner and outer margins can be set with the options `inner.margins` and `outer.margins`. 
+There are three types of margins: 
 
-The inner margins are the margins between the shape (i.e. spatial geometries) and the map frame. In the design mode, the shape area with the inner margins is shown with a yellow rectangle.
+* `inner.margins` are the margins between the shape (i.e. spatial geometries) and the map frame. Vector of four numbers 
+* `meta.margins` are the margins in which map components are drawn.
+* `outer.margins` are the margins between the plot (maps and components) and the device borders.
 
+Each is specified with a vector of four numbers that correspond to respectively the bottom, left, top, and right margin.The inner.margins are numbers relative to the map frame, and the meta.argins and outer.margins to the graphics device.
 
-
-
-```{r, fig.height=5}
-tm_shape(NLD_muni) +
-  tm_polygons(fill = "employment_rate") +
-	tm_layout(
-		inner.margins = c(0.2, 0.2, 0.2, 0.2))
-```
-
-This vector of four numbers correspond to respectively the bottom, left, top, and right margin.
-
-The outer margins are the margins between the map frame and the device frame.
-
+An example where both inner and meta margins are specified:
 
 ```{r, fig.height=5}
 tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate") +
 	tm_layout(
-		outer.margins = c(0.2, 0.2, 0.2, 0.2))
+		inner.margins = c(0.2, 0.2, 0.2, 0.2),
+		meta.margins = c(0, 0, 0, 0.15))
 ```
 
-## Meta margins
+Via the **inner margins**, the space between the borders of the Netherlands and the map frame is set to 0.2 in each direction. This value is relative to the width (for the left and right-handside margin) and height (top and bottom margin). In other words, the bounding box of the Netherlands occupies 60 percent of the horizontal space and 60 percent of the vertical space of the map frame, shown as the **yellow** box in design mode.
 
-Besides inner and outer margins, there is another type of margins: the meta margins. This space dedicated for map components that are outside the map (see [vignette about component   positions](https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v). For single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, `meta.margins` is set to `c(0, 0, 0, 0)`. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.
+The meta margins is the space dedicated for map components that are outside the map (see [vignette about component   positions](https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v). The value of the right-handside meta margin 0.15 in this example means that 15 percent of the total device width is used for the ouside components (in this example the legend), shown in the **green** box. If not specified, for single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, `meta.margins` is set to `c(0, 0, 0, 0)`. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.
+
+The outer margins can also be specified. By default these are 0.02 in each dimension. This is shown in the light blue area. Note that the left and right-handside margin are larger. This is caused by a mismatch between the plot (map and outside components) and the device. Because the aspect ratio of the device is larger (more landscape) than that of the map and components, the 'excess' margin is also added to the outer margins. It is also possible to add this 'excess' margin to the inner margins by setting `asp = 0`. This is explained in the next section.
+
 
 ## Aspect ratio
 
-The aspect of the map frame can be set via the option `asp`. If so, the inner margins will be adjusted automatically.
+The aspect of the map frame can be set via the option `asp`. If so, the inner margins will be adjusted automatically. The aspect ratio is defined by width / height, so a value one mean square:
+
 
 ```{r, fig.height=5}
 tm_shape(NLD_muni) +
@@ -116,12 +112,13 @@ tm_shape(NLD_muni) +
 	tm_layout(asp = 1)
 ```
 
-The special value 0 means that the aspect ratio is adjusted to meet the space that is left on the device after substracting the outer margins and space occupied by the outside components (in this case just the legends).
+A special case is the value 0. Then the aspect ratio of the graphics device is taken. Now the 'excess' margin (see previous section) is added to the inner margins, and the outer margins are unchanged. Hence, a useful trick is to set both `asp` and `outer.margins` to 0:
 
 ```{r, fig.height=5}
 tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate") +
-	tm_layout(outer.margins = c(0.2, 0.2, 0.2, 0.2),
+	tm_layout(outer.margins = c(0, 0, 0, 0),
 			  asp = 0)
 ```
 
+The result is that the map frame (if drawn) corresponds to the borders of the graphics device.
