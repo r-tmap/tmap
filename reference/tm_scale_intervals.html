@@ -113,7 +113,6 @@ The function <code>tm_scale_intervals()</code> is used for numerical data.</p>
 <span>  label.select <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  midpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  as.count <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  unique_to <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  values <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  values.repeat <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  values.range <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -166,10 +165,6 @@ The function <code>tm_scale_intervals()</code> is used for numerical data.</p>
 
 <dt id="arg-as-count">as.count<a class="anchor" aria-label="anchor" href="#arg-as-count"></a></dt>
 <dd><p>Should the data variable be processed as a count variable? For instance, if <code>style = "pretty"</code>, <code>n = 2</code>, and the value range of the variable is 0 to 10, then the column classes for <code>as.count = TRUE</code> are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for <code>as.count = FALSE</code> they are 0 to 5; 5 to 10. Only applicable if <code>style</code> is <code>"pretty"</code>, <code>"fixed"</code>, or <code>"log10_pretty"</code>. By default <code>FALSE</code>.</p></dd>
-
-
-<dt id="arg-unique-to">unique_to<a class="anchor" aria-label="anchor" href="#arg-unique-to"></a></dt>
-<dd><p>(in development) should the 'to' values of intervals be unique, i.e. different from the next 'from' value?</p></dd>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>

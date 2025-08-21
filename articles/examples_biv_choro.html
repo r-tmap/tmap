@@ -148,7 +148,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"inequality"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 to 30" =&gt; "2"</span></span></code></pre></div>
+<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 - 29" =&gt; "2"</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <p>The use of <code><a href="../reference/tm_vars.html">tm_vars()</a></code> is required in order to specify a multivariate mapping. See <a href="https://r-tmap.github.io/tmap/articles/adv_multivariate">vignette</a> for more information and other use cases. For now, we specify a vector of two variables, and set <code>multivariate</code> to <code>TRUE</code>. Recall that <code>fill = c("gender", "inequality")</code> will create two facets, one for each map (see <a href="https://r-tmap.github.io/tmap/articles/basics_facets#facets-one-dimensional">vignette</a>).</p>
 </div>
@@ -252,7 +252,7 @@ Normal order
 <span>    fill.scale <span class="op">=</span> </span>
 <span>      <span class="fu"><a href="../reference/tm_scale_bivariate.html">tm_scale_bivariate</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"//bu_br_bivs"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 to 30" =&gt; "2"</span></span></code></pre></div>
+<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 - 29" =&gt; "2"</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 <p>One inconvenience is that the origin of the palettes plotted above (with <code><a href="https://cols4all.github.io/reference/c4a_plot.html" class="external-link">c4a_plot()</a></code>) is top left, but the origin of a bivariate color legend in tmap is bottom right. Therefore, the diagonal prefixes need to be the other way round.</p>
 </div>
@@ -270,7 +270,7 @@ Normal order
 <span>                 <span class="st">"#64ACBE"</span>, <span class="st">"#627F8C"</span>, <span class="st">"#574249"</span><span class="op">)</span>,</span>
 <span>                 byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 to 30" =&gt; "2"</span></span></code></pre></div>
+<span><span class="co">#&gt; Labels abbreviated by the first letters, e.g.: "20 - 29" =&gt; "2"</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
 <p>This palette is also known as <code>"stevens.bluered"</code>. Note that this is not the most color blind friendly one. Check out <code><a href="https://cols4all.github.io/reference/c4a_gui.html" class="external-link">c4a_gui()</a></code> to analyse color blind friendliness, also for custom palettes.</p>
 </div>

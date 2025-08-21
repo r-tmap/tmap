@@ -99,12 +99,15 @@
 <span>  <span class="va">scientific</span>,</span>
 <span>  <span class="va">format</span>,</span>
 <span>  <span class="va">digits</span>,</span>
+<span>  <span class="va">interval.disjoint</span>,</span>
 <span>  <span class="va">big.num.abbr</span>,</span>
 <span>  <span class="va">prefix</span>,</span>
 <span>  <span class="va">suffix</span>,</span>
 <span>  <span class="va">text.separator</span>,</span>
 <span>  <span class="va">text.less.than</span>,</span>
+<span>  <span class="va">text.less.than_as.prefix</span>,</span>
 <span>  <span class="va">text.or.more</span>,</span>
+<span>  <span class="va">text.or.more_as.prefix</span>,</span>
 <span>  <span class="va">text.align</span>,</span>
 <span>  <span class="va">text.to.columns</span>,</span>
 <span>  <span class="va">html.escape</span>,</span>
@@ -132,6 +135,10 @@
 <dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise. By default <code>NA</code>, meaning as many as needed to have distinct numbers</p></dd>
 
 
+<dt id="arg-interval-disjoint">interval.disjoint<a class="anchor" aria-label="anchor" href="#arg-interval-disjoint"></a></dt>
+<dd><p>In case of intervals (see <code><a href="tm_scale_intervals.html">tm_scale_intervals()</a></code>), should the intervals appear disjoint, e.g. <code>0 to 999</code>, <code>1000 - 1999</code>, <code>2000 - 2999</code> (<code>TRUE</code>, default), or not: <code>0 - 1000</code>, <code>1000 - 2000</code>, <code>2000- 3000</code>.</p></dd>
+
+
 <dt id="arg-big-num-abbr">big.num.abbr<a class="anchor" aria-label="anchor" href="#arg-big-num-abbr"></a></dt>
 <dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
 
@@ -145,15 +152,23 @@
 
 
 <dt id="arg-text-separator">text.separator<a class="anchor" aria-label="anchor" href="#arg-text-separator"></a></dt>
-<dd><p>Character string to use to separate numbers in the legend (default: <code>"to"</code>).</p></dd>
+<dd><p>Character string to use to separate numbers in an interval legend (default: <code>"to"</code>).</p></dd>
 
 
 <dt id="arg-text-less-than">text.less.than<a class="anchor" aria-label="anchor" href="#arg-text-less-than"></a></dt>
 <dd><p>Character value(s) to use for 'less than'. Default <code>"Less than"</code>. When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
 
 
+<dt id="arg-text-less-than-as-prefix">text.less.than_as.prefix<a class="anchor" aria-label="anchor" href="#arg-text-less-than-as-prefix"></a></dt>
+<dd><p>Should <code>text.less.than</code> be used as prefix?</p></dd>
+
+
 <dt id="arg-text-or-more">text.or.more<a class="anchor" aria-label="anchor" href="#arg-text-or-more"></a></dt>
 <dd><p>Character value(s) to use to  'or more'. Default is <code>"or more"</code>. When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
+
+
+<dt id="arg-text-or-more-as-prefix">text.or.more_as.prefix<a class="anchor" aria-label="anchor" href="#arg-text-or-more-as-prefix"></a></dt>
+<dd><p>Should <code>text.or.more</code> be used as prefix?</p></dd>
 
 
 <dt id="arg-text-align">text.align<a class="anchor" aria-label="anchor" href="#arg-text-align"></a></dt>
