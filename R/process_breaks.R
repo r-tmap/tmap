@@ -12,6 +12,11 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 
 	args$called = NULL
 
+	if (!intervals) {
+		as.count = FALSE
+		interval.disjoint = FALSE
+	}
+
 	if (inherits(vec, c("POSIXct", "POSIXlt", "Date"))) {
 		x = format(vec)
 	} else if (!is.null(fun) && !interval.disjoint) {
@@ -58,7 +63,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 						#update vec_fin
 						# add 'to' numbers and see if digits should be increased
 						vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
-						while (anyDuplicated(vec_fin2)) {
+						while (anyDuplicated(na.omit(vec_fin2))) {
 							digits = digits + 1
 							vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
 						}
@@ -73,6 +78,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 				}
 			}
 		}
+
 
 		if ((!is.null(fun) && interval.disjoint)) {
 			x <- do.call(fun, list(vec))
