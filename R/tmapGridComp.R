@@ -371,8 +371,8 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		}
 	}
 
-	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
-	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
+	offsetIn.h = component.offset.h * o$lin# + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
+	offsetIn.v = component.offset.v * o$lin#+ (o$frame.lwd * o$scale / 144)
 
 	stack_margin = grp$stack_margin
 	if (!is.null(names(stack_margin)) && all(c("combined", "apart") %in% names(stack_margin))) {

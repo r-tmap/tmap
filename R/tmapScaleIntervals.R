@@ -22,6 +22,12 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 	if (aes %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 
+	if (!(aes %in% c("fill", "color")) && scale$label.style == "continuous") {
+		scale$label.style = "discrete"
+		cli::cli_warn("{.field tm_scale_intervals} {.arg label.style} can only be {.str continuous} for fill and color, not for {aes}")
+	}
+
+
 	scale = get_scale_defaults(scale, o, aes, layer, cls)
 
 	show.messages <- o$show.messages
@@ -120,10 +126,10 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			}
 		} else {
 			if (is.null(labels)) {
-				labels = c(do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)), {if (na.show) label.na else NULL})
+				labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format))
 			} else {
 				if (length(labels) != length(breaks)) cli::cli_abort("{.field tm_scale_intervals} {.arg labels} should have length {length(breaks)}")
-				labels = c(labels, {if (na.show) label.na else NULL})
+				#labels = c(labels, {if (na.show) label.na else NULL})
 			}
 		}
 
