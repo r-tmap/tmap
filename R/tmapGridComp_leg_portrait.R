@@ -430,7 +430,24 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 		ni = nlev - (comp$na.show && ticks.disable.na)
 
+
+
 		tck_ids = (1L:ni)[rep(comp$labels_select, length.out = ni)]
+
+		# remove tick ids that are too close to edges
+		if (!is.na(comp$col)) {
+			ih = get_legend_option(comp$item.height, "gradient")
+			na_share = ((ih - 0.5)/2)/ih
+			if (comp$gradient_ht_fracs[1] >= na_share) {
+				tck_ids = setdiff(tck_ids, 1)
+			}
+			if (comp$gradient_ht_fracs[2] > na_share) {
+				tck_ids = setdiff(tck_ids, comp$nitems - comp$na.show)
+			}
+		}
+
+
+
 
 		# tick marks in margin (specified with x coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
