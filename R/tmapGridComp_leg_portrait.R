@@ -36,30 +36,24 @@ tmapGridCompPrepare.tm_legend_portrait = function(comp, o) {
 			width = -width / absolute_fontsize
 		}
 
-		# Attempt to cut empty space
 		# determine empty areas
-		# if (type == "gradient") {
-		# 	var = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 20)) {
-		# 		"fill"
-		# 	} else if (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 20)) {
-		# 		"fill_alpha"
-		# 	} else if (!is.na(gp$col[1]) && any(nchar(gp$col) > 20)) {
-		# 		"col"
-		# 	} else {
-		# 		"col_alpha"
-		# 	}
-		# 	values  = cont_split(gp[[var]])
-		# 	gradient_frac_first = sum(values[[1]] == "NA") / length(values[[1]])
-		# 	k = if (comp$na.show) {
-		# 		length(values) - 1
-		# 	} else {
-		# 		length(values)
-		# 	}
-		# 	gradient_frac_last = sum(values[[k]] == "NA") / length(values[[k]])
-		# 	gradient_frac_last_nr = k
-		# 	values = NULL
-		#
-		# }
+		if (type == "gradient") {
+			var = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 20)) {
+				"fill"
+			} else if (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 20)) {
+				"fill_alpha"
+			} else if (!is.na(gp$col[1]) && any(nchar(gp$col) > 20)) {
+				"col"
+			} else {
+				"col_alpha"
+			}
+			gradient_ht_fracs = local({
+				values  = cont_split(gp[[var]])
+				k = comp$nitems - comp$na.show
+				c(sum(values[[1]] == "NA") / length(values[[1]]),
+				  sum(values[[k]] == "NA") / length(values[[k]]))
+			})
+		}
 
 
 		gpar = gp_to_gpar(gp, o = o, type = comp$type)
@@ -100,13 +94,7 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 	} else if (comp$type == "gradient") {
 		item_heights = rep(height, nlev)
 
-		# Attempt to cut empty space
-		# if (comp$gradient_frac_first != 1) {
-		# 	item_heights[1] = item_heights[1] * comp$gradient_frac_first
-		# }
-		# if (comp$gradient_frac_last != 1) {
-		# 	item_heights[comp$gradient_frac_last_nr] = item_heights[comp$gradient_frac_last_nr] * comp$gradient_frac_last
-		# }
+
 
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "itemsNNA" else "none"
@@ -141,7 +129,32 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 		items_all = c(rbind(item_heights[-nlev], item_space), item_heights[nlev])
 	}
 
+	if (comp$type == "gradient") {
+		# Cut empty space
+		if (comp$gradient_ht_fracs[1] != 0) {
+			# use top margin
+			if (comp$labels_select[1]) {
+				ih1 = min((item_heights[1] - 1)/2, item_heights[1] * comp$gradient_ht_fracs[1])
+			} else {
+				ih1 = item_heights[1] * comp$gradient_ht_fracs[1]
+			}
 
+			marH[1] = marH[1] - (ih1 * textS * o$lin)
+		}
+		if (comp$gradient_ht_fracs[2] != 0) {
+			k = nlev - comp$na.show
+			if (comp$labels_select[k]) {
+				ihk = min((item_heights[k] - 1)/2, item_heights[k] * comp$gradient_ht_fracs[2])
+			} else {
+				ihk = item_heights[k] * comp$gradient_ht_fracs[2]
+			}
+			if (comp$na.show) {
+				items_all[k * 2] = items_all[k * 2] - ihk
+			} else {
+				marH[2] = marH[2] - (ihk * textS * o$lin)
+			}
+		}
+	}
 
 	hs = c(titleP[1], titleH, titleP[2], marH[1], items_all * textS * o$lin, xlabP[1], xlabH, xlabP[2], marH[2])
 
