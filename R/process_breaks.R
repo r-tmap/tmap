@@ -12,6 +12,8 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 
 	args$called = NULL
 
+	digits_defined = !is.na(digits)
+
 	if (!intervals) {
 		as.count = FALSE
 		interval.disjoint = FALSE
@@ -46,7 +48,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 		} else {
 			# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
 			ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-			if (is.na(digits)) {
+			if (!digits_defined) {
 				digits <- max(min(ndec, 4-mag), 0)
 
 				# add sign to frm
@@ -58,24 +60,24 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 						digits <- digits + 1
 					}
 
-					if (interval.disjoint) {
-						## NEW
-						#update vec_fin
-						# add 'to' numbers and see if digits should be increased
-						vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
-						while (anyDuplicated(na.omit(vec_fin2))) {
-							digits = digits + 1
-							vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
-						}
-						vec = c(vec, vec - 10^-digits)
-					}
+					# if (interval.disjoint) {
+					# 	## NEW
+					# 	#update vec_fin
+					# 	# add 'to' numbers and see if digits should be increased
+					# 	vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+					# 	while (anyDuplicated(na.omit(vec_fin2))) {
+					# 		digits = digits + 1
+					# 		vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+					# 	}
+					# 	vec = c(vec, vec - 10^-digits)
+					# }
 
 				}
 
-			} else {
-				if (interval.disjoint) {
-					vec = c(vec, vec - 10^-digits)
-				}
+			# } else {
+			# 	if (interval.disjoint) {
+			# 		vec = c(vec, vec - 10^-digits)
+			# 	}
 			}
 		}
 
@@ -98,11 +100,32 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 				}
 			}
 
+			if (interval.disjoint) {
+
+				if (!digits_defined) {
+					# update digits
+					vec_fin <- unique(vec[!is.infinite(vec)])
+					vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+					while (anyDuplicated(na.omit(vec_fin2))) {
+						digits = digits + 1
+						vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+					}
+				}
+				# add to points
+				vec = c(vec, vec - 10^-digits)
+			}
+
 			# set default values
 			if (!("big.mark" %in% names(args))) args$big.mark <- ","
 			if (!("format" %in% names(args))) args$format <- "f"
 			if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
-			x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
+
+			x = do.call("formatC", c(list(x=vec, digits=digits), args))
+			if (as.count || interval.disjoint) {
+				x[(n+2):(2*n)] = paste0(x[(n+2):(2*n)], ext)
+			} else {
+				x = paste0(x, ext)
+			}
 			x <- paste0(prefix, x, suffix)
 		} else {
 			if (!("format" %in% names(args))) args$format <- "g"
