@@ -435,9 +435,10 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 		tck_ids = (1L:ni)[rep(comp$labels_select, length.out = ni)]
 
 		# remove tick ids that are too close to edges
-		if (!is.na(comp$col)) {
+		# only if color box frame color is there
+		if (!(("col" %in% names(comp) && is.na(comp$col)) || split_alpha_channel(comp$gpar$col[1], alpha = 1)$opacity == 0)) {
 			ih = get_legend_option(comp$item.height, "gradient")
-			na_share = ((ih - 0.5)/2)/ih
+			na_share = ((ih - 0.25)/2)/ih
 			if (comp$gradient_ht_fracs[1] >= na_share) {
 				tck_ids = setdiff(tck_ids, 1)
 			}

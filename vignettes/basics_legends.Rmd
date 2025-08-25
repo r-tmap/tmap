@@ -66,9 +66,27 @@ s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
 
-## Legend
+## Legend type
 
-Each visual variable, e.g. `fill` in `tm_polygons`, also has a `.legend` argument. The most popular properties are illustrated in the next example: 
+Each visual variable, e.g. `fill` in `tm_polygons` will by default produce a legend. The type of legend depends on used scale (see \href{https://r-tmap.github.io/tmap/articles/basics_scales}{vignette about scales}). E.g. `tm_scale_continuous` applied to `fill` will produce a continuous color gradient:
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_continuous(values = "pu_gn"))
+```
+
+For `tm_scale_intervals`, there are  
+
+
+
+also has a `.legend` argument. 
+
+
+
+
+
+The most popular properties are illustrated in the next example: 
 
 ```{r, fig.height = 3.5}
 s + tm_polygons(
