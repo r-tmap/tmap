@@ -129,11 +129,44 @@ tmapGridCompWidth.tm_legend_landscape = function(comp, o) {
 	items_all = c(rbind(item_widths[-nlev], item_space), item_widths[nlev])
 
 
-	ws = c(marW[1], items_all * textS * o$lin, marW[2])
+	if (comp$type == "gradient") {
+		# Cut empty space
+		if (comp$gradient_ht_fracs[1] != 0) {
+			labelW
+
+			# use additional column
+			if (comp$labels_select[1]) {
+				ih1 = min(labelW[1], item_widths[1] * comp$gradient_ht_fracs[1])
+			} else {
+				ih1 = item_widths[1] * comp$gradient_ht_fracs[1]
+			}
+
+			corrW = - (ih1 * textS * o$lin)
+		} else {
+			corrW = 0
+		}
+		if (comp$gradient_ht_fracs[2] != 0) {
+			k = nlev - comp$na.show
+			if (comp$labels_select[k]) {
+				ihk = min(labelW[k], item_widths[k] * comp$gradient_ht_fracs[2])
+			} else {
+				ihk = item_widths[k] * comp$gradient_ht_fracs[2]
+			}
+			if (comp$na.show) {
+				items_all[k * 2] = items_all[k * 2] - ihk
+			} else {
+				marW[2] = marW[2] - (ihk * textS * o$lin)
+			}
+		}
+	} else {
+		corrW = 0
+	}
+
+	ws = c(marW[1], corrW, items_all * textS * o$lin, marW[2])
 
 
-	item_ids = seq(2, by = 2, length.out = nlev)
-	pad_ids = seq(3, by = 2, length.out = nlev - 1L)
+	item_ids = seq(3, by = 2, length.out = nlev)
+	pad_ids = seq(4, by = 2, length.out = nlev - 1L)
 
 	wsu = if (comp$stretch == "padding") {
 		set_unit_with_stretch(ws, pad_ids)
@@ -218,6 +251,19 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 		ni = nlev - (comp$na.show && ticks.disable.na)
 
 		tck_ids = (1L:ni)[rep(comp$labels_select, length.out = ni)]
+
+		# remove tick ids that are too close to edges
+		# only if color box frame color is there
+		if (!(("col" %in% names(comp) && is.na(comp$col)) || split_alpha_channel(comp$gpar$col[1], alpha = 1)$opacity == 0)) {
+			ih = get_legend_option(comp$item.height, "gradient")
+			na_share = ((ih - 0.25)/2)/ih
+			if (comp$gradient_ht_fracs[1] >= na_share) {
+				tck_ids = setdiff(tck_ids, 1)
+			}
+			if (comp$gradient_ht_fracs[2] > na_share) {
+				tck_ids = setdiff(tck_ids, comp$nitems - comp$na.show)
+			}
+		}
 
 		# tick marks in margin (specified with y coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
