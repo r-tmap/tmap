@@ -144,10 +144,18 @@
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="legend">Legend<a class="anchor" aria-label="anchor" href="#legend"></a>
+<h2 id="legend-type">Legend type<a class="anchor" aria-label="anchor" href="#legend-type"></a>
 </h2>
-<p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code>, also has a <code>.legend</code> argument. The most popular properties are illustrated in the next example:</p>
+<p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code> will by default produce a legend. The type of legend depends on used scale (see ). E.g. <code>tm_scale_continuous</code> applied to <code>fill</code> will produce a continuous color gradient:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p>For <code>tm_scale_intervals</code>, there are</p>
+<p>also has a <code>.legend</code> argument.</p>
+<p>The most popular properties are illustrated in the next example:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
@@ -159,9 +167,9 @@
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>The legend width is set in number of text line heights, which corresponds to the number of characters. In other words, the resulting width depends on the fontsize, which can be set in <code>tm_legend</code>, but also via the general <code>scale</code> option, which determines the overall ‘scale’ of the map (all line widths, point sizes and font sizes):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
@@ -171,37 +179,37 @@
 <span>      orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
 <span>      width <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="combine-legends">Combine legends<a class="anchor" aria-label="anchor" href="#combine-legends"></a>
 </h2>
 <p>Suppose we want to use both <code>fill</code> and <code>shape</code> to show <code>"economy"</code>. Then we can combine the legends as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    shape <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="custom-visual-values">Custom visual values<a class="anchor" aria-label="anchor" href="#custom-visual-values"></a>
 </h2>
 <p>Suppose, for whatever reason, we would like to change some of the visual values used in the legend symbols. For instance, instead of solid circle lines, thick dotted lines. In that case, we can simply pass on the corresponding visual values <code>lwd</code> and <code>lty</code> to <code><a href="../reference/tm_legend.html">tm_legend()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="manual-legends">Manual legends<a class="anchor" aria-label="anchor" href="#manual-legends"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_add_legend.html">tm_add_legend</a></span><span class="op">(</span></span>
@@ -210,13 +218,13 @@
 <span>    shape <span class="op">=</span> <span class="fl">22</span>, </span>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, </span>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="layout">Layout<a class="anchor" aria-label="anchor" href="#layout"></a>
 </h2>
 <p>The layout of the (standard) legends can be changed via the other arguments in <code><a href="../reference/tm_legend.html">tm_legend()</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -229,7 +237,7 @@
 <span>        item.space <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>        item.na.space <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>        title.align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
