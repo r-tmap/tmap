@@ -99,7 +99,8 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 
 		# combine levels
 		if (n.max < n) {
-			if (show.warnings) warning("Number of levels of the variable assigned to the aesthetic \"",aes ,"\" of the layer \"", layer, "\" is ", n, ", which is larger than n.max (which is ", n.max, "), so levels are combined.", call. = FALSE)
+			# only show warning if n.max is the default
+			if (show.warnings && n.max == 30) warning("Number of levels of the variable assigned to the aesthetic \"",aes ,"\" of the layer \"", layer, "\" is ", n, ", which is larger than n.max (which is ", n.max, "), so levels are combined.", call. = FALSE)
 
 			mapping = as.numeric(cut(seq.int(n), breaks=n.max))
 			to = c(which(mapping[-n] - mapping[-1]!=0), n)
