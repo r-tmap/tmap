@@ -87,7 +87,7 @@ tm_legend_bivariate(
 
 \item{orientation}{Orientation of the legend: \code{"portrait"} or \code{"landscape"}}
 
-\item{reverse}{Should the legend be reversed?}
+\item{reverse}{Should the legend items be reversed?}
 
 \item{na.show}{Show \code{NA} values in legend?}
 
@@ -155,7 +155,7 @@ tm_legend_bivariate(
 
 \item{item.shape}{The shape of the item of the legend.}
 
-\item{ticks}{List of vectors of size 2 that determines the horizontal tick mark lines (for portrait legends). The values are the y-values of begin and endpoint of each tick mark.}
+\item{ticks}{List of vectors of size 2 that determines a tick mark line (for portrait legends). The values are the y-values of begin and endpoint of a tick mark. For a solid line, only one vector is required, for dashed lines one for each dash. See \href{https://r-tmap.github.io/tmap/articles/versus_ggplot2#mimicking-ggplot2-layout}{ggplot2 style example}.}
 
 \item{ticks.disable.na}{Remove ticks for \code{NA} values}
 

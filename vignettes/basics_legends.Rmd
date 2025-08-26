@@ -76,17 +76,37 @@ s + tm_polygons(
   fill.scale = tm_scale_continuous(values = "pu_gn"))
 ```
 
-For `tm_scale_intervals`, there are  
+For `tm_scale_intervals`, there are two styles. A choice can be made via the argument `label.style`. By default it is set to discrete:
 
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(values = "pu_gn"))
+```
 
+Alternatively, it can be set to `"continuous"`:
 
-also has a `.legend` argument. 
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(values = "pu_gn", label.style = "continuous"))
+```
 
+## `.legend` arguments
 
+Each visual variable also has a `.legend` argment, such as `fill.legend` in `tm_polygons`. This can be used to:
 
+* set the title of the legend,
+* change the orientation of the legend (portrait or landscape),
+* reverse the legend items,
+* hide the legend, and
+* change the size and position of the legend.
 
+Note that the content of the legend, so breaks, scales, and ticks are related to the scale and should therefore be specified in the scale functions.
 
-The most popular properties are illustrated in the next example: 
+## Title, orientation and size
+
+The following example illustrates how the title, orientation and size and specified: 
 
 ```{r, fig.height = 3.5}
 s + tm_polygons(
@@ -99,7 +119,7 @@ s + tm_polygons(
       width = 60))
 ```
 
-The legend width is set in number of text line heights, which corresponds to the number of characters. In other words, the resulting width depends on the fontsize, which can be set in `tm_legend`, but also via the general `scale` option, which determines the overall 'scale' of the map (all line widths, point sizes and font sizes):
+The legend width is set in number of text line heights, which corresponds to the number of characters. In other words, the resulting width depends on the font size, which can be set in `tm_legend`, but also via the general `scale` option, which determines the overall 'scale' of the map (all line widths, point sizes and font sizes):
 
 ```{r, fig.height = 3.5}
 s + tm_polygons(
@@ -111,6 +131,17 @@ s + tm_polygons(
       orientation = "landscape", 
       width = 60)) +
 tm_layout(scale = 0.25)
+```
+
+## Hiding legends
+
+A legend can be suppressed by setting the `.legend` argument to `tm_legend_hide()`.
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_continuous(values = "pu_gn"),
+  fill.legend = tm_legend_hide())
 ```
 
 ## Combine legends
@@ -152,7 +183,7 @@ s +
 ```
 
 
-## Layout 
+## Layout
 
 The layout of the (standard) legends can be changed via the other arguments in `tm_legend()`.
 

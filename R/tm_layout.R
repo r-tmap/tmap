@@ -12,7 +12,7 @@
 #' @example ./examples/tm_layout.R
 #' @export
 tm_layout = function(
-		scale, asp, bg, bg.color, outer.bg, outer.bg.color, frame, frame.color, frame.alpha, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin,
+		scale, asp, legend.only, bg, bg.color, outer.bg, outer.bg.color, frame, frame.color, frame.alpha, frame.lwd, frame.r, frame.double_line, outer.margins, inner.margins, inner.margins.extra, meta.margins, meta.auto_margins, between_margin,
 		text.fontfamily, text.fontface, r, attr.color,
 		panel.margin,
 		panel.type, panel.wrap.pos, panel.xtab.pos, color.sepia_intensity, color.saturation, color_vision_deficiency_sim,

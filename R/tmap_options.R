@@ -134,7 +134,7 @@
 #' @param legend.frame.r `r .doc_opt("legend.frame.r")`
 #' @param legend.bg.color `r .doc_opt("legend.bg.color")`
 #' @param legend.bg.alpha `r .doc_opt("legend.bg.alpha")`
-#' @param legend.only `r .doc_opt("legend.only")`
+#' @param legend.only Should only legends be printed (so without map)?
 #' @param legend.absolute_fontsize `r .doc_opt("legend.absolute_fontsize")`
 #' @param legend.settings.portrait `r .doc_opt("legend.settings.portrait")`
 #' @param legend.settings.landscape `r .doc_opt("legend.settings.landscape")`

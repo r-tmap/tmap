@@ -623,7 +623,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{legend.bg.alpha}{The alpha transparency of the bg of the legend.}
 
-\item{legend.only}{The only of the legend.}
+\item{legend.only}{Should only legends be printed (so without map)?}
 
 \item{legend.absolute_fontsize}{The absolute fontsize of the legend. So far, only used to calculate legend dimensions}
 

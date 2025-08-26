@@ -10,6 +10,7 @@ tm_style(style, ...)
 tm_layout(
   scale,
   asp,
+  legend.only,
   bg,
   bg.color,
   outer.bg,
@@ -72,6 +73,8 @@ tm_layout(
 
 \item{asp}{Aspect ratio of each map. When \code{asp} is set to \code{NA} (default) the aspect ratio will be adjusted to the used shapes. When set to 0 the aspect ratio is
 adjusted to the size of the device divided by the number of columns and rows.}
+
+\item{legend.only}{Should only legends be printed (so without map)?}
 
 \item{bg}{Draw map background?}
 

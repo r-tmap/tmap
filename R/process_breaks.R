@@ -112,7 +112,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 					}
 				}
 				# add to points
-				vec = c(vec, vec - 10^-digits)
+				vec = c(vec, head(vec, -1) - 10^-digits, tail(vec, 1))
 			}
 
 			# set default values
