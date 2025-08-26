@@ -781,7 +781,7 @@ styles = list(
 		legend.frame = TRUE,
 		legend.bg.color = "grey90",
 		frame = FALSE,
-		earth_boundary = NA,
+		earth_boundary = FALSE,
 		basemap.server = "Esri.NatGeoWorldMap",
 		basemap.alpha = 1),
 	cobalt = list(bg.color = "#002240",
