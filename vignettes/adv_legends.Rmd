@@ -1,0 +1,178 @@
+---
+title: "tmap advanced: legends"
+output: 
+  bookdown::html_vignette2:
+pkgdown:
+  as_is: true
+template:
+  math-rendering: mathjax
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 300,
+  fig.width = 7.2916667,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+tmap_options(scale = 0.75)
+```
+
+
+
+### About the data
+
+A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
+
+```{r}
+names(World)
+```
+
+We specify this object with `tm_shape` (see other vignette) and for convenience assign it to `s`:
+
+```{r, fig.height = 3.5}
+s = tm_shape(World, crs = "+proj=eqearth")
+```
+
+## Formatting legend labels
+
+### Single numbers 
+
+Numbers of numeric legends are formatted with the `label.format` argument of the scale function, e.g. `tm_scale_continuous`:
+
+```{r, fig.height = 3.5}
+s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div"))
+```
+
+```{r, fig.height = 3.5}
+s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(digits = 3)))
+```
+
+```{r, fig.height = 3.5}
+s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(scientific = TRUE)))
+```
+
+```{r, fig.height = 3.5}
+s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(prefix = "<", suffix = ">")))
+```
+
+```{r, fig.height = 3.5}
+s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(fun = function(x) {
+	lst = strsplit(sprintf("%05d", x), split = "")
+	sapply(lst, function(y) {
+		do.call(paste, c(as.list(y), list(collapse = " ")))
+	})
+})))
+```
+
+### Intervals
+
+For intervals there are a few other options.
+
+Consider this map
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10)))
+```
+
+First of all note that intervals are by default closed on the left-handside, so the first interval represents all values from (and including) 10 to (and not including) the next break which is 20.
+How intervals are closed is configured with `interval.closure`.
+
+Apart from how intervals are closed, another choice is how to present them. In the old tmap version (<= 4.1), they were labeled as `"10 to 20"`, `"20 to 30"`. This lead to a lot of confusion because it was unclear where 20 belonged to. This old option can be enabled via the argument `label.disjoint` of `tm_label_format`:
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10), label.format = tm_label_format(interval.disjoint = FALSE)))
+```
+
+With the new default (`interval.disjoint = TRUE`) the argument digits can be used additionally:
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10), label.format = tm_label_format(digits = 2)))
+```
+
+
+Use `-Inf` for the first break and `Inf` for the last break to trigger labels that reflect "less than" and "or more" respectively. How these are formatted can be specified with `label.format`:
+
+```{r, fig.height = 3.5}
+s + tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(
+    n = 6,
+  	style = "fixed",    
+    breaks = c(-Inf,10,20,30,40,50, Inf),
+    values = "pu_gn_div",
+    label.format = tm_label_format(text.separator = "to", 
+    							   text.less.than = "less than", 
+    							   text.less.than_as.prefix = TRUE,
+    							   text.or.more = "or more", 
+    							   text.or.more_as.prefix = FALSE)
+  ))
+```
+
+
+### Big numbers
+
+By default, big numbers are abbreviated. If differences among legend values are sufficiently large, they are presented in millions, billions etc.
+
+```{r, fig.height = 3.5}
+s + tm_polygons() +
+	tm_bubbles(size = "pop_est")
+```
+
+The big number abbreviations are specified in `big.num.abbr`. The default value is
+
+```{r}
+tmap_options("label.format")[[1]]$big.num.abbr
+```
+
+Instead, we can define the population count in 'hundred-thousands':
+
+```{r, fig.height = 3.5}
+s + tm_polygons() +
+	tm_bubbles(size = "pop_est",
+			   size.scale = tm_scale_continuous(label.format = tm_label_format(big.num.abbr = c(hk = 5))))
+```
+
+
+## Multiple visual variables
+
+### Neutral values
+
+

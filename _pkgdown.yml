@@ -221,6 +221,8 @@ navbar:
           href: articles/adv_positions
         - text: Grouping of components
           href: articles/adv_comp_group
+        - text: Legends
+          href: articles/adv_legends
         - text: Options and styles
           href: articles/adv_options
         - text: Margins and aspect ratio (plot mode)
