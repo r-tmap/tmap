@@ -220,6 +220,7 @@ tmapGridInit = function(o, show = TRUE, newpage = TRUE, return.asp = FALSE, vp, 
 						 "- red         margins for outside grid labels",
 						 "- orange      margins around maps for grid labels",
 						 "- yellow      map area",
+						 "- lavender    component areas",
 						 "Guide lines:",
 						 "- thick       component position (legend, scalebar, etc.)",
 						 "- thin        component-element position (e.g. legend items)"

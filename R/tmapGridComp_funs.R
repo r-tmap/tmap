@@ -239,7 +239,7 @@ tmapGridCompPlot.tm_compass = function(comp, o, fH, fW) {
 
 
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	grobLabels = if (comp$show.labels==0) {
 		NULL
@@ -485,7 +485,7 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	}
 
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 
 	# other grid cells are aligns (1 and 5) and margins (2 and 4)
@@ -727,7 +727,7 @@ tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 		gridCell(3L, col, grobLogo)
 	}, comp$logo, comp$col_ids, SIMPLIFY = FALSE)
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
 
 	do.call(grid::grobTree, c(list(gBG), gLogos, list(vp = vp)))
@@ -820,7 +820,7 @@ tmapGridCompPlot.tm_inset_grob = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
 
 	g = gridCell(3L, 3L, comp$x)
@@ -891,7 +891,7 @@ tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
 
 	vp = grid::viewport(layout.pos.row = 3L, layout.pos.col = 3L)

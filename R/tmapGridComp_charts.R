@@ -95,7 +95,7 @@ tmapGridCompPlot.tm_chart_bar = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = bin, y = freq, fill = color)) +
 		ggplot2::geom_bar(width = 1, lwd = lwd_to_mm(scale),color = "#000000", stat = "identity", na.rm = TRUE) +
@@ -153,7 +153,7 @@ tmapGridCompPlot.tm_chart_donut = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	hsize = 2
 
@@ -200,7 +200,7 @@ tmapGridCompPlot.tm_chart_violin = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	hsize = 2
 
@@ -235,7 +235,7 @@ tmapGridCompPlot.tm_chart_box = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	hsize = 2
 
@@ -273,7 +273,7 @@ tmapGridCompPlot.tm_chart_heatmap = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
-	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 
 	g = ggplot2::ggplot(comp$tab, ggplot2::aes(x = bin2, y = bin1, fill = freq)) +
 		ggplot2::geom_tile() +

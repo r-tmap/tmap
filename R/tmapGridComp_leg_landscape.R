@@ -223,6 +223,8 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
+
 	if (is.na(comp$title.align)) comp$title.align = comp$position$align.h
 
 	titleGP = grid::gpar(col = comp$title.color, cex = titleS, fontface = comp$title.fontface, fontfamily = comp$title.fontfamily, alpha = comp$title.alpha)
@@ -518,7 +520,7 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 	}
 
 
-	g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
+	g = do.call(grid::grobTree, c(list(grobBG, grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
 
 	g
 

@@ -336,6 +336,8 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 												   widths = wsu,
 												   heights = hsu))
 
+	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
+
 	if (is.na(comp$title.align)) comp$title.align = comp$position$align.h
 
 	shiftCol = if (comp$type == "bivariate") 2L else 0L
@@ -716,7 +718,7 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 	}
 
 
-	g = do.call(grid::grobTree, c(list(grTitle, grXlab, grYlab), grText, grItems, grTicks, grDesign, list(vp = vp)))
+	g = do.call(grid::grobTree, c(list(grobBG, grTitle, grXlab, grYlab), grText, grItems, grTicks, grDesign, list(vp = vp)))
 
 	g
 
