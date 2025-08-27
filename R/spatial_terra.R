@@ -122,7 +122,7 @@ tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 tmapGetShapeMeta2.SpatVector = function(shp, smeta, o) {
 
 	# slow, needs to be improved with terra functions, e.g. unique and levels
-	smeta$vars_levs = lapply(values(shp), function(dat) {
+	smeta$vars_levs = lapply(terra::values(shp), function(dat) {
 		get_fact_levels_na(dat, o)
 	})
 	names(smeta$vars_levs) = names(shp)
