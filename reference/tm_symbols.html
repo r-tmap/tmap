@@ -585,9 +585,11 @@ the text. See details.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-
-
-
+    <p>A symbol shape specification is one of the following three options.</p><ol><li><p>A numeric value that specifies the plotting character of the symbol. See parameter <code>pch</code> of <code><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></code> and the last example to create a plot with all options. Note that this is not supported for the <code>"view" mode.</code></p></li>
+<li><p>A <code><a href="https://rdrr.io/r/grid/grid-defunct.html" class="external-link">grob</a></code> object, which can be a ggplot2 plot object created with <code><a href="https://ggplot2.tidyverse.org/reference/ggplotGrob.html" class="external-link">ggplotGrob</a></code>. To specify multiple shapes, a list of grob objects is required. Tip: for proportional symbols, such as donuts or pies, see the extension package <a href="https://r-tmap.github.io/tmap/articles/ext_glyphs">tmap.glyphs</a>.</p></li>
+<li><p>An icon specification, which can be created with <code><a href="tmap_icons.html">tmap_icons</a></code>.</p></li>
+</ol><p>To specify multiple shapes (needed for the <code>shapes</code> argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the <code>shapes</code> argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the <code>shape</code> argument.
+For small multiples, a list of these shape specification(s) should be provided.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
