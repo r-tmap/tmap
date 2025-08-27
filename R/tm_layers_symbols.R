@@ -8,7 +8,7 @@
 #' A symbol shape specification is one of the following three options.
 #' \enumerate{
 #'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. Note that this is not supported for the \code{"view" mode.}}
-#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. Tip: for proportional symbols, such as donuts or pies, see the extension package \href{https://r-tmap.github.io/tmap/articles/ext_glyphs}{tmap.glyphs}.
 #'  \item{An icon specification, which can be created with \code{\link{tmap_icons}}.}
 #'  }
 #'  To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the \code{shape} argument.

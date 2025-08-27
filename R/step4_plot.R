@@ -960,6 +960,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			attr(bbox_nb, "borrow") = list(col = d$col[1], row = d$row[1])
 			legs_out[, bbox:=list(bbox_nb)]
 			legs_out[, units:=list(d$units[1])]
+		} else {
+			legs_out$page = integer()
+			legs_out$bbox = list()
+			legs_out$units = list()
 		}
 
 
