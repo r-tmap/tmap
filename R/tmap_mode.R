@@ -147,9 +147,9 @@ get_modes = function() {
 
 #' Set the design mode
 #'
-#' When the so-called "design mode" is enabled, inner and outer margins,
-#' legend position, and aspect ratio are shown explicitly in plot mode.
-#' Also, information about aspect ratios is printed in the console.
+#' When the so-called "design mode" is enabled,
+#' the composition of the plot is shown explicitly in plot mode.
+#' The used color codings is printed in the console as well as information about plot size and aspect ratio.
 #'
 #' This function sets the global option `tmap.design.mode`.
 #' It can be used as toggle function without arguments.

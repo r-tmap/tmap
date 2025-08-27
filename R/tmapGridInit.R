@@ -219,7 +219,11 @@ tmapGridInit = function(o, show = TRUE, newpage = TRUE, return.asp = FALSE, vp, 
 						 "- pink        panels",
 						 "- red         margins for outside grid labels",
 						 "- orange      margins around maps for grid labels",
-						 "- yellow      map area")
+						 "- yellow      map area",
+						 "Guide lines:",
+						 "- thick       component position (legend, scalebar, etc.)",
+						 "- thin        component-element position (e.g. legend items)"
+						 )
 
 		for (tx in c(texts, texts_colors)) message(tx)
 

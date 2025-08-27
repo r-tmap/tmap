@@ -238,15 +238,15 @@ process_meta = function(o, d, cdt, aux) {
 				xylab.margins[ifelse(xlab.side == "bottom", 1, 3)] = if (xlab.rotation %in% c(0, 180)) {
 					(number_text_lines(xlab.text) + xlab.space)  * lineH
 				} else {
-					(text_width_inch(xlab.text, space = FALSE) / lin) * lineH
+					(text_width_inch(xlab.text, space = FALSE) / lin + xlab.space) * lineH
 				}
 			}
 			if (ylab.show) {
 				#if (is.na(ylab.fontface)) ylab.fontface = text.fontface
 				xylab.margins[ifelse(ylab.side == "left", 2, 4)] = if (ylab.rotation %in% c(90, 270)) {
-					(number_text_lines(ylab.text) + ylab.space)  * lineW
+					(number_text_lines(ylab.text) + ylab.space)  * lineW * ylab.size
 				} else {
-					(text_width_inch(ylab.text, space = FALSE) / lin) * lineW
+					(text_width_inch(ylab.text, space = FALSE) / lin + ylab.space) * lineW * ylab.size
 				}
 			}
 
