@@ -128,7 +128,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 
 		sfun = paste0("tmapValuesScale_", aes)
 		cfun = paste0("tmapValuesColorize_", aes)
-		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+		if (identical(value.neutral, NA)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 		mfun = paste0("tmapValuesSubmit_", aes)
 		values = do.call(mfun, list(x = values, args = layer_args))

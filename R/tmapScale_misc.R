@@ -70,7 +70,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 		}
 
 		value.null = if (is.na(value.null)) getAesOption("value.null", o, aes, layer, cls = cls) else value.null
-		value.neutral = if (is.na(value.neutral)) getAesOption("value.neutral", o, aes, layer, cls = cls) else value.neutral
+		value.neutral = if (identical(value.neutral, NA)) getAesOption("value.neutral", o, aes, layer, cls = cls) else value.neutral
 		values.range = if (is.na(values.range[1])) getAesOption("values.range", o, aes, layer, cls = cls) else values.range
 		values.scale = if (is.na(values.scale)) getAesOption("values.scale", o, aes, layer, cls = cls) else values.scale
 
