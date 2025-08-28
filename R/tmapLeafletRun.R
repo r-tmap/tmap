@@ -1,6 +1,10 @@
 tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 
+	if (show && o$show_gif_ani) {
+		cli::cli_alert("{.field view mode} Animations are not implemented in view mode, so they are shown as facets")
+	}
+
 	# switchable zoom levels
 	zids = which(!is.na(q$group.zoom_levels))
 	if (length(zids)) {
