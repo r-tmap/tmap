@@ -122,8 +122,22 @@ step1_rearrange = function(tmel, knit_opts) {
 			} else {
 				# get last tm_facets element
 				k = sum(is_tmf)
-				if (k < 1) warning("Multiple tm_facets defined per layer group. Only the last one is processed", call. = FALSE)
-				tmf = tmg[[which(is_tmf)[k]]]
+
+				is_tmf_ani = vapply(tmg, inherits, "tm_animate", FUN.VALUE = logical(1))
+
+				ka = sum(is_tmf_ani)
+
+				if (k == ka || ka == 0) {
+					tmf = tmg[[which(is_tmf)[k]]]
+				} else {
+					# take last tm_facets and update with last tm_animate
+					tmf = tmg[[tail(which(is_tmf & !is_tmf_ani), 1L)]]
+					ani_mns = c("pages", "animate", "nframes", "fps", "play", "dpr")
+					tmf[ani_mns] = tmg[[which(is_tmf_ani)[ka]]][ani_mns]
+				}
+
+				if ((k-ka) > 1) warning("Multiple tm_facets defined per layer group. Only the last one is processed", call. = FALSE)
+				if (ka > 1) warning("Multiple tm_animate defined per layer group. Only the last one is processed", call. = FALSE)
 			}
 
 			# extract layers and add layer id number
@@ -168,6 +182,7 @@ step1_rearrange = function(tmel, knit_opts) {
 		tmf$fl = list(NULL, NULL, NULL)
 		tmf$type = "wrap"
 		tmf$npp = 1
+		tmf$show_gif_ani = FALSE
 		ids = 0
 
 		if (identical(o$bbox, "FULL") || o$earth_boundary) {

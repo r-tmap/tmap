@@ -26,6 +26,7 @@ tm_animate_fast = function(frames = "VARS__",
 
 	tm = do.call("tm_facets", c(list(pages = frames, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play, dpr = dpr), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = args_called
+	class(tm[[1]]) = c("tm_animate", class(tm[[1]]))
 	tm
 }
 
@@ -44,5 +45,6 @@ tm_animate = function(frames = "VARS__",
 
 	tm = do.call("tm_facets", c(list(pages = frames, type = NA, animate = TRUE, nframes = nframes, fps = fps, play = play, dpr = dpr), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = unique(c(args_called, "frames"))
+	class(tm[[1]]) = c("tm_animate", class(tm[[1]]))
 	tm
 }

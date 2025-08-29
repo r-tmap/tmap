@@ -349,7 +349,6 @@ process_meta = function(o, d, cdt, aux) {
 					}
 
 
-
 					if (nrow(legs_auto) && npp == 1) {
 
 

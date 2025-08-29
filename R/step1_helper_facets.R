@@ -380,8 +380,6 @@ step1_rearrange_facets = function(tmo, o) {
 					}
 				}
 
-
-
 				# if (animate) {
 				# 	if (!is.null(by3) {
 				#
@@ -404,6 +402,7 @@ step1_rearrange_facets = function(tmo, o) {
 						stop("Too many dimensions") # quick&dirty, to do: move to other checks
 					}
 				}
+
 
 				rev1 = is_rev(by1)
 				rev2 = is_rev(by2)
