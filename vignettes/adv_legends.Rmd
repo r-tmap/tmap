@@ -49,23 +49,18 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
+This vignettes builds on the \href{introduction vignette about legends}{https://r-tmap.github.io/tmap/articles/basics_legends} and about {\href{scales}{https://r-tmap.github.io/tmap/articles/basics_scales}}
 
-
-### About the data
-
-A spatial data object contained in tmap is called `World`. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):
-
-```{r}
-names(World)
-```
-
-We specify this object with `tm_shape` (see other vignette) and for convenience assign it to `s`:
+For convenience let's assign the `tm_shape` element to `s`:
 
 ```{r, fig.height = 3.5}
 s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
-## Formatting legend labels
+
+
+
+## Item labels
 
 ### Single numbers 
 
@@ -111,7 +106,7 @@ s + tm_polygons(
 First of all note that intervals are by default closed on the left-handside, so the first interval represents all values from (and including) 10 to (and not including) the next break which is 20.
 How intervals are closed is configured with `interval.closure`.
 
-Apart from how intervals are closed, another choice is how to present them. In the old tmap version (<= 4.1), they were labeled as `"10 to 20"`, `"20 to 30"`. This lead to a lot of confusion because it was unclear where 20 belonged to. This old option can be enabled via the argument `label.disjoint` of `tm_label_format`:
+Apart from how intervals are closed, another choice is how to present them. In the old tmap version (<= 4.1), they were labeled as `"10 to 20"`, `"20 to 30"`. This lead to a lot of confusion because it was unclear where 20 belonged to. This old option can be enabled via the argument `label.disjoint` of `tm_label_format()`:
 
 ```{r, fig.height = 3.5}
 s + tm_polygons(
@@ -170,7 +165,7 @@ tm_shape(NLD_muni) + tm_bubbles(size = "population",
 ```
 
 
-## Multiple visual variables
+## Multiple legends
 
 When there are multiple data-driven visual variables for which legends are produced, there are a couple of things to consider
 
@@ -185,6 +180,8 @@ tm_bubbles(fill = "HPI",
 		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
 ```
 
+
+
 We've used a gradient scale to map happy planet index (note that the minus sign reverses the palette). When `value.neutral` is not specified, the middle color (green) is used. My personal preference would be to use a neutral gray color with the same brightness as the palette colors:
 
 ```{r, fig.height = 3.5}
@@ -193,6 +190,19 @@ tm_bubbles(fill = "HPI",
 		   size = "pop_est",
 		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow", value.neutral = "gray70"))
 ```
+
+A different approach to achieve the same result is to update the size legend:
+
+
+```{r, fig.height = 3.5}
+s +
+tm_bubbles(fill = "HPI", 
+		   size = "pop_est",
+		   size.legend = tm_legend(fill = "gray70"),
+		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
+```
+
+This method, where visual variables are passed on via `tm_legend` will be covered in the section about \href{setting visual values}{https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values}.
 
 
 ### Combining legends
@@ -218,3 +228,156 @@ Two legends can be combined if and only if the number of legend items are the sa
 
 
 
+
+
+## Visual values
+
+It is possible to create custom legend by specify the visual values that define the legend items. There are two ways to do this: either to change the visual values of an existing legend via the `.legend` argument, or via a new manual legend added with `tm_add_legend()`.
+
+## Setting visual values
+
+Suppose, for whatever reason, we would like to change some of the visual values used in the legend symbols. For instance, instead of solid circle lines, thick dotted lines. In that case, we can simply pass on the corresponding visual values `lwd` and `lty` to `tm_legend()`:
+
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons() +
+  tm_symbols(
+    fill = "economy",
+    fill.legend = tm_legend("Economy", lwd = 2, lty = "dotted"))
+```
+
+## Manual legends
+
+A new manual legend is created with `tm_add_legend()`. For each item, a label and the visual values are specified, and in addition, a legend title.
+
+
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons() +
+  tm_add_legend(
+    title = "Countries", 
+    fill = "grey80", 
+    shape = 22, 
+    size = c(1, 2, 4), 
+    labels = c("Small", "Medium", "Large"))
+```
+
+There are four legend types, specified via the `type` argument:
+
+* `"polygons"` where boxes are shown. This is the default for normal color legends.
+* `"symbols"` where symbols, e.g. bubbles, stars, etc. are shown. This is the default for `tm_add_legend()` because it is the most versatile one.
+* `"lines"` where lines are shown.
+* `"text"` where text is annotated. 
+
+
+```{r, fig.height = 3.5}
+s + 
+  tm_polygons() + 
+tm_add_legend(
+    type = "polygons",
+    title = "polygons", 
+    fill = c("orange", "purple", "blue"), 
+    labels = LETTERS[1:3], width = 7) +
+tm_add_legend(
+	type = "symbols",
+    title = "symbols", 
+    fill = c("orange", "purple", "blue"), 
+    shape = c(1,4, 19),
+    labels = LETTERS[1:3]) + 
+tm_add_legend(
+    type = "lines",
+    title = "lines", 
+    fill = c("orange", "purple", "blue"),
+    lwd = c(2,4,6),
+    labels = LETTERS[1:3]) + 
+tm_add_legend(
+    type = "text",
+    title = "text",
+    size = c(.7, .9, 1.5),
+    text = c("orange", "purple", "blue"), 
+    labels = LETTERS[1:3])
+```
+
+For symbols shapes (`shape`) are the following numbers are pre-defined:
+
+```{r, fig.height = 3.5}
+atlantic_grid = cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25))
+x = sf::st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
+
+tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
+	tm_symbols(shape = "id",
+			   size = 2,
+			   lwd = 2,
+			   fill = "orange",
+			   col = "black",
+			   shape.scale = tm_scale_asis()) +
+	tm_text("id", ymod = -2)
+```
+
+It is also possible to use images or grob objects.
+
+## Layout
+
+There are quite some arguments in `tm_legend()` that can be used to tweak the layout. For instance broader color boxes:
+
+```{r, fig.height = 3.5}
+s +
+  tm_polygons(
+  	fill = "HPI",
+    fill.legend = 
+      tm_legend(
+        title = "Happy Planet Index",
+        item.height = 1.5,
+        item.width = 3,
+        item.r = 0, 
+        item.space = 0.5, 
+        item.na.space = 1, 
+        title.align = "center"))
+```
+
+Another example is to configure the legend in ggplot2 style.
+
+```{r}
+s +
+  tm_polygons(
+  	fill = "HPI",
+    col = "grey20",
+    lwd = 1,
+    fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
+    fill.legend = tm_legend(reverse = TRUE, 
+      frame = FALSE, 
+      item.height = 2.25, 
+      item.width = 1.8, 
+	  position = tm_pos_out(pos.v = "center"), 
+	  na.show = FALSE, 
+      ticks = list(c(0, 0.1), c(0.9, 1)), 
+      ticks.col = "white", 
+      col = "white")) +
+tm_layout(frame = FALSE, outer.margins = 0)
+```
+
+The `ticks` argument defines a dashed line. Each list item is a dash, the first between 0 and 0.1 of the color box width, and the second between 0.9 and 1.  
+
+The numbers can also be larger than 1. In that case, the tick is drawn in the small margin between color box and label.
+
+```{r}
+s +
+  tm_polygons(
+  	fill = "HPI",
+    col = "grey20",
+    lwd = 1,
+    fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
+    fill.legend = tm_legend(reverse = TRUE, 
+      frame = FALSE, 
+      item.height = 2.25, 
+      item.width = 1.8, 
+	  position = tm_pos_out(pos.v = "center"), 
+	  na.show = FALSE, 
+      ticks = list(c(0, 0.5), c(1, 1.5)), 
+      ticks.lwd = 2,
+      ticks.col = "red", 
+      col = "white")) +
+tm_layout(frame = FALSE, outer.margins = 0)
+```
+
+So the first dash `c(0, 0.5)` is drawn in the first half of the color box, and the second dash `c(1, 1.5)` in the first half of the margin.

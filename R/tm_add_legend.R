@@ -82,6 +82,11 @@ tmapAddedLegend = function(comp, o) {
 		}
 	}
 
+	if (comp$type == "text") {
+		gp$cex = gp$size
+		gp$size = NA
+	}
+
 	l$gp = gp
 
 	l2 = within(l, {
