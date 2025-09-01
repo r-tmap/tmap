@@ -130,7 +130,7 @@
 
     
     
-<p>This vignettes builds on the and about {}</p>
+<p>This vignettes builds on the <a href="https://r-tmap.github.io/tmap/articles/basics_legends">introduction vignette about legends</a> and about <a href="https://r-tmap.github.io/tmap/articles/basics_scales">scales</a></p>
 <p>For convenience let’s assign the <code>tm_shape</code> element to <code>s</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span></span></code></pre></div>
@@ -145,21 +145,33 @@
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, </span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>scientific <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>scientific <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"&lt;"</span>, suffix <span class="op">=</span> <span class="st">"&gt;"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"&lt;"</span>, suffix <span class="op">=</span> <span class="st">"&gt;"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">lst</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%05d"</span>, <span class="va">x</span><span class="op">)</span>, split <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">lst</span>, <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">}</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, </span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">lst</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%05d"</span>, <span class="va">x</span><span class="op">)</span>, split <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">lst</span>, <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="op">}</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -178,13 +190,17 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>interval.disjoint <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>interval.disjoint <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
 <p>With the new default (<code>interval.disjoint = TRUE</code>) the argument digits can be used additionally:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
-<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
 <p>Use <code>-Inf</code> for the first break and <code>Inf</code> for the last break to trigger labels that reflect “less than” and “or more” respectively. How these are formatted can be specified with <code>label.format</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -195,11 +211,12 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    style <span class="op">=</span> <span class="st">"fixed"</span>,    </span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>,<span class="fl">10</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">40</span>,<span class="fl">50</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>,</span>
-<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>text.separator <span class="op">=</span> <span class="st">"to"</span>, </span>
-<span>                                   text.less.than <span class="op">=</span> <span class="st">"less than"</span>, </span>
-<span>                                   text.less.than_as.prefix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                   text.or.more <span class="op">=</span> <span class="st">"or more"</span>, </span>
-<span>                                   text.or.more_as.prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span></span>
+<span>      text.separator <span class="op">=</span> <span class="st">"to"</span>, </span>
+<span>      text.less.than <span class="op">=</span> <span class="st">"less than"</span>, </span>
+<span>      text.less.than_as.prefix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>      text.or.more <span class="op">=</span> <span class="st">"or more"</span>, </span>
+<span>      text.or.more_as.prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
 </div>
@@ -209,7 +226,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p>By default, big numbers are abbreviated. If differences among legend values are sufficiently large, they are presented in millions, billions etc.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
 <p>The big number abbreviations are specified in <code>big.num.abbr</code>. The default value is</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -218,8 +235,12 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span><span class="co">#&gt;   6   9  12  15  18</span></span></code></pre></div>
 <p>Instead, we can define the population count in ‘thousands’:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"population"</span>,</span>
-<span>                                size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>big.num.abbr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>thousand <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>    size <span class="op">=</span> <span class="st">"population"</span>,</span>
+<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>      label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span></span>
+<span>        big.num.abbr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>thousand <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
 </div>
 </div>
@@ -233,26 +254,30 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p>Each scale function has a <code>value.neutral</code> argument. This defines what visual value is used in the other legends. Example:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
-<span>           size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
-<span>           fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
+<span>  size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-16-1.png" width="100%"></p>
 <p>We’ve used a gradient scale to map happy planet index (note that the minus sign reverses the palette). When <code>value.neutral</code> is not specified, the middle color (green) is used. My personal preference would be to use a neutral gray color with the same brightness as the palette colors:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
-<span>           size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
-<span>           fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span>, value.neutral <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
+<span>  size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span>,</span>
+<span>    value.neutral <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
 <p>A different approach to achieve the same result is to update the size legend:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
-<span>           size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
-<span>           size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span>,</span>
-<span>           fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-18-1.png" width="100%"></p>
-<p>This method, where visual variables are passed on via <code>tm_legend</code> will be covered in the section about .</p>
+<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
+<span>  size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
+<span>  size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span>,</span>
+<span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This method, where visual variables are passed on via <code>tm_legend</code> will be covered in the section about <a href="https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values">setting visual values</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="combining-legends">Combining legends<a class="anchor" aria-label="anchor" href="#combining-legends"></a>
@@ -260,8 +285,9 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p>It is also possible to combine legends, which is useful if two visual variables are used to plot the same data variable:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"economy"</span>, </span>
-<span>           shape <span class="op">=</span> <span class="st">"economy"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"economy"</span>, </span>
+<span>  shape <span class="op">=</span> <span class="st">"economy"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
 <span><span class="co">#&gt; therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
@@ -269,9 +295,10 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p>Legends combined:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"economy"</span>, </span>
-<span>           shape <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>           shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="st">"economy"</span>, </span>
+<span>  shape <span class="op">=</span> <span class="st">"economy"</span>,</span>
+<span>  shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-20-1.png" width="100%"></p>
 <p>Two legends can be combined if and only if the number of legend items are the same. The graphical properties are then merged. So in this case the fill color from legend 1 and the shape of legend 2 are used.</p>
 </div>
@@ -290,7 +317,8 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, </span>
+<span>      lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-21-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -351,13 +379,14 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span><span class="va">x</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">atlantic_grid</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">x</span>, bbox <span class="op">=</span> <span class="fu">tmaptools</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmaptools/reference/bb.html">bb</a></span><span class="op">(</span><span class="va">x</span>, ext <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>               size <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>               lwd <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>               fill <span class="op">=</span> <span class="st">"orange"</span>,</span>
-<span>               col <span class="op">=</span> <span class="st">"black"</span>,</span>
-<span>               shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
+<span>    shape <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"orange"</span>,</span>
+<span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>    shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-24-1.png" width="100%"></p>
 <p>It is also possible to use images or grob objects.</p>
 </div>
