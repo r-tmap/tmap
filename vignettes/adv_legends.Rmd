@@ -49,7 +49,7 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-This vignettes builds on the \href{introduction vignette about legends}{https://r-tmap.github.io/tmap/articles/basics_legends} and about {\href{scales}{https://r-tmap.github.io/tmap/articles/basics_scales}}
+This vignettes builds on the [introduction vignette about legends](https://r-tmap.github.io/tmap/articles/basics_legends) and about [scales](https://r-tmap.github.io/tmap/articles/basics_scales)
 
 For convenience let's assign the `tm_shape` element to `s`:
 
@@ -71,24 +71,36 @@ s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div"))
 ```
 
 ```{r, fig.height = 3.5}
-s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(digits = 3)))
+s + tm_polygons("HPI", 
+  fill.scale = tm_scale_continuous(
+    values = "pu_gn_div", 
+    label.format = tm_label_format(digits = 3)))
 ```
 
 ```{r, fig.height = 3.5}
-s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(scientific = TRUE)))
+s + tm_polygons("HPI",
+  fill.scale = tm_scale_continuous(
+    values = "pu_gn_div", 
+    label.format = tm_label_format(scientific = TRUE)))
 ```
 
 ```{r, fig.height = 3.5}
-s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(prefix = "<", suffix = ">")))
+s + tm_polygons("HPI",
+  fill.scale = tm_scale_continuous(
+    values = "pu_gn_div", 
+    label.format = tm_label_format(prefix = "<", suffix = ">")))
 ```
 
 ```{r, fig.height = 3.5}
-s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div", label.format = tm_label_format(fun = function(x) {
-	lst = strsplit(sprintf("%05d", x), split = "")
-	sapply(lst, function(y) {
-		do.call(paste, c(as.list(y), list(collapse = " ")))
-	})
-})))
+s + tm_polygons("HPI", 
+  fill.scale = tm_scale_continuous(
+    values = "pu_gn_div", 
+    label.format = tm_label_format(fun = function(x) {
+		lst = strsplit(sprintf("%05d", x), split = "")
+		sapply(lst, function(y) {
+			do.call(paste, c(as.list(y), list(collapse = " ")))
+		})
+	})))
 ```
 
 ### Intervals
@@ -111,7 +123,9 @@ Apart from how intervals are closed, another choice is how to present them. In t
 ```{r, fig.height = 3.5}
 s + tm_polygons(
   fill = "HPI",
-  fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10), label.format = tm_label_format(interval.disjoint = FALSE)))
+  fill.scale = tm_scale_intervals(
+    breaks = seq(10, 60, by = 10), 
+    label.format = tm_label_format(interval.disjoint = FALSE)))
 ```
 
 With the new default (`interval.disjoint = TRUE`) the argument digits can be used additionally:
@@ -119,7 +133,9 @@ With the new default (`interval.disjoint = TRUE`) the argument digits can be use
 ```{r, fig.height = 3.5}
 s + tm_polygons(
   fill = "HPI",
-  fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10), label.format = tm_label_format(digits = 2)))
+  fill.scale = tm_scale_intervals(
+    breaks = seq(10, 60, by = 10), 
+    label.format = tm_label_format(digits = 2)))
 ```
 
 
@@ -133,11 +149,12 @@ s + tm_polygons(
   	style = "fixed",    
     breaks = c(-Inf,10,20,30,40,50, Inf),
     values = "pu_gn_div",
-    label.format = tm_label_format(text.separator = "to", 
-    							   text.less.than = "less than", 
-    							   text.less.than_as.prefix = TRUE,
-    							   text.or.more = "or more", 
-    							   text.or.more_as.prefix = FALSE)
+    label.format = tm_label_format(
+      text.separator = "to", 
+      text.less.than = "less than", 
+      text.less.than_as.prefix = TRUE,
+      text.or.more = "or more", 
+      text.or.more_as.prefix = FALSE)
   ))
 ```
 
@@ -148,7 +165,7 @@ By default, big numbers are abbreviated. If differences among legend values are 
 
 ```{r, fig.height = 3.5}
 s + tm_polygons() +
-	tm_bubbles(size = "pop_est")
+  tm_bubbles(size = "pop_est")
 ```
 
 The big number abbreviations are specified in `big.num.abbr`. The default value is
@@ -160,8 +177,12 @@ tmap_options("label.format")[[1]]$big.num.abbr
 Instead, we can define the population count in 'thousands':
 
 ```{r, fig.height = 3.5}
-tm_shape(NLD_muni) + tm_bubbles(size = "population",
-								size.scale = tm_scale_continuous(label.format = tm_label_format(big.num.abbr = c(thousand = 3))))
+tm_shape(NLD_muni) + 
+  tm_bubbles(
+    size = "population",
+    size.scale = tm_scale_continuous(
+      label.format = tm_label_format(
+        big.num.abbr = c(thousand = 3))))
 ```
 
 
@@ -175,9 +196,10 @@ Each scale function has a `value.neutral` argument. This defines what visual val
 
 ```{r, fig.height = 3.5}
 s +
-tm_bubbles(fill = "HPI", 
-		   size = "pop_est",
-		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
+tm_bubbles(
+  fill = "HPI", 
+  size = "pop_est",
+  fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
 ```
 
 
@@ -186,23 +208,26 @@ We've used a gradient scale to map happy planet index (note that the minus sign 
 
 ```{r, fig.height = 3.5}
 s +
-tm_bubbles(fill = "HPI", 
-		   size = "pop_est",
-		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow", value.neutral = "gray70"))
+tm_bubbles(
+  fill = "HPI", 
+  size = "pop_est",
+  fill.scale = tm_scale_continuous(
+    values = "-matplotlib.rainbow",
+    value.neutral = "gray70"))
 ```
 
 A different approach to achieve the same result is to update the size legend:
 
-
-```{r, fig.height = 3.5}
+```{r, eval = FALSE}
 s +
-tm_bubbles(fill = "HPI", 
-		   size = "pop_est",
-		   size.legend = tm_legend(fill = "gray70"),
-		   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
+tm_bubbles(
+  fill = "HPI", 
+  size = "pop_est",
+  size.legend = tm_legend(fill = "gray70"),
+  fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
 ```
 
-This method, where visual variables are passed on via `tm_legend` will be covered in the section about \href{setting visual values}{https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values}.
+This method, where visual variables are passed on via `tm_legend` will be covered in the section about [setting visual values](https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values).
 
 
 ### Combining legends
@@ -211,17 +236,19 @@ It is also possible to combine legends, which is useful if two visual variables 
 
 ```{r, fig.height = 3.5}
 s +
-tm_bubbles(fill = "economy", 
-		   shape = "economy")
+tm_bubbles(
+  fill = "economy", 
+  shape = "economy")
 ```
 
 Legends combined:
 
 ```{r, fig.height = 3.5}
 s +
-tm_bubbles(fill = "economy", 
-		   shape = "economy",
-		   shape.legend = tm_legend_combine("fill"))
+tm_bubbles(
+  fill = "economy", 
+  shape = "economy",
+  shape.legend = tm_legend_combine("fill"))
 ```
 
 Two legends can be combined if and only if the number of legend items are the same. The graphical properties are then merged. So in this case the fill color from legend 1 and the shape of legend 2 are used.
@@ -243,7 +270,8 @@ s +
   tm_polygons() +
   tm_symbols(
     fill = "economy",
-    fill.legend = tm_legend("Economy", lwd = 2, lty = "dotted"))
+    fill.legend = tm_legend("Economy", 
+      lwd = 2, lty = "dotted"))
 ```
 
 ## Manual legends
@@ -305,13 +333,14 @@ atlantic_grid = cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25))
 x = sf::st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
 
 tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
-	tm_symbols(shape = "id",
-			   size = 2,
-			   lwd = 2,
-			   fill = "orange",
-			   col = "black",
-			   shape.scale = tm_scale_asis()) +
-	tm_text("id", ymod = -2)
+  tm_symbols(
+    shape = "id",
+    size = 2,
+    lwd = 2,
+    fill = "orange",
+    col = "black",
+    shape.scale = tm_scale_asis()) +
+  tm_text("id", ymod = -2)
 ```
 
 It is also possible to use images or grob objects.

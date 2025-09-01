@@ -144,4 +144,4 @@ s + tm_polygons(
   fill.legend = tm_legend_hide())
 ```
 
-See the \href{advanced vignette}{https://r-tmap.github.io/tmap/articles/adv_legends} for more options.
+See the [advanced vignette](https://r-tmap.github.io/tmap/articles/adv_legends) for more options.
