@@ -624,9 +624,9 @@ tmap_options_save <- function(style) {
 	invisible(.tmapOptions)
 }
 
-#' Internal method for submitting a new mode
+#' Internal method for submitting options
 #'
-#' Internal method for submitting a new mode
+#' Internal method for submitting options
 #'
 #' @param options list of options
 #' @param styleOptions list of lists of options, each with a style name
