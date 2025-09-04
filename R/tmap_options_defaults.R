@@ -790,9 +790,8 @@ styles = list(
 				  space.color = "#002240",
 				  value.const = list(fill.polygons = "#0088FF",
 				  				   fill = "#FF9D00",
-				  				   col.lines = "#FFEE80",
 				  				   col.text = "white",
-				  				   col = "#002240",
+				  				   col = "#FFEE80",
 				  				   bgcol.labels_highlighted = "#002240",
 				  				   bgcol = "#00000000"),
 				  value.na = list(

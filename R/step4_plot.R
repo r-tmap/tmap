@@ -1053,7 +1053,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		#klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
 
 		# find group ids
-		klegs$id = sapply(klegs$comp, function(comp) paste(comp$position$type, comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_"))
+		klegs$id = paste(klegs$class, sapply(klegs$comp, function(comp) paste(comp$position$cell.h, comp$position$cell.v, comp$position$pos.h, comp$position$pos.v, comp$position$just.h, comp$position$just.v, sep = "_")), sep = "_")
 		# just.id = NULL
 		# klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
 		# klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]

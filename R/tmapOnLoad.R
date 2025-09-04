@@ -2,6 +2,7 @@
 .onLoad = function(...) {
 	options(tmap.style = "white", tmap.mode = "plot", tmap.design.mode = FALSE,
 			tmap.devel.mode = FALSE)
+	assign("defaultTmapOptions", .defaultTmapOptions, envir = .TMAP)
 	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
 
 	# makeActiveBinding("tmap_pals", function() {

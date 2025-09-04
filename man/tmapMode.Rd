@@ -4,7 +4,7 @@
 \alias{tmapMode}
 \title{Internal method for submitting a new mode}
 \usage{
-tmapMode(id, name, ...)
+tmapMode(id, name, ..., styleOptions = NULL)
 }
 \arguments{
 \item{id}{id of the mode: please use lowercase and one-word. This will be used with \code{\link[=tmap_mode]{tmap_mode()}}.}

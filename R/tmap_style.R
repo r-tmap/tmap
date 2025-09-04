@@ -34,11 +34,11 @@ tmap_style = function(style) {
 		message("other available styles are: ", print_text_vector(get_style_names(current.style, v3 = "no")))
 		message("tmap v3 styles: ", print_text_vector(get_style_names(current.style, v3 = "only")))
 	} else {
-		.tmapOptions = .defaultTmapOptions
+		.tmapOptions = .TMAP$defaultTmapOptions
 		check_style(style)
 		options(tmap.style=style)
 		if (style == "white") {
-			.tmapOptions = .defaultTmapOptions
+			.tmapOptions = .TMAP$defaultTmapOptions
 		} else {
 			styleOptions = get("tmapStyles", envir = .TMAP)[[style]]
 			.tmapOptions = complete_options(styleOptions, .tmapOptions)

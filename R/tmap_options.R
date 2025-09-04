@@ -399,7 +399,7 @@ tmap_options = function(..., crs, facet.max, free.scales, raster.max_cells, rast
 
 	mode_opts = setdiff(unique(unlist(lapply(o$modes, names))), "name")
 
-	all_opts = union(mode_opts, names(.defaultTmapOptions))
+	all_opts = union(mode_opts, names(.TMAP$defaultTmapOptions))
 
 	unknown_args = setdiff(names(args), all_opts)
 
@@ -493,7 +493,7 @@ tmap_options = function(..., crs, facet.max, free.scales, raster.max_cells, rast
 #' @export
 tmap_options_mode = function(mode = NA, style = NULL, mode.specific = TRUE, default.options = FALSE) {
 	if (default.options) {
-		o = .defaultTmapOptions
+		o = .TMAP$defaultTmapOptions
 	} else {
 		o = get("tmapOptions", envir = .TMAP)
 
@@ -563,17 +563,22 @@ tmapAddLayerOptions = function(option, id, value) {
 	if (!(option %in% c("value.const", "value.na", "value.blank", "values.var", "values.range", "value.neutral", "scales.var"))) {
 		stop("Unknown option")
 	}
-	o = tmap_option(option)
-	o[[id]] = value
-	o2 = structure(list(o), names = option)
-	tmap_options(o2)
+
+	d = .TMAP$defaultTmapOptions
+	d[[option]][[id]] = value
+
+	o = .TMAP$tmapOptions
+	o[[option]][[id]] = value
+
+	.TMAP$defaultTmapOptions = d
+	.TMAP$tmapOptions = o
 }
 
 #' @rdname tmap_options
 #' @export
 tmap_options_diff <- function() {
 	.tmapOptions <- get("tmapOptions", envir = .TMAP)
-	iden <- mapply(identical, .tmapOptions, .defaultTmapOptions)
+	iden <- mapply(identical, .tmapOptions, .TMAP$defaultTmapOptions)
 
 	if (all(iden)) {
 		message("current tmap options are similar to the default tmap options (style \"white\")")
@@ -586,7 +591,7 @@ tmap_options_diff <- function() {
 #' @rdname tmap_options
 #' @export
 tmap_options_reset <- function() {
-	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
+	assign("tmapOptions", .TMAP$defaultTmapOptions, envir = .TMAP)
 	options(tmap.style="white")
 	message("tmap options successfully reset")
 	invisible(NULL)
@@ -619,7 +624,33 @@ tmap_options_save <- function(style) {
 	invisible(.tmapOptions)
 }
 
+#' Internal method for submitting a new mode
+#'
+#' Internal method for submitting a new mode
+#'
+#' @param options list of options
+#' @param styleOptions list of lists of options, each with a style name
+#' @export
+#' @keywords internal
+tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {
+	o = .TMAP$defaultTmapOptions
+	s = .TMAP$tmapStyles
 
+	if (!is.null(options)) {
+		backup = o[names(options)]
+		o[names(options)] = complete_options(options, backup)
+	}
+
+	if (!is.null(styleOptions)) {
+		for (st in names(styleOptions)) {
+			backup = s[[st]]
+			s[[st]] = complete_options(styleOptions[[st]], backup)
+		}
+	}
+	.TMAP$defaultTmapOptions = o
+	.TMAP$tmapStyles = s
+	suppressMessages(tmap_style(getOption("tmap.style")))
+}
 
 #' Internal method for submitting a new mode
 #'
@@ -630,11 +661,27 @@ tmap_options_save <- function(style) {
 #' @param ... mode specific options
 #' @export
 #' @keywords internal
-tmapMode = function(id, name, ...) {
-	modes = tmap_options("modes")$modes
+tmapMode = function(id, name, ..., styleOptions = NULL) {
+	d = .TMAP$defaultTmapOptions
+	o = .TMAP$tmapOptions
 
-	modes[[id]] = c(list(name = name), list(...))
-	tmap_options(modes = modes)
+	mlist = c(list(name = name), list(...))
+
+	o$modes[[id]] = mlist
+	d$modes[[id]] = mlist
+
+	if (!is.null(styleOptions)) {
+		os = get("tmapStyles", envir = .TMAP)
+		for (s in names(styleOptions)) {
+			os[[s]]$modes[[id]] = styleOptions[[s]]
+			#lst = structure(list(modes = structure(styleOptions[s], names = id)), style = s)
+			#suppressMessages(tmap_options(lst))
+		}
+		assign("tmapStyles", os, envir = .TMAP)
+	}
+	.TMAP$defaultTmapOptions = d
+	.TMAP$tmapOptions = o
+	suppressMessages(tmap_style(getOption("tmap.style")))
 }
 
 
