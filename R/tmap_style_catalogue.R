@@ -16,6 +16,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 
 	if (!file.exists(path)) dir.create(path, recursive = TRUE)
 
+
 	# load and process data
 	pb <- txtProgressBar()
 

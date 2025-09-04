@@ -36,5 +36,5 @@ utils::globalVariables(c(
 	"x", "y", "color", "freq", "bin", "bin1", "bin2",
 	"nitems", "item.width", "page", "stack",
   "item.height", "absolute_fontsize", "rc_text", "show", "gp2", "trns", "nbins",
-  "World", "World_rivers"
+  "World", "World_rivers", "NLD_muni", "NLD_prov"
 ))
