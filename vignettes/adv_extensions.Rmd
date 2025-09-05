@@ -125,12 +125,12 @@ A package in development [`tmap.mapgl`](https://github.com/r-tmap/tmap.mapgl) co
 
 The shiny integration may not work yet.
 
-```{r, eval=FALSE}
+```{r}
 library(tmap.mapgl)
 ```
 
 
-```{r, fig.height = 3.5, eval=FALSE}
+```{r, fig.height = 3.5}
 tmap_mode("maplibre")
 
 tm_shape(NLD_dist) +

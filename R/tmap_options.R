@@ -649,7 +649,7 @@ tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {
 	}
 	.TMAP$defaultTmapOptions = o
 	.TMAP$tmapStyles = s
-	suppressMessages(tmap_style(getOption("tmap.style")))
+	suppressMessages(tmap_options_reset())
 }
 
 #' Internal method for submitting a new mode
