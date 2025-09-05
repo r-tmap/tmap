@@ -140,7 +140,7 @@ tm_shape(NLD_dist) +
     lwd = 0.1) +
 tm_shape(NLD_muni) +
   tm_polygons(fill = NULL, lwd = 1) +
-tm_maplibre(pitch = 75)
+tm_maplibre(pitch = 70)
 ```
 
 
