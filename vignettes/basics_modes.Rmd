@@ -123,7 +123,7 @@ tm +
 For a more detailed description of the available options, see the [vignette about options](https://r-tmap.github.io/tmap/articles/adv_options).
 
 
-## `mapgl` modes: `"mapbox" and `"maplibre"`.
+## `mapgl` modes: `"mapbox"` and `"maplibre"`.
 
 The new package `mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is required.
 
