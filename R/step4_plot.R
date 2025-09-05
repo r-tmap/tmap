@@ -334,18 +334,37 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 	# get legends from layer data and put them in "components data.table" (cdt)
 
-	cdt_cmp = if (length(cmp) && !o$legend.only) {
-		 data.table::rbindlist(lapply(cmp, function(cp) {
-			data.table::data.table(by1__ = NA_integer_,
-								   by2__ = NA_integer_,
-								   by3__ = NA_integer_,
-								   comp = list(cp))
-		}))
+	if (o$legend.only) {
+		cmp_sel = vapply(cmp, function(cp) {
+			inherits(cp, c("tm_legend", "tm_add_legend"))
+		}, FUN.VALUE = logical(1))
+		cdt_cmp = if (any(cmp_sel)) {
+			data.table::rbindlist(lapply(cmp[cmp_sel], function(cp) {
+				data.table::data.table(by1__ = NA_integer_,
+									   by2__ = NA_integer_,
+									   by3__ = NA_integer_,
+									   comp = list(cp))
+			}))
+		} else {
+			data.table::data.table(by1__ = integer(0),
+								   by2__ = integer(0),
+								   by3__ = integer(0),
+								   comp = list())
+		}
 	} else {
-		data.table::data.table(by1__ = integer(0),
-							   by2__ = integer(0),
-							   by3__ = integer(0),
-							   comp = list())
+		cdt_cmp = if (length(cmp)) {
+			data.table::rbindlist(lapply(cmp, function(cp) {
+				data.table::data.table(by1__ = NA_integer_,
+									   by2__ = NA_integer_,
+									   by3__ = NA_integer_,
+									   comp = list(cp))
+			}))
+		} else {
+			data.table::data.table(by1__ = integer(0),
+								   by2__ = integer(0),
+								   by3__ = integer(0),
+								   comp = list())
+		}
 	}
 
 	cdt = if (any_data_layer) {
