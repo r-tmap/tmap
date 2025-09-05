@@ -107,12 +107,13 @@ set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 	}
 
 	if (show.messages) {
-		str = paste0("tmap modes ", rotate_str,
-					 ifelse(arrow, "; rotate with {.run tmap::rtm()}", ""),
-					 ifelse(arrow, "; switch to {.str {mode_now}} ", "; toggle "),
+		str1 = paste0("tmap modes ", rotate_str)
+		str2 = paste0(ifelse(arrow, "rotate with {.run tmap::rtm()}", ""),
+					 ifelse(arrow, "switch to {.str {mode_now}} ", "toggle "),
 					 "with {.run tmap::ttm()}")
 
-		cli::cli_inform(c("i" = str))
+		cli::cli_inform(c("i" = str1))
+		cli::cli_inform(c("i" = str2), .frequency = "once", .frequency_id = paste0("mode", ifelse(arrow, "_rotate", "toggle")))
 	}
 
 	invisible(mode_now)
