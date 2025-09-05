@@ -18,6 +18,7 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 	}
 	if (!is.null(hdt)) {
 		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+		hdt = lapply(hdt, htmltools::HTML, FUN.VALUE = character(1))
 	}
 
 	if (is.null(pdt)) {
