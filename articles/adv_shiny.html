@@ -173,7 +173,8 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"view"</span>.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap modes <span style="color: #0000BB;">"plot"</span> - <span style="color: #0000BB; font-weight: bold;">"view"</span>; toggle with</span></span>
+<span><span class="co">#&gt; `tmap::ttm()`</span></span></code></pre></div>
 <p>When inputs are changed in <code>"view"</code> mode, it is preferable that the focus (zoom and panning location) does not change. That is where <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> comes into play. It updates the mape. Old layer are removed via <code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> and new layer can be added.</p>
 <p>It is recommended to:</p>
 <ul>
