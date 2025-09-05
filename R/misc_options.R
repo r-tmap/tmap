@@ -12,7 +12,7 @@ get_option_class = function(o, class = NULL, spatial_class = TRUE) {
 
 
 # add/merge options x to the full option set o: x can be style options
-complete_options = function(x, o) {
+complete_options = function(x, o, erase_style = TRUE) {
 	nmx = names(x)
 	nmo = names(o)
 	if ("calls" %in% nmx) {
@@ -27,7 +27,7 @@ complete_options = function(x, o) {
 	if (length(d)) o = c(o, x[d])
 	if (length(e)) {
 		for (i in e) {
-			if (i %in% c("value.const", "value.na", "value.null", "value.blank", "values.var")) {
+			if (i %in% c("value.const", "value.na", "value.null", "value.blank", "values.var") && erase_style) {
 				# special case to cover the following issue
 				#    if o = list(value.const = list(fill = "red", fill.polygons = "blue", fill.dots = "black)), and
 				#       x = list(value.const = list(fill = "white", fill.polygons = "grey"))

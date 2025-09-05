@@ -638,13 +638,13 @@ tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {
 
 	if (!is.null(options)) {
 		backup = o[names(options)]
-		o[names(options)] = complete_options(options, backup)
+		o[names(options)] = complete_options(options, backup, erase_style = FALSE)
 	}
 
 	if (!is.null(styleOptions)) {
 		for (st in names(styleOptions)) {
 			backup = s[[st]]
-			s[[st]] = complete_options(styleOptions[[st]], backup)
+			s[[st]] = complete_options(styleOptions[[st]], backup, erase_style = FALSE)
 		}
 	}
 	.TMAP$defaultTmapOptions = o
