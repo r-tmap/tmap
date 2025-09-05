@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_options.R
 \name{tmapMode}
 \alias{tmapMode}
-\title{Internal method for submitting a new mode}
+\title{Internal method for submitting a new mode (deprecated)}
 \usage{
 tmapMode(id, name, ..., styleOptions = NULL)
 }
@@ -14,6 +14,6 @@ tmapMode(id, name, ..., styleOptions = NULL)
 \item{...}{mode specific options}
 }
 \description{
-Internal method for submitting a new mode
+Internal method for submitting a new mode. Deprecated. Use \code{\link[=tmapSubmitOptions]{tmapSubmitOptions()}} instead.
 }
 \keyword{internal}

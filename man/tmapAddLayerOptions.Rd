@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_options.R
 \name{tmapAddLayerOptions}
 \alias{tmapAddLayerOptions}
-\title{Internal tmap function to add a default value for the layer functions}
+\title{Internal tmap function to add a default value for the layer functions. Deprecated}
 \usage{
 tmapAddLayerOptions(option, id, value)
 }
@@ -16,6 +16,6 @@ It is also possible to set \code{x} only; then it applies to all layer functions
 \item{value}{value}
 }
 \description{
-Internal tmap function to add a default value for the layer functions
+Internal tmap function to add a default value for the layer functions. Deprecated. Use \code{\link[=tmapSubmitOptions]{tmapSubmitOptions()}} instead.
 }
 \keyword{internal}
