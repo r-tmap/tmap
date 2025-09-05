@@ -548,9 +548,9 @@ tmapOption = function(...) {
 
 
 
-#' Internal tmap function to add a default value for the layer functions
+#' Internal tmap function to add a default value for the layer functions. Deprecated
 #'
-#' Internal tmap function to add a default value for the layer functions
+#' Internal tmap function to add a default value for the layer functions. Deprecated. Use [tmapSubmitOptions()] instead.
 #'
 #' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
 #' @param id name of the visual variable with layer, in the format `"x.y"`,
@@ -652,9 +652,9 @@ tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {
 	suppressMessages(tmap_options_reset())
 }
 
-#' Internal method for submitting a new mode
+#' Internal method for submitting a new mode (deprecated)
 #'
-#' Internal method for submitting a new mode
+#' Internal method for submitting a new mode. Deprecated. Use [tmapSubmitOptions()] instead.
 #'
 #' @param id id of the mode: please use lowercase and one-word. This will be used with [tmap_mode()].
 #' @param name name of the mode: please use title case. This will be used to recognize internal functions, e.g. `tmapLeafletInit`
