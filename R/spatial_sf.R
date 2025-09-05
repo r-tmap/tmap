@@ -46,7 +46,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 
 
 	if (is.null(filter)) filter = rep_len(TRUE, nrow(dt))
-	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
+	dt[, ':='(tmapID__ = 1L:.N, sel__ = filter)]
 
 	make_by_vars(dt, tmf, smeta)
 

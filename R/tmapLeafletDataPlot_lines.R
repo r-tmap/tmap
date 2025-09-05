@@ -24,7 +24,9 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
-		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
+		mtch = match(dt$tmapID__, pdt$tmapID__)
+		pdt = pdt[mtch][, tmapID__ := NULL]
+
 		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 

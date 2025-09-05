@@ -12,7 +12,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	minmax = as.list(as.data.frame(terra::minmax(shp, compute = all(!terra::hasMinMax(shp)))))
 
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
-	dt[, tmapID__:=1L:nrow(dt)]
+	dt[, tmapID__:=1L:.N]
 	#dt = data.table::melt(dt, id.vars = "tmapID__", variable.name = "layer", value.name = "value")
 
 	xy_dim = dim(shp)[1:2]

@@ -23,7 +23,9 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
-		pdt = pdt[match(dt$tmapID__, pdt$tmapID__)][, tmapID__ := NULL]
+		mtch = match(dt$tmapID__, pdt$tmapID__)
+		pdt = pdt[mtch][, tmapID__ := NULL]
+
 		if (is.null(idt) && !is.null(hdt)) {
 			popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
 		} else {
