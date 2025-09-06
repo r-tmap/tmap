@@ -46,7 +46,10 @@ tmap_options(scale = 0.75)
 
 There are two modes included in **tmap**: `"plot"` for static mapping and `"view"` for interactive mapping. See [introduction](https://r-tmap.github.io/tmap/articles/basics_modes). The `"view"` mode uses the JavaScript library Leaflet as backend.
 
-The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. An API key is required to use `"mapbox"` (free for personal use), but `"maplibre"` is (as the name suggests) free for any use.
+The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. The latter is a open source fork of the former before it went from open to closed source. 
+
+An API key is required to use `"mapbox"` (free for personal use, see [instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key)), but `"maplibre"` is (as the name suggests) free for any use.
+
 
 Note that *tmap.mapgl* is a bridge between the R packages *mapgl* and *tmap*. It makes the functionality of *mapgl* (making the JavaScript libraries available to R) also available via the *tmap* user interface.
 
@@ -64,25 +67,26 @@ tmap_mode("plot")
 map
 ```
 
+## maplibre
+
+```{r, fig.height = 5.5}
+library(tmap.mapgl)
+tmap_mode("maplibre")
+map
+```
+
+
+
 ## mapbox
 
 For `"mapbox"` an API key is required, which is free for personal use. See [instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key).
 
-
 ```{r, fig.height = 3.5, eval=FALSE}
-library(tmap.mapgl)
 tmap_mode("mapbox")
 map
 ```
 
 ![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
-
-## maplibre
-
-```{r, fig.height = 3.5}
-tmap_mode("maplibre")
-map
-```
 
 
 ## 3d polygons
@@ -101,7 +105,9 @@ tm_shape(NLD_dist) +
   tm_polygons_3d(height = "pop_dens",
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-    fill.legend = tm_legend("Univeristy degree")) +
+    fill.legend = tm_legend("Univeristy degree"),
+    options = opt_tm_polygons_3d(height.min = "0.1%")) +
 tm_maplibre(pitch = 45)
 ```
 
+Note: the minimal height is needed to fix an artefact when using the globe projection (icon on the top right).
