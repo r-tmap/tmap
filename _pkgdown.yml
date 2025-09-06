@@ -207,6 +207,8 @@ navbar:
     advanced:
       text: Advanced
       menu:
+        - text: Legends
+          href: articles/adv_legends
         - text: Inset maps
           href: articles/adv_inset_maps
         - text: Animations
@@ -221,8 +223,6 @@ navbar:
           href: articles/adv_positions
         - text: Grouping of components
           href: articles/adv_comp_group
-        - text: Legends
-          href: articles/adv_legends
         - text: Options and styles
           href: articles/adv_options
         - text: Margins and aspect ratio (plot mode)
