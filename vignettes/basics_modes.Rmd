@@ -54,13 +54,18 @@ tmap facilitates two output modes:
 
 Via the extension package, `tmap.mapgl`, two interactive new modes are available, `"mapbox"` and `"maplibre"`, as demonstrated below. 
 
- 
-## Switching between modes
+
+The default mode is `"plot"`:
 
 ```{r}
 ## current mode
 tmap_mode()
+```
 
+### Switching between modes
+
+
+```{r} 
 ## to view mode
 tmap_mode("view")
 
@@ -68,10 +73,21 @@ tmap_mode("view")
 tmap_mode("plot")
 ```
 
-The handy function `ttm()` is used to toggle between the modes. When more than two modes are loaded, `rtm()` can be used to rotate between modes.
+The handy function `ttm()` is used to toggle between the modes:
+
+```{r} 
+## to view mode
+ttm()
+
+## back to plot mode
+ttm()
+```
 
 
-## Mode `"plot"`
+When more than two modes are loaded, `rtm()` can be used to rotate between modes (see [below(https://r-tmap.github.io/tmap/articles/basics_modes#modes-mapbox-and-maplibre-)]).
+
+
+### Mode `"plot"`
 
 We start with creating the plot and assign it to a variable called `tm`.
 
@@ -94,7 +110,7 @@ tm
 ```
 
 
-## Mode `"view"`
+### Mode `"view"`
 
 The same map in view mode:
 
@@ -113,7 +129,7 @@ tm + tm_basemap(NULL)
 
 See [vignette about basemaps](https://r-tmap.github.io/tmap/articles/basics_basemaps).
 
-## Mode specific options
+### Mode specific options
 
 Mode specific layout options can be set via `tm_plot()` and `tm_view()`. The number of options in `tm_plot()` is limited to just two, because it uses all general purpose options. In contrast, `tm_view()` contains more options, e.g. the position of the control box and the default zoom level:
 
@@ -125,15 +141,16 @@ tm +
 
 For a more detailed description of the available options, see the [vignette about options](https://r-tmap.github.io/tmap/articles/adv_options).
 
-## Modes `"mapbox"` and `"maplibre"`.
+## New modes
 
-The new package `tmap.mapgl` offers two new modes. The first is `"mapbox"` for which an API key is required, which is free for personal use. The second is `maplibre` for which no API key is required. `maplibre` is a fork of `mapbox` before it sent from open to closed source.
-
-These modes are not as feature rich (yet) as the `"view"` mode, but they do offer a lot of new features: globe view and 3d polygons. This is possible because of the support of WebGL, a fast rendering technique. Therefore, `maplibre` (because it is open source) is [considered the way forward in web mapping](https://tim-salabim.codeberg.page/sotwm/sotwm.html).
+The new package `tmap.mapgl` offers two new modes, `"mapbox"` and `"maplibre"`:
 
 ```{r, fig.height = 3.5}
 library(tmap.mapgl)
 ```
+
+
+### Rotate bewteen modes
 
 When more than two modes are loaded (now four), `rtm()` can be used to rotate between modes:
 
@@ -143,6 +160,14 @@ rtm()
 ```
 
 This (and `ttm()`) is especially useful in interactive sessinos. For scripts, it is recommend to use `tmap_mode()` explicitly.
+
+### Modes `"mapbox"` and `"maplibre"`.
+
+For the mode `"mapbox"` an API key is required, which is free for personal use. The mode `maplibre` is a fork of `mapbox` before it sent from open to closed source.
+No API key is required for `maplibre`. 
+
+These modes are not as feature rich (yet) as the `"view"` mode, but they do offer a lot of new features: globe view and 3d polygons. This is possible because of the support of WebGL, a fast rendering technique. Therefore, these modes, and especially `maplibre` for its open open source, are [considered the way forward in web mapping](https://tim-salabim.codeberg.page/sotwm/sotwm.html).
+
 
 ```{r, fig.height = 3.5}
 tmap_mode("maplibre")

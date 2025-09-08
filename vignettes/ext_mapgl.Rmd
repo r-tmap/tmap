@@ -95,6 +95,19 @@ map
 
 This map layer is the same as `tm_polygons`, but one addition: polygons can be extruded in 3d shape. The visual variable to control this is called `height`.
 
+Below an example of population density per country:
+
+```{r, fig.height = 3.5}
+tmap_mode("maplibre")
+tm_shape(World) +
+	tm_polygons_3d(height = "pop_est_dens", fill = "continent")
+```
+
+
+Note that this is a toy simple example that does not take high population density of urban areas in otherwise sparse populated countries into account.
+
+A more useful example of population density mapping is the following map of the Netherlands in which height is the population density per neighborhood (and therefore its volume represents population). Color is used to show the variable of interest, in this case education level.
+
 
 ```{r, fig.height = 6}
 tmap_mode("maplibre")
@@ -105,9 +118,6 @@ tm_shape(NLD_dist) +
   tm_polygons_3d(height = "pop_dens",
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-    fill.legend = tm_legend("Univeristy degree"),
-    options = opt_tm_polygons_3d(height.min = "0.1%")) +
+    fill.legend = tm_legend("Univeristy degree")) +
 tm_maplibre(pitch = 45)
 ```
-
-Note: the minimal height is needed to fix an artefact when using the globe projection (icon on the top right).
