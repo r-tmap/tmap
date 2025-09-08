@@ -49,7 +49,7 @@ library(tmap)
 tmap_options(scale = 0.75)
 ```
 
-This vignettes builds on the [introduction vignette about legends](https://r-tmap.github.io/tmap/articles/basics_legends) and about [scales](https://r-tmap.github.io/tmap/articles/basics_scales)
+This vignettes builds on the introduction vignettes about [legends](https://r-tmap.github.io/tmap/articles/basics_legends) and [scales](https://r-tmap.github.io/tmap/articles/basics_scales)
 
 For convenience let's assign the `tm_shape` element to `s`:
 

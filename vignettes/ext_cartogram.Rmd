@@ -1,5 +1,5 @@
 ---
-title: "tmap extensions: tmap.mapgl"
+title: "tmap extensions: tmap.cartogram"
 output: 
   bookdown::html_vignette2:
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
@@ -60,13 +60,14 @@ The shapes of the polygons are distorted, where the neighborhood relationships b
 Africa = World[World$continent == "Africa", ]
 
 tm_shape(Africa, crs = "+proj=robin") +
-	tm_cartogram(size = "*pop_est", 
-				 fill = "life_exp",
-				 fill.scale = tm_scale_intervals(values = "-cols4all.bu_br_div"),
-				 fill.legend = tm_legend("Age"),
-				 options = opt_tm_cartogram(itermax = 15)) +
+  tm_cartogram(
+    size = "*pop_est", 
+	fill = "life_exp",
+	fill.scale = tm_scale_intervals(values = "-cols4all.bu_br_div"),
+	fill.legend = tm_legend("Age"),
+	options = opt_tm_cartogram(itermax = 15)) +
 tm_title("Life Expectancy") +
-	tm_animate_fast(play = "pingpong")
+tm_animate_fast(play = "pingpong")
 ```
 
 ## Non-contiguous cartograms
@@ -75,12 +76,13 @@ Here, the polygons are only resized while they keep their shape.
 
 ```{r, fig.height=6}
 tm_shape(Africa, crs = "+proj=robin") +
-	tm_cartogram_ncont(size = "pop_est", 
-					   fill = "inequality",
-					   fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", values.range = c(0, 0.5)),
-					   fill.legend = tm_legend(""),
-					   options = opt_tm_cartogram_ncont()) +
-	tm_text("name", options = opt_tm_text(point.label = TRUE)) +
+  tm_cartogram_ncont(
+  	size = "pop_est", 
+	fill = "inequality",
+	fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", values.range = c(0, 0.5)),
+	fill.legend = tm_legend(""),
+	options = opt_tm_cartogram_ncont()) +
+  tm_text("name", options = opt_tm_text(point.label = TRUE)) +
 tm_title("Income inequality (Gini coefficient)")
 ```
 
@@ -90,9 +92,10 @@ Polygons are replaced by non-overlapping bubbles.
 
 ```{r, fig.height=4}
 tm_shape(World, crs = "+proj=robin") +
-	tm_cartogram_dorling(size = "pop_est", 
-						 fill = "press",
-						 fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", midpoint = 50),
-						 fill.legend = tm_legend("", height = 30)) +
+  tm_cartogram_dorling(
+    size = "pop_est", 
+	fill = "press",
+	fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", midpoint = 50),
+	fill.legend = tm_legend("", height = 30)) +
 tm_title("World Press Freedom Index")
 ```
