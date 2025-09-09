@@ -246,9 +246,9 @@ tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
 		is_stars = inherits(shp, "dimensions")
-		if (is_stars && args$polygons.only == "no") {
+		if (is_stars && args$polygons.only != "yes") {
 			### stars
-			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
+			s = structure(list(values = matrix(TRUE, nrow = nrow(shp), ncol = ncol(shp))), dimensions = shp, class = "stars")
 			shp = sf::st_as_sfc(s, as_points = FALSE)
 		} else if (is_stars) {
 			shp = sf::st_sfc()
