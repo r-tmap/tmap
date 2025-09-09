@@ -1,6 +1,6 @@
 Package: tmap
 Title: Thematic Maps
-Version: 4.1.0.9000
+Version: 4.2
 Authors@R: c(
     person("Martijn", "Tennekes", , "mtennekes@gmail.com", role = c("aut", "cre")),
     person("Jakub", "Nowosad", , "nowosad.jakub@gmail.com", role = "ctb"),
