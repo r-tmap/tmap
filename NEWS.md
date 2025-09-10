@@ -1,3 +1,5 @@
+# tmap 4.2.0.9000 (dev version)
+
 # tmap 4.2
 
 - [!] improved legend (labeling #1174 and continuous-style intervals #1175)
