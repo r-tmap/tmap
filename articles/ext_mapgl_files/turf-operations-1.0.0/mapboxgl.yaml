@@ -1,6 +1,6 @@
 dependencies:
   - name: mapbox-gl-js
-    version: "3.12.0"
+    version: "3.14.0"
     src:
       href: "https://api.mapbox.com/mapbox-gl-js/v3.12.0/"
     script:

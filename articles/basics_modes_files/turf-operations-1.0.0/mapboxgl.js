@@ -718,6 +718,19 @@ HTMLWidgets.widget({
             });
           }
 
+          // Apply moveLayer operations if provided
+          if (x.moveLayer) {
+            x.moveLayer.forEach(function (moveOp) {
+              if (map.getLayer(moveOp.layer)) {
+                if (moveOp.before) {
+                  map.moveLayer(moveOp.layer, moveOp.before);
+                } else {
+                  map.moveLayer(moveOp.layer);
+                }
+              }
+            });
+          }
+
           // Set terrain if provided
           if (x.terrain) {
             map.setTerrain({
@@ -1331,74 +1344,152 @@ HTMLWidgets.widget({
             let layers =
               x.layers_control.layers ||
               map.getStyle().layers.map((layer) => layer.id);
+            let layersConfig = x.layers_control.layers_config;
 
-            // Ensure layers is always an array
-            if (!Array.isArray(layers)) {
-              layers = [layers];
-            }
+            // If we have a layers_config, use that; otherwise fall back to original behavior
+            if (layersConfig && Array.isArray(layersConfig)) {
+              layersConfig.forEach((config, index) => {
+                const link = document.createElement("a");
+                // Ensure config.ids is always an array
+                const layerIds = Array.isArray(config.ids) ? config.ids : [config.ids];
+                link.id = layerIds.join("-");
+                link.href = "#";
+                link.textContent = config.label;
+                link.setAttribute("data-layer-ids", JSON.stringify(layerIds));
+                link.setAttribute("data-layer-type", config.type);
 
-            layers.forEach((layerId, index) => {
-              const link = document.createElement("a");
-              link.id = layerId;
-              link.href = "#";
-              link.textContent = layerId;
-
-              // Check if the layer visibility is set to "none" initially
-              const initialVisibility = map.getLayoutProperty(
-                layerId,
-                "visibility",
-              );
-              link.className = initialVisibility === "none" ? "" : "active";
-
-              // Also hide any associated legends if the layer is initially hidden
-              if (initialVisibility === "none") {
-                const associatedLegends = document.querySelectorAll(
-                  `.mapboxgl-legend[data-layer-id="${layerId}"]`,
-                );
-                associatedLegends.forEach((legend) => {
-                  legend.style.display = "none";
-                });
-              }
-
-              // Show or hide layer when the toggle is clicked
-              link.onclick = function (e) {
-                const clickedLayer = this.textContent;
-                e.preventDefault();
-                e.stopPropagation();
-
-                const visibility = map.getLayoutProperty(
-                  clickedLayer,
+                // Check if the first layer's visibility is set to "none" initially
+                const firstLayerId = layerIds[0];
+                const initialVisibility = map.getLayoutProperty(
+                  firstLayerId,
                   "visibility",
                 );
+                link.className = initialVisibility === "none" ? "" : "active";
 
-                // Toggle layer visibility by changing the layout object's visibility property
-                if (visibility === "visible") {
-                  map.setLayoutProperty(clickedLayer, "visibility", "none");
-                  this.className = "";
+                // Also hide any associated legends if the layer is initially hidden
+                if (initialVisibility === "none") {
+                  layerIds.forEach(layerId => {
+                    const associatedLegends = document.querySelectorAll(
+                      `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                    );
+                    associatedLegends.forEach((legend) => {
+                      legend.style.display = "none";
+                    });
+                  });
+                }
 
-                  // Hide associated legends
+                // Show or hide layer(s) when the toggle is clicked
+                link.onclick = function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  const layerIds = JSON.parse(this.getAttribute("data-layer-ids"));
+                  const firstLayerId = layerIds[0];
+                  const visibility = map.getLayoutProperty(
+                    firstLayerId,
+                    "visibility",
+                  );
+
+                  // Toggle visibility for all layer IDs in the group
+                  if (visibility === "visible") {
+                    layerIds.forEach(layerId => {
+                      map.setLayoutProperty(layerId, "visibility", "none");
+                      // Hide associated legends
+                      const associatedLegends = document.querySelectorAll(
+                        `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                      );
+                      associatedLegends.forEach((legend) => {
+                        legend.style.display = "none";
+                      });
+                    });
+                    this.className = "";
+                  } else {
+                    layerIds.forEach(layerId => {
+                      map.setLayoutProperty(layerId, "visibility", "visible");
+                      // Show associated legends
+                      const associatedLegends = document.querySelectorAll(
+                        `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                      );
+                      associatedLegends.forEach((legend) => {
+                        legend.style.display = "";
+                      });
+                    });
+                    this.className = "active";
+                  }
+                };
+
+                layersList.appendChild(link);
+              });
+            } else {
+              // Fallback to original behavior for simple layer arrays
+              // Ensure layers is always an array
+              if (!Array.isArray(layers)) {
+                layers = [layers];
+              }
+
+              layers.forEach((layerId, index) => {
+                const link = document.createElement("a");
+                link.id = layerId;
+                link.href = "#";
+                link.textContent = layerId;
+
+                // Check if the layer visibility is set to "none" initially
+                const initialVisibility = map.getLayoutProperty(
+                  layerId,
+                  "visibility",
+                );
+                link.className = initialVisibility === "none" ? "" : "active";
+
+                // Also hide any associated legends if the layer is initially hidden
+                if (initialVisibility === "none") {
                   const associatedLegends = document.querySelectorAll(
-                    `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                    `.mapboxgl-legend[data-layer-id="${layerId}"]`,
                   );
                   associatedLegends.forEach((legend) => {
                     legend.style.display = "none";
                   });
-                } else {
-                  this.className = "active";
-                  map.setLayoutProperty(clickedLayer, "visibility", "visible");
-
-                  // Show associated legends
-                  const associatedLegends = document.querySelectorAll(
-                    `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
-                  );
-                  associatedLegends.forEach((legend) => {
-                    legend.style.display = "";
-                  });
                 }
-              };
 
-              layersList.appendChild(link);
-            });
+                // Show or hide layer when the toggle is clicked
+                link.onclick = function (e) {
+                  const clickedLayer = this.textContent;
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  const visibility = map.getLayoutProperty(
+                    clickedLayer,
+                    "visibility",
+                  );
+
+                  // Toggle layer visibility by changing the layout object's visibility property
+                  if (visibility === "visible") {
+                    map.setLayoutProperty(clickedLayer, "visibility", "none");
+                    this.className = "";
+
+                    // Hide associated legends
+                    const associatedLegends = document.querySelectorAll(
+                      `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                    );
+                    associatedLegends.forEach((legend) => {
+                      legend.style.display = "none";
+                    });
+                  } else {
+                    this.className = "active";
+                    map.setLayoutProperty(clickedLayer, "visibility", "visible");
+
+                    // Show associated legends
+                    const associatedLegends = document.querySelectorAll(
+                      `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                    );
+                    associatedLegends.forEach((legend) => {
+                      legend.style.display = "";
+                    });
+                  }
+                };
+
+                layersList.appendChild(link);
+              });
+            }
 
             // Handle collapsible behavior
             if (x.layers_control.collapsible) {
@@ -2871,72 +2962,150 @@ if (HTMLWidgets.shinyMode) {
         layersControl.appendChild(layersList);
 
         let layers = message.layers || [];
+        let layersConfig = message.layers_config;
 
-        // Ensure layers is always an array
-        if (!Array.isArray(layers)) {
-          layers = [layers];
-        }
+        // If we have a layers_config, use that; otherwise fall back to original behavior
+        if (layersConfig && Array.isArray(layersConfig)) {
+          layersConfig.forEach((config, index) => {
+            const link = document.createElement("a");
+            // Ensure config.ids is always an array
+            const layerIds = Array.isArray(config.ids) ? config.ids : [config.ids];
+            link.id = layerIds.join("-");
+            link.href = "#";
+            link.textContent = config.label;
+            link.setAttribute("data-layer-ids", JSON.stringify(layerIds));
+            link.setAttribute("data-layer-type", config.type);
 
-        layers.forEach((layerId, index) => {
-          const link = document.createElement("a");
-          link.id = layerId;
-          link.href = "#";
-          link.textContent = layerId;
-
-          // Check if the layer visibility is set to "none" initially
-          const initialVisibility = map.getLayoutProperty(
-            layerId,
-            "visibility",
-          );
-          link.className = initialVisibility === "none" ? "" : "active";
-
-          // Also hide any associated legends if the layer is initially hidden
-          if (initialVisibility === "none") {
-            const associatedLegends = document.querySelectorAll(
-              `.mapboxgl-legend[data-layer-id="${layerId}"]`,
-            );
-            associatedLegends.forEach((legend) => {
-              legend.style.display = "none";
-            });
-          }
-
-          link.onclick = function (e) {
-            const clickedLayer = this.textContent;
-            e.preventDefault();
-            e.stopPropagation();
-
-            const visibility = map.getLayoutProperty(
-              clickedLayer,
+            // Check if the first layer's visibility is set to "none" initially
+            const firstLayerId = layerIds[0];
+            const initialVisibility = map.getLayoutProperty(
+              firstLayerId,
               "visibility",
             );
+            link.className = initialVisibility === "none" ? "" : "active";
 
-            if (visibility === "visible") {
-              map.setLayoutProperty(clickedLayer, "visibility", "none");
-              this.className = "";
+            // Also hide any associated legends if the layer is initially hidden
+            if (initialVisibility === "none") {
+              layerIds.forEach(layerId => {
+                const associatedLegends = document.querySelectorAll(
+                  `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                );
+                associatedLegends.forEach((legend) => {
+                  legend.style.display = "none";
+                });
+              });
+            }
 
-              // Hide associated legends
+            // Show or hide layer(s) when the toggle is clicked
+            link.onclick = function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+
+              const layerIds = JSON.parse(this.getAttribute("data-layer-ids"));
+              const firstLayerId = layerIds[0];
+              const visibility = map.getLayoutProperty(
+                firstLayerId,
+                "visibility",
+              );
+
+              // Toggle visibility for all layer IDs in the group
+              if (visibility === "visible") {
+                layerIds.forEach(layerId => {
+                  map.setLayoutProperty(layerId, "visibility", "none");
+                  // Hide associated legends
+                  const associatedLegends = document.querySelectorAll(
+                    `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                  );
+                  associatedLegends.forEach((legend) => {
+                    legend.style.display = "none";
+                  });
+                });
+                this.className = "";
+              } else {
+                layerIds.forEach(layerId => {
+                  map.setLayoutProperty(layerId, "visibility", "visible");
+                  // Show associated legends
+                  const associatedLegends = document.querySelectorAll(
+                    `.mapboxgl-legend[data-layer-id="${layerId}"]`,
+                  );
+                  associatedLegends.forEach((legend) => {
+                    legend.style.display = "";
+                  });
+                });
+                this.className = "active";
+              }
+            };
+
+            layersList.appendChild(link);
+          });
+        } else {
+          // Fallback to original behavior for simple layer arrays
+          // Ensure layers is always an array
+          if (!Array.isArray(layers)) {
+            layers = [layers];
+          }
+
+          layers.forEach((layerId, index) => {
+            const link = document.createElement("a");
+            link.id = layerId;
+            link.href = "#";
+            link.textContent = layerId;
+
+            // Check if the layer visibility is set to "none" initially
+            const initialVisibility = map.getLayoutProperty(
+              layerId,
+              "visibility",
+            );
+            link.className = initialVisibility === "none" ? "" : "active";
+
+            // Also hide any associated legends if the layer is initially hidden
+            if (initialVisibility === "none") {
               const associatedLegends = document.querySelectorAll(
-                `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                `.mapboxgl-legend[data-layer-id="${layerId}"]`,
               );
               associatedLegends.forEach((legend) => {
                 legend.style.display = "none";
               });
-            } else {
-              this.className = "active";
-              map.setLayoutProperty(clickedLayer, "visibility", "visible");
-
-              // Show associated legends
-              const associatedLegends = document.querySelectorAll(
-                `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
-              );
-              associatedLegends.forEach((legend) => {
-                legend.style.display = "";
-              });
             }
-          };
 
-          layersList.appendChild(link);
-        });
+            link.onclick = function (e) {
+              const clickedLayer = this.textContent;
+              e.preventDefault();
+              e.stopPropagation();
+
+              const visibility = map.getLayoutProperty(
+                clickedLayer,
+                "visibility",
+              );
+
+              if (visibility === "visible") {
+                map.setLayoutProperty(clickedLayer, "visibility", "none");
+                this.className = "";
+
+                // Hide associated legends
+                const associatedLegends = document.querySelectorAll(
+                  `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                );
+                associatedLegends.forEach((legend) => {
+                  legend.style.display = "none";
+                });
+              } else {
+                this.className = "active";
+                map.setLayoutProperty(clickedLayer, "visibility", "visible");
+
+                // Show associated legends
+                const associatedLegends = document.querySelectorAll(
+                  `.mapboxgl-legend[data-layer-id="${clickedLayer}"]`,
+                );
+                associatedLegends.forEach((legend) => {
+                  legend.style.display = "";
+                });
+              }
+            };
+
+            layersList.appendChild(link);
+          });
+        }
 
         if (message.collapsible) {
           const toggleButton = document.createElement("div");

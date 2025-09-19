@@ -1,16 +1,18 @@
 dependencies:
   - name: maplibre-gl
-    version: "5.6.0"
+    version: "5.7.2"
     src: "htmlwidgets/lib/maplibre-gl"
     script:
       - "maplibre-gl.js"
     stylesheet:
       - "maplibre-gl.css"
   - name: maplibre-gl-compare
-    version: 1
-    src: "htmlwidgets/lib/maplibre-gl-compare/"
-    script: "maplibre-gl-compare.js"
-    stylesheet: "maplibre-gl-compare.css"
+    version: "0.5"
+    src: "htmlwidgets/lib/maplibre-gl-compare"
+    script:
+      - "maplibre-gl-compare.js"
+    stylesheet:
+      - "maplibre-gl-compare.css"
   - name: mapbox-gl-draw
     version: "1.5.0"
     src: "htmlwidgets/lib/mapbox-gl-draw"

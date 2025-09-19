@@ -1,6 +1,6 @@
 dependencies:
   - name: maplibre-gl
-    version: "5.6.0"
+    version: "5.7.2"
     src: "htmlwidgets/lib/maplibre-gl"
     script:
       - "maplibre-gl.js"

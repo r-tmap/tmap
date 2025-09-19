@@ -2226,6 +2226,20 @@ HTMLWidgets.widget({
           if (mapData.setZoom) {
             map.setZoom(mapData.setZoom);
           }
+
+          // Apply moveLayer operations if provided
+          if (mapData.moveLayer) {
+            mapData.moveLayer.forEach(function (moveOp) {
+              if (map.getLayer(moveOp.layer)) {
+                if (moveOp.before) {
+                  map.moveLayer(moveOp.layer, moveOp.before);
+                } else {
+                  map.moveLayer(moveOp.layer);
+                }
+              }
+            });
+          }
+
           if (mapData.jumpTo) {
             map.jumpTo(mapData.jumpTo);
           }
@@ -2797,37 +2811,89 @@ HTMLWidgets.widget({
             let layers =
               mapData.layers_control.layers ||
               map.getStyle().layers.map((layer) => layer.id);
+            let layersConfig = mapData.layers_control.layers_config;
 
-            layers.forEach((layerId, index) => {
-              const link = document.createElement("a");
-              link.id = layerId;
-              link.href = "#";
-              link.textContent = layerId;
-              link.className = "active";
+            // If we have a layers_config, use that; otherwise fall back to original behavior
+            if (layersConfig && Array.isArray(layersConfig)) {
+              layersConfig.forEach((config, index) => {
+                const link = document.createElement("a");
+                // Ensure config.ids is always an array
+                const layerIds = Array.isArray(config.ids) ? config.ids : [config.ids];
+                link.id = layerIds.join("-");
+                link.href = "#";
+                link.textContent = config.label;
+                link.setAttribute("data-layer-ids", JSON.stringify(layerIds));
+                link.setAttribute("data-layer-type", config.type);
 
-              // Show or hide layer when the toggle is clicked
-              link.onclick = function (e) {
-                const clickedLayer = this.textContent;
-                e.preventDefault();
-                e.stopPropagation();
-
-                const visibility = map.getLayoutProperty(
-                  clickedLayer,
+                // Check if the first layer's visibility is set to "none" initially
+                const firstLayerId = layerIds[0];
+                const initialVisibility = map.getLayoutProperty(
+                  firstLayerId,
                   "visibility",
                 );
+                link.className = initialVisibility === "none" ? "" : "active";
 
-                // Toggle layer visibility by changing the layout object's visibility property
-                if (visibility === "visible") {
-                  map.setLayoutProperty(clickedLayer, "visibility", "none");
-                  this.className = "";
-                } else {
-                  this.className = "active";
-                  map.setLayoutProperty(clickedLayer, "visibility", "visible");
-                }
-              };
+                // Show or hide layer(s) when the toggle is clicked
+                link.onclick = function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
 
-              layersList.appendChild(link);
-            });
+                  const layerIds = JSON.parse(this.getAttribute("data-layer-ids"));
+                  const firstLayerId = layerIds[0];
+                  const visibility = map.getLayoutProperty(
+                    firstLayerId,
+                    "visibility",
+                  );
+
+                  // Toggle visibility for all layer IDs in the group
+                  if (visibility === "visible") {
+                    layerIds.forEach(layerId => {
+                      map.setLayoutProperty(layerId, "visibility", "none");
+                    });
+                    this.className = "";
+                  } else {
+                    layerIds.forEach(layerId => {
+                      map.setLayoutProperty(layerId, "visibility", "visible");
+                    });
+                    this.className = "active";
+                  }
+                };
+
+                layersList.appendChild(link);
+              });
+            } else {
+              // Fallback to original behavior for simple layer arrays
+              layers.forEach((layerId, index) => {
+                const link = document.createElement("a");
+                link.id = layerId;
+                link.href = "#";
+                link.textContent = layerId;
+                link.className = "active";
+
+                // Show or hide layer when the toggle is clicked
+                link.onclick = function (e) {
+                  const clickedLayer = this.textContent;
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  const visibility = map.getLayoutProperty(
+                    clickedLayer,
+                    "visibility",
+                  );
+
+                  // Toggle layer visibility by changing the layout object's visibility property
+                  if (visibility === "visible") {
+                    map.setLayoutProperty(clickedLayer, "visibility", "none");
+                    this.className = "";
+                  } else {
+                    this.className = "active";
+                    map.setLayoutProperty(clickedLayer, "visibility", "visible");
+                  }
+                };
+
+                layersList.appendChild(link);
+              });
+            }
 
             // Handle collapsible behavior
             if (mapData.layers_control.collapsible) {
