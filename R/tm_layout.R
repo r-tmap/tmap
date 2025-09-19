@@ -24,7 +24,14 @@ tm_layout = function(
 	args$called_from = "tm_layout"
 
 	# 1106: need to use this for other texts as well
-	if ("panel.labels" %in% names(args)) args$panel.labels = encode_expr(args$panel.labels)
+	if ("panel.labels" %in% names(args)) {
+		if (is.list(args$panel.labels)) {
+			args$panel.labels = lapply(args$panel.labels, encode_expr)
+		} else {
+			args$panel.labels = encode_expr(args$panel.labels)
+		}
+	}
+
 	do.call(tm_options, args)
 }
 
