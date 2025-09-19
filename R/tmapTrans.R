@@ -236,7 +236,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 #' @export
 #' @rdname tmap_internal
 tmapTransRaster = function(shpTM, ord__, plot.order, args) {
-	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object (of class dimensions) expected for tm_raster", call. = FALSE)
+	if (!inherits(shpTM$shp, "dimensions")) cli::cli_abort("Stars or terra object expected in {.fun tm_shape} for {.fun tm_raster}")
 	shpTM
 }
 

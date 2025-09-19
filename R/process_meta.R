@@ -373,10 +373,12 @@ process_meta = function(o, d, cdt, aux) {
 				}
 			}
 		} else {
-			if (is.na(o$nrows) || is.na(o$ncols)) {
+			if (is.na(nrows) && is.na(ncols)) {
 				orientation = if ((npp == 1 && (pasp > masp)) || (npp > 1 && (pasp < masp))) "horizontal" else "vertical"
 			} else {
-				orientation = if (o$ncols >= o$nrows) "horizontal" else "vertical"
+				if (is.na(nrows)) nrows = floor(npp / ncols)
+				if (is.na(ncols)) ncols = floor(npp / nrows)
+				orientation = if (ncols >= nrows) "horizontal" else "vertical"
 			}
 		}
 
