@@ -1480,6 +1480,7 @@ HTMLWidgets.widget({
                                         navBar.style.flexDirection = "row";
                                     }
                                 }
+                                map.controls.push({ type: "navigation", control: nav });
                             } else if (message.type === "add_reset_control") {
                                 const resetControl =
                                     document.createElement("button");
@@ -1574,9 +1575,12 @@ HTMLWidgets.widget({
                                     );
                                 }
 
-                                draw = new MapboxDraw(drawOptions);
-                                map.addControl(draw, message.position);
-                                map.controls.push(draw);
+                                const drawControl = new MapboxDraw(drawOptions);
+                                map.addControl(drawControl, message.position);
+                                map.controls.push({ type: "draw", control: drawControl });
+
+                                // Store draw control on map for feature click detection
+                                map._mapgl_draw = drawControl;
 
                                 // Add lasso icon CSS for freehand mode
                                 if (message.freehand) {
@@ -2138,10 +2142,13 @@ HTMLWidgets.widget({
                                     });
                                 }
 
-                                draw = new MapboxDraw(drawOptions);
-                                map.addControl(draw, message.position);
-                                map.controls.push(draw);
-                                
+                                const drawControl = new MapboxDraw(drawOptions);
+                                map.addControl(drawControl, message.position);
+                                map.controls.push({ type: "draw", control: drawControl });
+
+                                // Store draw control on map for feature click detection
+                                map._mapgl_draw = drawControl;
+
                                 // Add lasso icon CSS for freehand mode
                                 if (message.freehand) {
                                   if (!document.querySelector("#mapgl-freehand-lasso-styles")) {
@@ -2421,6 +2428,34 @@ HTMLWidgets.widget({
                                         }
                                     });
                                 }
+                            } else if (message.type === "add_custom_control") {
+                                const controlOptions = message.options;
+                                const customControlContainer = document.createElement("div");
+
+                                if (controlOptions.className) {
+                                    customControlContainer.className = controlOptions.className;
+                                } else {
+                                    customControlContainer.className =
+                                        "maplibregl-ctrl maplibregl-ctrl-group";
+                                }
+
+                                customControlContainer.innerHTML = controlOptions.html;
+
+                                const customControl = {
+                                    onAdd: function () {
+                                        return customControlContainer;
+                                    },
+                                    onRemove: function () {
+                                        if (customControlContainer.parentNode) {
+                                            customControlContainer.parentNode.removeChild(
+                                                customControlContainer,
+                                            );
+                                        }
+                                    },
+                                };
+
+                                map.addControl(customControl, controlOptions.position || "top-right");
+                                map.controls.push({ type: message.control_id, control: customControl });
                             } else if (message.type === "query_rendered_features") {
                                 // Query rendered features
                                 let queryOptions = {};
@@ -2467,6 +2502,32 @@ HTMLWidgets.widget({
                                     data.id + "_queried_features",
                                     JSON.stringify(featureCollection)
                                 );
+                            } else if (message.type === "clear_controls") {
+                                // Handle clear_controls for compare widgets
+                                if (!message.controls || message.controls.length === 0) {
+                                    // Clear all controls
+                                    map.controls.forEach((controlObj) => {
+                                        if (controlObj.control) {
+                                            map.removeControl(controlObj.control);
+                                        }
+                                    });
+                                    map.controls = [];
+                                } else {
+                                    // Clear specific controls
+                                    const controlsToRemove = Array.isArray(message.controls)
+                                        ? message.controls
+                                        : [message.controls];
+
+                                    map.controls = map.controls.filter((controlObj) => {
+                                        if (controlsToRemove.includes(controlObj.type)) {
+                                            if (controlObj.control) {
+                                                map.removeControl(controlObj.control);
+                                            }
+                                            return false; // Remove from array
+                                        }
+                                        return true; // Keep in array
+                                    });
+                                }
                             }
                         },
                     );
@@ -2495,6 +2556,58 @@ HTMLWidgets.widget({
 
                     // Send clicked point coordinates to Shiny
                     map.on("click", function (e) {
+                        // Check if this map's draw control is active and in a drawing mode
+                        let isDrawing = false;
+                        if (map._mapgl_draw && map._mapgl_draw.getMode) {
+                            const mode = map._mapgl_draw.getMode();
+                            isDrawing = mode === 'draw_point' ||
+                                       mode === 'draw_line_string' ||
+                                       mode === 'draw_polygon';
+                            console.log(`[${mapType}] Draw mode: ${mode}, isDrawing: ${isDrawing}`);
+                        } else {
+                            console.log(`[${mapType}] No draw control found`);
+                        }
+
+                        // Only process feature clicks if not actively drawing
+                        if (!isDrawing) {
+                            const features = map.queryRenderedFeatures(e.point);
+                            // Filter out draw layers
+                            const nonDrawFeatures = features.filter(feature =>
+                                !feature.layer.id.includes('gl-draw') &&
+                                !feature.source.includes('gl-draw')
+                            );
+                            console.log(`[${mapType}] Features found: ${features.length}, non-draw: ${nonDrawFeatures.length}`);
+
+                            if (nonDrawFeatures.length > 0) {
+                                const feature = nonDrawFeatures[0];
+                                console.log(`[${mapType}] Feature click detected, layer: ${feature.layer.id}`);
+                                if (window.Shiny) {
+                                    Shiny.setInputValue(
+                                        parentId + "_" + mapType + "_feature_click",
+                                        {
+                                            id: feature.id,
+                                            properties: feature.properties,
+                                            layer: feature.layer.id,
+                                            lng: e.lngLat.lng,
+                                            lat: e.lngLat.lat,
+                                            time: Date.now(),
+                                        },
+                                    );
+                                }
+                            } else {
+                                console.log(`[${mapType}] No non-draw features found at click point`);
+                                if (window.Shiny) {
+                                    Shiny.setInputValue(
+                                        parentId + "_" + mapType + "_feature_click",
+                                        null
+                                    );
+                                }
+                            }
+                        } else {
+                            console.log(`[${mapType}] Feature click suppressed - currently drawing`);
+                        }
+
+                        // Always send regular click event
                         if (window.Shiny) {
                             Shiny.setInputValue(
                                 parentId + "_" + mapType + "_click",
@@ -3269,7 +3382,7 @@ HTMLWidgets.widget({
                             nav,
                             mapData.navigation_control.position,
                         );
-                        map.controls.push(nav);
+                        map.controls.push({ type: "navigation", control: nav });
                     }
 
                     // Add geolocate control if enabled
@@ -3346,7 +3459,23 @@ HTMLWidgets.widget({
                                 // defaultMode: 'draw_polygon' # Don't set the default yet
                             });
                         }
-                        
+
+                        // Add rectangle mode if enabled
+                        if (mapData.draw_control.rectangle) {
+                            if (!drawOptions.modes) {
+                                drawOptions.modes = Object.assign({}, MapboxDraw.modes);
+                            }
+                            drawOptions.modes.draw_rectangle = MapboxDraw.modes.draw_rectangle;
+                        }
+
+                        // Add radius mode if enabled
+                        if (mapData.draw_control.radius) {
+                            if (!drawOptions.modes) {
+                                drawOptions.modes = Object.assign({}, MapboxDraw.modes);
+                            }
+                            drawOptions.modes.draw_radius = MapboxDraw.modes.draw_radius;
+                        }
+
                         // Fix MapLibre compatibility - ensure we always have custom styles
                         if (!drawOptions.styles) {
                             drawOptions.styles = generateDrawStyles({
@@ -3360,22 +3489,116 @@ HTMLWidgets.widget({
                             });
                         }
 
-                        draw = new MapboxDraw(drawOptions);
-                        map.addControl(draw, mapData.draw_control.position);
-                        map.controls.push(draw);
-                        
+                        const drawControl = new MapboxDraw(drawOptions);
+                        map.addControl(drawControl, mapData.draw_control.position);
+                        map.controls.push({ type: "draw", control: drawControl });
+
+                        // Store draw control on map for feature click detection
+                        map._mapgl_draw = drawControl;
+
+                        // Add custom mode buttons and styling
+                        setTimeout(() => {
+                            const drawControlGroup = map.getContainer().querySelector(".maplibregl-ctrl-group");
+
+                            // Add rectangle styling and button
+                            if (mapData.draw_control.rectangle) {
+                                if (!document.querySelector("#mapgl-rectangle-styles")) {
+                                    const style = document.createElement("style");
+                                    style.id = "mapgl-rectangle-styles";
+                                    style.textContent = `
+                                      .mapbox-gl-draw_rectangle {
+                                        background: transparent;
+                                        border: none;
+                                        cursor: pointer;
+                                        display: block;
+                                        height: 30px;
+                                        width: 30px;
+                                        padding: 0;
+                                        outline: none;
+                                        background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Crect x="4" y="5" width="12" height="10" fill="none" stroke="%23000000" stroke-width="2"/%3E%3C/svg%3E') !important;
+                                        background-repeat: no-repeat !important;
+                                        background-position: center !important;
+                                      }
+                                      .mapbox-gl-draw_rectangle:hover {
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                      }
+                                      .mapbox-gl-draw_rectangle.active {
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                      }
+                                    `;
+                                    document.head.appendChild(style);
+                                }
+
+                                if (drawControlGroup) {
+                                    const rectangleBtn = document.createElement("button");
+                                    rectangleBtn.className = "mapbox-gl-draw_rectangle";
+                                    rectangleBtn.title = "Rectangle tool";
+                                    rectangleBtn.type = "button";
+                                    rectangleBtn.onclick = function() {
+                                        drawControl.changeMode('draw_rectangle');
+                                        drawControlGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                                        rectangleBtn.classList.add('active');
+                                    };
+                                    drawControlGroup.appendChild(rectangleBtn);
+                                }
+                            }
+
+                            // Add radius styling and button
+                            if (mapData.draw_control.radius) {
+                                if (!document.querySelector("#mapgl-radius-styles")) {
+                                    const style = document.createElement("style");
+                                    style.id = "mapgl-radius-styles";
+                                    style.textContent = `
+                                      .mapbox-gl-draw_radius {
+                                        background: transparent;
+                                        border: none;
+                                        cursor: pointer;
+                                        display: block;
+                                        height: 30px;
+                                        width: 30px;
+                                        padding: 0;
+                                        outline: none;
+                                        background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Ccircle cx="10" cy="10" r="7" fill="none" stroke="%23000000" stroke-width="2"/%3E%3Ccircle cx="10" cy="10" r="1.5" fill="%23000000"/%3E%3C/svg%3E') !important;
+                                        background-repeat: no-repeat !important;
+                                        background-position: center !important;
+                                      }
+                                      .mapbox-gl-draw_radius:hover {
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                      }
+                                      .mapbox-gl-draw_radius.active {
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                      }
+                                    `;
+                                    document.head.appendChild(style);
+                                }
+
+                                if (drawControlGroup) {
+                                    const radiusBtn = document.createElement("button");
+                                    radiusBtn.className = "mapbox-gl-draw_radius";
+                                    radiusBtn.title = "Radius/Circle tool";
+                                    radiusBtn.type = "button";
+                                    radiusBtn.onclick = function() {
+                                        drawControl.changeMode('draw_radius');
+                                        drawControlGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                                        radiusBtn.classList.add('active');
+                                    };
+                                    drawControlGroup.appendChild(radiusBtn);
+                                }
+                            }
+                        }, 100);
+
                         // Add initial features if provided
                         if (mapData.draw_control.source) {
-                            addSourceFeaturesToDraw(draw, mapData.draw_control.source, map);
+                            addSourceFeaturesToDraw(drawControl, mapData.draw_control.source, map);
                         }
-                        
+
                         // Process any queued features
                         if (mapData.draw_features_queue) {
                             mapData.draw_features_queue.forEach(function(data) {
                                 if (data.clear_existing) {
-                                    draw.deleteAll();
+                                    drawControl.deleteAll();
                                 }
-                                addSourceFeaturesToDraw(draw, data.source, map);
+                                addSourceFeaturesToDraw(drawControl, data.source, map);
                             });
                         }
 
@@ -3704,65 +3927,10 @@ HTMLWidgets.widget({
                         );
                     }
 
-                    if (mapData.draw_control && mapData.draw_control.enabled) {
-                        MapboxDraw.constants.classes.CONTROL_BASE =
-                            "maplibregl-ctrl";
-                        MapboxDraw.constants.classes.CONTROL_PREFIX =
-                            "maplibregl-ctrl-";
-                        MapboxDraw.constants.classes.CONTROL_GROUP =
-                            "maplibregl-ctrl-group";
-
-                        let drawOptions = mapData.draw_control.options || {};
-
-                        if (mapData.draw_control.freehand) {
-                            drawOptions = Object.assign({}, drawOptions, {
-                                modes: Object.assign({}, MapboxDraw.modes, {
-                                    draw_polygon: Object.assign(
-                                        {},
-                                        MapboxDraw.modes.draw_freehand,
-                                        {
-                                            // Store the simplify_freehand option on the map object
-                                            onSetup: function (opts) {
-                                                const state =
-                                                    MapboxDraw.modes.draw_freehand.onSetup.call(
-                                                        this,
-                                                        opts,
-                                                    );
-                                                this.map.simplify_freehand =
-                                                    mapData.draw_control.simplify_freehand;
-                                                return state;
-                                            },
-                                        },
-                                    ),
-                                }),
-                                // defaultMode: 'draw_polygon' # Don't set the default yet
-                            });
-                        }
-
-                        draw = new MapboxDraw(drawOptions);
-                        map.addControl(draw, mapData.draw_control.position);
-                        map.controls.push(draw);
-
-                        // Add event listeners
-                        map.on("draw.create", updateDrawnFeatures);
-                        map.on("draw.delete", updateDrawnFeatures);
-                        map.on("draw.update", updateDrawnFeatures);
-
-                        // Apply orientation styling
-                        if (mapData.draw_control.orientation === "horizontal") {
-                            const drawBar = map
-                                .getContainer()
-                                .querySelector(".maplibregl-ctrl-group");
-                            if (drawBar) {
-                                drawBar.style.display = "flex";
-                                drawBar.style.flexDirection = "row";
-                            }
-                        }
-                    }
 
                     function updateDrawnFeatures() {
-                        if (draw) {
-                            var drawnFeatures = draw.getAll();
+                        if (map._mapgl_draw) {
+                            var drawnFeatures = map._mapgl_draw.getAll();
                             if (HTMLWidgets.shinyMode) {
                                 Shiny.setInputValue(
                                     el.id + "_drawn_features",

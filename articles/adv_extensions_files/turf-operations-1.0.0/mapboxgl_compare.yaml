@@ -1,13 +1,13 @@
 dependencies:
   - name: mapbox-gl-js
-    version: "3.14.0"
+    version: "3.15.0"
     src:
       href: "https://api.mapbox.com/mapbox-gl-js/"
     script:
-      - "v3.14.0/mapbox-gl.js"
+      - "v3.15.0/mapbox-gl.js"
       - "plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.js"
     stylesheet:
-      - "v3.14.0/mapbox-gl.css"
+      - "v3.15.0/mapbox-gl.css"
       - "plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css"
   - name: mapbox-gl-draw
     version: "1.4.3"
@@ -22,6 +22,16 @@ dependencies:
     src: "htmlwidgets/lib/freehand-mode"
     script:
       - "freehand-mode.js"
+  - name: rectangle-mode
+    version: 1.0.0
+    src: "htmlwidgets/lib/rectangle-mode"
+    script:
+      - "rectangle-mode.js"
+  - name: radius-mode
+    version: 1.0.0
+    src: "htmlwidgets/lib/radius-mode"
+    script:
+      - "radius-mode.js"
   - name: mapbox-gl-geocoder
     version: 5.0.0
     src:
