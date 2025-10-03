@@ -46,8 +46,7 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 
-
-	submit_labels(idt, "symbols", pane, group)
+	idt = submit_labels(idt, "symbols", pane, group)
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
