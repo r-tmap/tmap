@@ -121,7 +121,7 @@ function onClickPopup(e, map, popupProperty, layerId) {
   }
 
   // Create and show the popup
-  const popup = new mapboxgl.Popup()
+  const popup = new mapboxgl.Popup({ maxWidth: '400px' })
     .setLngLat(e.lngLat)
     .setHTML(description)
     .addTo(map);
@@ -391,8 +391,14 @@ HTMLWidgets.widget({
                 if (message.source.type === "vector") {
                   const sourceConfig = {
                     type: "vector",
-                    url: message.source.url,
                   };
+                  // Add url or tiles
+                  if (message.source.url) {
+                    sourceConfig.url = message.source.url;
+                  }
+                  if (message.source.tiles) {
+                    sourceConfig.tiles = message.source.tiles;
+                  }
                   // Add promoteId if provided
                   if (message.source.promoteId) {
                     sourceConfig.promoteId = message.source.promoteId;
@@ -403,6 +409,7 @@ HTMLWidgets.widget({
                       key !== "id" &&
                       key !== "type" &&
                       key !== "url" &&
+                      key !== "tiles" &&
                       key !== "promoteId"
                     ) {
                       sourceConfig[key] = message.source[key];
@@ -575,6 +582,7 @@ HTMLWidgets.widget({
                     const tooltip = new mapboxgl.Popup({
                       closeButton: false,
                       closeOnClick: false,
+                      maxWidth: '400px',
                     });
 
                     // Define named handler functions:
@@ -1045,6 +1053,7 @@ HTMLWidgets.widget({
                           const tooltip = new mapboxgl.Popup({
                             closeButton: false,
                             closeOnClick: false,
+                            maxWidth: '400px',
                           });
 
                           map.on("mousemove", layerId, function (e) {
@@ -1441,6 +1450,7 @@ HTMLWidgets.widget({
                     mapMarker.setPopup(
                       new mapboxgl.Popup({
                         offset: 25,
+                        maxWidth: '400px',
                       }).setHTML(marker.popup),
                     );
                   }
@@ -1757,6 +1767,7 @@ HTMLWidgets.widget({
                   const tooltip = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false,
+                    maxWidth: '400px',
                   });
 
                   map.on("mousemove", message.layer, function (e) {
@@ -2088,7 +2099,7 @@ HTMLWidgets.widget({
 
               if (marker.popup) {
                 mapMarker.setPopup(
-                  new mapboxgl.Popup({ offset: 25 }).setText(marker.popup),
+                  new mapboxgl.Popup({ offset: 25, maxWidth: '400px' }).setText(marker.popup),
                 );
               }
 
@@ -2125,8 +2136,14 @@ HTMLWidgets.widget({
               if (source.type === "vector") {
                 const sourceConfig = {
                   type: "vector",
-                  url: source.url,
                 };
+                // Add url or tiles
+                if (source.url) {
+                  sourceConfig.url = source.url;
+                }
+                if (source.tiles) {
+                  sourceConfig.tiles = source.tiles;
+                }
                 if (source.promoteId) {
                   sourceConfig.promoteId = source.promoteId;
                 }
@@ -2226,7 +2243,7 @@ HTMLWidgets.widget({
                   map.on("click", layer.id, function (e) {
                     const description = e.features[0].properties[layer.popup];
 
-                    new mapboxgl.Popup()
+                    new mapboxgl.Popup({ maxWidth: '400px' })
                       .setLngLat(e.lngLat)
                       .setHTML(description)
                       .addTo(map);
@@ -2237,6 +2254,7 @@ HTMLWidgets.widget({
                   const tooltip = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false,
+                    maxWidth: '400px',
                   });
 
                   // Create a reference to the mousemove handler function

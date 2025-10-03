@@ -114,7 +114,7 @@ function onClickPopup(e, map, popupProperty, layerId) {
     }
     
     // Create and show the popup
-    const popup = new maplibregl.Popup()
+    const popup = new maplibregl.Popup({ maxWidth: '400px' })
         .setLngLat(e.lngLat)
         .setHTML(description)
         .addTo(map);
@@ -393,15 +393,21 @@ HTMLWidgets.widget({
                                 if (message.source.type === "vector") {
                                     const sourceConfig = {
                                         type: "vector",
-                                        url: message.source.url,
                                     };
+                                    // Add url or tiles
+                                    if (message.source.url) {
+                                        sourceConfig.url = message.source.url;
+                                    }
+                                    if (message.source.tiles) {
+                                        sourceConfig.tiles = message.source.tiles;
+                                    }
                                     // Add promoteId if provided
                                     if (message.source.promoteId) {
                                         sourceConfig.promoteId = message.source.promoteId;
                                     }
                                     // Add any other properties from the source object
                                     Object.keys(message.source).forEach(function(key) {
-                                        if (key !== "id" && key !== "type" && key !== "url" && key !== "promoteId") {
+                                        if (key !== "id" && key !== "type" && key !== "url" && key !== "tiles" && key !== "promoteId") {
                                             sourceConfig[key] = message.source[key];
                                         }
                                     });
@@ -552,6 +558,7 @@ HTMLWidgets.widget({
                                         const tooltip = new maplibregl.Popup({
                                             closeButton: false,
                                             closeOnClick: false,
+                                            maxWidth: '400px',
                                         });
 
                                         // Define named handler functions:
@@ -1148,7 +1155,8 @@ HTMLWidgets.widget({
                                                     // Create a new tooltip popup
                                                     const tooltip = new maplibregl.Popup({
                                                         closeButton: false,
-                                                        closeOnClick: false
+                                                        closeOnClick: false,
+                                                        maxWidth: '400px',
                                                     });
                                                     
                                                     // Re-add tooltip handlers
@@ -1263,10 +1271,11 @@ HTMLWidgets.widget({
                                                     // Remove existing tooltip handlers first
                                                     map.off("mousemove", layerId);
                                                     map.off("mouseleave", layerId);
-                                                    
+
                                                     const tooltip = new maplibregl.Popup({
                                                         closeButton: false,
                                                         closeOnClick: false,
+                                                        maxWidth: '400px',
                                                     });
 
                                                     map.on("mousemove", layerId, function (e) {
@@ -1363,7 +1372,8 @@ HTMLWidgets.widget({
                                                                         // Create a new tooltip popup
                                                                         const tooltip = new maplibregl.Popup({
                                                                             closeButton: false,
-                                                                            closeOnClick: false
+                                                                            closeOnClick: false,
+                                                                            maxWidth: '400px',
                                                                         });
                                                                         
                                                                         // Re-add tooltip handlers
@@ -1674,6 +1684,7 @@ HTMLWidgets.widget({
                                         mapMarker.setPopup(
                                             new maplibregl.Popup({
                                                 offset: 25,
+                                                maxWidth: '400px',
                                             }).setHTML(marker.popup),
                                         );
                                     }
@@ -2329,6 +2340,7 @@ HTMLWidgets.widget({
                                     const tooltip = new maplibregl.Popup({
                                         closeButton: false,
                                         closeOnClick: false,
+                                        maxWidth: '400px',
                                     });
 
                                     map.on(
@@ -2760,7 +2772,7 @@ HTMLWidgets.widget({
                         }
                         
                         // Create and show the popup
-                        const popup = new maplibregl.Popup()
+                        const popup = new maplibregl.Popup({ maxWidth: '400px' })
                             .setLngLat(e.lngLat)
                             .setHTML(description)
                             .addTo(map);
@@ -2820,6 +2832,7 @@ HTMLWidgets.widget({
                                 mapMarker.setPopup(
                                     new maplibregl.Popup({
                                         offset: 25,
+                                        maxWidth: '400px',
                                     }).setText(marker.popup),
                                 );
                             }
@@ -2863,8 +2876,14 @@ HTMLWidgets.widget({
                             if (source.type === "vector") {
                                 const sourceConfig = {
                                     type: "vector",
-                                    url: source.url,
                                 };
+                                // Add url or tiles
+                                if (source.url) {
+                                    sourceConfig.url = source.url;
+                                }
+                                if (source.tiles) {
+                                    sourceConfig.tiles = source.tiles;
+                                }
                                 if (source.promoteId) {
                                     sourceConfig.promoteId = source.promoteId;
                                 }
@@ -2982,6 +3001,7 @@ HTMLWidgets.widget({
                                     const tooltip = new maplibregl.Popup({
                                         closeButton: false,
                                         closeOnClick: false,
+                                        maxWidth: '400px',
                                     });
 
                                     // Create a reference to the mousemove handler function
