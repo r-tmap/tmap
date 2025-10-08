@@ -362,7 +362,7 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 							  			   rot = comp$ylab.rot,
 							  			   x = grid::unit(comp$ylab.padding[2] * ylabS * o$lin, units = "inch"),
 							  			   just = "left",
-							  			   gp = grid::gpar(col = comp$ylab.color, cex = ylabS)))
+							  			   gp = grid::gpar(col = comp$ylab.color, cex = ylabS, fontface = comp$ylab.fontface, fontfamily = comp$ylab.fontfamily)))
 		} else {
 			grYlab = NULL
 		}
@@ -375,7 +375,7 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 							  			   rot = comp$xlab.rot,
 							  			   x = grid::unit(comp$xlab.padding[2] * xlabS * o$lin, units = "inch"),
 							  			   just = "left",
-							  			   gp = grid::gpar(col = comp$xlab.color, cex = xlabS))
+							  			   gp = grid::gpar(col = comp$xlab.color, cex = xlabS, fontface = comp$xlab.fontface, fontfamily = comp$xlab.fontfamily))
 							  )
 		} else {
 			grXlab = NULL
