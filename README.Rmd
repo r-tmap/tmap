@@ -112,7 +112,7 @@ tm_shape(World, crs = "+proj=robin") +
 <!--
 ## Online tmap course
 
-3-6 June, organized jointly by [PRStats](https://www.prstats.org/course/visual-exploration-analysis-and-presentation-of-spatial-data-using-the-tmap-package-tmap01/) and [Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization)
+10-14 November 2025, organized jointly by [PRStats](https://www.prstats.org/course/spatial-data-visualisation-and-mapping-using-tmap-tmap02/) and [Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization-1)
 -->
 
 ## Additional Resources for Learning **tmap**
