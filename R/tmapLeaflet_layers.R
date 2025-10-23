@@ -119,11 +119,20 @@ tmapLeafletDataPlot.default = function(a, shpTM, dt, pdt, popup.format, hdt, idt
 	NULL
 }
 
+#	preset = lapply(list(dashed = c(4, 4), dotted = c(1,3), dotdash = c(1, 3, 4, 3), longdash = c(7, 3), twodash = c(2, 2, 6, 2)), function(x) {
+#		x * scale
+#	})
+lty2dash = function(lty, lwd) {
+	po(lty,lwd)
+	k = max(length(lty), length(lwd))
+	lty = rep(lty, length.out = k)
+	lwd = rep(lwd, length.out = k)
 
-lty2dash = function(lty) {
+
+
 	tab = c(solid = "", dashed = "4 4", dotted = "1 3", dotdash = "1 3 4 3", longdash = "7 3", twodash = "2 2 6 2")
 	are_words = (lty %in% names(tab))
-	if (all(are_words)) {
+	x = if (all(are_words)) {
 		unname(tab[lty])
 	} else {
 		are_letters = (suppressWarnings(!is.na(as.numeric(lty))))
@@ -137,14 +146,25 @@ lty2dash = function(lty) {
 		lty
 	}
 
+	# multiply by lwd
+	split_x <- strsplit(x, " ")
+
+	z = mapply(
+		function(vals, mult) paste(as.numeric(vals) * mult, collapse = " "),
+		split_x, lwd, USE.NAMES = FALSE
+	)
+
+	z[x == ""] = ""   # restore empties if needed
+	z
 }
 
 makeSymbolIcons2  = function (shape, color, fillColor = color, opacity, fillOpacity = opacity,
-		  strokeWidth = 1, width, height = width, ...)
+		  strokeWidth = 1, dashArray = "none", width, height = width, ...)
 {
 	symbols <- Map(leaflegend::makeSymbol, shape = shape, width = width,
 				   height = height, color = color, fillColor = fillColor,
 				   opacity = opacity, fillOpacity = fillOpacity, `stroke-width` = strokeWidth,
+				   `stroke-dasharray` = dashArray,
 				   ...)
 	leaflet::icons(iconUrl = unname(symbols), iconAnchorX = width/2 + strokeWidth,
 				   iconAnchorY = height/2 + strokeWidth)

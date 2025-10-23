@@ -21,7 +21,7 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE, size_factor = 20
 				 fill_alpha = {if (!all(is.na(gp$fill_alpha))) gp$fill_alpha else 0},
 				 col_alpha = {if (!all(is.na(gp$col_alpha))) gp$col_alpha else 0},
 				 lwd = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
-				 lty = {if (!all(is.na(gp$lty))) lty2dash(gp$lty) else "none"},
+				 lty = {if (!all(is.na(gp$lty))) lty2dash(gp$lty, gp$lwd) else "none"},
 				 size = {if (!all(is.na(gp$size))) gp$size else 1},
 				 shape = {if (!all(is.na(gp$shape))) gp$shape else shape}))
 
@@ -290,6 +290,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		}
 
 		names(gp2)[names(gp2) == 'stroke-width'] = "strokeWidth"
+		names(gp2)[names(gp2) == 'stroke-dash'] = "dashArray"
 		gp2$baseSize = 20
 		#symbols = do.call(leaflegend::makeSymbolIcons, gp2)#$iconUrl
 

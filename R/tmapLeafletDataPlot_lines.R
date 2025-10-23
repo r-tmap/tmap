@@ -53,7 +53,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 	} else {
 
 		lf %>%
-			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty), popup = popups) %>%
+			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty, gp$lwd), popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 
 	}

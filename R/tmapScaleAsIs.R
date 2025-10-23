@@ -32,7 +32,10 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	values = do.call(cfun, list(x = x2, pc = o$pc))
 
 	vneutral = if (is.na(scale$value.neutral)) {
-		getAesOption("value.neutral", o, aes, layer)
+		vna = getAesOption("value.neutral", o, aes, layer)
+		if (is.na(vna)) {
+			x1[1]
+		} else vna
 	} else {
 		scale$value.neutral
 	}
