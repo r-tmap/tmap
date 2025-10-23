@@ -163,6 +163,34 @@ In case small multiples are shown, a list is returned.</p></li>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">map</span> <span class="op">=</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">tmap_leaflet</span><span class="op">(</span><span class="va">map</span>, show <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  lty ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [118] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [136] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [154] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [172] "solid" "solid" "solid" "solid" "solid" "solid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  lwd ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

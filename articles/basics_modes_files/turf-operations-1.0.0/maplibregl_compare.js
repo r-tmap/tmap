@@ -160,6 +160,9 @@ HTMLWidgets.widget({
                     maplibregl.addProtocol("pmtiles", protocol.tile);
                 }
 
+                // Set position relative on container to properly contain absolutely positioned maps
+                el.style.position = "relative";
+
                 // Create container divs for the maps
                 const beforeContainerId = `${el.id}-before`;
                 const afterContainerId = `${el.id}-after`;
