@@ -13,8 +13,11 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 
 	dt = res$dt
 
+	idt_null = is.null(idt)
 	if (!is.null(idt)) {
 		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
+	} else {
+		idt = sprintf("%07d", dt$tmapID__)[shpTM_match]
 	}
 	if (!is.null(hdt)) {
 		hdt = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
@@ -27,7 +30,7 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		mtch = match(dt$tmapID__, pdt$tmapID__)
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
-		if (is.null(idt) && !is.null(hdt)) {
+		if (idt_null && !is.null(hdt)) {
 			popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
 		} else {
 			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)

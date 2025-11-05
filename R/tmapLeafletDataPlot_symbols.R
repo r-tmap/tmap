@@ -28,7 +28,9 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		shpTM_match = TRUE
 	}
 
-	if (!is.null(idt)) {
+	idt_null = is.null(idt)
+
+	if (!idt_null) {
 		idt = idt$id[match(dt$tmapID__[shpTM_match], idt$tmapID__)]
 	} else {
 		idt = sprintf("%07d", dt$tmapID__)[shpTM_match]
@@ -43,7 +45,11 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		mtch = match(dt$tmapID__[shpTM_match], pdt$tmapID__)
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
-		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+		if (idt_null) {
+			popups = view_format_popups(titles = names(pdt), values = pdt, format = popup.format)
+		} else {
+			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+		}
 	}
 
 	idt = submit_labels(idt, "symbols", pane, group)

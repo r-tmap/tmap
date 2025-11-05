@@ -123,7 +123,6 @@ tmapLeafletDataPlot.default = function(a, shpTM, dt, pdt, popup.format, hdt, idt
 #		x * scale
 #	})
 lty2dash = function(lty, lwd) {
-	po(lty,lwd)
 	k = max(length(lty), length(lwd))
 	lty = rep(lty, length.out = k)
 	lwd = rep(lwd, length.out = k)
