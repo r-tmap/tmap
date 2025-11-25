@@ -62,7 +62,7 @@ libraries:
 and
 [Linux](https://rspatial.github.io/terra/index.html?q=installation#linux)
 
-Instructions for the libraries Abseil and OpenSS (required by **s2**):
+Instructions for the libraries Abseil and OpenSSL (required by **s2**):
 see the [installation
 instructions](https://r-spatial.github.io/s2/#installation).
 
