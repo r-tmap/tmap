@@ -1,0 +1,90 @@
+# tmap advanced: layer groups (view mode only)
+
+## Layer groups
+
+Via the `group` and `group.control` argument in the map layer functions
+it is possible group layers and (de)select in the leaflet layer control
+box.
+
+``` r
+tmap_mode("view")
+tm_shape(NLD_dist) +
+  tm_polygons(
+    fill = "dwelling_value",
+    col = NULL,
+    fill.scale = tm_scale_intervals(values = "-brewer.rd_yl_bu", breaks = c(75, 150, 250, 500, 750, 1000, 1600)),
+    fill.legend = tm_legend("Dwelling value (x 1000)"),
+    group = "District data") +
+tm_shape(NLD_muni) +
+  tm_borders(lwd = 1, col = "black", group = "Municipality borders") +
+tm_title("Select and deselect groups") +
+tm_shape(NLD_prov, name = "Province borders") +
+  tm_borders(lwd = 3) +
+tm_view(set_zoom_limits = c(8,14))
+```
+
+Important is that the plotting order of layers is not affected by the
+grouping, but specified by the `z` argument. When these are not
+specified (such as in this example), the order in the plot call is taken
+(except for
+[`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
+which is always drawn at the bottom).
+
+Note that if the `group` argument is not specified, such as in the
+province layer, the group name is inherited from
+[`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md).
+
+## Switching between layers
+
+``` r
+tmap_mode("view")
+tm_shape(NLD_dist) +
+  tm_polygons(
+    fill = "dwelling_value",
+    col = NULL,
+    fill.scale = tm_scale_intervals(values = "-brewer.rd_yl_bu", breaks = c(75, 150, 250, 500, 750, 1000, 1600)),
+    fill.legend = tm_legend("Dwelling value (x 1000)"),
+    group = "District data",
+    group.control = "radio") +
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "dwelling_value",
+    col = NULL,
+    fill.scale = tm_scale_intervals(values = "-brewer.rd_yl_bu", breaks = c(75, 150, 250, 500, 750, 1000, 1600)),
+    fill.legend = tm_legend("Dwelling value (x 1000)"),
+    group = "Municipality data",
+    group.control = "radio") +
+tm_title("Switching between layers") +
+tm_shape(NLD_prov) +
+  tm_borders(lwd = 3, group.control = "none") +
+tm_basemap("OpenStreetMap") +
+tm_view(set_zoom_limits = c(8,14))
+```
+
+## Zoom-specific map layers
+
+Via `tm_group` it is possible to set the `group.control` and moreover to
+specify at which zoom levels this group is plotted.
+
+``` r
+tmap_mode("view")
+tm_shape(NLD_dist) +
+  tm_polygons(
+    fill = "dwelling_value",
+    fill.scale = tm_scale_intervals(values = "-brewer.rd_yl_bu", breaks = c(75, 150, 250, 500, 750, 1000, 1600)),
+    fill.legend = tm_legend("Dwelling value (x 1000)"),
+    group = "District") +
+tm_shape(NLD_muni) +
+  tm_polygons(
+    fill = "dwelling_value",
+    fill.scale = tm_scale_intervals(values = "-brewer.rd_yl_bu", breaks = c(75, 150, 250, 500, 750, 1000, 1600)),
+    fill.legend = tm_legend_hide(),
+    group = "Municipality") +
+tm_borders(group = "District", lwd = 2) +
+tm_title("Zoom in for district level (and out for municipality level)") +
+tm_shape(NLD_prov) +
+  tm_borders(lwd = 3, group.control = "none") +
+tm_group("Municipality", zoom_levels = 8:10) +
+tm_group("District", zoom_levels = 11:14) +
+tm_view(set_zoom_limits = c(8,14))
+```

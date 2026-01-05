@@ -1,0 +1,32 @@
+# Spatial data of global land cover
+
+Spatial data of global land cover, percent tree cover, and elevation of
+class
+[`stars`](https://r-spatial.github.io/stars/reference/st_as_stars.html).
+Two attributes in this object relates to global land cover. The cover
+layer classifies the status of land cover of the whole globe into 20
+categories, while the cover_cls layer uses 8 simplified categories.
+Percent Tree Cover (trees) represents the density of trees on the
+ground, and the last attribute represents elevation.
+
+## Usage
+
+``` r
+land
+```
+
+## Format
+
+An object of class `stars` with 1080 rows and 540 columns.
+
+## Details
+
+**Important:** publication of these maps is only allowed when cited to
+Tateishi et al. (2014), and when "Geospatial Information Authority of
+Japan, Chiba University and collaborating organizations." is shown.
+
+## References
+
+Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh
+Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014),
+Journal of Geography and Geology, 6 (3).

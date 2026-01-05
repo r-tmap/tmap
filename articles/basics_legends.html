@@ -152,19 +152,19 @@
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <p>For <code>tm_scale_intervals</code>, there are two styles. A choice can be made via the argument <code>label.style</code>. By default it is set to discrete:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <p>Alternatively, it can be set to <code>"continuous"</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span>, label.style <span class="op">=</span> <span class="st">"continuous"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="legend-arguments">
@@ -196,7 +196,7 @@
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 <p>The legend width is set in number of text line heights, which corresponds to the number of characters. In other words, the resulting width depends on the font size, which can be set in <code>tm_legend</code>, but also via the general <code>scale</code> option, which determines the overall ‘scale’ of the map (all line widths, point sizes and font sizes):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
@@ -208,7 +208,7 @@
 <span>      orientation <span class="op">=</span> <span class="st">"landscape"</span>, </span>
 <span>      width <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="hiding-legends">Hiding legends<a class="anchor" aria-label="anchor" href="#hiding-legends"></a>
@@ -219,7 +219,7 @@
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
 <span>  fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p><img src="basics_legends_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
 <p>See the <a href="https://r-tmap.github.io/tmap/articles/adv_legends">advanced vignette</a> for more options.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -233,7 +233,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

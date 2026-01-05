@@ -154,7 +154,7 @@
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
 <span>  bg.color <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
 <span>  outer.bg.color <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <p>The backgrounds can be disabled by setting <code>bg</code> and <code>outer.bg</code> (inside and outside the frame respectively) to <code>FALSE</code>. Note that this does not change the layout of the map; this is accomplished via the margins (see below).</p>
 </div>
 <div class="section level2">
@@ -165,7 +165,7 @@
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span></span>
 <span>  bg.color <span class="op">=</span> <span class="st">"grey90"</span>,</span>
 <span>  frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="earth-boundaries">Earth boundaries<a class="anchor" aria-label="anchor" href="#earth-boundaries"></a>
@@ -182,7 +182,7 @@
 <span>  earth_boundary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  frame <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  space.color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="panels">Panels<a class="anchor" aria-label="anchor" href="#panels"></a>
@@ -194,13 +194,13 @@
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.label.bg.color <span class="op">=</span> <span class="st">"gold"</span>,</span>
 <span>          panel.label.size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>          panel.label.height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>   </span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 <p>Panels can be disabled using <code>panel.show = FALSE</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"footprint"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>   </span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="margins">Margins<a class="anchor" aria-label="anchor" href="#margins"></a>
@@ -209,7 +209,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.02</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span>    </span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
 <p>The four numbers are the margins for bottom, left, top, and right respectively. The units are relative to the map frame, so 0.02 means (about) 2 percent of the frame height.</p>
 <p>The outer margins are the margins between map frame and plotting device:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -218,7 +218,7 @@
 <span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span>,</span>
 <span>                fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>outer.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, asp <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_layout_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p><img src="basics_layout_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
 <p>In this example we also set <code>asp = 0</code> meaning that the map frame should fit inside the graphics device. That means that the inner margins are increased if the aspect ratio (width/height) of the graphics device is different than that of the map. Setting the margins can be quite difficult and is explained in detail in this <a href="https://r-tmap.github.io/tmap/articles/adv_margins">vignette</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -232,7 +232,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

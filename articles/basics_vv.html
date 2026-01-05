@@ -207,7 +207,7 @@ and for convenience assign it to <code>s</code>:</p>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,    <span class="co"># line color</span></span>
 <span>    lwd <span class="op">=</span> <span class="fl">0.5</span>,        <span class="co"># line width</span></span>
 <span>    lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span>   <span class="co"># line type</span></span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/constant-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/constant-1.png" alt="" width="100%"></p>
 <p>For advanced users: the default constant values are specified for combinations of visual variables and layer type. See <code>tmap_options("value.const")</code></p>
 </div>
 <div class="section level2">
@@ -216,7 +216,7 @@ and for convenience assign it to <code>s</code>:</p>
 <p>Each visual variable argument can also be specified with a data variable (e.g., a column name):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"press"</span><span class="op">)</span>    <span class="co"># a column in World</span></span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/polygons-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/polygons-1.png" alt="" width="100%"></p>
 <p>Another example, where a data-driven symbol layer is drawn on top of a polygon layer</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
@@ -227,13 +227,13 @@ and for convenience assign it to <code>s</code>:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
 <span><span class="co">#&gt; therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/symbols-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/symbols-1.png" alt="" width="100%"></p>
 <p>In the following example a data-driven text layer is plotted.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"economy"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/text-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/text-1.png" alt="" width="100%"></p>
 <div class="section level3">
 <h3 id="scales-and-legend">Scales and legend<a class="anchor" aria-label="anchor" href="#scales-and-legend"></a>
 </h3>
@@ -246,7 +246,7 @@ and for convenience assign it to <code>s</code>:</p>
 <p>A facet map is created by specifying two data variables (columns in <code>World</code>) to the visual variable <code>fill</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/facet-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/facet-1.png" alt="" width="100%"></p>
 <p>Improve the titles and remove (duplicate) legend titles</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
@@ -254,7 +254,7 @@ and for convenience assign it to <code>s</code>:</p>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Well Being"</span>, <span class="st">"Life Expectancy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_vv_files/figure-html/unnamed-chunk-2-1.png" width="100%"></p>
+<p><img src="basics_vv_files/figure-html/unnamed-chunk-2-1.png" alt="" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -267,7 +267,7 @@ and for convenience assign it to <code>s</code>:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

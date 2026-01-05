@@ -1,6 +1,6 @@
 dependencies:
   - name: maplibre-gl
-    version: "5.7.2"
+    version: "5.13.0"
     src: "htmlwidgets/lib/maplibre-gl"
     script:
       - "maplibre-gl.js"
@@ -58,7 +58,7 @@ dependencies:
     stylesheet:
       - "style.css"
   - name: turf
-    version: "7.2.0"
+    version: "7.3.0"
     src: "htmlwidgets/lib/turf"
     script:
       - "turf.min.js"

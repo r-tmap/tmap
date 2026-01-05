@@ -453,32 +453,59 @@ function evaluateExpression(expression, properties) {
   }
 }
 
-function onMouseMoveTooltip(e, map, tooltipPopup, tooltipProperty) {
-  map.getCanvas().style.cursor = "pointer";
+function onMouseMoveTooltip(e, map, tooltipPopup, tooltipProperty, layerId) {
   if (e.features.length > 0) {
-    // Clear any existing active tooltip first to prevent stacking
-    if (window._activeTooltip && window._activeTooltip !== tooltipPopup) {
-      window._activeTooltip.remove();
+    // Query all features at this point to determine z-order
+    // Features are returned in top-to-bottom rendering order
+    const allFeatures = map.queryRenderedFeatures(e.point);
+
+    // Find the topmost layer that has a tooltip
+    let topmostLayerWithTooltip = null;
+    for (let i = 0; i < allFeatures.length; i++) {
+      const feature = allFeatures[i];
+      const featureLayerId = feature.layer.id;
+
+      // Check if this layer has a tooltip handler registered
+      if (window._mapboxHandlers && window._mapboxHandlers[featureLayerId]) {
+        topmostLayerWithTooltip = featureLayerId;
+        break;
+      }
     }
 
-    let description;
+    // Only show tooltip if this is the topmost layer with a tooltip
+    if (topmostLayerWithTooltip === layerId) {
+      map.getCanvas().style.cursor = "pointer";
 
-    // Check if tooltipProperty is an expression (array) or a simple property name (string)
-    if (Array.isArray(tooltipProperty)) {
-      // It's an expression, evaluate it
-      description = evaluateExpression(
-        tooltipProperty,
-        e.features[0].properties,
-      );
+      // Clear any existing active tooltip first to prevent stacking
+      if (window._activeTooltip && window._activeTooltip !== tooltipPopup) {
+        window._activeTooltip.remove();
+      }
+
+      let description;
+
+      // Check if tooltipProperty is an expression (array) or a simple property name (string)
+      if (Array.isArray(tooltipProperty)) {
+        // It's an expression, evaluate it
+        description = evaluateExpression(
+          tooltipProperty,
+          e.features[0].properties,
+        );
+      } else {
+        // It's a property name, get the value
+        description = e.features[0].properties[tooltipProperty];
+      }
+
+      tooltipPopup.setLngLat(e.lngLat).setHTML(description).addTo(map);
+
+      // Store reference to currently active tooltip
+      window._activeTooltip = tooltipPopup;
     } else {
-      // It's a property name, get the value
-      description = e.features[0].properties[tooltipProperty];
+      // This layer is not topmost, hide tooltip if it was showing
+      tooltipPopup.remove();
+      if (window._activeTooltip === tooltipPopup) {
+        delete window._activeTooltip;
+      }
     }
-
-    tooltipPopup.setLngLat(e.lngLat).setHTML(description).addTo(map);
-
-    // Store reference to currently active tooltip
-    window._activeTooltip = tooltipPopup;
   } else {
     tooltipPopup.remove();
     // If this was the active tooltip, clear the reference
@@ -497,40 +524,67 @@ function onMouseLeaveTooltip(map, tooltipPopup) {
 }
 
 function onClickPopup(e, map, popupProperty, layerId) {
-  let description;
+  if (e.features.length > 0) {
+    // Query all features at this point to determine z-order
+    const allFeatures = map.queryRenderedFeatures(e.point);
 
-  // Check if popupProperty is an expression (array) or a simple property name (string)
-  if (Array.isArray(popupProperty)) {
-    // It's an expression, evaluate it
-    description = evaluateExpression(popupProperty, e.features[0].properties);
-  } else {
-    // It's a property name, get the value
-    description = e.features[0].properties[popupProperty];
-  }
+    // Find the topmost layer that has a popup
+    let topmostLayerWithPopup = null;
+    for (let i = 0; i < allFeatures.length; i++) {
+      const feature = allFeatures[i];
+      const featureLayerId = feature.layer.id;
 
-  // Remove any existing popup for this layer
-  if (window._mapboxPopups && window._mapboxPopups[layerId]) {
-    window._mapboxPopups[layerId].remove();
-  }
-
-  // Create and show the popup
-  const popup = new mapboxgl.Popup({ maxWidth: '400px' })
-    .setLngLat(e.lngLat)
-    .setHTML(description)
-    .addTo(map);
-
-  // Store reference to this popup
-  if (!window._mapboxPopups) {
-    window._mapboxPopups = {};
-  }
-  window._mapboxPopups[layerId] = popup;
-
-  // Remove reference when popup is closed
-  popup.on("close", function () {
-    if (window._mapboxPopups[layerId] === popup) {
-      delete window._mapboxPopups[layerId];
+      // Check if this layer has a popup handler registered
+      if (
+        window._mapboxClickHandlers &&
+        window._mapboxClickHandlers[featureLayerId]
+      ) {
+        topmostLayerWithPopup = featureLayerId;
+        break;
+      }
     }
-  });
+
+    // Only show popup if this is the topmost layer with a popup
+    if (topmostLayerWithPopup === layerId) {
+      let description;
+
+      // Check if popupProperty is an expression (array) or a simple property name (string)
+      if (Array.isArray(popupProperty)) {
+        // It's an expression, evaluate it
+        description = evaluateExpression(
+          popupProperty,
+          e.features[0].properties,
+        );
+      } else {
+        // It's a property name, get the value
+        description = e.features[0].properties[popupProperty];
+      }
+
+      // Remove any existing popup for this layer
+      if (window._mapboxPopups && window._mapboxPopups[layerId]) {
+        window._mapboxPopups[layerId].remove();
+      }
+
+      // Create and show the popup
+      const popup = new mapboxgl.Popup({ maxWidth: "400px" })
+        .setLngLat(e.lngLat)
+        .setHTML(description)
+        .addTo(map);
+
+      // Store reference to this popup
+      if (!window._mapboxPopups) {
+        window._mapboxPopups = {};
+      }
+      window._mapboxPopups[layerId] = popup;
+
+      // Remove reference when popup is closed
+      popup.on("close", function () {
+        if (window._mapboxPopups[layerId] === popup) {
+          delete window._mapboxPopups[layerId];
+        }
+      });
+    }
+  }
 }
 
 // Helper function to generate draw styles based on parameters
@@ -679,6 +733,77 @@ function addSourceFeaturesToDraw(draw, sourceId, map) {
   }
 }
 
+// Global registries for tracking user-added images and pending operations during style changes
+// Using same window._mapgl object as maplibregl.js for consistency
+if (!window._mapgl) {
+  window._mapgl = {
+    // Registry of user-added images per map: { mapId: { imageId: { url, options } } }
+    userImages: {},
+    // Queue of pending operations during style loading: { mapId: [] }
+    pendingOperations: {},
+    // Track which maps are currently loading a style: { mapId: true/false }
+    styleLoading: {}
+  };
+}
+
+// Helper to queue an operation or execute it immediately
+function queueOrExecuteMapbox(mapId, operation) {
+  if (window._mapgl.styleLoading[mapId]) {
+    if (!window._mapgl.pendingOperations[mapId]) {
+      window._mapgl.pendingOperations[mapId] = [];
+    }
+    window._mapgl.pendingOperations[mapId].push(operation);
+    console.log("[MapGL Debug] Queued operation during style load for map:", mapId);
+  } else {
+    operation();
+  }
+}
+
+// Helper to execute all pending operations for a map
+function executePendingOperationsMapbox(mapId) {
+  const pending = window._mapgl.pendingOperations[mapId];
+  if (pending && pending.length > 0) {
+    console.log("[MapGL Debug] Executing", pending.length, "pending operations for map:", mapId);
+    pending.forEach(function(op) {
+      try {
+        op();
+      } catch (err) {
+        console.error("[MapGL Debug] Error executing pending operation:", err);
+      }
+    });
+    window._mapgl.pendingOperations[mapId] = [];
+  }
+}
+
+// Helper to register a user image
+function registerUserImageMapbox(mapId, imageId, url, options) {
+  if (!window._mapgl.userImages[mapId]) {
+    window._mapgl.userImages[mapId] = {};
+  }
+  window._mapgl.userImages[mapId][imageId] = { url: url, options: options };
+  console.log("[MapGL Debug] Registered user image:", imageId, "for map:", mapId);
+}
+
+// Helper to re-add all user images after style change (Mapbox uses callback-based loadImage)
+function reAddUserImagesMapbox(map, mapId) {
+  const images = window._mapgl.userImages[mapId];
+  if (!images) return;
+
+  for (const imageId in images) {
+    const imageInfo = images[imageId];
+    map.loadImage(imageInfo.url, function(error, image) {
+      if (error) {
+        console.error("[MapGL Debug] Error re-adding image:", imageId, error);
+        return;
+      }
+      if (!map.hasImage(imageId)) {
+        map.addImage(imageId, image, imageInfo.options);
+        console.log("[MapGL Debug] Re-added user image after style change:", imageId);
+      }
+    });
+  }
+}
+
 HTMLWidgets.widget({
   name: "mapboxgl",
 
@@ -726,6 +851,7 @@ HTMLWidgets.widget({
         });
 
         map.controls = [];
+        map._initialStyleLoaded = false;
 
         map.on("style.load", function () {
           map.resize();
@@ -797,7 +923,9 @@ HTMLWidgets.widget({
 
               if (marker.popup) {
                 mapMarker.setPopup(
-                  new mapboxgl.Popup({ offset: 25, maxWidth: '400px' }).setHTML(marker.popup),
+                  new mapboxgl.Popup({ offset: 25, maxWidth: "400px" }).setHTML(
+                    marker.popup,
+                  ),
                 );
               }
 
@@ -846,7 +974,9 @@ HTMLWidgets.widget({
                 }
                 // Add any other additional options
                 for (const [key, value] of Object.entries(source)) {
-                  if (!["id", "type", "url", "tiles", "promoteId"].includes(key)) {
+                  if (
+                    !["id", "type", "url", "tiles", "promoteId"].includes(key)
+                  ) {
                     sourceOptions[key] = value;
                   }
                 }
@@ -1002,13 +1132,19 @@ HTMLWidgets.widget({
                   const tooltip = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false,
-                    maxWidth: '400px',
+                    maxWidth: "400px",
                   });
 
                   // Create a reference to the mousemove handler function.
-                  // We need to pass 'e', 'map', 'tooltip', and 'layer.tooltip' to onMouseMoveTooltip.
+                  // We need to pass 'e', 'map', 'tooltip', 'layer.tooltip', and 'layer.id' to onMouseMoveTooltip.
                   const mouseMoveHandler = function (e) {
-                    onMouseMoveTooltip(e, map, tooltip, layer.tooltip);
+                    onMouseMoveTooltip(
+                      e,
+                      map,
+                      tooltip,
+                      layer.tooltip,
+                      layer.id,
+                    );
                   };
 
                   // Create a reference to the mouseleave handler function.
@@ -1173,8 +1309,10 @@ HTMLWidgets.widget({
             map.jumpTo(x.jumpTo);
           }
 
-          // Add scale control if enabled
-          if (x.scale_control) {
+          // Add controls only on initial style load to prevent duplication when set_style() is called
+          if (!map._initialStyleLoaded) {
+            // Add scale control if enabled
+            if (x.scale_control) {
             const scaleControl = new mapboxgl.ScaleControl({
               maxWidth: x.scale_control.maxWidth,
               unit: x.scale_control.unit,
@@ -1444,36 +1582,53 @@ HTMLWidgets.widget({
                 .getContainer()
                 .querySelector(".mapboxgl-ctrl-group");
 
-              if (x.draw_control.rectangle && drawControlGroup) {
-                const rectangleBtn = document.createElement("button");
-                rectangleBtn.className = "mapbox-gl-draw_rectangle";
-                rectangleBtn.title = "Rectangle tool";
-                rectangleBtn.type = "button";
-                rectangleBtn.onclick = function () {
-                  draw.changeMode("draw_rectangle");
-                  // Update active state
-                  drawControlGroup
-                    .querySelectorAll("button")
-                    .forEach((btn) => btn.classList.remove("active"));
-                  rectangleBtn.classList.add("active");
-                };
-                drawControlGroup.appendChild(rectangleBtn);
-              }
+              if (drawControlGroup) {
+                // Find the trash button to insert before it
+                const trashBtn = drawControlGroup.querySelector(
+                  ".mapbox-gl-draw_trash",
+                );
 
-              if (x.draw_control.radius && drawControlGroup) {
-                const radiusBtn = document.createElement("button");
-                radiusBtn.className = "mapbox-gl-draw_radius";
-                radiusBtn.title = "Radius/Circle tool";
-                radiusBtn.type = "button";
-                radiusBtn.onclick = function () {
-                  draw.changeMode("draw_radius");
-                  // Update active state
-                  drawControlGroup
-                    .querySelectorAll("button")
-                    .forEach((btn) => btn.classList.remove("active"));
-                  radiusBtn.classList.add("active");
-                };
-                drawControlGroup.appendChild(radiusBtn);
+                if (x.draw_control.rectangle) {
+                  const rectangleBtn = document.createElement("button");
+                  rectangleBtn.className = "mapbox-gl-draw_rectangle";
+                  rectangleBtn.title = "Rectangle tool";
+                  rectangleBtn.type = "button";
+                  rectangleBtn.onclick = function () {
+                    draw.changeMode("draw_rectangle");
+                    // Update active state
+                    drawControlGroup
+                      .querySelectorAll("button")
+                      .forEach((btn) => btn.classList.remove("active"));
+                    rectangleBtn.classList.add("active");
+                  };
+                  // Insert before trash button if it exists, otherwise append
+                  if (trashBtn) {
+                    drawControlGroup.insertBefore(rectangleBtn, trashBtn);
+                  } else {
+                    drawControlGroup.appendChild(rectangleBtn);
+                  }
+                }
+
+                if (x.draw_control.radius) {
+                  const radiusBtn = document.createElement("button");
+                  radiusBtn.className = "mapbox-gl-draw_radius";
+                  radiusBtn.title = "Radius/Circle tool";
+                  radiusBtn.type = "button";
+                  radiusBtn.onclick = function () {
+                    draw.changeMode("draw_radius");
+                    // Update active state
+                    drawControlGroup
+                      .querySelectorAll("button")
+                      .forEach((btn) => btn.classList.remove("active"));
+                    radiusBtn.classList.add("active");
+                  };
+                  // Insert before trash button if it exists, otherwise append
+                  if (trashBtn) {
+                    drawControlGroup.insertBefore(radiusBtn, trashBtn);
+                  } else {
+                    drawControlGroup.appendChild(radiusBtn);
+                  }
+                }
               }
             }, 100);
 
@@ -1778,7 +1933,10 @@ HTMLWidgets.widget({
           }
 
           if (x.images && Array.isArray(x.images)) {
+            const mapId = el.id;
             x.images.forEach(function (imageInfo) {
+              // Register the image for potential re-adding after style changes
+              registerUserImageMapbox(mapId, imageInfo.id, imageInfo.url, imageInfo.options);
               map.loadImage(imageInfo.url, function (error, image) {
                 if (error) {
                   console.error("Error loading image:", error);
@@ -2054,6 +2212,10 @@ HTMLWidgets.widget({
               };
               layersControl.insertBefore(toggleButton, layersList);
             }
+          }
+
+            // Mark initial style as loaded to prevent control duplication on subsequent set_style() calls
+            map._initialStyleLoaded = true;
           }
 
           // If clusters are present, add event handling
@@ -2398,6 +2560,13 @@ if (HTMLWidgets.shinyMode) {
         }
       } else if (message.type === "add_layer") {
         try {
+          // Ensure paint and layout are objects, not null
+          if (message.layer.paint === null) {
+            message.layer.paint = {};
+          }
+          if (message.layer.layout === null) {
+            message.layer.layout = {};
+          }
           if (message.layer.before_id) {
             map.addLayer(message.layer, message.layer.before_id);
           } else {
@@ -2440,12 +2609,18 @@ if (HTMLWidgets.shinyMode) {
             const tooltip = new mapboxgl.Popup({
               closeButton: false,
               closeOnClick: false,
-              maxWidth: '400px',
+              maxWidth: "400px",
             });
 
             // Define named handler functions:
             const mouseMoveHandler = function (e) {
-              onMouseMoveTooltip(e, map, tooltip, message.layer.tooltip);
+              onMouseMoveTooltip(
+                e,
+                map,
+                tooltip,
+                message.layer.tooltip,
+                message.layer.id,
+              );
             };
 
             const mouseLeaveHandler = function () {
@@ -2754,6 +2929,11 @@ if (HTMLWidgets.shinyMode) {
       } else if (message.type === "set_style") {
         // Default preserve_layers to true if not specified
         const preserveLayers = message.preserve_layers !== false;
+        const mapId = map.getContainer().id;
+
+        // Mark style as loading to queue any incoming operations
+        window._mapgl.styleLoading[mapId] = true;
+        console.log("[MapGL Debug] Style loading started for map:", mapId);
 
         // If we should preserve layers and sources
         if (preserveLayers) {
@@ -2791,12 +2971,33 @@ if (HTMLWidgets.shinyMode) {
           // Identify layers using user-added sources
           currentStyle.layers.forEach(function (layer) {
             if (userSourceIds.includes(layer.source)) {
+              // Capture current visibility state (may differ from layer definition)
+              const currentVisibility = map.getLayoutProperty(layer.id, 'visibility');
+              console.log(`[MapGL Debug] Layer ${layer.id} current visibility:`, currentVisibility);
+              if (currentVisibility !== undefined) {
+                if (!layer.layout) {
+                  layer.layout = {};
+                }
+                layer.layout.visibility = currentVisibility;
+                console.log(`[MapGL Debug] Set layer ${layer.id} layout.visibility to:`, layer.layout.visibility);
+              }
               userLayers.push(layer);
             }
           });
 
           // Set up event listener to re-add sources and layers after style loads
           const onStyleLoad = function () {
+            console.log("[MapGL Debug] style.load event fired! Re-adding", userLayers.length, "layers");
+
+            // HACK: Reset layers control UI to show all layers as active
+            const layersControl = document.querySelector('.layers-control');
+            if (layersControl) {
+              const layerLinks = layersControl.querySelectorAll('a');
+              layerLinks.forEach(link => {
+                link.className = 'active';
+              });
+            }
+
             // Re-add user sources
             userSourceIds.forEach(function (sourceId) {
               if (!map.getSource(sourceId)) {
@@ -2808,7 +3009,14 @@ if (HTMLWidgets.shinyMode) {
             // Re-add user layers
             userLayers.forEach(function (layer) {
               if (!map.getLayer(layer.id)) {
+                console.log(`[MapGL Debug] Re-adding layer ${layer.id} with layout:`, layer.layout);
                 map.addLayer(layer);
+
+                // Explicitly set visibility if it was set to 'none'
+                if (layer.layout && layer.layout.visibility === 'none') {
+                  map.setLayoutProperty(layer.id, 'visibility', 'none');
+                  console.log(`[MapGL Debug] Explicitly set ${layer.id} visibility to none`);
+                }
 
                 // Re-add event handlers for tooltips and hover effects
                 if (layer._handlers) {
@@ -2942,11 +3150,17 @@ if (HTMLWidgets.shinyMode) {
                   const tooltip = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: false,
-                    maxWidth: '400px',
+                    maxWidth: "400px",
                   });
 
                   const mouseMoveHandler = function (e) {
-                    onMouseMoveTooltip(e, map, tooltip, tooltipProperty);
+                    onMouseMoveTooltip(
+                      e,
+                      map,
+                      tooltip,
+                      tooltipProperty,
+                      layerId,
+                    );
                   };
 
                   const mouseLeaveHandler = function () {
@@ -3039,11 +3253,20 @@ if (HTMLWidgets.shinyMode) {
               }
             }
 
-            // Remove this listener to avoid adding the same layers multiple times
-            map.off("style.load", onStyleLoad);
+            // Re-add user images after style change
+            reAddUserImagesMapbox(map, mapId);
+
+            // Mark style loading as complete and execute any pending operations
+            window._mapgl.styleLoading[mapId] = false;
+            console.log("[MapGL Debug] Style loading completed for map:", mapId);
+            executePendingOperationsMapbox(mapId);
+
           };
 
-          map.on("style.load", onStyleLoad);
+          map.once("style.load", function() {
+            // Wait for map to be fully idle before adding layers
+            map.once("idle", onStyleLoad);
+          });
         }
 
         // Change the style
@@ -3051,6 +3274,22 @@ if (HTMLWidgets.shinyMode) {
           config: message.config,
           diff: message.diff,
         });
+
+        // For non-preserve mode, still need to handle style loading completion
+        // to re-add images and execute pending operations
+        if (!preserveLayers) {
+          map.once("style.load", function() {
+            map.once("idle", function() {
+              // Re-add user images after style change
+              reAddUserImagesMapbox(map, mapId);
+
+              // Mark style loading as complete and execute any pending operations
+              window._mapgl.styleLoading[mapId] = false;
+              console.log("[MapGL Debug] Style loading completed (non-preserve) for map:", mapId);
+              executePendingOperationsMapbox(mapId);
+            });
+          });
+        }
       } else if (message.type === "add_navigation_control") {
         const nav = new mapboxgl.NavigationControl({
           showCompass: message.options.show_compass,
@@ -3116,26 +3355,18 @@ if (HTMLWidgets.shinyMode) {
           map.easeTo(initialView);
         };
 
-        map.addControl(
-          {
-            onAdd: function () {
-              return resetContainer;
-            },
-            onRemove: function () {
-              resetContainer.parentNode.removeChild(resetContainer);
-            },
-          },
-          message.position,
-        );
-
-        map.controls.push({
+        const resetControlObj = {
           onAdd: function () {
             return resetContainer;
           },
           onRemove: function () {
             resetContainer.parentNode.removeChild(resetContainer);
           },
-        });
+        };
+
+        map.addControl(resetControlObj, message.position);
+
+        map.controls.push({ type: "reset", control: resetControlObj });
       } else if (message.type === "add_draw_control") {
         let drawOptions = message.options || {};
 
@@ -3154,6 +3385,28 @@ if (HTMLWidgets.shinyMode) {
             }),
             // defaultMode: 'draw_polygon' # Don't set the default yet
           });
+        }
+
+        // Add rectangle mode if enabled
+        if (message.rectangle) {
+          drawOptions.modes = Object.assign(
+            {},
+            drawOptions.modes || MapboxDraw.modes,
+            {
+              draw_rectangle: MapboxDraw.modes.draw_rectangle,
+            },
+          );
+        }
+
+        // Add radius mode if enabled
+        if (message.radius) {
+          drawOptions.modes = Object.assign(
+            {},
+            drawOptions.modes || MapboxDraw.modes,
+            {
+              draw_radius: MapboxDraw.modes.draw_radius,
+            },
+          );
         }
 
         // Create the draw control
@@ -3188,15 +3441,137 @@ if (HTMLWidgets.shinyMode) {
           }, 100);
         }
 
+        // Add rectangle icon CSS if rectangle mode is enabled
+        if (message.rectangle) {
+          if (!document.querySelector("#mapgl-rectangle-styles")) {
+            const style = document.createElement("style");
+            style.id = "mapgl-rectangle-styles";
+            style.textContent = `
+              .mapbox-gl-draw_rectangle {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                height: 30px;
+                width: 30px;
+                padding: 0;
+                outline: none;
+                background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Crect x="4" y="5" width="12" height="10" fill="none" stroke="%23000000" stroke-width="2"/%3E%3C/svg%3E') !important;
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+              }
+              .mapbox-gl-draw_rectangle:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+              }
+              .mapbox-gl-draw_rectangle.active {
+                background-color: rgba(0, 0, 0, 0.05);
+              }
+            `;
+            document.head.appendChild(style);
+          }
+        }
+
+        // Add radius/circle icon CSS if radius mode is enabled
+        if (message.radius) {
+          if (!document.querySelector("#mapgl-radius-styles")) {
+            const style = document.createElement("style");
+            style.id = "mapgl-radius-styles";
+            style.textContent = `
+              .mapbox-gl-draw_radius {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                display: block;
+                height: 30px;
+                width: 30px;
+                padding: 0;
+                outline: none;
+                background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Ccircle cx="10" cy="10" r="7" fill="none" stroke="%23000000" stroke-width="2"/%3E%3Ccircle cx="10" cy="10" r="1.5" fill="%23000000"/%3E%3C/svg%3E') !important;
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+              }
+              .mapbox-gl-draw_radius:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+              }
+              .mapbox-gl-draw_radius.active {
+                background-color: rgba(0, 0, 0, 0.05);
+              }
+            `;
+            document.head.appendChild(style);
+          }
+        }
+
         // Add event listeners
         map.on("draw.create", updateDrawnFeatures);
         map.on("draw.delete", updateDrawnFeatures);
         map.on("draw.update", updateDrawnFeatures);
 
+        // Add measurement functionality if enabled
+        if (message.show_measurements) {
+          initializeMeasurements(map, drawControl, message.measurement_units);
+        }
+
         // Add initial features if provided
         if (message.source) {
           addSourceFeaturesToDraw(drawControl, message.source, map);
         }
+
+        // Add rectangle and radius buttons if enabled
+        setTimeout(() => {
+          const drawControlGroup = map
+            .getContainer()
+            .querySelector(".mapboxgl-ctrl-group:has(.mapbox-gl-draw_polygon)");
+
+          if (drawControlGroup) {
+            // Find the trash button to insert before it
+            const trashBtn = drawControlGroup.querySelector(
+              ".mapbox-gl-draw_trash",
+            );
+
+            if (message.rectangle) {
+              const rectangleBtn = document.createElement("button");
+              rectangleBtn.className =
+                "mapbox-gl-draw_rectangle mapboxgl-ctrl-icon";
+              rectangleBtn.title = "Rectangle tool";
+              rectangleBtn.type = "button";
+              rectangleBtn.onclick = function () {
+                drawControl.changeMode("draw_rectangle");
+                // Remove active class from all buttons and add to this one
+                drawControlGroup
+                  .querySelectorAll("button")
+                  .forEach((b) => b.classList.remove("active"));
+                rectangleBtn.classList.add("active");
+              };
+              // Insert before trash button if it exists, otherwise append
+              if (trashBtn) {
+                drawControlGroup.insertBefore(rectangleBtn, trashBtn);
+              } else {
+                drawControlGroup.appendChild(rectangleBtn);
+              }
+            }
+
+            if (message.radius) {
+              const radiusBtn = document.createElement("button");
+              radiusBtn.className = "mapbox-gl-draw_radius mapboxgl-ctrl-icon";
+              radiusBtn.title = "Radius/Circle tool";
+              radiusBtn.type = "button";
+              radiusBtn.onclick = function () {
+                drawControl.changeMode("draw_radius");
+                // Remove active class from all buttons and add to this one
+                drawControlGroup
+                  .querySelectorAll("button")
+                  .forEach((b) => b.classList.remove("active"));
+                radiusBtn.classList.add("active");
+              };
+              // Insert before trash button if it exists, otherwise append
+              if (trashBtn) {
+                drawControlGroup.insertBefore(radiusBtn, trashBtn);
+              } else {
+                drawControlGroup.appendChild(radiusBtn);
+              }
+            }
+          }
+        }, 100);
 
         if (message.orientation === "horizontal") {
           const drawBar = map
@@ -3345,7 +3720,9 @@ if (HTMLWidgets.shinyMode) {
 
           if (marker.popup) {
             mapMarker.setPopup(
-              new mapboxgl.Popup({ offset: 25, maxWidth: '400px' }).setHTML(marker.popup),
+              new mapboxgl.Popup({ offset: 25, maxWidth: "400px" }).setHTML(
+                marker.popup,
+              ),
             );
           }
 
@@ -3381,14 +3758,14 @@ if (HTMLWidgets.shinyMode) {
         const position = message.position || "top-right";
         const fullscreen = new mapboxgl.FullscreenControl();
         map.addControl(fullscreen, position);
-        map.controls.push(fullscreen);
+        map.controls.push({ type: "fullscreen", control: fullscreen });
       } else if (message.type === "add_scale_control") {
         const scaleControl = new mapboxgl.ScaleControl({
           maxWidth: message.options.maxWidth,
           unit: message.options.unit,
         });
         map.addControl(scaleControl, message.options.position);
-        map.controls.push(scaleControl);
+        map.controls.push({ type: "scale", control: scaleControl });
       } else if (message.type === "add_geolocate_control") {
         const geolocate = new mapboxgl.GeolocateControl({
           positionOptions: message.options.positionOptions,
@@ -3399,7 +3776,7 @@ if (HTMLWidgets.shinyMode) {
           fitBoundsOptions: message.options.fitBoundsOptions,
         });
         map.addControl(geolocate, message.options.position);
-        map.controls.push(geolocate);
+        map.controls.push({ type: "geolocate", control: geolocate });
 
         if (HTMLWidgets.shinyMode) {
           geolocate.on("geolocate", function (event) {
@@ -3448,7 +3825,7 @@ if (HTMLWidgets.shinyMode) {
         const geocoder = new MapboxGeocoder(geocoderOptions);
 
         map.addControl(geocoder, message.position || "top-right");
-        map.controls.push(geocoder);
+        map.controls.push({ type: "geocoder", control: geocoder });
 
         // Handle geocoder results in Shiny mode
         geocoder.on("result", function (e) {
@@ -3827,6 +4204,14 @@ if (HTMLWidgets.shinyMode) {
               if (globeMinimap) {
                 globeMinimap.remove();
               }
+            } else if (controlType === "draw") {
+              // Hide measurement box when draw control is cleared
+              const measurementBox = document.getElementById(
+                `measurement-box-${map.getContainer().id}`,
+              );
+              if (measurementBox) {
+                measurementBox.style.display = "none";
+              }
             }
           });
         }
@@ -3841,27 +4226,34 @@ if (HTMLWidgets.shinyMode) {
           console.error("Layer not found:", message.layer);
         }
       } else if (message.type === "add_image") {
-        if (Array.isArray(message.images)) {
-          message.images.forEach(function (imageInfo) {
-            map.loadImage(imageInfo.url, function (error, image) {
-              if (error) {
-                console.error("Error loading image:", error);
-                return;
-              }
-              if (!map.hasImage(imageInfo.id)) {
-                map.addImage(imageInfo.id, image, imageInfo.options);
-              }
-            });
-          });
-        } else if (message.url) {
-          map.loadImage(message.url, function (error, image) {
+        const mapId = map.getContainer().id;
+
+        // Helper function to actually add the image
+        const doAddImage = function(imageId, url, options) {
+          // Register the image for re-adding after style changes
+          registerUserImageMapbox(mapId, imageId, url, options);
+
+          map.loadImage(url, function (error, image) {
             if (error) {
               console.error("Error loading image:", error);
               return;
             }
-            if (!map.hasImage(message.imageId)) {
-              map.addImage(message.imageId, image, message.options);
+            if (!map.hasImage(imageId)) {
+              map.addImage(imageId, image, options);
+              console.log("[MapGL Debug] Added image via proxy:", imageId);
             }
+          });
+        };
+
+        if (Array.isArray(message.images)) {
+          message.images.forEach(function (imageInfo) {
+            queueOrExecuteMapbox(mapId, function() {
+              doAddImage(imageInfo.id, imageInfo.url, imageInfo.options);
+            });
+          });
+        } else if (message.url) {
+          queueOrExecuteMapbox(mapId, function() {
+            doAddImage(message.imageId, message.url, message.options);
           });
         } else {
           console.error("Invalid image data:", message);
@@ -3895,12 +4287,12 @@ if (HTMLWidgets.shinyMode) {
         const tooltip = new mapboxgl.Popup({
           closeButton: false,
           closeOnClick: false,
-          maxWidth: '400px',
+          maxWidth: "400px",
         });
 
         // Define new handlers referencing the updated tooltip property
         const mouseMoveHandler = function (e) {
-          onMouseMoveTooltip(e, map, tooltip, newTooltipProperty);
+          onMouseMoveTooltip(e, map, tooltip, newTooltipProperty, layerId);
         };
         const mouseLeaveHandler = function () {
           onMouseLeaveTooltip(map, tooltip);
@@ -4012,7 +4404,7 @@ if (HTMLWidgets.shinyMode) {
         };
         const globeMinimap = new GlobeMinimap(globeMinimapOptions);
         map.addControl(globeMinimap, message.position || "bottom-left");
-        map.controls.push(globeMinimap);
+        map.controls.push({ type: "globe_minimap", control: globeMinimap });
       }
     }
   });

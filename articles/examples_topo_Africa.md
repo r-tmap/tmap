@@ -1,0 +1,129 @@
+# tmap example: topographic map (Africa)
+
+``` r
+library(tmap)
+library(dplyr)
+library(sf)
+tmap_options(scale = 0.75)
+```
+
+## About the data
+
+We use several spatial data object that are contained in tmap. The first
+is called `World`, which we only use for country borders. We’ll only
+select the African countries:
+
+``` r
+metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
+#> Warning: attribute variables are assumed to be spatially constant throughout
+#> all geometries
+Africa = World[World$continent == "Africa", ]
+```
+
+The second is `land` which is a `stars` object that contains land cover.
+The third object is `metro` an `sf` object with metropolitan areas. The
+fourth and final ovject is `World_rivers`.
+
+## Topographic map
+
+``` r
+tm_shape(land) +
+  tm_raster("cover_cls",
+    col.legend = tm_legend("Land use")) +
+tm_shape(World_rivers) +
+  tm_lines(
+    lwd = "strokelwd", 
+    lwd.scale = tm_scale_asis(values.scale = .5),
+    col = "#A6CEE3") +
+tm_shape(Africa, is.main = TRUE) +
+  tm_borders() +
+tm_shape(metroAfrica) +
+  tm_symbols(fill = "red", shape = "pop2020", size = "pop2020",
+    size.scale = tm_scale_intervals(
+      breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+      values.range = c(0.2,2)
+    ),
+    size.legend = tm_legend("Population in 2020"),
+    shape.scale = tm_scale_intervals(
+      breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+      values = c(21, 23, 22, 21, 23, 22)
+    ),
+    shape.legend = tm_legend_combine("size")) +
+  tm_labels("name") +
+tm_credits("United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects.\nProduction of Global Land Cover Data - GLCNMO2008.", position = tm_pos_out("center", "bottom"))
+```
+
+![](examples_topo_Africa_files/figure-html/unnamed-chunk-4-1.png)
+
+## Breaking down in layers
+
+If this code chunk is overwhelming, let’s that a look at the layer
+groups:
+
+### Land use layer
+
+``` r
+tm = 
+tm_shape(land) +
+  tm_raster("cover_cls",
+    col.legend = tm_legend("Land use"))
+tm
+```
+
+![](examples_topo_Africa_files/figure-html/unnamed-chunk-5-1.png)
+
+### Adding rivers
+
+``` r
+tm = tm + 
+tm_shape(World_rivers) +
+  tm_lines(
+    lwd = "strokelwd", 
+    lwd.scale = tm_scale_asis(values.scale = .5),
+    col = "#A6CEE3")
+tm
+```
+
+![](examples_topo_Africa_files/figure-html/unnamed-chunk-6-1.png)
+
+### African countries
+
+Note that the first two layers are from a global data set (so not just
+Africa). Note that in the final plot this raster is cropped to the
+bounding box of Africa. We’ll use `is.main` for the the spatial object
+`Africa` to do the actual cropping.
+
+``` r
+tm = tm +
+tm_shape(Africa, is.main = TRUE) +
+  tm_borders()
+tm
+```
+
+![](examples_topo_Africa_files/figure-html/unnamed-chunk-7-1.png)
+
+### African cities
+
+``` r
+tm = tm +
+tm_shape(metroAfrica) +
+  tm_symbols(fill = "red", shape = "pop2020", size = "pop2020",
+    size.scale = tm_scale_intervals(
+      breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+      values.range = c(0.2,2)
+    ),
+    size.legend = tm_legend("Population in 2020"),
+    shape.scale = tm_scale_intervals(
+      breaks = c(1, 2, 5, 10, 15, 20, 25) * 1e6,
+      values = c(21, 23, 22, 21, 23, 22)
+    ),
+    shape.legend = tm_legend_combine("size")) +
+  tm_labels("name")
+tm
+```
+
+![](examples_topo_Africa_files/figure-html/unnamed-chunk-8-1.png)
+
+See the [vigette about
+scale](https://r-tmap.github.io/tmap/articles/basics_scales) and [about
+legends](https://r-tmap.github.io/tmap/articles/basics_legends).

@@ -143,25 +143,25 @@
 <p>Numbers of numeric legends are formatted with the <code>label.format</code> argument of the scale function, e.g. <code>tm_scale_continuous</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn_div"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, </span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>scientific <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>, </span>
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"&lt;"</span>, suffix <span class="op">=</span> <span class="st">"&gt;"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, </span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
@@ -172,7 +172,7 @@
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="op">}</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="intervals">Intervals<a class="anchor" aria-label="anchor" href="#intervals"></a>
@@ -183,7 +183,7 @@
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
 <p>First of all note that intervals are by default closed on the left-handside, so the first interval represents all values from (and including) 10 to (and not including) the next break which is 20.
 How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p>Apart from how intervals are closed, another choice is how to present them. In the old tmap version (&lt;= 4.1), they were labeled as <code>"10 to 20"</code>, <code>"20 to 30"</code>. This lead to a lot of confusion because it was unclear where 20 belonged to. This old option can be enabled via the argument <code>label.disjoint</code> of <code><a href="../reference/tm_label_format.html">tm_label_format()</a></code>:</p>
@@ -193,7 +193,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>interval.disjoint <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
 <p>With the new default (<code>interval.disjoint = TRUE</code>) the argument digits can be used additionally:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
@@ -201,7 +201,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-11-1.png" alt="" width="100%"></p>
 <p>Use <code>-Inf</code> for the first break and <code>Inf</code> for the last break to trigger labels that reflect “less than” and “or more” respectively. How these are formatted can be specified with <code>label.format</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
@@ -218,7 +218,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>      text.or.more <span class="op">=</span> <span class="st">"or more"</span>, </span>
 <span>      text.or.more_as.prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-12-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="big-numbers">Big numbers<a class="anchor" aria-label="anchor" href="#big-numbers"></a>
@@ -227,7 +227,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-13-1.png" alt="" width="100%"></p>
 <p>The big number abbreviations are specified in <code>big.num.abbr</code>. The default value is</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span><span class="st">"label.format"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">big.num.abbr</span></span>
@@ -241,7 +241,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>      label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span></span>
 <span>        big.num.abbr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>thousand <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-15-1.png" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -258,7 +258,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
 <span>  size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-16-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-16-1.png" alt="" width="100%"></p>
 <p>We’ve used a gradient scale to map happy planet index (note that the minus sign reverses the palette). When <code>value.neutral</code> is not specified, the middle color (green) is used. My personal preference would be to use a neutral gray color with the same brightness as the palette colors:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
@@ -268,7 +268,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>    values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span>,</span>
 <span>    value.neutral <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-17-1.png" alt="" width="100%"></p>
 <p>A different approach to achieve the same result is to update the size legend:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
@@ -291,7 +291,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
 <span><span class="co">#&gt; therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-19-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-19-1.png" alt="" width="100%"></p>
 <p>Legends combined:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
@@ -299,7 +299,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  fill <span class="op">=</span> <span class="st">"economy"</span>, </span>
 <span>  shape <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>  shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"fill"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-20-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-20-1.png" alt="" width="100%"></p>
 <p>Two legends can be combined if and only if the number of legend items are the same. The graphical properties are then merged. So in this case the fill color from legend 1 and the shape of legend 2 are used.</p>
 </div>
 </div>
@@ -319,7 +319,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, </span>
 <span>      lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-21-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="manual-legends">Manual legends<a class="anchor" aria-label="anchor" href="#manual-legends"></a>
@@ -334,7 +334,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    shape <span class="op">=</span> <span class="fl">22</span>, </span>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, </span>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-22-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%"></p>
 <p>There are four legend types, specified via the <code>type</code> argument:</p>
 <ul>
 <li>
@@ -372,7 +372,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.5</span><span class="op">)</span>,</span>
 <span>    text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"purple"</span>, <span class="st">"blue"</span><span class="op">)</span>, </span>
 <span>    labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-23-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%"></p>
 <p>For symbols shapes (<code>shape</code>) are the following numbers are pre-defined:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">atlantic_grid</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">-</span><span class="fl">51</span><span class="op">:</span><span class="op">-</span><span class="fl">47</span>, y <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span></span>
@@ -387,7 +387,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-24-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%"></p>
 <p>It is also possible to use images or grob objects.</p>
 </div>
 <div class="section level2">
@@ -407,7 +407,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>        item.space <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>        item.na.space <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>        title.align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-25-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-25-1.png" alt="" width="100%"></p>
 <p>Another example is to configure the legend in ggplot2 style.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
@@ -426,7 +426,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>      ticks.col <span class="op">=</span> <span class="st">"white"</span>, </span>
 <span>      col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>frame <span class="op">=</span> <span class="cn">FALSE</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-26-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-26-1.png" alt="" width="100%"></p>
 <p>The <code>ticks</code> argument defines a dashed line. Each list item is a dash, the first between 0 and 0.1 of the color box width, and the second between 0.9 and 1.</p>
 <p>The numbers can also be larger than 1. In that case, the tick is drawn in the small margin between color box and label.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -447,7 +447,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>      ticks.col <span class="op">=</span> <span class="st">"red"</span>, </span>
 <span>      col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>frame <span class="op">=</span> <span class="cn">FALSE</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-27-1.png" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-27-1.png" alt="" width="100%"></p>
 <p>So the first dash <code>c(0, 0.5)</code> is drawn in the first half of the color box, and the second dash <code>c(1, 1.5)</code> in the first half of the margin.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -461,7 +461,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

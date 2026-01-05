@@ -117,7 +117,14 @@ function getSourceData(map, layerId) {
   // First try to get from existing source
   const source = map.getSource(layerId);
   if (source) {
-    // Check for _data property (GeoJSON sources)
+    // Try serialize() method first (proper API for getting source data)
+    if (typeof source.serialize === 'function') {
+      const serialized = source.serialize();
+      if (serialized && serialized.data) {
+        return serialized.data;
+      }
+    }
+    // Check for _data property (GeoJSON sources - may be deprecated)
     if (source._data) {
       return source._data;
     }
@@ -126,10 +133,16 @@ function getSourceData(map, layerId) {
       return source.data;
     }
   }
-  
+
   // Try with _source suffix (common pattern in mapgl)
   const sourceWithSuffix = map.getSource(layerId + "_source");
   if (sourceWithSuffix) {
+    if (typeof sourceWithSuffix.serialize === 'function') {
+      const serialized = sourceWithSuffix.serialize();
+      if (serialized && serialized.data) {
+        return serialized.data;
+      }
+    }
     if (sourceWithSuffix._data) {
       return sourceWithSuffix._data;
     }
@@ -137,20 +150,26 @@ function getSourceData(map, layerId) {
       return sourceWithSuffix.data;
     }
   }
-  
+
   // Query rendered features as fallback
   try {
     const features = map.queryRenderedFeatures({ layers: [layerId] });
     if (features.length > 0) {
+      // Clean features to ensure proper GeoJSON format
+      const cleanFeatures = features.map(f => ({
+        type: "Feature",
+        geometry: f.geometry,
+        properties: f.properties || {}
+      }));
       return {
         type: "FeatureCollection",
-        features: features
+        features: cleanFeatures
       };
     }
   } catch (e) {
     // Layer might not exist, continue to error
   }
-  
+
   throw new Error(`Could not find source data for layer: ${layerId}`);
 }
 

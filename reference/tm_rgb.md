@@ -1,0 +1,117 @@
+# Map layer: rgb images
+
+Map layer that an rgb image.. The used (multivariate) visual variable is
+`col`, which should be specified with 3 or 4 variables for `tm_rgb()`
+and `tm_rgba()` respectively. The first three correspond to the red,
+green, and blue channels. The optional fourth is the alpha transparency
+channel.
+
+## Usage
+
+``` r
+tm_rgb(
+  col = tm_vars(n = 3, multivariate = TRUE),
+  col.scale = tm_scale_rgb(),
+  col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
+  col.free = NA,
+  col_alpha = tm_const(),
+  col_alpha.scale = tm_scale(),
+  col_alpha.legend = tm_legend(),
+  col_alpha.chart = tm_chart_none(),
+  col_alpha.free = NA,
+  options = opt_tm_rgb(),
+  ...
+)
+
+tm_rgba(
+  col = tm_vars(n = 4, multivariate = TRUE),
+  col.scale = tm_scale_rgba(),
+  col.legend = tm_legend(),
+  col.chart = tm_chart_none(),
+  col.free = NA,
+  options = opt_tm_rgb()
+)
+
+opt_tm_rgb(interpolate = FALSE, saturation = 1)
+```
+
+## Arguments
+
+- col, col.scale, col.legend, col.chart, col.free:
+
+  Visual variable that determines the color. `col` is a multivariate
+  variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables.
+  These can be specified via
+  [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) with
+  `multivariate = TRUE`
+
+- col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
+  col_alpha.free:
+
+  Visual variable that determines the color transparency. See details.
+
+- options:
+
+  options passed on to the corresponding `opt_<layer_function>` function
+
+- ...:
+
+  to catch deprecated arguments from version \< 4.0
+
+- interpolate:
+
+  Should the raster image be interpolated? Currently only applicable in
+  view mode (passed on to
+  [`grid`](https://rdrr.io/r/grid/grid.raster.html))
+
+- saturation:
+
+  The saturation of the rgb.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+require(stars)
+file = system.file("tif/L7_ETMs.tif", package = "stars")
+
+L7 = stars::read_stars(file)
+
+tm_shape(L7) +
+  tm_rgb()
+
+# the previous example was a shortcut of this call
+tm_shape(L7) +
+  tm_rgb(col = tm_vars("band", dimvalues = 1:3, multivariate = TRUE))
+
+# alternative format: using a stars dimension instead of attributes
+L7_alt = split(L7, "band")
+tm_shape(L7_alt) +
+  tm_rgb()
+
+# with attribute names
+tm_shape(L7_alt) +
+  tm_rgb(col = tm_vars(c("X1", "X2", "X3"), multivariate = TRUE))
+
+# with attribute indices
+tm_shape(L7_alt) +
+  tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
+
+if (requireNamespace("terra")) {
+  L7_terra = terra::rast(file)
+
+  tm_shape(L7_terra) +
+    tm_rgb()
+
+  # with layer names
+  tm_shape(L7_terra) +
+    tm_rgb(tm_vars(names(L7_terra)[1:3], multivariate = TRUE))
+
+  # with layer indices
+  tm_shape(L7_alt) +
+    tm_rgb(col = tm_vars(1:3, multivariate = TRUE))
+
+}
+} # }
+```

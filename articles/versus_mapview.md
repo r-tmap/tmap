@@ -1,0 +1,77 @@
+# tmap versus: mapview
+
+## Mapview
+
+Mapview is an excellent R package for interactive maps. Although the
+packages have a lot in common, the focus is different:
+
+- tmap focusses on thematic mapping with a syntax that is based on the
+  [grammar of
+  graphics](https://r-tmap.github.io/tmap/articles/11_foundations_gg)
+  and is therefore popular for education purposes;
+- mapview focuses on fast exploration of spatial data and has more
+  interactive features.
+
+## Modes / platforms
+
+- tmap offers two modes: “plot” and “view” (but is extendable, see
+  <https://github.com/r-tmap/tmap.deckgl>).
+- mapview supports three modes, which they call *platforms*: “leaflet”,
+  “leafgl”, and “mapdeck”.
+
+tmap “view” (with `tm_view(use_WebGL = FALSE)`) is similar to mapview
+“leaflet” tmap “view” (with `tm_view(use_WebGL = TRUE)`) is similar to
+mapview “leafgl”
+
+tmap does not offer a mode using Mapbox yet.
+
+## Default maps
+
+This is the default output of `mapview`:
+
+``` r
+library(mapview)
+mapview(World)
+```
+
+This is the default output of `tmap`:
+
+``` r
+tmap_mode("view")
+#> ℹ tmap modes "plot" - "view"
+#> ℹ toggle with `tmap::ttm()`
+qtm(World) # qtm stands for 'quick thematic map'
+```
+
+## Choropleth
+
+``` r
+mapview(World, zcol = "HPI")
+```
+
+``` r
+tm_shape(World) +
+  tm_polygons(fill = "HPI")
+```
+
+## Mimicking mapview layout
+
+We can use `tmap` to match the style of `mapview`:
+
+``` r
+tm_shape(World) +
+  tm_polygons(
+    fill = "HPI",
+    fill_alpha = 0.6,
+    col_alpha = 0.9,
+    fill.legend = tm_legend(
+      title = "World - HPI",
+      position = c("right", "top"), 
+      fill_alpha = 1),
+    fill.scale = tm_scale_continuous(values = "viridis", n = 7, value.na = "#BEBEBE")
+  ) + 
+tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter", 
+  "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
+#> Warning: tm_scale_intervals `label.style = "continuous"` implementation in view mode
+#> work in progress
+```

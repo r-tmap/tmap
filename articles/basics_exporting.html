@@ -163,7 +163,7 @@
 <span><span class="co">#&gt; Resolution: 2100 by 1200 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 4 inches (300 dpi)</span></span></code></pre></div>
 <p>Therefore, both examples result in exactly the same file:</p>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <p>Vector based formats are preferred over pixel based, because of the scalability. In case pixel formats are used, please make sure to use a sufficient number of pixels. For <strong>web publications</strong> at least 144 dpi is required. This may seem overkill, but is required for <em>retina</em> (high point-per-inch) displays. For <strong>printing</strong> 300 or even 600 dpi is required.</p>
 </div>
 <div class="section level3">
@@ -175,7 +175,7 @@
 <span><span class="co">#&gt; Map saved to /home/runner/work/tmap/tmap/vignettes/world.png</span></span>
 <span><span class="co">#&gt; Resolution: 2100 by 1059.87 pixels</span></span>
 <span><span class="co">#&gt; Size: 7 by 3.5329 inches (300 dpi)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="vector-based-format">Vector based format<a class="anchor" aria-label="anchor" href="#vector-based-format"></a>
@@ -192,22 +192,22 @@
 <p>Much smaller (0.5):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-11-1.png" alt="" width="100%"></p>
 <p>A bit smaller (0.8):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-13-1.png" alt="" width="100%"></p>
 <p>A bit larger (1.2):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-15-1.png" alt="" width="100%"></p>
 <p>Much larger (1.5):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world.png"</span>, width <span class="op">=</span> <span class="fl">7</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span>, scale <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> fit legend/component: Some legend items or map compoments do not</span></span>
 <span><span class="co">#&gt; fit well, and are therefore rescaled.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre>
-<p><img src="basics_exporting_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
+<p><img src="basics_exporting_files/figure-html/unnamed-chunk-17-1.png" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -229,7 +229,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

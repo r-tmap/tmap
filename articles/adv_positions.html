@@ -184,7 +184,7 @@
 <span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.3, 0.3"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.5, 0.5"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>       </span>
 <span>    <span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"0.9, 1"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>     </span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -220,7 +220,7 @@
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"center, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span>, pos.h <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"right, bottom"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame.color <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <p>Note that we used <code>pos.h</code> and <code>pos.v</code>. These will be explained in the next section.</p>
 </div>
 <div class="section level3">
@@ -247,7 +247,7 @@
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"pos.h = 1\npos.v = 1\nin center cell"</span><span class="op">)</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span>pos.h <span class="op">=</span> <span class="fl">1</span>, pos.v <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame.color <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <p>Recall that the <strong>justification point</strong> for the numeric specifications is the <strong>top left corner</strong> of the component. This can be adjusted via <code>just.h</code> and <code>just.v</code> as explained next.</p>
 </div>
 <div class="section level3">
@@ -273,7 +273,7 @@
 <span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"right, bottom"</span><span class="op">)</span>, </span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, just.h <span class="op">=</span> <span class="st">"right"</span>, just.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame.color <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="align-h-and-align-v">
@@ -297,7 +297,7 @@
 <span>  width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span>, frame.color <span class="op">=</span> <span class="st">"blue"</span>, frame.lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_positions_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="automatic-positioning">Automatic positioning<a class="anchor" aria-label="anchor" href="#automatic-positioning"></a>
@@ -321,7 +321,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

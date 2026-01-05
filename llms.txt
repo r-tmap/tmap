@@ -1,0 +1,488 @@
+# tmap: thematic maps in R
+
+**tmap** is an R package for drawing thematic maps. The API is based on
+[*A Layered Grammar of
+Graphics*](https://vita.had.co.nz/papers/layered-grammar.pdf) and
+resembles the syntax of
+[**ggplot2**](https://cran.r-project.org/package=ggplot2), a popular
+R-library for drawing charts.
+
+## Installation
+
+Installation of **tmap** is straightforward:
+
+``` r
+install.packages("tmap")
+```
+
+In case it fails, please check the dependencies below.
+
+### Development version
+
+The development version can be installed from the GitHub repository
+using one of the following functions:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("r-tmap/tmap")
+
+# install.packages("pak")
+pak::pak("r-tmap/tmap")
+
+# Or from r-universe
+install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+## Dependencies
+
+tmap depend on other R packages, which will automatically be installed
+along. However, two packages **sf** and **s2** have additional system
+requirements: for Windows users, these are also installed along. For
+Linux and MacOS users, these additional libraries may need to be
+installed manually.
+
+Instructions for the libraries GEOS, GDAL and PROJ (required by **sf**):
+see the installation instructions of **terra** which requires the same
+libraries:
+[MacOS](https://rspatial.github.io/terra/index.html?q=installation#macos)
+and
+[Linux](https://rspatial.github.io/terra/index.html?q=installation#linux)
+
+Instructions for the libraries Abseil and OpenSSL (required by **s2**):
+see the [installation
+instructions](https://r-spatial.github.io/s2/#installation).
+
+## Getting started
+
+Plot a World map of the happy planet index (HPI) per country. The object
+`World` is an example spatial data (`sf`) object that is contained in
+**tmap**:
+
+``` r
+tm_shape(World) +
+    tm_polygons(fill = "HPI")
+```
+
+![](reference/figures/README-unnamed-chunk-4-1.png)
+
+This map can be enhanced in several ways. For instance:
+
+``` r
+tm_shape(World, crs = "+proj=robin") +
+    tm_polygons(fill = "HPI",
+                fill.scale = tm_scale_continuous(values = "matplotlib.rd_yl_bu"),
+                fill.legend = tm_legend(title = "Happy Planet Index",
+                                        orientation = "landscape", 
+                                        frame = FALSE)
+                )
+```
+
+![](reference/figures/README-unnamed-chunk-5-1.png)
+
+## Online tmap course
+
+3-6 June, organized jointly by
+[PRStats](https://www.prstats.org/course/visual-exploration-analysis-and-presentation-of-spatial-data-using-the-tmap-package-tmap01/)
+and
+[Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization)
+
+## Additional Resources for Learning **tmap**
+
+For more in-depth learning on the **tmap** package, refer to the
+following resources:
+
+- **Book Chapter:** [Geocomputation with R](https://r.geocompx.org/)
+  includes a chapter on [Making Maps with
+  R](https://r.geocompx.org/adv-map), which covers **tmap**.  
+- **Official Vignettes:** A collection of vignettes at
+  [r-tmap.github.io](https://r-tmap.github.io/tmap/articles/) covers
+  both basic and advanced topics with examples.  
+- **Work-in-Progress Book:** *Elegant and Informative Maps with tmap* is
+  an upcoming book available at
+  [tmap.geocompx.org](https://tmap.geocompx.org/).
+
+These resources provide a solid foundation for working with **tmap** in
+R.
+
+# Package index
+
+## Thematic Maps
+
+- [`tmap`](https://r-tmap.github.io/tmap/reference/tmap-package.md)
+  [`tmap-package`](https://r-tmap.github.io/tmap/reference/tmap-package.md)
+  : Thematic Map Visualization
+
+## Create a quick plot
+
+- [`qtm()`](https://r-tmap.github.io/tmap/reference/qtm.md) : Quick
+  thematic map plot
+
+## Stacking tmap elements
+
+- [`` `+`( ``*`<tmap>`*`)`](https://r-tmap.github.io/tmap/reference/tmap-element.md)
+  : Stacking of tmap elements
+
+## Specify spatial data
+
+- [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md) :
+  Shape (spatial object) specification
+- [`tm_crs()`](https://r-tmap.github.io/tmap/reference/tm_crs.md) : Set
+  the map projection (CRS)
+
+## Add data-driven map layers
+
+- [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  [`tm_fill()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  [`tm_borders()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  [`opt_tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  : Map layer: polygons
+- [`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+  [`opt_tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+  : Map layer: lines
+- [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`tm_dots()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`tm_bubbles()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`tm_squares()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`tm_markers()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`opt_tm_markers()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`opt_tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`opt_tm_dots()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`opt_tm_bubbles()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  [`opt_tm_squares()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  : Map layer: symbols
+- [`tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
+  [`opt_tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
+  : Map layer: raster
+- [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  [`tm_labels_highlighted()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  [`opt_tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  [`opt_tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  : Map layer: text
+- [`tm_iso()`](https://r-tmap.github.io/tmap/reference/tm_iso.md) : Map
+  layer: iso (contour)
+- [`tm_sf()`](https://r-tmap.github.io/tmap/reference/tm_sf.md)
+  [`opt_tm_sf()`](https://r-tmap.github.io/tmap/reference/tm_sf.md) :
+  Map layer: simple features
+
+## Specify facets and animations
+
+- [`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_grid()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_wrap()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_pagewise()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_stack()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_hstack()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_vstack()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  [`tm_facets_flip()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+  : Specify facets
+- [`tm_animate_fast()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)
+  [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)
+  : Specify an animation
+
+## Add auxiliary map layers
+
+- [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
+  [`tm_tiles()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
+  : Map layer: basemap / overlay tiles
+- [`tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
+  [`tm_rgba()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
+  [`opt_tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md) :
+  Map layer: rgb images
+- [`tm_graticules()`](https://r-tmap.github.io/tmap/reference/tm_grid.md)
+  [`tm_grid()`](https://r-tmap.github.io/tmap/reference/tm_grid.md) :
+  Coordinate grid / graticule lines
+
+## Add map components
+
+- [`tm_title()`](https://r-tmap.github.io/tmap/reference/tm_title.md)
+  [`tm_title_in()`](https://r-tmap.github.io/tmap/reference/tm_title.md)
+  [`tm_title_out()`](https://r-tmap.github.io/tmap/reference/tm_title.md)
+  : Map component: title
+- [`tm_credits()`](https://r-tmap.github.io/tmap/reference/tm_credits.md)
+  : Map component: (credits) text
+- [`tm_compass()`](https://r-tmap.github.io/tmap/reference/tm_compass.md)
+  : Map component: compass
+- [`tm_scalebar()`](https://r-tmap.github.io/tmap/reference/tm_scalebar.md)
+  : Map component: scale bar
+- [`tm_logo()`](https://r-tmap.github.io/tmap/reference/tm_logo.md) :
+  Map component: logo
+- [`tm_minimap()`](https://r-tmap.github.io/tmap/reference/tm_minimap.md)
+  : Map component: minimap
+- [`tm_mouse_coordinates()`](https://r-tmap.github.io/tmap/reference/tm_mouse_coordinates.md)
+  : Map component: mouse coordinates
+- [`tm_xlab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md)
+  [`tm_ylab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md) :
+  Map: x and y labels
+- [`tm_inset()`](https://r-tmap.github.io/tmap/reference/tm_inset.md) :
+  Map component: inset maps and other objects
+
+## Set scale for a visual variable
+
+Always use those in this form `<vv>.scale = tm_scale*()`
+
+- [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md) :
+  Scales: automatic scale
+- [`tm_scale_asis()`](https://r-tmap.github.io/tmap/reference/tm_scale_asis.md)
+  : Scales: as is
+- [`tm_scale_bivariate()`](https://r-tmap.github.io/tmap/reference/tm_scale_bivariate.md)
+  : Scales: bivariate scale
+- [`tm_scale_ordinal()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md)
+  [`tm_scale_categorical()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md)
+  : Scales: categorical and ordinal scale
+- [`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_log()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_log2()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_log10()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_log1p()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_sqrt()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  [`tm_scale_continuous_pseudo_log()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
+  : Scales: continuous scale
+- [`tm_scale_discrete()`](https://r-tmap.github.io/tmap/reference/tm_scale_discrete.md)
+  : Scales: discrete scale
+- [`tm_scale_intervals()`](https://r-tmap.github.io/tmap/reference/tm_scale_intervals.md)
+  : Scales: interval scale
+- [`tm_scale_rank()`](https://r-tmap.github.io/tmap/reference/tm_scale_rank.md)
+  : Scales: rank scale
+- [`tm_scale_rgb()`](https://r-tmap.github.io/tmap/reference/tm_scale_rgb.md)
+  [`tm_scale_rgba()`](https://r-tmap.github.io/tmap/reference/tm_scale_rgb.md)
+  : Scales: RGB
+
+## Set legend for a visual variable
+
+Always use those in this form `<vv>.legend = tm_legend*()`
+
+- [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+  [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+  [`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+  [`tm_legend_bivariate()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+  : Legend
+- [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md)
+  : Map component: manual legend
+- [`tm_place_legends_right()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_left()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_bottom()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_top()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_inside()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_extra_inner_margin()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  : tmap layout: helper functions
+
+## Set charts for a visual variable
+
+Always use those in this form `<vv>.chart = tm_chart*()`
+
+- [`tm_chart_histogram()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_bar()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_donut()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_violin()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_box()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_none()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  [`tm_chart_heatmap()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
+  : Legend charts
+
+## Configure legend and component position
+
+- [`tm_pos()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  [`tm_pos_in()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  [`tm_pos_out()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  [`tm_pos_on_top()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  [`tm_pos_auto_out()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  [`tm_pos_auto_in()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
+  : Set the position of map components
+- [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md)
+  : Group components
+
+## Set layout options
+
+- [`tm_style()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
+  [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
+  : Layout options
+- [`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md)
+  : tmap options
+- [`tm_view()`](https://r-tmap.github.io/tmap/reference/tm_view.md) :
+  View mode options
+- [`tm_group()`](https://r-tmap.github.io/tmap/reference/tm_group.md) :
+  Layer group control
+- [`tm_plot()`](https://r-tmap.github.io/tmap/reference/tm_plot.md) :
+  Plot mode options
+
+## Set options globally for tmap
+
+- [`tm_check_fix()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options_mode()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options_diff()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options_reset()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options_save()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  : tmap options
+- [`tmap_style()`](https://r-tmap.github.io/tmap/reference/tmap_style.md)
+  : Set or get the default tmap style
+- [`tmap_style_catalogue()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
+  [`tmap_style_catalog()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
+  : Create a style catalogue
+- [`tmap_mode()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  [`ttmp()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  [`rtmp()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md) : Set
+  tmap mode to static plotting or interactive viewing
+- [`tmap_devel_mode()`](https://r-tmap.github.io/tmap/reference/tmap_devel_mode.md)
+  : Set the development mode
+- [`tmap_design_mode()`](https://r-tmap.github.io/tmap/reference/tmap_design_mode.md)
+  : Set the design mode
+
+## Export a tmap object
+
+- [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
+  : Save tmap
+- [`tmap_leaflet()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
+  [`tmap_grob()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
+  : Export tmap to the format of the used graphics mode
+
+## Datasets included in tmap
+
+- [`World`](https://r-tmap.github.io/tmap/reference/World.md) : World
+  dataset
+- [`World_rivers`](https://r-tmap.github.io/tmap/reference/World_rivers.md)
+  : Spatial data of rivers
+- [`land`](https://r-tmap.github.io/tmap/reference/land.md) : Spatial
+  data of global land cover
+- [`metro`](https://r-tmap.github.io/tmap/reference/metro.md) : Spatial
+  data of metropolitan areas
+- [`NLD_prov`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
+  [`NLD_muni`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
+  [`NLD_dist`](https://r-tmap.github.io/tmap/reference/Netherlands.md) :
+  Netherlands datasets
+
+## Use tmap in shiny
+
+- [`renderTmap()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`tmapOutput()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`tmapProxy()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`tm_remove_layer()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  :
+
+  Wrapper functions for using **tmap** in **shiny**
+
+## Print a tmap object
+
+- [`tmap_last()`](https://r-tmap.github.io/tmap/reference/tmap_last.md)
+  : Retrieve the last map to be modified or created
+- [`print(`*`<tmap>`*`)`](https://r-tmap.github.io/tmap/reference/print.tmap.md)
+  [`knit_print(`*`<tmap>`*`)`](https://r-tmap.github.io/tmap/reference/print.tmap.md)
+  : Draw thematic map
+- [`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
+  : Create animation
+- [`tmap_arrange()`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
+  [`knit_print(`*`<tmap_arrange>`*`)`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
+  [`print(`*`<tmap_arrange>`*`)`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
+  : Arrange small multiples in grid layout
+
+## Helper functions
+
+- [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md) :
+  tmap function to define a constant visual value
+- [`tm_seq()`](https://r-tmap.github.io/tmap/reference/tm_seq.md) :
+  Specify a numeric sequence
+- [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
+  tmap function to specify variables
+- [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md)
+  : tmap function to specify labels
+- [`tm_plot_order()`](https://r-tmap.github.io/tmap/reference/tm_plot_order.md)
+  : Determine plotting order of features
+- [`theme_ps()`](https://r-tmap.github.io/tmap/reference/theme_ps.md) :
+  ggplot2 theme for proportional symbols
+- [`tmap_tip()`](https://r-tmap.github.io/tmap/reference/tmap_tip.md) :
+  Print a random tip to the console
+- [`tmap_icons()`](https://r-tmap.github.io/tmap/reference/tmap_icons.md)
+  [`marker_icon()`](https://r-tmap.github.io/tmap/reference/tmap_icons.md)
+  : Specify icons
+- [`.tmap_providers`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
+  [`tmap_provider_credits()`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
+  [`tmap_providers()`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
+  : Get basemap tiles providers
+- [`tmap_overview()`](https://r-tmap.github.io/tmap/reference/tmap_overview.md)
+  : Overview of tmap layers
+
+# Articles
+
+### All vignettes
+
+- [tmap advanced:
+  animations](https://r-tmap.github.io/tmap/articles/adv_animations.md):
+- [tmap advanced: grouping of
+  components](https://r-tmap.github.io/tmap/articles/adv_comp_group.md):
+- [tmap advanced:
+  extensions](https://r-tmap.github.io/tmap/articles/adv_extensions.md):
+- [tmap advanced: ggplot2
+  integration](https://r-tmap.github.io/tmap/articles/adv_ggplot2.md):
+- [tmap advanced: layer groups (view mode
+  only)](https://r-tmap.github.io/tmap/articles/adv_groups.md):
+- [tmap advanced: inset maps and
+  minimaps](https://r-tmap.github.io/tmap/articles/adv_inset_maps.md):
+- [tmap advanced:
+  legends](https://r-tmap.github.io/tmap/articles/adv_legends.md):
+- [tmap advanced: margins and aspect
+  ratio](https://r-tmap.github.io/tmap/articles/adv_margins.md):
+- [tmap advanced: multiple visual
+  variables](https://r-tmap.github.io/tmap/articles/adv_multivariate.md):
+- [tmap advanced:
+  options](https://r-tmap.github.io/tmap/articles/adv_options.md):
+- [tmap advanced: positioning of
+  components](https://r-tmap.github.io/tmap/articles/adv_positions.md):
+- [tmap advanced:
+  options](https://r-tmap.github.io/tmap/articles/adv_shiny.md):
+- [tmap basics:
+  basemaps](https://r-tmap.github.io/tmap/articles/basics_basemaps.md):
+- [tmap basics:
+  charts](https://r-tmap.github.io/tmap/articles/basics_charts.md):
+- [tmap basics:
+  components](https://r-tmap.github.io/tmap/articles/basics_components.md):
+- [tmap basics:
+  exporting](https://r-tmap.github.io/tmap/articles/basics_exporting.md):
+- [tmap basics:
+  facets](https://r-tmap.github.io/tmap/articles/basics_facets.md):
+- [tmap basics:
+  layout](https://r-tmap.github.io/tmap/articles/basics_layout.md):
+- [tmap basics:
+  legends](https://r-tmap.github.io/tmap/articles/basics_legends.md):
+- [tmap basics:
+  modes](https://r-tmap.github.io/tmap/articles/basics_modes.md):
+- [tmap basics:
+  scales](https://r-tmap.github.io/tmap/articles/basics_scales.md):
+- [tmap basics: visual
+  variables](https://r-tmap.github.io/tmap/articles/basics_vv.md):
+- [tmap example: bivariate
+  choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro.md):
+- [tmap example: bubble
+  map](https://r-tmap.github.io/tmap/articles/examples_bubble.md):
+- [tmap example: choropleth
+  (Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD.md):
+- [tmap example: choropleth
+  (World)](https://r-tmap.github.io/tmap/articles/examples_choro_World.md):
+- [tmap example:
+  gridmaps](https://r-tmap.github.io/tmap/articles/examples_gridmaps.md):
+- [tmap example:
+  rasters](https://r-tmap.github.io/tmap/articles/examples_raster.md):
+- [tmap example: terrain
+  map](https://r-tmap.github.io/tmap/articles/examples_terrain.md):
+- [tmap example: topographic map
+  (Africa)](https://r-tmap.github.io/tmap/articles/examples_topo_Africa.md):
+- [tmap extensions:
+  tmap.cartogram](https://r-tmap.github.io/tmap/articles/ext_cartogram.md):
+- [tmap extensions:
+  tmap.glyphs](https://r-tmap.github.io/tmap/articles/ext_glyphs.md):
+- [tmap extensions:
+  tmap.mapgl](https://r-tmap.github.io/tmap/articles/ext_mapgl.md):
+- [tmap extensions:
+  tmap.networks](https://r-tmap.github.io/tmap/articles/ext_networks.md):
+- [tmap foundations: map projections
+  (CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs.md):
+- [tmap foundations: Grammar of
+  Graphics](https://r-tmap.github.io/tmap/articles/foundations_gg.md):
+- [tmap versus:
+  ggplot2](https://r-tmap.github.io/tmap/articles/versus_ggplot2.md):
+- [tmap versus:
+  mapsf](https://r-tmap.github.io/tmap/articles/versus_mapsf.md):
+- [tmap versus:
+  mapview](https://r-tmap.github.io/tmap/articles/versus_mapview.md):

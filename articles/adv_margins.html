@@ -164,7 +164,7 @@
 <span><span class="co">#&gt; Guide lines:</span></span>
 <span><span class="co">#&gt; - thick       component position (legend, scalebar, etc.)</span></span>
 <span><span class="co">#&gt; - thin        component-element position (e.g. legend items)</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/figures-side-1.png" width="47%"><img src="adv_margins_files/figure-html/figures-side-2.png" width="47%"></p>
+<p><img src="adv_margins_files/figure-html/figures-side-1.png" alt="" width="47%"><img src="adv_margins_files/figure-html/figures-side-2.png" alt="" width="47%"></p>
 </div>
 <div class="section level2">
 <h2 id="tm_layout-and-tmap-options">tm_layout() and tmap options<a class="anchor" aria-label="anchor" href="#tm_layout-and-tmap-options"></a>
@@ -211,7 +211,7 @@
 <span><span class="co">#&gt; Guide lines:</span></span>
 <span><span class="co">#&gt; - thick       component position (legend, scalebar, etc.)</span></span>
 <span><span class="co">#&gt; - thin        component-element position (e.g. legend items)</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<p><img src="adv_margins_files/figure-html/unnamed-chunk-3-1.png" alt="" width="100%"></p>
 <p>Via the <strong>inner margins</strong>, the space between the borders of the Netherlands and the map frame is set to 0.2 in each direction. This value is relative to the width (for the left and right-handside margin) and height (top and bottom margin). In other words, the bounding box of the Netherlands occupies 60 percent of the horizontal space and 60 percent of the vertical space of the map frame, shown as the <strong>yellow</strong> box in design mode.</p>
 <p>The meta margins is the space dedicated for map components that are outside the map (see <a href="https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v">vignette about component positions</a>. The value of the right-handside meta margin 0.15 in this example means that 15 percent of the total device width is used for the ouside components (in this example the legend), shown in the <strong>green</strong> box. If not specified, for single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, <code>meta.margins</code> is set to <code>c(0, 0, 0, 0)</code>. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.</p>
 <p>The outer margins can also be specified. By default these are 0.02 in each dimension. This is shown in the light blue area. Note that the left and right-handside margin are larger. This is caused by a mismatch between the plot (map and outside components) and the device. Because the aspect ratio of the device is larger (more landscape) than that of the map and components, the ‘excess’ margin is also added to the outer margins. It is also possible to add this ‘excess’ margin to the inner margins by setting <code>asp = 0</code>. This is explained in the next section.</p>
@@ -244,7 +244,7 @@
 <span><span class="co">#&gt; Guide lines:</span></span>
 <span><span class="co">#&gt; - thick       component position (legend, scalebar, etc.)</span></span>
 <span><span class="co">#&gt; - thin        component-element position (e.g. legend items)</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="adv_margins_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <p>A special case is the value 0. Then the aspect ratio of the graphics device is taken. Now the ‘excess’ margin (see previous section) is added to the inner margins, and the outer margins are unchanged. Hence, a useful trick is to set both <code>asp</code> and <code>outer.margins</code> to 0:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
@@ -270,7 +270,7 @@
 <span><span class="co">#&gt; Guide lines:</span></span>
 <span><span class="co">#&gt; - thick       component position (legend, scalebar, etc.)</span></span>
 <span><span class="co">#&gt; - thin        component-element position (e.g. legend items)</span></span></code></pre></div>
-<p><img src="adv_margins_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="adv_margins_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <p>The result is that the map frame (if drawn) corresponds to the borders of the graphics device.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -284,7 +284,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
