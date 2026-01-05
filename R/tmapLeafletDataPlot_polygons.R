@@ -14,8 +14,11 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 	dt = res$dt
 
 	idt_null = is.null(idt)
+
+	shpTM_match = match(dt$tmapID__, idt$tmapID__)
+
 	if (!is.null(idt)) {
-		idt = idt$id[match(dt$tmapID__, idt$tmapID__)]
+		idt = idt$id[shpTM_match]
 	} else {
 		idt = sprintf("%07d", dt$tmapID__)[shpTM_match]
 	}
