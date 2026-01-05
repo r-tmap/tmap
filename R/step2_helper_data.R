@@ -155,7 +155,11 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 
 				if (!q$drop.units) {
 
-					imp = structure(list(value.null, -1L, FALSE), names = c(unm, {if (bypass_ord) NULL else nm__ord}, "sel__"))
+					if (bypass_ord) {
+						imp = structure(list(value.null, FALSE), names = c(unm, "sel__"))
+					} else {
+						imp = structure(list(value.null, -1L, FALSE), names = c(unm, nm__ord, "sel__"))
+					}
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
