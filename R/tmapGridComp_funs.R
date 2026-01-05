@@ -449,7 +449,7 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	sel = which(ticks3 <= sbW)
 
 	if (!is.null(comp$breaks) && length(sel) != length(ticks3)) {
-		warning("Not all scale bar breaks could be plotted. Try increasing the scale bar width or descreasing the font size", call. = FALSE)
+		cli::cli_warn("{.field tm_scalebar} Not all scale bar breaks could be plotted. Try increasing the scale bar width or decreasing the font size")
 	}
 
 	ticks3 = ticks3[sel]
@@ -464,7 +464,12 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 
 	n = length(ticks2)
 
-	widths = ticks3[2:n] - ticks3[1:(n-1)]
+	if (length(ticks3) == 1) {
+		cli::cli_warn("{.field tm_scalebar} Only one scale bar break could be plotted. Try decreasing the font size or increasing the scale bar width")
+		widths = sbW
+	} else {
+		widths = ticks3[2:n] - ticks3[1:(n-1)]
+	}
 	size = min(comp$text.size, widths/max(ticksWidths))
 	x = ticks3[1:(n-1)]  + ticksWidths[1]*size #+ .5*widths[1]
 
