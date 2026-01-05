@@ -49,7 +49,7 @@ preprocess_meta = function(o, cdt) {
 				"xtab"
 			}
 		} else if ((npp == 1) && is.na(panel.labels[[1]])) {
-			if (n > 1) {
+			if (n > 1 || any(isdef)) {
 				"wrap"
 			} else {
 				"none"
