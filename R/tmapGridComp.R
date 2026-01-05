@@ -280,7 +280,11 @@ tmapGetCompGroupArgs = function(comp) {
 	any_legend_chart_inset = any(vapply(comp, inherits, FUN.VALUE = logical(1), c("tm_legend", "tm_chart")))
 	grp_called = setdiff(unique(do.call(c, lapply(comp, FUN = "[[", "called_via_comp_group"))), "group_id")
 
-	if (!("frame" %in% grp_called)) grp$frame = any_legend_chart_inset
+	if (!("frame" %in% grp_called)) {
+		# update because of #1214
+		frms = vapply(comp, function(ci) ci$frame, FUN.VALUE = logical(1))
+		if (any(frms) && (any(!frms))) grp$frame = any_legend_chart_inset
+	}
 	if (!("bg" %in%grp_called)) grp$bg = any_legend_chart_inset
 	grp$called = comp[[1]]$called
 	grp
