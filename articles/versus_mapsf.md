@@ -49,7 +49,8 @@ the function `tm_minimap`.
 Both packages offer styling options and themes. In both packages own
 styles can be created. However, `tmap` has much more styling options
 available. See
-[`mf_theme()`](https:/riatelab.github.io/mapsf/man/mf_theme.html) and
+[`mf_theme()`](https://riatelab.github.io/mapsf/reference/mf_theme.html)
+and
 [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md).
 
 ### Base vs grid graphics

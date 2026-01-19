@@ -414,4 +414,7 @@ tm_shape(World) +
     fill.scale = tm_scale_intervals(
       label.format = function(x) format(x, big.mark = " ")),
 )
+#> `tm_format_label()` when `fun` is defined and `interval.disjoint` is enabled,
+#> it is unclear how to format the "to" numbers, and moreover how to determine the
+#> significant number of digits. Please use `digits` to set this.
 ```

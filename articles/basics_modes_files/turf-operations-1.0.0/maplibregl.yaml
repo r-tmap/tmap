@@ -1,6 +1,6 @@
 dependencies:
   - name: maplibre-gl
-    version: "5.13.0"
+    version: "5.15.0"
     src: "htmlwidgets/lib/maplibre-gl"
     script:
       - "maplibre-gl.js"
@@ -67,3 +67,15 @@ dependencies:
     src: "htmlwidgets"
     script:
       - "turf-operations.js"
+  - name: html2canvas
+    version: "1.4.1"
+    src: "htmlwidgets/lib/html2canvas"
+    script:
+      - "html2canvas.min.js"
+  - name: legend-interactivity
+    version: "1.0.0"
+    src: "htmlwidgets/lib/legend-interactivity"
+    script:
+      - "legend-interactivity.js"
+    stylesheet:
+      - "legend-interactivity.css"

@@ -1,0 +1,247 @@
+/**
+ * Legend Interactivity Styles for mapgl
+ * Styles for interactive categorical and continuous legends
+ */
+
+/* Categorical legend items - clickable */
+.mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item {
+    cursor: pointer;
+    transition: opacity 0.2s ease, background-color 0.15s ease;
+    user-select: none;
+    padding: 2px 4px;
+    margin: -2px -4px;
+    border-radius: 4px;
+}
+
+.mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Disabled category styling */
+.mapboxgl-legend[data-interactive="true"] .legend-item[data-enabled="false"] {
+    opacity: 0.5;
+}
+
+.mapboxgl-legend[data-interactive="true"] .legend-item[data-enabled="false"] .legend-color {
+    filter: grayscale(100%);
+}
+
+.mapboxgl-legend[data-interactive="true"] .legend-item[data-enabled="false"] .legend-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* ===========================================
+   Continuous legend - Gradient Overlay Handles
+   =========================================== */
+
+/* Container for all overlay elements - positioned over gradient */
+.legend-gradient-overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* Ghost overlays for unselected regions */
+.legend-gradient-ghost {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+}
+
+.legend-gradient-ghost-left {
+    left: 0;
+    width: 0;
+}
+
+.legend-gradient-ghost-right {
+    right: 0;
+    width: 0;
+}
+
+/* Vertical line handles */
+.legend-gradient-handle {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 3px;
+    background: #333;
+    cursor: ew-resize;
+    pointer-events: auto;
+    transform: translateX(-50%);
+    border-radius: 1px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.15s ease, width 0.1s ease;
+    z-index: 10;
+}
+
+.legend-gradient-handle:hover {
+    background: #000;
+    width: 4px;
+}
+
+.legend-gradient-handle:active,
+.legend-gradient-overlay-container.dragging .legend-gradient-handle {
+    background: #000;
+    width: 4px;
+}
+
+/* Handle positioning */
+.legend-gradient-handle-left {
+    left: 0;
+}
+
+.legend-gradient-handle-right {
+    left: 100%;
+}
+
+/* Middle draggable region */
+.legend-gradient-middle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    cursor: grab;
+    pointer-events: auto;
+    z-index: 5;
+}
+
+.legend-gradient-middle:active,
+.legend-gradient-overlay-container.dragging .legend-gradient-middle {
+    cursor: grabbing;
+}
+
+/* Current range display below gradient */
+.legend-range-display {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    color: #555;
+    font-family: inherit;
+}
+
+/* Reset button for filters */
+.legend-reset-btn {
+    display: none;
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    color: #333;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.legend-reset-btn:hover {
+    background: #e8e8e8;
+    border-color: #bbb;
+}
+
+.legend-reset-btn:active {
+    background: #ddd;
+}
+
+.legend-reset-btn.visible {
+    display: block;
+}
+
+/* Dark theme support - detect via background color */
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-range-display,
+.mapboxgl-legend[style*="background-color: #000"] .legend-range-display,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-range-display,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-range-display {
+    color: #ccc;
+}
+
+/* Dark theme ghost overlay - slightly darker for dark backgrounds */
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-gradient-ghost,
+.mapboxgl-legend[style*="background-color: #000"] .legend-gradient-ghost,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-gradient-ghost,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-gradient-ghost {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Dark theme handles - lighter color for visibility */
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-gradient-handle,
+.mapboxgl-legend[style*="background-color: #000"] .legend-gradient-handle,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-gradient-handle,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-gradient-handle {
+    background: #eee;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-gradient-handle:hover,
+.mapboxgl-legend[style*="background-color: #000"] .legend-gradient-handle:hover,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-gradient-handle:hover,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-gradient-handle:hover {
+    background: #fff;
+}
+
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-reset-btn,
+.mapboxgl-legend[style*="background-color: #000"] .legend-reset-btn,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-reset-btn,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-reset-btn {
+    background: #333;
+    border-color: #555;
+    color: #eee;
+}
+
+.mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-reset-btn:hover,
+.mapboxgl-legend[style*="background-color: #000"] .legend-reset-btn:hover,
+.mapboxgl-legend[style*="background-color: rgb(33, 33, 33)"] .legend-reset-btn:hover,
+.mapboxgl-legend[style*="background-color: #212121"] .legend-reset-btn:hover {
+    background: #444;
+    border-color: #666;
+}
+
+/* ===========================================
+   Draggable Legends
+   =========================================== */
+
+/* Draggable legend styling */
+.mapboxgl-legend.legend-draggable {
+    cursor: grab;
+}
+
+.mapboxgl-legend.legend-draggable h2 {
+    cursor: grab;
+}
+
+/* While dragging */
+.mapboxgl-legend.legend-dragging {
+    cursor: grabbing;
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 2000 !important;
+}
+
+.mapboxgl-legend.legend-dragging h2 {
+    cursor: grabbing;
+}
+
+/* Allow clicking on interactive elements without starting drag */
+.mapboxgl-legend.legend-draggable .legend-item {
+    cursor: pointer;
+}
+
+.mapboxgl-legend.legend-draggable .legend-gradient-handle {
+    cursor: ew-resize;
+}
+
+.mapboxgl-legend.legend-draggable .legend-gradient-middle {
+    cursor: grab;
+}
+
+.mapboxgl-legend.legend-dragging .legend-gradient-middle {
+    cursor: grabbing;
+}

@@ -725,6 +725,16 @@ function generateDrawStyles(styling) {
 
 // Helper function to add features from a source to draw
 function addSourceFeaturesToDraw(draw, sourceId, map) {
+  const mapId = map.getContainer().id;
+
+  // First try to get data from our registry (more reliable across MapLibre/Mapbox)
+  const storedData = getStoredSourceDataMapbox(mapId, sourceId);
+  if (storedData) {
+    draw.add(storedData);
+    return;
+  }
+
+  // Fallback to internal _data property (for backwards compatibility)
   const source = map.getSource(sourceId);
   if (source && source._data) {
     draw.add(source._data);
@@ -742,8 +752,29 @@ if (!window._mapgl) {
     // Queue of pending operations during style loading: { mapId: [] }
     pendingOperations: {},
     // Track which maps are currently loading a style: { mapId: true/false }
-    styleLoading: {}
+    styleLoading: {},
+    // Registry of GeoJSON source data per map: { mapId: { sourceId: geojsonData } }
+    sourceData: {}
   };
+}
+
+// Helper to store GeoJSON source data for later retrieval
+function storeSourceDataMapbox(mapId, sourceId, data) {
+  if (!window._mapgl.sourceData) {
+    window._mapgl.sourceData = {};
+  }
+  if (!window._mapgl.sourceData[mapId]) {
+    window._mapgl.sourceData[mapId] = {};
+  }
+  window._mapgl.sourceData[mapId][sourceId] = data;
+}
+
+// Helper to get stored GeoJSON source data
+function getStoredSourceDataMapbox(mapId, sourceId) {
+  if (window._mapgl.sourceData && window._mapgl.sourceData[mapId]) {
+    return window._mapgl.sourceData[mapId][sourceId];
+  }
+  return null;
 }
 
 // Helper to queue an operation or execute it immediately
@@ -802,6 +833,138 @@ function reAddUserImagesMapbox(map, mapId) {
       }
     });
   }
+}
+
+// Screenshot capture functionality
+async function captureMapScreenshot(map, options) {
+  const container = map.getContainer();
+  const hiddenElements = [];
+
+  // Hide controls (nav, fullscreen, screenshot, etc.) but keep legends/attribution based on options
+  if (options.hide_controls) {
+    container.querySelectorAll('.maplibregl-ctrl-group, .mapboxgl-ctrl-group').forEach(el => {
+      // Skip scale bar if include_scale_bar is true
+      if (options.include_scale_bar && el.querySelector('.maplibregl-ctrl-scale, .mapboxgl-ctrl-scale')) {
+        return;
+      }
+      hiddenElements.push({ element: el, display: el.style.display });
+      el.style.display = 'none';
+    });
+    // Also hide layers control and measurement box
+    container.querySelectorAll('.layers-control, .mapgl-measurement-box').forEach(el => {
+      hiddenElements.push({ element: el, display: el.style.display });
+      el.style.display = 'none';
+    });
+  }
+
+  // Hide legends if requested
+  if (!options.include_legend) {
+    container.querySelectorAll('.mapboxgl-legend').forEach(el => {
+      hiddenElements.push({ element: el, display: el.style.display });
+      el.style.display = 'none';
+    });
+  }
+
+  // Attribution is always included to comply with map provider TOS
+
+  try {
+    // Wait for map to be idle
+    if (!map.loaded()) {
+      await new Promise(resolve => map.once('idle', resolve));
+    }
+
+    // Force render and capture
+    map.triggerRepaint();
+    await new Promise(resolve => map.once('render', resolve));
+
+    const canvas = await html2canvas(container, {
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: null,
+      logging: false,
+      scale: options.image_scale || 1,
+      onclone: function(clonedDoc, clonedElement) {
+        // Copy WebGL canvas content to cloned canvas
+        const originalCanvas = container.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
+        const clonedCanvas = clonedElement.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
+        if (originalCanvas && clonedCanvas) {
+          const ctx = clonedCanvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(originalCanvas, 0, 0);
+          }
+        }
+      }
+    });
+
+    // Restore hidden elements
+    hiddenElements.forEach(item => item.element.style.display = item.display);
+    return canvas;
+
+  } catch (error) {
+    // Restore hidden elements even on error
+    hiddenElements.forEach(item => item.element.style.display = item.display);
+    throw error;
+  }
+}
+
+function downloadScreenshot(canvas, filename) {
+  const link = document.createElement('a');
+  link.download = `${filename}.png`;
+  link.href = canvas.toDataURL('image/png');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function createScreenshotControl(map, options, isMaplibre = true) {
+  const ctrlPrefix = isMaplibre ? 'maplibregl' : 'mapboxgl';
+
+  const btn = document.createElement("button");
+  btn.className = `${ctrlPrefix}-ctrl-icon ${ctrlPrefix}-ctrl-screenshot`;
+  btn.type = "button";
+  btn.title = options.button_title || "Capture screenshot";
+  btn.setAttribute("aria-label", options.button_title || "Capture screenshot");
+  btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
+  btn.style.cssText = "display:flex;justify-content:center;align-items:center;cursor:pointer;";
+
+  const container = document.createElement("div");
+  container.className = `${ctrlPrefix}-ctrl ${ctrlPrefix}-ctrl-group`;
+  container.appendChild(btn);
+
+  let capturing = false;
+  btn.onclick = async () => {
+    if (capturing) return;
+    capturing = true;
+    btn.style.opacity = "0.5";
+    btn.style.cursor = "wait";
+
+    try {
+      const canvas = await captureMapScreenshot(map, {
+        include_legend: options.include_legend !== false,
+        hide_controls: options.hide_controls !== false,
+        include_scale_bar: options.include_scale_bar !== false,
+        image_scale: options.image_scale || 1
+      });
+      downloadScreenshot(canvas, options.filename || "map-screenshot");
+    } catch (e) {
+      console.error("Screenshot capture failed:", e);
+    }
+
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+    capturing = false;
+  };
+
+  const controlObj = {
+    onAdd: () => container,
+    onRemove: () => {
+      if (container.parentNode) {
+        container.parentNode.removeChild(container);
+      }
+    }
+  };
+
+  return controlObj;
 }
 
 HTMLWidgets.widget({
@@ -997,6 +1160,8 @@ HTMLWidgets.widget({
                 }
 
                 map.addSource(source.id, sourceOptions);
+                // Store GeoJSON data for later retrieval (e.g., for draw control)
+                storeSourceDataMapbox(el.id, source.id, geojsonData);
               } else if (source.type === "raster") {
                 if (source.url) {
                   map.addSource(source.id, {
@@ -1766,6 +1931,20 @@ HTMLWidgets.widget({
             el.appendChild(legend);
           }
 
+          // Initialize legend interactivity if configured
+          if (x.legend_interactivity && x.legend_interactivity.length > 0) {
+            x.legend_interactivity.forEach(function(config) {
+              if (typeof initializeLegendInteractivity === "function") {
+                initializeLegendInteractivity(map, el.id, config);
+              }
+            });
+          }
+
+          // Initialize draggable legends
+          if (typeof initializeDraggableLegends === "function") {
+            initializeDraggableLegends(el);
+          }
+
           // Add fullscreen control if enabled
           if (x.fullscreen_control && x.fullscreen_control.enabled) {
             const position = x.fullscreen_control.position || "top-right";
@@ -1853,25 +2032,8 @@ HTMLWidgets.widget({
             resetControl.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-reset";
             resetControl.type = "button";
             resetControl.setAttribute("aria-label", "Reset");
-            resetControl.innerHTML = "⟲";
-            resetControl.style.fontSize = "30px";
-            resetControl.style.fontWeight = "bold";
-            resetControl.style.backgroundColor = "white";
-            resetControl.style.border = "none";
-            resetControl.style.cursor = "pointer";
-            resetControl.style.padding = "0";
-            resetControl.style.width = "30px";
-            resetControl.style.height = "30px";
-            resetControl.style.display = "flex";
-            resetControl.style.justifyContent = "center";
-            resetControl.style.alignItems = "center";
-            resetControl.style.transition = "background-color 0.2s";
-            resetControl.addEventListener("mouseover", function () {
-              this.style.backgroundColor = "#f0f0f0";
-            });
-            resetControl.addEventListener("mouseout", function () {
-              this.style.backgroundColor = "white";
-            });
+            resetControl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>';
+            resetControl.style.cssText = "display:flex;justify-content:center;align-items:center;cursor:pointer;";
 
             const resetContainer = document.createElement("div");
             resetContainer.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
@@ -1922,6 +2084,13 @@ HTMLWidgets.widget({
                 resetContainer.parentNode.removeChild(resetContainer);
               },
             });
+          }
+
+          // Add screenshot control if enabled
+          if (x.screenshot_control) {
+            const screenshotControlObj = createScreenshotControl(map, x.screenshot_control, false);
+            map.addControl(screenshotControlObj, x.screenshot_control.position || "top-right");
+            map.controls.push({ type: "screenshot", control: screenshotControlObj });
           }
 
           if (x.setProjection) {
@@ -2460,6 +2629,8 @@ if (HTMLWidgets.shinyMode) {
             }
           });
           map.addSource(message.source.id, sourceConfig);
+          // Store GeoJSON data for later retrieval (e.g., for draw control)
+          storeSourceDataMapbox(mapId, message.source.id, message.source.data);
         } else if (message.source.type === "raster") {
           const sourceConfig = {
             type: "raster",
@@ -2920,6 +3091,11 @@ if (HTMLWidgets.shinyMode) {
         legend.innerHTML = message.html;
         legend.classList.add("mapboxgl-legend");
         document.getElementById(data.id).appendChild(legend);
+
+        // Initialize legend interactivity if configured
+        if (message.interactivity && typeof initializeLegendInteractivity === "function") {
+          initializeLegendInteractivity(map, data.id, message.interactivity);
+        }
       } else if (message.type === "set_config_property") {
         map.setConfigProperty(
           message.importId,
@@ -3315,25 +3491,8 @@ if (HTMLWidgets.shinyMode) {
         resetControl.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-reset";
         resetControl.type = "button";
         resetControl.setAttribute("aria-label", "Reset");
-        resetControl.innerHTML = "⟲";
-        resetControl.style.fontSize = "30px";
-        resetControl.style.fontWeight = "bold";
-        resetControl.style.backgroundColor = "white";
-        resetControl.style.border = "none";
-        resetControl.style.cursor = "pointer";
-        resetControl.style.padding = "0";
-        resetControl.style.width = "30px";
-        resetControl.style.height = "30px";
-        resetControl.style.display = "flex";
-        resetControl.style.justifyContent = "center";
-        resetControl.style.alignItems = "center";
-        resetControl.style.transition = "background-color 0.2s";
-        resetControl.addEventListener("mouseover", function () {
-          this.style.backgroundColor = "#f0f0f0";
-        });
-        resetControl.addEventListener("mouseout", function () {
-          this.style.backgroundColor = "white";
-        });
+        resetControl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>';
+        resetControl.style.cssText = "display:flex;justify-content:center;align-items:center;cursor:pointer;";
 
         const resetContainer = document.createElement("div");
         resetContainer.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
@@ -3367,6 +3526,10 @@ if (HTMLWidgets.shinyMode) {
         map.addControl(resetControlObj, message.position);
 
         map.controls.push({ type: "reset", control: resetControlObj });
+      } else if (message.type === "add_screenshot_control") {
+        const screenshotControlObj = createScreenshotControl(map, message.options, false);
+        map.addControl(screenshotControlObj, message.options.position || "top-right");
+        map.controls.push({ type: "screenshot", control: screenshotControlObj });
       } else if (message.type === "add_draw_control") {
         let drawOptions = message.options || {};
 
