@@ -83,6 +83,20 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 
 
 		if ((!is.null(fun) && interval.disjoint)) {
+
+			if (!digits_defined) {
+				cli::cli_inform("{.fun tm_format_label} when {.arg fun} is defined and {.arg interval.disjoint} is enabled, it is unclear how to format the {.str to} numbers, and moreover how to determine the significant number of digits. Please use {.arg digits} to set this.")
+
+				vec_fin = unique(vec[!is.infinite(vec)])
+				vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+				xtmp = do.call(fun, list(vec_fin2))
+				while (anyDuplicated(na.omit(xtmp))) {
+					digits = digits + 1
+					vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
+					xtmp = do.call(fun, list(vec_fin2))
+				}
+			}
+			vec = c(vec, head(vec, -1) - 10^-digits, tail(vec, 1))
 			x <- do.call(fun, list(vec))
 		} else if (!scientific || as.count) {
 
@@ -104,7 +118,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 
 				if (!digits_defined) {
 					# update digits
-					vec_fin <- unique(vec[!is.infinite(vec)])
+					vec_fin = unique(vec[!is.infinite(vec)])
 					vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
 					while (anyDuplicated(na.omit(vec_fin2))) {
 						digits = digits + 1
