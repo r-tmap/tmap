@@ -508,20 +508,31 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
             interactiveState.rangeMin = minVal;
             interactiveState.rangeMax = maxVal;
 
-            applyRangeFilter(
-                map,
-                mapId,
-                config.layerId,
-                filterColumn,
-                minVal,
-                maxVal,
-                interactiveState.originalFilter
-            );
+            // Check if at full range (within tolerance) - if so, clear filter instead
+            // This handles cases where legend breaks are rounded but data has more precision
+            var isAtFullRange =
+                selectionState.leftPercent <= 0.5 &&
+                selectionState.rightPercent >= 99.5;
+
+            if (isAtFullRange) {
+                // Restore original filter (no range constraint)
+                map.setFilter(config.layerId, interactiveState.originalFilter);
+                var layerState = window._mapglLayerState[mapId];
+                layerState.filters[config.layerId] = interactiveState.originalFilter;
+            } else {
+                applyRangeFilter(
+                    map,
+                    mapId,
+                    config.layerId,
+                    filterColumn,
+                    minVal,
+                    maxVal,
+                    interactiveState.originalFilter
+                );
+            }
 
             // Update reset button visibility
-            var hasFilter =
-                selectionState.leftPercent > 0.5 ||
-                selectionState.rightPercent < 99.5;
+            var hasFilter = !isAtFullRange;
             updateResetButton(legendElement, hasFilter);
 
             // Send to Shiny if applicable
@@ -772,6 +783,13 @@ function applyRangeBasedCategoricalFilter(
 ) {
     var layerState = window._mapglLayerState[mapId];
 
+    // Calculate epsilon for floating-point precision and rounding issues
+    // Use a larger epsilon (0.1% of range) to account for rounded legend breaks
+    var overallMin = breaks[0];
+    var overallMax = breaks[breaks.length - 1];
+    var range = Math.abs(overallMax - overallMin);
+    var epsilon = range > 0 ? range * 0.001 : 0.001;
+
     var interactiveFilter;
     if (enabledIndices.size === 0) {
         // No categories enabled - hide all features
@@ -785,10 +803,13 @@ function applyRangeBasedCategoricalFilter(
                 var maxVal = breaks[i + 1];
                 // Each bin: value >= min AND value < max (except last bin uses <=)
                 var isLastBin = (i === breaks.length - 2);
+                // Apply epsilon adjustment for edge values to handle floating-point precision
+                var filterMin = (i === 0) ? minVal - epsilon : minVal;
+                var filterMax = isLastBin ? maxVal + epsilon : maxVal;
                 var binCondition = [
                     "all",
-                    [">=", ["get", column], minVal],
-                    isLastBin ? ["<=", ["get", column], maxVal] : ["<", ["get", column], maxVal]
+                    [">=", ["get", column], filterMin],
+                    isLastBin ? ["<=", ["get", column], filterMax] : ["<", ["get", column], filterMax]
                 ];
                 rangeConditions.push(binCondition);
             }
@@ -822,9 +843,11 @@ function applyRangeFilter(
 ) {
     var layerState = window._mapglLayerState[mapId];
 
-    // Add small epsilon to handle floating-point precision issues
-    // This prevents edge values from being excluded due to tiny precision differences
-    var epsilon = Math.abs(max - min) * 1e-10;
+    // Add epsilon to handle floating-point precision and rounding issues
+    // Use a larger epsilon (0.1% of range) to account for rounded legend breaks
+    // that may not exactly match data values
+    var range = Math.abs(max - min);
+    var epsilon = range > 0 ? range * 0.001 : 0.001;
     var filterMin = min - epsilon;
     var filterMax = max + epsilon;
 

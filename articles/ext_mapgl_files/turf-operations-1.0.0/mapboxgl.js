@@ -983,6 +983,29 @@ HTMLWidgets.widget({
           return;
         }
 
+        // Clean up existing map if present to prevent control stacking on re-render
+        if (map) {
+          // Remove all controls from the old map
+          if (map.controls && map.controls.length > 0) {
+            map.controls.forEach(function (controlObj) {
+              try {
+                if (controlObj.control) {
+                  map.removeControl(controlObj.control);
+                }
+              } catch (e) {
+                // Control may already be removed
+              }
+            });
+          }
+          // Remove the old map
+          try {
+            map.remove();
+          } catch (e) {
+            // Map may already be removed
+          }
+          map = null;
+        }
+
         // Register PMTiles source type if available
         if (
           typeof MapboxPmTilesSource !== "undefined" &&
