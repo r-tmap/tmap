@@ -358,6 +358,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		if (legend$reverse) {
 			labels.align = attr(labels, "align")
 			labels = rev(labels)
+			labels_select = rev(labels_select)
 			attr(labels, "align") = labels.align
 		}
 		if (na.show) {

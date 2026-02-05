@@ -113,6 +113,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 
 		dt = as.data.table(shp3, center = FALSE)
+		names(dt)[1:2] = c("X__", "Y__")
 
 		if (!all(names(shp3) %in% names(dt))) {
 			subst_names = tail(names(dt), length(shp3))
@@ -120,9 +121,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 				setnames(dt, subst_names[i], names(shp3)[i])
 			}
 		}
-
-		setnames(dt, names(dim_xy)[1], "X__")
-		setnames(dt, names(dim_xy)[2], "Y__")
 
 		dt[, tmapID__ := as.integer((Y__-1) * nrow(shp) + X__)]
 		dt[, X__:= NULL]
