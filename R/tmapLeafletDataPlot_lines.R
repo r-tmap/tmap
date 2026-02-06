@@ -47,9 +47,33 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = suppressWarnings(sf::st_cast(shp2, "LINESTRING"))
 		gp3 = lapply(gp, function(gpi) {if (length(gpi) == 1) gpi else gpi[shp3$id]})
+		popups = popups[shp3$id]
+
 		lf %>%
-			leafgl::addGlPolylines(data = shp3, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt, label = hdt, popup= popups) %>%
+			# Fast WebGL rendering
+			leafgl::addGlPolylines(
+				data    = shp3,
+				color   = gp3$col,
+				opacity = gp3$col_alpha[1],
+				weight  = gp3$lwd[1] / 4,
+				pane    = pane,
+				group   = group
+			) %>%
+
+			# Invisible interaction layer
+			leaflet::addPolylines(
+				data    = shp3,
+				opacity = 0,
+				weight  = max(gp3$lwd[1] / 4, 4),
+				group   = group,
+				layerId = idt,
+				label   = hdt,
+				options = opt,
+				popup   = popups
+			) %>%
+
 			assign_lf(facet_row, facet_col, facet_page)
+
 	} else {
 
 		lf %>%

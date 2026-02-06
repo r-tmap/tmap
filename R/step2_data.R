@@ -23,6 +23,9 @@ step2_data = function(tm) {
 		tmf = tmg$tmf
 		dt = tmg$tms$dt
 
+		type_ids = tmg$tms$type_ids
+		type_vars = tmg$tms$type_vars # used to split dt vars in the layer functions, e.g. for networks with edges and nodes
+
 		if ("by1__" %in% names(dt) && o$rev1) dt[, by1__ := (o$fn[1]+1L)-by1__]
 		if ("by2__" %in% names(dt) && o$rev2) dt[, by2__ := (o$fn[2]+1L)-by2__]
 		if ("by3__" %in% names(dt) && o$rev3) dt[, by3__ := (o$fn[3]+1L)-by3__]
@@ -35,6 +38,16 @@ step2_data = function(tm) {
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
 			#cat("step2_grp_lyr======================\n")
+
+			if (!is.null(type_ids)) {
+				ids = tml$layer %in% names(type_ids)
+				if (any(ids)) {
+					lid = tml$layer[[which(ids)[1]]]
+					tmapids = type_ids[[lid]]
+					dt = data.table::copy(dt[dt$tmapID__ %in% tmapids, c(type_vars[[lid]], "sel__"), with = FALSE])
+				}
+
+			}
 
 			gp = tml$gpar
 			tp = tml$tpar
@@ -66,8 +79,13 @@ step2_data = function(tm) {
 			if (!length(tml$popup.vars)) {
 				popup.data = NULL
 			} else {
-				popup.data = copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
-				if (!is.null(names(tml$popup.vars))) popup.data = data.table::setnames(popup.data, old = unname(tml$popup.vars), new = names(tml$popup.vars))
+				tml$popup.vars = intersect(tml$popup.vars, names(dt)) # in case type_ids !NULL
+				if (!length(tml$popup.vars)) {
+					popup.data = NULL
+				} else {
+					popup.data = copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
+					if (!is.null(names(tml$popup.vars))) popup.data = data.table::setnames(popup.data, old = unname(tml$popup.vars), new = names(tml$popup.vars))
+				}
 			}
 			hover.data = if (tml$hover == "") {
 				NULL
