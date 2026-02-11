@@ -19,7 +19,6 @@ features new map layers, albeit very basic so far:
 ``` r
 tm_shape(sfn) +
     tm_network()
-#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
 ```
 
 ![](ext_networks_files/figure-html/unnamed-chunk-4-1.png)
