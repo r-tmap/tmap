@@ -1,5 +1,8 @@
 view_format_popups <- function(id=NULL, titles, format, values) {
 
+	pop_vars = intersect(names(format), names(values))
+
+	format = format[pop_vars]
 
 
 	# isnull <- vapply(values, is.null, logical(1))

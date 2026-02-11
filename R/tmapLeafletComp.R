@@ -325,7 +325,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		lf %>% leaflegend::addLegendImage(symbols$iconUrl,
 										  group = group,
 										 labels = lab,
-										 width = symbols$iconWidth + 2*gp2$strokeWidth,
+										 width = symbols$iconWidth + max(2*gp2$strokeWidth),
 										 height = symbols$iconHeight + 2*gp2$strokeWidth,
 										 position = legpos,
 										 orientation = orientation,

@@ -28,6 +28,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		mtch = match(dt$tmapID__, pdt$tmapID__)
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
+
 		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
 	}
 
@@ -36,7 +37,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
-	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
+	opt = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 
 	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 		submit_labels("lines", pane, group)
@@ -64,7 +65,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 			leaflet::addPolylines(
 				data    = shp3,
 				opacity = 0,
-				weight  = max(gp3$lwd[1] / 4, 4),
+				weight  = max(gp3$lwd / 4, 4),
 				group   = group,
 				layerId = idt,
 				label   = hdt,
@@ -75,10 +76,35 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 			assign_lf(facet_row, facet_col, facet_page)
 
 	} else {
-
 		lf %>%
-			leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty, gp$lwd), popup = popups) %>%
+			# Visible styled layer (no popup here)
+			leaflet::addPolylines(
+				data      = shp,
+				color     = gp$col,
+				opacity   = gp$col_alpha,
+				weight    = gp$lwd,
+				group     = group,
+				options   = opt,
+				dashArray = lty2dash(gp$lty, gp$lwd)
+			) %>%
+
+			# Invisible interaction layer (fatter hitbox)
+			leaflet::addPolylines(
+				data    = shp,
+				layerId = idt,
+				label   = hdt,
+				popup   = popups,
+				opacity = 0,
+				weight  = pmax(gp$lwd, 8),
+				group   = group
+			) %>%
+
 			assign_lf(facet_row, facet_col, facet_page)
+
+		#
+		# lf %>%
+		# 	leaflet::addPolylines(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, weight = gp$lwd, group = group, options = opt, dashArray = lty2dash(gp$lty, gp$lwd), popup = popups) %>%
+		# 	assign_lf(facet_row, facet_col, facet_page)
 
 	}
 	NULL
