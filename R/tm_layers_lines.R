@@ -258,8 +258,33 @@ tm_lines = function(col = tm_const(),
 
 #' @rdname tm_lines
 #' @param lines.only should only line geometries of the shape object (defined in [tm_shape()]) be plotted, or also other geometry types (like polygons)? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param hitbox Controls whether an invisible interaction layer with a
+#'   larger clickable area (\"hitbox\") is added on top of the lines.
+#'
+#'   This can improve click and popup behaviour for thin or densely packed
+#'   lines by increasing the effective mouse interaction width.
+#'
+#'   Possible values:
+#'   \describe{
+#'     \item{"none"}{No additional hitbox layer is added. Lines are clickable
+#'     only at their visible width.}
+#'
+#'     \item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels.
+#'     The hitbox width is computed as \code{pmax(line_width, X)}.
+#'     For example, \code{"pmax8"} guarantees at least 8 pixels.}
+#'
+#'     \item{"timesX"}{Multiplies the visible line width by \code{X} to compute
+#'     the interaction width. For example, \code{"times2"} doubles the
+#'     clickable width.}
+#'
+#'     \item{"auto"}{Automatically: \code{"pmax8"} by default. Only for large}
+#'   }
+#'
+#'   Adding a hitbox improves usability for thin lines but may reduce
+#'   performance for very large datasets, as an additional invisible
+#'   layer is rendered.
 #' @export
-opt_tm_lines = function(lines.only = "ifany") {
+opt_tm_lines = function(lines.only = "ifany", hitbox = "auto") {
 	list(trans.args = list(lines.only = lines.only),
-		 mapping.args = list())
+		 mapping.args = list(hitbox = hitbox))
 }

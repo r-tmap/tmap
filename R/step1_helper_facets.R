@@ -202,6 +202,25 @@ step1_rearrange_facets = function(tmo, o) {
 							uvalue = unlist(value)
 							data_vars = all(uvalue %in% shpvars)
 							geo_vars = all(uvalue %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
+							if (geo_vars) {
+								w = which(uvalue == "AREA")[1]
+								if (!is.na(w)) {
+									uvalue[w] = "AREA_"
+									names(uvalue)[w] = "AREA_"
+									w2 = which(names(value) == "AREA")[1]
+									value[[w2]] = "AREA_"
+									names(value)[w2] = "AREA_"
+								}
+								w = which(uvalue == "LENGTH")[1]
+								if (!is.na(w)) {
+									uvalue[w] = "LENGTH_"
+									names(uvalue)[w] = "LENGTH_"
+									w2 = which(names(value) == "LENGTH")[1]
+									value[[w2]] = "LENGTH_"
+									names(value)[w2] = "LENGTH_"
+								}
+							}
+
 							if (data_vars || geo_vars) vars = uvalue else vars = character(0)
 						} else {
 							data_vars = FALSE
@@ -318,8 +337,13 @@ step1_rearrange_facets = function(tmo, o) {
 						popup.format = lapply(popup.vars, function(pv) {
 							one.popup.format
 						})
+
 					}
-					names(popup.format) = popup.vars
+					if (!is.null(names(popup.vars))) {
+						names(popup.format) = names(popup.vars)
+					} else {
+						names(popup.format) = popup.vars
+					}
 					attr(popup.format, "called") = popup.called				}
 			})
 		})

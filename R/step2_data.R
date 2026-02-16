@@ -79,7 +79,8 @@ step2_data = function(tm) {
 			if (!length(tml$popup.vars)) {
 				popup.data = NULL
 			} else {
-				tml$popup.vars = intersect(tml$popup.vars, names(dt)) # in case type_ids !NULL
+				# tml$popup.vars = tml$popup.vars
+				# 	intersect(tml$popup.vars, names(dt)) # in case type_ids !NULL
 				if (!length(tml$popup.vars)) {
 					popup.data = NULL
 				} else {

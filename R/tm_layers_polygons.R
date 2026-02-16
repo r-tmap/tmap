@@ -4,9 +4,9 @@
 #' `col` (the border color), `lwd` (line width), `lty` (line type),
 #' `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
 #'
-#' The visual variable arguments (e.g. `col`) can be specified with either a data
+#' The visual variable arguments (e.g. `col`) can be specified with a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
-#' specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
+#' specified in [tm_shape()]), with a visual value (for `col`, a color is expected), or with a geometry-derived variable (see below).
 #' See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
 #'
 #' Multiple values can be specified: in that case facets are created.
@@ -35,6 +35,21 @@
 #' scale, and therefore its own legend. For facet wraps and stacks
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
+#'
+#' Currently, three geometry-derived variables are implemented:
+#'
+#' - `"AREA"` (polygons only), which uses the feature area;
+#'
+#' - `"LENGTH"` (lines only), which uses the feature length; and
+#'
+#' - `"MAP_COLORS"`, which assigns values so that adjacent features receive
+#' different values, making it particularly suitable for coloring
+#' neighbouring polygons.
+#'
+#' Note that geometry-derived variables do not generate a legend automatically.
+#' If a legend is required, compute the corresponding variable explicitly,
+#' for example with [sf::st_area()], [sf::st_length()], or
+#' [tmaptools::map_coloring()], and use the resulting values instead.
 #'
 #' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
 #' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`

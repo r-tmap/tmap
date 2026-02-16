@@ -58,11 +58,12 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 #' @export
 tmapSubsetShp.sf = function(shp, vars) {
 
-	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
-		shp$AREA = sf::st_area(shp)
+	if ("AREA_" %in% vars && !("AREA_" %in% names(shp))) {
+		shp$AREA_ = sf::st_area(shp)
 	}
-	if ("LENGTH" %in% vars && !("LENGTH" %in% names(shp))) {
-		shp$LENGTH = sf::st_length(shp)
+	if ("LENGTH_" %in% vars && !("LENGTH_" %in% names(shp))) {
+		shp$LENGTH_ = sf::st_length(shp)
+
 	}
 	if ("MAP_COLORS" %in% vars) {
 		shp$MAP_COLORS = as.factor(tmaptools::map_coloring(shp, ncols = 7))
@@ -80,10 +81,10 @@ tmapSubsetShp.sf = function(shp, vars) {
 tmapSubsetShp.sfc = function(shp, vars) {
 	s = sf::st_sf(dummy__ = TRUE, geometry = shp)
 	if ("AREA" %in% vars) {
-		s$AREA = sf::st_area(shp)
+		s$AREA_ = sf::st_area(shp)
 	}
 	if ("LENGTH" %in% vars) {
-		s$LENGTH = sf::st_length(shp)
+		s$LENGTH_ = sf::st_length(shp)
 	}
 	if ("MAP_COLORS" %in% vars) {
 		s$MAP_COLORS = as.factor(tmaptools::map_coloring(shp, ncols = 7))

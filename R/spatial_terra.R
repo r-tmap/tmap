@@ -94,10 +94,10 @@ tmapSubsetShp.SpatRaster = function(shp, vars) {
 
 #' @export
 tmapSubsetShp.SpatVector = function(shp, vars) {
-	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
-		shp$AREA = terra::expanse(shp)
+	if ("AREA_" %in% vars && !("AREA_" %in% names(shp))) {
+		shp$AREA_ = terra::expanse(shp)
 	}
-	if ("LENGTH" %in% vars && !("LENGTH" %in% names(shp))) {
+	if ("LENGTH_" %in% vars && !("LENGTH_" %in% names(shp))) {
 		shp$LENGTH = terra::perim(shp)
 	}
 	tmapSubsetShp.sf(shp, vars)

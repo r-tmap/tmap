@@ -40,7 +40,7 @@ tm_lines(
   ...
 )
 
-opt_tm_lines(lines.only = "ifany")
+opt_tm_lines(lines.only = "ifany", hitbox = "auto")
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
@@ -91,14 +91,42 @@ features. Only used for \code{"view"} mode.}
 \item{...}{to catch deprecated arguments from version < 4.0}
 
 \item{lines.only}{should only line geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted, or also other geometry types (like polygons)? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{hitbox}{Controls whether an invisible interaction layer with a
+larger clickable area (\"hitbox\") is added on top of the lines.
+
+This can improve click and popup behaviour for thin or densely packed
+lines by increasing the effective mouse interaction width.
+
+Possible values:
+\describe{
+\item{"none"}{No additional hitbox layer is added. Lines are clickable
+only at their visible width.}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item\{"pmaxX"\}\{Ensures a minimum interaction width of \code{X} pixels.
+The hitbox width is computed as \code{pmax(line_width, X)}.
+For example, \code{"pmax8"} guarantees at least 8 pixels.\}
+
+\\item\{"timesX"\}\{Multiplies the visible line width by \code{X} to compute
+the interaction width. For example, \code{"times2"} doubles the
+clickable width.\}
+
+\\item\{"auto"\}\{Automatically: \code{"pmax8"} by default. Only for large\}
+}\if{html}{\out{</div>}}
+
+}
+
+Adding a hitbox improves usability for thin lines but may reduce
+performance for very large datasets, as an additional invisible
+layer is rendered.}
 }
 \description{
 Map layer that draws lines. Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
 }
 \details{
-The visual variable arguments (e.g. \code{col}) can be specified with either a data
+The visual variable arguments (e.g. \code{col}) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
-specified in \code{\link[=tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected).
+specified in \code{\link[=tm_shape]{tm_shape()}}), with a visual value (for \code{col}, a color is expected), or with a geometry-derived variable (see below).
 See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
 
 Multiple values can be specified: in that case facets are created.
@@ -125,6 +153,20 @@ scale, and therefore its own legend. For facet wraps and stacks
 (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
 so the \verb{*.free} argument requires only one logical value.
 }
+
+Currently, three geometry-derived variables are implemented:
+\itemize{
+\item \code{"AREA"} (polygons only), which uses the feature area;
+\item \code{"LENGTH"} (lines only), which uses the feature length; and
+\item \code{"MAP_COLORS"}, which assigns values so that adjacent features receive
+different values, making it particularly suitable for coloring
+neighbouring polygons.
+}
+
+Note that geometry-derived variables do not generate a legend automatically.
+If a legend is required, compute the corresponding variable explicitly,
+for example with \code{\link[sf:geos_measures]{sf::st_area()}}, \code{\link[sf:geos_measures]{sf::st_length()}}, or
+\code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
 }
 \examples{
 tm_shape(World_rivers) +

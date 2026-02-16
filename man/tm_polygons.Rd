@@ -119,9 +119,9 @@ Map layer that draws polygons. Supported visual variables are: \code{fill} (the 
 \code{fill_alpha} (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
 }
 \details{
-The visual variable arguments (e.g. \code{col}) can be specified with either a data
+The visual variable arguments (e.g. \code{col}) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
-specified in \code{\link[=tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected).
+specified in \code{\link[=tm_shape]{tm_shape()}}), with a visual value (for \code{col}, a color is expected), or with a geometry-derived variable (see below).
 See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
 
 Multiple values can be specified: in that case facets are created.
@@ -148,6 +148,20 @@ scale, and therefore its own legend. For facet wraps and stacks
 (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
 so the \verb{*.free} argument requires only one logical value.
 }
+
+Currently, three geometry-derived variables are implemented:
+\itemize{
+\item \code{"AREA"} (polygons only), which uses the feature area;
+\item \code{"LENGTH"} (lines only), which uses the feature length; and
+\item \code{"MAP_COLORS"}, which assigns values so that adjacent features receive
+different values, making it particularly suitable for coloring
+neighbouring polygons.
+}
+
+Note that geometry-derived variables do not generate a legend automatically.
+If a legend is required, compute the corresponding variable explicitly,
+for example with \code{\link[sf:geos_measures]{sf::st_area()}}, \code{\link[sf:geos_measures]{sf::st_length()}}, or
+\code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
 }
 \examples{
 # load Africa country data
