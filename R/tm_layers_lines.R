@@ -277,7 +277,7 @@ tm_lines = function(col = tm_const(),
 #'     the interaction width. For example, \code{"times2"} doubles the
 #'     clickable width.}
 #'
-#'     \item{"auto"}{Automatically: \code{"pmax8"} by default. Only for large}
+#'     \item{"auto"}{Automatically: \code{"pmax8"} by default if and only if interactive features are enabled (popup or hover) and lines are thin (median line width < 4) and there are less than 10000 features. Otherwise, \code{"none"} }
 #'   }
 #'
 #'   Adding a hitbox improves usability for thin lines but may reduce

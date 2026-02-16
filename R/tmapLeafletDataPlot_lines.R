@@ -47,6 +47,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		a$hitbox
 	}
 
+
 	k = nrow(dt)
 	if (hitbox == "none") {
 		opt1 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
@@ -58,6 +59,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		opt2 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 		idt = (if (is.null(idt))rep(dt$tmapID__, 2) else rep(idt, 2)) |>
 			submit_labels("lines", pane, group)
+		hb = parse_hitbox(hitbox)
 	}
 
 
@@ -77,12 +79,11 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 		if (hitbox == "none") {
 			lf %>%
-				lf %>%
 				leafgl::addGlPolylines(
 					data = shp3,
 					color = gp3$col,
 					opacity = gp3$col_alpha[1],
-					weight = gp3$lwd[1]/4,
+					weight = lwd_to_leafgl(gp3$lwd[1]),
 					pane = pane,
 					group = group,
 					layerId = idt,
@@ -90,13 +91,16 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					popup= popups) %>%
 				assign_lf(facet_row, facet_col, facet_page)
 		} else {
+			weights = gp3$lwd + hb$plus
+			if (hb$pmax != 0) weights = pmax(weights, hb$pmax)
+
 			lf %>%
 				# Fast WebGL rendering
 				leafgl::addGlPolylines(
 					data    = shp3,
 					color   = gp3$col,
 					opacity = gp3$col_alpha[1],
-					weight  = gp3$lwd[1] / 4,
+					weight  = lwd_to_leafgl(gp3$lwd[1]),
 					pane    = pane,
 					group   = group,
 					popup = NULL,
@@ -107,7 +111,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 				leaflet::addPolylines(
 					data    = shp3,
 					opacity = 0,
-					weight  = max(gp3$lwd / 4, 4),
+					weight  = weights,
 					group   = group,
 					layerId = idt[(k+1):(2*k)],
 					label   = hdt,
@@ -129,11 +133,14 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					opacity = gp$col_alpha,
 					weight = gp$lwd,
 					group = group,
-					options = opt,
+					options = opt1,
 					dashArray = lty2dash(gp$lty, gp$lwd),
 					popup = popups) %>%
 				assign_lf(facet_row, facet_col, facet_page)
 		} else {
+			weights = gp$lwd + hb$plus
+			if (hb$pmax != 0) weights = pmax(weights, hb$pmax)
+
 			lf %>%
 				# Visible styled layer (no popup here)
 				leaflet::addPolylines(
@@ -155,7 +162,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					popup   = popups,
 					options = opt2,
 					opacity = 0,
-					weight  = pmax(gp$lwd, 8),
+					weight  = weights,
 					group   = group
 				) %>%
 
@@ -177,5 +184,40 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 tmapLeafletDataPlot.tm_data_iso = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	# isn't called, but needed to make tm_iso visible in tmap_overview
 	NextMethod()
+}
+
+parse_hitbox <- function(hitbox) {
+
+	# defaults
+	plus  <- 0
+	pmax_ <- 0
+
+	if (is.null(hitbox) || hitbox == "none") {
+		return(list(plus = 0, pmax = 0))
+	}
+
+	# extract plus
+	m_plus <- regexpr("plus[0-9]+", hitbox)
+	if (m_plus > 0) {
+		plus <- as.numeric(sub("plus", "", regmatches(hitbox, m_plus)))
+	}
+
+	# extract pmax
+	m_pmax <- regexpr("pmax[0-9]+", hitbox)
+	if (m_pmax > 0) {
+		pmax_ <- as.numeric(sub("pmax", "", regmatches(hitbox, m_pmax)))
+	}
+
+	list(plus = plus, pmax = pmax_)
+}
+
+lwd_to_leafgl <- function(lwd) {
+	# empirical formula, based on observations: 1 (very small), 2 (2/8), 3 (3/6), 4 (4/4), 6 (6/3.5), 8 (8/3), 16 (16/8)
+	ifelse(lwd <= 4,
+		   lwd / 2^(4 - log2(lwd)),
+	ifelse(lwd > 8,
+		   lwd / 3,
+		   lwd / (6 - log2(lwd))
+		   ))
 }
 
