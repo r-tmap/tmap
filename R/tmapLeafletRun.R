@@ -27,6 +27,12 @@ tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 						lf = leaflet::removeImage(lf, L2$Lid)
 					} else if (L2$type %in% c("symbols", "text")) {
 						lf = leaflet::removeMarker(lf, L2$Lid)
+					} else if (L2$type == "linesGL") {
+						lf = leafgl::removeGlPolylines(lf, L2$Lid[1])
+					} else if (L2$type == "polygonsGL") {
+						lf = lf |>
+							leafgl::removeGlPolygons(L2$Lid[1]) |>
+							leafgl::removeGlPolylines(L2$Lid[2])
 					} else {
 						lf = leaflet::removeShape(lf, L2$Lid)
 					}

@@ -47,16 +47,20 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		a$hitbox
 	}
 
+	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
+
+	cls = if (o$use_WebGL) "linesGL" else "lines"
 
 	k = nrow(dt)
 	if (hitbox == "none") {
 		opt1 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 
 		idt = (if (is.null(idt)) dt$tmapID__ else idt) |>
-			submit_labels("lines", pane, group)
+			submit_labels(cls, pane, group)
 	} else {
 		opt1 = leaflet::pathOptions(interactive = FALSE, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 		opt2 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
+
 		idt = (if (is.null(idt))rep(dt$tmapID__, 2) else rep(idt, 2)) |>
 			submit_labels("lines", pane, group)
 		hb = parse_hitbox(hitbox)
@@ -69,7 +73,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 	# 	submit_labels("lines", pane, group)
 
 
-	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
+
 
 	if (o$use_WebGL) {
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
@@ -86,7 +90,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					weight = lwd_to_leafgl(gp3$lwd[1]),
 					pane = pane,
 					group = group,
-					layerId = idt,
+					layerId = idt[1],
 					label = hdt,
 					popup= popups) %>%
 				assign_lf(facet_row, facet_col, facet_page)
@@ -104,7 +108,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					pane    = pane,
 					group   = group,
 					popup = NULL,
-					layerId = idt[1:k]
+					layerId = idt[1]
 				) %>%
 
 				# Invisible interaction layer

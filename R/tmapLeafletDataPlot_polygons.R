@@ -49,13 +49,12 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 
 	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
-	idt = (if (is.null(idt))dt$tmapID__ else idt) |>
-		submit_labels("polygons", pane, group)
-
-
 	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"), type = "polygons", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
 
 	if (o$use_WebGL) {
+		idt = rep({if (is.null(idt))dt$tmapID__[1] else idt[1]}, 2) |>
+			submit_labels("polygonsGL", pane, group)
+
 		shp2 = sf::st_sf(id = seq_along(shp), geom = shp)
 		shp3 = sf_expand(shp2)
 
@@ -67,12 +66,15 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		fill_alpha = split_alpha_channel(gp3$fill[1], alpha = gp3$fill_alpha[1])$opacity
 
 		lf |>
-			leafgl::addGlPolygons(data = shp3, layerId = idt, label = hdt,
+			leafgl::addGlPolygons(data = shp3, layerId = idt[1], label = hdt,
 								  fillColor = gp3$fill, fillOpacity = fill_alpha,
 								  group = group, pane = pane, popup = popups2) %>%
-			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt) else .} %>%
+			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt[2]) else .} %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
+		idt = (if (is.null(idt))dt$tmapID__ else idt) |>
+			submit_labels("polygons", pane, group)
+
 		lf %>%
 			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups) %>%
 			assign_lf(facet_row, facet_col, facet_page)
