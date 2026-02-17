@@ -53,7 +53,7 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 					id = which(Lnames == pane_name(z))[1]
 					if (!is.na(id)) {
 						tp = Ltypes[id]
-						if (tp %in% c("polygons", "symbols", "text", "lines", "polygonsGL", "linesGL")) {
+						if (tp %in% c("polygons", "symbols", "text", "lines", "polygonsGL", "linesGL", "linesGL_hb", "symbolsGL")) {
 							L2 = c(L2, list(list(name = Lnames[id], type = tp, Lid = Lids[[id]])))
 						}
 					}

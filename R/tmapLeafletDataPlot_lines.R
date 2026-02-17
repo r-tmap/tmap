@@ -49,30 +49,17 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
 
-	cls = if (o$use_WebGL) "linesGL" else "lines"
 
 	k = nrow(dt)
 	if (hitbox == "none") {
 		opt1 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 
-		idt = (if (is.null(idt)) dt$tmapID__ else idt) |>
-			submit_labels(cls, pane, group)
 	} else {
 		opt1 = leaflet::pathOptions(interactive = FALSE, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 		opt2 = leaflet::pathOptions(interactive = interactive, pane = pane, lineCap = gp$lineend, lineJoin = gp$linejoin)
 
-		idt = (if (is.null(idt))rep(dt$tmapID__, 2) else rep(idt, 2)) |>
-			submit_labels("lines", pane, group)
 		hb = parse_hitbox(hitbox)
 	}
-
-
-
-
-	# idt2 = (if (is.null(tmp_idt))dt$tmapID__ else tmp_idt) |>
-	# 	submit_labels("lines", pane, group)
-
-
 
 
 	if (o$use_WebGL) {
@@ -82,6 +69,10 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		popups = popups[shp3$id]
 
 		if (hitbox == "none") {
+
+			idt = {if (is.null(idt)) dt$tmapID__[1] else idt[1]} |>
+				submit_labels("linesGL", pane, group)
+
 			lf %>%
 				leafgl::addGlPolylines(
 					data = shp3,
@@ -95,6 +86,9 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					popup= popups) %>%
 				assign_lf(facet_row, facet_col, facet_page)
 		} else {
+			idt = {if (is.null(idt)) dt$tmapID__[c(1, 1:k)] else idt[c(1, 1:k)]} |>
+				submit_labels("linesGL_hb", pane, group)
+
 			weights = gp3$lwd + hb$plus
 			if (hb$pmax != 0) weights = pmax(weights, hb$pmax)
 
@@ -117,7 +111,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					opacity = 0,
 					weight  = weights,
 					group   = group,
-					layerId = idt[(k+1):(2*k)],
+					layerId = idt[-1],
 					label   = hdt,
 					options = opt2,
 					popup   = popups
@@ -128,6 +122,9 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 	} else {
 		if (hitbox == "none") {
+			idt = if (is.null(idt)) dt$tmapID__ else idt |>
+				submit_labels("lines", pane, group)
+
 			lf %>%
 				leaflet::addPolylines(
 					data = shp,
@@ -142,6 +139,10 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 					popup = popups) %>%
 				assign_lf(facet_row, facet_col, facet_page)
 		} else {
+			idt = rep({if (is.null(idt)) dt$tmapID__ else idt}, 2) |>
+				submit_labels("lines", pane, group)
+
+
 			weights = gp$lwd + hb$plus
 			if (hb$pmax != 0) weights = pmax(weights, hb$pmax)
 

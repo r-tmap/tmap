@@ -81,11 +81,18 @@ step2_data = function(tm) {
 			} else {
 				# tml$popup.vars = tml$popup.vars
 				# 	intersect(tml$popup.vars, names(dt)) # in case type_ids !NULL
-				if (!length(tml$popup.vars)) {
+
+				popupvars = intersect(tml$popup.vars, names(dt))
+
+				if (!length(popupvars)) {
 					popup.data = NULL
 				} else {
-					popup.data = copy(dt[, c(tml$popup.vars, "tmapID__"), with = FALSE])
-					if (!is.null(names(tml$popup.vars))) popup.data = data.table::setnames(popup.data, old = unname(tml$popup.vars), new = names(tml$popup.vars))
+					if (!is.null(names(tml$popup.vars))) {
+						popupvars = structure(popupvars, names = names(tml$popup.vars)[match(popupvars, tml$popup.vars)])
+					}
+
+					popup.data = copy(dt[, c(popupvars, "tmapID__"), with = FALSE])
+					if (!is.null(names(popupvars))) popup.data = data.table::setnames(popup.data, old = unname(popupvars), new = names(popupvars))
 				}
 			}
 			hover.data = if (tml$hover == "") {

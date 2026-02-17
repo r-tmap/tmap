@@ -52,7 +52,6 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		}
 	}
 
-	idt = submit_labels(idt, "symbols", pane, group)
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
@@ -73,9 +72,12 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 	shp2 = sf::st_as_sf(as.data.frame(coords), coords = c("X", "Y"), crs = st_crs(shp))
 
 	if (o$use_WebGL) {
-		lf |>  leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups) %>%
+		idt = submit_labels(idt[1], "symbolsGL", pane, group)
+
+		lf |>  leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups, layerId = idt) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else if (use_circleMarkers) {
+		idt = submit_labels(idt, "symbols", pane, group)
 		gp2$strokeWidth[gp2$shape %in% c("solid-circle-md", "solid-circle-bg", "solid-circle-sm")] = 0
 		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
 		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen

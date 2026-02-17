@@ -199,6 +199,8 @@ tm_lines = function(col = tm_const(),
 		message_layer_unused_args(layer_fun, unused)
 	}
 
+	# make sure required options are there
+	options = complete_options(options, opt_tm_lines())
 
 
 	tm_element_list(tm_element(
