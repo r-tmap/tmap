@@ -345,6 +345,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
 <span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
@@ -354,6 +355,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
 <span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
@@ -363,6 +365,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
 <span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
@@ -372,6 +375,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  points_only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  point_per <span class="op">=</span> <span class="st">"feature"</span>,</span>
 <span>  on_surface <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
@@ -545,7 +549,7 @@ the text. See details.</p></dd>
 
 
 <dt id="arg-clustering">clustering<a class="anchor" aria-label="anchor" href="#arg-clustering"></a></dt>
-<dd><p>value that determines whether the text labels are clustered in <code>"view"</code> mode. One of: <code>TRUE</code>, <code>FALSE</code>, or the output of <code><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
+<dd><p>in interactive modes (e.g. <code>"view"</code> mode), should clustering be applied at lower zoom levels? Either <code>FALSE</code> (default), <code>TRUE</code>, or a mode specific specification, e.g. for <code>"view"</code> mode <code><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
 
 
 <dt id="arg-point-label">point.label<a class="anchor" aria-label="anchor" href="#arg-point-label"></a></dt>

@@ -130,7 +130,7 @@
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_lines</span><span class="op">(</span>lines.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_lines</span><span class="op">(</span>lines.only <span class="op">=</span> <span class="st">"ifany"</span>, hitbox <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -217,12 +217,39 @@ features. Only used for <code>"view"</code> mode.</p></dd>
 <dt id="arg-lines-only">lines.only<a class="anchor" aria-label="anchor" href="#arg-lines-only"></a></dt>
 <dd><p>should only line geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted, or also other geometry types (like polygons)? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
+
+<dt id="arg-hitbox">hitbox<a class="anchor" aria-label="anchor" href="#arg-hitbox"></a></dt>
+<dd><p>Controls whether an invisible interaction layer with a
+larger clickable area (\"hitbox\") is added on top of the lines.</p>
+<p>This can improve click and popup behaviour for thin or densely packed
+lines by increasing the effective mouse interaction width.</p>
+<p>Possible values:</p><dl><dt>"none"</dt>
+<dd><p>No additional hitbox layer is added. Lines are clickable
+only at their visible width.</p></dd>
+
+
+html<div class="sourceCode">\item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels.
+The hitbox width is computed as \code{pmax(line_width, X)}.
+For example, \code{"pmax8"} guarantees at least 8 pixels.}
+
+\item{"timesX"}{Multiplies the visible line width by \code{X} to compute
+the interaction width. For example, \code{"times2"} doubles the
+clickable width.}
+
+\item{"auto"}{Automatically: \code{"pmax8"} by default if and only if interactive features are enabled (popup or hover) and lines are thin (median line width &lt; 4) and there are less than 10000 features. Otherwise, \code{"none"} }
+html</div>
+
+
+</dl><p>Adding a hitbox improves usability for thin lines but may reduce
+performance for very large datasets, as an additional invisible
+layer is rendered.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data
+    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
-specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected).
+specified in <code><a href="tm_shape.html">tm_shape()</a></code>), with a visual value (for <code>col</code>, a color is expected), or with a geometry-derived variable (see below).
 See <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about visual variables</a>.</p>
 <p>Multiple values can be specified: in that case facets are created.
 These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.
@@ -245,7 +272,16 @@ means that for the visual variable <code>col</code>, each row of facets will hav
 scale, and therefore its own legend. For facet wraps and stacks
 (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension,
 so the <code>*.free</code> argument requires only one logical value.</p></li>
-</ul></div>
+</ul><p>Currently, three geometry-derived variables are implemented:</p><ul><li><p><code>"AREA"</code> (polygons only), which uses the feature area;</p></li>
+<li><p><code>"LENGTH"</code> (lines only), which uses the feature length; and</p></li>
+<li><p><code>"MAP_COLORS"</code>, which assigns values so that adjacent features receive
+different values, making it particularly suitable for coloring
+neighbouring polygons.</p></li>
+</ul><p>Note that geometry-derived variables do not generate a legend automatically.
+If a legend is required, compute the corresponding variable explicitly,
+for example with <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_length()</a></code>, or
+<code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="https://r-tmap.github.io/tmap/articles/examples_terrain">Terrain map example</a></p></div>

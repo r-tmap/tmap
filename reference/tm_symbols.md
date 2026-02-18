@@ -250,6 +250,7 @@ opt_tm_symbols(
   points_only = "ifany",
   point_per = "feature",
   on_surface = FALSE,
+  clustering = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -259,6 +260,7 @@ opt_tm_dots(
   points_only = "ifany",
   point_per = "feature",
   on_surface = FALSE,
+  clustering = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -268,6 +270,7 @@ opt_tm_bubbles(
   points_only = "ifany",
   point_per = "feature",
   on_surface = FALSE,
+  clustering = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -277,6 +280,7 @@ opt_tm_squares(
   points_only = "ifany",
   point_per = "feature",
   on_surface = FALSE,
+  clustering = FALSE,
   icon.scale = 3,
   just = NA,
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
@@ -478,8 +482,9 @@ opt_tm_squares(
 
 - clustering:
 
-  value that determines whether the text labels are clustered in
-  `"view"` mode. One of: `TRUE`, `FALSE`, or the output of
+  in interactive modes (e.g. `"view"` mode), should clustering be
+  applied at lower zoom levels? Either `FALSE` (default), `TRUE`, or a
+  mode specific specification, e.g. for `"view"` mode
   [`markerClusterOptions`](https://rstudio.github.io/leaflet/reference/map-options.html).
 
 - point.label:

@@ -73,12 +73,12 @@ opt_tm_raster(interpolate = FALSE)
 
 ## Details
 
-The visual variable arguments (e.g. `col`) can be specified with either
-a data variable name (e.g., a spatial vector attribute or a raster layer
-of the object specified in
-[`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)), or
-with a visual value (for `col`, a color is expected). See [vignette
-about visual
+The visual variable arguments (e.g. `col`) can be specified with a data
+variable name (e.g., a spatial vector attribute or a raster layer of the
+object specified in
+[`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)),
+with a visual value (for `col`, a color is expected), or with a
+geometry-derived variable (see below). See [vignette about visual
 variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 
 Multiple values can be specified: in that case facets are created. These
@@ -126,6 +126,25 @@ facets](https://r-tmap.github.io/tmap/articles/basics_facets).
   [`tm_facets_stack()`](https://r-tmap.github.io/tmap/reference/tm_facets.md))
   there is only one facet dimension, so the `*.free` argument requires
   only one logical value.
+
+Currently, three geometry-derived variables are implemented:
+
+- `"AREA"` (polygons only), which uses the feature area;
+
+- `"LENGTH"` (lines only), which uses the feature length; and
+
+- `"MAP_COLORS"`, which assigns values so that adjacent features receive
+  different values, making it particularly suitable for coloring
+  neighbouring polygons.
+
+Note that geometry-derived variables do not generate a legend
+automatically. If a legend is required, compute the corresponding
+variable explicitly, for example with
+[`sf::st_area()`](https://r-spatial.github.io/sf/reference/geos_measures.html),
+[`sf::st_length()`](https://r-spatial.github.io/sf/reference/geos_measures.html),
+or
+[`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
+and use the resulting values instead.
 
 ## Examples
 

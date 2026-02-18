@@ -429,7 +429,7 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 
 
 <dt id="arg-clustering">clustering<a class="anchor" aria-label="anchor" href="#arg-clustering"></a></dt>
-<dd><p>value that determines whether the text labels are clustered in <code>"view"</code> mode. One of: <code>TRUE</code>, <code>FALSE</code>, or the output of <code><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
+<dd><p>in interactive modes (e.g. <code>"view"</code> mode), should clustering be applied at lower zoom levels? Either <code>FALSE</code> (default), <code>TRUE</code>, or a mode specific specification, e.g. for <code>"view"</code> mode <code><a href="https://rstudio.github.io/leaflet/reference/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
 
 
 <dt id="arg-point-label">point.label<a class="anchor" aria-label="anchor" href="#arg-point-label"></a></dt>
@@ -450,9 +450,9 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with either a data
+    <p>The visual variable arguments (e.g. <code>col</code>) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
-specified in <code><a href="tm_shape.html">tm_shape()</a></code>), or with a visual value (for <code>col</code>, a color is expected).
+specified in <code><a href="tm_shape.html">tm_shape()</a></code>), with a visual value (for <code>col</code>, a color is expected), or with a geometry-derived variable (see below).
 See <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about visual variables</a>.</p>
 <p>Multiple values can be specified: in that case facets are created.
 These facets can be combined with other faceting data variables, specified with <code><a href="tm_facets.html">tm_facets()</a></code>.
@@ -475,7 +475,16 @@ means that for the visual variable <code>col</code>, each row of facets will hav
 scale, and therefore its own legend. For facet wraps and stacks
 (<code><a href="tm_facets.html">tm_facets_wrap()</a></code> and <code><a href="tm_facets.html">tm_facets_stack()</a></code>) there is only one facet dimension,
 so the <code>*.free</code> argument requires only one logical value.</p></li>
-</ul></div>
+</ul><p>Currently, three geometry-derived variables are implemented:</p><ul><li><p><code>"AREA"</code> (polygons only), which uses the feature area;</p></li>
+<li><p><code>"LENGTH"</code> (lines only), which uses the feature length; and</p></li>
+<li><p><code>"MAP_COLORS"</code>, which assigns values so that adjacent features receive
+different values, making it particularly suitable for coloring
+neighbouring polygons.</p></li>
+</ul><p>Note that geometry-derived variables do not generate a legend automatically.
+If a legend is required, compute the corresponding variable explicitly,
+for example with <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_length()</a></code>, or
+<code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="https://r-tmap.github.io/tmap/articles/examples_terrain">Terrain map example</a></p>
