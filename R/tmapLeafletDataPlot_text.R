@@ -38,6 +38,10 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	opt = leaflet::pathOptions(interactive = FALSE, pane = pane)
 
 
+	clusterOpts = getClusterOpts(a$clustering)
+
+	cidt = if (!is.null(clusterOpts)) submit_labels(idt[1], "cluster", pane, group) else NULL
+
 
 	cex_set = unique(gp$cex)
 	alpha_set = unique(gp$col_alpha)
@@ -63,13 +67,6 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	# 			 ifelse(gpl$text.just == "bottom", "top", "center"))))
 	direction = "right"
 
-	clustering = args$clustering
-
-	if (identical(clustering, FALSE)) {
-		clustering = NULL
-	} else if (identical(clustering, TRUE)) {
-		clustering = leaflet::markerClusterOptions()
-	}
 
 	# apply xmod and ymod
 	delta = delta_per_lineheight(bbx)
@@ -93,7 +90,8 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																	textsize=sizeChar[1],
 																	style=list(color=gp$col[1])),
 										options = markerOptions(pane = pane),
-										clusterOptions = clustering)
+										clusterOptions = clusterOpts,
+										clusterId = cidt)
 	} else {
 		for (i in 1:length(text)) {
 			lf = lf %>% addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2],
@@ -108,7 +106,8 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																		textsize=sizeChar[i],
 																		style=list(color=gp$col[i])),
 											options = markerOptions(pane = pane),
-											clusterOptions = clustering)
+											clusterOptions = clusterOpts,
+											clusterId = cidt)
 		}
 	}
 	assign_lf(lf, facet_row, facet_col, facet_page)

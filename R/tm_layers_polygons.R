@@ -287,6 +287,9 @@ tm_polygons = function(fill = tm_const(),
 		message_layer_unused_args(layer_fun, unused)
 	}
 
+	# make sure required options are there
+	options = complete_options(options, opt_tm_polygons())
+
 
 	tm_element_list(tm_element(
 		layer = "polygons",

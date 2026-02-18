@@ -37,28 +37,29 @@ tmapLeafletInit = function(o, return.asp = FALSE, vp, prx, lf = NULL, ...) {
 
 			if (proxy2) {
 				L2 = list()
-				for (px in prx) {
-					z = px$zindex
-					L = .TMAP_LEAFLET$layerIds
-					Lnames = vapply(L, function(l) {
-						l$name
-					}, FUN.VALUE = character(1))
-					Lids = lapply(L, function(l) {
-						l$Lid
-					})
-					Ltypes = vapply(L, function(l) {
-						l$type
-					}, FUN.VALUE = character(1))
+				L = .TMAP_LEAFLET$layerIds
+				Lnames = vapply(L, function(l) {
+					l$name
+				}, FUN.VALUE = character(1))
+				Lids = lapply(L, function(l) {
+					l$Lid
+				})
+				Ltypes = vapply(L, function(l) {
+					l$type
+				}, FUN.VALUE = character(1))
 
-					id = which(Lnames == pane_name(z))[1]
-					if (!is.na(id)) {
-						tp = Ltypes[id]
-						if (tp %in% c("polygons", "symbols", "text", "lines", "polygonsGL", "linesGL", "linesGL_hb", "symbolsGL")) {
-							L2 = c(L2, list(list(name = Lnames[id], type = tp, Lid = Lids[[id]])))
-						}
-					}
-					#L = L[-id]
-				}
+				Lstamps = vapply(L, function(l) {
+					l$stamp
+				}, FUN.VALUE = numeric(1))
+
+				old = Lstamps != .TMAP$stamp
+
+				Lremove = pane_name(vapply(prx, function(p) p$zindex, FUN.VALUE = numeric(1)))
+
+				ids = which(Lnames %in% Lremove & Ltypes %in% c("polygons", "symbols", "text", "lines", "polygonsGL", "linesGL", "linesGL_hb", "symbolsGL", "cluster"))
+				L2 = c(L2, L[ids])
+#po(L, L2)
+
 				#.TMAP_LEAFLET$layerIds = L
 				.TMAP_LEAFLET$layerIds2 = L2
 			}

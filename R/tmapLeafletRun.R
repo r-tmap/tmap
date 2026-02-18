@@ -22,6 +22,7 @@ tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 			# proxy remove
 			if (!is.null(.TMAP_LEAFLET$layerIds2)) {
 				L = .TMAP_LEAFLET$layerIds
+				#po(L, .TMAP_LEAFLET$layerIds2)
 				for (L2 in .TMAP_LEAFLET$layerIds2) {
 					if (L2$type == "raster") {
 						lf = leaflet::removeImage(lf, L2$Lid)
@@ -33,12 +34,14 @@ tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 						lf = leafgl::removeGlPolylines(lf, L2$Lid[1])
 					} else if (L2$type == "linesGL_hb") {
 						lf = lf |>
-							leafgl::removeGlPolylines(L2$Lid[1]) #|>
-							#leaflet::removeShape(L2$Lid[-1])
+							leafgl::removeGlPolylines(L2$Lid[1]) |>
+							leaflet::removeShape(L2$Lid[-1])
 					} else if (L2$type == "polygonsGL") {
 						lf = lf |>
 							leafgl::removeGlPolygons(L2$Lid[1]) |>
 							leafgl::removeGlPolylines(L2$Lid[2])
+					} else if (L2$type == "cluster") {
+						lf = leaflet::removeMarkerCluster(lf, L2$Lid[1])
 					} else {
 						lf = leaflet::removeShape(lf, L2$Lid)
 					}

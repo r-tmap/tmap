@@ -1,6 +1,7 @@
 submit_labels = function(labels, cls, pane, group) {
 	layerIds = get("layerIds", envir = .TMAP_LEAFLET)
-
+# 	print("** voor **")
+# po(layerIds)
 	if (length(layerIds)) {
 		labels = local({
 			labels_all = unlist(lapply(layerIds, function(l) l$Lid), use.names = FALSE)
@@ -15,8 +16,9 @@ submit_labels = function(labels, cls, pane, group) {
 		labels = gsub(".", "_", labels,fixed = TRUE)
 	}
 
-	layerIds = c(layerIds, list(list(name = pane, type = cls, group = group, Lid = labels)))
-
+	layerIds = c(layerIds, list(list(name = pane, type = cls, group = group, Lid = labels, stamp = .TMAP$stamp)))
+	# print("-- na --")
+	# po(layerIds)
 	assign("layerIds", layerIds, envir = .TMAP_LEAFLET)
 	labels
 }

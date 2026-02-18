@@ -52,6 +52,9 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		}
 	}
 
+	clusterOpts = getClusterOpts(a$clustering)
+
+
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
 
@@ -78,6 +81,8 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else if (use_circleMarkers) {
 		idt = submit_labels(idt, "symbols", pane, group)
+		cidt = if (!is.null(clusterOpts)) submit_labels(idt[1], "symbolsCluster", pane, group) else NULL
+
 		gp2$strokeWidth[gp2$shape %in% c("solid-circle-md", "solid-circle-bg", "solid-circle-sm")] = 0
 		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
 		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
@@ -89,12 +94,16 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 										 dashArray = gp2[["stroke-dasharray"]],
 										 fillColor = gp2$fillColor,
 										 fillOpacity = gp2$fillOpacity,
+										 clusterOptions = clusterOpts,
+										 clusterId = cidt,
 										 radius = gp2$width * multiplier,
 										 options = opt,
 										 group = group, label = hdt, popup = popups) |>
 			assign_lf(facet_row, facet_col, facet_page)
 
 	} else {
+		idt = submit_labels(idt, "symbols", pane, group)
+		cidt = if (!is.null(clusterOpts)) submit_labels(idt[1], "cluster", pane, group) else NULL
 
 		sn = suppressWarnings(as.numeric(gp2$shape))
 
@@ -171,6 +180,8 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 									group = group,
 									layerId = idt_grps[[i]],
 									label = hdt_grps[[i]],
+									clusterOptions = clusterOpts,
+									clusterId = cidt,
 									popup = popups_grps[[i]],
 									options = opt
 				)

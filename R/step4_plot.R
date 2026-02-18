@@ -1,5 +1,5 @@
 pane_name = function(id) {
-	paste0("tmap", sprintf("%03d", id))
+	paste0("tmap", sprintf("%03g", id))
 }
 
 process_components = function(cdt, o) {
@@ -751,7 +751,6 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		q$pane = "tilePane"
 
 		q$pane[q$lid2 > 0] = pane_name(q$lid[q$lid2 > 0])
-
 
 		# via tm_group, control and zoom levels can be set
 		# these are stored in tmap options view_group_{name}, and merged with q:

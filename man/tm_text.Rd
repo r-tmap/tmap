@@ -284,7 +284,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{bg.padding}{The padding of the background in terms of line heights.}
 
-\item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
+\item{clustering}{in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either \code{FALSE} (default), \code{TRUE}, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
 \item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}, and \code{TRUE} for \code{tm_labels} if the number of labels is less than 500 (otherwise it will be too slow).}
 
