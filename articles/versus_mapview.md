@@ -72,6 +72,4 @@ tm_shape(World) +
   ) + 
 tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter", 
   "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
-#> Warning: tm_scale_intervals `label.style = "continuous"` implementation in view mode
-#> work in progress
 ```
