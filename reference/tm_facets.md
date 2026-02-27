@@ -153,6 +153,18 @@ tm_facets_flip(...)
 
   passed on to `tm_facets()`
 
+## Note
+
+In older versions (\< 4.1) `tm_facets()` with `page` specification was
+used to create animations frames and
+[`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
+to create the animation itself using inputs like the frame rate
+specification. As of version 4.2, the whole animation, including frame
+rate, is specified in
+[`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md).
+The animation can still be saved via
+[`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md).
+
 ## See also
 
 [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)

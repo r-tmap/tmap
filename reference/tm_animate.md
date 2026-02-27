@@ -1,6 +1,15 @@
 # Specify an animation
 
-`tm_animate`
+Specify an animation from a tmap plot. This is similar to creating
+facets with
+[`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md).
+The animation subsequently can be exported to a gif or video file (e.g.
+mp4) with
+[`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md).
+If the tmap plot with `tm_animate()` is printed, the animation will be
+previewed. The default `tm_animate()` will show the individual frames
+slowly (frame per seconds (fps) set to 2) whereas `tm_animate_fast()`
+will show them like a movie (with a fps set to 24).
 
 ## Usage
 
@@ -67,18 +76,17 @@ tm_animate(
   animated facet wraps, and `rows` and `cols` to created animated facet
   grids.
 
-## Details
+## Note
 
-Specify an animation from a tmap plot. This is similar to creating
-facets with
-[`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md).
-The animation subsequently can be exported to a gif or video file (e.g.
-mp4) with
+In older versions (\< 4.1)
+[`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
+with `page` specification was used to create animations frames and
+[`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
+to create the animation itself using inputs like the frame rate
+specification. As of version 4.2, the whole animation, including frame
+rate, is specified in `tm_animate()`. The animation can still be saved
+via
 [`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md).
-If the tmap plot with `tm_animate()` is printed, the animation will be
-previewed. The default `tm_animate()` will show the individual frames
-slowly (frame per seconds (fps) set to 2) whereas `tm_animate_fast()`
-will show them like a movie (with a fps set to 24).
 
 ## See also
 
