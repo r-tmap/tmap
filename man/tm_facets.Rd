@@ -114,6 +114,9 @@ By default, \code{scale.factor = 2}.}
 \item \code{tm_facets()} is the core function, but it is recommended to use the other functions.
 }
 }
+\note{
+In older versions (< 4.1) \code{\link[=tm_facets]{tm_facets()}} with \code{page} specification was used to create animations frames and \code{\link[=tmap_animation]{tmap_animation()}} to create the animation itself using inputs like the frame rate specification. As of version 4.2, the whole animation, including frame rate, is specified in \code{\link[=tm_animate]{tm_animate()}}. The animation can still be saved via \code{\link[=tmap_animation]{tmap_animation()}}.
+}
 \examples{
 \dontrun{
 tm_shape(NLD_dist) +

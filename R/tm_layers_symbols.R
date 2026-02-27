@@ -115,8 +115,6 @@ tm_symbols = function(size = tm_const(),
 		message_layer_unused_args(layer_fun, unused)
 	}
 
-
-
 	# make sure required options are there
 	options = complete_options(options, opt_tm_symbols())
 

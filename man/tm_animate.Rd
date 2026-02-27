@@ -37,10 +37,10 @@ tm_animate(
 \item{...}{passed on to \code{\link[=tm_facets]{tm_facets()}}. Note that for animated facets, \code{by} can be specified to create animated facet wraps, and \code{rows} and \code{cols} to created animated facet grids.}
 }
 \description{
-\code{tm_animate}
-}
-\details{
 Specify an animation from a tmap plot. This is similar to creating facets with \code{\link[=tm_facets]{tm_facets()}}. The animation subsequently can be exported to a gif or video file (e.g. mp4) with \code{\link[=tmap_animation]{tmap_animation()}}. If the tmap plot with \code{\link[=tm_animate]{tm_animate()}} is printed, the animation will be previewed. The default \code{\link[=tm_animate]{tm_animate()}} will show the individual frames slowly (frame per seconds (fps) set to 2) whereas \code{\link[=tm_animate_fast]{tm_animate_fast()}} will show them like a movie (with a fps set to 24).
+}
+\note{
+In older versions (< 4.1) \code{\link[=tm_facets]{tm_facets()}} with \code{page} specification was used to create animations frames and \code{\link[=tmap_animation]{tmap_animation()}} to create the animation itself using inputs like the frame rate specification. As of version 4.2, the whole animation, including frame rate, is specified in \code{\link[=tm_animate]{tm_animate()}}. The animation can still be saved via \code{\link[=tmap_animation]{tmap_animation()}}.
 }
 \seealso{
 \code{\link[=tm_facets]{tm_facets()}} which is the core function, and \code{\link[=tmap_animation]{tmap_animation()}} used to save the animation

@@ -2,8 +2,6 @@
 #'
 #' Specify an animation from a tmap plot. This is similar to creating facets with [tm_facets()]. The animation subsequently can be exported to a gif or video file (e.g. mp4) with [tmap_animation()]. If the tmap plot with [tm_animate()] is printed, the animation will be previewed. The default [tm_animate()] will show the individual frames slowly (frame per seconds (fps) set to 2) whereas [tm_animate_fast()] will show them like a movie (with a fps set to 24).
 #'
-#' @description `tm_animate`
-#'
 #' @param frames group by variable used to create the animation frames. This is similar to the `by` argument of [tm_facets_wrap()]. Instead of showing facets next to each other, they are shown as animation frames. However, under the hood `frames` will be used to specify `pages` of [tm_facets()]. This makes it possible to create an animation of regular facets.
 #' @param nframes number of animation frames. So far, this only applied experimentally in transition map variables. See the extension package tmap.cartogram.
 #' @param fps frames per second. Default: 30 for `tm_facets_animate` and 2 for `tm_facets_animate_slow`.
@@ -11,6 +9,7 @@
 #' @param dpr device pixel ratio. The ratio between the physical pixel density of a device and its logical pixel density.
 #' @param ... passed on to [tm_facets()]. Note that for animated facets, `by` can be specified to create animated facet wraps, and `rows` and `cols` to created animated facet grids.
 #' @export
+#' @note In older versions (< 4.1) [tm_facets()] with `page` specification was used to create animations frames and [tmap_animation()] to create the animation itself using inputs like the frame rate specification. As of version 4.2, the whole animation, including frame rate, is specified in [tm_animate()]. The animation can still be saved via [tmap_animation()].
 #' @seealso [tm_facets()] which is the core function, and [tmap_animation()] used to save the animation
 #' @rdname tm_animate
 tm_animate_fast = function(frames = "VARS__",
