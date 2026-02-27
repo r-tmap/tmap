@@ -49,15 +49,16 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	col_set = unique(gp$col)
 
 	bgcol_set = unique(gp$bgcol)
+	bgcol_alpha = unique(gp$bgcol_alpha)
 
-	if (any(bgcol_set != "#00000000")) {
-		message("Variable bgcol and bgcol_alpha not supported by view mode")
-	}
+	# if (any(bgcol_set != "#00000000")) {
+	# 	message("Variable bgcol and bgcol_alpha not supported by view mode")
+	# }
 
 
 	if (length(face_set) != 1) message("Variable fontfaces not supported by view mode")
 
-	vary = (length(cex_set) != 1) || (length(alpha_set) != 1) || (length(face_set) != 1) || (length(col_set) != 1)
+	vary = (length(cex_set) != 1) || (length(alpha_set) != 1) || (length(face_set) != 1) || (length(col_set) != 1) || (length(bgcol_set) != 1) || (length(bgcol_alpha) != 1)
 
 	sizeChar <- paste(round(gp$cex * 12), "px", sep="")
 
@@ -88,7 +89,10 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																	direction = direction,
 																	opacity=gp$col_alpha[1],
 																	textsize=sizeChar[1],
-																	style=list(color=gp$col[1])),
+																	style=list("color"=gp$col[1],
+																			   "background-color" = paste0("rgba(", paste(col2rgb(gp$bgcol[1]), collapse = ", "), ",", gp$bgcol_alpha[1], ")"),
+																			  # "border" = "2px solid rgba(0, 0, 0, 0.5)",
+																			  "padding" = paste0(round(2 * gp$cex[1]), "px"))),
 										options = markerOptions(pane = pane),
 										clusterOptions = clusterOpts,
 										clusterId = cidt)
@@ -104,7 +108,10 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																		direction = direction,
 																		opacity=gp$col_alpha[i],
 																		textsize=sizeChar[i],
-																		style=list(color=gp$col[i])),
+																		style=list("color"=gp$col[i],
+																				   "background-color" = paste0("rgba(", paste(col2rgb(gp$bgcol[i]), collapse = ", "), ",", gp$bgcol_alpha[i], ")"),
+																				  # "border" = "2px solid rgba(0, 0, 0, 0.5)",
+																				   "padding" = paste0(round(2 * gp$cex[i]), "px"))),
 											options = markerOptions(pane = pane),
 											clusterOptions = clusterOpts,
 											clusterId = cidt)

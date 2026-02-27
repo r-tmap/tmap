@@ -156,8 +156,6 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 		nbins = length(val)
 
-
-
 		incl.na = cmp$na.show
 
 		if (incl.na) {
@@ -170,7 +168,7 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		val = val[sel]
 
 		if (!breaks_show) {
-			cli::cli_warn("{.field tm_scale_intervals} {.code label.style = {.str continuous}} implementation in view mode work in progress")
+			if (cmp$scale == "intervals") cli::cli_warn("{.field tm_scale_intervals} {.code label.style = {.str continuous}} implementation in view mode work in progress")
 			if (!head(sel, 1)) {
 				val = c(cmp$limits[1], val)
 			} else {

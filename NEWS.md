@@ -1,5 +1,7 @@
 # tmap 4.2.0.9000 (dev version)
 
+- tm_text: bgcol and bgcol_alpha implemented in view mode
+
 # tmap 4.2
 
 - [!] improved legend (labeling #1174 and continuous-style intervals #1175)
