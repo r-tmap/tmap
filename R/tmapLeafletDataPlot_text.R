@@ -51,9 +51,15 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	bgcol_set = unique(gp$bgcol)
 	bgcol_alpha = unique(gp$bgcol_alpha)
 
-	# if (any(bgcol_set != "#00000000")) {
-	# 	message("Variable bgcol and bgcol_alpha not supported by view mode")
-	# }
+	if (all(bgcol_set == "#00000000")) {
+		bg_enabled = FALSE
+	} else {
+		bgres = split_alpha_channel(gp$bgcol, gp$bgcol_alpha)
+		gp$bgcol = bgres$col
+		gp$bgcol_alpha = bgres$opacity
+		bg_enabled = TRUE
+	}
+
 
 
 	if (length(face_set) != 1) message("Variable fontfaces not supported by view mode")
@@ -75,8 +81,22 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	coords[,1] = coords[,1] + delta * gp$cex * gp$xmod
 	coords[,2] = coords[,2] + delta * gp$cex * gp$ymod
 
+	scale_px = function(textlines, cex) {
+		ceiling(textlines * cex * 12)
+	}
 
 
+	make_shadow = function(cex, textcol) {
+		if (a$halo) {
+			if (is.na(a$halo.col)) a$halo.col = ifelse(is_light(textcol), "#000000", "#FFFFFF")
+			make_halo_css(col = a$halo.col, mode = "halo", width = scale_px(a$halo.width, cex), blur = scale_px(a$halo.blur, cex), diag_scale = sqrt(2)/2)
+		} else if (a$shadow) {
+			if (is.na(a$shadow.col)) a$shadow.col = ifelse(is_light(textcol), "#000000", "#FFFFFF")
+			make_halo_css(col = a$shadow.col, mode = "shadow", offset.x = scale_px(a$shadow.offset.x, cex), offset.y = scale_px(a$shadow.offset.y, cex))
+		} else {
+			NULL
+		}
+	}
 
 	if (!vary) {
 		lf = lf %>% addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2],
@@ -90,9 +110,11 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																	opacity=gp$col_alpha[1],
 																	textsize=sizeChar[1],
 																	style=list("color"=gp$col[1],
-																			   "background-color" = paste0("rgba(", paste(col2rgb(gp$bgcol[1]), collapse = ", "), ",", gp$bgcol_alpha[1], ")"),
-																			  # "border" = "2px solid rgba(0, 0, 0, 0.5)",
-																			  "padding" = paste0(round(2 * gp$cex[1]), "px"))),
+																			   "background-color" = if (bg_enabled) paste0("rgba(", paste(col2rgb(gp$bgcol[1]), collapse = ", "), ",", gp$bgcol_alpha[1], ")") else NULL,
+																			  "border" = if (a$bg.border) paste0(a$bg.border.lwd, "px solid rgba(", paste(col2rgb(a$bg.border.col[1]), collapse = ", "), ",", gp$bgcol_alpha[1], ")") else NULL,
+																			  "line-height" = sizeChar[1],
+																			  "text-shadow" = make_shadow(gp$cex[1], gp$col[1]),
+																			  "padding" = paste0(scale_px(a$bg.padding / 2, gp$cex[1]), "px"))),
 										options = markerOptions(pane = pane),
 										clusterOptions = clusterOpts,
 										clusterId = cidt)
@@ -109,9 +131,11 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 																		opacity=gp$col_alpha[i],
 																		textsize=sizeChar[i],
 																		style=list("color"=gp$col[i],
-																				   "background-color" = paste0("rgba(", paste(col2rgb(gp$bgcol[i]), collapse = ", "), ",", gp$bgcol_alpha[i], ")"),
-																				  # "border" = "2px solid rgba(0, 0, 0, 0.5)",
-																				   "padding" = paste0(round(2 * gp$cex[i]), "px"))),
+																				   "background-color" = if (bg_enabled) paste0("rgba(", paste(col2rgb(gp$bgcol[i]), collapse = ", "), ",", gp$bgcol_alpha[i], ")") else NULL,
+																				   "border" = if (a$bg.border) paste0(a$bg.border.lwd, "px solid rgba(", paste(col2rgb(a$bg.border.col[i]), collapse = ", "), ",", gp$bgcol_alpha[i], ")") else NULL,
+																				   "line-height" = sizeChar[i],
+																				   "text-shadow" = make_shadow(gp$cex[i], gp$col[i]),
+																				   "padding" = paste0(scale_px(a$bg.padding / 2, gp$cex[i]), "px"))),
 											options = markerOptions(pane = pane),
 											clusterOptions = clusterOpts,
 											clusterId = cidt)
@@ -137,3 +161,65 @@ tmapLeafletDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, pdt, pop
 	NextMethod()
 }
 
+
+
+
+make_halo_css <- function(
+		col = "white",
+		width = 1,
+		blur = 0,
+		diagonals = TRUE,
+		diag_scale = 1,
+		mode = c("halo", "shadow"),
+		offset.x = 2,
+		offset.y = 2
+) {
+
+	mode <- match.arg(mode)
+
+	# --- Simple drop shadow mode ---
+	if (mode == "shadow") {
+		return(sprintf(
+			"%spx %spx %spx %s",
+			offset.x, offset.y, blur, col
+		))
+	}
+
+	# --- Halo mode ---
+	# Cardinal directions
+	offsets <- rbind(
+		c(-1, 0),
+		c( 1, 0),
+		c( 0,-1),
+		c( 0, 1)
+	)
+
+	# Optional diagonals
+	if (diagonals) {
+		diag_offsets <- rbind(
+			c(-1,-1),
+			c( 1,-1),
+			c(-1, 1),
+			c( 1, 1)
+		)
+
+		# allow smaller diagonal distance for rounder halo
+		diag_offsets <- diag_offsets * diag_scale
+
+		offsets <- rbind(offsets, diag_offsets)
+	}
+
+	# Scale by width
+	offsets <- offsets * width
+
+	parts <- apply(offsets, 1, function(x) {
+		sprintf("%spx %spx 0 %s", x[1], x[2], col)
+	})
+
+	# Optional glow
+	if (blur > 0) {
+		parts <- c(parts, sprintf("0 0 %spx %s", blur, col))
+	}
+
+	paste(parts, collapse = ", ")
+}

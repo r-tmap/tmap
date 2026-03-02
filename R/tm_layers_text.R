@@ -468,11 +468,19 @@ tm_labels_highlighted = function(text = tm_const(),
 #' @param points_only should only point geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @param point_per specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.
 #' @param on_surface In case of polygons, centroids are computed. Should the points be on the surface? If `TRUE`, which is slower than the default `FALSE`, centroids outside the surface are replaced with points computed with [sf::st_point_on_surface()].
-#' @param shadow Shadow behind the text. Logical or color.
+#' @param shadow Shadow behind the text. Logical.
+#' @param shadow.col Color of the shadow.
 #' @param shadow.offset.x,shadow.offset.y Shadow offset in line heights
+#' @param halo Halo behind the text. In plot mode, it is just an outline, in view mode also a subtle glow.
+#' @param halo.col Color of the halo.
+#' @param halo.width Width (thickness) of the halo outline. In line heights
+#' @param halo.blur Blur radius of the halo glow (view mode only). In line heights
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param along_lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
 #' @param bg.padding The padding of the background in terms of line heights.
+#' @param bg.border Should the background have borders?
+#' @param bg.border.col Color of the borders
+#' @param bg.border.lwd Line width of the borders
 #' @param clustering in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either `FALSE` (default), `TRUE`, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
 #' @param point.label logical that determines whether the labels are placed automatically. By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the number of labels is less than 500 (otherwise it will be too slow).
 #' @param point.label.gap numeric that determines the gap between the point and label
@@ -484,26 +492,47 @@ opt_tm_text = function(points_only = "ifany",
 					   point_per = "feature",
 					   on_surface = FALSE,
 					   shadow = FALSE,
+					   shadow.col = NA,
 					   shadow.offset.x = 0.1,
 					   shadow.offset.y = 0.1,
+					   halo = FALSE,
+					   halo.col = NA,
+					   halo.width = 0.02,
+					   halo.blur = 0.1,
 					   just = "center",
 					   along_lines = FALSE,
 					   bg.padding = 0.4,
+					   bg.border = FALSE,
+					   bg.border.col = "black",
+					   bg.border.lwd = 1,
 					   clustering = FALSE,
 					   point.label = FALSE,
 					   point.label.gap = 0,
 					   point.label.method = "SANN",
 					   remove_overlap = FALSE) {
+	if (!is.logical(shadow)) {
+		cli::cli_warn("{.fun opt_tm_text} {.arg shadow} should be {.code TRUE} or {.code FALSE}. Please use shadow.col to specify a color")
+		shadow.col = shadow
+		shadow = TRUE
+	}
 	list(trans.args = list(points_only = points_only,
 						   point_per = point_per,
 						   on_surface = on_surface,
 						   along_lines = along_lines),
 		 mapping.args = list(shadow = shadow,
+		 					shadow.col = shadow.col,
 		 					shadow.offset.x = shadow.offset.x,
 		 					shadow.offset.y = shadow.offset.y,
+		 					halo = halo,
+		 					halo.col = halo.col,
+		 					halo.width = halo.width,
+		 					halo.blur = halo.blur,
 		 					just = just,
 		 					along_lines = along_lines,
 		 					bg.padding = bg.padding,
+		 					bg.border = bg.border,
+		 					bg.border.col = bg.border.col,
+		 					bg.border.lwd = bg.border.lwd,
 		 					clustering = clustering,
 		 					point.label = point.label,
 		 					point.label.gap = point.label.gap,
@@ -517,26 +546,48 @@ opt_tm_labels = function(points_only = "ifany",
 						 point_per = "feature",
 						 on_surface = FALSE,
 						 shadow = FALSE,
-						 shadow.offset.x = 0.1,
-						 shadow.offset.y = 0.1,
+						 shadow.col = NA,
+						 shadow.offset.x = 0.05,
+						 shadow.offset.y = 0.05,
+						 halo = FALSE,
+						 halo.col = NA,
+						 halo.width = 0.05,
+						 halo.blur = 0.1,
 						 just = "center",
 						 along_lines = TRUE,
 						 bg.padding = 0.4,
+						 bg.border = FALSE,
+						 bg.border.col = "black",
+						 bg.border.lwd = 1,
 						 clustering = FALSE,
 						 point.label = NA,
 						 point.label.gap = 0.4,
 						 point.label.method = "SANN",
 						 remove_overlap = FALSE) {
+	if (!is.logical(shadow)) {
+		cli::cli_warn("{.fun opt_tm_labels} {.arg shadow} should be {.code TRUE} or {.code FALSE}. Please use shadow.col to specify a color")
+		shadow.col = shadow
+		shadow = TRUE
+	}
+
 	list(trans.args = list(points_only = points_only,
 						   point_per = point_per,
 						   on_surface = on_surface,
 						   along_lines = along_lines),
 		 mapping.args = list(shadow = shadow,
+		 					shadow.col = shadow.col,
 		 					shadow.offset.x = shadow.offset.x,
 		 					shadow.offset.y = shadow.offset.y,
+		 					halo = halo,
+		 					halo.col = halo.col,
+		 					halo.width = halo.width,
+		 					halo.blur = halo.blur,
 		 					just = just,
 		 					along_lines = along_lines,
 		 					bg.padding = bg.padding,
+		 					bg.border = bg.border,
+		 					bg.border.col = bg.border.col,
+		 					bg.border.lwd = bg.border.lwd,
 		 					clustering = clustering,
 		 					point.label = point.label,
 		 					point.label.gap = point.label.gap,

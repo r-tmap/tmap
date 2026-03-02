@@ -193,11 +193,19 @@ opt_tm_text(
   point_per = "feature",
   on_surface = FALSE,
   shadow = FALSE,
+  shadow.col = NA,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
+  halo = FALSE,
+  halo.col = NA,
+  halo.width = 0.02,
+  halo.blur = 0.1,
   just = "center",
   along_lines = FALSE,
   bg.padding = 0.4,
+  bg.border = FALSE,
+  bg.border.col = "black",
+  bg.border.lwd = 1,
   clustering = FALSE,
   point.label = FALSE,
   point.label.gap = 0,
@@ -210,11 +218,19 @@ opt_tm_labels(
   point_per = "feature",
   on_surface = FALSE,
   shadow = FALSE,
-  shadow.offset.x = 0.1,
-  shadow.offset.y = 0.1,
+  shadow.col = NA,
+  shadow.offset.x = 0.05,
+  shadow.offset.y = 0.05,
+  halo = FALSE,
+  halo.col = NA,
+  halo.width = 0.05,
+  halo.blur = 0.1,
   just = "center",
   along_lines = TRUE,
   bg.padding = 0.4,
+  bg.border = FALSE,
+  bg.border.col = "black",
+  bg.border.lwd = 1,
   clustering = FALSE,
   point.label = NA,
   point.label.gap = 0.4,
@@ -274,15 +290,31 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:geos_unary]{sf::st_point_on_surface()}}.}
 
-\item{shadow}{Shadow behind the text. Logical or color.}
+\item{shadow}{Shadow behind the text. Logical.}
+
+\item{shadow.col}{Color of the shadow.}
 
 \item{shadow.offset.x, shadow.offset.y}{Shadow offset in line heights}
+
+\item{halo}{Halo behind the text. In plot mode, it is just an outline, in view mode also a subtle glow.}
+
+\item{halo.col}{Color of the halo.}
+
+\item{halo.width}{Width (thickness) of the halo outline. In line heights}
+
+\item{halo.blur}{Blur radius of the halo glow (view mode only). In line heights}
 
 \item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 
 \item{along_lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
 
 \item{bg.padding}{The padding of the background in terms of line heights.}
+
+\item{bg.border}{Should the background have borders?}
+
+\item{bg.border.col}{Color of the borders}
+
+\item{bg.border.lwd}{Line width of the borders}
 
 \item{clustering}{in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either \code{FALSE} (default), \code{TRUE}, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 

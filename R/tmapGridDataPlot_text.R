@@ -84,10 +84,10 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 	gp = gp_to_gpar(gp, sel = "col", o = o, type = "text")
 
 	with_bg = any(bgcol_alpha != 0)
-	with_shadow = (!identical(a$shadow, FALSE))
+	with_shadow_halo = a$shadow || a$halo
 
 
-	if (with_bg || with_shadow || a$remove_overlap || a$point.label) {
+	if (with_bg || with_shadow_halo || a$remove_overlap || a$point.label) {
 		# grobs are processed seperately because of the order: backgrond1, shadow1, text1, background2, shadow2, text2, etc.
 		# becaues it is less efficient when there is no background/shadow (majority of use cases), this is a separate routine
 
@@ -97,12 +97,50 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a, just = just) #, name = paste0("text_", id))
 		}, text, coords[,1], coords[,2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
-		if (with_shadow) {
+		if (with_shadow_halo) {
 			gp_sh = gp
-			gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
+
+			if (a$halo) {
+				gp_sh$col = ifelse(is.na(a$halo.col), ifelse(is_light(gp$col), "#000000", "#FFFFFF"), a$halo.col)
+			} else {
+				gp_sh$col = ifelse(is.na(a$shadow.col), ifelse(is_light(gp$col), "#000000", "#FFFFFF"), a$shadow.col)
+			}
 			gps_sh = split_gp(gp_sh, n)
 			grobTextShList = mapply(function(x, y, txt, g, ai) {
-				grid::textGrob(x = grid::unit(x + a$shadow.offset.x * xIn * lineIn, "native"), y = grid::unit(y -  a$shadow.offset.y * yIn * lineIn, "native"), label = txt, gp = g, rot = ai, just = just)
+				if (a$halo) {
+					offsets <- rbind(
+						c(-1, 0),
+						c( 1, 0),
+						c( 0,-1),
+						c( 0, 1)
+					)
+
+					diag_offsets <- rbind(
+						c(-1,-1),
+						c( 1,-1),
+						c(-1, 1),
+						c( 1, 1)
+					)
+
+					# allow smaller diagonal distance for rounder halo
+					diag_offsets <- diag_offsets * .5 * sqrt(2)
+
+					offsets <- rbind(offsets, diag_offsets)
+
+					grid::textGrob(x = grid::unit(x + a$halo.width * xIn * lineIn * g$cex * offsets[,1], "native"),
+								   y = grid::unit(y -  a$halo.width * yIn * lineIn * g$cex * offsets[,2], "native"),
+								   label = txt,
+								   gp = g,
+								   rot = ai,
+								   just = just)
+				} else {
+					grid::textGrob(x = grid::unit(x + a$shadow.offset.x * xIn * lineIn * g$cex, "native"),
+								   y = grid::unit(y -  a$shadow.offset.y * yIn * lineIn * g$cex, "native"),
+								   label = txt,
+								   gp = g,
+								   rot = ai,
+								   just = just)
+				}
 			}, coords[,1], coords[,2], text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
@@ -129,11 +167,19 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 			tGX = unit(coords[,1] + justx * tGW, "native")
 			tGY = unit(coords[,2] + justy * tGH, "native")
 
-			tGH = unit(tGH + a$bg.padding * yIn * lineIn, "native")
-			tGW = unit(tGW + a$bg.padding * xIn * lineIn, "native")
+			tGH = unit(tGH + (0.1 + a$bg.padding) * yIn * lineIn * gp$cex, "native")
+			tGW = unit(tGW + a$bg.padding * xIn * lineIn * gp$cex, "native")
+
+			if (a$bg.border) {
+				bordercol = a$bg.border.col
+				lwd = a$bg.border.lwd
+			} else {
+				bordercol = NA
+				lwd = 0
+			}
 
 			grobTextBGList = mapply(function(x, y, w, h, b, a, rot) {
-				rect = rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=NA))
+				rect = rectGrob(x=x, y=y, width=w, height=h, gp=gpar(fill=b, alpha = a, col=bordercol, lwd = lwd))
 				if (rot != 0) {
 					.rectGrob2pathGrob(rect, rot, bbx)$poly
 				} else {
@@ -181,7 +227,7 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 			}, grobTextBGList, sx, sy, SIMPLIFY = FALSE)
 
 
-			if (with_shadow) {
+			if (with_shadow_halo) {
 				grobTextShList = mapply(function(grb, sxi, syi) {
 					grb$x = grb$x + grid::unit(sxi, "native")
 					grb$y = grb$y + grid::unit(syi, "native")

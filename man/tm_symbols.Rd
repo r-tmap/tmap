@@ -373,7 +373,7 @@ the text. See details.}
 
 \item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:geos_unary]{sf::st_point_on_surface()}}.}
 
-\item{shadow}{Shadow behind the text. Logical or color.}
+\item{shadow}{Shadow behind the text. Logical.}
 
 \item{shadow.offset.x, shadow.offset.y}{Shadow offset in line heights}
 
