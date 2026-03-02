@@ -223,7 +223,7 @@ opt_tm_labels(
   shadow.offset.y = 0.05,
   halo = FALSE,
   halo.col = NA,
-  halo.width = 0.05,
+  halo.width = 0.02,
   halo.blur = 0.1,
   just = "center",
   along_lines = TRUE,
