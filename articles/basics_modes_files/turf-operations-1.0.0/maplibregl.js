@@ -1020,7 +1020,7 @@ HTMLWidgets.widget({
         map.controls = [];
         map._initialStyleLoaded = false;
 
-        map.on("style.load", function () {
+        map.on("style.load", async function () {
           if (x.projection) {
             map.setProjection({ type: x.projection });
           }
@@ -1128,7 +1128,7 @@ HTMLWidgets.widget({
 
           // Add sources if provided
           if (x.sources) {
-            x.sources.forEach(function (source) {
+            for (const source of x.sources) {
               if (source.type === "vector") {
                 const sourceOptions = {
                   type: "vector",
@@ -1136,6 +1136,23 @@ HTMLWidgets.widget({
                 // Add url or tiles
                 if (source.url) {
                   sourceOptions.url = source.url;
+                  // Auto-detect MLT encoding for PMTiles sources
+                  if (
+                    source.url.startsWith("pmtiles://") &&
+                    typeof pmtiles !== "undefined" &&
+                    !source.encoding
+                  ) {
+                    try {
+                      const rawUrl = source.url.replace("pmtiles://", "");
+                      const p = new pmtiles.PMTiles(rawUrl);
+                      const header = await p.getHeader();
+                      if (header.tileType === pmtiles.TileType.Mlt) {
+                        sourceOptions.encoding = "mlt";
+                      }
+                    } catch (e) {
+                      console.warn("Failed to detect PMTiles tile type:", e);
+                    }
+                  }
                 }
                 if (source.tiles) {
                   sourceOptions.tiles = source.tiles;
@@ -1207,7 +1224,7 @@ HTMLWidgets.widget({
                   coordinates: source.coordinates,
                 });
               }
-            });
+            }
           }
 
           function add_my_layers(layer) {
@@ -2628,7 +2645,7 @@ HTMLWidgets.widget({
 });
 
 if (HTMLWidgets.shinyMode) {
-  Shiny.addCustomMessageHandler("maplibre-proxy", function (data) {
+  Shiny.addCustomMessageHandler("maplibre-proxy", async function (data) {
     var widget = HTMLWidgets.find("#" + data.id);
     if (!widget) return;
     var map = widget.getMap();
@@ -2681,6 +2698,23 @@ if (HTMLWidgets.shinyMode) {
           // Add url or tiles
           if (message.source.url) {
             sourceConfig.url = message.source.url;
+            // Auto-detect MLT encoding for PMTiles sources
+            if (
+              message.source.url.startsWith("pmtiles://") &&
+              typeof pmtiles !== "undefined" &&
+              !message.source.encoding
+            ) {
+              try {
+                const rawUrl = message.source.url.replace("pmtiles://", "");
+                const p = new pmtiles.PMTiles(rawUrl);
+                const header = await p.getHeader();
+                if (header.tileType === pmtiles.TileType.Mlt) {
+                  sourceConfig.encoding = "mlt";
+                }
+              } catch (e) {
+                console.warn("Failed to detect PMTiles tile type:", e);
+              }
+            }
           }
           if (message.source.tiles) {
             sourceConfig.tiles = message.source.tiles;

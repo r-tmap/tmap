@@ -192,11 +192,19 @@ opt_tm_text(
   point_per = "feature",
   on_surface = FALSE,
   shadow = FALSE,
+  shadow.col = NA,
   shadow.offset.x = 0.1,
   shadow.offset.y = 0.1,
+  halo = FALSE,
+  halo.col = NA,
+  halo.width = 0.02,
+  halo.blur = 0.1,
   just = "center",
   along_lines = FALSE,
   bg.padding = 0.4,
+  bg.border = FALSE,
+  bg.border.col = "black",
+  bg.border.lwd = 1,
   clustering = FALSE,
   point.label = FALSE,
   point.label.gap = 0,
@@ -209,11 +217,19 @@ opt_tm_labels(
   point_per = "feature",
   on_surface = FALSE,
   shadow = FALSE,
-  shadow.offset.x = 0.1,
-  shadow.offset.y = 0.1,
+  shadow.col = NA,
+  shadow.offset.x = 0.05,
+  shadow.offset.y = 0.05,
+  halo = FALSE,
+  halo.col = NA,
+  halo.width = 0.05,
+  halo.blur = 0.1,
   just = "center",
   along_lines = TRUE,
   bg.padding = 0.4,
+  bg.border = FALSE,
+  bg.border.col = "black",
+  bg.border.lwd = 1,
   clustering = FALSE,
   point.label = NA,
   point.label.gap = 0.4,
@@ -332,11 +348,32 @@ opt_tm_labels(
 
 - shadow:
 
-  Shadow behind the text. Logical or color.
+  Shadow behind the text. Logical.
+
+- shadow.col:
+
+  Color of the shadow.
 
 - shadow.offset.x, shadow.offset.y:
 
   Shadow offset in line heights
+
+- halo:
+
+  Halo behind the text. In plot mode, it is just an outline, in view
+  mode also a subtle glow.
+
+- halo.col:
+
+  Color of the halo.
+
+- halo.width:
+
+  Width (thickness) of the halo outline. In line heights
+
+- halo.blur:
+
+  Blur radius of the halo glow (view mode only). In line heights
 
 - just:
 
@@ -357,6 +394,18 @@ opt_tm_labels(
 - bg.padding:
 
   The padding of the background in terms of line heights.
+
+- bg.border:
+
+  Should the background have borders?
+
+- bg.border.col:
+
+  Color of the borders
+
+- bg.border.lwd:
+
+  Line width of the borders
 
 - clustering:
 

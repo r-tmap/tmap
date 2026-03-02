@@ -435,7 +435,7 @@ HTMLWidgets.widget({
         if (HTMLWidgets.shinyMode) {
           Shiny.addCustomMessageHandler(
             "maplibre-compare-proxy",
-            function (data) {
+            async function (data) {
               if (data.id !== el.id) return;
 
               // Get the message and determine which map to target
@@ -474,6 +474,23 @@ HTMLWidgets.widget({
                   // Add url or tiles
                   if (message.source.url) {
                     sourceConfig.url = message.source.url;
+                    // Auto-detect MLT encoding for PMTiles sources
+                    if (
+                      message.source.url.startsWith("pmtiles://") &&
+                      typeof pmtiles !== "undefined" &&
+                      !message.source.encoding
+                    ) {
+                      try {
+                        const rawUrl = message.source.url.replace("pmtiles://", "");
+                        const p = new pmtiles.PMTiles(rawUrl);
+                        const header = await p.getHeader();
+                        if (header.tileType === pmtiles.TileType.Mlt) {
+                          sourceConfig.encoding = "mlt";
+                        }
+                      } catch (e) {
+                        console.warn("Failed to detect PMTiles tile type:", e);
+                      }
+                    }
                   }
                   if (message.source.tiles) {
                     sourceConfig.tiles = message.source.tiles;
@@ -2780,7 +2797,7 @@ HTMLWidgets.widget({
           }
         }
 
-        function applyMapModifications(map, mapData) {
+        async function applyMapModifications(map, mapData) {
           // Initialize controls array if it doesn't exist
           if (!map.controls) {
             map.controls = [];
@@ -3042,7 +3059,7 @@ HTMLWidgets.widget({
 
           // Add sources if provided
           if (mapData.sources) {
-            mapData.sources.forEach(function (source) {
+            for (const source of mapData.sources) {
               if (source.type === "vector") {
                 const sourceConfig = {
                   type: "vector",
@@ -3050,6 +3067,23 @@ HTMLWidgets.widget({
                 // Add url or tiles
                 if (source.url) {
                   sourceConfig.url = source.url;
+                  // Auto-detect MLT encoding for PMTiles sources
+                  if (
+                    source.url.startsWith("pmtiles://") &&
+                    typeof pmtiles !== "undefined" &&
+                    !source.encoding
+                  ) {
+                    try {
+                      const rawUrl = source.url.replace("pmtiles://", "");
+                      const p = new pmtiles.PMTiles(rawUrl);
+                      const header = await p.getHeader();
+                      if (header.tileType === pmtiles.TileType.Mlt) {
+                        sourceConfig.encoding = "mlt";
+                      }
+                    } catch (e) {
+                      console.warn("Failed to detect PMTiles tile type:", e);
+                    }
+                  }
                 }
                 if (source.tiles) {
                   sourceConfig.tiles = source.tiles;
@@ -3100,7 +3134,7 @@ HTMLWidgets.widget({
                   coordinates: source.coordinates,
                 });
               }
-            });
+            }
           }
 
           // Add layers if provided

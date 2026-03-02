@@ -454,7 +454,7 @@ opt_tm_squares(
 
 - shadow:
 
-  Shadow behind the text. Logical or color.
+  Shadow behind the text. Logical.
 
 - shadow.offset.x, shadow.offset.y:
 

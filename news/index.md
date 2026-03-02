@@ -2,7 +2,8 @@
 
 ## tmap 4.2.0.9000 (dev version)
 
-- tm_text: bgcol and bgcol_alpha implemented in view mode
+- tm_text: halo, shadow and background rectangles implemented in plot
+  and view mode
 
 ## tmap 4.2
 

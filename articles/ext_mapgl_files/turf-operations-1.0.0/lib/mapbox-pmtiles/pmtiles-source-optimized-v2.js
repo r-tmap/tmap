@@ -786,6 +786,9 @@
           case pmtiles.TileType.Mvt:
             this.contentType = "application/vnd.mapbox-vector-tile";
             break;
+          case pmtiles.TileType.Mlt:
+            this.contentType = "application/vnd.mapbox-vector-tile";
+            break;
         }
 
         if (
@@ -793,7 +796,10 @@
         ) {
           this.loadTile = this.loadRasterTile;
           this.type = "raster";
-        } else if (this.tileType === pmtiles.TileType.Mvt) {
+        } else if (
+          this.tileType === pmtiles.TileType.Mvt ||
+          this.tileType === pmtiles.TileType.Mlt
+        ) {
           this.loadTile = this.loadVectorTile;
           this.type = "vector";
         } else {
