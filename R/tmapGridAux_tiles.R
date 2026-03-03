@@ -19,16 +19,18 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 
 	isproj = !sf::st_is_longlat(crs)
 
+	bs_orig = bs
 	if (isproj) {
 		# plain lat-lon to find zoom levels
-		bs_orig = bs
 		bs = lapply(bs, function(b) {
 			sf::st_bbox(sf::st_transform(sf::st_as_sfc(b), crs = "EPSG:4326"))
 		})
 	}
 
 	# tiles are in mercator
-	bs3857 = lapply(bs, sf::st_transform, crs = "EPSG:3857")
+	bs3857 = lapply(bs_orig, function(b) {
+		sf::st_bbox(sf::st_transform(tmaptools::bb_poly(b), crs = "EPSG:3857"))
+	})
 
 	bs = lapply(bs, function(b) {
 		# not sure why needed
@@ -72,16 +74,16 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	xs = mapply(function(b, z) {
 		m = tryCatch({
 			if (is.null(api)) {
-				maptiles::get_tiles(x = b, provider = serv, zoom = z, crop = FALSE)
+				maptiles::get_tiles(x = b, provider = serv, zoom = z, crop = TRUE)
 			} else {
-				maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z, crop = FALSE)
+				maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z, crop = TRUE)
 			}
 		}, error = function(e) {
 			tryCatch({
 				if (is.null(api)) {
-					maptiles::get_tiles(x = b, provider = serv, zoom = z - 1, crop = FALSE)
+					maptiles::get_tiles(x = b, provider = serv, zoom = z - 1, crop = TRUE)
 				} else {
-					maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z - 1, crop = FALSE)
+					maptiles::get_tiles(x = b, provider = serv, apikey = api, zoom = z - 1, crop = TRUE)
 				}
 			}, error = function(e) {
 				NULL
