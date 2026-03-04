@@ -78,6 +78,11 @@ auto_crs = function(x, crs_extra, crs_global) {
 			area = "laea",
 			distance = "aeqd",
 			shape = "stere",
+			aeqd = "aeqd",
+			utm = "utm",
+			pconic = "pconic",
+			eqdc = "eqdc",
+			stere = "stere",
 			"laea"
 		)
 		to_generic_projected(x, proj = proj, return_as = "crs")

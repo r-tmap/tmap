@@ -360,7 +360,7 @@ get_crs = function(tms, is_auto, crs_extra, crs_global, basemaps_defined) {
 	if (is.na(sf::st_crs(tms$shp))) return(sf::st_crs(NA))
 	if (is.null(tms$crs)) {
 		crs = sf::st_crs(tms$shp)
-		is_ll = sf::st_is_longlat(crs)
+		is_ll = sf::st_is_longlat(crs) || crs == sf::st_crs(3857)
 		if (is_ll && is_auto) {
 			auto_crs(tms$shp, crs_extra = crs_extra, crs_global = crs_global)
 		} else {
