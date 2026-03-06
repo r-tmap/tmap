@@ -1848,7 +1848,8 @@ HTMLWidgets.widget({
               } else if (message.type === "set_source") {
                 if (map.getLayer(message.layer)) {
                   const sourceId = map.getLayer(message.layer).source;
-                  map.getSource(sourceId).setData(JSON.parse(message.source));
+                  const newData = typeof message.source === "string" ? JSON.parse(message.source) : message.source;
+                  map.getSource(sourceId).setData(newData);
                 }
               } else if (message.type === "set_tooltip") {
                 // Track tooltip state

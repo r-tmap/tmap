@@ -33,6 +33,7 @@ tm_shape(World,
 tm_style("natural") + 
 tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
 tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1)
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
 ```
 
 ![](foundations_crs_files/figure-html/unnamed-chunk-4-1.png)

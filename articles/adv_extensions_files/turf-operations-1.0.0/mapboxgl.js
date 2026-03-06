@@ -850,8 +850,8 @@ async function captureMapScreenshot(map, options) {
       hiddenElements.push({ element: el, display: el.style.display });
       el.style.display = 'none';
     });
-    // Also hide layers control and measurement box
-    container.querySelectorAll('.layers-control, .mapgl-measurement-box').forEach(el => {
+    // Also hide layers control, measurement box, and geocoder controls
+    container.querySelectorAll('.layers-control, .mapgl-measurement-box, .maplibregl-ctrl-geocoder, .mapboxgl-ctrl-geocoder, .maptiler-ctrl').forEach(el => {
       hiddenElements.push({ element: el, display: el.style.display });
       el.style.display = 'none';
     });

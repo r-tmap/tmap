@@ -34,6 +34,8 @@ tm_shape(NLD_muni) +
     tm_credits("Statistics Netherlands (CBS)") + 
     tm_minimap(position = c("left", "top"))
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
+#> 
 #> This message is displayed once per session.
 ```
 
