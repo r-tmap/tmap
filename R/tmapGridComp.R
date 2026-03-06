@@ -437,7 +437,22 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 
 			# get cpi: coordinates per inch
 
-			cmp$cpi = unname(bbw / bb_facet)
+			cmp$dst = distances_bbox_sides(bb)
+
+			cmp$which_side_of_map = if (class == "in" && pos.v == "bottom") {
+				"bottom"
+			} else if (class == "in" && pos.v == "top") {
+				"top"
+			} else if (class == "in" && pos.v == "center") {
+				"mid"
+			} else {
+				"bottom"
+			}
+
+			#cmp$cpi = unname(bbw / bb_facet)
+			cmp$bb_facet = bb_facet
+			#po(bb, bbw, bbox_nb, oldIn, bb_facet, newIn, totW, cmp$Win, margins, newIn_without_margins, cmp$Win)
+			#po(cmp$cpi)
 		}
 		cmp
 	}, comp, bbox, SIMPLIFY = FALSE)

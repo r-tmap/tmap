@@ -309,7 +309,7 @@ tmapGridCompPrepare.tm_scalebar = function(comp, o) {
 	show.warnings = o$show.warnings
 	within(comp, {
 		if (all(c("breaks", "width") %in% call) && show.warnings) {
-			message("For 'tm_scalebar()', 'breaks' and 'width' are not supposed to be used together; normally, setting the exact width is not needed when breaks have been specified.", call. = FALSE)
+			cli::cli_inform("For {.fun tm_scalebar}, {.arg breaks} and {.arg width} are not supposed to be used together; normally, setting the exact width is not needed when breaks have been specified, only for fine-tuning")
 		}
 		if ("breaks" %in% call) {
 			if (breaks[1] != 0) {
@@ -402,7 +402,8 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	unit = comp$units$unit
 	unit.size = 1/comp$units$to
 
-	xrange = fW * comp$cpi
+	#xrange = fW * comp$cpi
+	xrange = fW * (comp$dst[comp$which_side_of_map] / comp$bb_facet)
 
 	# xrange is the range of the viewport in terms of coordinates
 	# xrange2 is the same but with units (e.g. km instead of m)
@@ -414,14 +415,37 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	crop_factor = W / fW
 	just = 0
 
-	if (is.na(unit.size)) {
-		if (o$show.warnings) warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
-	} else if (!comp$units$projected && ((comp$bbox[4]-comp$bbox[2]) > 30)) {
-		if (o$show.messages) message("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
+	compare_scale_pos = function(x) {
+		curr = comp$dst[x]
+		oth = comp$dst[names(comp$dst) != x]
+		lapply(1:length(oth), function(i) {
+			wh = names(oth)[i]
+			o = oth[i]
+			if (o < curr) {
+				sign = "large"
+				scale = round(curr/o, 1)
+			} else {
+				sign = "large"
+				scale = round(o/curr, 1)
+			}
+			loc = paste0("at the ", ifelse(wh == "mid", "center", wh))
+			list(sign = sign, scale = scale, loc = loc)
+		})
 	}
 
-	xrange2 = xrange/unit.size
 
+
+
+	if (o$show.warnings) {
+		res = compare_scale_pos(comp$which_side_of_map)
+
+		tms = vapply(res, function(r)r$scale, FUN.VALUE = numeric(1))
+		if (any(tms > 1.1)) {
+			cli::cli_warn("The scale bar would be {res[[1]]$scale} times as {res[[1]]$sign} when plotted {res[[1]]$loc} and {res[[2]]$scale} times as {res[[2]]$sign} when plotted {res[[2]]$loc}")
+		}
+	}
+
+	xrange2 = as.numeric(units::set_units(xrange, "km", mode = "standard"))#xrange/unit.size
 
 	if (is.null(comp$breaks)) {
 		# determine resolution only (unselect steps that do not fit later (with 'sel'))

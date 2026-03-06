@@ -550,7 +550,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 						to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
 					}
 				}
-				list(projection=crs, unit=unit, to=to, projected = !longlat)
+
+				dst = distances_bbox_sides(bbx)
+				units::set_units(dst, units::as_units(unit), mode = "standard")
+				list(projection=crs, unit=unit, dst = dst, to=to, projected = !longlat)
 			}
 		})]
 

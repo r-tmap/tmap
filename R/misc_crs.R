@@ -196,3 +196,25 @@ to_longest_linestring = function(shp) {
 		}), list(crs = crs)))
 	}
 }
+
+distances_bbox_sides = function(bbox, steps = 4) {
+	xs = seq(bbox$xmin, bbox$xmax, length.out = steps + 1)
+	ys = seq(bbox$ymin, bbox$ymax, length.out = 3)
+
+	get_dst = function(y) {
+		suppressWarnings({
+			df = data.frame(x=xs, y = y) |>
+				st_as_sf(coords = c("x", "y"), crs = sf::st_crs(bbox))
+			dfll = sf::st_transform(df, crs = 4326)
+			dst = sf::st_distance(dfll)
+			u = units(dst)
+			units::set_units(sum(sapply(1:steps, function(i) dst[i, i + 1])), u, mode = "standard")
+		})
+	}
+
+	d_top = get_dst(ys[3])
+	d_mid = get_dst(ys[2])
+	d_bottom = get_dst(ys[1])
+
+	c(top = d_top, mid = d_mid, bottom = d_bottom)
+}
