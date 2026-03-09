@@ -200,6 +200,7 @@ opt_tm_text(
   halo.col = NA,
   halo.width = 0.02,
   halo.blur = 0.1,
+  halo.alpha = 0.8,
   just = "center",
   along_lines = FALSE,
   bg.padding = 0.4,
@@ -225,6 +226,7 @@ opt_tm_labels(
   halo.col = NA,
   halo.width = 0.02,
   halo.blur = 0.1,
+  halo.alpha = 0.8,
   just = "center",
   along_lines = TRUE,
   bg.padding = 0.4,
@@ -303,6 +305,8 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 \item{halo.width}{Width (thickness) of the halo outline. In line heights}
 
 \item{halo.blur}{Blur radius of the halo glow (view mode only). In line heights}
+
+\item{halo.alpha}{Alpha transparency of the halo}
 
 \item{just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 

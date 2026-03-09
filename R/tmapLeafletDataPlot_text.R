@@ -88,11 +88,11 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 
 	make_shadow = function(cex, textcol) {
 		if (a$halo) {
-			if (is.na(a$halo.col)) a$halo.col = ifelse(is_light(textcol), "#000000", "#FFFFFF")
-			make_halo_css(col = a$halo.col, mode = "halo", width = scale_px(a$halo.width, cex), blur = scale_px(a$halo.blur, cex), diag_scale = sqrt(2)/2)
+			if (is.na(a$halo.col)) a$halo.col = ifelse(is_light(textcol), "#000000DD", "#FFFFFFDD")
+			make_halo_css(col = a$halo.col, mode = "halo", width = scale_px(a$halo.width, cex), blur = scale_px(a$halo.blur, cex), diag_scale = sqrt(2)/2, alpha = a$halo.alpha)
 		} else if (a$shadow) {
 			if (is.na(a$shadow.col)) a$shadow.col = ifelse(is_light(textcol), "#000000", "#FFFFFF")
-			make_halo_css(col = a$shadow.col, mode = "shadow", offset.x = scale_px(a$shadow.offset.x, cex), offset.y = scale_px(a$shadow.offset.y, cex))
+			make_halo_css(col = a$shadow.col, mode = "shadow", offset.x = scale_px(a$shadow.offset.x, cex), offset.y = scale_px(a$shadow.offset.y, cex), alpha = 1)
 		} else {
 			NULL
 		}
@@ -166,6 +166,7 @@ tmapLeafletDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, pdt, pop
 
 make_halo_css <- function(
 		col = "white",
+		alpha = 0.9,
 		width = 1,
 		blur = 0,
 		diagonals = TRUE,
@@ -177,11 +178,18 @@ make_halo_css <- function(
 
 	mode <- match.arg(mode)
 
+	# convert color to rgba
+	rgb <- grDevices::col2rgb(col)
+	col_css <- sprintf(
+		"rgba(%d,%d,%d,%s)",
+		rgb[1], rgb[2], rgb[3], alpha
+	)
+
 	# --- Simple drop shadow mode ---
 	if (mode == "shadow") {
 		return(sprintf(
 			"%spx %spx %spx %s",
-			offset.x, offset.y, blur, col
+			offset.x, offset.y, blur, col_css
 		))
 	}
 
@@ -210,15 +218,15 @@ make_halo_css <- function(
 	}
 
 	# Scale by width
-	offsets <- offsets * width
+	offsets <- round(offsets * width, 2)
 
 	parts <- apply(offsets, 1, function(x) {
-		sprintf("%spx %spx 0 %s", x[1], x[2], col)
+		sprintf("%spx %spx 0 %s", x[1], x[2], col_css)
 	})
 
 	# Optional glow
 	if (blur > 0) {
-		parts <- c(parts, sprintf("0 0 %spx %s", blur, col))
+		parts <- c(parts, sprintf("0 0 %spx %s", blur, col_css))
 	}
 
 	paste(parts, collapse = ", ")
