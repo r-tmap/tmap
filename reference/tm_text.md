@@ -199,6 +199,7 @@ opt_tm_text(
   halo.col = NA,
   halo.width = 0.02,
   halo.blur = 0.1,
+  halo.alpha = 0.8,
   just = "center",
   along_lines = FALSE,
   bg.padding = 0.4,
@@ -224,6 +225,7 @@ opt_tm_labels(
   halo.col = NA,
   halo.width = 0.02,
   halo.blur = 0.1,
+  halo.alpha = 0.8,
   just = "center",
   along_lines = TRUE,
   bg.padding = 0.4,
@@ -374,6 +376,10 @@ opt_tm_labels(
 - halo.blur:
 
   Blur radius of the halo glow (view mode only). In line heights
+
+- halo.alpha:
+
+  Alpha transparency of the halo
 
 - just:
 
