@@ -79,7 +79,7 @@ preprocess_meta = function(o, cdt) {
 				legend.present.auto = c(all = any(cdt$class == "autoout" & is.na(cdt$by1__)),
 										per_row = FALSE, per_col = FALSE,
 										per_facet = any(cdt$class == "autoout" & !is.na(cdt$by1__)))
-			} else {
+		} else {
 				legend.present.auto = c(all = any(is.na(cdt$by1__) & is.na(cdt$by2__) & cdt$class == "autoout"),
 										per_row = any(!is.na(cdt$by1__) & is.na(cdt$by2__) & cdt$class == "autoout"),
 										per_col = any(is.na(cdt$by1__) & !is.na(cdt$by2__) & cdt$class == "autoout"),
@@ -447,11 +447,26 @@ process_meta = function(o, d, cdt, aux) {
 				}
 
 
+
 				stacks = o$component.stack
 
 				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.all$cell.h, cell.v = legend.position.all$cell.v)]
+
 				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = legend.position.sides$cell.h, cell.v = "by")]
 				cdt2[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = legend.position.sides$cell.v)]
+
+				# in case tm_pos is called to update the 'non-by' cell
+				cdt2$calledCV = vapply(cdt2$comp, function(comp) "cell.v" %in% comp$position$called, FUN.VALUE = logical(1))
+				cdt2$calledCH = vapply(cdt2$comp, function(comp) "cell.h" %in% comp$position$called, FUN.VALUE = logical(1))
+				cdt2[!is.na(by1__) & is.na(by2__) & !calledCV, ':='(cell.v = "by")]
+				cdt2[is.na(by1__) & !is.na(by2__) & !calledCH, ':='(cell.h = "by")]
+
+				cdt2[!is.na(by1__) & is.na(by2__) & !calledCV, ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+				cdt2[is.na(by1__) & !is.na(by2__) & !calledCH, ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+
+				cdt2$calledCV = NULL
+				cdt2$calledCH = NULL
+
 
 				cdt2[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
 				cdt2[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
@@ -459,8 +474,6 @@ process_meta = function(o, d, cdt, aux) {
 
 
 				cdt2[class == "autoout", class := "out"]
-
-
 
 				if (nrow(cdt2) == 0) {
 					meta.auto_margins = c(0, 0, 0, 0)
@@ -516,7 +529,6 @@ process_meta = function(o, d, cdt, aux) {
 			meta.buffers = c(0, 0, 0, 0)
 			meta.margins = c(0, 0, 0, 0)
 		}
-
 
 		# determine number of rows and cols
 		npp = prod(nby[1:2]) # number per page

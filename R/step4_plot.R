@@ -146,6 +146,18 @@ process_components2 = function(cdt, o) {
 	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
 	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
 
+	# in case tm_pos is called to update the 'non-by' cell
+	cdt$calledCV = vapply(cdt$comp, function(comp) "cell.v" %in% comp$position$called, FUN.VALUE = logical(1))
+	cdt$calledCH = vapply(cdt$comp, function(comp) "cell.h" %in% comp$position$called, FUN.VALUE = logical(1))
+	cdt[!is.na(by1__) & is.na(by2__) & !calledCV, ':='(cell.v = "by")]
+	cdt[is.na(by1__) & !is.na(by2__) & !calledCH, ':='(cell.h = "by")]
+
+	cdt[!is.na(by1__) & is.na(by2__) & !calledCV, ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	cdt[is.na(by1__) & !is.na(by2__) & !calledCH, ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+
+	cdt$calledCV = NULL
+	cdt$calledCH = NULL
+
 	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["all_col"], ifelse(cell.v == "center", stacks["all_row"], stacks["all"])), stack))]
 	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
 	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
@@ -187,6 +199,7 @@ process_components2 = function(cdt, o) {
 											 	ifelse(cell.h == "center", toC(1:o$ncols),
 											 		   ifelse(cell.h == "by", as.character(by2__),
 											 		   	   ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+
 
 	cdt
 }

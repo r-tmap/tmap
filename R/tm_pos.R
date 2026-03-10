@@ -87,6 +87,7 @@
 #' @export
 tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$type = "out"
 	structure(args, class = "tm_pos")
 }
@@ -95,6 +96,7 @@ tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v
 #' @rdname tm_pos
 tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$type = "in"
 	structure(args, class = "tm_pos")
 }
@@ -104,6 +106,7 @@ tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 #' @rdname tm_pos
 tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$type = "out"
 	structure(args, class = "tm_pos")
 }
@@ -112,6 +115,7 @@ tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, ju
 #' @rdname tm_pos
 tm_pos_on_top = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$cell.h = "center"
 	args$cell.v = "center"
 	args$type = "out"
@@ -122,6 +126,7 @@ tm_pos_on_top = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 #' @rdname tm_pos
 tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$type = "autoout"
 	structure(args, class = "tm_pos")
 }
@@ -130,6 +135,7 @@ tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.
 #' @rdname tm_pos
 tm_pos_auto_in = function(align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
+	args$called = names(args)
 	args$type = "autoin"
 	structure(args, class = "tm_pos")
 }
