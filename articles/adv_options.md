@@ -35,6 +35,7 @@ tree(opt)
 #> │   │ ├─align.v: "top"
 #> │   │ ├─just.h: "left"
 #> │   │ ├─just.v: "top"
+#> │   │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │   │ └─type: "in"
 #> │   ├─crs_basemap: <list>
 #> │   │ ├─dimensions: 3857
@@ -429,6 +430,7 @@ tree(opt)
 #> │ │ ├─align.v: "top"
 #> │ │ ├─just.h: "left"
 #> │ │ ├─just.v: "top"
+#> │ │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ │ └─type: "in"
 #> │ └─out: S3<tm_pos>
 #> │   ├─cell.h: "right"
@@ -439,6 +441,7 @@ tree(opt)
 #> │   ├─align.v: "top"
 #> │   ├─just.h: "left"
 #> │   ├─just.v: "top"
+#> │   ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │   └─type: "out"
 #> ├─component.offset<dbl [4]>: 0.75, 0, 0, 0
 #> ├─component.stack_margin<dbl [2]>: 0, 0.5
@@ -468,6 +471,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "autoout"
 #> ├─legend.width: NA
 #> ├─legend.height: NA
@@ -573,6 +577,7 @@ tree(opt)
 #> │ ├─align.v: "bottom"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "autoout"
 #> ├─chart.width<dbl [8]>: 10, 20, 10, 20, 10, 10, 10, 15
 #> ├─chart.height<dbl [8]>: 10, 10, 10, 10, 10, 10, 10, 10
@@ -627,6 +632,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "out"
 #> ├─title.width: NA
 #> ├─credits.size: 0.7
@@ -642,6 +648,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─credits.width: NA
 #> ├─credits.height: NA
@@ -663,6 +670,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.position: S3<tm_pos>
 #> │ ├─pos.h: "right"
@@ -671,6 +679,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─logo.height: 3
 #> ├─logo.margins<dbl [4]>: 0.2, 0.2, 0.2, 0.2
@@ -682,6 +691,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.height: 3
 #> ├─inset.width: 3
@@ -694,6 +704,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.frame: TRUE
 #> ├─inset.bg: TRUE
@@ -723,6 +734,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset_map.frame: FALSE
 #> ├─inset_tmap.height: 7
@@ -750,6 +762,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─grid.show: FALSE
 #> ├─grid.labels.pos<chr [2]>: "left", "bottom"
@@ -785,6 +798,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─minimap.server: NA
 #> ├─minimap.toggle: TRUE
@@ -795,6 +809,7 @@ tree(opt)
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─minimap.height: 7
 #> ├─minimap.width: 7
@@ -868,6 +883,7 @@ tree(tmap_options_mode("view"))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─crs_basemap: <list>
 #> │ ├─dimensions: 3857
@@ -1266,6 +1282,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ │ ├─align.v: "top"
 #> │ │ ├─just.h: "left"
 #> │ │ ├─just.v: "top"
+#> │ │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ │ └─type: "in"
 #> │ └─out: S3<tm_pos>
 #> │   ├─cell.h: "right"
@@ -1276,6 +1293,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │   ├─align.v: "top"
 #> │   ├─just.h: "left"
 #> │   ├─just.v: "top"
+#> │   ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │   └─type: "out"
 #> ├─component.offset<dbl [4]>: 0.75, 0, 0, 0
 #> ├─component.stack_margin<dbl [2]>: 0, 0.5
@@ -1303,6 +1321,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─legend.width: NA
 #> ├─legend.height: NA
@@ -1408,6 +1427,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "bottom"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "autoout"
 #> ├─chart.width<dbl [8]>: 10, 20, 10, 20, 10, 10, 10, 15
 #> ├─chart.height<dbl [8]>: 10, 10, 10, 10, 10, 10, 10, 10
@@ -1462,6 +1482,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [8]>: "cell.h", "cell.v", "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "out"
 #> ├─title.width: NA
 #> ├─credits.size: 0.7
@@ -1477,6 +1498,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─credits.width: NA
 #> ├─credits.height: NA
@@ -1498,6 +1520,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.position: S3<tm_pos>
 #> │ ├─pos.h: "right"
@@ -1506,6 +1529,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─logo.height: 3
 #> ├─logo.margins<dbl [4]>: 0.2, 0.2, 0.2, 0.2
@@ -1517,6 +1541,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.height: 3
 #> ├─inset.width: 3
@@ -1529,6 +1554,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset.frame: TRUE
 #> ├─inset.bg: TRUE
@@ -1558,6 +1584,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─inset_map.frame: FALSE
 #> ├─inset_tmap.height: 7
@@ -1585,6 +1612,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─grid.show: FALSE
 #> ├─grid.labels.pos<chr [2]>: "left", "bottom"
@@ -1620,6 +1648,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─minimap.server: NA
 #> ├─minimap.toggle: TRUE
@@ -1630,6 +1659,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [6]>: "pos.h", "pos.v", "align.h", "align.v", "just.h", "just.v"
 #> │ └─type: "in"
 #> ├─minimap.height: 7
 #> ├─minimap.width: 7
@@ -1889,6 +1919,7 @@ tree(tmap_options_diff())
 #> │ ├─align.v: "top"
 #> │ ├─just.h: "left"
 #> │ ├─just.v: "top"
+#> │ ├─called<chr [2]>: "pos.h", "pos.v"
 #> │ └─type: "in"
 #> ├─legend.bg.color: "gold"
 #> └─compass.type: "8star"
