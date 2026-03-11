@@ -33,7 +33,7 @@ delta_per_lineheight = function(x, n = 20, scale = 1) {
 	(b[4] - b[2]) / n * scale
 }
 
-get_midpoint_angle = function(shp) {
+get_midpoint_angle = function(shp, bbx) {
 	lShp = sf::st_cast(shp, "MULTILINESTRING")
 
 	coor = sf::st_coordinates(lShp)
@@ -41,7 +41,6 @@ get_midpoint_angle = function(shp) {
 	co = do.call(rbind, lapply(coors, get_midpoint))
 	pShp = sf::st_as_sf(as.data.frame(co), coords = c("X", "Y"), crs = sf::st_crs(shp))
 
-	bbx = sf::st_bbox(shp)
 	deltax = bbx[3] - bbx[1]
 	deltay = bbx[4] - bbx[2]
 	delta = max(deltax, deltay)
@@ -159,7 +158,8 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 			} else {
 				if (length(ids_line)) {
 					if (args$along_lines) {
-						res = get_midpoint_angle(shp[ids_line])
+						bb_crs = stm_bbox(shpTM, shpTM$tmapID, crs = sf::st_crs(shp))
+						res = get_midpoint_angle(shp[ids_line], bbx = bb_crs)
 						shp[ids_line] = res$shp
 						prop_angle = rep(0, length(shp))
 						prop_angle[ids_line] = res$angles
