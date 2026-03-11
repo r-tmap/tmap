@@ -2,8 +2,11 @@
 
 ## tmap 4.2.0.9000 (dev version)
 
-- tm_text: halo, shadow and background rectangles implemented in plot
-  and view mode
+- \[!\] tm_text: halo, shadow and background rectangles implemented in
+  plot and view mode
+- \[!\] tm_scalebar: improved measurement (using ellipsoidal distance
+  rather than Eucledian distances in projected crs)
+- fixed many view-mode/shiny related bugs
 
 ## tmap 4.2
 
