@@ -1,6 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 

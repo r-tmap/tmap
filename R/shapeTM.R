@@ -27,6 +27,8 @@ stm_bbox = function(shpTM, tmapID, crs) {
 		}
 		# to make sure the supplied bounding box will be converted in the correct crs
 		bbox$projection = crs
+	} else if (inherits(shpTM$shp, "character")) {
+		bbox$x = sf::st_bbox(c(xmin = -180, xmax = 180, ymax = 90, ymin = -90), crs = sf::st_crs(4326))
 	} else {
 		shp = shpTM$shp
 		shpID = shpTM$tmapID

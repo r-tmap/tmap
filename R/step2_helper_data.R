@@ -1,5 +1,5 @@
 
-getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot.order) {
+getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args, plot.order) {
 
 
 
@@ -13,6 +13,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 	#nm is the 'prototype', for which methods are written (tmapScale_defaults.R)
 	#unm is the name known by the user, so used in messaging and also as identifier in data
 
+	# glid = group-layer id (a unique name across all layers)
 	unm__ord = paste0(unm, "__ord")
 
 	# should the results of the data (needed for the plotting function)?
@@ -68,6 +69,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 				s$label.format = process_label_format(s$label.format, o$label.format)
 
 				if (all(is.ena(l$title))) l$title = ""
+				l$glid = glid
+				l$layer = layer
+
 
 				arglist = list(scale = s, legend = l, chart = crt,
 							   o = o, aes = nm,
@@ -254,6 +258,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, mfun, args, plot
 
 			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord) {
 				l = update_l(o = o, l = l, v = v, mfun = mfun, unm = unm, active = TRUE)
+				l$glid = glid
+				l$layer = layer
 				l$group = group
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 

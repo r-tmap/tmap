@@ -19,7 +19,7 @@ step2_data = function(tm) {
 	legends_init()
 	charts_init()
 
-	grps = lapply(tmo, function(tmg) {
+	grps = mapply(function(tmg, groupname) {
 		tmf = tmg$tmf
 		dt = tmg$tms$dt
 
@@ -36,7 +36,9 @@ step2_data = function(tm) {
 		#tmf_meta = step2_data_grp_prepare(tmg$tmf, grpvars, dt)
 
 		layernames = paste0("layer", seq_along(tmg$tmls))
-		lrs = lapply(tmg$tmls, function(tml) {
+		lrs = mapply(function(tml, layername) {
+			glid = paste0(groupname, "_", layername)
+
 			#cat("step2_grp_lyr======================\n")
 
 			if (!is.null(type_ids)) {
@@ -63,9 +65,17 @@ step2_data = function(tm) {
 
 			# args will be passed on to the scale functions (in case needed)
 			# they also will be used in step 3 (trans) and step 4 (mapping)
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, mfun = mfun, args = tml$trans.args, plot.order = plot.order))
+			if (is.null(dt)) {
+				# bypass (e.g. in case of pmtiles)
+				trans = list()
+				mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, glid = glid, mfun = mfun, args = tml$mapping.args, plot.order = plot.order))
+				#mapping = list()
+			} else {
+				trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, glid = glid,mfun = mfun, args = tml$trans.args, plot.order = plot.order))
 
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, mfun = mfun, args = tml$mapping.args, plot.order = plot.order))
+				mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, group = group, glid = glid,mfun = mfun, args = tml$mapping.args, plot.order = plot.order))
+			}
+
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -76,7 +86,7 @@ step2_data = function(tm) {
 			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 
 
-			if (!length(tml$popup.vars)) {
+			if (!length(tml$popup.vars) || is.null(dt)) {
 				popup.data = NULL
 			} else {
 				# tml$popup.vars = tml$popup.vars
@@ -95,12 +105,12 @@ step2_data = function(tm) {
 					if (!is.null(names(popupvars))) popup.data = data.table::setnames(popup.data, old = unname(popupvars), new = names(popupvars))
 				}
 			}
-			hover.data = if (tml$hover == "") {
+			hover.data = if (tml$hover == "" || is.null(dt)) {
 				NULL
 			} else {
 				data.table(hover = as.character(dt[[tml$hover]]), tmapID__ = dt$tmapID__)
 			}
-			id.data = if (tml$id == "") {
+			id.data = if (tml$id == "" || is.null(dt)) {
 				NULL
 			} else {
 				data.table(id = as.character(dt[[tml$id]]), tmapID__ = dt$tmapID__)
@@ -123,6 +133,7 @@ step2_data = function(tm) {
 				 mapping_args = tml$mapping.args,
 				 lid = tml$lid,
 				 group = group,
+				 glid = glid,
 				 group.control = group.control,
 				 popup.data = popup.data,
 				 popup.format = .TMAP$popup.format,
@@ -131,14 +142,14 @@ step2_data = function(tm) {
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation
 				 gp = gp,
 				 tp = tp)
-		})
+		}, tmg$tmls, layernames, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		if (length(lrs)) names(lrs) = layernames
 
 		shpDT = data.table(shpTM = list(tmg$tms$shpTM))
 		if (dev) timing_add(s2 = "group")
 
 		list(layers = lrs, shpDT = shpDT)
-	})
+	}, tmo, groupnames, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	names(grps) = groupnames
 	#attr(grps, "fl") = fl
 	#attr(grps, "main") = attr(tmo, "main")

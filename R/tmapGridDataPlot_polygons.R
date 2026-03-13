@@ -1,11 +1,18 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 
 	rc_text = frc(facet_row, facet_col)
 
 	res = select_sf(shpTM, dt)
 	shp = res$shp
+
+
+	if (inherits(shp, "character")) {
+		return(NULL)
+	}
+
+
 	dt = res$dt
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
@@ -42,13 +49,13 @@ tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, f
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_fill = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_fill = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
 
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_borders = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_borders = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }

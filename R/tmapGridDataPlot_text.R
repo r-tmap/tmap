@@ -1,6 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 
 	if (("prop_angle" %in% names(shpTM))) {
@@ -284,7 +284,7 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_labels = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_labels = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
 
@@ -292,6 +292,6 @@ tmapGridDataPlot.tm_data_labels = function(a, shpTM, dt, gp, bbx, facet_row, fac
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }

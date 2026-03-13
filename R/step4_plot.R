@@ -745,12 +745,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
 					group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
 					group.control = vapply(tmxi$layers, function(l) {l$group.control}, FUN.VALUE = character(1)) # used to determine control layer group (view mode)
-					data.frame(gid = rep(ig, nl), glid = 1:nl, lid = lid, group = group, group.control = group.control, lid2 = rep(0, nl), pane = rep("", nl), new = rep(TRUE, nl), group.zoom_levels = I(rep(list(NA),nl)))
+					data.frame(gid = rep(ig, nl), g_lid = 1:nl, lid = lid, group = group, group.control = group.control, lid2 = rep(0, nl), pane = rep("", nl), new = rep(TRUE, nl), group.zoom_levels = I(rep(list(NA),nl)))
 				})
 			} else {
 				NULL
 			}},
-			{if (length(aux)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE, group.zoom_levels = I(rep(list(NA),length(aux))))) else NULL}))
+			{if (length(aux)) list(data.frame(gid = 0, g_lid = 1L:length(aux), lid = aux_lid, group = aux_group, group.control = aux_group.control, lid2 = 0, pane = "", new = TRUE, group.zoom_levels = I(rep(list(NA),length(aux))))) else NULL}))
 
 		#q$lid[q$lid != 0] = q$lid[q$lid != 0] + 400L
 
@@ -793,7 +793,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		# q data frame:
 		# gid = tmap-group counter
-		# glid = layer counter inside tmap-group
+		# g_lid = layer counter inside tmap-group
 		# lid = possibly-user-defined layer order number
 		# lid2 = same as lid, but 1,2,3,...
 		# pane = pane name (for view mode)
@@ -848,16 +848,16 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 			for (qi in which(q$new)) {
 				gid = q$gid[qi]
-				glid = q$glid[qi]
+				g_lid = q$g_lid[qi]
 				pane = q$pane[qi]
 				group = q$group[qi]
 				if (gid > 0) {
 					# data layer
-					bl = tmx[[gid]]$layers[[glid]]
+					bl = tmx[[gid]]$layers[[g_lid]]
 					shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
 					mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
 
-					id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", gid), "l", sprintf("%02d", glid))
+					id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", gid), "l", sprintf("%02d", g_lid))
 
 					if (nrow(mdt) != 0) {
 						gp = bl$gp
@@ -866,20 +866,20 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 						a = structure(bl$mapping_args, class = c(bl$mapping_fun, "list"))
 
-						do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o)))
+						do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, glid = bl$glid, o = o)))
 					}
 
 				} else {
-					glid = q$glid[qi]
+					g_lid = q$g_lid[qi]
 
 
 					# aux layer
-					a = aux[[glid]]
+					a = aux[[g_lid]]
 					a_args = structure(a$args, class = c(a$mapping.fun, "list"))
 
 					FUNaux_plot = paste0("tmap", gs, "AuxPlot")
 
-					id = glid # to do: test!
+					id = g_lid # to do: test!
 					do.call(FUNaux_plot, list(a = a_args, bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 
 				}

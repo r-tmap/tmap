@@ -1,6 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapLeafletDataPlot.tm_data_raster = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletDataPlot.tm_data_raster = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 
 	rc_text = frc(facet_row, facet_col)
 

@@ -1,9 +1,13 @@
 crs_reproject_shpTM = function(s, crs, raster.warp) {
 	# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
-	crs2 = sf::st_crs(get_option_class(crs, class = class(s$shp)))
-	if (sf::st_crs(s$shp) != crs2) {
-		s = do.call(tmapReproject, c(s, list(crs = crs2, raster.warp = raster.warp)))
-	}
+
+	cls = class(s$shp)
+	if (cls[1] != "character") {
+		crs2 = sf::st_crs(get_option_class(crs, class = class(s$shp)))
+		if (sf::st_crs(s$shp) != crs2) {
+			s = do.call(tmapReproject, c(s, list(crs = crs2, raster.warp = raster.warp)))
+		}	}
+
 	s
 }
 

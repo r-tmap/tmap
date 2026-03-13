@@ -357,7 +357,7 @@ get_main_ids = function(tmo) {
 
 
 get_crs = function(tms, is_auto, crs_extra, crs_global, basemaps_defined) {
-	if (is.na(sf::st_crs(tms$shp))) return(sf::st_crs(NA))
+	if (is.character(tms$shp) || (is.na(sf::st_crs(tms$shp)))) return(sf::st_crs(4326))
 	if (is.null(tms$crs)) {
 		crs = sf::st_crs(tms$shp)
 		is_ll = sf::st_is_longlat(crs) || crs == sf::st_crs(3857)

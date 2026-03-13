@@ -1,6 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 
 	rc_text = frc(facet_row, facet_col)
@@ -186,7 +186,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapLeafletDataPlot.tm_data_iso = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapLeafletDataPlot.tm_data_iso = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	# isn't called, but needed to make tm_iso visible in tmap_overview
 	NextMethod()
 }

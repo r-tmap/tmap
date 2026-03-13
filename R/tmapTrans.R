@@ -245,49 +245,51 @@ tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 #' @rdname tmap_internal
 tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
-		is_stars = inherits(shp, "dimensions")
-		if (is_stars && args$polygons.only != "yes") {
-			### stars
-			s = structure(list(values = matrix(TRUE, nrow = nrow(shp), ncol = ncol(shp))), dimensions = shp, class = "stars")
-			shp = sf::st_as_sfc(s, as_points = FALSE)
-		} else if (is_stars) {
-			shp = sf::st_sfc()
-			tmapID = integer(0)
-		} else {
-
-			### sf
-			geom_types = sf::st_geometry_type(shp)
-			#crs = sf::st_crs(shp)
-
-			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
-			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
-			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
-
-
-			if (args$polygons.only == "yes" || (args$polygons.only == "ifany" && length(ids_poly))) {
-				shp = shp[ids_poly]
-				tmapID = tmapID[ids_poly]
+		if (!is.character(shp)) {
+			is_stars = inherits(shp, "dimensions")
+			if (is_stars && args$polygons.only != "yes") {
+				### stars
+				s = structure(list(values = matrix(TRUE, nrow = nrow(shp), ncol = ncol(shp))), dimensions = shp, class = "stars")
+				shp = sf::st_as_sfc(s, as_points = FALSE)
+			} else if (is_stars) {
+				shp = sf::st_sfc()
+				tmapID = integer(0)
 			} else {
-				if (length(ids_line)) {
-					tryCatch({
-						shp[ids_line] = sf::st_cast(sf::st_cast(shp[ids_line], "MULTILINESTRING"), "MULTIPOLYGON")
-					}, error = function(e) {
-						stop("Unable to cast lines to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
-					})
-				}
-				if (length(ids_point)) {
-					dist = if (sf::st_is_longlat(shp)) 0.01 else 100
-					shp[ids_point] = sf::st_buffer(shp[ids_point], dist = dist)
-				}
 
+				### sf
+				geom_types = sf::st_geometry_type(shp)
+				#crs = sf::st_crs(shp)
+
+				ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
+				ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
+				ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
+
+
+				if (args$polygons.only == "yes" || (args$polygons.only == "ifany" && length(ids_poly))) {
+					shp = shp[ids_poly]
+					tmapID = tmapID[ids_poly]
+				} else {
+					if (length(ids_line)) {
+						tryCatch({
+							shp[ids_line] = sf::st_cast(sf::st_cast(shp[ids_line], "MULTILINESTRING"), "MULTIPOLYGON")
+						}, error = function(e) {
+							stop("Unable to cast lines to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
+						})
+					}
+					if (length(ids_point)) {
+						dist = if (sf::st_is_longlat(shp)) 0.01 else 100
+						shp[ids_point] = sf::st_buffer(shp[ids_point], dist = dist)
+					}
+
+				}
+				rm(geom_types)
 			}
-			rm(geom_types)
-		}
 
-		if (plot.order$aes == "AREA" && !is_stars) {
-			o = order(without_units(sf::st_area(shp)), decreasing = !plot.order$reverse)
-			shp = shp[o]
-			tmapID = tmapID[o]
+			if (plot.order$aes == "AREA" && !is_stars) {
+				o = order(without_units(sf::st_area(shp)), decreasing = !plot.order$reverse)
+				shp = shp[o]
+				tmapID = tmapID[o]
+			}
 		}
 	})
 }

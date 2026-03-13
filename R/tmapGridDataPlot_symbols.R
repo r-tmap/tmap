@@ -1,6 +1,6 @@
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_symbols = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_symbols = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	rc_text = frc(facet_row, facet_col)
 
 	g = get("g", .TMAP_GRID)
@@ -125,26 +125,26 @@ tmapGridDataPlot.tm_data_symbols = function(a, shpTM, dt, gp, bbx, facet_row, fa
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_dots = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_dots = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
 
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_bubbles = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_bubbles = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
 
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_squares = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_squares = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
 
 #' @export
 #' @rdname tmapGridLeaflet
-tmapGridDataPlot.tm_data_markers = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+tmapGridDataPlot.tm_data_markers = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
 }
