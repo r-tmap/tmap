@@ -78,7 +78,11 @@ step1_rearrange_facets = function(tmo, o) {
 	tmo = lapply(tmo, function(tmg) {
 
 		shp = tmg$tms$shp
-		smeta = tmapGetShapeMeta1(shp, c(o, tmg$tmf))
+		layer = tmg$tms$layer
+
+		shp_is_pointer = inherits(shp, "character")
+
+		smeta = tmapGetShapeMeta1(shp, layer, c(o, tmg$tmf))
 
 		if (dev) timing_add(s3 = "get_shape_meta1")
 
@@ -140,6 +144,7 @@ step1_rearrange_facets = function(tmo, o) {
 					}
 
 					data_vars = TRUE
+					bypass_vars = FALSE
 					geo_vars = FALSE
 
 				} else {
@@ -155,6 +160,7 @@ step1_rearrange_facets = function(tmo, o) {
 						#value_orig = tmapVV(getAesOption(value[[1]], o, aes = aes, layer = layer))
 						value = tmapVV(getAesOption(value[[1]], o, aes = aes, layer = layer))
 						data_vars = FALSE
+						bypass_vars = FALSE
 						geo_vars = FALSE
 						#if (!is.list(value_orig)) value = list(value_orig)
 						#value = value_orig
@@ -200,7 +206,8 @@ step1_rearrange_facets = function(tmo, o) {
 					} else {
 						if (inherits(value, "tmapStandard")) {
 							uvalue = unlist(value)
-							data_vars = all(uvalue %in% shpvars)
+							data_vars = all(uvalue %in% shpvars) && !shp_is_pointer
+							bypass_vars = all(uvalue %in% shpvars) && shp_is_pointer
 							geo_vars = all(uvalue %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 							if (geo_vars) {
 								w = which(uvalue == "AREA")[1]
@@ -224,6 +231,7 @@ step1_rearrange_facets = function(tmo, o) {
 							if (data_vars || geo_vars) vars = uvalue else vars = character(0)
 						} else {
 							data_vars = FALSE
+							bypass_vars = FALSE
 							geo_vars = FALSE
 							vars = character(0)
 						}

@@ -1,5 +1,5 @@
 #' @export
-tmapShape.Spatial = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.Spatial = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	tmapShape.sf(as(shp, "sf"), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
@@ -10,6 +10,6 @@ tmapSubsetShp.Spatial = function(shp, vars) {
 
 
 #' @export
-tmapGetShapeMeta1.Spatial = function(shp, o) {
+tmapGetShapeMeta1.Spatial = function(shp, layer, o) {
 	tmapGetShapeMeta1.SpatRaster(as(shp, "sf"), o)
 }

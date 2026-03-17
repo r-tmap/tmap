@@ -19,7 +19,7 @@ tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 }
 
 #' @export
-tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	if (identical(crs, "auto")) crs = auto_crs(shp, crs_extra = o$crs_extra, crs_global = o$crs_global) else crs = sf::st_crs(crs)
 	reproj = (!is.null(crs) && !is.na(crs) && sf::st_crs(shp) != crs)
 
@@ -106,7 +106,7 @@ tmapGetShapeMeta2.sf = function(shp, smeta, o) {
 
 
 #' @export
-tmapGetShapeMeta1.sf = function(shp, o) {
+tmapGetShapeMeta1.sf = function(shp, layer, o) {
 	vars = setdiff(names(shp), attr(shp, "sf_column"))
 	names(vars) = vars
 	#vars_levs = lapply(vars, function(v) {get_fact_levels_na(shp[[v]], o)})
@@ -128,7 +128,7 @@ tmapGetShapeMeta2.sfc = function(shp, smeta, o) {
 
 
 #' @export
-tmapGetShapeMeta1.sfc = function(shp, o) {
+tmapGetShapeMeta1.sfc = function(shp, layer, o) {
 	vars = character(0)
 	dims = character(0)
 	dims_vals = list()

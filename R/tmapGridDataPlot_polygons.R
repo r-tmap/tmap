@@ -7,8 +7,10 @@ tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, f
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 
+	shp_is_pointer = inherits(shp, "character")
 
-	if (inherits(shp, "character")) {
+	if (shp_is_pointer) {
+		cli_inform("{.field plot mode} polygons of pmtiles are not supported in grid mode yet")
 		return(NULL)
 	}
 

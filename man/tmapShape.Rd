@@ -4,7 +4,19 @@
 \alias{tmapShape}
 \title{Internal method that processed shape objects}
 \usage{
-tmapShape(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
+tmapShape(
+  shp,
+  is.main,
+  crs,
+  bbox,
+  unit,
+  filter,
+  layer,
+  shp_name,
+  smeta,
+  o,
+  tmf
+)
 }
 \arguments{
 \item{shp}{shp}

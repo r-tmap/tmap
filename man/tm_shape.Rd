@@ -9,6 +9,7 @@ tm_shape(
   bbox = NULL,
   crs = NULL,
   is.main = NA,
+  layer = NULL,
   name = NULL,
   unit = NULL,
   filter = NULL,
@@ -16,20 +17,35 @@ tm_shape(
 )
 }
 \arguments{
-\item{shp}{Spatial object}
+\item{shp}{Spatial data object. Typically an object from \pkg{sf}, \pkg{terra}, or \pkg{stars}.
+Additional spatial data types can be supported via extension packages, such as
+\pkg{tmap.networks} and \pkg{tmap.sources} (experimental). These may include, for example,
+remote or streaming data sources.}
 
-\item{bbox}{Bounding box of the map (only used if \code{shp} is the main shape (see \code{is.main}). Three options: a \code{\link[sf:st_bbox]{sf::st_bbox()}} object, an Open Street Map query (passed on to \code{\link[tmaptools:geocode_OSM]{tmaptools::geocode_OSM()}}), or \code{"FULL"}, which means the whole earth (this also guarantees that transformations to another CRS keep the whole earth, unlike \code{\link[sf:st_bbox]{sf::st_bbox()}}).}
+\item{bbox}{Bounding box of the map. Only used when \code{shp} is the main shape (see \code{is.main}).
+Three options are supported:
+\itemize{
+\item a \code{\link[sf:st_bbox]{sf::st_bbox()}} object,
+\item a character string specifying a location, passed to \code{\link[tmaptools:geocode_OSM]{tmaptools::geocode_OSM()}},
+\item \code{"FULL"}, which represents the whole earth. This option ensures that reprojection
+retains the full global extent, unlike a regular bounding box.
+}}
 
 \item{crs}{Map projection (CRS). Can be set to an \code{crs} object (see \code{\link[sf:st_crs]{sf::st_crs()}}), a proj4string, an EPSG number, the value \code{"auto"} (automatic crs recommendation), or one the the following generic projections: \code{c("laea", "aeqd", "utm", "pconic", "eqdc", "stere")}. See details.}
 
 \item{is.main}{Is \code{shp} the main shape, which determines the crs and
 bounding box of the map? By default, \code{TRUE} if it is the first \code{tm_shape} call}
 
+\item{layer}{Name of the layer to use. This is primarily relevant for multi-layer or remote
+data sources (e.g. PMTiles or vector tiles), where multiple layers may be available.}
+
 \item{name}{of the spatial object}
 
 \item{unit}{Unit of the coordinates}
 
-\item{filter}{Filter features}
+\item{filter}{Optional filter expression used to subset features. The exact syntax depends
+on the data source. For in-memory objects (e.g. \pkg{sf}), this is typically evaluated in R,
+whereas for remote sources it may be translated to a query and executed on the server side.}
 
 \item{...}{passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrink a bounding box)}
 }

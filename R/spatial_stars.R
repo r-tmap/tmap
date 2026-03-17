@@ -50,7 +50,7 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 
 
 #' @export
-tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	if (identical(crs, "auto")) crs = auto_crs(shp, crs_extra = o$crs_extra, crs_global = o$crs_global)
 
 	dev = getOption("tmap.devel.mode")
@@ -178,7 +178,7 @@ tmapSubsetShp.stars = function(shp, vars) {
 
 
 #' @export
-tmapGetShapeMeta1.stars = function(shp, o) {
+tmapGetShapeMeta1.stars = function(shp, layer, o) {
 	d = stars::st_dimensions(shp)
 
 	if (!has_raster(shp)) {

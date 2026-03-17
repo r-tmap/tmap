@@ -29,7 +29,7 @@ reproject_bbox = function(bbox, crs) {
 #' @export
 #' @import data.table
 #' @keywords internal
-tmapShape = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	UseMethod("tmapShape")
 }
 
@@ -50,10 +50,11 @@ tmapSubsetShp = function(shp, vars) {
 #' Internal method that extracts meta data from shape objects
 #'
 #' @param shp the shape object
+#' @param layer (optional) the layer of the shape object
 #' @param o the list of options
 #' @export
 #' @keywords internal
-tmapGetShapeMeta1 = function(shp, o) {
+tmapGetShapeMeta1 = function(shp, layer, o) {
 	UseMethod("tmapGetShapeMeta1")
 }
 

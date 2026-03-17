@@ -1,5 +1,5 @@
 #' @export
-tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
 	rlang::check_installed("terra")
 
@@ -77,8 +77,8 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 }
 
 #' @export
-tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
-	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
+tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
+	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf)
 }
 
 #' @export
@@ -132,7 +132,7 @@ tmapGetShapeMeta2.SpatVector = function(shp, smeta, o) {
 
 
 #' @export
-tmapGetShapeMeta1.SpatRaster = function(shp, o) {
+tmapGetShapeMeta1.SpatRaster = function(shp, layer, o) {
 	vars = names(shp)
 	names(vars) = vars
 
@@ -146,7 +146,7 @@ tmapGetShapeMeta1.SpatRaster = function(shp, o) {
 }
 
 #' @export
-tmapGetShapeMeta1.SpatVector = function(shp, o) {
+tmapGetShapeMeta1.SpatVector = function(shp, layer, o) {
 	vars = names(shp)
 	names(vars) = vars
 

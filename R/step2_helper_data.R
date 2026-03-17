@@ -105,22 +105,28 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			# constant values (take first value (of possible multivariate per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
-			check_fun = paste0("tmapValuesCheck_", nm)
-			check = do.call(check_fun, list(x = val1, is_var = TRUE))
-			if (!check) {
-				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
-				info = attr(check, "info")
 
-				fn_call <-  call(paste0("tm_", layer[1]))
-				cli::cli_abort(c(
-					"Visual values used for the variable {.val {unm}} are incorrect.",
-					i = info),
-					call = fn_call
-				)
+			if (!aes$bypass_vars) {
+				check_fun = paste0("tmapValuesCheck_", nm)
+				check = do.call(check_fun, list(x = val1, is_var = TRUE))
+				if (!check) {
+					# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
+					info = attr(check, "info")
+
+					fn_call <-  call(paste0("tm_", layer[1]))
+					cli::cli_abort(c(
+						"Visual values used for the variable {.val {unm}} are incorrect.",
+						i = info),
+						call = fn_call
+					)
+				}
+
+				val1 = do.call(sfun, list(x = val1, scale = o$scale))
+				val1 = do.call(cfun, list(x = val1, pc = o$pc))
+			} else {
+				val1 = paste0("ref:", val1)
 			}
 
-			val1 = do.call(sfun, list(x = val1, scale = o$scale))
-			val1 = do.call(cfun, list(x = val1, pc = o$pc))
 
 			dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 

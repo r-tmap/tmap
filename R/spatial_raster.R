@@ -1,5 +1,5 @@
 #' @export
-tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
@@ -9,6 +9,6 @@ tmapSubsetShp.Raster = function(shp, vars) {
 }
 
 #' @export
-tmapGetShapeMeta1.Raster = function(shp, o) {
+tmapGetShapeMeta1.Raster = function(shp, layer, o) {
 	tmapGetShapeMeta1.SpatRaster(terra::rast(shp), o)
 }

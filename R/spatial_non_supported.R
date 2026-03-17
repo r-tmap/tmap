@@ -1,5 +1,5 @@
 #' @export
-tmapGetShapeMeta1.default = function(shp, o) {
+tmapGetShapeMeta1.default = function(shp, layer, o) {
 	stop("Specified shp argument of tm_shape is a ", class(shp)[1], ", which is not a recognized/supported spatial data class.", call. = FALSE)
 }
 
@@ -14,6 +14,6 @@ tmapSubsetShp.default = function(shp, vars) {
 }
 
 #' @export
-tmapShape.default = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+tmapShape.default = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
 	stop("Specified shp argument of tm_shape is a ", class(shp)[1], ", which is not a recognized/supported spatial data class.", call. = FALSE)
 }
