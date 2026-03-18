@@ -1,7 +1,8 @@
-# tmap 4.2.0.9000 (dev version)
+# tmap 4.3 (dev version)
 
 - [!] tm_text: halo, shadow and background rectangles implemented in plot and view mode
 - [!] tm_scalebar: improved measurement (using ellipsoidal distance rather than Eucledian distances in projected crs)
+- [!] support for PMTiles and in the future other external sources (via new and experimental package tmap.sources)
 - fixed many view-mode/shiny related bugs
 
 # tmap 4.2
