@@ -269,7 +269,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				l$group = group
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 
-				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
+				if (length(s) == 0) cli::cli_abort("mapping not implemented for visual variable {unm}")
 				._f = s$FUN
 				s$FUN = NULL
 				# update label.format
@@ -318,7 +318,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 
 				#aesname = aes$aes
-				value.null = if ("value.null" %in% names(s)) s$value.null else {
+
+				value.null = if ("value.null" %in% names(s) && !is.na(s$value.null)) s$value.null else {
 					vn = getAesOption("value.null", o, nm, layer, cls = cls)
 					vn = do.call(sfun, list(x = vn, scale = o$scale))
 					do.call(cfun, list(x = vn, pc = o$pc))
@@ -338,7 +339,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 						dtl[, c(varname, ordname, legname, crtname) := list(value.null, -1L, 0L, 0L)]
 					}
 
-					if (is.na(value.null)) stop("value.null not specified for aesthetic ", unm, call. = FALSE)
+					if (is.na(value.null)) cli::cli_abort("{.code value.null} not implemented for visual variable {unm}")
 					if (bypass_ord) {
 						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
@@ -435,7 +436,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 					cli::cli_abort("incorrect scale specification")
 				}
 
-				if (length(s) == 0) stop("mapping not implemented for aesthetic ", unm, call. = FALSE)
+				if (length(s) == 0) cli::cli_abort("mapping not implemented for visual variable {unm}")
 
 				if (inherits(aes$legend, "tm_legend")) {
 					l = aes$legend

@@ -207,7 +207,8 @@ step1_rearrange_facets = function(tmo, o) {
 						if (inherits(value, "tmapStandard")) {
 							uvalue = unlist(value)
 							data_vars = all(uvalue %in% shpvars) && !shp_is_pointer
-							bypass_vars = all(uvalue %in% shpvars) && shp_is_pointer
+
+							bypass_vars = (length(shpvars) == 0 || all(uvalue %in% shpvars)) && shp_is_pointer
 							geo_vars = all(uvalue %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 							if (geo_vars) {
 								w = which(uvalue == "AREA")[1]

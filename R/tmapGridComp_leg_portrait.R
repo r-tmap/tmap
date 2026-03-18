@@ -399,12 +399,15 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 		if (anyDuplicated(colLabs)) {
 			colLabs = substr(colLabels, 1, 2)
 			if (anyDuplicated(colLabs)) {
-				message(paste0("Labels abbreviated by the first two letters, e.g.: \"", colLabels[1], "\" => \"", colLabs[1], "\". However, there are duplicated abbreviations."))
+				cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}. However, there are duplicated abbreviations.", .frequency_id = "biv_leg1",
+								.frequency = "once")
 			} else {
-				message(paste0("Labels abbreviated by the first two letters, e.g.: \"", colLabels[1], "\" => \"", colLabs[1], "\""))
+				cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}.", .frequency_id = "biv_leg2",
+								.frequency = "once")
 			}
 		} else {
-			message(paste0("Labels abbreviated by the first letters, e.g.: \"", colLabels[1], "\" => \"", colLabs[1], "\""))
+			cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}.", .frequency_id = "biv_leg2",
+							.frequency = "once")
 		}
 
 
