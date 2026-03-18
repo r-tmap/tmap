@@ -474,7 +474,7 @@ tm_labels_highlighted = function(text = tm_const(),
 #' @param halo Halo behind the text. In plot mode, it is just an outline, in view mode also a subtle glow.
 #' @param halo.col Color of the halo.
 #' @param halo.width Width (thickness) of the halo outline. In line heights
-#' @param halo.blur Blur radius of the halo glow (view mode only). In line heights
+#' @param halo.blur Blur radius of the halo glow (view mode only). In line heights. Should be sufficiently larger than \code{halo.width} in order to see the effect.
 #' @param halo.alpha Alpha transparency of the halo
 #' @param just justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.
 #' @param along_lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
@@ -498,8 +498,8 @@ opt_tm_text = function(points_only = "ifany",
 					   shadow.offset.y = 0.05,
 					   halo = FALSE,
 					   halo.col = NA,
-					   halo.width = 0.02,
-					   halo.blur = 0.1,
+					   halo.width = 0.05,
+					   halo.blur = 0,
 					   halo.alpha = 0.8,
 					   just = "center",
 					   along_lines = FALSE,
@@ -554,8 +554,8 @@ opt_tm_labels = function(points_only = "ifany",
 						 shadow.offset.y = 0.05,
 						 halo = FALSE,
 						 halo.col = NA,
-						 halo.width = 0.02,
-						 halo.blur = 0.1,
+						 halo.width = 0.05,
+						 halo.blur = 0,
 						 halo.alpha = 0.8,
 						 just = "center",
 						 along_lines = TRUE,

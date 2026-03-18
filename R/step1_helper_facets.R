@@ -369,7 +369,7 @@ step1_rearrange_facets = function(tmo, o) {
 		split_stars_dim = get_split_stars_dim(tmg$tmls)
 		shp = tmapSplitShp(shp, split_stars_dim, smeta)
 		if (split_stars_dim != "") {
-			smeta = tmapGetShapeMeta1(shp, o)
+			smeta = tmapGetShapeMeta1(shp, layer, o)
 			if (dev) timing_add(s3 = "get_shape_meta1_2")
 		}
 

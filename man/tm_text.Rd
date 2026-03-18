@@ -198,8 +198,8 @@ opt_tm_text(
   shadow.offset.y = 0.05,
   halo = FALSE,
   halo.col = NA,
-  halo.width = 0.02,
-  halo.blur = 0.1,
+  halo.width = 0.05,
+  halo.blur = 0,
   halo.alpha = 0.8,
   just = "center",
   along_lines = FALSE,
@@ -224,8 +224,8 @@ opt_tm_labels(
   shadow.offset.y = 0.05,
   halo = FALSE,
   halo.col = NA,
-  halo.width = 0.02,
-  halo.blur = 0.1,
+  halo.width = 0.05,
+  halo.blur = 0,
   halo.alpha = 0.8,
   just = "center",
   along_lines = TRUE,
@@ -304,7 +304,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{halo.width}{Width (thickness) of the halo outline. In line heights}
 
-\item{halo.blur}{Blur radius of the halo glow (view mode only). In line heights}
+\item{halo.blur}{Blur radius of the halo glow (view mode only). In line heights. Should be sufficiently larger than \code{halo.width} in order to see the effect.}
 
 \item{halo.alpha}{Alpha transparency of the halo}
 
