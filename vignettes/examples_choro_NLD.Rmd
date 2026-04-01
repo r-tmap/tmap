@@ -46,6 +46,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```{r, message = FALSE}
 library(tmap)
 tmap_options(scale = 0.75)
+sf::sf_use_s2(FALSE)
 ```
 
 
