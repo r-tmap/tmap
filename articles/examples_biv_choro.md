@@ -25,7 +25,9 @@ economic and gender inequality.
 tm_shape(World) +
     tm_polygons(fill = tm_vars(c("gender", "inequality"), multivariate = TRUE)) +
 tm_crs("auto")
-#> Labels abbreviated by the first letters, e.g.: "20 - 29" => "2"
+#> bivariate legend Labels abbreviated by the first two letters, e.g.: "20 - 29"
+#> => "2".
+#> This message is displayed once per session.
 ```
 
 ![](examples_biv_choro_files/figure-html/unnamed-chunk-4-1.png)
@@ -142,7 +144,6 @@ tm_shape(World) +
     fill.scale = 
       tm_scale_bivariate(values = "//bu_br_bivs")) +
 tm_crs("auto")
-#> Labels abbreviated by the first letters, e.g.: "20 - 29" => "2"
 ```
 
 ![](examples_biv_choro_files/figure-html/unnamed-chunk-11-1.png)
@@ -165,7 +166,6 @@ tm_shape(World) +
                  "#64ACBE", "#627F8C", "#574249"),
                  byrow = TRUE, ncol = 3))) +
 tm_crs("auto")
-#> Labels abbreviated by the first letters, e.g.: "20 - 29" => "2"
 ```
 
 ![](examples_biv_choro_files/figure-html/unnamed-chunk-12-1.png)
@@ -190,7 +190,6 @@ tm_shape(World) +
         scale2 = tm_scale_intervals(style = "kmeans", n = 3, labels = c("L", "M", "H")),
         values = "bu_br_bivs")) +
 tm_crs("auto") 
-#> Labels abbreviated by the first letters, e.g.: "L" => "L"
 ```
 
 ![](examples_biv_choro_files/figure-html/unnamed-chunk-13-1.png)
@@ -219,7 +218,6 @@ tm_title("Inequality per country", z = 0) +
 tm_crs("auto") +
 tm_layout(inner.margins = c(0, 0.15, 0.02, 0.02)) +
 tm_components(position = c("left", "bottom"), frame = FALSE)
-#> Labels abbreviated by the first letters, e.g.: "L" => "L"
 ```
 
 ![](examples_biv_choro_files/figure-html/unnamed-chunk-14-1.png)

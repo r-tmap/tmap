@@ -77,7 +77,9 @@ tm_shape(World) +
 tm_shape(World) +
   tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE),
     fill.chart = tm_chart_heatmap())
-#> Labels abbreviated by the first letters, e.g.: "2.0 - 2.9" => "2"
+#> bivariate legend Labels abbreviated by the first two letters, e.g.: "2.0 - 2.9"
+#> => "2".
+#> This message is displayed once per session.
 ```
 
 ![](basics_charts_files/figure-html/unnamed-chunk-9-1.png)

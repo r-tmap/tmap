@@ -9,7 +9,7 @@ class packages: sf, stars, or terra."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,6 +103,7 @@ class packages: <code><a href="https://r-spatial.github.io/sf/reference/sf.html"
 <span>  bbox <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  is.main <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  layer <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  unit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -115,11 +116,19 @@ class packages: <code><a href="https://r-spatial.github.io/sf/reference/sf.html"
 
 
 <dl><dt id="arg-shp">shp<a class="anchor" aria-label="anchor" href="#arg-shp"></a></dt>
-<dd><p>Spatial object</p></dd>
+<dd><p>Spatial data object. Typically an object from <span class="pkg">sf</span>, <span class="pkg">terra</span>, or <span class="pkg">stars</span>.
+Additional spatial data types can be supported via extension packages, such as
+<span class="pkg">tmap.networks</span> and <span class="pkg">tmap.sources</span> (experimental). These may include, for example,
+remote or streaming data sources.</p></dd>
 
 
 <dt id="arg-bbox">bbox<a class="anchor" aria-label="anchor" href="#arg-bbox"></a></dt>
-<dd><p>Bounding box of the map (only used if <code>shp</code> is the main shape (see <code>is.main</code>). Three options: a <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code> object, an Open Street Map query (passed on to <code><a href="https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html">tmaptools::geocode_OSM()</a></code>), or <code>"FULL"</code>, which means the whole earth (this also guarantees that transformations to another CRS keep the whole earth, unlike <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code>).</p></dd>
+<dd><p>Bounding box of the map. Only used when <code>shp</code> is the main shape (see <code>is.main</code>).
+Three options are supported:</p><ul><li><p>a <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">sf::st_bbox()</a></code> object,</p></li>
+<li><p>a character string specifying a location, passed to <code><a href="https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html">tmaptools::geocode_OSM()</a></code>,</p></li>
+<li><p><code>"FULL"</code>, which represents the whole earth. This option ensures that reprojection
+retains the full global extent, unlike a regular bounding box.</p></li>
+</ul></dd>
 
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
@@ -131,6 +140,11 @@ class packages: <code><a href="https://r-spatial.github.io/sf/reference/sf.html"
 bounding box of the map? By default, <code>TRUE</code> if it is the first <code>tm_shape</code> call</p></dd>
 
 
+<dt id="arg-layer">layer<a class="anchor" aria-label="anchor" href="#arg-layer"></a></dt>
+<dd><p>Name of the layer to use. This is primarily relevant for multi-layer or remote
+data sources (e.g. PMTiles or vector tiles), where multiple layers may be available.</p></dd>
+
+
 <dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
 <dd><p>of the spatial object</p></dd>
 
@@ -140,7 +154,9 @@ bounding box of the map? By default, <code>TRUE</code> if it is the first <code>
 
 
 <dt id="arg-filter">filter<a class="anchor" aria-label="anchor" href="#arg-filter"></a></dt>
-<dd><p>Filter features</p></dd>
+<dd><p>Optional filter expression used to subset features. The exact syntax depends
+on the data source. For in-memory objects (e.g. <span class="pkg">sf</span>), this is typically evaluated in R,
+whereas for remote sources it may be translated to a query and executed on the server side.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

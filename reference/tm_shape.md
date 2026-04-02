@@ -14,6 +14,7 @@ tm_shape(
   bbox = NULL,
   crs = NULL,
   is.main = NA,
+  layer = NULL,
   name = NULL,
   unit = NULL,
   filter = NULL,
@@ -25,18 +26,26 @@ tm_shape(
 
 - shp:
 
-  Spatial object
+  Spatial data object. Typically an object from sf, terra, or stars.
+  Additional spatial data types can be supported via extension packages,
+  such as tmap.networks and tmap.sources (experimental). These may
+  include, for example, remote or streaming data sources.
 
 - bbox:
 
-  Bounding box of the map (only used if `shp` is the main shape (see
-  `is.main`). Three options: a
-  [`sf::st_bbox()`](https://r-spatial.github.io/sf/reference/st_bbox.html)
-  object, an Open Street Map query (passed on to
-  [`tmaptools::geocode_OSM()`](https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html)),
-  or `"FULL"`, which means the whole earth (this also guarantees that
-  transformations to another CRS keep the whole earth, unlike
-  [`sf::st_bbox()`](https://r-spatial.github.io/sf/reference/st_bbox.html)).
+  Bounding box of the map. Only used when `shp` is the main shape (see
+  `is.main`). Three options are supported:
+
+  - a
+    [`sf::st_bbox()`](https://r-spatial.github.io/sf/reference/st_bbox.html)
+    object,
+
+  - a character string specifying a location, passed to
+    [`tmaptools::geocode_OSM()`](https://r-tmap.github.io/tmaptools/reference/geocode_OSM.html),
+
+  - `"FULL"`, which represents the whole earth. This option ensures that
+    reprojection retains the full global extent, unlike a regular
+    bounding box.
 
 - crs:
 
@@ -51,6 +60,12 @@ tm_shape(
   Is `shp` the main shape, which determines the crs and bounding box of
   the map? By default, `TRUE` if it is the first `tm_shape` call
 
+- layer:
+
+  Name of the layer to use. This is primarily relevant for multi-layer
+  or remote data sources (e.g. PMTiles or vector tiles), where multiple
+  layers may be available.
+
 - name:
 
   of the spatial object
@@ -61,7 +76,10 @@ tm_shape(
 
 - filter:
 
-  Filter features
+  Optional filter expression used to subset features. The exact syntax
+  depends on the data source. For in-memory objects (e.g. sf), this is
+  typically evaluated in R, whereas for remote sources it may be
+  translated to a query and executed on the server side.
 
 - ...:
 

@@ -38,24 +38,59 @@ function initializeLegendInteractivity(map, mapId, config) {
 
     var layerState = window._mapglLayerState[mapId];
 
-    // Initialize interactive filter state for this layer
-    if (config.layerId && !layerState.interactiveFilters[config.layerId]) {
-        var originalFilter = null;
-        try {
-            originalFilter = map.getFilter(config.layerId);
-        } catch (e) {
-            // Layer may not exist yet
-        }
-        layerState.interactiveFilters[config.layerId] = {
-            originalFilter: originalFilter,
-            legendFilters: {}
-        };
+    // Ensure interactiveFilters exists (state object may have been created
+    // by map init code without this property)
+    if (!layerState.interactiveFilters) {
+        layerState.interactiveFilters = {};
     }
 
-    // Determine filter column - use provided or auto-detect
+    // Normalize layerId to array for multi-layer support
+    var layerIds = Array.isArray(config.layerId) ? config.layerId : [config.layerId];
+
+    // Defer if style isn't loaded or any specified layer doesn't exist yet
+    // (handles race conditions in Shiny where layers are added via proxy)
+    var allLayersExist = map.isStyleLoaded() && layerIds.every(function(lid) {
+        return !lid || map.getLayer(lid);
+    });
+    if (!allLayersExist) {
+        var retryCount = config._retryCount || 0;
+        if (retryCount < 10) {
+            config._retryCount = retryCount + 1;
+            map.once('idle', function() {
+                initializeLegendInteractivity(map, mapId, config);
+            });
+        } else {
+            console.warn(
+                "Legend interactivity: not all layers found after retries. " +
+                "Missing layers for legend: " + config.legendId
+            );
+        }
+        return;
+    }
+
+    // Initialize interactive filter state for each layer
+    layerIds.forEach(function(lid) {
+        if (lid && !layerState.interactiveFilters[lid]) {
+            var originalFilter = null;
+            try {
+                originalFilter = map.getFilter(lid);
+            } catch (e) {
+                // Layer may not exist yet
+            }
+            layerState.interactiveFilters[lid] = {
+                originalFilter: originalFilter,
+                legendFilters: {}
+            };
+        }
+    });
+
+    // Determine filter column - use provided or auto-detect from first available layer
     var filterColumn = config.filterColumn;
-    if (!filterColumn && config.layerId) {
-        filterColumn = detectFilterColumn(map, config.layerId);
+    if (!filterColumn) {
+        for (var i = 0; i < layerIds.length; i++) {
+            filterColumn = detectFilterColumn(map, layerIds[i]);
+            if (filterColumn) break;
+        }
     }
 
     if (!filterColumn) {
@@ -66,10 +101,13 @@ function initializeLegendInteractivity(map, mapId, config) {
         return;
     }
 
+    // Store normalized layerIds in config for use by init functions
+    config._layerIds = layerIds;
+
     // Store config for later reference
     legendElement._interactivityConfig = {
         legendId: config.legendId,
-        layerId: config.layerId,
+        layerIds: layerIds,
         type: config.type,
         values: config.values,
         colors: config.colors,
@@ -178,6 +216,7 @@ function parseExpressionForColumn(expr) {
  */
 function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) {
     var items = legendElement.querySelectorAll(".legend-item");
+    var layerIds = config._layerIds;
 
     // Use filterValues for actual filtering, values for display
     var filterValues = config.filterValues || config.values;
@@ -192,13 +231,15 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
     }
 
     var layerState = window._mapglLayerState[mapId];
-    var interactiveState = layerState.interactiveFilters[config.layerId];
 
-    // Store category state
-    interactiveState.enabledIndices = enabledIndices;
-    interactiveState.filterValues = filterValues;
-    interactiveState.breaks = breaks;
-    interactiveState.filterColumn = filterColumn;
+    // Store category state for each layer
+    layerIds.forEach(function(lid) {
+        var interactiveState = layerState.interactiveFilters[lid];
+        interactiveState.enabledIndices = enabledIndices;
+        interactiveState.filterValues = filterValues;
+        interactiveState.breaks = breaks;
+        interactiveState.filterColumn = filterColumn;
+    });
 
     // Store original colors for each item
     var originalColors = {};
@@ -246,28 +287,31 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
                 }
             }
 
-            // Apply filter - use breaks for range-based, filterValues for categorical
-            if (breaks && breaks.length > 0) {
-                applyRangeBasedCategoricalFilter(
-                    map,
-                    mapId,
-                    config.layerId,
-                    filterColumn,
-                    enabledIndices,
-                    breaks,
-                    interactiveState.originalFilter
-                );
-            } else {
-                applyCategoricalFilter(
-                    map,
-                    mapId,
-                    config.layerId,
-                    filterColumn,
-                    enabledIndices,
-                    filterValues,
-                    interactiveState.originalFilter
-                );
-            }
+            // Apply filter to all associated layers
+            layerIds.forEach(function(lid) {
+                var interactiveState = layerState.interactiveFilters[lid];
+                if (breaks && breaks.length > 0) {
+                    applyRangeBasedCategoricalFilter(
+                        map,
+                        mapId,
+                        lid,
+                        filterColumn,
+                        enabledIndices,
+                        breaks,
+                        interactiveState.originalFilter
+                    );
+                } else {
+                    applyCategoricalFilter(
+                        map,
+                        mapId,
+                        lid,
+                        filterColumn,
+                        enabledIndices,
+                        filterValues,
+                        interactiveState.originalFilter
+                    );
+                }
+            });
 
             // Update reset button visibility
             updateResetButton(legendElement, enabledIndices.size < numCategories);
@@ -281,7 +325,7 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
                 });
                 Shiny.setInputValue(mapId + "_legend_filter", {
                     legendId: config.legendId,
-                    layerId: config.layerId,
+                    layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
                     type: "categorical",
                     column: filterColumn,
                     enabledValues: enabledFilterValues,
@@ -307,13 +351,16 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
             enabledIndices.add(i);
         }
 
-        // Reset filter to original
-        if (interactiveState.originalFilter) {
-            map.setFilter(config.layerId, interactiveState.originalFilter);
-        } else {
-            map.setFilter(config.layerId, null);
-        }
-        layerState.filters[config.layerId] = interactiveState.originalFilter;
+        // Reset filter to original for all layers
+        layerIds.forEach(function(lid) {
+            var interactiveState = layerState.interactiveFilters[lid];
+            if (interactiveState.originalFilter) {
+                map.setFilter(lid, interactiveState.originalFilter);
+            } else {
+                map.setFilter(lid, null);
+            }
+            layerState.filters[lid] = interactiveState.originalFilter;
+        });
 
         updateResetButton(legendElement, false);
 
@@ -321,7 +368,7 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
         if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
             Shiny.setInputValue(mapId + "_legend_filter", {
                 legendId: config.legendId,
-                layerId: config.layerId,
+                layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
                 type: "categorical",
                 column: filterColumn,
                 enabledValues: filterValues.slice(),
@@ -343,17 +390,20 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
     var values = config.values.map(Number);
     var minValue = Math.min.apply(null, values);
     var maxValue = Math.max.apply(null, values);
+    var layerIds = config._layerIds;
 
     var layerState = window._mapglLayerState[mapId];
-    var interactiveState = layerState.interactiveFilters[config.layerId];
 
-    // Store range state
-    interactiveState.rangeMin = minValue;
-    interactiveState.rangeMax = maxValue;
-    interactiveState.originalMin = minValue;
-    interactiveState.originalMax = maxValue;
-    interactiveState.filterColumn = filterColumn;
-    interactiveState.values = values; // Store all values for piecewise interpolation
+    // Store range state for each layer
+    layerIds.forEach(function(lid) {
+        var interactiveState = layerState.interactiveFilters[lid];
+        interactiveState.rangeMin = minValue;
+        interactiveState.rangeMax = maxValue;
+        interactiveState.originalMin = minValue;
+        interactiveState.originalMax = maxValue;
+        interactiveState.filterColumn = filterColumn;
+        interactiveState.values = values;
+    });
 
     // Find the gradient bar
     var gradientBar = legendElement.querySelector(".legend-gradient");
@@ -505,31 +555,33 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
             var minVal = positionToValue(selectionState.leftPercent);
             var maxVal = positionToValue(selectionState.rightPercent);
 
-            interactiveState.rangeMin = minVal;
-            interactiveState.rangeMax = maxVal;
-
             // Check if at full range (within tolerance) - if so, clear filter instead
             // This handles cases where legend breaks are rounded but data has more precision
             var isAtFullRange =
                 selectionState.leftPercent <= 0.5 &&
                 selectionState.rightPercent >= 99.5;
 
-            if (isAtFullRange) {
-                // Restore original filter (no range constraint)
-                map.setFilter(config.layerId, interactiveState.originalFilter);
-                var layerState = window._mapglLayerState[mapId];
-                layerState.filters[config.layerId] = interactiveState.originalFilter;
-            } else {
-                applyRangeFilter(
-                    map,
-                    mapId,
-                    config.layerId,
-                    filterColumn,
-                    minVal,
-                    maxVal,
-                    interactiveState.originalFilter
-                );
-            }
+            // Apply to all associated layers
+            layerIds.forEach(function(lid) {
+                var interactiveState = layerState.interactiveFilters[lid];
+                interactiveState.rangeMin = minVal;
+                interactiveState.rangeMax = maxVal;
+
+                if (isAtFullRange) {
+                    map.setFilter(lid, interactiveState.originalFilter);
+                    layerState.filters[lid] = interactiveState.originalFilter;
+                } else {
+                    applyRangeFilter(
+                        map,
+                        mapId,
+                        lid,
+                        filterColumn,
+                        minVal,
+                        maxVal,
+                        interactiveState.originalFilter
+                    );
+                }
+            });
 
             // Update reset button visibility
             var hasFilter = !isAtFullRange;
@@ -539,7 +591,7 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
             if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
                 Shiny.setInputValue(mapId + "_legend_filter", {
                     legendId: config.legendId,
-                    layerId: config.layerId,
+                    layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
                     type: "continuous",
                     column: filterColumn,
                     range: [minVal, maxVal],
@@ -692,16 +744,19 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
         selectionState.rightPercent = 100;
         updateVisuals();
 
-        interactiveState.rangeMin = minValue;
-        interactiveState.rangeMax = maxValue;
+        // Reset filter to original for all layers
+        layerIds.forEach(function(lid) {
+            var interactiveState = layerState.interactiveFilters[lid];
+            interactiveState.rangeMin = minValue;
+            interactiveState.rangeMax = maxValue;
 
-        // Reset filter to original
-        if (interactiveState.originalFilter) {
-            map.setFilter(config.layerId, interactiveState.originalFilter);
-        } else {
-            map.setFilter(config.layerId, null);
-        }
-        layerState.filters[config.layerId] = interactiveState.originalFilter;
+            if (interactiveState.originalFilter) {
+                map.setFilter(lid, interactiveState.originalFilter);
+            } else {
+                map.setFilter(lid, null);
+            }
+            layerState.filters[lid] = interactiveState.originalFilter;
+        });
 
         updateResetButton(legendElement, false);
 
@@ -709,7 +764,7 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
         if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
             Shiny.setInputValue(mapId + "_legend_filter", {
                 legendId: config.legendId,
-                layerId: config.layerId,
+                layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
                 type: "continuous",
                 column: filterColumn,
                 range: [minValue, maxValue],

@@ -834,136 +834,7 @@ async function reAddUserImages(map, mapId) {
 }
 
 // Screenshot capture functionality
-async function captureMapScreenshot(map, options) {
-  const container = map.getContainer();
-  const hiddenElements = [];
-
-  // Hide controls (nav, fullscreen, screenshot, etc.) but keep legends/attribution based on options
-  if (options.hide_controls) {
-    container.querySelectorAll('.maplibregl-ctrl-group, .mapboxgl-ctrl-group').forEach(el => {
-      // Skip scale bar if include_scale_bar is true
-      if (options.include_scale_bar && el.querySelector('.maplibregl-ctrl-scale, .mapboxgl-ctrl-scale')) {
-        return;
-      }
-      hiddenElements.push({ element: el, display: el.style.display });
-      el.style.display = 'none';
-    });
-    // Also hide layers control, measurement box, and geocoder controls
-    container.querySelectorAll('.layers-control, .mapgl-measurement-box, .maplibregl-ctrl-geocoder, .mapboxgl-ctrl-geocoder, .maptiler-ctrl').forEach(el => {
-      hiddenElements.push({ element: el, display: el.style.display });
-      el.style.display = 'none';
-    });
-  }
-
-  // Hide legends if requested
-  if (!options.include_legend) {
-    container.querySelectorAll('.mapboxgl-legend').forEach(el => {
-      hiddenElements.push({ element: el, display: el.style.display });
-      el.style.display = 'none';
-    });
-  }
-
-  // Attribution is always included to comply with map provider TOS
-
-  try {
-    // Wait for map to be idle
-    if (!map.loaded()) {
-      await new Promise(resolve => map.once('idle', resolve));
-    }
-
-    // Force render and capture
-    map.triggerRepaint();
-    await new Promise(resolve => map.once('render', resolve));
-
-    const canvas = await html2canvas(container, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: null,
-      logging: false,
-      scale: options.image_scale || 1,
-      onclone: function(clonedDoc, clonedElement) {
-        // Copy WebGL canvas content to cloned canvas
-        const originalCanvas = container.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
-        const clonedCanvas = clonedElement.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
-        if (originalCanvas && clonedCanvas) {
-          const ctx = clonedCanvas.getContext('2d');
-          if (ctx) {
-            ctx.drawImage(originalCanvas, 0, 0);
-          }
-        }
-      }
-    });
-
-    // Restore hidden elements
-    hiddenElements.forEach(item => item.element.style.display = item.display);
-    return canvas;
-
-  } catch (error) {
-    // Restore hidden elements even on error
-    hiddenElements.forEach(item => item.element.style.display = item.display);
-    throw error;
-  }
-}
-
-function downloadScreenshot(canvas, filename) {
-  const link = document.createElement('a');
-  link.download = `${filename}.png`;
-  link.href = canvas.toDataURL('image/png');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-function createScreenshotControl(map, options, isMaplibre = true) {
-  const ctrlPrefix = isMaplibre ? 'maplibregl' : 'mapboxgl';
-
-  const btn = document.createElement("button");
-  btn.className = `${ctrlPrefix}-ctrl-icon ${ctrlPrefix}-ctrl-screenshot`;
-  btn.type = "button";
-  btn.title = options.button_title || "Capture screenshot";
-  btn.setAttribute("aria-label", options.button_title || "Capture screenshot");
-  btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
-  btn.style.cssText = "display:flex;justify-content:center;align-items:center;cursor:pointer;";
-
-  const container = document.createElement("div");
-  container.className = `${ctrlPrefix}-ctrl ${ctrlPrefix}-ctrl-group`;
-  container.appendChild(btn);
-
-  let capturing = false;
-  btn.onclick = async () => {
-    if (capturing) return;
-    capturing = true;
-    btn.style.opacity = "0.5";
-    btn.style.cursor = "wait";
-
-    try {
-      const canvas = await captureMapScreenshot(map, {
-        include_legend: options.include_legend !== false,
-        hide_controls: options.hide_controls !== false,
-        include_scale_bar: options.include_scale_bar !== false,
-        image_scale: options.image_scale || 1
-      });
-      downloadScreenshot(canvas, options.filename || "map-screenshot");
-    } catch (e) {
-      console.error("Screenshot capture failed:", e);
-    }
-
-    btn.style.opacity = "1";
-    btn.style.cursor = "pointer";
-    capturing = false;
-  };
-
-  const controlObj = {
-    onAdd: () => container,
-    onRemove: () => {
-      if (container.parentNode) {
-        container.parentNode.removeChild(container);
-      }
-    }
-  };
-
-  return controlObj;
-}
+// Screenshot functions are now in screenshot.js (shared module)
 
 HTMLWidgets.widget({
   name: "maplibregl",
@@ -1021,6 +892,13 @@ HTMLWidgets.widget({
         map._initialStyleLoaded = false;
 
         map.on("style.load", async function () {
+          // Store basemap layer IDs before user layers are added
+          if (!map._basemapLayerIds) {
+            map._basemapLayerIds = new Set(
+              map.getStyle().layers.map(l => l.id)
+            );
+          }
+
           if (x.projection) {
             map.setProjection({ type: x.projection });
           }

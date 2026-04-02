@@ -5,7 +5,7 @@ Internal method that extracts meta data from shape objects
 ## Usage
 
 ``` r
-tmapGetShapeMeta1(shp, o)
+tmapGetShapeMeta1(shp, layer, o)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ tmapGetShapeMeta1(shp, o)
 - shp:
 
   the shape object
+
+- layer:
+
+  (optional) the layer of the shape object
 
 - o:
 

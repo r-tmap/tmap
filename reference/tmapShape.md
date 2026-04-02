@@ -5,7 +5,19 @@ Internal method that processed shape objects
 ## Usage
 
 ``` r
-tmapShape(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
+tmapShape(
+  shp,
+  is.main,
+  crs,
+  bbox,
+  unit,
+  filter,
+  layer,
+  shp_name,
+  smeta,
+  o,
+  tmf
+)
 ```
 
 ## Arguments
