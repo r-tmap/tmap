@@ -310,7 +310,7 @@ tmapGridAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, facet_
 	class(a) = "tm_data_raster"
 
 	a2 = structure(list(interpolate = TRUE), class = "tm_data_raster")
-	if (!is.null(dt)) tmapGridDataPlot(a2, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+	if (!is.null(dt)) tmapGridDataPlot(a2, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid = 0, o)
 }
 
 

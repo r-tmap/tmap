@@ -94,7 +94,7 @@ tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, fac
 		dt[, ":="(ord__ = 1, lty = "solid")]
 
 		a2 = structure(list(), class = "tm_data_polygons")
-		tmapGridDataPlot(a2, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+		tmapGridDataPlot(a2, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o)
 		#grid.shape(s, gp=grid::gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL
