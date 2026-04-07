@@ -201,7 +201,8 @@ step1_rearrange_facets = function(tmo, o) {
 							value = structure(as.list(vars), class = "tmapStandard")
 						}
 
-						data_vars = TRUE
+						data_vars = !shp_is_pointer
+						bypass_vars = shp_is_pointer
 						geo_vars = FALSE
 					} else {
 						if (inherits(value, "tmapStandard")) {

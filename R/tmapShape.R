@@ -1,4 +1,15 @@
-tmapReproject = function(...) {
+#' Internal method that reprojects a shape object
+#'
+#' Internal method that reprojects a shape object
+#'
+#' @param shp shape
+#' @param tmapID tmap id values
+#' @param bbox bounding box
+#' @param ... other args
+#' @param crs crs
+#' @export
+#' @keywords internal
+tmapReproject = function(shp, tmapID, bbox, ..., crs) {
 	UseMethod("tmapReproject")
 }
 
