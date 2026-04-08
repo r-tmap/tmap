@@ -173,7 +173,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			values_rev = values
 		}
 
-		values_orig = values_rev
+		values_orig = unname(values_rev)
 		labels_orig = labs
 		levels_orig = levels
 
