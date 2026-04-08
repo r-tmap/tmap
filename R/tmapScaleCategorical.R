@@ -173,12 +173,19 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			values_rev = values
 		}
 
+		values_orig = values_rev
+		labels_orig = labs
+		levels_orig = levels
+
 		if (na.show) {
 			labs = c(labs, label.na)
 			values = c(values, value.na)
 			values_rev = c(values_rev, value.na)
 		}
 		attr(labs, "align") = label.format$text.align
+
+		# add info for source shapes (e.g. PMTiles)
+		layer_args = c(layer_args, list(mapping = list(values_orig = values_orig, levels_orig = levels_orig, labels_orig = labels_orig, label_na = label.na, value_na = value.na)))
 
 
 		# SPECIAL CASE: if icons are used, specify this information in the symbol legend, such that it can be taken (in step4_plot_collect_legends) by other legends (e.g. for symbol sizes)

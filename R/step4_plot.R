@@ -549,24 +549,25 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			if (is.na(bbx)) {
 				list()
 			} else {
-				if (!is.na(bbx) && !is.na(longlat) && longlat) {
-					latitude <- mean.default(bbx[c(2,4)])
-					bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
-					ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
-					to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
-				} else {
-					ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
-
-					if (is.na(crs)) {
-						to <- ad$hdist
-					} else {
-						to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
-					}
-				}
+				#browser()
+				# if (!is.na(bbx) && !is.na(longlat) && longlat) {
+				# 	latitude <- mean.default(bbx[c(2,4)])
+				# 	bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
+				# 	ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
+				# 	to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
+				# } else {
+				# 	ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
+				#
+				# 	if (is.na(crs)) {
+				# 		to <- ad$hdist
+				# 	} else {
+				# 		to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+				# 	}
+				# }
 
 				dst = distances_bbox_sides(bbx)
 				units::set_units(dst, units::as_units(unit), mode = "standard")
-				list(projection=crs, unit=unit, dst = dst, to=to, projected = !longlat)
+				list(projection=crs, unit=unit, dst = dst, projected = !longlat)
 			}
 		})]
 

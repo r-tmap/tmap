@@ -100,7 +100,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			temp = NULL
 		}
 
-		if (!aes$data_vars && !aes$geo_vars) {
+		if (!aes$data_vars && !aes$geo_vars && !aes$bypass_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible multivariate per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
@@ -124,7 +124,21 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				val1 = do.call(sfun, list(x = val1, scale = o$scale))
 				val1 = do.call(cfun, list(x = val1, pc = o$pc))
 			} else {
-				val1 = paste0("ref:", val1)
+# 				sc = aes$scale
+#
+#
+# 				if (sc$FUN != "tmapScaleCategorical") {
+# 					cli::cli_inform("A variable has been specified for {.val {unm}}. Please use {.fun tm_scale_continuous} and specify at least the argument {.arg levels}. Other scales are not supported for remote spatial data yet.")
+# 				} else {
+#
+# 					asfd = tmapScaleCategorical(NA, scale = sc, legend = aes$legend, chart = aes$chart, o = o, aes = aes$aes, layer = layer, layer_args = args, sortRev = sortRev, bypass_ord = bypass_ord)
+#
+# browser()
+# 					sc = get_scale_defaults(sc, o, aes$aes, layer, cls = "fact", ct = NULL)
+# 				}
+#
+# 				scale_num = scale_save(sc)
+# 				val1 = paste0("scale", sprintf("%04d", scale_num), ":", val1)
 			}
 
 
@@ -190,6 +204,18 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 		} else {
 			#cat("step2_grp_lyr_aes_var", nm," \n")
+
+			if (aes$bypass_vars) {
+				if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
+				val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
+				#
+				# sc = aes$scale
+				# scale_num = scale_save(sc)
+				# val1 = paste0("scale", sprintf("%04d", scale_num), ":", val1)
+				dt[[val1]] = NA
+				vars = val1
+				val = val1
+			}
 
 			relevant_vars = c("tmapID__", "sel__" , vars, by123__[b])
 			dtl = copy(dt[, relevant_vars, with = FALSE])
@@ -262,7 +288,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			}
 			if (length(v)) update_fl(k = v, lev = vars)
 
-			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord) {
+			apply_scale = function(s, l, crt, v, varname, ordname, legname, crtname, sortRev, bypass_ord, bypass_vars = FALSE) {
 				l = update_l(o = o, l = l, v = v, mfun = mfun, unm = unm, active = TRUE)
 				l$glid = glid
 				l$layer = layer
@@ -371,6 +397,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 					if (!is.na(legnr) && all(dtl[[legname]] == 0)) dtl[[legname]][1] = legnr
 					if (!is.na(crtnr) && all(dtl[[crtname]] == 0)) dtl[[crtname]][1] = crtnr
 				}
+				if (bypass_vars) {
+					dtl[[varname]] = paste0("scale", sprintf("%03d", dtl$legnr), ":", v)
+				}
+
 				dtl
 			}
 
@@ -456,7 +486,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 					cli::cli_abort("incorrect chart specification")
 				}
 
-				dtl = apply_scale(s, l, crt, val, unm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord)
+				dtl = apply_scale(s, l, crt, val, unm, nm__ord, "legnr", "crtnr", sortRev, bypass_ord, aes$bypass_vars)
 
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr", "crtnr"), with = FALSE]
 			}
