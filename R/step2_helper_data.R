@@ -103,7 +103,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 		if (!aes$data_vars && !aes$geo_vars && !aes$bypass_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible multivariate per facet)
-			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
+			if (any(nvari) > 1) warning("Mapping values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 
 			if (!aes$bypass_vars) {
@@ -206,7 +206,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			#cat("step2_grp_lyr_aes_var", nm," \n")
 
 			if (aes$bypass_vars) {
-				if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
+				if (any(nvari) > 1) warning("Multiple data variables defined for one map variable, but for remote spatial data sources, only one (first) will be used", call. = FALSE)
 				val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 				#
 				# sc = aes$scale
@@ -238,7 +238,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			grp_bv_fr = by123__[sort(c({if (nvars > 1 && fr[v]) v else integer(0)}, intersect(which(fr), b)))]
 			#grp_bv_fr = by123__[intersect(which(fr), b)]
 
-			if (length(v) && fr[v] && !all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent when free = FALSE", call. = FALSE)
+			if (length(v) && fr[v] && !all(nvari == nvari[1])) stop("number of variables per map variable should be consistent when free = FALSE", call. = FALSE)
 
 			# multiple variables
 			if (nvars > 1) {

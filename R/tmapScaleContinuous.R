@@ -42,11 +42,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 	if (cls[1] != "num") {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
-		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
+		if (length(x1) > 1) warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
-
-
-
 
 	x1 = without_units(x1)
 
@@ -367,6 +364,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			labels_select = c(labels_select, TRUE)
 			attr(labels, "align") = labels.align
 		}
+
+		layer_args = c(layer_args, list(ticks = scale$ticks, limits = scale$limits))
 
 		legend = within(legend, {
 			nitems = length(labels)

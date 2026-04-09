@@ -97,133 +97,136 @@ sf_expand <- function(shp, cast = c("MULTILINESTRING", "MULTIPOLYGON", "MULTIPOI
 #' @rdname tmap_internal
 tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order, args, scale) {
 	within(shpTM, {
-		is_stars = inherits(shp, "dimensions")
-		if (is_stars && args$points_only == "no") {
-			### stars
+		if (!is.character(shp)) {
 
-			s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
-			strs = stars::st_as_stars(list(values = m), dimensions = shp)
-			shp = sf::st_as_sfc(s, as_points = TRUE)
-		} else if (is_stars) {
-			shp = sf::st_sfc()
-			tmapID = integer(0L)
-		} else {
-			geom_all = sf::st_geometry_type(shp, by_geometry = FALSE)
-			if (geom_all == "GEOMETRY") {
-				geom_types = sf::st_geometry_type(shp)
+			is_stars = inherits(shp, "dimensions")
+			if (is_stars && args$points_only == "no") {
+				### stars
+
+				s = structure(list(values = matrix(TRUE, nrow = nrow(shp))), dimensions = shp, class = "stars")
+				strs = stars::st_as_stars(list(values = m), dimensions = shp)
+				shp = sf::st_as_sfc(s, as_points = TRUE)
+			} else if (is_stars) {
+				shp = sf::st_sfc()
+				tmapID = integer(0L)
 			} else {
-				geom_types = rep(geom_all, length(shp))
-			}
+				geom_all = sf::st_geometry_type(shp, by_geometry = FALSE)
+				if (geom_all == "GEOMETRY") {
+					geom_types = sf::st_geometry_type(shp)
+				} else {
+					geom_types = rep(geom_all, length(shp))
+				}
 
 
-			if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
-				if (args$point_per=="feature" && any(geom_types == "MULTIPOINT")) {
-					shp = sf_expand(shp, cast = "MULTIPOINT")
-					tmapID = tmapID[shp$split__id]
-					shp = sf::st_geometry(shp)
-				} else if (args$point_per=="segment") {
-					shp = sf_expand(shp)
-					tmapID = tmapID[shp$split__id]
-					shp = sf::st_geometry(shp)
-				} else if (args$point_per == "largest") {
-					ids_multiline = which(geom_types == "MULTILINESTRING")
-					if (length(ids_multiline)) {
-						shp[ids_multiline] = local({
-							shp_ml = sf_expand(shp[ids_multiline])
-							lengths <- sf::st_length(shp_ml)
-							id_max <- vapply(split(lengths, f=shp_ml$split__id), which.max, integer(1))
-							id_max2 <- vapply(seq_along(ids_multiline), function(i) {
-								which(shp_ml$split__id==i)[id_max[i]]
-							}, integer(1))
-							sf::st_geometry(shp_ml[id_max2, ])
-						})
+				if (any(geom_types %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
+					if (args$point_per=="feature" && any(geom_types == "MULTIPOINT")) {
+						shp = sf_expand(shp, cast = "MULTIPOINT")
+						tmapID = tmapID[shp$split__id]
+						shp = sf::st_geometry(shp)
+					} else if (args$point_per=="segment") {
+						shp = sf_expand(shp)
+						tmapID = tmapID[shp$split__id]
+						shp = sf::st_geometry(shp)
+					} else if (args$point_per == "largest") {
+						ids_multiline = which(geom_types == "MULTILINESTRING")
+						if (length(ids_multiline)) {
+							shp[ids_multiline] = local({
+								shp_ml = sf_expand(shp[ids_multiline])
+								lengths <- sf::st_length(shp_ml)
+								id_max <- vapply(split(lengths, f=shp_ml$split__id), which.max, integer(1))
+								id_max2 <- vapply(seq_along(ids_multiline), function(i) {
+									which(shp_ml$split__id==i)[id_max[i]]
+								}, integer(1))
+								sf::st_geometry(shp_ml[id_max2, ])
+							})
+						}
 					}
 				}
-			}
 
-			geom_all2 = sf::st_geometry_type(shp, by_geometry = FALSE)
-			if (geom_all2 == "GEOMETRY") {
-				geom_types2 = sf::st_geometry_type(shp)
-			} else {
-				geom_types2 = rep(geom_all, length(shp))
-			}
-
-			ids_poly = which(geom_types2 %in% c("POLYGON", "MULTIPOLYGON"))
-			ids_line = which(geom_types2 %in% c("LINESTRING", "MULTILINESTRING"))
-			ids_point = which(geom_types2 %in% c("POINT", "MULTIPOINT"))
-
-			if (args$points_only == "yes" || (args$points_only == "ifany" && length(ids_point))) {
-				shp = shp[ids_point]
-				tmapID = tmapID[ids_point]
-			} else {
-				if (length(ids_line)) {
-					if (args$along_lines) {
-						bb_crs = stm_bbox(shpTM, shpTM$tmapID, crs = sf::st_crs(shp))
-						res = get_midpoint_angle(shp[ids_line], bbx = bb_crs)
-						shp[ids_line] = res$shp
-						prop_angle = rep(0, length(shp))
-						prop_angle[ids_line] = res$angles
-						rm(res)
-					} else {
-						shp[ids_line] = suppressWarnings({
-							sf::st_centroid(shp[ids_line])
-						})
-					}
+				geom_all2 = sf::st_geometry_type(shp, by_geometry = FALSE)
+				if (geom_all2 == "GEOMETRY") {
+					geom_types2 = sf::st_geometry_type(shp)
+				} else {
+					geom_types2 = rep(geom_all, length(shp))
 				}
-				if (length(ids_poly)) {
-					ctds = suppressWarnings({
-						sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point_per == "largest"))
-					})
 
-					if (args$on_surface) {
-						ctds_in = unlist(mapply(function(x,y) {
-							length(sf::st_contains(y,x)[[1]]) > 0L
-						}, ctds, shp[ids_poly], SIMPLIFY = FALSE, USE.NAMES = FALSE))
+				ids_poly = which(geom_types2 %in% c("POLYGON", "MULTIPOLYGON"))
+				ids_line = which(geom_types2 %in% c("LINESTRING", "MULTILINESTRING"))
+				ids_point = which(geom_types2 %in% c("POINT", "MULTIPOINT"))
+
+				if (args$points_only == "yes" || (args$points_only == "ifany" && length(ids_point))) {
+					shp = shp[ids_point]
+					tmapID = tmapID[ids_point]
+				} else {
+					if (length(ids_line)) {
+						if (args$along_lines) {
+							bb_crs = stm_bbox(shpTM, shpTM$tmapID, crs = sf::st_crs(shp))
+							res = get_midpoint_angle(shp[ids_line], bbx = bb_crs)
+							shp[ids_line] = res$shp
+							prop_angle = rep(0, length(shp))
+							prop_angle[ids_line] = res$angles
+							rm(res)
+						} else {
+							shp[ids_line] = suppressWarnings({
+								sf::st_centroid(shp[ids_line])
+							})
+						}
+					}
+					if (length(ids_poly)) {
+						ctds = suppressWarnings({
+							sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point_per == "largest"))
+						})
+
+						if (args$on_surface) {
+							ctds_in = unlist(mapply(function(x,y) {
+								length(sf::st_contains(y,x)[[1]]) > 0L
+							}, ctds, shp[ids_poly], SIMPLIFY = FALSE, USE.NAMES = FALSE))
 
 
-						if (!all(ctds_in)) {
-							shp[ids_poly[!ctds_in]] = sf::st_point_on_surface(shp[ids_poly[!ctds_in]])
-							shp[ids_poly[ctds_in]] = ctds[ctds_in]
+							if (!all(ctds_in)) {
+								shp[ids_poly[!ctds_in]] = sf::st_point_on_surface(shp[ids_poly[!ctds_in]])
+								shp[ids_poly[ctds_in]] = ctds[ctds_in]
+							} else {
+								shp[ids_poly] = ctds
+							}
 						} else {
 							shp[ids_poly] = ctds
 						}
-					} else {
-						shp[ids_poly] = ctds
+						rm(ctds)
 					}
-					rm(ctds)
-				}
-			}
-
-			if (!is.null(xmod) || !is.null(ymod)) {
-				shp = local({
-					d = delta_per_lineheight(shp, scale = scale)
-
-					if (is.null(xmod)) xmod = rep(0, length(shp))
-					if (is.null(ymod)) ymod = rep(0, length(shp))
-					mod = mapply(c, xmod * d, ymod * d, SIMPLIFY = FALSE)
-					shp + mod
-				})
-			}
-
-			# in case of expansion: cast to multipoint (expanded again in step4)
-
-			if (args$point_per=="segment" || (args$point_per=="feature" && any(geom_types == "MULTIPOINT"))) {
-				tmapID_expanded = tmapID
-				u = sort(unique(tmapID))
-				tmapID_1n = match(tmapID, u)
-
-				shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
-				tmapID = u
-
-				if (length(ids_line) && args$along_lines) {
-					prop_angle = split(prop_angle, f = tmapID_1n)
 				}
 
-				rm(u)
-				rm(tmapID_1n)
-			}
+				if (!is.null(xmod) || !is.null(ymod)) {
+					shp = local({
+						d = delta_per_lineheight(shp, scale = scale)
 
-			rm(geom_types, geom_types2, ids_point, ids_line, ids_poly, geom_all, geom_all2, is_stars)
+						if (is.null(xmod)) xmod = rep(0, length(shp))
+						if (is.null(ymod)) ymod = rep(0, length(shp))
+						mod = mapply(c, xmod * d, ymod * d, SIMPLIFY = FALSE)
+						shp + mod
+					})
+				}
+
+				# in case of expansion: cast to multipoint (expanded again in step4)
+
+				if (args$point_per=="segment" || (args$point_per=="feature" && any(geom_types == "MULTIPOINT"))) {
+					tmapID_expanded = tmapID
+					u = sort(unique(tmapID))
+					tmapID_1n = match(tmapID, u)
+
+					shp = sf::st_cast(shp, "MULTIPOINT", ids = tmapID_1n)
+					tmapID = u
+
+					if (length(ids_line) && args$along_lines) {
+						prop_angle = split(prop_angle, f = tmapID_1n)
+					}
+
+					rm(u)
+					rm(tmapID_1n)
+				}
+
+				rm(geom_types, geom_types2, ids_point, ids_line, ids_poly, geom_all, geom_all2, is_stars)
+			}
 		}
 	})
 }
@@ -300,46 +303,48 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 #' @rdname tmap_internal
 tmapTransLines = function(shpTM, ord__, plot.order, args, scale) {
 	within(shpTM, {
-		is_stars = inherits(shp, "dimensions")
-		if (is_stars) {
-			shp = sf::st_sfc()
-			tmapID = integer(0)
-		} else {
-
-			### sf
-			geom_types = sf::st_geometry_type(shp)
-			#crs = sf::st_crs(shp)
-
-			ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
-			ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
-			ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
-
-
-			if (args$lines.only == "yes" || (args$lines.only == "ifany" && length(ids_line))) {
-				shp = shp[ids_line]
-				tmapID = tmapID[ids_line]
+		if (!is.character(shp)) {
+			is_stars = inherits(shp, "dimensions")
+			if (is_stars) {
+				shp = sf::st_sfc()
+				tmapID = integer(0)
 			} else {
-				if (length(ids_poly)) {
-					tryCatch({
-						shp[ids_poly] = sf::st_cast(sf::st_cast(shp[ids_poly], "MULTIPOLYGON"), "MULTILINESTRING")
-					}, error = function(e) {
-						stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
-					})
-				}
-				if (length(ids_point)) {
-					ids_not_point = which(!(geom_types %in% c("POINT", "MULTIPOINT")))
-					shp = shp[ids_not_point]
-					tmapID = tmapID[ids_not_point]
-				}
 
+				### sf
+				geom_types = sf::st_geometry_type(shp)
+				#crs = sf::st_crs(shp)
+
+				ids_poly = which(geom_types %in% c("POLYGON", "MULTIPOLYGON"))
+				ids_line = which(geom_types %in% c("LINESTRING", "MULTILINESTRING"))
+				ids_point = which(geom_types %in% c("POINT", "MULTIPOINT"))
+
+
+				if (args$lines.only == "yes" || (args$lines.only == "ifany" && length(ids_line))) {
+					shp = shp[ids_line]
+					tmapID = tmapID[ids_line]
+				} else {
+					if (length(ids_poly)) {
+						tryCatch({
+							shp[ids_poly] = sf::st_cast(sf::st_cast(shp[ids_poly], "MULTIPOLYGON"), "MULTILINESTRING")
+						}, error = function(e) {
+							stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)
+						})
+					}
+					if (length(ids_point)) {
+						ids_not_point = which(!(geom_types %in% c("POINT", "MULTIPOINT")))
+						shp = shp[ids_not_point]
+						tmapID = tmapID[ids_not_point]
+					}
+
+				}
+				rm(geom_types)
 			}
-			rm(geom_types)
-		}
 
-		if (plot.order$aes == "LENGTH") {
-			o = order(without_units(sf::st_length(shp)), decreasing = !plot.order$reverse)
-			shp = shp[o]
-			tmapID = tmapID[o]
+			if (plot.order$aes == "LENGTH") {
+				o = order(without_units(sf::st_length(shp)), decreasing = !plot.order$reverse)
+				shp = shp[o]
+				tmapID = tmapID[o]
+			}
 		}
 	})
 }
