@@ -122,6 +122,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		}
 
 		if (limits.specified) {
+			outliers.trunc = rep(outliers.trunc, length.out = 2)
 			x1_low = x1 < limits[1]
 			x1_high = x1 > limits[2]
 			if (any(x1_low, na.rm = TRUE)) {
