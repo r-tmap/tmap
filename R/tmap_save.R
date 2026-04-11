@@ -7,7 +7,7 @@
 #' @param filename filename including extension, and optionally the path.
 #'   The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported.
 #'   If the extension is missing, the file will be saved as a static plot in `"plot"`
-#'   mode and as an interactive map (html) in `"view"` mode (see details).
+#'   mode and as an interactive map (html) in another mode.
 #'   The default format for static plots is png, but this can be changed using
 #'   the option `"output.format"` in [tmap_options()]. If `NA` (the default),
 #'   the file is saved as "tmap01" in the default format, and the number incremented
@@ -124,7 +124,9 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 
 	interactive = (ext=="html")
 
-	options(tmap.mode=ifelse(interactive, "view", "plot"))
+	interactive_mode = if (tmap.mode == "plot") "view" else tmap.mode
+
+	options(tmap.mode=ifelse(interactive, interactive_mode, "plot"))
 
 	if (interactive) {
 		if (is.arrange) {

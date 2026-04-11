@@ -30,7 +30,7 @@ tmap_save(
 \item{filename}{filename including extension, and optionally the path.
 The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported.
 If the extension is missing, the file will be saved as a static plot in \code{"plot"}
-mode and as an interactive map (html) in \code{"view"} mode (see details).
+mode and as an interactive map (html) in another mode.
 The default format for static plots is png, but this can be changed using
 the option \code{"output.format"} in \code{\link[=tmap_options]{tmap_options()}}. If \code{NA} (the default),
 the file is saved as "tmap01" in the default format, and the number incremented

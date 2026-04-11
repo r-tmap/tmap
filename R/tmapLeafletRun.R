@@ -57,14 +57,16 @@ tmapLeafletRun = function(o, q, show, knit, knit_opts, args) {
 			lf
 		} else {
 			fc = o$free.coords
-			sync = if (identical(o$sync, TRUE) || all(!fc)) {
+			sync = if (identical(o$sync, FALSE)) {
+				"none"
+			} else if (identical(o$sync, TRUE) || all(!fc)) {
 				"all"
 			} else if (all(fc)) {
 				"none"
 			} else if (fc[1]) {
 				asplit(matrix(1:(o$nrows*o$ncols), ncol = o$ncols, byrow = TRUE), 1)
 			} else {
-				asplit(matrix(1:(o$nrows*0$ncols), ncol = 0$ncols, byrow = TRUE), 2)
+				asplit(matrix(1:(o$nrows*o$ncols), ncol = o$ncols, byrow = TRUE), 2)
 			}
 			marg = paste0(o$between_margin, "em")
 

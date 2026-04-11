@@ -34,6 +34,7 @@
 #'   be synchronized? By default `TRUE` if the facets have the same bounding box.
 #'   This is generally the case when rasters are plotted, or when `free.coords` is
 #'   `FALSE`.
+#' @param swipe Logical. If \code{TRUE}, the two maps are overlaid with a draggable divider to reveal either map. Requires exactly two maps, and only works in the \code{"mapbox"} and \code{"maplibre"} modes provided by the \pkg{tmap.mapgl} package. Default is \code{FALSE}.
 #' @param na.text Text used for facets of missing values. In v3, it was `textNA`.
 #' @param scale.factor Number that determines how the elements (e.g. font sizes,
 #'   symbol sizes, line widths) of the small multiples are scaled in relation to
@@ -64,6 +65,7 @@ tm_facets = function(by = NULL,
 					 drop.empty.facets = TRUE,
 					 drop.NA.facets = FALSE,
 					 sync = TRUE,
+					 swipe = FALSE,
 					 na.text = NA,
 					 scale.factor=2,
 					 type = NA,
@@ -125,6 +127,7 @@ tm_facets = function(by = NULL,
 		drop.empty.facets = drop.empty.facets,
 		drop.NA.facets = drop.NA.facets,
 		sync = sync,
+		swipe = swipe,
 		na.text = na.text,
 		scale.factor = scale.factor,
 		animate = args$animate,

@@ -23,10 +23,10 @@ process_components = function(cdt, o) {
 	})
 
 	cdt$class = sapply(cdt$comp, function(l) l$position$type)
-	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA else x})
-	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA else x})
-	cdt$pos.h = sapply(cdt$comp, function(l) {x = l$position$pos.h; if (is.null(x)) NA else x})
-	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
+	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA_character_ else x})
+	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA_character_ else x})
+	cdt$pos.h = sapply(cdt$comp, function(l) {x = l$position$pos.h; if (is.null(x)) NA_character_ else x})
+	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA_character_ else x})
 	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) NA_integer_ else x})
 	cdt[, zauto := .I]
 

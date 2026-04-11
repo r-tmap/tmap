@@ -26,6 +26,7 @@ tm_facets(
   drop.empty.facets = TRUE,
   drop.NA.facets = FALSE,
   sync = TRUE,
+  swipe = FALSE,
   na.text = NA,
   scale.factor = 2,
   type = NA,
@@ -88,6 +89,8 @@ data values for specific facets are missing, should these facets be dropped?
 be synchronized? By default \code{TRUE} if the facets have the same bounding box.
 This is generally the case when rasters are plotted, or when \code{free.coords} is
 \code{FALSE}.}
+
+\item{swipe}{Logical. If \code{TRUE}, the two maps are overlaid with a draggable divider to reveal either map. Requires exactly two maps, and only works in the \code{"mapbox"} and \code{"maplibre"} modes provided by the \pkg{tmap.mapgl} package. Default is \code{FALSE}.}
 
 \item{na.text}{Text used for facets of missing values. In v3, it was \code{textNA}.}
 
