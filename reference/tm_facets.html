@@ -131,6 +131,7 @@ tm_facets() is the core function, but it is recommended to use the other functio
 <span>  drop.empty.facets <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  drop.NA.facets <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  sync <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  swipe <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  na.text <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  scale.factor <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  type <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -224,6 +225,10 @@ data values for specific facets are missing, should these facets be dropped?
 be synchronized? By default <code>TRUE</code> if the facets have the same bounding box.
 This is generally the case when rasters are plotted, or when <code>free.coords</code> is
 <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-swipe">swipe<a class="anchor" aria-label="anchor" href="#arg-swipe"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, the two maps are overlaid with a draggable divider to reveal either map. Requires exactly two maps, and only works in the <code>"mapbox"</code> and <code>"maplibre"</code> modes provided by the <span class="pkg">tmap.mapgl</span> package. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-na-text">na.text<a class="anchor" aria-label="anchor" href="#arg-na-text"></a></dt>

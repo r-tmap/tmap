@@ -33,6 +33,7 @@ tm_facets(
   drop.empty.facets = TRUE,
   drop.NA.facets = FALSE,
   sync = TRUE,
+  swipe = FALSE,
   na.text = NA,
   scale.factor = 2,
   type = NA,
@@ -125,6 +126,13 @@ tm_facets_flip(...)
   synchronized? By default `TRUE` if the facets have the same bounding
   box. This is generally the case when rasters are plotted, or when
   `free.coords` is `FALSE`.
+
+- swipe:
+
+  Logical. If `TRUE`, the two maps are overlaid with a draggable divider
+  to reveal either map. Requires exactly two maps, and only works in the
+  `"mapbox"` and `"maplibre"` modes provided by the tmap.mapgl package.
+  Default is `FALSE`.
 
 - na.text:
 

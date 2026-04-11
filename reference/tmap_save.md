@@ -39,8 +39,8 @@ tmap_save(
   pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are
   supported. If the extension is missing, the file will be saved as a
   static plot in `"plot"` mode and as an interactive map (html) in
-  `"view"` mode (see details). The default format for static plots is
-  png, but this can be changed using the option `"output.format"` in
+  another mode. The default format for static plots is png, but this can
+  be changed using the option `"output.format"` in
   [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md).
   If `NA` (the default), the file is saved as "tmap01" in the default
   format, and the number incremented if the file already exists.
