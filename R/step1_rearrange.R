@@ -305,7 +305,7 @@ step1_rearrange = function(tmel, knit_opts) {
 
 	if (dev) timing_add(s2 = "facet meta")
 
-	so(crs_step4, crs_step3, crs_leaflet)
+	#so(crs_step4, crs_step3, crs_leaflet)
 
 
 	is_comp = sapply(oth, inherits, "tm_component")
