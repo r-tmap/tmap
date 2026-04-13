@@ -37,25 +37,6 @@ tm_shape(metro) +
     tm_animate()
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_animations_files/figure-html/unnamed-chunk-3-1.gif)
@@ -78,25 +59,6 @@ tm_shape(World) +
     tm_polygons(fill = "continent") +
     tm_animate(frames = "name", fps = 3) +
     tm_options(facet.max = 177)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_animations_files/figure-html/unnamed-chunk-4-1.gif)
@@ -125,25 +87,6 @@ tm_shape(World5) +
                                   tm_scale_intervals(values = "brewer.greens"),
                                   tm_scale_intervals(values = "brewer.yl_or_rd"))) +
     tm_animate(by = "continent", free.coords = TRUE)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_animations_files/figure-html/unnamed-chunk-5-1.gif)
@@ -172,19 +115,6 @@ tm_shape(Africa, crs = "+proj=robin") +
                  fill.legend = tm_legend("Age"),
                  options = opt_tm_cartogram(itermax = 15)) +
 tm_title("Life Expectancy")
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> Cartogram in progress...
 ```
 
@@ -199,19 +129,6 @@ tm_cartogram_ncont(size = "*pop_est",
                    options = opt_tm_cartogram_ncont()) +
 tm_title("Income inequality (Gini coefficient)") +
 tm_animate_fast(play = "pingpong")
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> Cartogram in progress...
 ```
 

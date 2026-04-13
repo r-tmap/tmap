@@ -33,19 +33,6 @@ gradient:
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"))
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_legends_files/figure-html/unnamed-chunk-5-1.png)
@@ -57,19 +44,6 @@ the argument `label.style`. By default it is set to discrete:
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(values = "pu_gn"))
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_legends_files/figure-html/unnamed-chunk-6-1.png)
@@ -80,19 +54,6 @@ Alternatively, it can be set to `"continuous"`:
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(values = "pu_gn", label.style = "continuous"))
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_legends_files/figure-html/unnamed-chunk-7-1.png)
@@ -126,19 +87,6 @@ s + tm_polygons(
       title = "Happy Planex Index", 
       orientation = "landscape", 
       width = 60))
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> [plot mode] fit legend/component: Some legend items or map compoments do not
 #> fit well, and are therefore rescaled.
 #> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
@@ -162,19 +110,6 @@ s + tm_polygons(
       orientation = "landscape", 
       width = 60)) +
 tm_layout(scale = 0.25)
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_legends_files/figure-html/unnamed-chunk-9-1.png)
@@ -189,19 +124,6 @@ s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"),
   fill.legend = tm_legend_hide())
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_legends_files/figure-html/unnamed-chunk-10-1.png)

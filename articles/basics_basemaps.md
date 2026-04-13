@@ -17,22 +17,6 @@ specified without arguments, the default basemap is
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("OpenTopoMap")
-#> <====================  crs_step4 ===============>
-#>  num 3857
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.EPSG3857"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-3-1.png)
@@ -82,22 +66,6 @@ See
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("CartoDB.PositronNoLabels")
-#> <====================  crs_step4 ===============>
-#>  num 3857
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.EPSG3857"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-6-1.png)
@@ -114,24 +82,6 @@ tmap_mode("view")
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("Esri.OceanBasemap")
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ dimensions: num 3857
-#>  $           : num 4326
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.EPSG3857"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 Disabling basemaps:
@@ -147,26 +97,6 @@ tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap(NULL)
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
-#> This message is displayed once per session.
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> [view mode] WebGL does not work (yet) with projected map projections, so it has
 #> been disabled.
 #> This message is displayed once per session.
@@ -185,19 +115,6 @@ tm_shape(World, crs = "+proj=robin") +
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap(NULL)
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=robin"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ## Defaults

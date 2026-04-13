@@ -257,67 +257,10 @@ Africa_border = sf::st_make_valid(sf::st_union(sf::st_buffer(Africa, 0.001))) # 
 
 # without specifications
 tm_shape(Africa_border) + tm_polygons()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 tm_shape(Africa_border) + tm_fill()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 tm_shape(Africa_border) + tm_borders()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 
 # specification with visual variable values
@@ -326,49 +269,11 @@ tm_shape(Africa) +
   tm_text("name", options = opt_tm_text(remove_overlap = TRUE)) +
 tm_shape(Africa_border) +
   tm_borders("darkred", lwd = 3)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 
 # specification with a data variable
 tm_shape(Africa) +
   tm_polygons(fill = "income_grp", fill.scale = tm_scale_categorical(values = "-tol.muted"))
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 
 
@@ -384,49 +289,11 @@ tm_shape(Africa_border) +
   tm_borders(lwd = 2) +
 tm_title("Inequality index", position = tm_pos_in("right", "TOP"), frame = FALSE) +
 tm_layout(frame = FALSE)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 
 # bivariate scale
 tm_shape(World) +
   tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> bivariate legend Labels abbreviated by the first two letters, e.g.: "2.0 - 2.9"
 #> => "2".
 #> This message is displayed once per session.

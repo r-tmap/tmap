@@ -51,25 +51,6 @@ tm_shape(metroAfrica) +
     shape.legend = tm_legend_combine("size")) +
   tm_labels("name") +
 tm_credits("United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects.\nProduction of Global Land Cover Data - GLCNMO2008.", position = tm_pos_out("center", "bottom"))
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-4-1.png)
@@ -87,25 +68,6 @@ tm_shape(land) +
   tm_raster("cover_cls",
     col.legend = tm_legend("Land use"))
 tm
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-5-1.png)
@@ -120,25 +82,6 @@ tm_shape(World_rivers) +
     lwd.scale = tm_scale_asis(values.scale = .5),
     col = "#A6CEE3")
 tm
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-6-1.png)
@@ -155,25 +98,6 @@ tm = tm +
 tm_shape(Africa, is.main = TRUE) +
   tm_borders()
 tm
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-7-1.png)
@@ -196,25 +120,6 @@ tm_shape(metroAfrica) +
     shape.legend = tm_legend_combine("size")) +
   tm_labels("name")
 tm
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-8-1.png)

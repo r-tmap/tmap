@@ -39,25 +39,6 @@ tm_shape(ZH_muni) +
     fill.scale = tm_scale_categorical(values = "-pu_gn_div"),             
     size = "population",
     size.scale = tm_scale_continuous(ticks = c(50000, 100000, 250000, 500000))) 
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-3-1.png)
@@ -110,25 +91,6 @@ features new map layers, albeit very basic so far:
 ``` r
 tm_shape(sfn) +
     tm_network()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-5-1.png)
@@ -137,25 +99,6 @@ tm_shape(sfn) +
 tm_shape(sfn) +
     tm_edges(col = "type", lwd = 4) +
     tm_nodes()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-6-1.png)
@@ -195,20 +138,4 @@ tm_shape(NLD_dist) +
 tm_shape(NLD_muni) +
   tm_polygons(fill = NULL, lwd = 1) +
 tm_maplibre(pitch = 70)
-#> <====================  crs_step4 ===============>
-#>  num 4326
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.EPSG3857"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```

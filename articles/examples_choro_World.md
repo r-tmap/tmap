@@ -32,25 +32,6 @@ tm_shape(World) +
     tm_polygons(fill = "gender")
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_choro_World_files/figure-html/unnamed-chunk-4-1.png)
@@ -84,19 +65,6 @@ tm_shape(World, crs = "+proj=eqearth") +
     position = tm_pos_on_top(pos.h = "left", pos.v = "bottom"), 
     bg.color = "white")) +
 tm_options(earth_boundary = TRUE, frame = FALSE)
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_choro_World_files/figure-html/unnamed-chunk-5-1.png)

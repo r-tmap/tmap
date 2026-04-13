@@ -90,22 +90,6 @@ tm_shape(SA) +
   tm_polygons() +
   tm_graticules() +
   tm_crs(4326)
-#> <====================  crs_step4 ===============>
-#>  num 4326
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "EPSG:4326"
-#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.EPSG3857"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 
 
 tm_list = lapply(c("global", "area", "distance", "shape"), FUN = function(property) {
@@ -117,81 +101,4 @@ tm_list = lapply(c("global", "area", "distance", "shape"), FUN = function(proper
 })
 
 tmap_arrange(tm_list, nrow = 1)
-
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "+proj=eqearth"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "+proj=eqearth"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "+proj=laea +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "+proj=laea +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "+proj=aeqd +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "+proj=aeqd +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "+proj=stere +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "+proj=stere +lon_0=-58.0705 +lat_0=-19.4357048224361 +ellps=WGS84 +no_defs"
-#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on WGS 84 ellipsoid\",\n     "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```

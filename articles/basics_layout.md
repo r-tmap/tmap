@@ -31,19 +31,6 @@ follows:
 tm + tm_layout(
   bg.color = "skyblue",
   outer.bg.color = "gold")
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-4-1.png)
@@ -61,19 +48,6 @@ The map frame can be disabled by setting `frame = FALSE`:
 tm + tm_layout(
   bg.color = "grey90",
   frame = FALSE)
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-5-1.png)
@@ -100,19 +74,6 @@ tm_layout(bg.color = "skyblue",
   earth_boundary = TRUE,
   frame = FALSE,
   space.color = "white")
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
 ```
 
@@ -129,19 +90,6 @@ tm_shape(World, crs = "+proj=eqearth") +
 tm_layout(panel.label.bg.color = "gold",
           panel.label.size = 2,
           panel.label.height = 3)   
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-7-1.png)
@@ -152,19 +100,6 @@ Panels can be disabled using `panel.show = FALSE`:
 tm_shape(World, crs = "+proj=eqearth") +
   tm_polygons(c("well_being", "footprint")) +
 tm_layout(panel.show = FALSE)   
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-8-1.png)
@@ -178,19 +113,6 @@ frame
 ``` r
 tm +
   tm_layout(inner.margins = c(0, 0, 0.02, 0.02))    
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-9-1.png)
@@ -207,19 +129,6 @@ tm_shape(World, crs = "+proj=eqearth") +
                 fill.scale = tm_scale_intervals(values = "pu_gn"),
                 fill.legend = tm_legend(position = c("left", "bottom"))) +
   tm_layout(outer.margins = c(0, 0, 0, 0), asp = 0)
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-10-1.png)

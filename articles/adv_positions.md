@@ -79,25 +79,6 @@ tm_shape(NLD_muni) +
     tm_inset(b("0.3, 0.3"), position = c(0.2, 0.2)) +
     tm_inset(b("0.5, 0.5"), position = c(0.5, 0.5)) +       
     tm_inset(b("0.9, 1"), position = c(0.9, 1))     
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_positions_files/figure-html/unnamed-chunk-4-1.png)
@@ -142,25 +123,6 @@ tm_inset(g("left, bottom"), position = tm_pos_out("left", "bottom")) +
 tm_inset(g("center, bottom"), position = tm_pos_out("center", "bottom", pos.h = "center")) +
 tm_inset(g("right, bottom"), position = tm_pos_out("right", "bottom")) +
 tm_layout(asp = 1, frame.color = "blue", frame.lwd = 2)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_positions_files/figure-html/unnamed-chunk-5-1.png)
@@ -192,25 +154,6 @@ tm_inset(b("pos.h = 0.5\npos.v = 0.5\nin center cell"),
 tm_inset(b("pos.h = 1\npos.v = 1\nin center cell"),
   position = tm_pos_in(pos.h = 1, pos.v = 1)) +
 tm_layout(asp = 1, frame.color = "blue", frame.lwd = 2)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_positions_files/figure-html/unnamed-chunk-6-1.png)
@@ -237,25 +180,6 @@ tm_inset(b("left, top"),
 tm_inset(b("right, bottom"), 
   position = tm_pos_in(0.5, 0.5, just.h = "right", just.v = "bottom")) +
 tm_layout(asp = 1, frame.color = "blue", frame.lwd = 2)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_positions_files/figure-html/unnamed-chunk-7-1.png)
@@ -283,25 +207,6 @@ tm_inset(g(""),
   width = 4, height = 4,
   position = tm_pos_in("left", "top")) +
 tm_layout(asp = 1, frame.color = "blue", frame.lwd = 2)
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "Amersfoort / RD New"
-#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](adv_positions_files/figure-html/unnamed-chunk-8-1.png)

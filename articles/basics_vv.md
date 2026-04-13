@@ -53,19 +53,6 @@ s +
     col = "black",    # line color
     lwd = 0.5,        # line width
     lty = "dashed")   # line type
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_vv_files/figure-html/constant-1.png)
@@ -81,19 +68,6 @@ Each visual variable argument can also be specified with a data variable
 
 ``` r
 s + tm_polygons(fill = "press")    # a column in World
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_vv_files/figure-html/polygons-1.png)
@@ -107,19 +81,6 @@ s +
   tm_symbols(size = "pop_est",     # data variable, mapped to symbol size
              fill = "well_being",  # data variable, mapped to symbol fill color
              shape = "income_grp") # data variable, mapped to symbol shape
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 #> [plot mode] legend/component: Some components or legends are too "high" and are
 #> therefore rescaled.
 #> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
@@ -133,19 +94,6 @@ In the following example a data-driven text layer is plotted.
 s + 
   tm_polygons(fill = "economy") +
   tm_text(text = "name", size = "area")
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_vv_files/figure-html/text-1.png)
@@ -162,19 +110,6 @@ A facet map is created by specifying two data variables (columns in
 
 ``` r
 s + tm_polygons(fill = c("well_being", "life_exp")) 
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_vv_files/figure-html/facet-1.png)
@@ -187,19 +122,6 @@ s +
     fill = c("well_being", "life_exp"),
     fill.legend = tm_legend("")) +
 tm_layout(panel.labels = c("Well Being", "Life Expectancy"))
-#> <====================  crs_step4 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_step3 ===============>
-#>  chr "+proj=eqearth"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](basics_vv_files/figure-html/unnamed-chunk-2-1.png)

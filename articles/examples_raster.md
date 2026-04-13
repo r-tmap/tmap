@@ -76,25 +76,6 @@ tmap::tm_shape(ndvi) +
     tmap::tm_layout(
         scale = 1.0
     )
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "unnamed"
-#>  $ wkt  : chr "PROJCRS[\"unnamed\",\n    BASEGEOGCRS[\"Unknown datum based upon the custom spheroid\",\n        DATUM[\"Not_sp"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "unnamed"
-#>  $ wkt  : chr "PROJCRS[\"unnamed\",\n    BASEGEOGCRS[\"Unknown datum based upon the custom spheroid\",\n        DATUM[\"Not_sp"| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-6-1.png)
@@ -111,25 +92,6 @@ sent = terra::rast(sent_image)
 
 ``` r
 tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "WGS 84 / UTM zone 20S"
-#>  $ wkt  : chr "PROJCRS[\"WGS 84 / UTM zone 20S\",\n    BASEGEOGCRS[\"WGS 84\",\n        ENSEMBLE[\"World Geodetic System 1984 "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "WGS 84 / UTM zone 20S"
-#>  $ wkt  : chr "PROJCRS[\"WGS 84 / UTM zone 20S\",\n    BASEGEOGCRS[\"WGS 84\",\n        ENSEMBLE[\"World Geodetic System 1984 "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-9-1.png)
@@ -143,25 +105,6 @@ clc2018_poznan = rast("https://github.com/Nowosad/comparing-spatial-patterns-202
 ``` r
 tm_shape(clc2018_poznan) + 
     tm_raster()
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "ETRF2000-PL / CS92"
-#>  $ wkt  : chr "PROJCRS[\"ETRF2000-PL / CS92\",\n    BASEGEOGCRS[\"ETRF2000-PL\",\n        DATUM[\"ETRF2000 Poland\",\n        "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "ETRF2000-PL / CS92"
-#>  $ wkt  : chr "PROJCRS[\"ETRF2000-PL / CS92\",\n    BASEGEOGCRS[\"ETRF2000-PL\",\n        DATUM[\"ETRF2000 Poland\",\n        "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-11-1.png)
@@ -169,25 +112,6 @@ tm_shape(clc2018_poznan) +
 ``` r
 tm_shape(clc2018_poznan) + 
     tm_raster(col.legend = tm_legend(title = "Land cover"))
-#> <====================  crs_step4 ===============>
-#> List of 2
-#>  $ input: chr "ETRF2000-PL / CS92"
-#>  $ wkt  : chr "PROJCRS[\"ETRF2000-PL / CS92\",\n    BASEGEOGCRS[\"ETRF2000-PL\",\n        DATUM[\"ETRF2000 Poland\",\n        "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_step3 ===============>
-#> List of 2
-#>  $ input: chr "ETRF2000-PL / CS92"
-#>  $ wkt  : chr "PROJCRS[\"ETRF2000-PL / CS92\",\n    BASEGEOGCRS[\"ETRF2000-PL\",\n        DATUM[\"ETRF2000 Poland\",\n        "| __truncated__
-#>  - attr(*, "class")= chr "crs"
-#> <====================  crs_leaflet ===============>
-#> List of 5
-#>  $ crsClass       : chr "L.CRS.Simple"
-#>  $ code           : NULL
-#>  $ proj4def       : NULL
-#>  $ projectedBounds: NULL
-#>  $ options        : Named list()
-#>  - attr(*, "class")= chr "leaflet_crs"
-#> </============================================>
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-12-1.png)
