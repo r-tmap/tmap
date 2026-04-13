@@ -1,8 +1,9 @@
-# tmap 4.3 (dev version)
+# tmap 4.3
 
 - [!] support for PMTiles via new and experimental package tmap.sources
 - [!] tm_text: halo, shadow and background rectangles implemented in plot and view mode
 - [!] tm_scalebar: improved measurement (using ellipsoidal distance rather than Eucledian distances in projected crs)
+- crs handling improved: local crs accepted
 - tmap_save can also save in other modes (e.g. from tmap.mapgl)
 - fixed many view-mode/shiny related bugs
 
