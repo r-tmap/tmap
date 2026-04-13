@@ -8,7 +8,7 @@
 \alias{rtmp}
 \title{Set tmap mode to static plotting or interactive viewing}
 \usage{
-tmap_mode(mode = NULL)
+tmap_mode(mode = NULL, silent = FALSE)
 
 ttm()
 
@@ -20,6 +20,8 @@ rtmp()
 }
 \arguments{
 \item{mode}{One of \code{"plot"} or \code{"view"}. See Details for more info.}
+
+\item{silent}{Should the mode be switched silently (by default \code{FALSE})}
 }
 \value{
 \itemize{
