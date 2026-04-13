@@ -1900,14 +1900,19 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─col.polygons: <span style="color: #0000BB;">"grey40"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─bgcol: <span style="color: #0000BB;">"grey95"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lty: <span style="color: #0000BB;">"solid"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd: <span style="color: #0000BB;">0.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─shape: <span style="color: #0000BB;">20</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─text: <span style="color: #0000BB;">""</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fontface: &lt;NULL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fill_alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─col_alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─bgcol_alpha: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size: <span style="color: #0000BB;">0.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─shape.squares: <span style="color: #0000BB;">22</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─shape.dots: <span style="color: #0000BB;">19</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─shape: <span style="color: #0000BB;">21</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size.bubbles: <span style="color: #0000BB;">1.3333</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size.squares: <span style="color: #0000BB;">1.3333</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size.dots: <span style="color: #0000BB;">0.3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─angle: <span style="color: #0000BB;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─num: <span style="color: #0000BB;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─value.blank: <span style="color: #555555;">&lt;list&gt;</span></span>
@@ -2678,6 +2683,25 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"footprint"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tmap_options-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tmap_options_save</span><span class="op">(</span><span class="st">"fancy"</span><span class="op">)</span></span></span>
@@ -2691,6 +2715,25 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"footprint"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tmap_options-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"fancy"</span><span class="op">)</span></span></span>
@@ -2700,6 +2743,25 @@ zoom levels (see tileOptions()).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"footprint"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "EPSG:4326"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tmap_options-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># reset all options</span></span></span>

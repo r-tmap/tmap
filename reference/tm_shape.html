@@ -188,14 +188,59 @@ for eqdc: <a href="https://proj.org/en/9.4/operations/projections/eqdc.html" cla
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "+proj=eqearth"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ input: chr "+proj=eqearth"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tm_shape-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="fl">3035</span>, bb <span class="op">=</span> <span class="st">"Europe"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  num 3035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  num 3035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tm_shape-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span>, filter <span class="op">=</span> <span class="va">World</span><span class="op">$</span><span class="va">continent</span><span class="op">==</span><span class="st">"Africa"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step4 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  chr "+proj=robin"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_step3 ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  chr "+proj=robin"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;====================  crs_leaflet ===============&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ crsClass       : chr "L.CRS.Simple"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ code           : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ proj4def       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ projectedBounds: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ options        : Named list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "leaflet_crs"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/============================================&gt;</span>
 <span class="r-plt img"><img src="tm_shape-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

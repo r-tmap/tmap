@@ -354,8 +354,7 @@ CRAN release: 2017-11-24
 
 CRAN release: 2017-05-11
 
-- \[!\]
-  [`tm_scale_bar()`](https://r-tmap.github.io/tmap/reference/tm_scale_bar.md),
+- \[!\] `tm_scale_bar()`,
   [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md), and
   [`tm_grid()`](https://r-tmap.github.io/tmap/reference/tm_grid.md) now
   supported in view mode (requires leaflet 1.1.0)
@@ -486,9 +485,7 @@ CRAN release: 2016-03-18
   legend.width, and legend and attributes position improved when double
   frame is enabled)
 - improved `tm_layouts()`’s design.mode output
-- `lwd` parameter added to
-  [`tm_scale_bar()`](https://r-tmap.github.io/tmap/reference/tm_scale_bar.md)
-  and
+- `lwd` parameter added to `tm_scale_bar()` and
   [`tm_compass()`](https://r-tmap.github.io/tmap/reference/tm_compass.md)
 - fixed `bb` bug
 
@@ -545,8 +542,7 @@ CRAN release: 2015-05-28
 
 - added
   [`tm_credits()`](https://r-tmap.github.io/tmap/reference/tm_credits.md)
-  and
-  [`tm_scale_bar()`](https://r-tmap.github.io/tmap/reference/tm_scale_bar.md)
+  and `tm_scale_bar()`
 - added `is.master` argument to
   [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md),
   that determines which shape is the master

@@ -149,6 +149,25 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"inequality"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">bivariate legend</span> Labels abbreviated by the first two letters, e.g.: "20 - 29"</span></span>
 <span><span class="co">#&gt; =&gt; "2".</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
@@ -254,7 +273,26 @@ Normal order
 <span>    fill <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"inequality"</span><span class="op">)</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    fill.scale <span class="op">=</span> </span>
 <span>      <span class="fu"><a href="../reference/tm_scale_bivariate.html">tm_scale_bivariate</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"//bu_br_bivs"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-11-1.png" alt="" width="100%"></p>
 <p>One inconvenience is that the origin of the palettes plotted above (with <code><a href="https://cols4all.github.io/reference/c4a_plot.html" class="external-link">c4a_plot()</a></code>) is top left, but the origin of a bivariate color legend in tmap is bottom right. Therefore, the diagonal prefixes need to be the other way round.</p>
 </div>
@@ -271,7 +309,26 @@ Normal order
 <span>                 <span class="st">"#B0D5DF"</span>, <span class="st">"#AD9EA5"</span>, <span class="st">"#985356"</span>,</span>
 <span>                 <span class="st">"#64ACBE"</span>, <span class="st">"#627F8C"</span>, <span class="st">"#574249"</span><span class="op">)</span>,</span>
 <span>                 byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-12-1.png" alt="" width="100%"></p>
 <p>This palette is also known as <code>"stevens.bluered"</code>. Note that this is not the most color blind friendly one. Check out <code><a href="https://cols4all.github.io/reference/c4a_gui.html" class="external-link">c4a_gui()</a></code> to analyse color blind friendliness, also for custom palettes.</p>
 </div>
@@ -289,7 +346,26 @@ Normal order
 <span>        scale1 <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span>, n <span class="op">=</span> <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L"</span>, <span class="st">"M"</span>, <span class="st">"H"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>        scale2 <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"kmeans"</span>, n <span class="op">=</span> <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L"</span>, <span class="st">"M"</span>, <span class="st">"H"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>        values <span class="op">=</span> <span class="st">"bu_br_bivs"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-13-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
@@ -316,7 +392,26 @@ Normal order
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Inequality per country"</span>, z <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span><span class="st">"auto"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.15</span>, <span class="fl">0.02</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ input: chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt;  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "crs"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="examples_biv_choro_files/figure-html/unnamed-chunk-14-1.png" alt="" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

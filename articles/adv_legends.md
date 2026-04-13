@@ -19,6 +19,19 @@ argument of the scale function, e.g. `tm_scale_continuous`:
 
 ``` r
 s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-4-1.png)
@@ -28,6 +41,19 @@ s + tm_polygons("HPI",
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
     label.format = tm_label_format(digits = 3)))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-5-1.png)
@@ -37,6 +63,19 @@ s + tm_polygons("HPI",
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
     label.format = tm_label_format(scientific = TRUE)))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-6-1.png)
@@ -46,6 +85,19 @@ s + tm_polygons("HPI",
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
     label.format = tm_label_format(prefix = "<", suffix = ">")))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-7-1.png)
@@ -60,6 +112,19 @@ s + tm_polygons("HPI",
             do.call(paste, c(as.list(y), list(collapse = " ")))
         })
     })))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-8-1.png)
@@ -75,6 +140,19 @@ Consider this map
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10)))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-9-1.png)
@@ -97,6 +175,19 @@ s + tm_polygons(
   fill.scale = tm_scale_intervals(
     breaks = seq(10, 60, by = 10), 
     label.format = tm_label_format(interval.disjoint = FALSE)))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-10-1.png)
@@ -110,6 +201,19 @@ s + tm_polygons(
   fill.scale = tm_scale_intervals(
     breaks = seq(10, 60, by = 10), 
     label.format = tm_label_format(digits = 2)))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-11-1.png)
@@ -133,6 +237,19 @@ s + tm_polygons(
       text.or.more = "or more", 
       text.or.more_as.prefix = FALSE)
   ))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-12-1.png)
@@ -146,6 +263,19 @@ etc.
 ``` r
 s + tm_polygons() +
   tm_bubbles(size = "pop_est")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-13-1.png)
@@ -168,6 +298,25 @@ tm_shape(NLD_muni) +
     size.scale = tm_scale_continuous(
       label.format = tm_label_format(
         big.num.abbr = c(thousand = 3))))
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-15-1.png)
@@ -188,6 +337,19 @@ tm_bubbles(
   fill = "HPI", 
   size = "pop_est",
   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-16-1.png)
@@ -205,6 +367,19 @@ tm_bubbles(
   fill.scale = tm_scale_continuous(
     values = "-matplotlib.rainbow",
     value.neutral = "gray70"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-17-1.png)
@@ -235,6 +410,19 @@ s +
 tm_bubbles(
   fill = "economy", 
   shape = "economy")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> [plot mode] legend/component: Some components or legends are too "high" and are
 #> therefore rescaled.
 #> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
@@ -250,6 +438,19 @@ tm_bubbles(
   fill = "economy", 
   shape = "economy",
   shape.legend = tm_legend_combine("fill"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-20-1.png)
@@ -281,6 +482,19 @@ s +
     fill = "economy",
     fill.legend = tm_legend("Economy", 
       lwd = 2, lty = "dotted"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-21-1.png)
@@ -301,6 +515,19 @@ s +
     shape = 22, 
     size = c(1, 2, 4), 
     labels = c("Small", "Medium", "Large"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-22-1.png)
@@ -342,6 +569,19 @@ tm_add_legend(
     size = c(.7, .9, 1.5),
     text = c("orange", "purple", "blue"), 
     labels = LETTERS[1:3])
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-23-1.png)
@@ -361,6 +601,25 @@ tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
     col = "black",
     shape.scale = tm_scale_asis()) +
   tm_text("id", ymod = -2)
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-24-1.png)
@@ -386,6 +645,19 @@ s +
         item.space = 0.5, 
         item.na.space = 1, 
         title.align = "center"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-25-1.png)
@@ -409,6 +681,19 @@ s +
       ticks.col = "white", 
       col = "white")) +
 tm_layout(frame = FALSE, outer.margins = 0)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-26-1.png)
@@ -438,6 +723,19 @@ s +
       ticks.col = "red", 
       col = "white")) +
 tm_layout(frame = FALSE, outer.margins = 0)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-27-1.png)

@@ -107,6 +107,12 @@ tmapGridAuxPrepare(a, bs, id, o)
 
 tmapGridCompPrepare(comp, o)
 
+tmapGridCompHeight(comp, o)
+
+tmapGridCompWidth(comp, o)
+
+tmapGridCompPlot(comp, o, fH, fW)
+
 # Default S3 method
 tmapGridCompPrepare(comp, o)
 

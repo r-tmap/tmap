@@ -33,6 +33,19 @@ tm_shape(World,
 tm_style("natural") + 
 tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
 tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=ortho +lat_0=30 +lon_0=0"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=ortho +lat_0=30 +lon_0=0"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
 ```
 
@@ -53,6 +66,22 @@ tm_grid(n.x = 16, n.y = 8) +
 tm_title("Latitude/longitude (4326) coordinates")
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
+#> <====================  crs_step4 ===============>
+#>  num 4326
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](foundations_crs_files/figure-html/unnamed-chunk-5-1.png)
@@ -72,6 +101,25 @@ World_polygons$area = sf::st_area(World_polygons)
 tm_shape(World_polygons) +
   tm_cartogram_ncont(size = "area", fill = "gold", options = opt_tm_cartogram_ncont(expansion = 0.4)) +
 tm_title("Polygons shrinked to real area sizes")
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Warning: tm_cartogram requires projected coordinates, not longlat degrees. A
 #> projected CRS can be specified in tm_shape (argument crs)
 #> Cartogram in progress...
@@ -125,6 +173,228 @@ tmap_arrange(tms, ncol= 3)
 
 ![](foundations_crs_files/figure-html/unnamed-chunk-7-1.png)
 
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wintri"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wintri"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck1"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck1"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck2"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck2"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck3"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck3"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck4"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck4"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck5"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck5"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eck6"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eck6"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=moll"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=moll"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag1"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag1"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag2"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag2"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag3"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag3"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag4"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag4"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag5"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag5"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag6"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag6"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=wag7"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=wag7"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=eqearth"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=eqearth"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+
 The panel names are abbreviations for: Winkel Tripel, Robinson, Eckert I
 to VI, Mollweide, Wagner I to VII and Equal Earth. The can be used as
 follows:
@@ -135,6 +405,22 @@ tm_shape(World) +
 tm_crs("+proj=eck4") +
 tm_title("Happy Planet Index") +
 tm_layout(earth_boundary = TRUE, frame = FALSE)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eck4"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](foundations_crs_files/figure-html/unnamed-chunk-8-1.png)
@@ -151,6 +437,19 @@ instance cartograms:
 ``` r
 tm_shape(World, crs = "+proj=robin") +
   tm_cartogram(size = "pop_est")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Cartogram in progress...
 ```
 
@@ -166,6 +465,22 @@ recommended to define the CRS with the function
 tm_shape(World) +
   tm_polygons(fill = "life_exp") +
 tm_crs(crs = "+proj=robin")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](foundations_crs_files/figure-html/unnamed-chunk-10-1.png)

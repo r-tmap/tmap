@@ -36,6 +36,25 @@ tmap_mode("plot")
 map
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](ext_mapgl_files/figure-html/unnamed-chunk-4-1.png)
@@ -48,6 +67,22 @@ tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"
 map
+#> <====================  crs_step4 ===============>
+#>  num 4326
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ## mapbox
@@ -83,6 +118,22 @@ tmap_mode("maplibre")
 #> "mapbox" -> "maplibre"
 tm_shape(World) +
     tm_polygons_3d(height = "pop_est_dens", fill = "continent")
+#> <====================  crs_step4 ===============>
+#>  num 4326
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Warning: Fill-extrusion layers may have rendering artifacts in globe
 #> projection. Consider using projection = "mercator" in maplibre() for better
 #> performance. See https://github.com/maplibre/maplibre-gl-js/issues/5025
@@ -110,6 +161,22 @@ tm_shape(NLD_dist) +
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
     fill.legend = tm_legend("Univeristy degree")) +
 tm_maplibre(pitch = 45)
+#> <====================  crs_step4 ===============>
+#>  num 4326
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Warning: Fill-extrusion layers may have rendering artifacts in globe
 #> projection. Consider using projection = "mercator" in maplibre() for better
 #> performance. See https://github.com/maplibre/maplibre-gl-js/issues/5025

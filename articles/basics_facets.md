@@ -30,6 +30,25 @@ variable in `NLD_muni`):
 tm_shape(NLD_muni) +
   tm_polygons("employment_rate") +
 tm_facets("province")
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_facets_files/figure-html/unnamed-chunk-4-1.png)
@@ -54,6 +73,25 @@ tm_shape(NLD_muni) +
       list(tm_scale_intervals(values = "-brewer.reds"),
          tm_scale_intervals(values = "brewer.purples"),
          tm_scale_intervals(values = "brewer.blues")))
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_facets_files/figure-html/unnamed-chunk-5-1.png)
@@ -70,6 +108,25 @@ tm_shape(NLD_muni) +
     fill = c("pop_0_14", "pop_25_44", "pop_65plus"),
     fill.legend = tm_legend("Percentage"),
     fill.free = FALSE)
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_facets_files/figure-html/unnamed-chunk-6-1.png)
@@ -93,6 +150,25 @@ tm_shape(NLD_muni) +
          tm_scale_intervals(values = "brewer.purples"),
          tm_scale_intervals(values = "brewer.blues"))) +
 tm_facets_grid(columns = "province")
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_facets_files/figure-html/unnamed-chunk-7-1.png)

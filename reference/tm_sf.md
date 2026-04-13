@@ -289,4 +289,17 @@ World$geometry[World$continent == "South America"] <-
 
 tm_shape(World, crs = "+proj=robin") + 
   tm_sf()
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```

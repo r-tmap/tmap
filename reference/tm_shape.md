@@ -134,12 +134,57 @@ CRS](https://r-tmap.github.io/tmap/articles/foundations_crs)
 ``` r
 tm_shape(World, crs = "auto") +
   tm_polygons()
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "+proj=eqearth"
+#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "+proj=eqearth"
+#>  $ wkt  : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            "| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 
 
 tm_shape(World, crs = 3035, bb = "Europe") +
   tm_polygons()
+#> <====================  crs_step4 ===============>
+#>  num 3035
+#> <====================  crs_step3 ===============>
+#>  num 3035
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 
 
 tm_shape(World, crs = "+proj=robin", filter = World$continent=="Africa") +
   tm_polygons()
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```

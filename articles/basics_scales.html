@@ -149,7 +149,20 @@
 </h2>
 <p>Each visual variable, e.g. <code>fill</code> in <code>tm_polygons</code> can represent a data variable:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <p>A <em>scale</em> defines how to map the data values to visual values. Numeric data variables (e.g. <code>"HPI"</code> which stands for Happy Planet Index) are by default mapped with a class interval scale to the polygon fill. This can be set explicitly with <code>tm_scale_intervals</code>, via which the intervals can be specified, as well as the visual values (in this case polygon fill colors):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -161,7 +174,20 @@
 <span>    midpoint <span class="op">=</span> <span class="fl">38</span>,         <span class="co"># data value mapped to the middle palette color</span></span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>   <span class="co"># color palette; </span></span>
 <span>                           <span class="co"># run cols4all::c4a_gui() to explore color palettes</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <p>The <code>style</code> parameter within <code>tm_scale_intervals</code> has a variety of options, including:</p>
 <ul>
@@ -182,7 +208,20 @@
 <span>    style <span class="op">=</span> <span class="st">"fixed"</span>,    </span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">10</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">40</span>,<span class="fl">50</span>,<span class="fl">60</span><span class="op">)</span>, <span class="co"># you need n+1 number of breaks</span></span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 <p>By default the legend will show bins. Alternatively, the breaks can be printed between the colors:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -194,7 +233,20 @@
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">10</span>,<span class="fl">20</span>,<span class="fl">30</span>,<span class="fl">40</span>,<span class="fl">50</span>,<span class="fl">60</span><span class="op">)</span>,</span>
 <span>    values <span class="op">=</span> <span class="st">"pu_gn_div"</span>,</span>
 <span>    label.style <span class="op">=</span> <span class="st">"continuous"</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
@@ -207,7 +259,20 @@
 <span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
 <span>      limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>      values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>      values <span class="op">=</span> <span class="st">"scico.hawaii"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
 <p>By default, the limit (so the value range that is mapped to a color gradient) is taken from the actual data value range <code>range(World$HPI, na.rm = T)</code>), which is 13.6980838, 57.8611615. In this example rounded numbers 10 and 60 are specified here. If needed, the position of ticks can be specified via the argument <code>ticks</code>.</p>
 </div>
@@ -218,13 +283,39 @@
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_categorical.html">tm_scale_ordinal</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"matplotlib.summer"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step4 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_step3 ===============&gt;</span></span>
+<span><span class="co">#&gt;  chr "+proj=eqearth"</span></span>
+<span><span class="co">#&gt; &lt;====================  crs_leaflet ===============&gt;</span></span>
+<span><span class="co">#&gt; List of 5</span></span>
+<span><span class="co">#&gt;  $ crsClass       : chr "L.CRS.Simple"</span></span>
+<span><span class="co">#&gt;  $ code           : NULL</span></span>
+<span><span class="co">#&gt;  $ proj4def       : NULL</span></span>
+<span><span class="co">#&gt;  $ projectedBounds: NULL</span></span>
+<span><span class="co">#&gt;  $ options        : Named list()</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "leaflet_crs"</span></span>
+<span><span class="co">#&gt; &lt;/============================================&gt;</span></span></code></pre></div>
 <p><img src="basics_scales_files/figure-html/unnamed-chunk-11-1.png" alt="" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

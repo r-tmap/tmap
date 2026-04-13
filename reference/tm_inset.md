@@ -167,6 +167,25 @@ tm_shape(NLD_prov) +
   tm_borders(col = "black", lwd = 1.5) +
 tm_inset(bb_Randstad, height = 12, width = 12, position = c("left", "top")) +
   tm_compass(position = c("left", "top"), )
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 
 
 ## ggplot2
@@ -182,6 +201,25 @@ if (requireNamespace("ggplot2")) {
       fill.scale = tm_scale(values = "-cols4all.pu_gn_div")) +
     tm_inset(p, height = 15, width = 20, position = tm_pos_in("left", "bottom"))
 }
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Warning: Removed 20 rows containing missing values or values outside the scale range
 #> (`geom_point()`).
 #> [plot mode] fit legend/component: Some legend items or map compoments do not

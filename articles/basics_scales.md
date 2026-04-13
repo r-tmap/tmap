@@ -29,6 +29,19 @@ variable:
 
 ``` r
 s + tm_polygons(fill = "HPI")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-5-1.png)
@@ -50,6 +63,19 @@ s + tm_polygons(
     values = "pu_gn_div"   # color palette; 
                            # run cols4all::c4a_gui() to explore color palettes
   ))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-6-1.png)
@@ -77,6 +103,19 @@ s + tm_polygons(
     breaks = c(0,10,20,30,40,50,60), # you need n+1 number of breaks
     values = "pu_gn_div"
   ))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-7-1.png)
@@ -94,6 +133,19 @@ s + tm_polygons(
     values = "pu_gn_div",
     label.style = "continuous"
   ))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-8-1.png)
@@ -109,6 +161,19 @@ s +
     fill.scale = tm_scale_continuous(
       limits = c(10, 60),
       values = "scico.hawaii"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-9-1.png)
@@ -126,6 +191,19 @@ s +
   tm_polygons(
     fill = "economy",
     fill.scale = tm_scale_categorical())
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-10-1.png)
@@ -135,6 +213,19 @@ s +
   tm_polygons(
     fill = "income_grp",
     fill.scale = tm_scale_ordinal(values = "matplotlib.summer"))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_scales_files/figure-html/unnamed-chunk-11-1.png)

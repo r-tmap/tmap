@@ -27,6 +27,19 @@ tm_shape(World, crs = "+proj=eqearth") +
                 col = "grey20",
                 lwd = 1,
                 fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35))
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](versus_ggplot2_files/figure-html/unnamed-chunk-4-1.png)
@@ -64,6 +77,19 @@ tm_shape(World, crs = "+proj=eqearth") +
       ticks.col = "white", 
       col = "white")) +
 tm_layout(frame = FALSE, outer.margins = 0)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=eqearth"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](versus_ggplot2_files/figure-html/unnamed-chunk-5-1.png)

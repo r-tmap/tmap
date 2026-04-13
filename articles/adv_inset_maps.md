@@ -33,10 +33,44 @@ tm_shape(NLD_muni) +
     tm_title("Population share with (applied) university degree in 2022") +
     tm_credits("Statistics Netherlands (CBS)") + 
     tm_minimap(position = c("left", "top"))
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
-#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
-#> 
 #> This message is displayed once per session.
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=ortho +lat_0=30 +lon_0=5.253"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
 ```
 
 ![](adv_inset_maps_files/figure-html/unnamed-chunk-3-1.png)
@@ -53,6 +87,24 @@ The minimap is interactive in view mode.
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 tmap_last()
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ dimensions: num 3857
+#>  $           : num 4326
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 Note that the minimap is also supported in two other modes, `"maplibre"`
@@ -105,6 +157,25 @@ tm_inset(bb("Amsterdam"), position = c("left", "top"), box_frame.color = "red", 
 tm_title("The Hague", size = 0.8, position = c("left", "top")) +
 tm_inset(bb("The Hague"), position = c("left", "top"), box_frame.color = "purple", main_frame.color = "purple") +
 tm_layout(inner.margins = c(0.05, 0.2, 0.05, 0.05))
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "Amersfoort / RD New"
+#>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_inset_maps_files/figure-html/unnamed-chunk-5-1.png)
@@ -131,6 +202,42 @@ tm_shape(World) +
                 fill.scale = tm_scale_continuous_sqrt(values = "viridis", limits = c(0, 6500))) +
     tm_inset(tm_NLD, position = c("left", "bottom")) +
     tm_crs("+proj=robin")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_inset_maps_files/figure-html/unnamed-chunk-6-1.png)
+
+    #> <====================  crs_step4 ===============>
+    #> List of 2
+    #>  $ input: chr "Amersfoort / RD New"
+    #>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+    #>  - attr(*, "class")= chr "crs"
+    #> <====================  crs_step3 ===============>
+    #> List of 2
+    #>  $ input: chr "Amersfoort / RD New"
+    #>  $ wkt  : chr "PROJCRS[\"Amersfoort / RD New\",\n    BASEGEOGCRS[\"Amersfoort\",\n        DATUM[\"Amersfoort\",\n            E"| __truncated__
+    #>  - attr(*, "class")= chr "crs"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>

@@ -117,14 +117,19 @@ tree(opt)
 #> │ ├─col.polygons: "grey40"
 #> │ ├─bgcol: "grey95"
 #> │ ├─lty: "solid"
-#> │ ├─lwd: 0.2
-#> │ ├─shape: 20
+#> │ ├─lwd: 1
 #> │ ├─text: ""
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
-#> │ ├─size: 0.2
+#> │ ├─shape.squares: 22
+#> │ ├─shape.dots: 19
+#> │ ├─shape: 21
+#> │ ├─size.bubbles: 1.3333
+#> │ ├─size.squares: 1.3333
+#> │ ├─size.dots: 0.3
+#> │ ├─size: 1
 #> │ ├─angle: 0
 #> │ └─num: 0
 #> ├─value.blank: <list>
@@ -969,14 +974,19 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─col.polygons: "grey40"
 #> │ ├─bgcol: "grey95"
 #> │ ├─lty: "solid"
-#> │ ├─lwd: 0.2
-#> │ ├─shape: 20
+#> │ ├─lwd: 1
 #> │ ├─text: ""
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
-#> │ ├─size: 0.2
+#> │ ├─shape.squares: 22
+#> │ ├─shape.dots: 19
+#> │ ├─shape: 21
+#> │ ├─size.bubbles: 1.3333
+#> │ ├─size.squares: 1.3333
+#> │ ├─size.dots: 0.3
+#> │ ├─size: 1
 #> │ ├─angle: 0
 #> │ └─num: 0
 #> ├─value.blank: <list>
@@ -1792,14 +1802,19 @@ tree(tmap_options_diff())
 #> │ ├─col.polygons: "grey40"
 #> │ ├─bgcol: "grey95"
 #> │ ├─lty: "solid"
-#> │ ├─lwd: 0.2
-#> │ ├─shape: 20
+#> │ ├─lwd: 1
 #> │ ├─text: ""
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
-#> │ ├─size: 0.2
+#> │ ├─shape.squares: 22
+#> │ ├─shape.dots: 19
+#> │ ├─shape: 21
+#> │ ├─size.bubbles: 1.3333
+#> │ ├─size.squares: 1.3333
+#> │ ├─size.dots: 0.3
+#> │ ├─size: 1
 #> │ ├─angle: 0
 #> │ └─num: 0
 #> ├─values.var: <list>
@@ -1935,6 +1950,25 @@ tm_shape(World) +
     tm_polygons("footprint")
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_options_files/figure-html/unnamed-chunk-10-1.png)
@@ -1957,6 +1991,25 @@ tmap_style("white")
 
 tm_shape(World) +
     tm_polygons("footprint")
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_step3 ===============>
+#> List of 2
+#>  $ input: chr "EPSG:4326"
+#>  $ wkt  : chr "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic Sys"| __truncated__
+#>  - attr(*, "class")= chr "crs"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](adv_options_files/figure-html/unnamed-chunk-12-1.png)

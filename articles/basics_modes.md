@@ -72,6 +72,19 @@ object:
 
 ``` r
 tm
+#> <====================  crs_step4 ===============>
+#>  num 8857
+#> <====================  crs_step3 ===============>
+#>  num 8857
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 ![](basics_modes_files/figure-html/unnamed-chunk-7-1.png)
@@ -84,6 +97,21 @@ The same map in view mode:
 ttm()
 #> ℹ tmap modes "plot" - "view"
 tm
+#> <====================  crs_step4 ===============>
+#> List of 2
+#>  $ dimensions: num 3857
+#>  $           : num 4326
+#> <====================  crs_step3 ===============>
+#>  num 8857
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```
 
 Note that there is a big difference: in `"view"` mode there are
@@ -95,6 +123,19 @@ Basemaps can be enabled or disabled via
 
 ``` r
 tm + tm_basemap(NULL)
+#> <====================  crs_step4 ===============>
+#>  num 8857
+#> <====================  crs_step3 ===============>
+#>  num 8857
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> [view mode] WebGL does not work (yet) with projected map projections, so it has
 #> been disabled.
 #> This message is displayed once per session.
@@ -175,4 +216,17 @@ tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"
 tm
+#> <====================  crs_step4 ===============>
+#>  num 4326
+#> <====================  crs_step3 ===============>
+#>  num 8857
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.EPSG3857"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 ```

@@ -30,6 +30,19 @@ tm_shape(Africa, crs = "+proj=robin") +
     options = opt_tm_cartogram(itermax = 15)) +
 tm_title("Life Expectancy") +
 tm_animate_fast(play = "pingpong")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Cartogram in progress...
 ```
 
@@ -49,6 +62,19 @@ tm_shape(Africa, crs = "+proj=robin") +
     options = opt_tm_cartogram_ncont()) +
   tm_text("name", options = opt_tm_text(point.label = TRUE)) +
 tm_title("Income inequality (Gini coefficient)")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Cartogram in progress...
 ```
 
@@ -66,6 +92,19 @@ tm_shape(World, crs = "+proj=robin") +
     fill.scale = tm_scale_continuous(values = "cols4all.pu_gn_div", midpoint = 50),
     fill.legend = tm_legend("", height = 30)) +
 tm_title("World Press Freedom Index")
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Cartogram in progress...
 ```
 

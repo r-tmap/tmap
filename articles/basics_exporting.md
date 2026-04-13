@@ -33,6 +33,19 @@ Exporting maps is done via
 
 ``` r
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Map saved to world.png
 #> Resolution: 2100 by 1200 pixels
 #> Size: 7 by 4 inches (300 dpi)
@@ -43,12 +56,39 @@ whereas those greater than 50 pixels are considered to be pixels:
 
 ``` r
 tmap_save(tm, filename = "world.png", width = 2100, height = 1200, dpi = 300)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Map saved to /home/runner/work/tmap/tmap/vignettes/world.png
 #> Resolution: 2100 by 1200 pixels
 #> Size: 7 by 4 inches (300 dpi)
 ```
 
 Therefore, both examples result in exactly the same file:
+
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
 
 ![](basics_exporting_files/figure-html/unnamed-chunk-6-1.png)
 
@@ -66,10 +106,50 @@ using the aspect ratio of the map.
 
 ``` r
 tmap_save(tm, filename = "world.png", width = 2100, dpi = 300)
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
+#> <====================  crs_step4 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_step3 ===============>
+#>  chr "+proj=robin"
+#> <====================  crs_leaflet ===============>
+#> List of 5
+#>  $ crsClass       : chr "L.CRS.Simple"
+#>  $ code           : NULL
+#>  $ proj4def       : NULL
+#>  $ projectedBounds: NULL
+#>  $ options        : Named list()
+#>  - attr(*, "class")= chr "leaflet_crs"
+#> </============================================>
 #> Map saved to /home/runner/work/tmap/tmap/vignettes/world.png
 #> Resolution: 2100 by 1059.87 pixels
 #> Size: 7 by 3.5329 inches (300 dpi)
 ```
+
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
 
 ![](basics_exporting_files/figure-html/unnamed-chunk-8-1.png)
 
@@ -99,6 +179,20 @@ Much smaller (0.5):
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 0.5)
 ```
 
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+
 ![](basics_exporting_files/figure-html/unnamed-chunk-11-1.png)
 
 A bit smaller (0.8):
@@ -106,6 +200,20 @@ A bit smaller (0.8):
 ``` r
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 0.8)
 ```
+
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
 
 ![](basics_exporting_files/figure-html/unnamed-chunk-13-1.png)
 
@@ -115,6 +223,20 @@ A bit larger (1.2):
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 1.2)
 ```
 
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
+
 ![](basics_exporting_files/figure-html/unnamed-chunk-15-1.png)
 
 Much larger (1.5):
@@ -123,6 +245,19 @@ Much larger (1.5):
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 1.5)
 ```
 
+    #> <====================  crs_step4 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_step3 ===============>
+    #>  chr "+proj=robin"
+    #> <====================  crs_leaflet ===============>
+    #> List of 5
+    #>  $ crsClass       : chr "L.CRS.Simple"
+    #>  $ code           : NULL
+    #>  $ proj4def       : NULL
+    #>  $ projectedBounds: NULL
+    #>  $ options        : Named list()
+    #>  - attr(*, "class")= chr "leaflet_crs"
+    #> </============================================>
     #> [plot mode] fit legend/component: Some legend items or map compoments do not
     #> fit well, and are therefore rescaled.
     #> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
