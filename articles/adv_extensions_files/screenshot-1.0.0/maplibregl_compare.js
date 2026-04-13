@@ -2141,51 +2141,91 @@ HTMLWidgets.widget({
                 layersList.className = "layers-list";
                 layersControl.appendChild(layersList);
 
-                // Fetch layers to be included in the control
-                let layers =
-                  message.layers ||
-                  map.getStyle().layers.map((layer) => layer.id);
+                const allMaps = [beforeMap, afterMap];
+                let layersConfig = message.layers_config;
 
-                layers.forEach((layerId, index) => {
-                  const link = document.createElement("a");
-                  link.id = layerId;
-                  link.href = "#";
-                  link.textContent = layerId;
-                  link.className = "active";
+                if (layersConfig && Array.isArray(layersConfig)) {
+                  // grouped layers format (from named list in R)
+                  layersConfig.forEach((config, index) => {
+                    const link = document.createElement("a");
+                    const layerIds = Array.isArray(config.ids)
+                      ? config.ids
+                      : [config.ids];
+                    link.id = layerIds.join("-");
+                    link.href = "#";
+                    link.textContent = config.label;
+                    link.setAttribute("data-layer-ids", JSON.stringify(layerIds));
 
-                  // Show or hide layer when the toggle is clicked
-                  link.onclick = function (e) {
-                    const clickedLayer = this.textContent;
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const visibility = map.getLayoutProperty(
-                      clickedLayer,
-                      "visibility",
-                    );
-
-                    // Toggle layer visibility by changing the layout object's visibility property
-                    if (visibility === "visible") {
-                      map.setLayoutProperty(clickedLayer, "visibility", "none");
-                      this.className = "";
-                    } else {
-                      this.className = "active";
-                      map.setLayoutProperty(
-                        clickedLayer,
-                        "visibility",
-                        "visible",
-                      );
+                    // check initial visibility from whichever map has the layer
+                    let initVis = "visible";
+                    for (const m of allMaps) {
+                      try {
+                        initVis = m.getLayoutProperty(layerIds[0], "visibility");
+                        break;
+                      } catch(err) {}
                     }
-                  };
+                    link.className = initVis === "none" ? "" : "active";
 
-                  layersList.appendChild(link);
-                });
+                    link.onclick = function (e) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const ids = JSON.parse(this.getAttribute("data-layer-ids"));
+                      let vis = "visible";
+                      for (const m of allMaps) {
+                        try { vis = m.getLayoutProperty(ids[0], "visibility"); break; } catch(err) {}
+                      }
+                      const newVis = vis === "visible" ? "none" : "visible";
+                      ids.forEach((layerId) => {
+                        allMaps.forEach((m) => {
+                          try { m.setLayoutProperty(layerId, "visibility", newVis); } catch(err) {}
+                        });
+                      });
+                      this.className = newVis === "visible" ? "active" : "";
+                    };
+
+                    layersList.appendChild(link);
+                  });
+                } else {
+                  // flat array fallback
+                  let layers =
+                    message.layers ||
+                    map.getStyle().layers.map((layer) => layer.id);
+
+                  layers.forEach((layerId, index) => {
+                    const link = document.createElement("a");
+                    link.id = layerId;
+                    link.href = "#";
+                    link.textContent = layerId;
+                    link.className = "active";
+
+                    link.onclick = function (e) {
+                      const clickedLayer = this.textContent;
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const visibility = map.getLayoutProperty(clickedLayer, "visibility");
+                      const newVis = visibility === "visible" ? "none" : "visible";
+                      allMaps.forEach((m) => {
+                        try { m.setLayoutProperty(clickedLayer, "visibility", newVis); } catch(err) {}
+                      });
+                      this.className = newVis === "visible" ? "active" : "";
+                    };
+
+                    layersList.appendChild(link);
+                  });
+                }
 
                 // Handle collapsible behavior
                 if (message.collapsible) {
                   const toggleButton = document.createElement("div");
                   toggleButton.className = "toggle-button";
-                  toggleButton.textContent = "Layers";
+
+                  if (message.use_icon) {
+                    layersControl.classList.add("icon-only");
+                    toggleButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>`;
+                  } else {
+                    toggleButton.textContent = "Layers";
+                  }
+
                   toggleButton.onclick = function () {
                     layersControl.classList.toggle("open");
                   };
@@ -3165,6 +3205,10 @@ HTMLWidgets.widget({
                   layerConfig["source-layer"] = layer.source_layer;
                 }
 
+                if (layer.filter) {
+                  layerConfig["filter"] = layer.filter;
+                }
+
                 if (layer.slot) {
                   layerConfig["slot"] = layer.slot;
                 }
@@ -3252,43 +3296,46 @@ HTMLWidgets.widget({
                   map.on("mousemove", layer.id, function (e) {
                     if (e.features.length > 0) {
                       if (hoveredFeatureId !== null) {
-                        map.setFeatureState(
-                          {
-                            source:
-                              typeof layer.source === "string"
-                                ? layer.source
-                                : layer.id,
-                            id: hoveredFeatureId,
-                          },
-                          { hover: false },
-                        );
-                      }
-                      hoveredFeatureId = e.features[0].id;
-                      map.setFeatureState(
-                        {
+                        const featureState = {
                           source:
                             typeof layer.source === "string"
                               ? layer.source
                               : layer.id,
                           id: hoveredFeatureId,
-                        },
-                        { hover: true },
-                      );
+                        };
+                        if (layer.source_layer) {
+                          featureState.sourceLayer = layer.source_layer;
+                        }
+                        map.setFeatureState(featureState, { hover: false });
+                      }
+                      hoveredFeatureId = e.features[0].id;
+                      const featureState = {
+                        source:
+                          typeof layer.source === "string"
+                            ? layer.source
+                            : layer.id,
+                        id: hoveredFeatureId,
+                      };
+                      if (layer.source_layer) {
+                        featureState.sourceLayer = layer.source_layer;
+                      }
+                      map.setFeatureState(featureState, { hover: true });
                     }
                   });
 
                   map.on("mouseleave", layer.id, function () {
                     if (hoveredFeatureId !== null) {
-                      map.setFeatureState(
-                        {
-                          source:
-                            typeof layer.source === "string"
-                              ? layer.source
-                              : layer.id,
-                          id: hoveredFeatureId,
-                        },
-                        { hover: false },
-                      );
+                      const featureState = {
+                        source:
+                          typeof layer.source === "string"
+                            ? layer.source
+                            : layer.id,
+                        id: hoveredFeatureId,
+                      };
+                      if (layer.source_layer) {
+                        featureState.sourceLayer = layer.source_layer;
+                      }
+                      map.setFeatureState(featureState, { hover: false });
                     }
                     hoveredFeatureId = null;
                   });
@@ -4189,6 +4236,7 @@ HTMLWidgets.widget({
                 link.className = initialVisibility === "none" ? "" : "active";
 
                 // Show or hide layer(s) when the toggle is clicked
+                // toggle on BOTH maps in the compare widget
                 link.onclick = function (e) {
                   e.preventDefault();
                   e.stopPropagation();
@@ -4202,18 +4250,14 @@ HTMLWidgets.widget({
                     "visibility",
                   );
 
-                  // Toggle visibility for all layer IDs in the group
-                  if (visibility === "visible") {
-                    layerIds.forEach((layerId) => {
-                      map.setLayoutProperty(layerId, "visibility", "none");
+                  const newVis = visibility === "visible" ? "none" : "visible";
+                  const allMaps = [beforeMap, afterMap];
+                  layerIds.forEach((layerId) => {
+                    allMaps.forEach((m) => {
+                      try { m.setLayoutProperty(layerId, "visibility", newVis); } catch(err) {}
                     });
-                    this.className = "";
-                  } else {
-                    layerIds.forEach((layerId) => {
-                      map.setLayoutProperty(layerId, "visibility", "visible");
-                    });
-                    this.className = "active";
-                  }
+                  });
+                  this.className = newVis === "visible" ? "active" : "";
                 };
 
                 layersList.appendChild(link);
@@ -4228,6 +4272,7 @@ HTMLWidgets.widget({
                 link.className = "active";
 
                 // Show or hide layer when the toggle is clicked
+                // toggle on BOTH maps in the compare widget
                 link.onclick = function (e) {
                   const clickedLayer = this.textContent;
                   e.preventDefault();
@@ -4238,18 +4283,12 @@ HTMLWidgets.widget({
                     "visibility",
                   );
 
-                  // Toggle layer visibility by changing the layout object's visibility property
-                  if (visibility === "visible") {
-                    map.setLayoutProperty(clickedLayer, "visibility", "none");
-                    this.className = "";
-                  } else {
-                    this.className = "active";
-                    map.setLayoutProperty(
-                      clickedLayer,
-                      "visibility",
-                      "visible",
-                    );
-                  }
+                  // toggle on BOTH maps in the compare widget
+                  const newVis = visibility === "visible" ? "none" : "visible";
+                  [beforeMap, afterMap].forEach((m) => {
+                    try { m.setLayoutProperty(clickedLayer, "visibility", newVis); } catch(err) {}
+                  });
+                  this.className = newVis === "visible" ? "active" : "";
                 };
 
                 layersList.appendChild(link);

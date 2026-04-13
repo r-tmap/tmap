@@ -1,13 +1,13 @@
 dependencies:
   - name: maplibre-gl
-    version: "5.19.0"
+    version: "5.22.0"
     src: "htmlwidgets/lib/maplibre-gl"
     script:
       - "maplibre-gl.js"
     stylesheet:
       - "maplibre-gl.css"
   - name: mapbox-gl-draw
-    version: "1.5.0"
+    version: "1.5.1"
     src: "htmlwidgets/lib/mapbox-gl-draw"
     script:
       - "mapbox-gl-draw.js"

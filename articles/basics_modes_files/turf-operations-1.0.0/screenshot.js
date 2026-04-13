@@ -26,6 +26,41 @@ function waitForMapEvent(map, eventName, timeout = 5000, trigger = null) {
   });
 }
 
+function waitForInitialStyleSetup(map, timeout = 10000) {
+  return new Promise(resolve => {
+    if (!map || map._initialStyleLoaded === true) {
+      resolve('ready');
+      return;
+    }
+
+    let settled = false;
+
+    function finish(status) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      clearInterval(poller);
+      map.off('styledata', checkReady);
+      map.off('idle', checkReady);
+      map.off('render', checkReady);
+      resolve(status);
+    }
+
+    function checkReady() {
+      if (map._initialStyleLoaded === true) {
+        finish('ready');
+      }
+    }
+
+    const poller = setInterval(checkReady, 50);
+    const timer = setTimeout(() => finish('timeout'), timeout);
+
+    map.on('styledata', checkReady);
+    map.on('idle', checkReady);
+    map.on('render', checkReady);
+  });
+}
+
 function applyMapScreenshotOptions(map, options) {
   const container = map.getContainer();
   const hiddenElements = [];
@@ -119,11 +154,18 @@ function restoreMapScreenshotOptions(map, state) {
 }
 
 async function prepareMapForScreenshot(map, options) {
-  const state = applyMapScreenshotOptions(map, options);
-
-  // Attribution is always included to comply with map provider TOS
+  let state;
 
   try {
+    // Wait until the widget's initial style setup is complete.
+    // This is important when PMTiles sources are present because source
+    // metadata checks are async and controls may be added later.
+    await waitForInitialStyleSetup(map, 10000);
+
+    state = applyMapScreenshotOptions(map, options);
+
+    // Attribution is always included to comply with map provider TOS
+
     // Wait briefly for the map to settle, but don't block indefinitely.
     // Some Linux/headless browser combinations never report a fully idle map
     // for remote basemap styles even though the canvas is renderable.
@@ -141,7 +183,9 @@ async function prepareMapForScreenshot(map, options) {
 
     return state;
   } catch (error) {
-    restoreMapScreenshotOptions(map, state);
+    if (state) {
+      restoreMapScreenshotOptions(map, state);
+    }
     throw error;
   }
 }
