@@ -37,6 +37,7 @@
 #' However, there are a couple of constraints in comparison to `"plot"`:
 #'
 #' @param mode One of `"plot"` or `"view"`. See Details for more info.
+#' @param silent Should the mode be switched silently (by default `FALSE`)
 #' @return
 #' * `tmap_mode()` returns the current tmap mode invisibly (when called without argument).
 #'   Otherwise, returns the previous mode.
@@ -51,9 +52,9 @@
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
 #' Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
-tmap_mode = function(mode = NULL) {
+tmap_mode = function(mode = NULL, silent = FALSE) {
 	type = if (is.null(mode)) "get" else "set"
-	set_mode(mode, show.messages = get("tmapOptions", envir = .TMAP)$show.messages, type = type)
+	set_mode(mode, show.messages = !silent && get("tmapOptions", envir = .TMAP)$show.messages, type = type)
 }
 
 
@@ -72,9 +73,6 @@ rtm = function() {
 
 set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 	mode_now = getOption("tmap.mode")
-
-	tOpt = get("tmapOptions", envir = .TMAP)
-	show.messages = tOpt$show.messages
 
 	modes = get_modes()
 	id = match(mode_now, modes)

@@ -3,7 +3,13 @@ crs_is_ortho = function(crs) {
 }
 
 crs_is_local = function(crs) {
-	grepl("ENGCRS", crs$wkt, fixed = TRUE)
+	if (!inherits(crs, "crs")) {
+		FALSE
+	} else if (is.na(crs)) {
+		TRUE
+	} else {
+		grepl("ENGCRS", crs$wkt, fixed = TRUE)
+	}
 }
 
 # could be improved #1152
