@@ -20,6 +20,7 @@
 #'   When `iconWidth`, `iconHeight`, `iconAnchorX`, and `iconAnchorY` are specified,
 #'   they override `width` and `height`, and `just`.
 #' @return icon data (see [leaflet::icons()])
+#' @importFrom leaflet icons
 #' @export
 #' @seealso [tm_symbols()]
 tmap_icons <- function(file, names = NULL, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), merge = NA, as.local=TRUE, ...) {
@@ -107,7 +108,7 @@ tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 marker_icon <- function() {
 	file <- system.file("htmlwidgets/lib/leaflet/images/marker-icon.png", package="leaflet")
 	if (!file.exists(file)) stop("leaflet marker icon not found")
-	structure(icons(iconUrl = file, iconWidth=25, iconHeight=41, iconAnchorX = 12, iconAnchorY = 41), class = "tmap_icons")
+	structure(leaflet::icons(iconUrl = file, iconWidth=25, iconHeight=41, iconAnchorX = 12, iconAnchorY = 41), class = "tmap_icons")
 }
 
 

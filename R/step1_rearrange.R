@@ -193,8 +193,9 @@ step1_rearrange = function(tmel, knit_opts) {
 	}
 
 	# add basemaps
+	basemaps_added = any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))
 	if (o$basemap.show && !.TMAP$proxy) {
-		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
+		if (!basemaps_added) {
 			oth = c(oth, tm_basemap())
 			oth_lay_id = c(oth_lay_id, 0L)
 		}
@@ -257,6 +258,14 @@ step1_rearrange = function(tmel, knit_opts) {
 
 	crs_step3 = if (any_data_layer) get_crs(tms, is_auto = identical(crs_step4, "auto"), crs_extra = o$crs_extra, crs_global = o$crs_global, basemaps_defined = basemaps_defined) else NA
 
+	if (!is.na(crs_step3) && crs_is_local(crs_step3)) {
+		if (crs_opt_defined) {
+			cli::cli_warn("local crs used in {.fun tm_shape} which cannot be transformed to another crs")
+		}
+		crs_step4 = NA
+		crs_opt_defined = FALSE
+	}
+
 	if (identical(crs_step4, "auto")) {
 		if (is.na(crs_step3[1])) {
 			# no data layer:
@@ -299,10 +308,6 @@ step1_rearrange = function(tmel, knit_opts) {
 	#po(crs_step4, crs_step3, crs_leaflet)
 
 
-
-
-
-
 	is_comp = sapply(oth, inherits, "tm_component")
 	if (any(is_comp)) {
 		cmp = oth[is_comp]
@@ -311,6 +316,20 @@ step1_rearrange = function(tmel, knit_opts) {
 		cmp = list()
 	}
 
+	# remove basemaps and scalebars if final crs is local (so no units)
+	if (basemaps_defined && crs_is_local(crs_step4)) {
+		if (length(aux)) {
+			is_bm = vapply(aux, inherits, c("tm_basemap", "tm_tiles"), FUN.VALUE = logical(1))
+			if (any(is_bm)) aux = aux[!is_bm]
+		}
+
+		if (length(cmp)) {
+			is_sb = vapply(cmp, inherits, "tm_scalebar", FUN.VALUE = logical(1))
+			if (any(is_sb)) cmp = cmp[!is_sb]
+		}
+	}
+
+
 
 	# to be used later
 	o$main = ids # to determine total bounding box in step 4
@@ -318,9 +337,6 @@ step1_rearrange = function(tmel, knit_opts) {
 	o$crs_step4 = crs_step4 # in step 3, when other shapes are transformed to this crs (prepare for plotting in step4)
 	o$crs_leaflet = crs_leaflet
 	o$crs_step3 = crs_step3 # step 3, transformation
-
-
-	#po(crs_step3, crs_step4)
 
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately

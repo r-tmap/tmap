@@ -62,7 +62,6 @@ reference:
   contents:
   - tm_scale
   - starts_with("tm_scale_")
-  - -tm_scale_bar
 - title: Set legend for a visual variable
   desc: Always use those in this form `<vv>.legend = tm_legend*()`
   contents:

@@ -384,11 +384,16 @@ tmapGridCompWidth.tm_scalebar = function(comp, o) {
 	comp
 }
 
+#' @exportS3Method tmapGridCompPlot tm_scalebar
 #' @export
 tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 	light = comp$color.light
 	dark = comp$color.dark
 
+	if (any(is.na(comp$dst))) {
+		cli::cli_inform("{.fun tm_scalebar} the scalebar cannot be plotted because the crs does not have measurable units")
+		return(NULL)
+	}
 
 	wsu = comp$wsu
 	hsu = comp$hsu

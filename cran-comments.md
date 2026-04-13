@@ -6,6 +6,7 @@
 ## Submission note
 
 * All reverse dependencies have been carefully checked
+* Issue with DESCRIPTION is fixed
 
 ## R CMD check results
 

@@ -196,18 +196,6 @@ tm_scalebar = function(breaks,
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scalebar", "tm_component")))))
 }
 
-#' Map component: scale bar
-#'
-#' This function was renamed to [tm_scalebar()] in tmap v4.0.
-#' @inheritDotParams tm_scalebar
-#' @export
-#' @keywords internal
-tm_scale_bar = function(...) {
-	cli::cli_inform(c(
-		"!" = "{.fn tm_scale_bar} is deprecated. Please use {.fn tm_scalebar} instead."
-	))
-	tm_scalebar(...)
-}
 
 #' Map component: mouse coordinates
 #'

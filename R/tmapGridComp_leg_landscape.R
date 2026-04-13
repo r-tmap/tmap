@@ -10,14 +10,23 @@ tmapGridCompPrepare = function(comp, o) {
 	UseMethod("tmapGridCompPrepare")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapGridCompHeight = function(comp, o) {
 	UseMethod("tmapGridCompHeight")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapGridCompWidth = function(comp, o) {
 	UseMethod("tmapGridCompWidth")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapGridLeaflet
 tmapGridCompPlot = function(comp, o, fH, fW) {
 	UseMethod("tmapGridCompPlot")
 }

@@ -416,7 +416,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	if (!o$legend.only) {
 		o = preprocess_meta(o, cdt)
 
-		# add shape unit (needed for e.g. tm_scale_bar)
+		# add shape unit (needed for e.g. tm_scalebar)
 		unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
 		crs = get_option_class(o$crs_step4, "sf") #o$crs
 		longlat = sf::st_is_longlat(crs)

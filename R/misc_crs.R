@@ -2,6 +2,9 @@ crs_is_ortho = function(crs) {
 	grepl("Orthographic", crs$wkt, fixed = TRUE)
 }
 
+crs_is_local = function(crs) {
+	grepl("ENGCRS", crs$wkt, fixed = TRUE)
+}
 
 # could be improved #1152
 full_bbox = function(crs) {
@@ -198,13 +201,15 @@ to_longest_linestring = function(shp) {
 }
 
 distances_bbox_sides = function(bbox, steps = 4) {
+	crs_bbx = sf::st_crs(bbox)
+	if (crs_is_local(crs_bbx)) return(c(top = NA, mid = NA, bottom = NA))
 	xs = seq(bbox$xmin, bbox$xmax, length.out = steps + 1)
 	ys = seq(bbox$ymin, bbox$ymax, length.out = 3)
 
 	get_dst = function(y) {
 		suppressWarnings({
 			df = data.frame(x=xs, y = y) |>
-				st_as_sf(coords = c("x", "y"), crs = sf::st_crs(bbox))
+				st_as_sf(coords = c("x", "y"), crs = crs_bbx)
 			dfll = sf::st_transform(df, crs = 4326)
 			dst = sf::st_distance(dfll)
 			u = units(dst)

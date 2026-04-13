@@ -22,6 +22,9 @@
 \alias{tmapGridAuxPrepare.tm_aux_basemap}
 \alias{tmapGridAuxPrepare.tm_aux_tiles}
 \alias{tmapGridCompPrepare}
+\alias{tmapGridCompHeight}
+\alias{tmapGridCompWidth}
+\alias{tmapGridCompPlot}
 \alias{tmapGridCompPrepare.default}
 \alias{tmapGridDataPlot}
 \alias{tmapGridDataPlot.default}
@@ -161,6 +164,12 @@ tmapGridAuxPlot(
 \method{tmapGridAuxPrepare}{tm_aux_tiles}(a, bs, id, o)
 
 tmapGridCompPrepare(comp, o)
+
+tmapGridCompHeight(comp, o)
+
+tmapGridCompWidth(comp, o)
+
+tmapGridCompPlot(comp, o, fH, fW)
 
 \method{tmapGridCompPrepare}{default}(comp, o)
 
