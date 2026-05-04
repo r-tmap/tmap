@@ -28,6 +28,7 @@ function `tm_donuts` is added. More glyph types layer functions will
 follow, e.g. `tm_pies`, or `tm_radars`.
 
 ``` r
+
 library(tmap.glyphs)
 ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
 ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
@@ -55,6 +56,7 @@ See [`tmap.networks`](https://github.com/r-tmap/tmap.networks) which
 supports `sfnetworks`
 
 ``` r
+
 library(sfnetworks)
 library(tmap.networks)
 
@@ -89,6 +91,7 @@ Besides this new spatial data class `"sfnetwork"`, this package also
 features new map layers, albeit very basic so far:
 
 ``` r
+
 tm_shape(sfn) +
     tm_network()
 ```
@@ -96,6 +99,7 @@ tm_shape(sfn) +
 ![](adv_extensions_files/figure-html/unnamed-chunk-5-1.png)
 
 ``` r
+
 tm_shape(sfn) +
     tm_edges(col = "type", lwd = 4) +
     tm_nodes()
@@ -122,10 +126,12 @@ modes, `"mapbox"` and `"maplibre"`.
 The shiny integration may not work yet.
 
 ``` r
+
 library(tmap.mapgl)
 ```
 
 ``` r
+
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`

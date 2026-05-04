@@ -7,6 +7,7 @@ it is possible group layers and (de)select in the leaflet layer control
 box.
 
 ``` r
+
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(
@@ -37,6 +38,7 @@ province layer, the group name is inherited from
 ## Switching between layers
 
 ``` r
+
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(
@@ -67,6 +69,7 @@ Via `tm_group` it is possible to set the `group.control` and moreover to
 specify at which zoom levels this group is plotted.
 
 ``` r
+
 tmap_mode("view")
 tm_shape(NLD_dist) +
   tm_polygons(

@@ -70,6 +70,7 @@ faster.
 An example of `mapsf` applied to the tmap dataset \[NLD_muni\].
 
 ``` r
+
 library(mapsf)
 mf_map(NLD_muni)
 mf_map(NLD_muni, var = "population", type = "prop", leg_pos = "topright", add = TRUE)
@@ -83,6 +84,7 @@ mf_layout(
 In `tmap` (using the same colors):
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons( "gray80") +
   tm_bubbles(fill = "tomato4", size = "population") +
@@ -95,6 +97,7 @@ tm_credits("Statistics Netherlands (CBS)", position = c("left", "bottom"))
 Increase the overall size of the bubbles:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons( "gray80") +
 tm_bubbles(
@@ -112,6 +115,7 @@ tm_scalebar()
 ## Choropleth
 
 ``` r
+
 mf_map(NLD_muni, var = "edu_appl_sci", type = "choro", leg_pos = "topright")
 mf_layout(
   title = "Population share with (applied) university degree in 2022",
@@ -123,6 +127,7 @@ mf_layout(
 In tmap, using similar specifications:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = "edu_appl_sci",
@@ -141,6 +146,7 @@ tm_scalebar()
 ## Shadow layer
 
 ``` r
+
 mf_shadow(NLD_muni)
 mf_map(NLD_muni, var = "edu_appl_sci", type = "choro", leg_pos = "topright", add = TRUE)
 ```
@@ -151,6 +157,7 @@ mf_map(NLD_muni, var = "edu_appl_sci", type = "choro", leg_pos = "topright", add
 with geometric manipulation in `sf`:
 
 ``` r
+
 library(sf)
 #> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
 shadows = st_set_crs(st_geometry(NLD_muni) + c(2000, -2000), st_crs(NLD_muni))

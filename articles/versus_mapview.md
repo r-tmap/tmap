@@ -30,6 +30,7 @@ tmap does not offer a mode using Mapbox yet.
 This is the default output of `mapview`:
 
 ``` r
+
 library(mapview)
 mapview(World)
 ```
@@ -37,6 +38,7 @@ mapview(World)
 This is the default output of `tmap`:
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 #> ℹ toggle with `tmap::ttm()`
@@ -46,10 +48,12 @@ qtm(World) # qtm stands for 'quick thematic map'
 ## Choropleth
 
 ``` r
+
 mapview(World, zcol = "HPI")
 ```
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(fill = "HPI")
 ```
@@ -59,6 +63,7 @@ tm_shape(World) +
 We can use `tmap` to match the style of `mapview`:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = "HPI",

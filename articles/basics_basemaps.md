@@ -14,6 +14,7 @@ specified without arguments, the default basemap is
 “Esri.WorldGrayCanvas”. This can be changed, e.g. `"OpenTopoMap"`.
 
 ``` r
+
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("OpenTopoMap")
@@ -24,6 +25,7 @@ tm_shape(metro) +
 The options are:
 
 ``` r
+
 tmap_providers()
 ```
 
@@ -63,6 +65,7 @@ See
 [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
 
 ``` r
+
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("CartoDB.PositronNoLabels")
@@ -76,6 +79,7 @@ In view mode, there are even more options. There can be obtained via
 `names(leaflet::providers)`.
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 #> ℹ toggle with `tmap::ttm()`
@@ -87,6 +91,7 @@ tm_shape(metro) +
 Disabling basemaps:
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 tm_shape(World) +
@@ -106,6 +111,7 @@ Now it is also possible to use different map projections (see
 [vignette](https://r-tmap.github.io/tmap/articles/foundations_crs)):
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 tm_shape(World, crs = "+proj=robin") +

@@ -1,6 +1,7 @@
 # tmap example: choropleth (World)
 
 ``` r
+
 library(tmap)
 library(dplyr)
 library(sf)
@@ -15,6 +16,7 @@ variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(World)
 #>  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        
 #>  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" 
@@ -28,6 +30,7 @@ country.
 ## The choropleth: step 1
 
 ``` r
+
 tm_shape(World) +
     tm_polygons(fill = "gender")
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
@@ -56,6 +59,7 @@ A few improvements:
 - The legend box is placed on top of the map, on the left bottom.
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") +
   tm_polygons(
     fill = "gender",

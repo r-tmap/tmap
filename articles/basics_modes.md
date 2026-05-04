@@ -14,6 +14,7 @@ available, `"mapbox"` and `"maplibre"`, as demonstrated below.
 The default mode is `"plot"`:
 
 ``` r
+
 ## current mode
 tmap_mode()
 #> ℹ tmap modes "plot" - "view"
@@ -23,6 +24,7 @@ tmap_mode()
 ### Switching between modes
 
 ``` r
+
 ## to view mode
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
@@ -37,6 +39,7 @@ The handy function
 to toggle between the modes:
 
 ``` r
+
 ## to view mode
 ttm()
 #> ℹ tmap modes "plot" - "view"
@@ -56,6 +59,7 @@ used to rotate between modes (see
 We start with creating the plot and assign it to a variable called `tm`.
 
 ``` r
+
 tm = tm_shape(World, crs = 8857) +
   tm_polygons(
     fill = "press",
@@ -71,6 +75,7 @@ We are in `"plot"` mode. Now we can plot the map by printing the `tm`
 object:
 
 ``` r
+
 tm
 ```
 
@@ -81,6 +86,7 @@ tm
 The same map in view mode:
 
 ``` r
+
 ttm()
 #> ℹ tmap modes "plot" - "view"
 tm
@@ -94,6 +100,7 @@ Basemaps can be enabled or disabled via
 [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md):
 
 ``` r
+
 tm + tm_basemap(NULL)
 #> [view mode] WebGL does not work (yet) with projected map projections, so it has
 #> been disabled.
@@ -117,6 +124,7 @@ contains more options, e.g. the position of the control box and the
 default zoom level:
 
 ``` r
+
 tm +
     tm_view(control.position = c("left", "bottom"),
             set_view = 2)
@@ -132,6 +140,7 @@ The new package `tmap.mapgl` offers two new modes, `"mapbox"` and
 `"maplibre"`:
 
 ``` r
+
 library(tmap.mapgl)
 ```
 
@@ -142,6 +151,7 @@ When more than two modes are loaded (now four),
 used to rotate between modes:
 
 ``` r
+
 rtm()
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "view" with `tmap::ttm()`
@@ -171,6 +181,7 @@ source, are [considered the way forward in web
 mapping](https://tim-salabim.codeberg.page/sotwm/sotwm.html).
 
 ``` r
+
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"

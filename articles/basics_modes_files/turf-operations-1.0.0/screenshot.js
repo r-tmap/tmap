@@ -84,7 +84,7 @@ function applyMapScreenshotOptions(map, options) {
       el.style.display = 'none';
     });
     // Also hide layers control, measurement box, and geocoder controls
-    container.querySelectorAll('.layers-control, .mapgl-measurement-box, .maplibregl-ctrl-geocoder, .mapboxgl-ctrl-geocoder, .maptiler-ctrl').forEach(el => {
+    container.querySelectorAll('.layers-control, .mapgl-measurement-box, .mapgl-coordinates-control, .maplibregl-ctrl-geocoder, .mapboxgl-ctrl-geocoder, .maptiler-ctrl').forEach(el => {
       hiddenElements.push({ element: el, display: el.style.display });
       el.style.display = 'none';
     });

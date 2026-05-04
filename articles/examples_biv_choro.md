@@ -8,6 +8,7 @@ variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(World)
 #>  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        
 #>  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" 
@@ -22,6 +23,7 @@ economic and gender inequality.
 ## Step 1: minimal working example
 
 ``` r
+
 tm_shape(World) +
     tm_polygons(fill = tm_vars(c("gender", "inequality"), multivariate = TRUE)) +
 tm_crs("auto")
@@ -59,6 +61,7 @@ By default, a purple-green bivariate palette is used, more specifically,
 these bivariate palette types.
 
 ``` r
+
 library(cols4all)
 c4a_plot("pu_gn_bivs", n = 5)
 c4a_plot("brewer.qualseq", n = 3)
@@ -71,6 +74,7 @@ Sequential x sequential
 Sequential x categorical
 
 ``` r
+
 library(cols4all)
 c4a_plot("cols4all.bu_br_bivd", n = 5)
 c4a_plot("cols4all.yl_rd_bivg", n = 5)
@@ -89,6 +93,7 @@ of cols4all is required. We use the bivariate sequential x diverging
 palette with 3 columns and 5 rows.
 
 ``` r
+
 c4a_plot("cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("-cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
@@ -100,6 +105,7 @@ Normal order
 "-" flip columns
 
 ``` r
+
 c4a_plot("|cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("+cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
@@ -111,6 +117,7 @@ c4a_plot("+cols4all.pu_gn_bivd", n = 3, m = 5)
 "+" Flip rows and columns
 
 ``` r
+
 c4a_plot("//cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("\\cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
@@ -122,6 +129,7 @@ c4a_plot("\\cols4all.pu_gn_bivd", n = 3, m = 5)
 "\\” Flip other diagonal
 
 ``` r
+
 c4a_plot("-//cols4all.pu_gn_bivd", n = 3, m = 5)
 c4a_plot("-\\cols4all.pu_gn_bivd", n = 3, m = 5)
 ```
@@ -138,6 +146,7 @@ A bivariate color palette can be specified in tmap via
 `tm_scale_bivariate`:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
@@ -156,6 +165,7 @@ right. Therefore, the diagonal prefixes need to be the other way round.
 ### Using custom bivariate palettes in tmap
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
@@ -181,6 +191,7 @@ Let’s create three levels for each variable, and assign the intuitive
 labels, e.g. L, M, and H, standing for low, medium and high inequality.
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),
@@ -197,6 +208,7 @@ tm_crs("auto")
 ## Step 4: changing the legend
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = tm_vars(c("gender", "inequality"), multivariate = TRUE),

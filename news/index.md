@@ -1,6 +1,10 @@
 # Changelog
 
+## tmap (development version)
+
 ## tmap 4.3
+
+CRAN release: 2026-04-20
 
 - \[!\] support for PMTiles via new and experimental package
   tmap.sources

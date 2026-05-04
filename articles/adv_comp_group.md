@@ -15,6 +15,7 @@ In the following map, each map component is placed in a different
 location.
 
 ``` r
+
 (tm1 = tm_shape(NLD_muni) +
     tm_bubbles(fill = "dwelling_value", 
                size = "population",
@@ -30,6 +31,7 @@ Let’s put all legends to the left hand side of the map, and the compass
 and scale bar below the frame.
 
 ``` r
+
 tm1 + 
     tm_components("tm_legend", position = tm_pos_out("left", "center")) +
     tm_components(c("tm_compass", "tm_scalebar"), position = tm_pos_out("center", "bottom"))
@@ -41,6 +43,7 @@ All map components that are not title, chart, or title can be accessed
 via `tm_<other>`:
 
 ``` r
+
 tm1 + 
     tm_components("tm_legend", position = tm_pos_out("left", "center")) +
     tm_components("tm_<other>", position = tm_pos_out("center", "bottom"))
@@ -52,6 +55,7 @@ When `tm_component()` is called without `group_id`, all map components
 are affected:
 
 ``` r
+
 tm1 + 
     tm_components("tm_legend", position = tm_pos_out("left", "center")) +
     tm_components("tm_<other>", position = tm_pos_out("center", "bottom")) +
@@ -68,6 +72,7 @@ are overruled with the third one. If we change the order, the map
 components are placed in different locations:
 
 ``` r
+
 tm1 + 
     tm_components("tm_<other>", position = tm_pos_out("center", "bottom")) +
     tm_components(position = tm_pos_out("right", "center")) +
@@ -96,6 +101,7 @@ we show via
 [`tm_inset()`](https://r-tmap.github.io/tmap/reference/tm_inset.md).
 
 ``` r
+
 g = function(text) grid::gList(
   grid::rectGrob(gp=grid::gpar(fill = "gold")), 
   grid::circleGrob(r = .45), 
@@ -107,6 +113,7 @@ b = function(text) grid::gList(
 ```
 
 ``` r
+
 tm2 = tm_shape(NLD_muni) +
     tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +
@@ -130,6 +137,7 @@ components of A and B have the same position and are therefore grouped,
 even though they have a different `group_id`.
 
 ``` r
+
 tm2 + 
   tm_components("A", position = tm_pos_in("right", "bottom")) +
   tm_components("B", position = tm_pos_in("right", "bottom"))
@@ -154,6 +162,7 @@ arguments, as we will show now.
 The `stack` argument is either `"horizontal"` or `"vertical"`:
 
 ``` r
+
 tm2 + 
   tm_components("A", position = tm_pos_in("left", "top"), stack = "horizontal") +
   tm_components("B", position = tm_pos_in("right", "bottom"), stack = "vertical")
@@ -168,6 +177,7 @@ appear, but can be changed with the `z` argument in each component
 function:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A", z = 1) +
@@ -188,6 +198,7 @@ drawn for all components in the same group. This can be disabled with
 `frame_combine = FALSE`
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +
@@ -206,6 +217,7 @@ that is: the widths in case they are stacked vertically (as in this
 example), and the heights in case they are stacked horizontally.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +
@@ -229,6 +241,7 @@ The `stack_margin` specifies the distance between components. In case
 `frame_combine` it is 0.5 by default, otherwise 0.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +
@@ -249,6 +262,7 @@ Each component has its own margins, which are the margins to the frame.
 These can be specified with a vector of four: bottom, left, top, right.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A", margins = 0) +
@@ -271,6 +285,7 @@ for all components inside
 [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md).
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey95", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +
@@ -285,6 +300,7 @@ tm_components("A", position = tm_pos_in("left", "top", align.h = "right"), frame
 ### Frame and background color and alpha
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey75", col = "grey90") +
 tm_inset(g("A1"), group_id = "A") +

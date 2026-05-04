@@ -55,13 +55,13 @@ in the plotting phase.
 The automatic crs recommendation (which is still work-in-progress) is
 the following:
 
-|                           |                                                                                                                                                                                  |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Property**              | **Recommendation**                                                                                                                                                               |
+|  |  |
+|----|----|
+| **Property** | **Recommendation** |
 | `global` (for world maps) | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Earth). See <https://r-tmap.github.io/tmap/articles/41_advanced_crs.html> for more options |
-| `area` (equal area)       | Lambert Azimuthal Equal Area (`laea`)                                                                                                                                            |
-| `distance` (equidistant)  | Azimuthal Equidistant (`aeqd`)                                                                                                                                                   |
-| `shape` (conformal)       | Stereographic (`stere`)                                                                                                                                                          |
+| `area` (equal area) | Lambert Azimuthal Equal Area (`laea`) |
+| `distance` (equidistant) | Azimuthal Equidistant (`aeqd`) |
+| `shape` (conformal) | Stereographic (`stere`) |
 
 For further info about the available "generic" projects see: for utm:
 <https://proj.org/en/9.4/operations/projections/utm.html> for laea:

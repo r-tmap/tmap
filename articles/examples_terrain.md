@@ -1,6 +1,7 @@
 # tmap example: terrain map
 
 ``` r
+
 library(tmap)
 library(dplyr)
 library(sf)
@@ -15,6 +16,7 @@ We use a couple of spatial data objects contained in tmap:
 ## Terrain map
 
 ``` r
+
 tm_shape(land) +
     tm_raster(col = "cover") +
 #tm_shape(World) +
@@ -46,6 +48,7 @@ right bottom corner
 ## Classic style
 
 ``` r
+
 tmap_style("classic")
 #> style set to "classic"
 #> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "watercolor"

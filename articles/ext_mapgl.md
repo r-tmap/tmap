@@ -24,12 +24,14 @@ For this example we’ll create a choropleth of well being per country. We
 assign the map to `map` without showing it.
 
 ``` r
+
 map = tm_shape(World) + 
   tm_polygons("well_being",
     fill.scale = tm_scale_continuous(values = "pu_gn"))
 ```
 
 ``` r
+
 tmap_mode("plot")
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
@@ -43,6 +45,7 @@ map
 ## maplibre
 
 ``` r
+
 library(tmap.mapgl)
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
@@ -57,6 +60,7 @@ See
 [instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key).
 
 ``` r
+
 tmap_mode("mapbox")
 map
 ```
@@ -78,6 +82,7 @@ called `height`.
 Below an example of population density per country:
 
 ``` r
+
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"
@@ -98,6 +103,7 @@ neighborhood (and therefore its volume represents population). Color is
 used to show the variable of interest, in this case education level.
 
 ``` r
+
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"

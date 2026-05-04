@@ -7,6 +7,7 @@ data frame with a row for each country. The geometry column contains
 multipolygons:
 
 ``` r
+
 World$geometry
 #> Geometry set for 177 features 
 #> Geometry type: MULTIPOLYGON
@@ -26,6 +27,7 @@ north/south (so perpendicular to the equator), whereas longitudes define
 east/west.
 
 ``` r
+
 tm_shape(World, 
     bbox = "FULL",
     crs = "+proj=ortho +lat_0=30 +lon_0=0") +
@@ -46,6 +48,7 @@ Besides using latitude longitude coordinates as references for real
 locations on earth, they can obviously also be used to draw maps:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("gold") +
 tm_crs(4326) +
@@ -61,6 +64,7 @@ However, this is not a good map because areas near the poles are too
 large (and therefore overemphasized).
 
 ``` r
+
 library(tmap.cartogram)
 
 # split multi-polygon countries (otherwise Alaska is still too large)
@@ -110,6 +114,7 @@ have been widely used in cartography for decades, e.g. in The Times
 Atlas of The World.
 
 ``` r
+
 # vector of world map projections
 world_projs = c("wintri", "robin", paste0("eck", 1:6), 
   "moll", paste0("wag", 1:7), "eqearth")
@@ -130,6 +135,7 @@ to VI, Mollweide, Wagner I to VII and Equal Earth. The can be used as
 follows:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("HPI") +
 tm_crs("+proj=eck4") +
@@ -149,6 +155,7 @@ This is useful for thematic maps where the geometry is changed. For
 instance cartograms:
 
 ``` r
+
 tm_shape(World, crs = "+proj=robin") +
   tm_cartogram(size = "pop_est")
 #> Cartogram in progress...
@@ -163,6 +170,7 @@ recommended to define the CRS with the function
 [`tm_crs()`](https://r-tmap.github.io/tmap/reference/tm_crs.md):
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(fill = "life_exp") +
 tm_crs(crs = "+proj=robin")

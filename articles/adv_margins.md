@@ -7,6 +7,7 @@ tmap offers a special **design mode**, which can be enabled via
 design mode enabled:
 
 ``` r
+
 (tm = tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate", 
     fill.legend = tm_legend(position = tm_pos_in("left", "top"))) +
@@ -67,6 +68,7 @@ outer.margins to the graphics device.
 An example where both inner and meta margins are specified:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate") +
     tm_layout(
@@ -131,6 +133,7 @@ inner margins will be adjusted automatically. The aspect ratio is
 defined by width / height, so a value one mean square:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate") +
     tm_title("Square map") +
@@ -164,6 +167,7 @@ to the inner margins, and the outer margins are unchanged. Hence, a
 useful trick is to set both `asp` and `outer.margins` to 0:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(fill = "employment_rate") +
     tm_layout(outer.margins = c(0, 0, 0, 0),

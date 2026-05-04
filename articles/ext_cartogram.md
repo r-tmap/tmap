@@ -19,6 +19,7 @@ The shapes of the polygons are distorted, where the neighborhood
 relationships between them are preserved as much as possible.
 
 ``` r
+
 Africa = World[World$continent == "Africa", ]
 
 tm_shape(Africa, crs = "+proj=robin") +
@@ -40,6 +41,7 @@ tm_animate_fast(play = "pingpong")
 Here, the polygons are only resized while they keep their shape.
 
 ``` r
+
 tm_shape(Africa, crs = "+proj=robin") +
   tm_cartogram_ncont(
     size = "pop_est", 
@@ -59,6 +61,7 @@ tm_title("Income inequality (Gini coefficient)")
 Polygons are replaced by non-overlapping bubbles.
 
 ``` r
+
 tm_shape(World, crs = "+proj=robin") +
   tm_cartogram_dorling(
     size = "pop_est", 

@@ -1,6 +1,7 @@
 # tmap example: choropleth (Netherlands)
 
 ``` r
+
 library(tmap)
 tmap_options(scale = 0.75)
 sf::sf_use_s2(FALSE)
@@ -19,6 +20,7 @@ The first two datasets contain demographic data of the Netherlands as of
 will only be used to plot province borders.
 
 ``` r
+
 tmap_arrange(
     qtm(NLD_dist, title = "NLD_dist: 3340 districts"),
     qtm(NLD_muni, title = "NLD_mini: 345 municipalities"),
@@ -33,6 +35,7 @@ tmap_arrange(
 The variables in the `NLD_dist` and `NLD_muni` are the same:
 
 ``` r
+
 names(NLD_dist)
 #>  [1] "code"               "name"               "province"          
 #>  [4] "area"               "urbanity"           "population"        
@@ -51,6 +54,7 @@ as of 1st October 2022.
 ## Choropleth: step 1
 
 ``` r
+
 tm_shape(NLD_dist) +
     tm_polygons(fill = "edu_appl_sci") # data variable -> fill color
 ```
@@ -63,6 +67,7 @@ We remove the district borders, because they are too dense in urban
 areas. Instead, we add borders of municipalities and provinces op top:
 
 ``` r
+
 tm_shape(NLD_dist) +
     tm_polygons(
         fill = "edu_appl_sci",
@@ -91,6 +96,7 @@ A few improvements and embellishments:
 - Map components added: compass, scalebar, and credits text
 
 ``` r
+
 tm_shape(NLD_dist) +
     tm_polygons(
         fill = "edu_appl_sci",

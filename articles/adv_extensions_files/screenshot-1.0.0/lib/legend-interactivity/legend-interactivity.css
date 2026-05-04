@@ -205,6 +205,55 @@
 }
 
 /* ===========================================
+   Collapsible Legends
+   =========================================== */
+
+/* Hide everything except the title and the toggle button when collapsed.
+   Uses direct-child selector so dynamically appended elements (e.g. the
+   reset-filter button added by interactive categorical legends) are also
+   hidden without any extra bookkeeping. */
+.mapgl-legend-collapsed > *:not(.mapgl-legend-title):not(.mapgl-legend-collapse-btn) {
+    display: none !important;
+}
+
+/* Reserve space on the title so it doesn't run under the toggle button. */
+.mapboxgl-legend[data-collapsible="true"] .mapgl-legend-title {
+    padding-right: 34px;
+}
+
+/* Toggle button. Legend root is already position: absolute, so absolute
+   positioning on the button anchors to the legend. */
+.mapgl-legend-collapse-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    font-family: inherit;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.mapgl-legend-collapse-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.mapgl-legend-collapse-btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+}
+
+/* ===========================================
    Draggable Legends
    =========================================== */
 

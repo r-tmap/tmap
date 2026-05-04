@@ -20,6 +20,7 @@ we show via
 [`tm_inset()`](https://r-tmap.github.io/tmap/reference/tm_inset.md).
 
 ``` r
+
 g = function(text) grid::gList(
   grid::rectGrob(gp=grid::gpar(fill = "gold")), 
   grid::circleGrob(r = .45), 
@@ -71,6 +72,7 @@ The character positioned components are in gold and the numeric
 positioned components in blue.
 
 ``` r
+
 tm_shape(NLD_muni) +
     tm_polygons("grey85", col = "grey60") +
     tm_inset(g("left, top"), position = c("left", "top")) +
@@ -111,6 +113,7 @@ the other position function, they are already set to `"center"` (the
 center grid cell in which the map is drawn).
 
 ``` r
+
 tm_shape(NLD_muni) +
     tm_polygons("grey85", col = "grey60") +
 tm_inset(g("center, center"), position = tm_pos_on_top(pos.h = "center", pos.v = "center")) +
@@ -141,6 +144,7 @@ the shortcut values described above:
   (top) for `pos.v`
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey85", col = "grey60") +
 tm_inset(g("pos.v = \"top\" in\ncell (left, center)"), 
@@ -171,6 +175,7 @@ with
 - `just.v`: `"top"`, `"center"`, and `"bottom"`
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey85", col = "grey60") +
 tm_inset(b("center, center"), 
@@ -192,6 +197,7 @@ section), the alignment determines how a component is aligned.
 The alignment of components within the same cell:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("grey85", col = "grey60") +
 tm_inset(g(""), 

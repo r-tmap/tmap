@@ -26,6 +26,7 @@ values: `"pop1960"`, `"pop1970"`, … `"pop2023"` that correspond to the
 estimated population sizes of metropolitan areas.
 
 ``` r
+
 tm_shape(World) +
     tm_fill("#dddddd") +
 tm_shape(metro) +
@@ -54,6 +55,7 @@ all countries one by one (for this we need to cast `"name"` into a
 factor).
 
 ``` r
+
 World$name = as.factor(World$name)
 tm_shape(World) +
     tm_polygons(fill = "continent") +
@@ -75,6 +77,7 @@ are still available via
 [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md):
 
 ``` r
+
 # keep Antarctica and Seven seas out (no data)
 World5 = World[!World$continent %in% c("Antarctica", "Seven seas (open ocean)"), ]
 
@@ -105,6 +108,7 @@ transition variables is the cartogram, via the extension package
 [**tmap.cartogram**](https://r-tmap.github.io/tmap.cartogram/)
 
 ``` r
+
 library(tmap.cartogram)
 Africa = World[World$continent == "Africa", ]
 
@@ -121,6 +125,7 @@ tm_title("Life Expectancy")
 ![](adv_animations_files/figure-html/unnamed-chunk-6-1.gif)
 
 ``` r
+
 tm_shape(Africa, crs = "+proj=robin") +
 tm_cartogram_ncont(size = "*pop_est", 
                    fill = "inequality",

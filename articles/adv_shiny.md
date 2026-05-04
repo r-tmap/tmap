@@ -3,6 +3,7 @@
 ## Shiny integration
 
 ``` r
+
 library(shiny)
 ```
 
@@ -18,6 +19,7 @@ An (almost) minimal example of a choropleth where the data variable is
 selected via a select input widget:
 
 ``` r
+
 NLD_vars <- setdiff(names(NLD_dist), c("code", "name"))
 tmap_mode("plot")
 shinyApp(
@@ -58,6 +60,7 @@ cannot be used. The are used in `"view"` mode as well see next.
 ## View mode
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 #> ℹ toggle with `tmap::ttm()`
@@ -84,6 +87,7 @@ It is recommended to:
   using tmap.
 
 ``` r
+
 library(sf)
 #> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
 NLD_dist_4326 = st_transform(NLD_dist, 4326)
@@ -92,6 +96,7 @@ NLD_prov_4326 = st_transform(NLD_prov, 4326)
 ```
 
 ``` r
+
 shinyApp(
   ui = fluidPage(
     tmapOutput("map", height = "1000px"),

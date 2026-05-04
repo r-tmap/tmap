@@ -17,6 +17,7 @@ Recall from the [vigentte about
 facets](https://r-tmap.github.io/tmap/articles/03_basics_facets)
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = c("pop_0_14", "pop_25_44", "pop_65plus"),
@@ -33,6 +34,7 @@ instance, variables 12 to 18 (so columns 12 to 18, disregarding the
 geometry column)
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = tm_vars(12:18))
@@ -43,6 +45,7 @@ tm_shape(NLD_muni) +
 Or the first 3 variables:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = tm_vars(n = 3))
@@ -72,6 +75,7 @@ There are (at least) two use cases:
 ### RGB image
 
 ``` r
+
 library(stars)
 #> Loading required package: abind
 #> Loading required package: sf
@@ -93,6 +97,7 @@ Note that the channels are included in the dimenison `"band"`. We can
 use the argument `dimvalues` to select them:
 
 ``` r
+
 tm_shape(L7) +
     tm_rgb(col = tm_vars(dimvalues = 3:1, multivariate = TRUE))
 ```
@@ -102,6 +107,7 @@ tm_shape(L7) +
 Alternatively, we can split the `stars` object:
 
 ``` r
+
 (L7split = split(L7))
 #> stars object with 2 dimensions and 6 attributes
 #> attribute(s):
@@ -121,6 +127,7 @@ Alternatively, we can split the `stars` object:
 and plot it like this:
 
 ``` r
+
 tm_shape(L7split) +
     tm_rgb(col = tm_vars(3:1, multivariate = TRUE))
 ```
@@ -133,6 +140,7 @@ Glyph are small charts plotted as symbols. See the \[extention package
 [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs).
 
 ``` r
+
 library(tmap.glyphs)
 
 ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]

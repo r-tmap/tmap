@@ -1,6 +1,7 @@
 # tmap example: gridmaps
 
 ``` r
+
 library(tmap)
 library(geofacet)
 library(dplyr)
@@ -11,6 +12,7 @@ tmap_options(scale = 0.75)
 ## Get grid layout of Dutch provinces
 
 ``` r
+
 nl_prov_grid1 = geofacet::nl_prov_grid1
 class(nl_prov_grid1) = "data.frame"
 
@@ -22,6 +24,7 @@ nl_prov_grid1 = nl_prov_grid1 |>
 ## Join with NLD datasets in tmap
 
 ``` r
+
 NLD_prov2 = NLD_prov |>
     left_join(nl_prov_grid1,
               by = "name")
@@ -40,6 +43,7 @@ NLD_dist2 = NLD_dist |>
 ## The map
 
 ``` r
+
 tm_shape(NLD_dist2) +
     tm_fill("dwelling_value", 
             fill.scale = tm_scale_intervals(breaks = c(50, 250, 350, 500, 750, 1600), as.count = FALSE),

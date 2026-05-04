@@ -8,6 +8,7 @@ which works similar as base R
 [`options()`](https://rdrr.io/r/base/options.html):
 
 ``` r
+
 opt = tmap_options()
 ```
 
@@ -15,6 +16,7 @@ Because there are so many options, we need a proper way to print it.
 Let’s use `lobstr` for that:
 
 ``` r
+
 library(lobstr)
 tree(opt)
 #> <list>
@@ -876,6 +878,7 @@ different defaults.
 The list of options for a specific mode can be obtained as follows:
 
 ``` r
+
 # only the mode-specific options:
 tree(tmap_options_mode("view"))
 #> <list>
@@ -1739,6 +1742,7 @@ mode and the style into account.
 Let’s enable a certain style, say `"cobalt"`
 
 ``` r
+
 tmap_style("cobalt")
 #> style set to "cobalt"
 #> other available styles are: "white" (tmap default), "gray", "natural", "albatross", "beaver", "bw", "classic", "watercolor"
@@ -1750,6 +1754,7 @@ The total changed list of options can be retrieved via
 It is also possible to only obtain the changed options:
 
 ``` r
+
 tree(tmap_options_diff())
 #> current tmap options (style "cobalt") that are different from default tmap options (style "white"):
 #> <list>
@@ -1899,6 +1904,7 @@ default (in view mode).
 Let’s reset all options, and set of couple of options:
 
 ``` r
+
 tmap_options_reset()
 #> tmap options successfully reset
 
@@ -1917,6 +1923,7 @@ tmap_options(
 To check the differences:
 
 ``` r
+
 tree(tmap_options_diff())
 #> current tmap options (style "white (modified)") that are different from default tmap options (style "white"):
 #> <list>
@@ -1946,6 +1953,7 @@ Note that the position argument is completed with default settings
 To illustrate the effect:
 
 ``` r
+
 tm_shape(World) +
     tm_polygons("footprint")
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
@@ -1957,6 +1965,7 @@ tm_shape(World) +
 Let’s save this mode as `"fancy"`.:
 
 ``` r
+
 tmap_options_save("fancy")
 #> current tmap options saved as style "fancy"
 ```
@@ -1965,6 +1974,7 @@ The default style can be obtained via `tmap_style("white")` (the name of
 the default style):
 
 ``` r
+
 tmap_style("white")
 #> style set to "white" (tmap default)
 #> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"

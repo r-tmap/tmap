@@ -7,6 +7,7 @@ Each visual variable (e.g. `fill` in
 has an additional `.chart` argument via which charts can be shown:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = "press",
@@ -23,6 +24,7 @@ tm_crs("auto")
 ### Numeric variables
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("HPI",
     fill.scale = tm_scale_intervals(),
@@ -34,6 +36,7 @@ tm_shape(World) +
 ![](basics_charts_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("HPI",
     fill.scale = tm_scale_intervals(),
@@ -43,6 +46,7 @@ tm_shape(World) +
 ![](basics_charts_files/figure-html/unnamed-chunk-5-1.png)
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("HPI",
     fill.scale = tm_scale_intervals(),
@@ -54,6 +58,7 @@ tm_shape(World) +
 ### Categorical variable
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("economy",
     fill.scale = tm_scale_categorical(),
@@ -63,6 +68,7 @@ tm_shape(World) +
 ![](basics_charts_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
+
 tm_shape(World) +
   tm_polygons("economy",
     fill.scale = tm_scale_categorical(),
@@ -74,6 +80,7 @@ tm_shape(World) +
 ### Bivariate charts
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(tm_vars(c("HPI", "well_being"), multivariate = TRUE),
     fill.chart = tm_chart_heatmap())
@@ -91,6 +98,7 @@ frame). See [vignette about
 positioning](https://r-tmap.github.io/tmap/articles/adv_positions).
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = "press",
@@ -106,6 +114,7 @@ Or, in case we would like the chart to be next to the legend, but in a
 different frame:
 
 ``` r
+
 tm_shape(World) +
   tm_polygons(
     fill = "press",
@@ -124,6 +133,7 @@ tm_crs("auto")
 ## Additional ggplot2 code
 
 ``` r
+
 require(ggplot2)
 #> Loading required package: ggplot2
 tm_shape(World) +

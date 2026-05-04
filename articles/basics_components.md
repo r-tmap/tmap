@@ -27,6 +27,7 @@ above the map (outside the frame), while credits are place inside the
 frame at the bottom right.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = "edu_appl_sci") +
@@ -39,6 +40,7 @@ tm_credits("Statistics Netherlands (CBS)")
 ## Scale bar and compass
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons() +
     tm_compass(type = "8star") +
@@ -57,6 +59,7 @@ It takes a vector of two, the first is the horizontal position
 (`"top"`, `"center"`, `"bottom"`)
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = "edu_appl_sci",
@@ -84,6 +87,7 @@ the group id, which can either be a user specified name, or, as shown
 below, a vector of map component function names.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = "edu_appl_sci",

@@ -1,6 +1,7 @@
 # tmap example: topographic map (Africa)
 
 ``` r
+
 library(tmap)
 library(dplyr)
 library(sf)
@@ -14,6 +15,7 @@ is called `World`, which we only use for country borders. We’ll only
 select the African countries:
 
 ``` r
+
 metroAfrica = sf::st_intersection(metro, World[World$continent == "Africa", ])
 #> Warning: attribute variables are assumed to be spatially constant throughout
 #> all geometries
@@ -27,6 +29,7 @@ fourth and final ovject is `World_rivers`.
 ## Topographic map
 
 ``` r
+
 tm_shape(land) +
   tm_raster("cover_cls",
     col.legend = tm_legend("Land use")) +
@@ -63,6 +66,7 @@ groups:
 ### Land use layer
 
 ``` r
+
 tm = 
 tm_shape(land) +
   tm_raster("cover_cls",
@@ -75,6 +79,7 @@ tm
 ### Adding rivers
 
 ``` r
+
 tm = tm + 
 tm_shape(World_rivers) +
   tm_lines(
@@ -94,6 +99,7 @@ bounding box of Africa. We’ll use `is.main` for the the spatial object
 `Africa` to do the actual cropping.
 
 ``` r
+
 tm = tm +
 tm_shape(Africa, is.main = TRUE) +
   tm_borders()
@@ -105,6 +111,7 @@ tm
 ### African cities
 
 ``` r
+
 tm = tm +
 tm_shape(metroAfrica) +
   tm_symbols(fill = "red", shape = "pop2020", size = "pop2020",

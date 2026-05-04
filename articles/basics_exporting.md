@@ -17,6 +17,7 @@ specified via the argument `dpi` (dots-per-inch).
 Let’s create a standard country level choropleth:
 
 ``` r
+
 tm = tm_shape(World, crs = "+proj=robin") + 
   tm_polygons(
     fill = "gender", 
@@ -32,6 +33,7 @@ Exporting maps is done via
 [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md).
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300)
 #> Map saved to world.png
 #> Resolution: 2100 by 1200 pixels
@@ -42,6 +44,7 @@ Values of `width` and `height` less than 50 are considered to be inches,
 whereas those greater than 50 pixels are considered to be pixels:
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 2100, height = 1200, dpi = 300)
 #> Map saved to /home/runner/work/tmap/tmap/vignettes/world.png
 #> Resolution: 2100 by 1200 pixels
@@ -65,6 +68,7 @@ In case only *one* dimension is provided, the other dimension calculated
 using the aspect ratio of the map.
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 2100, dpi = 300)
 #> Map saved to /home/runner/work/tmap/tmap/vignettes/world.png
 #> Resolution: 2100 by 1059.87 pixels
@@ -78,6 +82,7 @@ tmap_save(tm, filename = "world.png", width = 2100, dpi = 300)
 Vector based formats will look (almost) the same.
 
 ``` r
+
 tmap_save(tm, filename = "world.pdf", width = 7, height = 4, dpi = 300)
 ```
 
@@ -96,6 +101,7 @@ It determines all font sizes, line widths, and symbol sizes.
 Much smaller (0.5):
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 0.5)
 ```
 
@@ -104,6 +110,7 @@ tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 
 A bit smaller (0.8):
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 0.8)
 ```
 
@@ -112,6 +119,7 @@ tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 
 A bit larger (1.2):
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 1.2)
 ```
 
@@ -120,6 +128,7 @@ tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 
 Much larger (1.5):
 
 ``` r
+
 tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 1.5)
 ```
 
@@ -134,6 +143,7 @@ tmap_save(tm, filename = "world.png", width = 7, height = 4, dpi = 300, scale = 
 Maps can also be exported as stand-alone HTML files.
 
 ``` r
+
 tmap_save(tm, filename = "index.html", selfcontained = FALSE)
 ```
 

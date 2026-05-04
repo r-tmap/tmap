@@ -24,6 +24,7 @@ data variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(World)
 #>  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        
 #>  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" 
@@ -35,6 +36,7 @@ We specify this object with `tm_shape` and for convenience assign it to
 `s`:
 
 ``` r
+
 s <- tm_shape(World, crs = "+proj=eqearth")
 ```
 
@@ -47,6 +49,7 @@ An example where several visual variables are specified with constant
 values:
 
 ``` r
+
 s + 
   tm_polygons(
     fill = "#ffce00", # fill color
@@ -67,6 +70,7 @@ Each visual variable argument can also be specified with a data variable
 (e.g., a column name):
 
 ``` r
+
 s + tm_polygons(fill = "press")    # a column in World
 ```
 
@@ -76,6 +80,7 @@ Another example, where a data-driven symbol layer is drawn on top of a
 polygon layer
 
 ``` r
+
 s + 
   tm_polygons(fill = "grey90") +   # constant fill color 
   tm_symbols(size = "pop_est",     # data variable, mapped to symbol size
@@ -91,6 +96,7 @@ s +
 In the following example a data-driven text layer is plotted.
 
 ``` r
+
 s + 
   tm_polygons(fill = "economy") +
   tm_text(text = "name", size = "area")
@@ -109,6 +115,7 @@ A facet map is created by specifying two data variables (columns in
 `World`) to the visual variable `fill`:
 
 ``` r
+
 s + tm_polygons(fill = c("well_being", "life_exp")) 
 ```
 
@@ -117,6 +124,7 @@ s + tm_polygons(fill = c("well_being", "life_exp"))
 Improve the titles and remove (duplicate) legend titles
 
 ``` r
+
 s + 
   tm_polygons(
     fill = c("well_being", "life_exp"),

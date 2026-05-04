@@ -12,6 +12,7 @@ glyphs are implemented.
 ## Donut maps
 
 ``` r
+
 ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
 
 ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
@@ -38,6 +39,7 @@ tm_shape(ZH_muni) +
 ## Flower maps
 
 ``` r
+
 library(sf)
 #> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
 

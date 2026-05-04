@@ -12,6 +12,7 @@ R-library for drawing charts.
 Installation of **tmap** is straightforward:
 
 ``` r
+
 install.packages("tmap")
 ```
 
@@ -23,6 +24,7 @@ The development version can be installed from the GitHub repository
 using one of the following functions:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
@@ -59,6 +61,7 @@ Plot a World map of the happy planet index (HPI) per country. The object
 **tmap**:
 
 ``` r
+
 tm_shape(World) +
     tm_polygons(fill = "HPI")
 ```
@@ -68,6 +71,7 @@ tm_shape(World) +
 This map can be enhanced in several ways. For instance:
 
 ``` r
+
 tm_shape(World, crs = "+proj=robin") +
     tm_polygons(fill = "HPI",
                 fill.scale = tm_scale_continuous(values = "matplotlib.rd_yl_bu"),

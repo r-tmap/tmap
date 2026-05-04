@@ -24,6 +24,7 @@ are map components (see
 ## Minimaps
 
 ``` r
+
 tmap_mode("plot")
 #> ℹ tmap modes "plot" - "view"
 #> ℹ toggle with `tmap::ttm()`
@@ -50,6 +51,7 @@ projection](https://r-tmap.github.io/tmap/articles/foundations_crs).
 The minimap is interactive in view mode.
 
 ``` r
+
 tmap_mode("view")
 #> ℹ tmap modes "plot" - "view"
 tmap_last()
@@ -88,6 +90,7 @@ provided, it will use
 to look for the corresponding bounding box.
 
 ``` r
+
 library(tmaptools)
 
 tmap_mode("plot")
@@ -115,6 +118,7 @@ To have more flexibility it is also possible to inset a different tmap
 object.
 
 ``` r
+
 NLD_muni$pop_est_dens = NLD_muni$population / NLD_muni$area
 
 tm_NLD = tm_shape(NLD_muni) +

@@ -1,6 +1,7 @@
 # tmap example: bubble map
 
 ``` r
+
 library(tmap)
 library(dplyr)
 library(sf)
@@ -20,6 +21,7 @@ The first two datasets contain demographic data of the Netherlands as of
 will only be used to plot province borders.
 
 ``` r
+
 tmap_arrange(
     qtm(NLD_dist, title = "NLD_dist: 3340 districts"),
     qtm(NLD_muni, title = "NLD_mini: 345 municipalities"),
@@ -33,6 +35,7 @@ tmap_arrange(
 The variables in the `NLD_dist` and `NLD_muni` are the same:
 
 ``` r
+
 names(NLD_dist)
 #>  [1] "code"               "name"               "province"          
 #>  [4] "area"               "urbanity"           "population"        
@@ -53,6 +56,7 @@ as of 1st October 2022.
 The following code creates a bubble map of population per
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(fill = "grey95", col = "grey60") +
   tm_symbols(
@@ -79,6 +83,7 @@ per Dutch district. This is encoded via a interval ‘rainbow’ color
 scale. Bubble sizes are proportional to the population size.
 
 ``` r
+
 tm_shape(NLD_dist) +
   tm_symbols(
     size = "population",
@@ -93,6 +98,7 @@ tm_shape(NLD_dist) +
 In order to find a suitable color palette for this example, we used
 
 ``` r
+
 cols4all::c4a_gui()
 ```
 

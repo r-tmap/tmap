@@ -16,6 +16,7 @@ ggplot2 is already used by tmap to draw
 argument `extra.ggplot2` additional ggplot2 code can be provided:
 
 ``` r
+
 library(ggplot2)
 
 tm_shape(NLD_muni) +
@@ -34,6 +35,7 @@ First, let’s create a violin plot of the distribution of higher
 education across municipalities, grouped by level of urbanity.
 
 ``` r
+
 (g1 = ggplot(NLD_muni, aes(x = urbanity, y = edu_appl_sci, fill = urbanity)) +
     geom_violin() +
     scale_x_discrete(labels = c("++", "+", "o", "-", "--")) +
@@ -45,6 +47,7 @@ education across municipalities, grouped by level of urbanity.
 ![](adv_ggplot2_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("edu_appl_sci",
             fill.legend = tm_legend("University degree")) +
@@ -60,6 +63,7 @@ added via
 Both insets plots will be minimal, so without legend:
 
 ``` r
+
 (g2 = ggplot(NLD_muni, aes(x = income_high, y = edu_appl_sci, color = urbanity)) +
     geom_point(size = 2) +
     scale_color_brewer(guide = "none", type = "div") +
@@ -69,6 +73,7 @@ Both insets plots will be minimal, so without legend:
 ![](adv_ggplot2_files/figure-html/unnamed-chunk-6-1.png)
 
 ``` r
+
 (tm = tm_shape(NLD_muni) +
     tm_dots(fill = "urbanity",
             fill.scale = tm_scale(values = "brewer.br_bg"),
@@ -81,6 +86,7 @@ Both insets plots will be minimal, so without legend:
 Putting it all together
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("edu_appl_sci",
             fill.legend = tm_legend("University degree", group_id = "right")) +

@@ -8,6 +8,7 @@ variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(World)
 #>  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        
 #>  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" 
@@ -19,6 +20,7 @@ We specify this object with `tm_shape` (see other vignette) and for
 convenience assign it to `s`:
 
 ``` r
+
 s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
@@ -30,6 +32,7 @@ produce a legend. The type of legend depends on used scale (see ). E.g.
 gradient:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"))
@@ -41,6 +44,7 @@ For `tm_scale_intervals`, there are two styles. A choice can be made via
 the argument `label.style`. By default it is set to discrete:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(values = "pu_gn"))
@@ -51,6 +55,7 @@ s + tm_polygons(
 Alternatively, it can be set to `"continuous"`:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(values = "pu_gn", label.style = "continuous"))
@@ -79,6 +84,7 @@ The following example illustrates how the title, orientation and size
 and specified:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"),
@@ -101,6 +107,7 @@ also via the general `scale` option, which determines the overall
 ‘scale’ of the map (all line widths, point sizes and font sizes):
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"),
@@ -120,6 +127,7 @@ A legend can be suppressed by setting the `.legend` argument to
 [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md).
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_continuous(values = "pu_gn"),

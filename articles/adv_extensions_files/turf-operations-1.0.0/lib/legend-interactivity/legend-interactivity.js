@@ -1144,3 +1144,33 @@ function makeLegendDraggable(legend) {
     legend.addEventListener('touchmove', onTouchMove, { passive: false });
     legend.addEventListener('touchend', onTouchEnd);
 }
+
+/* ============================================================
+ * Collapsible legend toggle
+ *
+ * Single document-level delegated handler so this works for any
+ * legend emitted with collapsible = TRUE, regardless of how/when
+ * the legend HTML was inserted (static widget render, proxy message,
+ * compare view). Guarded so repeated script loads don't double-bind.
+ * ============================================================ */
+if (!window._mapglLegendCollapseInstalled) {
+    window._mapglLegendCollapseInstalled = true;
+
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest && e.target.closest('.mapgl-legend-collapse-btn');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var legend = btn.closest('.mapboxgl-legend');
+        if (!legend) return;
+
+        var nowCollapsed = legend.classList.toggle('mapgl-legend-collapsed');
+        btn.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
+        btn.setAttribute(
+            'aria-label',
+            nowCollapsed ? 'Expand legend' : 'Collapse legend'
+        );
+        btn.textContent = nowCollapsed ? '+' : '\u2013';
+    });
+}

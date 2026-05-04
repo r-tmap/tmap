@@ -1,6 +1,7 @@
 # tmap example: rasters
 
 ``` r
+
 library(tmap)
 library(dplyr)
 library(sf)
@@ -13,12 +14,14 @@ tmap_options(scale = 0.75)
 ## About the data
 
 ``` r
+
 ndvi_image = system.file("extdata/raster/mod13q1/TERRA_MODIS_012010_NDVI_2014-01-17.jp2", package = "sits")
 ```
 
 Reading with the `terra` package
 
 ``` r
+
 (ndvi_terra = terra::rast(ndvi_image))
 #> class       : SpatRaster 
 #> size        : 147, 255, 1  (nrow, ncol, nlyr)
@@ -32,6 +35,7 @@ Reading with the `terra` package
 Reading with the `stars` package
 
 ``` r
+
 (ndvi_stars = stars::read_stars(ndvi_image))
 #> stars object with 2 dimensions and 1 attribute
 #> attribute(s):
@@ -48,6 +52,7 @@ Reading with the `stars` package
 first plot - a NDVI image in false color with a brewer pallete
 
 ``` r
+
 ndvi = ndvi_terra # or ndivi_stars
 
 # scale the data to get image in [-1..1] range
@@ -83,14 +88,17 @@ tmap::tm_shape(ndvi) +
 ## Example 2
 
 ``` r
+
 sent_image = system.file("extdata/raster/classif/SENTINEL2_MSI_20LNR_2020-06-04_2021-08-26_class_v1.tif", package = "sits")
 ```
 
 ``` r
+
 sent = terra::rast(sent_image)
 ```
 
 ``` r
+
 tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
 ```
 
@@ -99,10 +107,12 @@ tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
 ## Example 3 (categorical raster)
 
 ``` r
+
 clc2018_poznan = rast("https://github.com/Nowosad/comparing-spatial-patterns-2024/raw/refs/heads/main/data/clc2018_poznan.tif")
 ```
 
 ``` r
+
 tm_shape(clc2018_poznan) + 
     tm_raster()
 ```
@@ -110,6 +120,7 @@ tm_shape(clc2018_poznan) +
 ![](examples_raster_files/figure-html/unnamed-chunk-11-1.png)
 
 ``` r
+
 tm_shape(clc2018_poznan) + 
     tm_raster(col.legend = tm_legend(title = "Land cover"))
 ```

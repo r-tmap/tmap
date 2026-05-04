@@ -7,6 +7,7 @@ An example of how the default output of `tmap` compares with `ggplot2`.
 This is the default output of `ggplot2`:
 
 ``` r
+
 library(ggplot2)
 library(cols4all)
 
@@ -22,6 +23,7 @@ ggplot(World) +
 This is the default output of `tmap`:
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") +
     tm_polygons(fill = "HPI",
                 col = "grey20",
@@ -48,6 +50,7 @@ error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth).
 We can use `tmap` to match the style of `ggplot2`:
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") +
   tm_polygons(
     fill = "HPI",

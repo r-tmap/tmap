@@ -9,6 +9,7 @@ variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(NLD_muni)
 #>  [1] "code"               "name"               "province"          
 #>  [4] "area"               "urbanity"           "population"        
@@ -27,6 +28,7 @@ In the following plot, a facet is created for each province (a data
 variable in `NLD_muni`):
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons("employment_rate") +
 tm_facets("province")
@@ -47,6 +49,7 @@ Groups can also be defined by specifying multiple data variable names
 for one visual variable:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = c("employment_rate", "dwelling_value", "income_high"),
@@ -65,6 +68,7 @@ functions in a list, as shown above. In case the same scale should be
 used, `fill.free` should be set to `FALSE`:
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = c("pop_0_14", "pop_25_44", "pop_65plus"),
@@ -85,6 +89,7 @@ columns. In that case,
 is used.
 
 ``` r
+
 tm_shape(NLD_muni) +
   tm_polygons(
     fill = c("employment_rate", "dwelling_value", "income_high"),
@@ -100,6 +105,7 @@ tm_facets_grid(columns = "province")
 ## Facets as ‘pages’ (use case: animations)
 
 ``` r
+
 (tm = tm_shape(NLD_muni) +
   tm_polygons(
     fill = c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
@@ -114,5 +120,6 @@ argument).
 This plot can be exported as animation via `tmap_animation`.
 
 ``` r
+
 tmap_animation(tm, filename = "NLD_pop_age_class.gif")
 ```

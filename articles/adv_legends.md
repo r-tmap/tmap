@@ -7,6 +7,7 @@ This vignettes builds on the introduction vignettes about
 For convenience let’s assign the `tm_shape` element to `s`:
 
 ``` r
+
 s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
@@ -18,12 +19,14 @@ Numbers of numeric legends are formatted with the `label.format`
 argument of the scale function, e.g. `tm_scale_continuous`:
 
 ``` r
+
 s + tm_polygons("HPI", fill.scale = tm_scale_continuous(values = "pu_gn_div"))
 ```
 
 ![](adv_legends_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 s + tm_polygons("HPI", 
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
@@ -33,6 +36,7 @@ s + tm_polygons("HPI",
 ![](adv_legends_files/figure-html/unnamed-chunk-5-1.png)
 
 ``` r
+
 s + tm_polygons("HPI",
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
@@ -42,6 +46,7 @@ s + tm_polygons("HPI",
 ![](adv_legends_files/figure-html/unnamed-chunk-6-1.png)
 
 ``` r
+
 s + tm_polygons("HPI",
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
@@ -51,6 +56,7 @@ s + tm_polygons("HPI",
 ![](adv_legends_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
+
 s + tm_polygons("HPI", 
   fill.scale = tm_scale_continuous(
     values = "pu_gn_div", 
@@ -72,6 +78,7 @@ options.
 Consider this map
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(breaks = seq(10, 60, by = 10)))
@@ -92,6 +99,7 @@ argument `label.disjoint` of
 [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md):
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -105,6 +113,7 @@ With the new default (`interval.disjoint = TRUE`) the argument digits
 can be used additionally:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -119,6 +128,7 @@ labels that reflect “less than” and “or more” respectively. How these
 are formatted can be specified with `label.format`:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -144,6 +154,7 @@ values are sufficiently large, they are presented in millions, billions
 etc.
 
 ``` r
+
 s + tm_polygons() +
   tm_bubbles(size = "pop_est")
 ```
@@ -154,6 +165,7 @@ The big number abbreviations are specified in `big.num.abbr`. The
 default value is
 
 ``` r
+
 tmap_options("label.format")[[1]]$big.num.abbr
 #> mln bln trn qdn qnt 
 #>   6   9  12  15  18
@@ -162,6 +174,7 @@ tmap_options("label.format")[[1]]$big.num.abbr
 Instead, we can define the population count in ‘thousands’:
 
 ``` r
+
 tm_shape(NLD_muni) + 
   tm_bubbles(
     size = "population",
@@ -183,6 +196,7 @@ Each scale function has a `value.neutral` argument. This defines what
 visual value is used in the other legends. Example:
 
 ``` r
+
 s +
 tm_bubbles(
   fill = "HPI", 
@@ -198,6 +212,7 @@ the middle color (green) is used. My personal preference would be to use
 a neutral gray color with the same brightness as the palette colors:
 
 ``` r
+
 s +
 tm_bubbles(
   fill = "HPI", 
@@ -213,6 +228,7 @@ A different approach to achieve the same result is to update the size
 legend:
 
 ``` r
+
 s +
 tm_bubbles(
   fill = "HPI", 
@@ -231,6 +247,7 @@ It is also possible to combine legends, which is useful if two visual
 variables are used to plot the same data variable:
 
 ``` r
+
 s +
 tm_bubbles(
   fill = "economy", 
@@ -245,6 +262,7 @@ tm_bubbles(
 Legends combined:
 
 ``` r
+
 s +
 tm_bubbles(
   fill = "economy", 
@@ -275,6 +293,7 @@ corresponding visual values `lwd` and `lty` to
 [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md):
 
 ``` r
+
 s + 
   tm_polygons() +
   tm_symbols(
@@ -293,6 +312,7 @@ For each item, a label and the visual values are specified, and in
 addition, a legend title.
 
 ``` r
+
 s + 
   tm_polygons() +
   tm_add_legend(
@@ -317,6 +337,7 @@ There are four legend types, specified via the `type` argument:
 - `"text"` where text is annotated.
 
 ``` r
+
 s + 
   tm_polygons() + 
 tm_add_legend(
@@ -349,6 +370,7 @@ tm_add_legend(
 For symbols shapes (`shape`) are the following numbers are pre-defined:
 
 ``` r
+
 atlantic_grid = cbind(expand.grid(x = -51:-47, y = 20:24), id = seq_len(25))
 x = sf::st_as_sf(atlantic_grid, coords = c("x", "y"), crs = 4326)
 
@@ -374,6 +396,7 @@ There are quite some arguments in
 that can be used to tweak the layout. For instance broader color boxes:
 
 ``` r
+
 s +
   tm_polygons(
     fill = "HPI",
@@ -393,6 +416,7 @@ s +
 Another example is to configure the legend in ggplot2 style.
 
 ``` r
+
 s +
   tm_polygons(
     fill = "HPI",
@@ -421,6 +445,7 @@ The numbers can also be larger than 1. In that case, the tick is drawn
 in the small margin between color box and label.
 
 ``` r
+
 s +
   tm_polygons(
     fill = "HPI",

@@ -8,6 +8,7 @@ variables plus an additional geometry column which contains the
 geometries (see sf package):
 
 ``` r
+
 names(World)
 #>  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        
 #>  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" 
@@ -19,6 +20,7 @@ We specify this object with `tm_shape` (see other vignette) and for
 convenience assign it to `s`:
 
 ``` r
+
 s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
@@ -28,6 +30,7 @@ Each visual variable, e.g. `fill` in `tm_polygons` can represent a data
 variable:
 
 ``` r
+
 s + tm_polygons(fill = "HPI")
 ```
 
@@ -41,6 +44,7 @@ be specified, as well as the visual values (in this case polygon fill
 colors):
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -69,6 +73,7 @@ To specify the classification breaks manually, use `style = "fixed"` and
 specify the breaks using `breaks = c(0,10,20,30,40,50,60)`:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -85,6 +90,7 @@ By default the legend will show bins. Alternatively, the breaks can be
 printed between the colors:
 
 ``` r
+
 s + tm_polygons(
   fill = "HPI",
   fill.scale = tm_scale_intervals(
@@ -103,6 +109,7 @@ s + tm_polygons(
 An alternative for numeric data variables is the continuous scale:
 
 ``` r
+
 s + 
   tm_polygons(
     fill = "HPI",
@@ -122,6 +129,7 @@ position of ticks can be specified via the argument `ticks`.
 ## Scales: categorical data
 
 ``` r
+
 s + 
   tm_polygons(
     fill = "economy",
@@ -131,6 +139,7 @@ s +
 ![](basics_scales_files/figure-html/unnamed-chunk-10-1.png)
 
 ``` r
+
 s + 
   tm_polygons(
     fill = "income_grp",

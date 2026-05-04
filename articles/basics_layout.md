@@ -19,6 +19,7 @@ In this vignette, we’ll cover the most important layout settings. First,
 let’s create a map:
 
 ``` r
+
 tm = tm_shape(World, crs = "+proj=eqearth") + tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "pu_gn"))
 ```
 
@@ -28,6 +29,7 @@ The background colors inside and outside the map frame are specified as
 follows:
 
 ``` r
+
 tm + tm_layout(
   bg.color = "skyblue",
   outer.bg.color = "gold")
@@ -45,6 +47,7 @@ below).
 The map frame can be disabled by setting `frame = FALSE`:
 
 ``` r
+
 tm + tm_layout(
   bg.color = "grey90",
   frame = FALSE)
@@ -65,6 +68,7 @@ For this type of map, it makes sense to disable the map frame, and place
 the legend in the corner of the map, perhaps even with a bit of overlap.
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") + 
   tm_polygons(
     fill = "HPI", 
@@ -85,6 +89,7 @@ To change the appearance of panels the options with the prefix `panel.`
 are used:
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") +
   tm_polygons(c("well_being", "footprint")) +
 tm_layout(panel.label.bg.color = "gold",
@@ -97,6 +102,7 @@ tm_layout(panel.label.bg.color = "gold",
 Panels can be disabled using `panel.show = FALSE`:
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") +
   tm_polygons(c("well_being", "footprint")) +
 tm_layout(panel.show = FALSE)   
@@ -111,6 +117,7 @@ Margins can be set with `inner.margins`, `outer.margins`,
 frame
 
 ``` r
+
 tm +
   tm_layout(inner.margins = c(0, 0, 0.02, 0.02))    
 ```
@@ -124,6 +131,7 @@ respectively. The units are relative to the map frame, so 0.02 means
 The outer margins are the margins between map frame and plotting device:
 
 ``` r
+
 tm_shape(World, crs = "+proj=eqearth") + 
     tm_polygons("HPI", 
                 fill.scale = tm_scale_intervals(values = "pu_gn"),
