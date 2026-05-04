@@ -31,3 +31,5 @@ ubuntu_17_installation.sh
 man/figures/shiny_plot.jpg
 man/figures/shiny_view.jpg
 ^CRAN-SUBMISSION$
+^\.positai$
+^\.claude$
