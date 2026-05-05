@@ -103,7 +103,10 @@ tmapChartBinned_categorical = function(chart, bin_colors, breaks_def, na.show, x
 	}
 
 	if (na.show) {
-		tab = as.data.frame(table(bin = x1, useNA = "always"), responseName = "freq")
+		t = table(bin = x1, useNA = "always")
+		tab = as.data.frame(t, responseName = "freq")
+		levels(tab$bin) = c(levels(tab$bin), "NA")
+		tab$bin[is.na(tab$bin)] = "NA"
 		tab$color = factor(1L:nrow(tab))
 		pal = structure(bin_colors, names = levels(tab$color))
 	} else {
@@ -166,7 +169,10 @@ tmapChartBinned_numeric = function(chart, bin_colors, breaks_def, na.show, x1) {
 	}
 
 	if (na.show) {
-		tab = as.data.frame(table(bin=xcat, useNA = "always"), responseName = "freq")
+		t = table(bin = xcat, useNA = "always")
+		tab = as.data.frame(t, responseName = "freq")
+		levels(tab$bin) = c(levels(tab$bin), "NA")
+		tab$bin[is.na(tab$bin)] = "NA"
 		tab$color = factor(c(ids, length(bin_colors)), levels = seq_along(bin_colors))
 		pal = structure(bin_colors, names = levels(tab$color))
 	} else {
