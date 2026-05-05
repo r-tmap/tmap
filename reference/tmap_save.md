@@ -48,8 +48,9 @@ tmap_save(
 - device:
 
   graphic device to use. Either a device function (e.g.,
-  [`png`](https://rdrr.io/r/grDevices/png.html) or `cairo_pdf`) or a
-  text indicating selected graphic device: "pdf", "eps", "svg", "wmf"
+  [`png`](https://rdrr.io/r/grDevices/png.html) or
+  [`cairo_pdf`](https://rdrr.io/r/grDevices/cairo.html)) or a text
+  indicating selected graphic device: "pdf", "eps", "svg", "wmf"
   (Windows only), "png", "jpg", "bmp", "tiff". If `NULL`, the graphic
   device is guessed based on the `filename` argument.
 

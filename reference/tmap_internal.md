@@ -134,6 +134,8 @@ tmapUsrCls(x)
 
 format_aes_results(values, ord = NULL, legend, chart)
 
+tmapGetLegend(id)
+
 chart_save(legend)
 
 data_type(x)
@@ -566,14 +568,6 @@ tmapTransPolygons(shpTM, ord__, plot.order, args, scale)
 
 tmapTransLines(shpTM, ord__, plot.order, args, scale)
 ```
-
-## Format
-
-An object of class `environment` of length 10.
-
-An object of class `environment` of length 0.
-
-An object of class `environment` of length 1.
 
 ## Arguments
 

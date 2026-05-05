@@ -14,10 +14,6 @@ tmap_provider_credits(provider)
 tmap_providers(mode, credits = FALSE, as.list = credits)
 ```
 
-## Format
-
-An object of class `environment` of length 44.
-
 ## Arguments
 
 - provider:

@@ -1819,18 +1819,20 @@ tmap_options_save(style)
 
   logical that determines whether maximum bounds are set, or a bounding
   box. Not applicable in plot mode. In view mode, this is passed on to
-  setMaxBounds()
+  [setMaxBounds()](https://rstudio.github.io/leaflet/reference/map-methods.html)
 
 - set_view:
 
   numeric vector that determines the view. Either a vector of three:
-  `lng`, `lat`, and `zoom`, or a single value: `zoom`. See setView().
+  `lng`, `lat`, and `zoom`, or a single value: `zoom`. See
+  [setView()](https://rstudio.github.io/leaflet/reference/map-methods.html).
   Only applicable if `bbox` is not specified
 
 - set_zoom_limits:
 
   numeric vector of two that set the minimum and maximum zoom levels
-  (see tileOptions()).
+  (see
+  [tileOptions()](https://rstudio.github.io/leaflet/reference/map-options.html)).
 
 - use_circle_markers:
 
@@ -1838,9 +1840,12 @@ tmap_options_save(style)
   [`tm_dots()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   and
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
-  will be rendered as addCircleMarkers() instead of addMarkers(). The
-  former is faster, the latter can support any symbol since it is based
-  on icons
+  will be rendered as
+  [addCircleMarkers()](https://rstudio.github.io/leaflet/reference/map-layers.html)
+  instead of
+  [addMarkers()](https://rstudio.github.io/leaflet/reference/map-layers.html).
+  The former is faster, the latter can support any symbol since it is
+  based on icons
 
 - leaflet.options:
 

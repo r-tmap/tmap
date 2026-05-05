@@ -1,8 +1,7 @@
 # Export tmap to the format of the used graphics mode
 
 - `tmap_grob()` returns a
-  [`grob`](https://rdrr.io/r/grid/grid-defunct.html) object
-  (`"plot" mode`)
+  [`grob`](https://rdrr.io/r/grid/grid.grob.html) object (`"plot" mode`)
 
 - `tmap_leaflet()` a
   [`leaflet`](https://rstudio.github.io/leaflet/reference/leaflet.html)
@@ -65,8 +64,7 @@ tmap_grob(x, asp = NA, scale = 1, show = FALSE, ...)
 ## Value
 
 - `tmap_grob()` returns a
-  [`grob`](https://rdrr.io/r/grid/grid-defunct.html) object (`"plot"`
-  mode)
+  [`grob`](https://rdrr.io/r/grid/grid.grob.html) object (`"plot"` mode)
 
 - `tmap_leaflet()` a
   [`leaflet`](https://rstudio.github.io/leaflet/reference/leaflet.html)
