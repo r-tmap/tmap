@@ -37,7 +37,7 @@ the file is saved as "tmap01" in the default format, and the number incremented
 if the file already exists.}
 
 \item{device}{graphic device to use. Either a device function
-(e.g., \code{\link[grDevices:png]{png}} or \code{\link[grDevices:cairo]{cairo_pdf}})
+(e.g., \code{\link[grDevices:png]{png}} or \code{\link[grDevices:cairo_pdf]{cairo_pdf}})
 or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff".
 If \code{NULL}, the graphic device is guessed based on the \code{filename} argument.}
 

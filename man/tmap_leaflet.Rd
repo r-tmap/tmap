@@ -15,7 +15,7 @@ tmap_grob(x, asp = NA, scale = 1, show = FALSE, ...)
 \item{show}{show the map?}
 
 \item{...}{
-  Arguments passed on to \code{\link[=print.tmap]{print.tmap}}
+  Arguments passed on to \code{\link{print.tmap}}
   \describe{
     \item{\code{return.asp}}{should the aspect ratio be returned?}
     \item{\code{vp}}{viewport (for \code{"plot"} mode)}
@@ -29,14 +29,14 @@ tmap_grob(x, asp = NA, scale = 1, show = FALSE, ...)
 }
 \value{
 \itemize{
-\item \code{tmap_grob()} returns a \code{\link[grid:grid.grob]{grob}} object (\code{"plot"} mode)
+\item \code{tmap_grob()} returns a \code{\link[grid:grob]{grob}} object (\code{"plot"} mode)
 \item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
 In case small multiples are shown, a list is returned.
 }
 }
 \description{
 \itemize{
-\item \code{tmap_grob()} returns a \code{\link[grid:grid.grob]{grob}} object (\verb{"plot" mode})
+\item \code{tmap_grob()} returns a \code{\link[grid:grob]{grob}} object (\verb{"plot" mode})
 \item \code{tmap_leaflet()} a \code{\link[leaflet:leaflet]{leaflet}} object (\code{"view"} mode).
 }
 }

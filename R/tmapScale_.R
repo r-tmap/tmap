@@ -50,6 +50,18 @@ legend_save = function(legend) {
 
 #' @export
 #' @rdname tmap_internal
+tmapGetLegend = function(id) {
+	if (!exists("legs", envir = .TMAP)) return(NULL)
+	legs = get("legs", envir = .TMAP)
+	if (id < length(legs)) {
+		legs[[id]]
+	} else {
+		NULL
+	}
+}
+
+#' @export
+#' @rdname tmap_internal
 chart_save = function(legend) {
 	if (!exists("charts", envir = .TMAP)) charts_init()
 	charts = get("charts", envir = .TMAP)

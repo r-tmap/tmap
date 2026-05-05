@@ -987,7 +987,7 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{crs_basemap}{The crs_basemap (overall).}
 
-\item{use_gradient}{Use gradient fill using \link[grid:patterns]{linearGradient()}}
+\item{use_gradient}{Use gradient fill using \link[grid:linearGradient]{linearGradient()}}
 
 \item{use_browser}{If \code{TRUE} it opens an external browser, and \code{FALSE} (default) it opens the internal IDEs (e.g. RStudio) browser.}
 
@@ -1004,20 +1004,20 @@ By default \code{TRUE} if no other visual variables are used.}
 
 \item{set_bounds}{logical that determines whether maximum bounds are set,
 or a bounding box. Not applicable in plot mode.
-In view mode, this is passed on to \link[leaflet:map-methods]{setMaxBounds()}}
+In view mode, this is passed on to \link[leaflet:setMaxBounds]{setMaxBounds()}}
 
 \item{set_view}{numeric vector that determines the view.
 Either a vector of three: \code{lng}, \code{lat}, and \code{zoom}, or a single value:
-\code{zoom}. See \link[leaflet:map-methods]{setView()}.
+\code{zoom}. See \link[leaflet:setView]{setView()}.
 Only applicable if \code{bbox} is not specified}
 
 \item{set_zoom_limits}{numeric vector of two that set the minimum and maximum
-zoom levels (see \link[leaflet:map-options]{tileOptions()}).}
+zoom levels (see \link[leaflet:tileOptions]{tileOptions()}).}
 
-\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots()} and \code{tm_symbols()}) will be rendered as \link[leaflet:map-layers]{addCircleMarkers()} instead of \link[leaflet:map-layers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
+\item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots()} and \code{tm_symbols()}) will be rendered as \link[leaflet:addCircleMarkers]{addCircleMarkers()} instead of \link[leaflet:addMarkers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
 
 \item{leaflet.options}{options passed on to
-\link[leaflet:leaflet]{leafletOptions()}}
+\link[leaflet:leafletOptions]{leafletOptions()}}
 
 \item{title}{deprecated See \code{\link[=tm_title]{tm_title()}}}
 

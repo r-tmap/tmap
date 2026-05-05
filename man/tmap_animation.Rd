@@ -46,7 +46,7 @@ the edges of the image.}
 \item{scale}{(passed on to \code{\link[=tmap_save]{tmap_save()}}) overrides the scale argument of
 \code{\link[=tm_layout]{tm_layout()}} (unless set to \code{NA})}
 
-\item{...}{arguments passed on to \code{\link[av:encoding]{av::av_encode_video()}}}
+\item{...}{arguments passed on to \code{\link[av:av_encode_video]{av::av_encode_video()}}}
 }
 \description{
 Create a gif animation or video from an animated tmap plot. First use \code{\link[=tm_animate]{tm_animate()}} or \code{\link[=tm_animate_fast]{tm_animate_fast()}} to animate the plot, and then apply \code{\link[=tmap_animation]{tmap_animation()}} to save it as a gif or video file (e.g. mp4).

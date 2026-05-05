@@ -3,11 +3,11 @@
 %   R/tmapGridAux_tiles.R, R/tmapGridComp_leg_landscape.R,
 %   R/tmapGridDataPlot.R, R/tmapGridDataPlot_lines.R,
 %   R/tmapGridDataPlot_polygons.R, R/tmapGridDataPlot_raster.R,
-%   R/tmapGridDataPlot_symbols.R, R/tmapGridDataPlot_text.R, R/tmapLeafletAux.R,
-%   R/tmapLeafletComp_leg_portrait.R, R/tmapLeafletDataPlot_lines.R,
-%   R/tmapLeafletDataPlot_polygons.R, R/tmapLeafletDataPlot_raster.R,
-%   R/tmapLeafletDataPlot_symbols.R, R/tmapLeafletDataPlot_text.R,
-%   R/tmapLeaflet_layers.R
+%   R/tmapGridDataPlot_symbols.R, R/tmapGridDataPlot_text.R,
+%   R/tmapLeafletAux.R, R/tmapLeafletComp_leg_portrait.R,
+%   R/tmapLeafletDataPlot_lines.R, R/tmapLeafletDataPlot_polygons.R,
+%   R/tmapLeafletDataPlot_raster.R, R/tmapLeafletDataPlot_symbols.R,
+%   R/tmapLeafletDataPlot_text.R, R/tmapLeaflet_layers.R
 \name{tmapGridAuxPrepare}
 \alias{tmapGridAuxPrepare}
 \alias{tmapGridAuxPrepare.default}

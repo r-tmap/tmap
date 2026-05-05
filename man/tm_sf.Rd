@@ -161,7 +161,7 @@ neighbouring polygons.
 
 Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
-for example with \code{\link[sf:geos_measures]{sf::st_area()}}, \code{\link[sf:geos_measures]{sf::st_length()}}, or
+for example with \code{\link[sf:st_area]{sf::st_area()}}, \code{\link[sf:st_length]{sf::st_length()}}, or
 \code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
 }
 \examples{

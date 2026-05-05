@@ -371,7 +371,7 @@ the text. See details.}
 
 \item{point_per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
 
-\item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:geos_unary]{sf::st_point_on_surface()}}.}
+\item{on_surface}{In case of polygons, centroids are computed. Should the points be on the surface? If \code{TRUE}, which is slower than the default \code{FALSE}, centroids outside the surface are replaced with points computed with \code{\link[sf:st_point_on_surface]{sf::st_point_on_surface()}}.}
 
 \item{shadow}{Shadow behind the text. Logical.}
 

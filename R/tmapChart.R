@@ -64,7 +64,7 @@ tmapChartBinned2d_catcat = function(chart, chart1, chart2) {
 tmapChartRaw = function(chart, na.show, x1, ...) {
 	if (!na.show) x1 = na.omit(x1)
 
-	chart$df = data.frame(x = 1L, y = x1)
+	chart$df = data.frame(x = 1L, y = unname(x1))
 	chart$datatype = "raw"
 	chart$predefined = FALSE
 	chart
@@ -75,7 +75,7 @@ tmapChartRaw = function(chart, na.show, x1, ...) {
 tmapChartRaw_nna = function(chart, na.show, x1, ...) {
 	x1 = na.omit(x1)
 
-	chart$df = data.frame(x = 1L, y = x1)
+	chart$df = data.frame(x = 1L, y = unname(x1))
 	chart$datatype = "raw"
 	chart$predefined = FALSE
 	chart

@@ -42,7 +42,7 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
-\item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:grid.raster]{grid}})}
+\item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
 
 \item{saturation}{The saturation of the rgb.}
 }

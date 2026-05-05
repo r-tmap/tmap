@@ -214,7 +214,7 @@ distances_bbox_sides = function(bbox, steps = 4) {
 
 	get_dst = function(y) {
 		suppressWarnings({
-			df = data.frame(x=xs, y = y) |>
+			df = data.frame(x=unname(xs), y = unname(y)) |>
 				st_as_sf(coords = c("x", "y"), crs = crs_bbx)
 			dfll = sf::st_transform(df, crs = 4326)
 			dst = sf::st_distance(dfll)

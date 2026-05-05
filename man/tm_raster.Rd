@@ -47,7 +47,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
-\item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:grid.raster]{grid}})}
+\item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
 }
 \description{
 Map layer that draws rasters. Supported visual variable is: \code{col} (the  color).
@@ -94,7 +94,7 @@ neighbouring polygons.
 
 Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
-for example with \code{\link[sf:geos_measures]{sf::st_area()}}, \code{\link[sf:geos_measures]{sf::st_length()}}, or
+for example with \code{\link[sf:st_area]{sf::st_area()}}, \code{\link[sf:st_length]{sf::st_length()}}, or
 \code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
 }
 \examples{
