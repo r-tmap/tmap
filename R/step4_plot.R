@@ -523,8 +523,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		if (o$type != "grid" && is.na(o$nrows) && is.na(o$ncols)) {
 			# limit facets
-			n_lim = limit_nx(o$n, o$facet.max)
-			if (n_lim != o$n) {
+			o$n_min_ani = if (o$animate) o$n / o$nframes else o$n
+			n_lim = limit_nx(o$n_min_ani, o$facet.max)
+			if (n_lim != o$n_min_ani) {
 				fn_lim = pmin(o$fn, n_lim)
 				while(prod(fn_lim) > n_lim) {
 					fn_lim[which.max(fn_lim)] = fn_lim[which.max(fn_lim)] - 1L

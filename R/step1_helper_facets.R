@@ -527,8 +527,7 @@ step1_rearrange_facets = function(tmo, o) {
 					if (byi == "FRAME__") {
 						gl[i] = list(NULL)
 						gn[i] = as.integer(nframes)
-					} else
-					if (byi == "VARS__") {
+					} else if (byi == "VARS__") {
 						gl[i] = list(vl)
 						gn[i] = vn
 					} else if (byi %in% smeta$vars) {
