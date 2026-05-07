@@ -22,7 +22,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 	if (aes %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 
-	if (!(aes %in% c("fill", "color")) && scale$label.style == "continuous") {
+	if (!(aes %in% c("fill", "col")) && scale$label.style == "continuous") {
 		scale$label.style = "discrete"
 		cli::cli_warn("{.field tm_scale_intervals} {.arg label.style} can only be {.str continuous} for fill and color, not for {aes}")
 	}

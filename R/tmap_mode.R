@@ -83,6 +83,20 @@ set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 		mode_next = mode_now
 		id_next = id
 	} else if (type == "set") {
+		if (!mode %in% modes) {
+			if (mode %in% c("maplibre", "mapbox")) {
+				cli::cli_abort(c(
+					"Mode {.val {mode}} requires the {.pkg tmap.mapgl} package.",
+					"i" = "Please install and load it first: {.run library(tmap.mapgl)}"
+				), call = rlang::caller_env())
+			} else {
+				cli::cli_abort(c(
+					"{.val {mode}} is not a valid tmap mode.",
+					"i" = "Must be one of {.or {.val {modes}}}."
+				), call = rlang::caller_env())
+			}
+		}
+
 		mode_next = rlang::arg_match0(mode, modes)
 		id_next = match(mode_next, modes)
 	} else if (type == "toggle") {

@@ -67,7 +67,7 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 
 		lf |>
 			leafgl::addGlPolygons(data = shp3, layerId = idt[1], label = hdt,
-								  fillColor = gp3$fill, fillOpacity = fill_alpha,
+								  color = gp3$fill, opacity = fill_alpha,
 								  group = group, pane = pane, popup = popups2) %>%
 			{if (gp3$lwd[1]!=0 && gp3$col[1] != "#00000000") leafgl::addGlPolylines(., data = shp3lines, color = gp3$col, opacity = gp3$col_alpha[1], weight = gp3$lwd[1]/4, pane = pane, group = group, layerId = idt[2]) else .} %>%
 			assign_lf(facet_row, facet_col, facet_page)
