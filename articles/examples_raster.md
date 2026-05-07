@@ -23,12 +23,12 @@ Reading with the `terra` package
 ``` r
 
 (ndvi_terra = terra::rast(ndvi_image))
-#> class       : SpatRaster 
+#> class       : SpatRaster
 #> size        : 147, 255, 1  (nrow, ncol, nlyr)
 #> resolution  : 231.6564, 231.6564  (x, y)
 #> extent      : -6073798, -6014726, -1312333, -1278280  (xmin, xmax, ymin, ymax)
-#> coord. ref. : +proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs 
-#> source      : TERRA_MODIS_012010_NDVI_2014-01-17.jp2 
+#> coord. ref. : +proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs
+#> source      : TERRA_MODIS_012010_NDVI_2014-01-17.jp2
 #> name        : TERRA_MODIS_012010_NDVI_2014-01-17
 ```
 
