@@ -418,10 +418,11 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 				newIn = min(totW, cmp$Win)
 			} else {
 				# in case breaks are defined: compute width
-				Wextra = (text_width_inch(paste0("   ", cmp$units$unit)) + text_width_inch(paste0(tail(cmp$breaks, 1), cmp$breaks[1])) / 2 ) * cmp$text.size
+				txt = paste0(cmp$breaks[1], " ", tail(cmp$breaks, 1), " ", cmp$units$unit, cmp$units$unit)
 
-				# bbw are number of (CRS) units of map width, totalCoords translated to scalebar units
-				totalCoords =  bbw * cmp$units$to
+				Wextra = text_width_inch(txt) / 1.2 * cmp$text.size
+
+				totalCoords =  as.numeric(units::set_units(units::as_units(bbw, st_crs(bb)$units), cmp$units$unit, mode = "standard"))
 
 				Wcomp = bb_facet * (cmp$WnativeRange / totalCoords) + Wextra
 
