@@ -769,21 +769,24 @@ tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 }
 
 
-#' @export
 tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
 	asp = comp$width / comp$height
 
-	comp$x = tmap_grob(comp$x, asp = asp)
+	# Pass inset dimensions as a viewport so prepreprocess_meta computes
+	# cw/ch correctly (dasp=asp → cw=asp, ch=1 for landscape)
+	vp = grid::viewport(
+		width  = grid::unit(comp$width * o$lin,  "inches"),
+		height = grid::unit(comp$height * o$lin, "inches")
+	)
+
+	comp$x = tmap_grob(comp$x, asp = asp, vp = vp)
+
 	.TMAP$is_first_inset = FALSE
 	class(comp)[1] = "tm_inset_grob"
-
-	b = .TMAP$geo_ref$bbx
-
 	comp$bbox = .TMAP$geo_ref$bbx_frame
 	comp$show = TRUE
 	comp
 }
-
 
 #' @export
 tmapGridCompPrepare.tm_inset_grob = function(comp, o) {
@@ -856,7 +859,7 @@ tmapGridCompPlot.tm_inset_grob = function(comp, o, fH, fW) {
 
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
-
+#comp$x = grid::rectGrob(gp=gpar(fill="gold"))
 	g = gridCell(3L, 3L, comp$x)
 
 	do.call(grid::grobTree, c(list(gBG, g), list(vp = vp)))

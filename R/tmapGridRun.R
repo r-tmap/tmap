@@ -27,8 +27,8 @@ tmapGridRun = function(o, q, show, knit, knit_opts, args) {
 			}
 
 		}, gts, seq_along(gts), SIMPLIFY = FALSE)
-		if (!is.null(o$vp)) upViewport(1)
 	}
+	if (!is.null(o$vp)) upViewport(1)
 	if (length(gts) == 1) gts = gts[[1]]
 
 	if (show && o$show_gif_ani) {

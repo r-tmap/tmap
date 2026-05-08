@@ -1,5 +1,7 @@
 # tmap (development version)
 
+- small bug fixes
+
 # tmap 4.3
 
 - [!] support for PMTiles via new and experimental package tmap.sources
