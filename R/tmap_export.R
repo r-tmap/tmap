@@ -33,7 +33,7 @@ tmap_leaflet = function(x,
 #' @export
 tmap_grob = function(x,
 					 asp = NA,
-					 scale = 1,
+					 scale = NA,
 					 show = FALSE,
 					 ...) {
 	current_mode = getOption("tmap.mode")
@@ -42,5 +42,12 @@ tmap_grob = function(x,
 		options(tmap.mode = current_mode, tmap.devel.mode = current_dev)
 	})
 	options(tmap.mode = "plot")
-	print.tmap(x + tm_options(asp = asp, scale = scale), show = show, ...)
+
+	opt = if (is.na(scale)) {
+		tm_options(asp = asp)
+	} else {
+		tm_options(asp = asp, scale = scale)
+	}
+
+	print.tmap(x + opt, show = show, ...)
 }

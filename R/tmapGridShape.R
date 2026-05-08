@@ -20,7 +20,7 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 		grid::gList(rndrectGrob(gp=gpar(fill=o$space.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect"),
 					sf::st_as_grob(eotw, gp = grid::gpar(fill = o$bg.color, lwd = NA), name = "inner_world"))
 
-	} else if (design) {
+	} else if (design || !o$bg) {
 		NULL
 	} else {
 		rndrectGrob(gp=gpar(fill=o$bg.color, lwd=NA, lineend="square"), r = o$frame.r * o$scale, name = "inner_rect")
