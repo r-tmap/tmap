@@ -2,6 +2,8 @@
 
 ## tmap (development version)
 
+- small bug fixes
+
 ## tmap 4.3
 
 CRAN release: 2026-04-20
