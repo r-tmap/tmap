@@ -405,7 +405,7 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 
 
 	unit = comp$units$unit
-	unit.size = 1/comp$units$to
+	#unit.size = 1/comp$units$to
 
 	#xrange = fW * comp$cpi
 	xrange = fW * (comp$dst[comp$which_side_of_map] / comp$bb_facet)
@@ -450,7 +450,7 @@ tmapGridCompPlot.tm_scalebar = function(comp, o, fH, fW) {
 		}
 	}
 
-	xrange2 = as.numeric(units::set_units(xrange, "km", mode = "standard"))#xrange/unit.size
+	xrange2 = as.numeric(units::set_units(xrange, unit, mode = "standard"))#xrange/unit.size
 
 	if (is.null(comp$breaks)) {
 		# determine resolution only (unselect steps that do not fit later (with 'sel'))
