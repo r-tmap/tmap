@@ -768,7 +768,7 @@ tmapGridCompPlot.tm_logo = function(comp, o, fH, fW) {
 
 }
 
-
+#' @export
 tmapGridCompPrepare.tm_inset_tmap = function(comp, o) {
 	asp = comp$width / comp$height
 

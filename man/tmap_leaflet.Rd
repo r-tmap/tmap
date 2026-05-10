@@ -7,7 +7,7 @@
 \usage{
 tmap_leaflet(x, show = FALSE, ...)
 
-tmap_grob(x, asp = NA, scale = 1, show = FALSE, ...)
+tmap_grob(x, asp = NA, scale = NA, show = FALSE, ...)
 }
 \arguments{
 \item{x}{a tmap object.}
