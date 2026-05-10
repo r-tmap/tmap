@@ -12,7 +12,7 @@
 ``` r
 tmap_leaflet(x, show = FALSE, ...)
 
-tmap_grob(x, asp = NA, scale = 1, show = FALSE, ...)
+tmap_grob(x, asp = NA, scale = NA, show = FALSE, ...)
 ```
 
 ## Arguments

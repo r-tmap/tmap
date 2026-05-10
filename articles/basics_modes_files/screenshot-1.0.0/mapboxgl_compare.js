@@ -526,9 +526,29 @@ HTMLWidgets.widget({
               } else if (legendInfo.target === "before") {
                 // Append to the before map container
                 beforeMap.getContainer().appendChild(legend);
+                if (
+                  legendInfo.interactivity &&
+                  typeof initializeLegendInteractivity === "function"
+                ) {
+                  initializeLegendInteractivity(
+                    beforeMap,
+                    beforeMap.getContainer().id,
+                    legendInfo.interactivity,
+                  );
+                }
               } else if (legendInfo.target === "after") {
                 // Append to the after map container
                 afterMap.getContainer().appendChild(legend);
+                if (
+                  legendInfo.interactivity &&
+                  typeof initializeLegendInteractivity === "function"
+                ) {
+                  initializeLegendInteractivity(
+                    afterMap,
+                    afterMap.getContainer().id,
+                    legendInfo.interactivity,
+                  );
+                }
               }
             });
           }
@@ -1047,6 +1067,16 @@ HTMLWidgets.widget({
                 // Append legend to the correct map container
                 const targetContainer = map.getContainer();
                 targetContainer.appendChild(legend);
+                if (
+                  message.interactivity &&
+                  typeof initializeLegendInteractivity === "function"
+                ) {
+                  initializeLegendInteractivity(
+                    map,
+                    targetContainer.id,
+                    message.interactivity,
+                  );
+                }
               } else if (message.type === "set_config_property") {
                 map.setConfigProperty(
                   message.importId,

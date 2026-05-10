@@ -65,3 +65,10 @@ dependencies:
       - "maplibregl.umd.js"
     stylesheet:
       - "style.css"
+  - name: legend-interactivity
+    version: "1.0.0"
+    src: "htmlwidgets/lib/legend-interactivity"
+    script:
+      - "legend-interactivity.js"
+    stylesheet:
+      - "legend-interactivity.css"

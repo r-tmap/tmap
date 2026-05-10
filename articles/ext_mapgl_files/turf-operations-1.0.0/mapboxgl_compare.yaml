@@ -55,3 +55,10 @@ dependencies:
     src: "htmlwidgets/lib/mapbox-pmtiles"
     script:
       - "pmtiles-source-optimized-v2.js"
+  - name: legend-interactivity
+    version: "1.0.0"
+    src: "htmlwidgets/lib/legend-interactivity"
+    script:
+      - "legend-interactivity.js"
+    stylesheet:
+      - "legend-interactivity.css"
