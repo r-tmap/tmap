@@ -18,6 +18,8 @@ specified without arguments, the default basemap is
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("OpenTopoMap")
+#> [basemaps] Tiles from "OpenTopoMap" at zoom level 2 couldn't be loaded
+#> This message is displayed once per session.
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-3-1.png)

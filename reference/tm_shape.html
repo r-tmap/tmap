@@ -150,7 +150,13 @@ data sources (e.g. PMTiles or vector tiles), where multiple layers may be availa
 
 
 <dt id="arg-unit">unit<a class="anchor" aria-label="anchor" href="#arg-unit"></a></dt>
-<dd><p>Unit of the coordinates</p></dd>
+<dd><p>Unit of distance measurement, used by <code><a href="tm_scalebar.html">tm_scalebar()</a></code>. Either a
+specific unit string such as <code>"km"</code>, <code>"m"</code>, <code>"mi"</code>, <code>"yd"</code>, <code>"ft"</code>, or
+<code>"in"</code> (see <code><a href="https://r-quantities.github.io/units/reference/valid_udunits.html" class="external-link">units::valid_udunits()</a></code> for all options), or one of two
+automatic options: <code>"metric"</code> (default) selects the most readable unit
+from km, m, and mm; <code>"imperial"</code> selects from mi, yd, ft, and in.
+In both cases the unit is chosen as the largest one for which the
+map width expressed in that unit is at least 10.</p></dd>
 
 
 <dt id="arg-filter">filter<a class="anchor" aria-label="anchor" href="#arg-filter"></a></dt>

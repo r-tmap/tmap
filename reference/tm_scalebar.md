@@ -35,23 +35,24 @@ tm_scalebar(
 
 - breaks:
 
-  breaks. E.g. `c(0, 10, 50)` places scale bar breaks at 0, 10, and 50
-  units. These units are specified in
+  Scale bar break positions. E.g. `c(0, 10, 50)` places breaks at 0, 10,
+  and 50 units. The unit is controlled by the `unit` argument from
   [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md).
+  When `NULL` (default), break positions are chosen automatically.
 
 - width:
 
-  width of the scale bar. Units are number of text line heights, which
-  is similar to the number of characters. In case `beaks` are specified,
-  the `width` is only handy to finetune the approximated width, e.g. in
-  case clipping of the labels occurs, or there is too much whitespace.
+  Width of the scale bar, in number of text line heights (roughly
+  equivalent to character widths). When `breaks` are specified, `width`
+  is only useful for fine-tuning, e.g. to prevent label clipping or
+  reduce excess whitespace.
 
 - allow_clipping:
 
-  should clipping of the last label by allowed? If `TRUE` (default), the
-  last break label including unit is printed even when it doesn't fit
-  the frame. If `FALSE` it will not be printed. Instead the unit suffix
-  is added to the second last label.
+  Should clipping of the last label be allowed? If `TRUE` (default), the
+  last break label including its unit suffix is printed even when it
+  extends beyond the frame. If `FALSE`, that label is suppressed and the
+  unit suffix is appended to the second-to-last label instead.
 
 - text.size:
 

@@ -72,7 +72,16 @@ tm_shape(
 
 - unit:
 
-  Unit of the coordinates
+  Unit of distance measurement, used by
+  [`tm_scalebar()`](https://r-tmap.github.io/tmap/reference/tm_scalebar.md).
+  Either a specific unit string such as `"km"`, `"m"`, `"mi"`, `"yd"`,
+  `"ft"`, or `"in"` (see
+  [`units::valid_udunits()`](https://r-quantities.github.io/units/reference/valid_udunits.html)
+  for all options), or one of two automatic options: `"metric"`
+  (default) selects the most readable unit from km, m, and mm;
+  `"imperial"` selects from mi, yd, ft, and in. In both cases the unit
+  is chosen as the largest one for which the map width expressed in that
+  unit is at least 10.
 
 - filter:
 

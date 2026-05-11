@@ -126,15 +126,23 @@
 
 
 <dl><dt id="arg-breaks">breaks<a class="anchor" aria-label="anchor" href="#arg-breaks"></a></dt>
-<dd><p>breaks. E.g. <code>c(0, 10, 50)</code> places scale bar breaks at 0, 10, and 50 units. These units are specified in <code><a href="tm_shape.html">tm_shape()</a></code>.</p></dd>
+<dd><p>Scale bar break positions. E.g. <code>c(0, 10, 50)</code> places breaks
+at 0, 10, and 50 units. The unit is controlled by the <code>unit</code> argument from <code><a href="tm_shape.html">tm_shape()</a></code>.
+When <code>NULL</code> (default), break positions are chosen automatically.</p></dd>
 
 
 <dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case <code>beaks</code> are specified, the <code>width</code> is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.</p></dd>
+<dd><p>Width of the scale bar, in number of text line heights (roughly
+equivalent to character widths). When <code>breaks</code> are specified, <code>width</code> is
+only useful for fine-tuning, e.g. to prevent label clipping or reduce
+excess whitespace.</p></dd>
 
 
 <dt id="arg-allow-clipping">allow_clipping<a class="anchor" aria-label="anchor" href="#arg-allow-clipping"></a></dt>
-<dd><p>should clipping of the last label by allowed? If <code>TRUE</code> (default), the last break label including unit is printed even when it doesn't fit the frame. If <code>FALSE</code> it will not be printed. Instead the unit suffix is added to the second last label.</p></dd>
+<dd><p>Should clipping of the last label be allowed? If
+<code>TRUE</code> (default), the last break label including its unit suffix is printed
+even when it extends beyond the frame. If <code>FALSE</code>, that label is suppressed
+and the unit suffix is appended to the second-to-last label instead.</p></dd>
 
 
 <dt id="arg-text-size">text.size<a class="anchor" aria-label="anchor" href="#arg-text-size"></a></dt>
