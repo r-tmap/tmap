@@ -571,15 +571,19 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					# automatic
 
 					uns = if (o$unit == "metric") c("km", "m", "mm") else c("mi", "yd", "ft", "in")
-
 					res = vapply(uns, function(u) {
 						as.numeric(units::set_units(dst[2], units::as_units(u), mode = "standard"))
 					}, FUN.VALUE = numeric(1))
-					res_num = as.numeric(res)
-					if (any(res_num >= 10)) {
-						unit = names(res)[res_num >= 10][1]
+
+					if (is.na(res[2])) {
+						unit = uns[1]
 					} else {
-						unit = tail(names(res), 1)
+						res_num = as.numeric(res)
+						if (any(res_num >= 10)) {
+							unit = names(res)[res_num >= 10][1]
+						} else {
+							unit = tail(names(res), 1)
+						}
 					}
 				} else {
 					unit = o$unit
