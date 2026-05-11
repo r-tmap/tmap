@@ -41,7 +41,13 @@
 #' @param name of the spatial object
 #' @param layer Name of the layer to use. This is primarily relevant for multi-layer or remote
 #'   data sources (e.g. PMTiles or vector tiles), where multiple layers may be available.
-#' @param unit Unit of the coordinates
+#' @param unit Unit of distance measurement, used by [tm_scalebar()]. Either a
+#'   specific unit string such as `"km"`, `"m"`, `"mi"`, `"yd"`, `"ft"`, or
+#'   `"in"` (see [units::valid_udunits()] for all options), or one of two
+#'   automatic options: `"metric"` (default) selects the most readable unit
+#'   from km, m, and mm; `"imperial"` selects from mi, yd, ft, and in.
+#'   In both cases the unit is chosen as the largest one for which the
+#'   map width expressed in that unit is at least 10.
 #' @param filter Optional filter expression used to subset features. The exact syntax depends
 #'   on the data source. For in-memory objects (e.g. \pkg{sf}), this is typically evaluated in R,
 #'   whereas for remote sources it may be translated to a query and executed on the server side.

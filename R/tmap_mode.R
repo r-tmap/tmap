@@ -245,7 +245,3 @@ rtmp = function() {
 	tmap_last()
 }
 
-
-check_unit = function(unit) {
-	if (!unit %in% c("metric", "imperial", "km", "m", "mi", "miles", "ft", "feet")) stop("incorrect unit", call. = FALSE)
-}

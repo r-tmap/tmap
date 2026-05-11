@@ -144,9 +144,17 @@ tm_compass <- function(north,
 #'
 #' Map component that adds a scale bar.
 #'
-#' @param breaks breaks. E.g. `c(0, 10, 50)` places scale bar breaks at 0, 10, and 50 units. These units are specified in [tm_shape()].
-#' @param width width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case `beaks` are specified, the `width` is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.
-#' @param allow_clipping should clipping of the last label by allowed? If `TRUE` (default), the last break label including unit is printed even when it doesn't fit the frame. If `FALSE` it will not be printed. Instead the unit suffix is added to the second last label.
+#' @param breaks Scale bar break positions. E.g. `c(0, 10, 50)` places breaks
+#'   at 0, 10, and 50 units. The unit is controlled by the `unit` argument from [tm_shape()].
+#'   When `NULL` (default), break positions are chosen automatically.
+#' @param width Width of the scale bar, in number of text line heights (roughly
+#'   equivalent to character widths). When `breaks` are specified, `width` is
+#'   only useful for fine-tuning, e.g. to prevent label clipping or reduce
+#'   excess whitespace.
+#' @param allow_clipping Should clipping of the last label be allowed? If
+#'   `TRUE` (default), the last break label including its unit suffix is printed
+#'   even when it extends beyond the frame. If `FALSE`, that label is suppressed
+#'   and the unit suffix is appended to the second-to-last label instead.
 #' @param text.size text size
 #' @param text.color text.color
 #' @param color.dark color.dark

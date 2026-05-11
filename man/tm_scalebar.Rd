@@ -30,11 +30,19 @@ tm_scalebar(
 )
 }
 \arguments{
-\item{breaks}{breaks. E.g. \code{c(0, 10, 50)} places scale bar breaks at 0, 10, and 50 units. These units are specified in \code{\link[=tm_shape]{tm_shape()}}.}
+\item{breaks}{Scale bar break positions. E.g. \code{c(0, 10, 50)} places breaks
+at 0, 10, and 50 units. The unit is controlled by the \code{unit} argument from \code{\link[=tm_shape]{tm_shape()}}.
+When \code{NULL} (default), break positions are chosen automatically.}
 
-\item{width}{width of the scale bar. Units are number of text line heights, which is similar to the number of characters. In case \code{beaks} are specified, the \code{width} is only handy to finetune the approximated width, e.g. in case clipping of the labels occurs, or there is too much whitespace.}
+\item{width}{Width of the scale bar, in number of text line heights (roughly
+equivalent to character widths). When \code{breaks} are specified, \code{width} is
+only useful for fine-tuning, e.g. to prevent label clipping or reduce
+excess whitespace.}
 
-\item{allow_clipping}{should clipping of the last label by allowed? If \code{TRUE} (default), the last break label including unit is printed even when it doesn't fit the frame. If \code{FALSE} it will not be printed. Instead the unit suffix is added to the second last label.}
+\item{allow_clipping}{Should clipping of the last label be allowed? If
+\code{TRUE} (default), the last break label including its unit suffix is printed
+even when it extends beyond the frame. If \code{FALSE}, that label is suppressed
+and the unit suffix is appended to the second-to-last label instead.}
 
 \item{text.size}{text size}
 

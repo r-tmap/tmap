@@ -41,7 +41,13 @@ data sources (e.g. PMTiles or vector tiles), where multiple layers may be availa
 
 \item{name}{of the spatial object}
 
-\item{unit}{Unit of the coordinates}
+\item{unit}{Unit of distance measurement, used by \code{\link[=tm_scalebar]{tm_scalebar()}}. Either a
+specific unit string such as \code{"km"}, \code{"m"}, \code{"mi"}, \code{"yd"}, \code{"ft"}, or
+\code{"in"} (see \code{\link[units:valid_udunits]{units::valid_udunits()}} for all options), or one of two
+automatic options: \code{"metric"} (default) selects the most readable unit
+from km, m, and mm; \code{"imperial"} selects from mi, yd, ft, and in.
+In both cases the unit is chosen as the largest one for which the
+map width expressed in that unit is at least 10.}
 
 \item{filter}{Optional filter expression used to subset features. The exact syntax depends
 on the data source. For in-memory objects (e.g. \pkg{sf}), this is typically evaluated in R,

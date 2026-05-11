@@ -416,8 +416,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	if (!o$legend.only) {
 		o = preprocess_meta(o, cdt)
 
-		# add shape unit (needed for e.g. tm_scalebar)
-		unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
+
 		crs = get_option_class(o$crs_step4, "sf") #o$crs
 		longlat = sf::st_is_longlat(crs)
 	} else {
@@ -567,6 +566,25 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 				# }
 
 				dst = distances_bbox_sides(bbx)
+
+				if (o$unit %in% c("metric", "imperial")) {
+					# automatic
+
+					uns = if (o$unit == "metric") c("km", "m", "mm") else c("mi", "yd", "ft", "in")
+
+					res = vapply(uns, function(u) {
+						as.numeric(units::set_units(dst[2], units::as_units(u), mode = "standard"))
+					}, FUN.VALUE = numeric(1))
+					res_num = as.numeric(res)
+					if (any(res_num >= 10)) {
+						unit = names(res)[res_num >= 10][1]
+					} else {
+						unit = tail(names(res), 1)
+					}
+				} else {
+					unit = o$unit
+				}
+
 				units::set_units(dst, units::as_units(unit), mode = "standard")
 				list(projection=crs, unit=unit, dst = dst, projected = !longlat)
 			}
