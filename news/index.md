@@ -1,6 +1,6 @@
 # Changelog
 
-## tmap (development version)
+## tmap 4.3.1
 
 - small bug fixes
 
