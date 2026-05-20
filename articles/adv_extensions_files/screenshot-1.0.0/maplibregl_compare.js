@@ -179,6 +179,102 @@ function createCoordinatesControl(options) {
   };
 }
 
+function createMapglLaserPointer(options) {
+  const pointerOptions = options || {};
+  const color = pointerOptions.color || "#ff2d55";
+  const sizeValue = Number(pointerOptions.size);
+  const size = Number.isFinite(sizeValue) && sizeValue > 0 ? sizeValue : 14;
+
+  const pointer = document.createElement("div");
+  pointer.className = "mapgl-sync-laser-pointer";
+  pointer.style.cssText = `
+    position: absolute;
+    display: none;
+    width: ${size}px;
+    height: ${size}px;
+    margin: 0;
+    padding: 0;
+    border: 2px solid ${color};
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.9), 0 0 14px ${color};
+    box-sizing: border-box;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  `;
+
+  const dot = document.createElement("div");
+  dot.style.cssText = `
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: ${color};
+    transform: translate(-50%, -50%);
+  `;
+  pointer.appendChild(dot);
+  return pointer;
+}
+
+function setupSyncLaserPointer(beforeMap, afterMap, options) {
+  const beforePointer = createMapglLaserPointer(options);
+  const afterPointer = createMapglLaserPointer(options);
+  const beforeContainer = beforeMap.getContainer();
+  const afterContainer = afterMap.getContainer();
+
+  beforeContainer.appendChild(beforePointer);
+  afterContainer.appendChild(afterPointer);
+
+  const hide = (pointer) => {
+    pointer.style.display = "none";
+  };
+
+  const update = (targetMap, pointer, event) => {
+    if (!event || !event.lngLat || !targetMap || !pointer) return;
+
+    const point = targetMap.project(event.lngLat);
+    const container = targetMap.getContainer();
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (
+      point.x < 0 ||
+      point.y < 0 ||
+      point.x > width ||
+      point.y > height
+    ) {
+      hide(pointer);
+      return;
+    }
+
+    pointer.style.display = "block";
+    pointer.style.left = `${point.x}px`;
+    pointer.style.top = `${point.y}px`;
+  };
+
+  const beforeMove = (event) => update(afterMap, afterPointer, event);
+  const afterMove = (event) => update(beforeMap, beforePointer, event);
+  const beforeLeave = () => hide(afterPointer);
+  const afterLeave = () => hide(beforePointer);
+
+  beforeMap.on("mousemove", beforeMove);
+  afterMap.on("mousemove", afterMove);
+  beforeMap.getCanvas().addEventListener("mouseleave", beforeLeave);
+  afterMap.getCanvas().addEventListener("mouseleave", afterLeave);
+
+  return function cleanupSyncLaserPointer() {
+    beforeMap.off("mousemove", beforeMove);
+    afterMap.off("mousemove", afterMove);
+    beforeMap.getCanvas().removeEventListener("mouseleave", beforeLeave);
+    afterMap.getCanvas().removeEventListener("mouseleave", afterLeave);
+    beforePointer.remove();
+    afterPointer.remove();
+  };
+}
+
 function onMouseMoveTooltip(e, map, tooltipPopup, tooltipProperty, layerId) {
   if (e.features.length > 0) {
     // Query all features at this point to determine z-order
@@ -488,6 +584,10 @@ HTMLWidgets.widget({
 
           // Initialize the sync
           syncMaps();
+
+          if (x.laser && x.laser.enabled) {
+            setupSyncLaserPointer(beforeMap, afterMap, x.laser);
+          }
         }
 
         // Ensure both maps resize correctly
