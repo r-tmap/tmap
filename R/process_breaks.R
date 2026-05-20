@@ -104,9 +104,11 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 			ext <- ""
 			if (!is.na(big.num.abbr[1])) {
 				big.num.abbr <- sort(big.num.abbr, decreasing = TRUE)
+				vec_fin = vec[!is.infinite(vec)]
 				for (i in 1:length(big.num.abbr)) {
 					o <- unname(big.num.abbr[i])
-					if ((mag > o && all(vec - floor(vec/(10^o))*(10^o) < 1))) { #mag>(o+2) || removed
+
+					if ((mag > o && all(vec_fin - floor(vec_fin/(10^o))*(10^o) < 1))) { #mag>(o+2) || removed
 						vec <- vec / (10^o)
 						ext <- paste0(" ", names(big.num.abbr)[i])
 						break
