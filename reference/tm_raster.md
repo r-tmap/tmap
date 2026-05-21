@@ -73,7 +73,8 @@ opt_tm_raster(interpolate = FALSE, blend = "over")
 
 - blend:
 
-  (Experimental) see the argument `op` in `grobGroup`
+  (Experimental) see the argument `op` in
+  [`groupGrob`](https://rdrr.io/r/grid/grid.group.html)
 
 ## Details
 

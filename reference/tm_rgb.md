@@ -71,7 +71,8 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
 
 - blend:
 
-  (Experimental) see the argument `op` in `grobGroup`
+  (Experimental) see the argument `op` in
+  [`groupGrob`](https://rdrr.io/r/grid/grid.group.html)
 
 ## Examples
 
