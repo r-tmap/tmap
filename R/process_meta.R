@@ -607,6 +607,7 @@ process_meta = function(o, d, cdt, aux) {
 			} else if (!is.null(panel.labels[[3]])) {
 				panel.labels.dim = 3
 			} else {
+				panel.labels.dim = NA
 				panel.type = "none"
 			}
 
