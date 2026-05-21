@@ -856,7 +856,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		for (i in seq_len(nrow(d))) {
 			bbx = d$bbox[[i]]
-			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim_data)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 			if (is.na(d$asp[i])) next
 			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 

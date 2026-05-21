@@ -609,10 +609,14 @@ process_meta = function(o, d, cdt, aux) {
 			} else {
 				panel.type = "none"
 			}
+
+
 			if (nby[3] != 1L) {
 				npages = nby[3]
+				panel.labels.dim_data = 3
 			} else {
 				npages = ceiling(n / (nrows * ncols))
+				panel.labels.dim_data = panel.labels.dim
 			}
 		} else {
 			npages = ceiling(n / (nrows * ncols))

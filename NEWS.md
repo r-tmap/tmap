@@ -1,6 +1,6 @@
-# tmap 4.3.1
+# tmap 4.3.1 (in development)
 
-- small bug fixes
+- bug fixes (most importantly regarding >=1000 polygons in view mode)
 
 # tmap 4.3
 
