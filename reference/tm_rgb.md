@@ -33,7 +33,7 @@ tm_rgba(
   options = opt_tm_rgb()
 )
 
-opt_tm_rgb(interpolate = FALSE, saturation = 1)
+opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
 ```
 
 ## Arguments
@@ -68,6 +68,10 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1)
 - saturation:
 
   The saturation of the rgb.
+
+- blend:
+
+  (Experimental) see the argument `op` in `grobGroup`
 
 ## Examples
 

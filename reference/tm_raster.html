@@ -113,7 +113,7 @@
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_raster</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_raster</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span>, blend <span class="op">=</span> <span class="st">"over"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -157,6 +157,10 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 
 <dt id="arg-interpolate">interpolate<a class="anchor" aria-label="anchor" href="#arg-interpolate"></a></dt>
 <dd><p>Should the raster image be interpolated? Currently only applicable in view mode (passed on to <code><a href="https://rdrr.io/r/grid/grid.raster.html" class="external-link">grid</a></code>)</p></dd>
+
+
+<dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
+<dd><p>(Experimental) see the argument <code>op</code> in <code>grobGroup</code></p></dd>
 
 </dl></div>
     <div class="section level2">

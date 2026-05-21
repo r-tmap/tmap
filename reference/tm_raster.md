@@ -24,7 +24,7 @@ tm_raster(
   ...
 )
 
-opt_tm_raster(interpolate = FALSE)
+opt_tm_raster(interpolate = FALSE, blend = "over")
 ```
 
 ## Arguments
@@ -70,6 +70,10 @@ opt_tm_raster(interpolate = FALSE)
   Should the raster image be interpolated? Currently only applicable in
   view mode (passed on to
   [`grid`](https://rdrr.io/r/grid/grid.raster.html))
+
+- blend:
+
+  (Experimental) see the argument `op` in `grobGroup`
 
 ## Details
 
