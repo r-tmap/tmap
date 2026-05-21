@@ -42,6 +42,21 @@ Specify an animation from a tmap plot. This is similar to creating facets with \
 \note{
 In older versions (< 4.1) \code{\link[=tm_facets]{tm_facets()}} with \code{page} specification was used to create animations frames and \code{\link[=tmap_animation]{tmap_animation()}} to create the animation itself using inputs like the frame rate specification. As of version 4.2, the whole animation, including frame rate, is specified in \code{\link[=tm_animate]{tm_animate()}}. The animation can still be saved via \code{\link[=tmap_animation]{tmap_animation()}}.
 }
+\examples{
+if (interactive()) {
+	tm_shape(NLD_prov) +
+		tm_polygons("yellow") +
+		tm_animate(frames = "name")
+
+	tm_shape(metro) +
+		tm_symbols(size = paste0("pop", seq(1950, 2030, by=10)),
+				   size.free = FALSE,
+				   size.legend = tm_legend("Population")) +
+		tm_layout(panel.labels = seq(1970, 2030, by=10)) +
+		tm_animate()
+}
+
+}
 \seealso{
 \code{\link[=tm_facets]{tm_facets()}} which is the core function, and \code{\link[=tmap_animation]{tmap_animation()}} used to save the animation
 }

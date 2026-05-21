@@ -12,6 +12,7 @@
 #' @note In older versions (< 4.1) [tm_facets()] with `page` specification was used to create animations frames and [tmap_animation()] to create the animation itself using inputs like the frame rate specification. As of version 4.2, the whole animation, including frame rate, is specified in [tm_animate()]. The animation can still be saved via [tmap_animation()].
 #' @seealso [tm_facets()] which is the core function, and [tmap_animation()] used to save the animation
 #' @rdname tm_animate
+#' @example examples/tm_animate.R
 tm_animate_fast = function(frames = "VARS__",
 							 nframes = 60L,
 							 fps = 24L,

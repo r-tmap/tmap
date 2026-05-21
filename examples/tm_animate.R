@@ -1,4 +1,3 @@
-\donttest{
 if (interactive()) {
 	tm_shape(NLD_prov) +
 		tm_polygons("yellow") +
@@ -11,4 +10,4 @@ if (interactive()) {
 		tm_layout(panel.labels = seq(1970, 2030, by=10)) +
 		tm_animate()
 }
-}
+
