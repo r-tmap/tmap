@@ -46,7 +46,7 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 
 \item{saturation}{The saturation of the rgb.}
 
-\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:grobGroup]{grobGroup}}}
+\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:groupGrob]{groupGrob}}}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},

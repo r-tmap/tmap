@@ -49,7 +49,7 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
 
-\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:grobGroup]{grobGroup}}}
+\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:groupGrob]{groupGrob}}}
 }
 \description{
 Map layer that draws rasters. Supported visual variable is: \code{col} (the  color).
