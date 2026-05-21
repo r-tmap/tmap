@@ -198,9 +198,10 @@ tm_raster = function(col = tm_vars(),
 
 #' @rdname tm_raster
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
+#' @param blend (Experimental) see the argument `op` in [`grobGroup`][grid::grobGroup()]
 #' @export
-opt_tm_raster = function(interpolate = FALSE) {
+opt_tm_raster = function(interpolate = FALSE, blend = "over") {
 	list(trans.args = list(),
-		 mapping.args = list(interpolate = interpolate))
+		 mapping.args = list(interpolate = interpolate, blend = blend))
 }
 

@@ -80,6 +80,12 @@ tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, fac
 		m[is.na(m)] = NA #"#0000FF"
 
 		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = a$interpolate, name = paste0("raster_", id)) #gpl$raster.misc$interpolate
+
+
+		if (!is.null(a$blend) && a$blend != "over") {
+			grb = grid::groupGrob(grb, op = a$blend)
+		}
+
 		gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)

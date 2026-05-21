@@ -30,7 +30,7 @@ tm_rgba(
   options = opt_tm_rgb()
 )
 
-opt_tm_rgb(interpolate = FALSE, saturation = 1)
+opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
@@ -45,6 +45,8 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
 
 \item{saturation}{The saturation of the rgb.}
+
+\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:grobGroup]{grobGroup}}}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},

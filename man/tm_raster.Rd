@@ -23,7 +23,7 @@ tm_raster(
   ...
 )
 
-opt_tm_raster(interpolate = FALSE)
+opt_tm_raster(interpolate = FALSE, blend = "over")
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
@@ -48,6 +48,8 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 \item{...}{to catch deprecated arguments from version < 4.0}
 
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
+
+\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:grobGroup]{grobGroup}}}
 }
 \description{
 Map layer that draws rasters. Supported visual variable is: \code{col} (the  color).
