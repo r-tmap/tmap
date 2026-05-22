@@ -56,6 +56,7 @@ tmapLeafletDataPlot.tm_data_raster = function(a, shpTM, dt, pdt, popup.format, h
 
 		lf %>%
 			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity, group = group, options = opts) %>%
+			blend_lf(a$blend, pane) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		#shp2 = stars::st_as_stars(list(values = tmapID), dimensions = shp)

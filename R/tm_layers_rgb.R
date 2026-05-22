@@ -99,6 +99,30 @@ tm_rgba = function(col = tm_vars(n = 4, multivariate = TRUE),
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
 #' @param saturation `r .doc_opt("rgb.saturation")`
 #' @param blend (Experimental) see the argument `op` in [`groupGrob`][grid::groupGrob()]
+#' @details
+#' ## Layer blending (`blend`)
+#'
+#' Blend modes control how a layer's pixels are combined with the pixels
+#' beneath it. For each pixel, let \eqn{S} be the source (top layer) RGB
+#' value and \eqn{D} be the destination (bottom layer) RGB value, both
+#' normalised to \eqn{[0, 1]}.
+#'
+#' | `col_blend` | Formula | Use case |
+#' | --- | --- | --- |
+#' | `"over"` | \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} | Standard alpha compositing (default) |
+#' | `"multiply"` | \eqn{S \times D} | Hillshading over colour raster; both layers darken each other |
+#' | `"screen"` | \eqn{1 - (1 - S)(1 - D)} | Inverse of multiply; brightens |
+#' | `"overlay"` | multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} | Boosts contrast; preserves midtones |
+#'
+#' **Example**: with `"multiply"`, a grey hillshade pixel \eqn{S = (0.8, 0.8,
+#' 0.8)} multiplied by a blue elevation pixel \eqn{D = (0.2, 0.4, 0.9)} gives
+#' \eqn{(0.16, 0.32, 0.72)} — the colour is preserved but darkened where the
+#' hillshade is dark, producing natural-looking terrain shading without
+#' transparency.
+#'
+#' Requires R >= 4.2 and a compatible graphics device (e.g.
+#' `png(type = "cairo")`, `svg()`). See [`grid::groupGrob()`] for the full
+#' list of supported operators.
 #' @export
 opt_tm_rgb = function(interpolate = FALSE, saturation = 1, blend = "over") {
 	list(trans.args = list(),

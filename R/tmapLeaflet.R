@@ -55,3 +55,13 @@ tmapLeafletWrap = function(label, facet_row, facet_col, facet_page, o) {
 
 tmapLeafletXtab = function(label, facet_row, facet_col, facet_page, o) {
 }
+
+blend_lf = function(lf, blend, pane) {
+	if (is.null(blend) || blend == "over") return(lf)
+	htmlwidgets::onRender(lf, sprintf("
+        function(el, x) {
+            var pane = el.querySelector('.leaflet-%s-pane');
+            if (pane) pane.style.mixBlendMode = '%s';
+        }
+    ", pane, blend))
+}

@@ -17,11 +17,21 @@ tmapGridRun = function(o, q, show, knit, knit_opts, args) {
 				if (is.null(o$vp) && i != 1L) grid::grid.newpage()
 			}
 
-			tryCatch({
-				grid::grid.draw(gt)
-			}, error = function(e) {
-				stop("Plot error. Try adding + tm_check_fix()", call. = FALSE)
-			})
+			withCallingHandlers(
+				tryCatch({
+					grid::grid.draw(gt)
+				}, error = function(e) {
+					msg <- conditionMessage(e)
+					stop(msg, "\nIf this is a spatial data issue, try adding + tm_check_fix()", call. = FALSE)
+				}),
+				warning = function(w) {
+					if (grepl("Unknown group", conditionMessage(w))) {
+						warning("Layer blending (blend) is not supported by the current graphics device on this run. Try re-plotting.", call. = FALSE)
+						invokeRestart("muffleWarning")
+					}
+				}
+			)
+
 			if (o$show_gif_ani) {
 				dev.off()
 			}

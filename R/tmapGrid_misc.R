@@ -298,3 +298,16 @@ npc_to_native = function(x, scale) {
 	x * (scale[2] - scale[1])# + scale[1]
 }
 
+blend_grobs = function(grb, blend) {
+	if (getRversion() < "4.2.0") {
+		warning("blend requires R >= 4.2. Falling back to no blending.")
+		return(grb)
+	}
+	caps <- grDevices::dev.capabilities()$compositing
+	if (!is.null(caps) && !(blend %in% caps)) {
+		warning("Compositing operator '", blend, "' is not supported by the current graphics device. ",
+				"Falling back to no blending. Try png(type = \"cairo\") or svg().")
+		return(grb)
+	}
+	grid::groupGrob(grb, op = blend, name = paste0("blend_", sample.int(.Machine$integer.max, 1)))
+}
