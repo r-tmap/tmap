@@ -298,7 +298,7 @@ npc_to_native = function(x, scale) {
 	x * (scale[2] - scale[1])# + scale[1]
 }
 
-blend_grobs = function(grb, blend) {
+blend_grobs = function(grb, blend, dst = NULL) {
 	if (getRversion() < "4.2.0") {
 		warning("blend requires R >= 4.2. Falling back to no blending.")
 		return(grb)
@@ -309,5 +309,5 @@ blend_grobs = function(grb, blend) {
 				"Falling back to no blending. Try png(type = \"cairo\") or svg().")
 		return(grb)
 	}
-	grid::groupGrob(grb, op = blend, name = paste0("blend_", sample.int(.Machine$integer.max, 1)))
+	grid::groupGrob(src = grb, op = blend, dst = dst, name = grb$name)
 }

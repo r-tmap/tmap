@@ -1,6 +1,7 @@
 #' @export
 #' @rdname tmapGridLeaflet
 tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	message("blend: ", a$blend)
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 
@@ -81,13 +82,18 @@ tmapGridDataPlot.tm_data_raster = function(a, shpTM, dt, gp, bbx, facet_row, fac
 
 		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = a$interpolate, name = paste0("raster_", id)) #gpl$raster.misc$interpolate
 
+		#gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 
-		if (!is.null(a$blend) && a$blend != "over") grb = blend_grobs(grb, a$blend)
-
+		if (!is.null(a$blend) && a$blend != "over") {
+			existing = gts[[facet_page]]$children$gt_main$children[[paste0("gt_facet_", rc_text)]]$children
+			dst = do.call(grid::grobTree, existing)
+			grb = blend_grobs(grb, a$blend, dst = dst)
+		}
 
 		gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)
+
 	} else {
 		m = matrix(tmapID, nrow = nrow(shp), ncol = ncol(shp))
 		shp2 = structure(list(tmapID = m), class = "stars", dimensions = shp)
