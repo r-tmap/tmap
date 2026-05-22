@@ -81,6 +81,7 @@ tmap::tm_shape(ndvi) +
     tmap::tm_layout(
         scale = 1.0
     )
+#> blend: over
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-6-1.png)
@@ -100,6 +101,7 @@ sent = terra::rast(sent_image)
 ``` r
 
 tm_shape(sent) + tm_raster(col.scale = tm_scale_discrete())
+#> blend: over
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-9-1.png)
@@ -115,6 +117,7 @@ clc2018_poznan = rast("https://github.com/Nowosad/comparing-spatial-patterns-202
 
 tm_shape(clc2018_poznan) + 
     tm_raster()
+#> blend: over
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-11-1.png)
@@ -123,6 +126,7 @@ tm_shape(clc2018_poznan) +
 
 tm_shape(clc2018_poznan) + 
     tm_raster(col.legend = tm_legend(title = "Land cover"))
+#> blend: over
 ```
 
 ![](examples_raster_files/figure-html/unnamed-chunk-12-1.png)

@@ -38,6 +38,7 @@ tm_title("Map of the World",
 tm_credits("Eckert IV projection", position = c("RIGHT", "BOTTOM"))
 #> Warning: ! Unable to warp stars. Stars will be transformed now (which will take some
 #>   time).
+#> blend: over
 ```
 
 ![](examples_terrain_files/figure-html/unnamed-chunk-3-1.png)
@@ -56,6 +57,7 @@ tmap_style("classic")
 tmap_last()
 #> Warning: ! Unable to warp stars. Stars will be transformed now (which will take some
 #>   time).
+#> blend: over
 ```
 
 ![](examples_terrain_files/figure-html/unnamed-chunk-4-1.png)
