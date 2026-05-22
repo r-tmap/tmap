@@ -57,7 +57,7 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany")
+opt_tm_polygons(polygons.only = "ifany", blend = "over")
 ```
 
 ## Arguments
@@ -165,6 +165,11 @@ opt_tm_polygons(polygons.only = "ifany")
   be plotted? By default `"ifany"`, which means `TRUE` in case a
   geometry collection is specified.
 
+- blend:
+
+  Compositing operator for layer blending. Default `"over"` applies no
+  blending. See the Details section for supported values.
+
 ## Details
 
 The visual variable arguments (e.g. `col`) can be specified with a data
@@ -239,6 +244,30 @@ variable explicitly, for example with
 or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
+
+### Layer blending (`blend`)
+
+Blend modes control how a layer's pixels are combined with the pixels
+beneath it. For each pixel, let \\S\\ be the source (top layer) RGB
+value and \\D\\ be the destination (bottom layer) RGB value, both
+normalised to \\\[0, 1\]\\.
+
+|  |  |  |
+|----|----|----|
+| `blend` | Formula | Use case |
+| `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
+| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
+| `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
+| `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
+| `"darken"` | \\\min(S, D)\\ | Keeps the darker of the two layers per channel |
+| `"lighten"` | \\\max(S, D)\\ | Keeps the lighter of the two layers per channel |
+
+Requires R \>= 4.2 and a compatible graphics device (e.g.
+`png(type = "cairo")`,
+[`svg()`](https://rdrr.io/r/grDevices/cairo.html)). In view mode,
+blending is applied via CSS `mix-blend-mode`. See
+[`grid::groupGrob()`](https://rdrr.io/r/grid/grid.group.html) for the
+full list of supported operators.
 
 ## See also
 

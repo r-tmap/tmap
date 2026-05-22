@@ -161,30 +161,9 @@ the color. <code>col</code> is a multivariate variable, with 3 (<code>tm_rgb</co
 
 
 <dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
-<dd><p>(Experimental) see the argument <code>op</code> in <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">groupGrob</a></code></p></dd>
+<dd><p>Compositing operator for layer blending. Default <code>"over"</code> applies no blending. See the Details section for supported values.</p></dd>
 
 </dl></div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-
-<div class="section">
-<h3 id="layer-blending-blend-">Layer blending (<code>blend</code>)<a class="anchor" aria-label="anchor" href="#layer-blending-blend-"></a></h3>
-
-
-<p>Blend modes control how a layer's pixels are combined with the pixels
-beneath it. For each pixel, let \(S\) be the source (top layer) RGB
-value and \(D\) be the destination (bottom layer) RGB value, both
-normalised to \([0, 1]\).</p><table class="table table"><tr><td><code>col_blend</code></td><td>Formula</td><td>Use case</td></tr><tr><td><code>"over"</code></td><td>\(S \cdot \alpha + D \cdot (1 - \alpha)\)</td><td>Standard alpha compositing (default)</td></tr><tr><td><code>"multiply"</code></td><td>\(S \times D\)</td><td>Hillshading over colour raster; both layers darken each other</td></tr><tr><td><code>"screen"</code></td><td>\(1 - (1 - S)(1 - D)\)</td><td>Inverse of multiply; brightens</td></tr><tr><td><code>"overlay"</code></td><td>multiply if \(D &lt; 0.5\), screen if \(D \geq 0.5\)</td><td>Boosts contrast; preserves midtones</td></tr></table><p><strong>Example</strong>: with <code>"multiply"</code>, a grey hillshade pixel \(S = (0.8, 0.8,
-0.8)\) multiplied by a blue elevation pixel \(D = (0.2, 0.4, 0.9)\) gives
-\((0.16, 0.32, 0.72)\) — the colour is preserved but darkened where the
-hillshade is dark, producing natural-looking terrain shading without
-transparency.</p>
-<p>Requires R &gt;= 4.2 and a compatible graphics device (e.g.
-<code>png(type = "cairo")</code>, <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">svg()</a></code>). See <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">grid::groupGrob()</a></code> for the full
-list of supported operators.</p>
-</div>
-
-    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

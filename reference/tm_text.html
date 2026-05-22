@@ -537,7 +537,19 @@ neighbouring polygons.</p></li>
 </ul><p>Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
 for example with <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_length()</a></code>, or
-<code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p>
+<code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p><div class="section">
+<h3 id="layer-blending-blend-">Layer blending (<code>blend</code>)<a class="anchor" aria-label="anchor" href="#layer-blending-blend-"></a></h3>
+
+
+<p>Blend modes control how a layer's pixels are combined with the pixels
+beneath it. For each pixel, let \(S\) be the source (top layer) RGB
+value and \(D\) be the destination (bottom layer) RGB value, both
+normalised to \([0, 1]\).</p><table class="table table"><tr><td><code>blend</code></td><td>Formula</td><td>Use case</td></tr><tr><td><code>"over"</code></td><td>\(S \cdot \alpha + D \cdot (1 - \alpha)\)</td><td>Standard alpha compositing (default)</td></tr><tr><td><code>"multiply"</code></td><td>\(S \times D\)</td><td>Hillshading over colour raster; both layers darken each other</td></tr><tr><td><code>"screen"</code></td><td>\(1 - (1 - S)(1 - D)\)</td><td>Inverse of multiply; brightens</td></tr><tr><td><code>"overlay"</code></td><td>multiply if \(D &lt; 0.5\), screen if \(D \geq 0.5\)</td><td>Boosts contrast; preserves midtones</td></tr><tr><td><code>"darken"</code></td><td>\(\min(S, D)\)</td><td>Keeps the darker of the two layers per channel</td></tr><tr><td><code>"lighten"</code></td><td>\(\max(S, D)\)</td><td>Keeps the lighter of the two layers per channel</td></tr></table><p>Requires R &gt;= 4.2 and a compatible graphics device (e.g.
+<code>png(type = "cairo")</code>, <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">svg()</a></code>). In view mode, blending is applied via
+CSS <code>mix-blend-mode</code>. See <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">grid::groupGrob()</a></code> for the full list of
+supported operators.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

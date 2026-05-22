@@ -202,8 +202,7 @@ There are two</p>
 <p>Note that the channels are included in the dimenison <code>"band"</code>. We can use the argument <code>dimvalues</code> to select them:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>dimvalues <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; blend: over</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span>dimvalues <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%"></p>
 <p>Alternatively, we can split the <code>stars</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -224,8 +223,7 @@ There are two</p>
 <p>and plot it like this:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">L7split</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; blend: over</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_rgb.html">tm_rgb</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="../reference/tm_vars.html">tm_vars</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>, multivariate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">

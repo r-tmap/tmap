@@ -18,7 +18,6 @@ specified without arguments, the default basemap is
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("OpenTopoMap")
-#> blend:
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-3-1.png)
@@ -70,7 +69,6 @@ See
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
     tm_basemap("CartoDB.PositronNoLabels")
-#> blend:
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-6-1.png)
