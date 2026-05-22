@@ -46,39 +46,13 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 
 \item{saturation}{The saturation of the rgb.}
 
-\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:groupGrob]{groupGrob}}}
+\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the Details section for supported values.}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},
 which should be specified with 3 or 4 variables for \code{tm_rgb()} and \code{tm_rgba()} respectively.
 The first three correspond to the red, green, and blue channels. The optional
 fourth is the alpha transparency channel.
-}
-\details{
-\subsection{Layer blending (\code{blend})}{
-
-Blend modes control how a layer's pixels are combined with the pixels
-beneath it. For each pixel, let \eqn{S} be the source (top layer) RGB
-value and \eqn{D} be the destination (bottom layer) RGB value, both
-normalised to \eqn{[0, 1]}.\tabular{lll}{
-   \code{col_blend} \tab Formula \tab Use case \cr
-   \code{"over"} \tab \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} \tab Standard alpha compositing (default) \cr
-   \code{"multiply"} \tab \eqn{S \times D} \tab Hillshading over colour raster; both layers darken each other \cr
-   \code{"screen"} \tab \eqn{1 - (1 - S)(1 - D)} \tab Inverse of multiply; brightens \cr
-   \code{"overlay"} \tab multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} \tab Boosts contrast; preserves midtones \cr
-}
-
-
-\strong{Example}: with \code{"multiply"}, a grey hillshade pixel \eqn{S = (0.8, 0.8,
-0.8)} multiplied by a blue elevation pixel \eqn{D = (0.2, 0.4, 0.9)} gives
-\eqn{(0.16, 0.32, 0.72)} — the colour is preserved but darkened where the
-hillshade is dark, producing natural-looking terrain shading without
-transparency.
-
-Requires R >= 4.2 and a compatible graphics device (e.g.
-\code{png(type = "cairo")}, \code{svg()}). See \code{\link[grid:groupGrob]{grid::groupGrob()}} for the full
-list of supported operators.
-}
 }
 \examples{
 \dontrun{

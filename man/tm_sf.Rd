@@ -163,6 +163,27 @@ Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
 for example with \code{\link[sf:st_area]{sf::st_area()}}, \code{\link[sf:st_length]{sf::st_length()}}, or
 \code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
+\subsection{Layer blending (\code{blend})}{
+
+Blend modes control how a layer's pixels are combined with the pixels
+beneath it. For each pixel, let \eqn{S} be the source (top layer) RGB
+value and \eqn{D} be the destination (bottom layer) RGB value, both
+normalised to \eqn{[0, 1]}.\tabular{lll}{
+   \code{blend} \tab Formula \tab Use case \cr
+   \code{"over"} \tab \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} \tab Standard alpha compositing (default) \cr
+   \code{"multiply"} \tab \eqn{S \times D} \tab Hillshading over colour raster; both layers darken each other \cr
+   \code{"screen"} \tab \eqn{1 - (1 - S)(1 - D)} \tab Inverse of multiply; brightens \cr
+   \code{"overlay"} \tab multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} \tab Boosts contrast; preserves midtones \cr
+   \code{"darken"} \tab \eqn{\min(S, D)} \tab Keeps the darker of the two layers per channel \cr
+   \code{"lighten"} \tab \eqn{\max(S, D)} \tab Keeps the lighter of the two layers per channel \cr
+}
+
+
+Requires R >= 4.2 and a compatible graphics device (e.g.
+\code{png(type = "cairo")}, \code{svg()}). In view mode, blending is applied via
+CSS \code{mix-blend-mode}. See \code{\link[grid:groupGrob]{grid::groupGrob()}} for the full list of
+supported operators.
+}
 }
 \examples{
 data(World)

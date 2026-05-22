@@ -51,6 +51,27 @@
 #' for example with [sf::st_area()], [sf::st_length()], or
 #' [tmaptools::map_coloring()], and use the resulting values instead.
 #'
+#' ## Layer blending (`blend`)
+#'
+#' Blend modes control how a layer's pixels are combined with the pixels
+#' beneath it. For each pixel, let \eqn{S} be the source (top layer) RGB
+#' value and \eqn{D} be the destination (bottom layer) RGB value, both
+#' normalised to \eqn{[0, 1]}.
+#'
+#' | `blend` | Formula | Use case |
+#' | --- | --- | --- |
+#' | `"over"` | \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} | Standard alpha compositing (default) |
+#' | `"multiply"` | \eqn{S \times D} | Hillshading over colour raster; both layers darken each other |
+#' | `"screen"` | \eqn{1 - (1 - S)(1 - D)} | Inverse of multiply; brightens |
+#' | `"overlay"` | multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} | Boosts contrast; preserves midtones |
+#' | `"darken"` | \eqn{\min(S, D)} | Keeps the darker of the two layers per channel |
+#' | `"lighten"` | \eqn{\max(S, D)} | Keeps the lighter of the two layers per channel |
+#'
+#' Requires R >= 4.2 and a compatible graphics device (e.g.
+#' `png(type = "cairo")`, `svg()`). In view mode, blending is applied via
+#' CSS `mix-blend-mode`. See [`grid::groupGrob()`] for the full list of
+#' supported operators.
+#'
 #' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
 #' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
 #' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
@@ -387,12 +408,13 @@ tm_borders = function(col = tm_const(), ...) {
 	tm
 }
 
-
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @rdname tm_polygons
+#' @inherit tm_rgb details
+#' @inheritParams tm_rgb
 #' @export
-opt_tm_polygons = function(polygons.only = "ifany") {
+opt_tm_polygons = function(polygons.only = "ifany", blend = "over") {
 	list(trans.args = list(polygons.only = polygons.only),
-		 mapping.args = list())
+		 mapping.args = list(blend = blend))
 }
 

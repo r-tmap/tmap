@@ -34,17 +34,19 @@ tmapGridDataPlot.tm_data_polygons = function(a, shpTM, dt, gp, bbx, facet_row, f
 		grb = sf::st_as_grob(shp, gp = gp, name = paste0("polygons_", id))
 	}
 
-
 	gts = get("gts", .TMAP_GRID)
-	gt = gts[[facet_page]]
-
 	gt_name = paste0("gt_facet_", rc_text)
 
-	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	if (!is.null(a$blend) && a$blend != "over") {
+		existing = gts[[facet_page]]$children$gt_main$children[[gt_name]]$children
+		dst = do.call(grid::grobTree, existing)
+		grb = blend_grobs(grb, a$blend, dst = dst)
+	}
 
+	gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(gt_name))
 	gts[[facet_page]] = gt
-
 	assign("gts", gts, envir = .TMAP_GRID)
+
 	NULL
 }
 
