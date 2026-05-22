@@ -74,6 +74,35 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
   (Experimental) see the argument `op` in
   [`groupGrob`](https://rdrr.io/r/grid/grid.group.html)
 
+## Details
+
+### Layer blending (`blend`)
+
+Blend modes control how a layer's pixels are combined with the pixels
+beneath it. For each pixel, let \\S\\ be the source (top layer) RGB
+value and \\D\\ be the destination (bottom layer) RGB value, both
+normalised to \\\[0, 1\]\\.
+
+|  |  |  |
+|----|----|----|
+| `col_blend` | Formula | Use case |
+| `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
+| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
+| `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
+| `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
+
+**Example**: with `"multiply"`, a grey hillshade pixel \\S = (0.8, 0.8,
+0.8)\\ multiplied by a blue elevation pixel \\D = (0.2, 0.4, 0.9)\\
+gives \\(0.16, 0.32, 0.72)\\ — the colour is preserved but darkened
+where the hillshade is dark, producing natural-looking terrain shading
+without transparency.
+
+Requires R \>= 4.2 and a compatible graphics device (e.g.
+`png(type = "cairo")`,
+[`svg()`](https://rdrr.io/r/grDevices/cairo.html)). See
+[`grid::groupGrob()`](https://rdrr.io/r/grid/grid.group.html) for the
+full list of supported operators.
+
 ## Examples
 
 ``` r
