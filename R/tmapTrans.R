@@ -254,6 +254,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args, scale) {
 				### stars
 				s = structure(list(values = matrix(TRUE, nrow = nrow(shp), ncol = ncol(shp))), dimensions = shp, class = "stars")
 				shp = sf::st_as_sfc(s, as_points = FALSE)
+				s = NULL
 			} else if (is_stars) {
 				shp = sf::st_sfc()
 				tmapID = integer(0)

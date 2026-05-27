@@ -160,3 +160,42 @@ tmapGetShapeMeta1.SpatVector = function(shp, layer, o) {
 }
 
 
+#' @export
+tmapShape.PackedSpatRaster = function(shp, ...) {
+	tmapShape.SpatRaster(terra::unwrap(shp), ...)
+}
+
+#' @export
+tmapShape.PackedSpatVector = function(shp, ...) {
+	tmapShape.SpatVector(terra::unwrap(shp), ...)
+}
+
+#' @export
+tmapSubsetShp.PackedSpatRaster = function(shp, vars) {
+	tmapSubsetShp.SpatRaster(terra::unwrap(shp), vars)
+}
+
+#' @export
+tmapSubsetShp.PackedSpatVector = function(shp, vars) {
+	tmapSubsetShp.SpatVector(terra::unwrap(shp), vars)
+}
+
+#' @export
+tmapGetShapeMeta1.PackedSpatRaster = function(shp, layer, o) {
+	tmapGetShapeMeta1.SpatRaster(terra::unwrap(shp), layer, o)
+}
+
+#' @export
+tmapGetShapeMeta1.PackedSpatVector = function(shp, layer, o) {
+	tmapGetShapeMeta1.SpatVector(terra::unwrap(shp), layer, o)
+}
+
+#' @export
+tmapGetShapeMeta2.PackedSpatRaster = function(shp, smeta, o) {
+	tmapGetShapeMeta2.SpatRaster(terra::unwrap(shp), smeta, o)
+}
+
+#' @export
+tmapGetShapeMeta2.PackedSpatVector = function(shp, smeta, o) {
+	tmapGetShapeMeta2.SpatVector(terra::unwrap(shp), smeta, o)
+}

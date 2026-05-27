@@ -15,7 +15,7 @@ tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 			bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
 		}
 	}
-	shapeTM(shp2, tmapID, bbox, ...)
+	shapeTM(shp = shp2, tmapID = tmapID, bbox = bbox, ...)
 }
 
 #' @export

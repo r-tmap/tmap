@@ -1,5 +1,7 @@
-# tmap 4.3.1 (in development)
+# tmap 4.4 (in development)
 
+- [!] added blend argument to all layers
+- added support for terra's PackedSpatX objects 
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
 
 # tmap 4.3
