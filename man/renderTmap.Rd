@@ -42,7 +42,7 @@ tm_remove_layer(zindex)
 
 \item{x}{the tmap object that specifies the added and removed layers.}
 
-\item{zindex}{the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the \code{zindex} for this layer when creating the map (inside \code{renderTmap()}).}
+\item{zindex}{The stacking number of the layer to be removed. It is recommended to specify the \code{zindex} for this layer when creating the map (inside \code{renderTmap()}).}
 }
 \description{
 \itemize{

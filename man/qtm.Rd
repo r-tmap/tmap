@@ -75,7 +75,9 @@ By default, it is set to the tmap option \code{basemaps}.}
 \item{overlays}{name(s) of the provider or an URL of a tiled overlay map.
 It is a shortcut to \code{\link[=tm_tiles]{tm_tiles()}}.}
 
-\item{zindex}{zindex}
+\item{zindex}{Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.}
 
 \item{group}{group}
 
@@ -111,6 +113,12 @@ By default, a scale bar is shown. This option can be set with \code{\link[=tmap_
 (argument \code{qtm.scalebar}). A minimap is shown by default when \code{qtm} is called
 without arguments of with a search term. This option can be set with \code{\link[=tmap_options]{tmap_options()}}
 (argument \code{qtm.minimap}).
+\subsection{zindex and pane names}{
+
+In view mode, each layer is rendered in a Leaflet pane named \code{"tmap{zindex}"}
+(e.g., \code{"tmap401"}, \code{"tmap402"}), with base tile layers placed in the
+standard \code{"tile"} pane.
+}
 }
 \examples{
 data(World, World_rivers, metro)

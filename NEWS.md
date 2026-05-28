@@ -1,6 +1,7 @@
 # tmap 4.4 (in development)
 
 - [!] added blend argument to all layers
+- added `tmap_mode_pool()` to restrict which modes are cycled by `ttm()` and `rtm()`, e.g. `library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`
 - added support for terra's PackedSpatX objects 
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
 

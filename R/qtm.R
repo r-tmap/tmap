@@ -15,6 +15,11 @@
 #' without arguments of with a search term. This option can be set with [tmap_options()]
 #' (argument `qtm.minimap`).
 #'
+#' ## zindex and pane names
+#'
+#' In view mode, each layer is rendered in a Leaflet pane named `"tmap{zindex}"`
+#' (e.g., `"tmap401"`, `"tmap402"`), with base tile layers placed in the
+#' standard `"tile"` pane.
 #' @param shp One of:
 #'  * shape object, which is an object from a class defined by the [`sf`][`sf::sf`]
 #'    or [`stars`][stars::st_as_stars()] package. Objects from the packages `sp`
@@ -45,7 +50,9 @@
 #'   By default, it is set to the tmap option `basemaps`.
 #' @param overlays name(s) of the provider or an URL of a tiled overlay map.
 #'   It is a shortcut to [tm_tiles()].
-#' @param zindex zindex
+#' @param zindex Controls the stacking order of map layers. Should be set to a
+#'   value above 400. By default, layers are stacked in call order, starting
+#'   at 401. See details.
 #' @param group group
 #' @param group.control group.control
 #' @param style Layout options (see [tm_layout()]) that define the style.

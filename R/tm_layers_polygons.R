@@ -72,6 +72,11 @@
 #' CSS `mix-blend-mode`. See [`grid::groupGrob()`] for the full list of
 #' supported operators.
 #'
+#' ## zindex and pane names
+#'
+#' In view mode, each layer is rendered in a Leaflet pane named `"tmap{zindex}"`
+#' (e.g., `"tmap401"`, `"tmap402"`), with base tile layers placed in the
+#' standard `"tile"` pane.
 #' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
 #' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
 #' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
@@ -81,9 +86,9 @@
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
-#' @param zindex Map layers are drawn on top of each other. The `zindex` numbers
-#'   (one for each map layer) determines the stacking order.
-#'   By default the map layers are drawn in the order they are called.
+#' @param zindex Controls the stacking order of map layers. Should be set to a
+#'   value above 400. By default, layers are stacked in call order, starting
+#'   at 401. See details.
 #' @param group Name of the group to which this layer belongs. This is only
 #'   relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer groups

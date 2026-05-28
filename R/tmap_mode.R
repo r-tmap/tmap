@@ -101,6 +101,9 @@ set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 		id_next = match(mode_next, modes)
 	} else if (type == "toggle") {
 		mode_next = .TMAP$mode_last
+		if (is.null(mode_next) || !mode_next %in% modes) {
+			mode_next = modes[modes != mode_now][1]
+		}
 		id_next = match(mode_next, modes)
 	} else {
 		id_next = id + 1L
@@ -141,8 +144,83 @@ set_mode = function(mode = NULL, show.messages = FALSE, type = "set") {
 # 	tmap_graphics(mode = mode)$name
 # }
 
-get_modes = function() {
+# Internal: always returns the full set of registered modes,
+# regardless of any active pool. Used for validation.
+get_all_modes = function() {
 	names(get("tmapOptions", envir = .TMAP)$modes)
+}
+
+# Internal: returns the active pool if set, otherwise all modes.
+# This is what ttm() and rtm() cycle through.
+get_modes = function() {
+	.TMAP$mode_pool %||% get_all_modes()
+}
+
+#' Set or get the pool of modes for mode switching
+#'
+#' @description
+#' Restricts which modes are cycled through by [ttm()] and [rtm()].
+#' Useful when `tmap.mapgl` is loaded and you want to work with a specific
+#' subset of modes, e.g. `"plot"` and `"maplibre"`, rather than all four.
+#'
+#' Call without arguments to inspect the current pool.
+#' Pass `NULL` to reset to all available modes.
+#'
+#' @param modes Character vector of mode names (minimum 2), or `NULL` to reset.
+#' @param silent Suppress messages? Default `FALSE`.
+#' @return The previous pool, invisibly.
+#'
+#' @examples
+#' tmap_mode_pool()                            # inspect
+#' tmap_mode_pool(c("view", "plot"))           # change order
+#' tmap_mode_pool(NULL)                        # reset
+#'
+#' @seealso [tmap_mode()], [ttm()], [rtm()]
+#' @export
+tmap_mode_pool = function(modes = NULL, silent = FALSE) {
+	all_modes    = get_all_modes()
+	prev_pool    = .TMAP$mode_pool %||% all_modes
+	show_message = !silent && get("tmapOptions", envir = .TMAP)$show.messages
+
+	# getter
+	if (missing(modes)) {
+		if (show_message) cli::cli_inform(c("i" = "Current mode pool: {.val {prev_pool}}"))
+		return(invisible(prev_pool))
+	}
+
+	# reset
+	if (is.null(modes)) {
+		.TMAP$mode_pool = NULL
+		if (show_message) cli::cli_inform(c("i" = "Mode pool reset to: {.val {all_modes}}"))
+		return(invisible(prev_pool))
+	}
+
+	# validate
+	if (length(modes) < 2L) {
+		cli::cli_abort("The mode pool must contain at least 2 modes.",
+					   call = rlang::caller_env())
+	}
+
+	bad = setdiff(modes, all_modes)
+	if (length(bad) > 0L) {
+		cli::cli_abort(c(
+			"Invalid mode{?s}: {.val {bad}}",
+			"i" = "Available modes: {.val {all_modes}}"
+		), call = rlang::caller_env())
+	}
+
+	mode_now = getOption("tmap.mode")
+	if (!mode_now %in% modes) {
+		cli::cli_abort(c(
+			"Current mode {.val {mode_now}} must be included in the pool.",
+			"i" = "Either add it: {.run tmap_mode_pool(c({toString(shQuote(c(mode_now, modes)))}))}",
+			"i" = "Or switch mode first: {.run tmap_mode(\"{modes[1]}\")}"
+		), call = rlang::caller_env())
+	}
+
+	.TMAP$mode_pool = modes
+	if (show_message) cli::cli_inform(c("i" = "Mode pool set to: {.val {modes}}"))
+	invisible(prev_pool)
 }
 
 #' Set the design mode

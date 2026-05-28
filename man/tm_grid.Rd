@@ -136,13 +136,9 @@ Either one value for both \code{x} and \code{y} axis, or a vector two: the first
 \item{ndiscr}{Number of points to discretize a parallel or meridian
 (only applicable for curved grid lines)}
 
-\item{zindex}{zindex of the pane in view mode. By default, it is set to the
-layer number plus 400. By default, the tmap layers will therefore be placed
-in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile
-layers, which are placed in the standard \code{"tile"}. This parameter determines
-both the name of the pane and the z-index, which determines the pane order
-from bottom to top. For instance, if \code{zindex} is set to 500,
-the pane will be named \code{"tmap500"}.}
+\item{zindex}{Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.}
 
 \item{group}{Name of the group to which this layer belongs.
 This is only relevant in view mode, where layer groups can be
@@ -156,6 +152,11 @@ for no control (the group cannot be (de)selected).}
 \description{
 Draws horizontal and vertical lines according to a coordinate reference system (CRS). \code{tm_grid()} uses the CRS of the (master) shape object, and \code{tm_graticules()} uses latitude and longitude coordinates (EPSG 4326). It creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a
 layer that can be drawn anywhere between other layers.
+}
+\details{
+#' In view mode, each layer is rendered in a Leaflet pane named \code{"tmap{zindex}"}
+(e.g., \code{"tmap401"}, \code{"tmap402"}), with base tile layers placed in the
+standard \code{"tile"} pane.
 }
 \examples{
 \dontrun{

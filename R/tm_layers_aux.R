@@ -8,6 +8,9 @@
 #'  API keys. For Stadia and Thunderforest maps, an API key is required.
 #'  This can be set via the argument `api`. Alternatively they can be stored in environment variables `"STADIA_MAPS"` and `THUNDERFOREST_MAPS` with `Sys.setenv`
 #'
+#' In view mode, each layer is rendered in a Leaflet pane named `"tmap{zindex}"`
+#' (e.g., `"tmap401"`, `"tmap402"`), with base tile layers placed in the
+#' standard `"tile"` pane.
 #' @param server Name of the provider or an URL. Or a vector of multiple values. The list of available providers
 #'   can be obtained with `providers` (tip: in RStudio, type `leaflet::providers$` to see
 #'   the options). See <https://leaflet-extras.github.io/leaflet-providers/preview/>
@@ -21,13 +24,9 @@
 #'   The minimum and maximum zoom levels are determined in `tm_view()`.
 #' @param sub subdomain of the tile server. Only used when `server` is a url template. The
 #'   default is `"abc"` which works for most tile servers.
-#' @param zindex zindex of the pane in view mode. By default, it is set to the
-#'   layer number plus 400. By default, the tmap layers will therefore be placed
-#'   in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the base tile
-#'   layers, which are placed in the standard `"tile"`. This parameter determines
-#'   both the name of the pane and the z-index, which determines the pane order
-#'   from bottom to top. For instance, if `zindex` is set to 500, the pane will
-#'   be named `"tmap500"`.
+#' @param zindex Controls the stacking order of map layers. Should be set to a
+#'   value above 400. By default, layers are stacked in call order, starting
+#'   at 401. See details.
 #' @param group Name of the group to which this layer belongs. This is only
 #'   relevant in view mode, where layer groups can be switched (see `group.control`)
 #' @param group.control In view mode, the group control determines how layer
@@ -124,6 +123,9 @@ tm_graticules = function(x = NA,
 #' Draws horizontal and vertical lines according to a coordinate reference system (CRS). `tm_grid()` uses the CRS of the (master) shape object, and `tm_graticules()` uses latitude and longitude coordinates (EPSG 4326). It creates a [`tmap-element`] that draws coordinate grid lines. It serves as a
 #' layer that can be drawn anywhere between other layers.
 #'
+#'#' In view mode, each layer is rendered in a Leaflet pane named `"tmap{zindex}"`
+#' (e.g., `"tmap401"`, `"tmap402"`), with base tile layers placed in the
+#' standard `"tile"` pane.
 #' @param x X coordinates for vertical grid lines. If `NA`, it is specified
 #'   with a pretty scale and `n.x`.
 #' @param y Y coordinates for horizontal grid lines. If `NA`, it is specified
@@ -188,13 +190,9 @@ tm_graticules = function(x = NA,
 #' @param lines If `labels.inside_frame = FALSE`, should grid lines can be drawn?
 #' @param ndiscr Number of points to discretize a parallel or meridian
 #'   (only applicable for curved grid lines)
-#' @param zindex zindex of the pane in view mode. By default, it is set to the
-#'   layer number plus 400. By default, the tmap layers will therefore be placed
-#'   in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the base tile
-#'   layers, which are placed in the standard `"tile"`. This parameter determines
-#'   both the name of the pane and the z-index, which determines the pane order
-#'   from bottom to top. For instance, if `zindex` is set to 500,
-#'   the pane will be named `"tmap500"`.
+#' @param zindex Controls the stacking order of map layers. Should be set to a
+#'   value above 400. By default, layers are stacked in call order, starting
+#'   at 401. See details.
 #' @param group Name of the group to which this layer belongs.
 #'   This is only relevant in view mode, where layer groups can be
 #'   switched (see `group.control`)

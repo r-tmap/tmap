@@ -48,13 +48,9 @@ The minimum and maximum zoom levels are determined in \code{tm_view()}.}
 \item{sub}{subdomain of the tile server. Only used when \code{server} is a url template. The
 default is \code{"abc"} which works for most tile servers.}
 
-\item{zindex}{zindex of the pane in view mode. By default, it is set to the
-layer number plus 400. By default, the tmap layers will therefore be placed
-in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile
-layers, which are placed in the standard \code{"tile"}. This parameter determines
-both the name of the pane and the z-index, which determines the pane order
-from bottom to top. For instance, if \code{zindex} is set to 500, the pane will
-be named \code{"tmap500"}.}
+\item{zindex}{Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.}
 
 \item{group}{Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see \code{group.control})}
@@ -74,6 +70,10 @@ order in which this layer is called, just like other map layers.
 \details{
 API keys. For Stadia and Thunderforest maps, an API key is required.
 This can be set via the argument \code{api}. Alternatively they can be stored in environment variables \code{"STADIA_MAPS"} and \code{THUNDERFOREST_MAPS} with \code{Sys.setenv}
+
+In view mode, each layer is rendered in a Leaflet pane named \code{"tmap{zindex}"}
+(e.g., \code{"tmap401"}, \code{"tmap402"}), with base tile layers placed in the
+standard \code{"tile"} pane.
 }
 \examples{
 \dontrun{

@@ -21,7 +21,7 @@
 #' @param mapId single-element character vector indicating the output ID of the map to modify (if invoked from a Shiny module, the namespace will be added automatically)
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
 #' @param x the tmap object that specifies the added and removed layers.
-#' @param zindex the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the `zindex` for this layer when creating the map (inside `renderTmap()`).
+#' @param zindex The stacking number of the layer to be removed. It is recommended to specify the `zindex` for this layer when creating the map (inside `renderTmap()`).
 #' @param execOnResize If `TRUE` (default), when the plot is resized, the map is regenerated. When set to `FALSE` the map is rescaled: the aspect ratio is kept, but the layout will be less desirable.
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @example ./examples/tmapOutput.R

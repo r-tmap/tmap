@@ -640,13 +640,23 @@ tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {
 		backup = o[names(options)]
 		o[names(options)] = complete_options(options, backup, erase_style = FALSE)
 	}
-
 	if (!is.null(styleOptions)) {
 		for (st in names(styleOptions)) {
 			backup = s[[st]]
 			s[[st]] = complete_options(styleOptions[[st]], backup, erase_style = FALSE)
 		}
 	}
+
+	# detect newly registered modes; reset pool if needed
+	added = setdiff(names(o$modes), names(.TMAP$defaultTmapOptions$modes))
+	if (length(added) > 0L && !is.null(.TMAP$mode_pool)) {
+		.TMAP$mode_pool = NULL
+		cli::cli_inform(c(
+			"i" = "New mode{?s} registered: {.val {added}}",
+			"i" = "Mode pool reset. Use {.run tmap_mode_pool()} to set a new pool."
+		))
+	}
+
 	.TMAP$defaultTmapOptions = o
 	.TMAP$tmapStyles = s
 	suppressMessages(tmap_options_reset())

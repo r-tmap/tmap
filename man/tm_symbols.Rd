@@ -311,9 +311,9 @@ the fill color alpha transparency See details.}
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
 
-\item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers
-(one for each map layer) determines the stacking order.
-By default the map layers are drawn in the order they are called.}
+\item{zindex}{Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.}
 
 \item{group}{Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see \code{group.control})}
