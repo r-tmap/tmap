@@ -84,9 +84,9 @@ tm_remove_layer(zindex)
 
 - zindex:
 
-  the z index of the pane in which the layer is contained that is going
-  to be removed. It is recommended to specify the `zindex` for this
-  layer when creating the map (inside `renderTmap()`).
+  The stacking number of the layer to be removed. It is recommended to
+  specify the `zindex` for this layer when creating the map (inside
+  `renderTmap()`).
 
 ## Details
 

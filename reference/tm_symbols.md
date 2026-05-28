@@ -332,9 +332,9 @@ opt_tm_squares(
 
 - zindex:
 
-  Map layers are drawn on top of each other. The `zindex` numbers (one
-  for each map layer) determines the stacking order. By default the map
-  layers are drawn in the order they are called.
+  Controls the stacking order of map layers. Should be set to a value
+  above 400. By default, layers are stacked in call order, starting
+  at 401. See details.
 
 - group:
 

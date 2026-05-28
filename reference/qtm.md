@@ -112,7 +112,9 @@ qtm(
 
 - zindex:
 
-  zindex
+  Controls the stacking order of map layers. Should be set to a value
+  above 400. By default, layers are stacked in call order, starting
+  at 401. See details.
 
 - group:
 
@@ -172,6 +174,12 @@ called without arguments of with a search term. This option can be set
 with
 [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
 (argument `qtm.minimap`).
+
+### zindex and pane names
+
+In view mode, each layer is rendered in a Leaflet pane named
+`"tmap{zindex}"` (e.g., `"tmap401"`, `"tmap402"`), with base tile layers
+placed in the standard `"tile"` pane.
 
 ## References
 

@@ -195,7 +195,9 @@ It is a shortcut to <code><a href="tm_basemap.html">tm_tiles()</a></code>.</p></
 
 
 <dt id="arg-zindex">zindex<a class="anchor" aria-label="anchor" href="#arg-zindex"></a></dt>
-<dd><p>zindex</p></dd>
+<dd><p>Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.</p></dd>
 
 
 <dt id="arg-group">group<a class="anchor" aria-label="anchor" href="#arg-group"></a></dt>
@@ -237,7 +239,15 @@ It is also possible to stack <code><a href="tmap-element.html">tmap-element</a><
 <p>By default, a scale bar is shown. This option can be set with <code><a href="tmap_options.html">tmap_options()</a></code>
 (argument <code>qtm.scalebar</code>). A minimap is shown by default when <code>qtm</code> is called
 without arguments of with a search term. This option can be set with <code><a href="tmap_options.html">tmap_options()</a></code>
-(argument <code>qtm.minimap</code>).</p>
+(argument <code>qtm.minimap</code>).</p><div class="section">
+<h3 id="zindex-and-pane-names">zindex and pane names<a class="anchor" aria-label="anchor" href="#zindex-and-pane-names"></a></h3>
+
+
+<p>In view mode, each layer is rendered in a Leaflet pane named <code>"tmap{zindex}"</code>
+(e.g., <code>"tmap401"</code>, <code>"tmap402"</code>), with base tile layers placed in the
+standard <code>"tile"</code> pane.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

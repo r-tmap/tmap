@@ -210,9 +210,9 @@ For each of these types, which are drawn in that order, a <code><a href="tm_plot
 
 
 <dt id="arg-zindex">zindex<a class="anchor" aria-label="anchor" href="#arg-zindex"></a></dt>
-<dd><p>Map layers are drawn on top of each other. The <code>zindex</code> numbers
-(one for each map layer) determines the stacking order.
-By default the map layers are drawn in the order they are called.</p></dd>
+<dd><p>Controls the stacking order of map layers. Should be set to a
+value above 400. By default, layers are stacked in call order, starting
+at 401. See details.</p></dd>
 
 
 <dt id="arg-group">group<a class="anchor" aria-label="anchor" href="#arg-group"></a></dt>
@@ -306,6 +306,15 @@ normalised to \([0, 1]\).</p><table class="table table"><tr><td><code>blend</cod
 <code>png(type = "cairo")</code>, <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">svg()</a></code>). In view mode, blending is applied via
 CSS <code>mix-blend-mode</code>. See <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">grid::groupGrob()</a></code> for the full list of
 supported operators.</p>
+</div>
+
+<div class="section">
+<h3 id="zindex-and-pane-names">zindex and pane names<a class="anchor" aria-label="anchor" href="#zindex-and-pane-names"></a></h3>
+
+
+<p>In view mode, each layer is rendered in a Leaflet pane named <code>"tmap{zindex}"</code>
+(e.g., <code>"tmap401"</code>, <code>"tmap402"</code>), with base tile layers placed in the
+standard <code>"tile"</code> pane.</p>
 </div>
 
     </div>

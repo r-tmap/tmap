@@ -300,9 +300,9 @@ opt_tm_labels(
 
 - zindex:
 
-  Map layers are drawn on top of each other. The `zindex` numbers (one
-  for each map layer) determines the stacking order. By default the map
-  layers are drawn in the order they are called.
+  Controls the stacking order of map layers. Should be set to a value
+  above 400. By default, layers are stacked in call order, starting
+  at 401. See details.
 
 - group:
 
@@ -538,6 +538,12 @@ Requires R \>= 4.2 and a compatible graphics device (e.g.
 blending is applied via CSS `mix-blend-mode`. See
 [`grid::groupGrob()`](https://rdrr.io/r/grid/grid.group.html) for the
 full list of supported operators.
+
+### zindex and pane names
+
+In view mode, each layer is rendered in a Leaflet pane named
+`"tmap{zindex}"` (e.g., `"tmap401"`, `"tmap402"`), with base tile layers
+placed in the standard `"tile"` pane.
 
 ## See also
 

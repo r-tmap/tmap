@@ -214,13 +214,9 @@ tm_grid(
 
 - zindex:
 
-  zindex of the pane in view mode. By default, it is set to the layer
-  number plus 400. By default, the tmap layers will therefore be placed
-  in the custom panes `"tmap401"`, `"tmap402"`, etc., except for the
-  base tile layers, which are placed in the standard `"tile"`. This
-  parameter determines both the name of the pane and the z-index, which
-  determines the pane order from bottom to top. For instance, if
-  `zindex` is set to 500, the pane will be named `"tmap500"`.
+  Controls the stacking order of map layers. Should be set to a value
+  above 400. By default, layers are stacked in call order, starting
+  at 401. See details.
 
 - group:
 
@@ -234,6 +230,12 @@ tm_grid(
   only one group can be shown), `"check"` for check boxes (so multiple
   groups can be shown), and `"none"` for no control (the group cannot be
   (de)selected).
+
+## Details
+
+\#' In view mode, each layer is rendered in a Leaflet pane named
+`"tmap{zindex}"` (e.g., `"tmap401"`, `"tmap402"`), with base tile layers
+placed in the standard `"tile"` pane.
 
 ## Examples
 
