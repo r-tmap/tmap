@@ -2,6 +2,7 @@
 
 - [!] added blend argument to all layers
 - added `tmap_mode_pool()` to restrict which modes are cycled by `ttm()` and `rtm()`, e.g. `library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`
+- shiny dispatch methods added (to allow integration for other modes)
 - added support for terra's PackedSpatX objects 
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
 

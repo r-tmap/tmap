@@ -23,64 +23,30 @@
 #' @param x the tmap object that specifies the added and removed layers.
 #' @param zindex The stacking number of the layer to be removed. It is recommended to specify the `zindex` for this layer when creating the map (inside `renderTmap()`).
 #' @param execOnResize If `TRUE` (default), when the plot is resized, the map is regenerated. When set to `FALSE` the map is rescaled: the aspect ratio is kept, but the layout will be less desirable.
+#' @param ... passed on to the mode-specific methods
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @example ./examples/tmapOutput.R
 #' @export
 renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize = TRUE, mode = NA) {
-	if (is.na(mode)) mode = getOption("tmap.mode")
-	gs = tmap_graphics_name(mode)
-
-
-	if (gs == "Grid") {
-		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr))
-		shiny::renderPlot(expr, env = env, quoted = TRUE, execOnResize = execOnResize)
-	} else if (gs == "Leaflet") {
-		if (!quoted)
-			expr = substitute(expr)
-		expr = substitute(getFromNamespace("print.tmap", "tmap")(expr, in.shiny = TRUE))
-		htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
-									   quoted = TRUE)
-
-
-
-		# fun = paste0("renderTmap", gs)
-		# do.call(fun, list(expr = expr, env = env, quoted = quoted, execOnResize = execOnResize))
-	} else {
-		stop('renderTmap does not work yet for modes other than "plot" and "view"')
-	}
-
+	if (!quoted) expr <- substitute(expr)            # capture once, in this frame
+	renderTmapGS(tmap_graphics_class(mode),
+				 expr = expr, env = env, execOnResize = execOnResize)
 }
-
 
 #' @rdname renderTmap
 #' @export
 tmapOutput <- function(outputId, width = "100%", height = 400, mode = NA) {
-	if (is.na(mode)) mode = getOption("tmap.mode")
-	gs = tmap_graphics_name(mode)
-	if (gs == "Grid") {
-		shiny::plotOutput(outputId = outputId, width = width, height = height)
-	} else {
-		fun = paste0("tmapOutput", gs)
-		do.call(fun, list(outputId = outputId, width = width, height = height))
-	}
+	tmapOutputGS(tmap_graphics_class(mode),
+				 outputId = outputId, width = width, height = height)
 }
+
 
 
 #' @rdname renderTmap
 #' @export
 tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x, mode = NA) {
-	if (is.na(mode)) mode = getOption("tmap.mode")
-	gs = tmap_graphics_name(mode)
-
-	if (gs == "Grid") {
-		message("tmapProxy not working for plot mode (yet)")
-		print.tmap(x, show = TRUE)
-	} else {
-		#fun = paste0("tmapProxy", gs)
-		#do.call(fun, list(mapId = mapId, session = session, x = x))
-		print.tmap(x, lf = leaflet::leafletProxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
-	}
-
+	tmapProxyGS(tmap_graphics_class(mode),
+				mapId = mapId, session = session, tmobj = x)   # `x` (tmap obj) -> tmobj
 }
 
 
