@@ -217,9 +217,10 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 - [`tmap_mode()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  [`tmap_mode_pool()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`ttmp()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`rtmp()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md) : Set
-  tmap mode to static plotting or interactive viewing
+  tmap mode
 - [`tmap_devel_mode()`](https://r-tmap.github.io/tmap/reference/tmap_devel_mode.md)
   : Set the development mode
 - [`tmap_design_mode()`](https://r-tmap.github.io/tmap/reference/tmap_design_mode.md)

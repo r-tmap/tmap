@@ -3,7 +3,9 @@
 ## tmap 4.4 (in development)
 
 - \[!\] added blend argument to all layers
-- added `tmap_mode_pool()` to restrict which modes are cycled by
+- added
+  [`tmap_mode_pool()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
+  to restrict which modes are cycled by
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md) and
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md),
   e.g. [`library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`](https://github.com/r-tmap/tmap.mapgl)
