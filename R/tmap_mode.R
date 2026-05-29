@@ -1,48 +1,29 @@
-#' Set tmap mode to static plotting or interactive viewing
+#' Set tmap mode
 #'
 #' @description
-#' * `tmap_mode()` informs of the current mode (if called without argument).
-#' * `ttm()` toggles between the most recent two modes.
-#' * `ttmp()` same as `ttm()` and calls [tmap_last()] to display the last map in the new mode.
-#' * `rtm()` rotate between between all modes
-#' * `rtmp()` same as `rtm()` and calls [tmap_last()] to display the last map in the new mode.
+#' * `tmap_mode()` gets (no argument) or sets the current mode.
+#' * `ttm()` toggles between the two most recent modes.
+#' * `ttmp()` same as `ttm()`, then calls [tmap_last()].
+#' * `rtm()` rotates through all modes in the pool.
+#' * `rtmp()` same as `rtm()`, then calls [tmap_last()].
+#' * `tmap_mode_pool()` restricts which modes are cycled by [ttm()] and [rtm()].
+#'   Call without arguments to inspect the current pool, or pass `NULL` to reset.
 #'
-#' Set tmap mode to static plotting or interactive viewing.
-#' The global option `tmap.mode` determines the whether thematic maps are plot
-#' in the graphics device, or shown as an interactive leaflet map (see also [tmap_options()].
-#' The function `tmap_mode()` is a wrapper to set this global option.
-#' The convenient function `ttm()`, which stands for toggle thematic map,
-#' is a toggle switch between the two modes. The function `ttmp()` stands for
-#' toggle thematic map and print last map: it does the same as `ttm()` followed
-#' by [tmap_last()]; in order words, it shows the last map in the other mode.
 #' It is recommended to use `tmap_mode()` in scripts and `ttm()`/`ttmp()` in the console.
 #'
 #' @details
-#' # `mode = "plot"`
+#' The default modes are `"plot"` (static, graphics device) and `"view"` (interactive,
+#' browser or RStudio Viewer). Additional modes such as `"maplibre"` and `"mapbox"` become
+#' available when \pkg{tmap.mapgl} is loaded.
 #'
-#' Thematic maps are shown in the graphics device.
-#' This is the default mode, and supports all tmap's features,
-#' such as small multiples (see [tm_facets()]) and extensive layout settings (see [tm_layout()]).
-#' It is recommended to use [tmap_save()] for saving static maps.
-#'
-#' # `mode = "view"`
-#'
-#' Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
-#' Maps are fully interactive with tiles from OpenStreetMap or other map providers
-#' (see [tm_tiles()]). See also [tm_view()] for options related to the `"view"` mode.
-#' This mode generates a [leaflet::leaflet()] widget, which can also be directly
-#' obtained with [tmap_leaflet()].
-#' With R Markdown, it is possible to publish it to an HTML page.
-#'
-#' However, there are a couple of constraints in comparison to `"plot"`:
-#'
-#' @param mode One of `"plot"` or `"view"`. See Details for more info.
-#' @param silent Should the mode be switched silently (by default `FALSE`)
+#' @param mode A string specifying the mode. See [tmap_options()] for available modes.
+#' @param silent Should the mode be switched silently? Default `FALSE`.
+#' @param modes Character vector of mode names (minimum 2), or `NULL` to reset.
 #' @return
-#' * `tmap_mode()` returns the current tmap mode invisibly (when called without argument).
-#'   Otherwise, returns the previous mode.
-#' * `ttm()` switches mode and returns previous tmap mode invisibly.
-#' The previous tmap mode before switching.
+#' * `tmap_mode()` returns the current mode invisibly when called without argument,
+#'   otherwise the previous mode.
+#' * `ttm()`, `rtm()` return the previous mode invisibly.
+#' * `tmap_mode_pool()` returns the previous pool invisibly.
 #' @example ./examples/tmap_mode.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_modes}{vignette about modes}
 #' * [tmap_last()] to show the last map
@@ -156,26 +137,7 @@ get_modes = function() {
 	.TMAP$mode_pool %||% get_all_modes()
 }
 
-#' Set or get the pool of modes for mode switching
-#'
-#' @description
-#' Restricts which modes are cycled through by [ttm()] and [rtm()].
-#' Useful when `tmap.mapgl` is loaded and you want to work with a specific
-#' subset of modes, e.g. `"plot"` and `"maplibre"`, rather than all four.
-#'
-#' Call without arguments to inspect the current pool.
-#' Pass `NULL` to reset to all available modes.
-#'
-#' @param modes Character vector of mode names (minimum 2), or `NULL` to reset.
-#' @param silent Suppress messages? Default `FALSE`.
-#' @return The previous pool, invisibly.
-#'
-#' @examples
-#' tmap_mode_pool()                            # inspect
-#' tmap_mode_pool(c("view", "plot"))           # change order
-#' tmap_mode_pool(NULL)                        # reset
-#'
-#' @seealso [tmap_mode()], [ttm()], [rtm()]
+#' @rdname tmap_mode
 #' @export
 tmap_mode_pool = function(modes = NULL, silent = FALSE) {
 	all_modes    = get_all_modes()

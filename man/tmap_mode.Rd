@@ -4,9 +4,10 @@
 \alias{tmap_mode}
 \alias{ttm}
 \alias{rtm}
+\alias{tmap_mode_pool}
 \alias{ttmp}
 \alias{rtmp}
-\title{Set tmap mode to static plotting or interactive viewing}
+\title{Set tmap mode}
 \usage{
 tmap_mode(mode = NULL, silent = FALSE)
 
@@ -14,60 +15,45 @@ ttm()
 
 rtm()
 
+tmap_mode_pool(modes = NULL, silent = FALSE)
+
 ttmp()
 
 rtmp()
 }
 \arguments{
-\item{mode}{One of \code{"plot"} or \code{"view"}. See Details for more info.}
+\item{mode}{A string specifying the mode. See \code{\link[=tmap_options]{tmap_options()}} for available modes.}
 
-\item{silent}{Should the mode be switched silently (by default \code{FALSE})}
+\item{silent}{Should the mode be switched silently? Default \code{FALSE}.}
+
+\item{modes}{Character vector of mode names (minimum 2), or \code{NULL} to reset.}
 }
 \value{
 \itemize{
-\item \code{tmap_mode()} returns the current tmap mode invisibly (when called without argument).
-Otherwise, returns the previous mode.
-\item \code{ttm()} switches mode and returns previous tmap mode invisibly.
-The previous tmap mode before switching.
+\item \code{tmap_mode()} returns the current mode invisibly when called without argument,
+otherwise the previous mode.
+\item \code{ttm()}, \code{rtm()} return the previous mode invisibly.
+\item \code{tmap_mode_pool()} returns the previous pool invisibly.
 }
 }
 \description{
 \itemize{
-\item \code{tmap_mode()} informs of the current mode (if called without argument).
-\item \code{ttm()} toggles between the most recent two modes.
-\item \code{ttmp()} same as \code{ttm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
-\item \code{rtm()} rotate between between all modes
-\item \code{rtmp()} same as \code{rtm()} and calls \code{\link[=tmap_last]{tmap_last()}} to display the last map in the new mode.
+\item \code{tmap_mode()} gets (no argument) or sets the current mode.
+\item \code{ttm()} toggles between the two most recent modes.
+\item \code{ttmp()} same as \code{ttm()}, then calls \code{\link[=tmap_last]{tmap_last()}}.
+\item \code{rtm()} rotates through all modes in the pool.
+\item \code{rtmp()} same as \code{rtm()}, then calls \code{\link[=tmap_last]{tmap_last()}}.
+\item \code{tmap_mode_pool()} restricts which modes are cycled by \code{\link[=ttm]{ttm()}} and \code{\link[=rtm]{rtm()}}.
+Call without arguments to inspect the current pool, or pass \code{NULL} to reset.
 }
 
-Set tmap mode to static plotting or interactive viewing.
-The global option \code{tmap.mode} determines the whether thematic maps are plot
-in the graphics device, or shown as an interactive leaflet map (see also \code{\link[=tmap_options]{tmap_options()}}.
-The function \code{tmap_mode()} is a wrapper to set this global option.
-The convenient function \code{ttm()}, which stands for toggle thematic map,
-is a toggle switch between the two modes. The function \code{ttmp()} stands for
-toggle thematic map and print last map: it does the same as \code{ttm()} followed
-by \code{\link[=tmap_last]{tmap_last()}}; in order words, it shows the last map in the other mode.
 It is recommended to use \code{tmap_mode()} in scripts and \code{ttm()}/\code{ttmp()} in the console.
 }
-\section{\code{mode = "plot"}}{
-Thematic maps are shown in the graphics device.
-This is the default mode, and supports all tmap's features,
-such as small multiples (see \code{\link[=tm_facets]{tm_facets()}}) and extensive layout settings (see \code{\link[=tm_layout]{tm_layout()}}).
-It is recommended to use \code{\link[=tmap_save]{tmap_save()}} for saving static maps.
+\details{
+The default modes are \code{"plot"} (static, graphics device) and \code{"view"} (interactive,
+browser or RStudio Viewer). Additional modes such as \code{"maplibre"} and \code{"mapbox"} become
+available when \pkg{tmap.mapgl} is loaded.
 }
-
-\section{\code{mode = "view"}}{
-Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane.
-Maps are fully interactive with tiles from OpenStreetMap or other map providers
-(see \code{\link[=tm_tiles]{tm_tiles()}}). See also \code{\link[=tm_view]{tm_view()}} for options related to the \code{"view"} mode.
-This mode generates a \code{\link[leaflet:leaflet]{leaflet::leaflet()}} widget, which can also be directly
-obtained with \code{\link[=tmap_leaflet]{tmap_leaflet()}}.
-With R Markdown, it is possible to publish it to an HTML page.
-
-However, there are a couple of constraints in comparison to \code{"plot"}:
-}
-
 \examples{
 current.mode = tmap_mode()
 
