@@ -26,6 +26,12 @@ tmapOutput(outputId, width = "100%", height = 400, mode = NA)
 tmapProxy(mapId, session = shiny::getDefaultReactiveDomain(), x, mode = NA)
 
 tm_remove_layer(zindex)
+
+renderTmapGS(x, ...)
+
+tmapOutputGS(x, ...)
+
+tmapProxyGS(x, ...)
 ```
 
 ## Arguments
@@ -87,6 +93,10 @@ tm_remove_layer(zindex)
   The stacking number of the layer to be removed. It is recommended to
   specify the `zindex` for this layer when creating the map (inside
   `renderTmap()`).
+
+- ...:
+
+  passed on to the mode-specific methods
 
 ## Details
 

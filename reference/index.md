@@ -255,6 +255,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   [`tmapOutput()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tmapProxy()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tm_remove_layer()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`renderTmapGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`tmapOutputGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  [`tmapProxyGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   :
 
   Wrapper functions for using **tmap** in **shiny**

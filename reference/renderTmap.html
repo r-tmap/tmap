@@ -101,7 +101,7 @@ Removing layers can be done, removing with tm_remove_layer()."><meta property="o
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Wrapper functions for using <strong>tmap</strong> in <strong>shiny</strong></h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/shiny.R" class="external-link"><code>R/shiny.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/shiny.R" class="external-link"><code>R/shiny.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/shiny_dispatch.R" class="external-link"><code>R/shiny_dispatch.R</code></a></small>
       <div class="d-none name"><code>renderTmap.Rd</code></div>
     </div>
 
@@ -128,7 +128,13 @@ Removing layers can be done, removing with <code>tm_remove_layer()</code>.</p>
 <span></span>
 <span><span class="fu">tmapProxy</span><span class="op">(</span><span class="va">mapId</span>, session <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/domains.html" class="external-link">getDefaultReactiveDomain</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">x</span>, mode <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tm_remove_layer</span><span class="op">(</span><span class="va">zindex</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">tm_remove_layer</span><span class="op">(</span><span class="va">zindex</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">renderTmapGS</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapOutputGS</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapProxyGS</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -177,6 +183,10 @@ Removing layers can be done, removing with <code>tm_remove_layer()</code>.</p>
 
 <dt id="arg-zindex">zindex<a class="anchor" aria-label="anchor" href="#arg-zindex"></a></dt>
 <dd><p>The stacking number of the layer to be removed. It is recommended to specify the <code>zindex</code> for this layer when creating the map (inside <code>renderTmap()</code>).</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>passed on to the mode-specific methods</p></dd>
 
 </dl></div>
     <div class="section level2">

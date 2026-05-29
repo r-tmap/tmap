@@ -9,6 +9,7 @@
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md) and
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md),
   e.g. [`library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`](https://github.com/r-tmap/tmap.mapgl)
+- shiny dispatch methods added (to allow integration for other modes)
 - added support for terra’s PackedSpatX objects
 - bug fixes (most importantly regarding \>=1000 polygons in view mode)
 
