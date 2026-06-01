@@ -50,6 +50,7 @@ tm_sf(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   ...
 )
 
@@ -135,6 +136,14 @@ opt_tm_sf(
   only one group can be shown), `"check"` for check boxes (so multiple
   groups can be shown), and `"none"` for no control (the group cannot be
   (de)selected).
+
+- blend:
+
+  Compositing operator for layer blending, applied to each sublayer
+  (polygons, lines, points). Default `"over"` applies no blending. See
+  the "Layer blending" section of
+  [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  for supported values.
 
 - ...:
 

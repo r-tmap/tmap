@@ -21,6 +21,11 @@ features new map layers, albeit very basic so far:
 
 tm_shape(sfn) +
     tm_network()
+#> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_lines()` are
+#> deprecated.
+#> ℹ Use `popup` with `tm_popup()` instead, e.g. `popup = tm_popup(vars = ...,
+#>   format = ...)`.
+#> This message is displayed once every 8 hours.
 ```
 
 ![](ext_networks_files/figure-html/unnamed-chunk-4-1.png)

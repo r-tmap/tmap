@@ -284,6 +284,8 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   Specify a numeric sequence
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
   tmap function to specify variables
+- [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md) :
+  Popup specification for interactive maps
 - [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md)
   : tmap function to specify labels
 - [`tm_plot_order()`](https://r-tmap.github.io/tmap/reference/tm_plot_order.md)

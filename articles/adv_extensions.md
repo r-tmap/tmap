@@ -94,6 +94,11 @@ features new map layers, albeit very basic so far:
 
 tm_shape(sfn) +
     tm_network()
+#> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_lines()` are
+#> deprecated.
+#> ℹ Use `popup` with `tm_popup()` instead, e.g. `popup = tm_popup(vars = ...,
+#>   format = ...)`.
+#> This message is displayed once every 8 hours.
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-5-1.png)

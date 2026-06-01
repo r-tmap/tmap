@@ -45,10 +45,12 @@ tm_polygons(
   zindex = NA,
   group = NA,
   group.control = "check",
+  popup = tm_popup(),
   popup.vars = NA,
   popup.format = tm_label_format(),
   hover = NA,
   id = "",
+  blend = "over",
   options = opt_tm_polygons(),
   ...
 )
@@ -57,7 +59,7 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany", blend = "over")
+opt_tm_polygons(polygons.only = "ifany")
 ```
 
 ## Arguments
@@ -119,19 +121,33 @@ opt_tm_polygons(polygons.only = "ifany", blend = "over")
   groups can be shown), and `"none"` for no control (the group cannot be
   (de)selected).
 
+- popup:
+
+  popup specification for `"view"` mode, the output of
+  [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md).
+  It determines the data variables shown in the popup table, the popup
+  title, and (in the future) the popup layout. This replaces the
+  deprecated arguments `popup.vars` and `popup.format`.
+
 - popup.vars:
 
-  names of data variables that are shown in the popups in `"view"` mode.
-  Set popup.vars to `TRUE` to show all variables in the shape object.
-  Set popup.vars to `FALSE` to disable popups. Set `popup.vars` to a
-  character vector of variable names to those those variables in the
-  popups. The default (`NA`) depends on whether visual variables
-  (e.g.`fill`) are used. If so, only those are shown. If not all
-  variables in the shape object are shown.
+  (Deprecated.) Use `popup` with
+  [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md)
+  instead (via its `vars` argument). Names of data variables that are
+  shown in the popups in `"view"` mode. Set `popup.vars` to `TRUE` to
+  show all variables in the shape object. Set `popup.vars` to `FALSE` to
+  disable popups. Set `popup.vars` to a character vector of variable
+  names to show those variables in the popups. The default (`NA`)
+  depends on whether visual variables (e.g. `fill`) are used. If so,
+  only those are shown. If not, all variables in the shape object are
+  shown.
 
 - popup.format:
 
-  list of formatting options for the popup values. Output of
+  (Deprecated.) Use `popup` with
+  [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md)
+  instead (via its `format` argument). List of formatting options for
+  the popup values. Output of
   [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md).
   Only applicable for numeric data variables. If one list of formatting
   options is provided, it is applied to all numeric variables of
@@ -150,6 +166,11 @@ opt_tm_polygons(polygons.only = "ifany", blend = "over")
   name of the data variable that specifies the indices of the spatial
   features. Only used for `"view"` mode.
 
+- blend:
+
+  Compositing operator for layer blending. Default `"over"` applies no
+  blending. See the "Layer blending" section for the supported values.
+
 - options:
 
   options passed on to the corresponding `opt_<layer_function>` function
@@ -164,11 +185,6 @@ opt_tm_polygons(polygons.only = "ifany", blend = "over")
   [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md))
   be plotted? By default `"ifany"`, which means `TRUE` in case a
   geometry collection is specified.
-
-- blend:
-
-  Compositing operator for layer blending. Default `"over"` applies no
-  blending. See the Details section for supported values.
 
 ## Details
 

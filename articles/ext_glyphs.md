@@ -65,6 +65,11 @@ tm_shape(World) +
                size = 1, popup.vars = c("norm_gender", "norm_press", "norm_footprint", "norm_well_being","norm_inequality"), id = "name") +
     tm_basemap(NULL) +
     tm_layout(bg.color = "grey90")
+#> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_polygons()`
+#> are deprecated.
+#> ℹ Use `popup` with `tm_popup()` instead, e.g. `popup = tm_popup(vars = ...,
+#>   format = ...)`.
+#> This message is displayed once every 8 hours.
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
 ```

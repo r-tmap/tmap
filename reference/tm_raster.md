@@ -20,11 +20,12 @@ tm_raster(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   options = opt_tm_raster(),
   ...
 )
 
-opt_tm_raster(interpolate = FALSE, blend = "over")
+opt_tm_raster(interpolate = FALSE)
 ```
 
 ## Arguments
@@ -57,6 +58,11 @@ opt_tm_raster(interpolate = FALSE, blend = "over")
   groups can be shown), and `"none"` for no control (the group cannot be
   (de)selected).
 
+- blend:
+
+  Compositing operator for layer blending. Default `"over"` applies no
+  blending. See the "Layer blending" section for the supported values.
+
 - options:
 
   options passed on to the corresponding `opt_<layer_function>` function
@@ -70,11 +76,6 @@ opt_tm_raster(interpolate = FALSE, blend = "over")
   Should the raster image be interpolated? Currently only applicable in
   view mode (passed on to
   [`grid`](https://rdrr.io/r/grid/grid.raster.html))
-
-- blend:
-
-  (Experimental) see the argument `op` in
-  [`groupGrob`](https://rdrr.io/r/grid/grid.group.html)
 
 ## Details
 

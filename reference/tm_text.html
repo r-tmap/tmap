@@ -154,6 +154,7 @@
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  blend <span class="op">=</span> <span class="st">"over"</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_text</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -404,6 +405,11 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 (meaning only one group can be shown), <code>"check"</code> for check boxes
 (so multiple groups can be shown), and <code>"none"</code> for no control
 (the group cannot be (de)selected).</p></dd>
+
+
+<dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
+<dd><p>Compositing operator for layer blending. Default <code>"over"</code> applies
+no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>

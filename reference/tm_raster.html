@@ -109,11 +109,12 @@
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  blend <span class="op">=</span> <span class="st">"over"</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_raster</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_raster</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span>, blend <span class="op">=</span> <span class="st">"over"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_raster</span><span class="op">(</span>interpolate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -147,6 +148,11 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 (the group cannot be (de)selected).</p></dd>
 
 
+<dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
+<dd><p>Compositing operator for layer blending. Default <code>"over"</code> applies
+no blending. See the "Layer blending" section for the supported values.</p></dd>
+
+
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
 <dd><p>options passed on to the corresponding <code>opt_&lt;layer_function&gt;</code> function</p></dd>
 
@@ -157,10 +163,6 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 
 <dt id="arg-interpolate">interpolate<a class="anchor" aria-label="anchor" href="#arg-interpolate"></a></dt>
 <dd><p>Should the raster image be interpolated? Currently only applicable in view mode (passed on to <code><a href="https://rdrr.io/r/grid/grid.raster.html" class="external-link">grid</a></code>)</p></dd>
-
-
-<dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
-<dd><p>(Experimental) see the argument <code>op</code> in <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">groupGrob</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">

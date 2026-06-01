@@ -63,6 +63,7 @@ tm_text(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   options = opt_tm_text(),
   ...
 )
@@ -316,6 +317,11 @@ opt_tm_labels(
   only one group can be shown), `"check"` for check boxes (so multiple
   groups can be shown), and `"none"` for no control (the group cannot be
   (de)selected).
+
+- blend:
+
+  Compositing operator for layer blending. Default `"over"` applies no
+  blending. See the "Layer blending" section for the supported values.
 
 - options:
 

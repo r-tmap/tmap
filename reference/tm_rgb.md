@@ -20,6 +20,7 @@ tm_rgb(
   col_alpha.legend = tm_legend(),
   col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
+  blend = "over",
   options = opt_tm_rgb(),
   ...
 )
@@ -30,10 +31,11 @@ tm_rgba(
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
   col.free = NA,
+  blend = "over",
   options = opt_tm_rgb()
 )
 
-opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
+opt_tm_rgb(interpolate = FALSE, saturation = 1)
 ```
 
 ## Arguments
@@ -50,6 +52,13 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
   col_alpha.free:
 
   Visual variable that determines the color transparency. See details.
+
+- blend:
+
+  Compositing operator for layer blending. Default `"over"` applies no
+  blending. See the "Layer blending" section of
+  [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  for supported values.
 
 - options:
 
@@ -68,11 +77,6 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
 - saturation:
 
   The saturation of the rgb.
-
-- blend:
-
-  Compositing operator for layer blending. Default `"over"` applies no
-  blending. See the Details section for supported values.
 
 ## Examples
 

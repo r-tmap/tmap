@@ -122,10 +122,12 @@
 <span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
+<span>  popup <span class="op">=</span> <span class="fu"><a href="tm_popup.html">tm_popup</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  popup.vars <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  popup.format <span class="op">=</span> <span class="fu"><a href="tm_label_format.html">tm_label_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hover <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  blend <span class="op">=</span> <span class="st">"over"</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_lines</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -180,17 +182,28 @@ can be switched on and off. Options: <code>"radio"</code> for radio buttons
 (the group cannot be (de)selected).</p></dd>
 
 
+<dt id="arg-popup">popup<a class="anchor" aria-label="anchor" href="#arg-popup"></a></dt>
+<dd><p>popup specification for <code>"view"</code> mode, the output of <code><a href="tm_popup.html">tm_popup()</a></code>.
+It determines the data variables shown in the popup table, the popup title,
+and (in the future) the popup layout. This replaces the deprecated
+arguments <code>popup.vars</code> and <code>popup.format</code>.</p></dd>
+
+
 <dt id="arg-popup-vars">popup.vars<a class="anchor" aria-label="anchor" href="#arg-popup-vars"></a></dt>
-<dd><p>names of data variables that are shown in the popups
-in <code>"view"</code> mode. Set popup.vars to <code>TRUE</code> to show all variables in the
-shape object. Set popup.vars to <code>FALSE</code> to disable popups. Set <code>popup.vars</code>
-to a character vector of variable names to those those variables in the popups.
-The default (<code>NA</code>) depends on whether visual variables (e.g.<code>fill</code>) are used.
-If so, only those are shown. If not all variables in the shape object are shown.</p></dd>
+<dd><p>(Deprecated.) Use <code>popup</code> with
+<code><a href="tm_popup.html">tm_popup()</a></code> instead (via its <code>vars</code> argument). Names of data variables that
+are shown in the popups in <code>"view"</code> mode. Set <code>popup.vars</code> to <code>TRUE</code> to show
+all variables in the shape object. Set <code>popup.vars</code> to <code>FALSE</code> to disable
+popups. Set <code>popup.vars</code> to a character vector of variable names to show
+those variables in the popups. The default (<code>NA</code>) depends on whether visual
+variables (e.g. <code>fill</code>) are used. If so, only those are shown. If not, all
+variables in the shape object are shown.</p></dd>
 
 
 <dt id="arg-popup-format">popup.format<a class="anchor" aria-label="anchor" href="#arg-popup-format"></a></dt>
-<dd><p>list of formatting options for the popup values. Output of <code><a href="tm_label_format.html">tm_label_format()</a></code>. Only applicable for
+<dd><p>(Deprecated.) Use <code>popup</code> with
+<code><a href="tm_popup.html">tm_popup()</a></code> instead (via its <code>format</code> argument). List of formatting options
+for the popup values. Output of <code><a href="tm_label_format.html">tm_label_format()</a></code>. Only applicable for
 numeric data variables. If one list of formatting options is provided,
 it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options
@@ -204,6 +217,11 @@ is applied to the named variable.</p></dd>
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>name of the data variable that specifies the indices of the spatial
 features. Only used for <code>"view"</code> mode.</p></dd>
+
+
+<dt id="arg-blend">blend<a class="anchor" aria-label="anchor" href="#arg-blend"></a></dt>
+<dd><p>Compositing operator for layer blending. Default <code>"over"</code> applies
+no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
