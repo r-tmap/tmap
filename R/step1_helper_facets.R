@@ -323,6 +323,8 @@ step1_rearrange_facets = function(tmo, o) {
 					# NULL (layers that don't set it, e.g. extensions), NA (default,
 					# meaning the popup title falls back to id), or a (possibly named)
 					# length-1 variable name. Validation uses the value (names stripped).
+
+					if (!exists("popup.title", inherits = FALSE)) popup.title = NULL
 					if (!is.null(popup.title) && !(length(popup.title) == 1L && is.na(popup.title))) {
 						if (length(popup.title) > 1) {
 							cli::cli_abort("popup.title should have length <= 1, not {length(popup.title)}.", call = NULL)
