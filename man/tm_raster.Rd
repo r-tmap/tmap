@@ -19,11 +19,12 @@ tm_raster(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   options = opt_tm_raster(),
   ...
 )
 
-opt_tm_raster(interpolate = FALSE, blend = "over")
+opt_tm_raster(interpolate = FALSE)
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
@@ -43,13 +44,14 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
 
+\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies
+no blending. See the "Layer blending" section for the supported values.}
+
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
-
-\item{blend}{(Experimental) see the argument \code{op} in \code{\link[grid:groupGrob]{groupGrob}}}
 }
 \description{
 Map layer that draws rasters. Supported visual variable is: \code{col} (the  color).

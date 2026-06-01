@@ -97,13 +97,21 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
-#' @param popup.vars names of data variables that are shown in the popups
-#'   in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the
-#'   shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
-#'   to a character vector of variable names to those those variables in the popups.
-#'   The default (`NA`) depends on whether visual variables (e.g.`fill`) are used.
-#'   If so, only those are shown. If not all variables in the shape object are shown.
-#' @param popup.format list of formatting options for the popup values. Output of [tm_label_format()]. Only applicable for
+#' @param popup popup specification for `"view"` mode, the output of [tm_popup()].
+#'   It determines the data variables shown in the popup table, the popup title,
+#'   and (in the future) the popup layout. This replaces the deprecated
+#'   arguments `popup.vars` and `popup.format`.
+#' @param popup.vars (Deprecated.) Use `popup` with
+#'   [tm_popup()] instead (via its `vars` argument). Names of data variables that
+#'   are shown in the popups in `"view"` mode. Set `popup.vars` to `TRUE` to show
+#'   all variables in the shape object. Set `popup.vars` to `FALSE` to disable
+#'   popups. Set `popup.vars` to a character vector of variable names to show
+#'   those variables in the popups. The default (`NA`) depends on whether visual
+#'   variables (e.g. `fill`) are used. If so, only those are shown. If not, all
+#'   variables in the shape object are shown.
+#' @param popup.format (Deprecated.) Use `popup` with
+#'   [tm_popup()] instead (via its `format` argument). List of formatting options
+#'   for the popup values. Output of [tm_label_format()]. Only applicable for
 #'   numeric data variables. If one list of formatting options is provided,
 #'   it is applied to all numeric variables of `popup.vars`. Also, a (named)
 #'   list of lists can be provided. In that case, each list of formatting options
@@ -111,6 +119,8 @@
 #' @param hover name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,
 #' @param id name of the data variable that specifies the indices of the spatial
 #'   features. Only used for `"view"` mode.
+#' @param blend Compositing operator for layer blending. Default `"over"` applies
+#'   no blending. See the "Layer blending" section for the supported values.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_polygons.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
@@ -151,10 +161,12 @@ tm_polygons = function(fill = tm_const(),
 					   zindex = NA,
 					   group = NA,
 					   group.control = "check",
+					   popup = tm_popup(),
 					   popup.vars = NA,
 					   popup.format = tm_label_format(),
 					   hover = NA,
 					   id = "",
+					   blend = "over",
 					   options = opt_tm_polygons(),
 					   ...) {
 
@@ -316,6 +328,19 @@ tm_polygons = function(fill = tm_const(),
 	# make sure required options are there
 	options = complete_options(options, opt_tm_polygons())
 
+	# blend has been migrated from opt_tm_polygons() to the layer function root;
+	# it is still passed on internally via mapping.args (read as a$blend).
+	options$mapping.args$blend = blend
+
+	# resolve popup specification (popup.vars/popup.format are deprecated in
+	# favour of popup = tm_popup(...))
+	popup = process_popup(popup = popup,
+						  popup.vars = popup.vars,
+						  popup.format = popup.format,
+						  popup.called = "popup" %in% args_called,
+						  popup.vars.called = "popup.vars" %in% args_called,
+						  popup.format.called = "popup.format" %in% args_called,
+						  layer_fun = layer_fun)
 
 	tm_element_list(tm_element(
 		layer = "polygons",
@@ -377,8 +402,10 @@ tm_polygons = function(fill = tm_const(),
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
-		popup.vars = popup.vars,
-		popup.format = popup.format,
+		popup.vars = popup$vars,
+		popup.format = popup$format,
+		popup.title = popup$title,
+		popup.layout = popup$layout,
 		hover = hover,
 		id = id,
 		subclass = c("tm_aes_layer", "tm_layer")))
@@ -406,7 +433,7 @@ tm_borders = function(col = tm_const(), ...) {
 		args["fill"] = list(NULL)
 	}
 	args$called_from = "tm_borders"
-	args$popup.vars = FALSE
+	args$popup = FALSE
 	args$hover = FALSE
 	tm = do.call(tm_polygons, c(list(col = col), args))
 	tm[[1]]$layer = c("borders", "polygons")
@@ -415,11 +442,9 @@ tm_borders = function(col = tm_const(), ...) {
 
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @rdname tm_polygons
-#' @inherit tm_rgb details
-#' @inheritParams tm_rgb
 #' @export
-opt_tm_polygons = function(polygons.only = "ifany", blend = "over") {
+opt_tm_polygons = function(polygons.only = "ifany") {
 	list(trans.args = list(polygons.only = polygons.only),
-		 mapping.args = list(blend = blend))
+		 mapping.args = list())
 }
 

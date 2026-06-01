@@ -1,6 +1,14 @@
 #' @export
 #' @rdname tmapGridLeaflet
 tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	# popup.title data (ptdt) and popup layout are passed by the tmap core via
+	# `...` rather than as named formals, so that this method's signature stays
+	# identical to the tmapLeafletDataPlot generic (S3 consistency) and so that
+	# extension methods that do not handle them keep working unchanged.
+	dots = list(...)
+	ptdt = dots$ptdt
+	popup.layout = dots$popup.layout
+
 	lf = get_lf(facet_row, facet_col, facet_page)
 
 	rc_text = frc(facet_row, facet_col)
@@ -25,18 +33,28 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		hdt = lapply(hdt, htmltools::HTML, FUN.VALUE = character(1))
 	}
 
+	# popup title: explicit popup.title (ptdt) takes precedence; otherwise fall
+	# back to the previous behaviour (id, or hover when no id).
+	if (!is.null(ptdt)) {
+		pttl = ptdt$title[match(dt$tmapID__, ptdt$tmapID__)]
+	} else {
+		pttl = NULL
+	}
+
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
 		mtch = match(dt$tmapID__, pdt$tmapID__)
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
-		if (idt_null && !is.null(hdt)) {
-			popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format)
+		if (!is.null(pttl)) {
+			popups = view_format_popups(id = pttl, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
+		} else if (idt_null && !is.null(hdt)) {
+			popups = view_format_popups(id = hdt, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 		} else if (idt_null && is.null(hdt)) {
-			popups = view_format_popups(id = NULL, titles = names(pdt), values = pdt, format = popup.format)
+			popups = view_format_popups(id = NULL, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 		} else {
-			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 		}
 	}
 

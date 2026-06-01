@@ -64,6 +64,7 @@ tm_text(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   options = opt_tm_text(),
   ...
 )
@@ -281,6 +282,9 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (meaning only one group can be shown), \code{"check"} for check boxes
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
+
+\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies
+no blending. See the "Layer blending" section for the supported values.}
 
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 

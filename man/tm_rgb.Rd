@@ -17,6 +17,7 @@ tm_rgb(
   col_alpha.legend = tm_legend(),
   col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
+  blend = "over",
   options = opt_tm_rgb(),
   ...
 )
@@ -27,16 +28,19 @@ tm_rgba(
   col.legend = tm_legend(),
   col.chart = tm_chart_none(),
   col.free = NA,
+  blend = "over",
   options = opt_tm_rgb()
 )
 
-opt_tm_rgb(interpolate = FALSE, saturation = 1, blend = "over")
+opt_tm_rgb(interpolate = FALSE, saturation = 1)
 }
 \arguments{
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivariate = TRUE}}
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
+
+\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the "Layer blending" section of \code{\link[=tm_polygons]{tm_polygons()}} for supported values.}
 
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
@@ -45,8 +49,6 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 \item{interpolate}{Should the raster image be interpolated? Currently only applicable in view mode (passed on to \code{\link[grid:rasterGrob]{grid}})}
 
 \item{saturation}{The saturation of the rgb.}
-
-\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the Details section for supported values.}
 }
 \description{
 Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},

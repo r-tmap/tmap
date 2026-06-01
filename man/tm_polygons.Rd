@@ -44,10 +44,12 @@ tm_polygons(
   zindex = NA,
   group = NA,
   group.control = "check",
+  popup = tm_popup(),
   popup.vars = NA,
   popup.format = tm_label_format(),
   hover = NA,
   id = "",
+  blend = "over",
   options = opt_tm_polygons(),
   ...
 )
@@ -56,7 +58,7 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany", blend = "over")
+opt_tm_polygons(polygons.only = "ifany")
 }
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details.}
@@ -89,14 +91,23 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
 
-\item{popup.vars}{names of data variables that are shown in the popups
-in \code{"view"} mode. Set popup.vars to \code{TRUE} to show all variables in the
-shape object. Set popup.vars to \code{FALSE} to disable popups. Set \code{popup.vars}
-to a character vector of variable names to those those variables in the popups.
-The default (\code{NA}) depends on whether visual variables (e.g.\code{fill}) are used.
-If so, only those are shown. If not all variables in the shape object are shown.}
+\item{popup}{popup specification for \code{"view"} mode, the output of \code{\link[=tm_popup]{tm_popup()}}.
+It determines the data variables shown in the popup table, the popup title,
+and (in the future) the popup layout. This replaces the deprecated
+arguments \code{popup.vars} and \code{popup.format}.}
 
-\item{popup.format}{list of formatting options for the popup values. Output of \code{\link[=tm_label_format]{tm_label_format()}}. Only applicable for
+\item{popup.vars}{(Deprecated.) Use \code{popup} with
+\code{\link[=tm_popup]{tm_popup()}} instead (via its \code{vars} argument). Names of data variables that
+are shown in the popups in \code{"view"} mode. Set \code{popup.vars} to \code{TRUE} to show
+all variables in the shape object. Set \code{popup.vars} to \code{FALSE} to disable
+popups. Set \code{popup.vars} to a character vector of variable names to show
+those variables in the popups. The default (\code{NA}) depends on whether visual
+variables (e.g. \code{fill}) are used. If so, only those are shown. If not, all
+variables in the shape object are shown.}
+
+\item{popup.format}{(Deprecated.) Use \code{popup} with
+\code{\link[=tm_popup]{tm_popup()}} instead (via its \code{format} argument). List of formatting options
+for the popup values. Output of \code{\link[=tm_label_format]{tm_label_format()}}. Only applicable for
 numeric data variables. If one list of formatting options is provided,
 it is applied to all numeric variables of \code{popup.vars}. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options
@@ -107,13 +118,14 @@ is applied to the named variable.}
 \item{id}{name of the data variable that specifies the indices of the spatial
 features. Only used for \code{"view"} mode.}
 
+\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies
+no blending. See the "Layer blending" section for the supported values.}
+
 \item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
 \item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
-
-\item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the Details section for supported values.}
 }
 \description{
 Map layer that draws polygons. Supported visual variables are: \code{fill} (the fill color),

@@ -1,6 +1,12 @@
 #' @export
 #' @rdname tmapGridLeaflet
 tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	# ptdt (popup.title data) and popup.layout are passed via `...` to keep this
+	# method's signature identical to the generic (see tm_data_polygons).
+	dots = list(...)
+	ptdt = dots$ptdt
+	popup.layout = dots$popup.layout
+
 	lf = get_lf(facet_row, facet_col, facet_page)
 
 	rc_text = frc(facet_row, facet_col)
@@ -22,6 +28,12 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		hdt = lapply(hdt, htmltools::HTML, FUN.VALUE = character(1))
 	}
 
+	if (!is.null(ptdt)) {
+		pttl = ptdt$title[match(dt$tmapID__, ptdt$tmapID__)]
+	} else {
+		pttl = NULL
+	}
+
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
@@ -29,7 +41,7 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
 
-		popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+		popups = view_format_popups(id = if (!is.null(pttl)) pttl else idt, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 	}
 
 	gp = impute_gp(gp, dt)

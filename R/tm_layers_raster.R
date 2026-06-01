@@ -23,6 +23,7 @@ tm_raster = function(col = tm_vars(),
 					 zindex = NA,
 					 group = NA,
 					 group.control = "check",
+					 blend = "over",
 					 options = opt_tm_raster(),
 					 ...) {
 
@@ -152,6 +153,10 @@ tm_raster = function(col = tm_vars(),
 	# needed for color maps without categories (then tm_scale_categorical is used without legend, unless called)
 	col.legend$legend_called = "col.legend" %in% args_called
 
+	# blend has been migrated from opt_tm_raster() to the layer function root;
+	# it is still passed on internally via mapping.args (read as a$blend).
+	options$mapping.args$blend = blend
+
 
 	tm_element_list(tm_element(
 		layer = "raster",
@@ -191,6 +196,7 @@ tm_raster = function(col = tm_vars(),
 		group.control = group.control,
 		popup.vars = FALSE,
 		popup.format = list(),
+		popup.title = NA,
 		hover = "",
 		id = "",
 		subclass = c("tm_aes_layer", "tm_layer")))
@@ -198,10 +204,9 @@ tm_raster = function(col = tm_vars(),
 
 #' @rdname tm_raster
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
-#' @param blend (Experimental) see the argument `op` in [`groupGrob`][grid::groupGrob()]
 #' @export
-opt_tm_raster = function(interpolate = FALSE, blend = "over") {
+opt_tm_raster = function(interpolate = FALSE) {
 	list(trans.args = list(),
-		 mapping.args = list(interpolate = interpolate, blend = blend))
+		 mapping.args = list(interpolate = interpolate))
 }
 

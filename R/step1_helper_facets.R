@@ -318,6 +318,19 @@ step1_rearrange_facets = function(tmo, o) {
 					if (id != "" && !id %in% smeta$vars) rlang::arg_match0(id, smeta$vars, arg_nm = "id", error_call = NULL)
 					if (id != "") add_used_vars(id, is_title = TRUE)
 
+					# popup.title: like id/hover, a title-type variable that must be
+					# registered so its column is included in dt in step2. It may be
+					# NULL (layers that don't set it, e.g. extensions), NA (default,
+					# meaning the popup title falls back to id), or a (possibly named)
+					# length-1 variable name. Validation uses the value (names stripped).
+					if (!is.null(popup.title) && !(length(popup.title) == 1L && is.na(popup.title))) {
+						if (length(popup.title) > 1) {
+							cli::cli_abort("popup.title should have length <= 1, not {length(popup.title)}.", call = NULL)
+						}
+						if (!unname(popup.title) %in% smeta$vars) rlang::arg_match0(unname(popup.title), smeta$vars, arg_nm = "popup.title", error_call = NULL)
+						add_used_vars(unname(popup.title), is_title = TRUE)
+					}
+
 					if (isTRUE(popup.vars)) {
 						popup.vars = smeta$vars
 					} else if (isFALSE(popup.vars)) {

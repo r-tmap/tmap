@@ -76,10 +76,12 @@ tm_symbols = function(size = tm_const(),
 					  zindex = NA,
 					  group = NA,
 					  group.control = "check",
+					  popup = tm_popup(),
 					  popup.vars = NA,
 					  popup.format = tm_label_format(),
 					  hover = NA,
 					  id = "",
+					  blend = "over",
 					  options = opt_tm_symbols(),
 					  ...) {
 
@@ -118,6 +120,19 @@ tm_symbols = function(size = tm_const(),
 	# make sure required options are there
 	options = complete_options(options, opt_tm_symbols())
 
+	# blend has been migrated to the layer function root; it is still passed on
+	# internally via mapping.args (read as a$blend).
+	options$mapping.args$blend = blend
+
+	# resolve popup specification (popup.vars/popup.format are deprecated in
+	# favour of popup = tm_popup(...))
+	popup = process_popup(popup = popup,
+						  popup.vars = popup.vars,
+						  popup.format = popup.format,
+						  popup.called = "popup" %in% args_called,
+						  popup.vars.called = "popup.vars" %in% args_called,
+						  popup.format.called = "popup.format" %in% args_called,
+						  layer_fun = if ("called_from" %in% names(args)) args$called_from else "tm_symbols")
 
 	tm_element_list(tm_element(
 		layer = "symbols",
@@ -192,8 +207,10 @@ tm_symbols = function(size = tm_const(),
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
-		popup.vars = popup.vars,
-		popup.format = popup.format,
+		popup.vars = popup$vars,
+		popup.format = popup$format,
+		popup.title = popup$title,
+		popup.layout = popup$layout,
 		hover = hover,
 		id = id,
 		subclass = c("tm_aes_layer", "tm_layer")))

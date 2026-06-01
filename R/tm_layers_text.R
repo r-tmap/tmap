@@ -82,6 +82,7 @@ tm_text = function(text = tm_const(),
 				   zindex = NA,
 				   group = NA,
 				   group.control = "check",
+				   blend = "over",
 				   options = opt_tm_text(),
 				   ...) {
 
@@ -230,6 +231,10 @@ tm_text = function(text = tm_const(),
 	if (length(unused)) {
 		message_layer_unused_args(layer_fun, unused)
 	}
+
+	# blend has been migrated to the layer function root; it is still passed on
+	# internally via mapping.args (read as a$blend).
+	options$mapping.args$blend = blend
 
 	tm_element_list(tm_element(
 		layer = "text",

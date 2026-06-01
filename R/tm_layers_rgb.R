@@ -8,6 +8,7 @@
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
 #'   the color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
+#' @param blend Compositing operator for layer blending. Default `"over"` applies no blending. See the "Layer blending" section of [tm_polygons()] for supported values.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_rgb.R
@@ -22,6 +23,7 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 				  col_alpha.legend = tm_legend(),
 				  col_alpha.chart = tm_chart_none(),
 				  col_alpha.free = NA,
+				  blend = "over",
 				  options = opt_tm_rgb(),
 				  ...) {
 	args = list(...)
@@ -81,6 +83,7 @@ tm_rgb = function(col = tm_vars(n = 3, multivariate = TRUE),
 
 	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.chart = col.chart, col.free = col.free,
 								   col_alpha = col_alpha, col_alpha.scale = col_alpha.scale, col_alpha.legend = col_alpha.legend, col_alpha.chart = col_alpha.chart, col_alpha.free = col_alpha.free,
+								   blend = blend,
 								   options = options))
 }
 
@@ -91,16 +94,16 @@ tm_rgba = function(col = tm_vars(n = 4, multivariate = TRUE),
 				  col.legend = tm_legend(),
 				  col.chart = tm_chart_none(),
 				  col.free = NA,
+				  blend = "over",
 				  options = opt_tm_rgb()) {
-	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.chart = col.chart, col.free = col.free, options = options))
+	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.chart = col.chart, col.free = col.free, blend = blend, options = options))
 }
 
 #' @rdname tm_rgb
 #' @param interpolate Should the raster image be interpolated? Currently only applicable in view mode (passed on to [`grid`][grid::rasterGrob()])
 #' @param saturation `r .doc_opt("rgb.saturation")`
-#' @param blend Compositing operator for layer blending. Default `"over"` applies no blending. See the Details section for supported values.
 #' @export
-opt_tm_rgb = function(interpolate = FALSE, saturation = 1, blend = "over") {
+opt_tm_rgb = function(interpolate = FALSE, saturation = 1) {
 	list(trans.args = list(),
-		 mapping.args = list(interpolate = interpolate, saturation = saturation, blend = blend))
+		 mapping.args = list(interpolate = interpolate, saturation = saturation))
 }

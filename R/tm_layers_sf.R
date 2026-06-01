@@ -18,6 +18,9 @@
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.
 #'   For each of these types, which are drawn in that order, a [tm_plot_order()] is required.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
+#' @param blend Compositing operator for layer blending, applied to each
+#'   sublayer (polygons, lines, points). Default `"over"` applies no blending.
+#'   See the "Layer blending" section of [tm_polygons()] for supported values.
 #' @inherit tm_polygons details
 #' @inheritParams tm_polygons
 #' @param ... passed on to [tm_polygons()], [tm_lines()], and [tm_dots()]
@@ -64,12 +67,20 @@ tm_sf = function(fill = tm_const(),
                   zindex = NA,
                   group = NA,
                   group.control = "check",
+                  blend = "over",
                   ...) {
 	args = list(...)
 	args_called = names(rlang::call_match()[-1])
 
+	# Arguments forwarded to every sublayer: the interactive arguments
+	# (popup, popup.vars, popup.format, hover, id) supplied via `...`, plus
+	# blend. Other `...` arguments retain their previous behaviour (they are
+	# not forwarded to the sublayers).
+	interactive_nms = c("popup", "popup.vars", "popup.format", "hover", "id")
+	common = c(args[intersect(names(args), interactive_nms)], list(blend = blend))
+
 	#paste(paste(names(formals(tm_polygons)), names(formals(tm_polygons)), sep = " = "), collapse = ", ")
-	tm = tm_polygons(
+	tm = do.call(tm_polygons, c(list(
 		fill = fill, fill.scale = fill.scale, fill.legend = fill.legend,
 		fill.free = fill.free, col = col, col.scale = col.scale, col.legend = col.legend,
 		col.free = col.free, lwd = lwd, lwd.scale = lwd.scale, lwd.legend = lwd.legend,
@@ -79,19 +90,19 @@ tm_sf = function(fill = tm_const(),
 		col_alpha = col_alpha, col_alpha.scale = col_alpha.scale,
 		col_alpha.legend = col_alpha.legend, col_alpha.free = col_alpha.free,
 		linejoin = linejoin, lineend = lineend, plot.order = plot.order.list$polygons,
-		options = options$polygons) +
-	tm_lines(
+		options = options$polygons), common)) +
+	do.call(tm_lines, c(list(
 		col = col, col.scale = col.scale, col.legend = col.legend,
 		col.free = col.free, lwd = lwd, lwd.scale = lwd.scale,
 		lwd.legend = lwd.legend, lwd.free = lwd.free, lty = lty, lty.scale = lty.scale,
 		lty.legend = lty.legend, lty.free = lty.free, col_alpha = col_alpha,
 		col_alpha.scale = col_alpha.scale, col_alpha.legend = col_alpha.legend,
 		col_alpha.free = col_alpha.free, linejoin = linejoin, lineend = lineend,
-		plot.order = plot.order.list$lines, options = options$lines)
+		plot.order = plot.order.list$lines, options = options$lines), common))
 
 
 	if ("shape" %in% args_called || "col" %in% args_called) {
-		tm + tm_symbols(size = size, size.scale = size.scale, size.legend = size.legend,
+		tm + do.call(tm_symbols, c(list(size = size, size.scale = size.scale, size.legend = size.legend,
 						size.free = size.free, fill = fill, fill.scale = fill.scale,
 						fill.legend = fill.legend, fill.free = fill.free, col = col,
 						col.scale = col.scale, col.legend = col.legend, col.free = col.free,
@@ -102,16 +113,16 @@ tm_sf = function(fill = tm_const(),
 						fill_alpha.legend = fill_alpha.legend, fill_alpha.free = fill_alpha.free,
 						col_alpha = col_alpha, col_alpha.scale = col_alpha.scale,
 						col_alpha.legend = col_alpha.legend, col_alpha.free = col_alpha.free,
-						plot.order = plot.order.list$points, options = options$points)
+						plot.order = plot.order.list$points, options = options$points), common))
 	} else {
-		tm + tm_dots(fill = fill, fill.scale = fill.scale, fill.legend = fill.legend,
+		tm + do.call(tm_dots, c(list(fill = fill, fill.scale = fill.scale, fill.legend = fill.legend,
 					 fill.free = fill.free, size = size, size.scale = size.scale,
 					 size.legend = size.legend, size.free = size.free, lwd = lwd,
 					 lwd.scale = lwd.scale, lwd.legend = lwd.legend, lwd.free = lwd.free,
 					 lty = lty, lty.scale = lty.scale, lty.legend = lty.legend, lty.free = lty.free,
 					 fill_alpha = fill_alpha, fill_alpha.scale = fill_alpha.scale,
 					 fill_alpha.legend = fill_alpha.legend, fill_alpha.free = fill_alpha.free,
-					 plot.order = plot.order.list$points, options = options$points)
+					 plot.order = plot.order.list$points, options = options$points), common))
 	}
 
 }

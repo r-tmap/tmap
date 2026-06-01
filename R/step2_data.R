@@ -116,6 +116,23 @@ step2_data = function(tm) {
 				data.table(id = as.character(dt[[tml$id]]), tmapID__ = dt$tmapID__)
 			}
 
+			# popup.title: a data variable used as the popup header. Overrules
+			# `id` for the popup title (analogous to how `hover` overrules `id`
+			# for hover labels). `tml$popup.title` is NULL for layers that do
+			# not set it (e.g. extension layers), or NA when not specified.
+			popup.title = tml$popup.title
+			popup.title.data = if (is.null(popup.title) || (length(popup.title) == 1L && is.na(popup.title)) || is.null(dt)) {
+				NULL
+			} else if (!popup.title %in% names(dt)) {
+				NULL
+			} else {
+				ptt = data.table(title = as.character(dt[[popup.title]]), tmapID__ = dt$tmapID__)
+				if (!is.null(names(popup.title)) && names(popup.title) != "") {
+					attr(ptt, "label") = names(popup.title)
+				}
+				ptt
+			}
+
 			format_called = attr(tml$popup.format, "called")
 			if (length(format_called) > 0L) {
 				.TMAP$popup.format[format_called] = tml$popup.format[format_called]
@@ -137,6 +154,8 @@ step2_data = function(tm) {
 				 group.control = group.control,
 				 popup.data = popup.data,
 				 popup.format = .TMAP$popup.format,
+				 popup.title.data = popup.title.data,
+				 popup.layout = tml$popup.layout,
 				 hover.data = hover.data,
 				 id.data = id.data,
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation

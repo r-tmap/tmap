@@ -1,6 +1,12 @@
 #' @export
 #' @rdname tmapGridLeaflet
 tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	# ptdt (popup.title data) and popup.layout are passed via `...` to keep this
+	# method's signature identical to the generic (see tm_data_polygons).
+	dots = list(...)
+	ptdt = dots$ptdt
+	popup.layout = dots$popup.layout
+
 	lf = get_lf(facet_row, facet_col, facet_page)
 
 	rc_text = frc(facet_row, facet_col)
@@ -39,16 +45,23 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 		hdt = hdt$hover[match(dt$tmapID__[shpTM_match], hdt$tmapID__)]
 		hdt = lapply(hdt, htmltools::HTML, FUN.VALUE = character(1))
 	}
+	if (!is.null(ptdt)) {
+		pttl = ptdt$title[match(dt$tmapID__[shpTM_match], ptdt$tmapID__)]
+	} else {
+		pttl = NULL
+	}
 	if (is.null(pdt)) {
 		popups = NULL
 	} else {
 		mtch = match(dt$tmapID__[shpTM_match], pdt$tmapID__)
 		pdt = pdt[mtch][, tmapID__ := NULL]
 
-		if (idt_null) {
-			popups = view_format_popups(titles = names(pdt), values = pdt, format = popup.format)
+		if (!is.null(pttl)) {
+			popups = view_format_popups(id = pttl, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
+		} else if (idt_null) {
+			popups = view_format_popups(titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 		} else {
-			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format)
+			popups = view_format_popups(id = idt, titles = names(pdt), values = pdt, format = popup.format, layout = popup.layout)
 		}
 	}
 

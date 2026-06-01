@@ -46,6 +46,7 @@ tm_sf(
   zindex = NA,
   group = NA,
   group.control = "check",
+  blend = "over",
   ...
 )
 
@@ -96,6 +97,10 @@ can be switched on and off. Options: \code{"radio"} for radio buttons
 (meaning only one group can be shown), \code{"check"} for check boxes
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
+
+\item{blend}{Compositing operator for layer blending, applied to each
+sublayer (polygons, lines, points). Default \code{"over"} applies no blending.
+See the "Layer blending" section of \code{\link[=tm_polygons]{tm_polygons()}} for supported values.}
 
 \item{...}{passed on to \code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tm_lines]{tm_lines()}}, and \code{\link[=tm_dots]{tm_dots()}}}
 
