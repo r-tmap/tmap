@@ -74,36 +74,141 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 
 	shp2 = sf::st_as_sf(as.data.frame(coords), coords = c("X", "Y"), crs = st_crs(shp))
 
-	if (o$use_WebGL) {
-		idt = submit_labels(idt[1], "symbolsGL", pane, group)
+	# Screen-size factor for circle markers. The *visible* on-screen radius (in
+	# leaflet px) is `gp2$width * multiplier` regardless of render path: the
+	# WebGL path passes `radius = gp2$width` to addGlPoints and the circleMarkers
+	# path passes `radius = gp2$width * multiplier`, but both render identically,
+	# so addGlPoints' radius unit is effectively `multiplier` leaflet px. Using
+	# this single quantity for hitbox sizing keeps the WebGL and non-WebGL
+	# hitboxes identical. Only meaningful for circle shapes (the only shapes that
+	# reach the WebGL / circleMarkers branches); harmless (-> 0.5) otherwise.
+	multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
 
-		lf |>  leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups, layerId = idt) %>%
-			assign_lf(facet_row, facet_col, facet_page)
+	# process hitbox option (mirrors tm_lines):
+	# an invisible, larger addCircleMarkers overlay carries the interaction
+	# (label/popup/layerId) so that small symbols are easier to click/hover.
+	#
+	# The visible on-screen diameter (leaflet px) of a symbol is
+	# `2 * gp2$width * multiplier` across all render paths (see note above;
+	# for icons multiplier -> 0.5 so this degrades to gp2$width). The `auto`
+	# rule fires only for small symbols (median visible diameter < 12, i.e.
+	# below the 12px floor it would be raised to) when there are few enough
+	# features, and floors the clickable diameter at 12px. pmax12 leaves
+	# symbols already larger than 12px untouched.
+	hitbox = if (a$hitbox == "auto") {
+		small = stats::median(2 * gp2$width * multiplier) < 12   # visible diameter (px)
+		light = nrow(dt) < 10000
+		if (small && light) "pmax12" else "none"
+	} else {
+		a$hitbox
+	}
+
+	# A hitbox is only meaningful when there is something to click (interactive)
+	# and when markers are not clustered (clusters already provide a large
+	# click target, and overlaying a second clustered layer would double-count).
+	use_hitbox = interactive && hitbox != "none" && is.null(clusterOpts)
+	if (use_hitbox) hb = parse_hitbox(hitbox)
+
+	# helper: compute the invisible interaction radius (px) from a per-feature
+	# *visible diameter* (px). Hitbox numbers (`plusX`, `pmaxX`) are interpreted
+	# on the diameter, consistent with line `weight`; the overlay needs a radius.
+	hitbox_radius = function(vis_diam) {
+		d = vis_diam + hb$plus
+		if (hb$pmax != 0) d = pmax(d, hb$pmax)
+		d / 2
+	}
+
+	# helper: invisible interaction overlay (regular leaflet circle markers)
+	add_hitbox = function(lf, layerId, radius) {
+		leaflet::addCircleMarkers(lf,
+								  data        = shp2,
+								  layerId     = layerId,
+								  radius      = radius,
+								  stroke      = FALSE,
+								  fill        = TRUE,
+								  fillOpacity = 0,
+								  options     = leaflet::pathOptions(interactive = TRUE, pane = pane),
+								  group       = group,
+								  label       = hdt,
+								  popup       = popups)
+	}
+
+	if (o$use_WebGL) {
+		if (!use_hitbox) {
+			idt = submit_labels(idt[1], "symbolsGL", pane, group)
+
+			lf |>  leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = hdt, popup = popups, layerId = idt) %>%
+				assign_lf(facet_row, facet_col, facet_page)
+		} else {
+			# visible on-screen radius (leaflet px) = gp2$width * multiplier,
+			# the same quantity the non-WebGL path uses -> identical hitboxes
+			hb_radius = hitbox_radius(2 * gp2$width * multiplier)
+
+			idt_gl = submit_labels(idt[1], "symbolsGL", pane, group)
+			idt_hb = submit_labels(idt, "symbolsGL_hb", pane, group)
+
+			lf |>
+				# Fast WebGL rendering (no interaction; handled by overlay)
+				leafgl::addGlPoints(shp2, fillColor = gp2$fillColor, radius = gp2$width, fillOpacity = gp2$fillOpacity[1], pane = pane, group = group, label = NULL, popup = NULL, layerId = idt_gl) |>
+				# Invisible interaction layer (fatter hitbox)
+				add_hitbox(layerId = idt_hb, radius = hb_radius) |>
+				assign_lf(facet_row, facet_col, facet_page)
+		}
 	} else if (use_circleMarkers) {
-		idt = submit_labels(idt, "symbols", pane, group)
 		cidt = if (!is.null(clusterOpts)) submit_labels(idt[1], "symbolsCluster", pane, group) else NULL
 
 		gp2$strokeWidth[gp2$shape %in% c("solid-circle-md", "solid-circle-bg", "solid-circle-sm")] = 0
 		gp2$fillOpacity[gp2$shape %in% "open-circle"] = 0
-		multiplier = ifelse(gp2$shape == "solid-circle-md", 0.28, ifelse(gp2$shape == "solid-circle-sm", 0.25, 0.5)) # manually calibrated with 4k screen
 
-		lf |>  leaflet::addCircleMarkers(data = shp2, layerId = idt,
-										 color = gp2$color,
-										 opacity = gp2$opacity,
-										 weight = gp2$strokeWidth,
-										 dashArray = gp2[["stroke-dasharray"]],
-										 fillColor = gp2$fillColor,
-										 fillOpacity = gp2$fillOpacity,
-										 clusterOptions = clusterOpts,
-										 clusterId = cidt,
-										 radius = gp2$width * multiplier,
-										 options = opt,
-										 group = group, label = hdt, popup = popups) |>
-			assign_lf(facet_row, facet_col, facet_page)
+		vis_radius = gp2$width * multiplier   # multiplier hoisted above
+
+		if (!use_hitbox) {
+			idt = submit_labels(idt, "symbols", pane, group)
+
+			lf |>  leaflet::addCircleMarkers(data = shp2, layerId = idt,
+											 color = gp2$color,
+											 opacity = gp2$opacity,
+											 weight = gp2$strokeWidth,
+											 dashArray = gp2[["stroke-dasharray"]],
+											 fillColor = gp2$fillColor,
+											 fillOpacity = gp2$fillOpacity,
+											 clusterOptions = clusterOpts,
+											 clusterId = cidt,
+											 radius = vis_radius,
+											 options = opt,
+											 group = group, label = hdt, popup = popups) |>
+				assign_lf(facet_row, facet_col, facet_page)
+
+		} else {
+			idt_vis = submit_labels(idt, "symbols", pane, group)
+			idt_hb  = submit_labels(idt, "symbols_hb", pane, group)
+
+			hb_radius = hitbox_radius(vis_radius * 2)
+			opt_vis = leaflet::pathOptions(interactive = FALSE, pane = pane)
+
+			lf |>
+				# Visible styled layer (non-interactive)
+				leaflet::addCircleMarkers(data = shp2, layerId = idt_vis,
+										  color = gp2$color,
+										  opacity = gp2$opacity,
+										  weight = gp2$strokeWidth,
+										  dashArray = gp2[["stroke-dasharray"]],
+										  fillColor = gp2$fillColor,
+										  fillOpacity = gp2$fillOpacity,
+										  radius = vis_radius,
+										  options = opt_vis,
+										  group = group) |>
+				# Invisible interaction layer (fatter hitbox)
+				add_hitbox(layerId = idt_hb, radius = hb_radius) |>
+				assign_lf(facet_row, facet_col, facet_page)
+		}
 
 	} else {
-		idt = submit_labels(idt, "symbols", pane, group)
 		cidt = if (!is.null(clusterOpts)) submit_labels(idt[1], "cluster", pane, group) else NULL
+
+		idt0 = idt # keep per-feature ids for the hitbox overlay
+		idt = submit_labels(idt, "symbols", pane, group)
+		idt_hb = if (use_hitbox) submit_labels(idt0, "symbols_hb", pane, group) else NULL
 
 		sn = suppressWarnings(as.numeric(gp2$shape))
 
@@ -170,8 +275,14 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 			}
 		}
 
+		# when a hitbox overlay handles interaction, the icon markers themselves
+		# carry no label/popup and are non-interactive
+		marker_label = if (use_hitbox) replicate(k, list(NULL)) else hdt_grps
+		marker_popup = if (use_hitbox) rep(list(NULL), k) else popups_grps
+
 		for (i in 1L:k) {
 			opt$zIndexOffset = i * 1e5
+			if (use_hitbox) opt$interactive = FALSE
 			.TMAP_LEAFLET$markerLayers = c(.TMAP_LEAFLET$markerLayers, opt$pane) # register for additional css
 			lf = lf |>
 				leaflet::addMarkers(lng = coords_grps[[i]][, 1],
@@ -179,13 +290,20 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 									icon = lapply(symbols, "[", i),
 									group = group,
 									layerId = idt_grps[[i]],
-									label = hdt_grps[[i]],
+									label = marker_label[[i]],
 									clusterOptions = clusterOpts,
 									clusterId = cidt,
-									popup = popups_grps[[i]],
+									popup = marker_popup[[i]],
 									options = opt
 				)
 		}
+
+		if (use_hitbox) {
+			# icon px size ~ gp2$width (per feature) -> use as visible diameter proxy
+			hb_radius = hitbox_radius(gp2$width)
+			lf = lf |> add_hitbox(layerId = idt_hb, radius = hb_radius)
+		}
+
 		lf |> assign_lf(facet_row, facet_col, facet_page)
 
 	}

@@ -103,18 +103,23 @@ Possible values:
 \item{"none"}{No additional hitbox layer is added. Lines are clickable
 only at their visible width.}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item\{"pmaxX"\}\{Ensures a minimum interaction width of \code{X} pixels.
-The hitbox width is computed as \code{pmax(line_width, X)}.
-For example, \code{"pmax8"} guarantees at least 8 pixels.\}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item\{"plusX"\}\{Adds \code{X} pixels to the visible line width to compute
+the interaction width: \code{line_width + X}. For example, \code{"plus8"}
+widens the clickable area by 4 pixels on each side.\}
 
-\\item\{"timesX"\}\{Multiplies the visible line width by \code{X} to compute
-the interaction width. For example, \code{"times2"} doubles the
-clickable width.\}
+\\item\{"pmaxX"\}\{Ensures a minimum interaction width of \code{X} pixels:
+\code{pmax(line_width, X)}. For example, \code{"pmax8"} guarantees at
+least 8 pixels. Useful for very thin lines.\}
 
-\\item\{"auto"\}\{Automatically: \code{"pmax8"} by default if and only if interactive features are enabled (popup or hover) and lines are thin (median line width < 4) and there are less than 10000 features. Otherwise, \code{"none"} \}
+\\item\{"auto"\}\{\code{"pmax8"} if and only if interactive features are
+enabled (popup or hover), lines are thin (median line width < 4), and
+there are fewer than 10000 features. Otherwise \code{"none"}.\}
 }\if{html}{\out{</div>}}
 
 }
+
+\code{plus} and \code{pmax} can be combined, e.g. \code{"plus4pmax8"} means
+\code{pmax(line_width + 4, 8)}.
 
 Adding a hitbox improves usability for thin lines but may reduce
 performance for very large datasets, as an additional invisible

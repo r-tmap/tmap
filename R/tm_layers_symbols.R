@@ -717,6 +717,32 @@ opt_tm_markers = function(markers_on_top_of_text = FALSE,
 #' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument `grob.dim`
 #' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.
 #' @param clustering in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either `FALSE` (default), `TRUE`, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
+#' @param hitbox Controls whether an invisible interaction layer with a
+#'   larger clickable area (\"hitbox\") is added on top of the symbols.
+#'
+#'   This can improve click and popup behaviour for small or densely packed
+#'   symbols by enlarging the effective mouse interaction area.
+#'
+#'   Possible values:
+#'   \describe{
+#'     \item{"none"}{No additional hitbox layer is added. Symbols are clickable
+#'     only at their visible size.}
+#'
+#'     \item{"plusX"}{Adds \code{X} pixels to the visible symbol diameter to
+#'     compute the interaction size. For example, \code{"plus8"} widens the
+#'     clickable area by 4 pixels around each symbol edge.}
+#'
+#'     \item{"pmaxX"}{Ensures a minimum interaction diameter of \code{X} pixels:
+#'     \code{pmax(symbol_diameter, X)}. Useful only for very small symbols, as
+#'     it adds no margin to symbols already larger than \code{X}.}
+#'
+#'     \item{"auto"}{\code{"pmax12"} if and only if interactive features are
+#'     enabled (popup or hover), symbols are small (median visible diameter
+#'     < 12px), and there are fewer than 10000 features. Otherwise \code{"none"}.}
+#'   }
+#'
+#'   \code{plus} and \code{pmax} can be combined, e.g. \code{"plus4pmax8"}.
+#'   The hitbox is not applied when clustering is enabled.
 #' @rdname tm_symbols
 #' @export
 opt_tm_symbols = function(points_only = "ifany",
@@ -725,11 +751,13 @@ opt_tm_symbols = function(points_only = "ifany",
 						  clustering = FALSE,
 						  icon.scale = 3,
 						  just = NA,
+						  hitbox = "auto",
 						  grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
 	list(trans.args = list(points_only = points_only, point_per = point_per, on_surface = on_surface, along_lines = FALSE),
 		 mapping.args = list(icon.scale = icon.scale,
 		 					just = just,
 		 					clustering = clustering,
+		 					hitbox = hitbox,
 		 					grob.dim = grob.dim))
 }
 
