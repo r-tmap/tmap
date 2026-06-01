@@ -3,6 +3,8 @@
 ## tmap 4.4 (in development)
 
 - \[!\] added blend argument to all layers
+- \[!\] added hitbox to tm_lines and tm_symbols for view mode (so
+  hovering and clicking also works well for small objects)
 - added
   [`tmap_mode_pool()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   to restrict which modes are cycled by

@@ -348,6 +348,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  hitbox <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -358,6 +359,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  hitbox <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -368,6 +370,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  hitbox <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -378,6 +381,7 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 <span>  clustering <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  icon.scale <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  just <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  hitbox <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  grob.dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">48</span>, height <span class="op">=</span> <span class="fl">48</span>, render.width <span class="op">=</span> <span class="fl">256</span>, render.height <span class="op">=</span> <span class="fl">256</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -582,6 +586,34 @@ the text. See details.</p></dd>
 
 <dt id="arg-icon-scale">icon.scale<a class="anchor" aria-label="anchor" href="#arg-icon-scale"></a></dt>
 <dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). For view mode, use the argument <code>grob.dim</code></p></dd>
+
+
+<dt id="arg-hitbox">hitbox<a class="anchor" aria-label="anchor" href="#arg-hitbox"></a></dt>
+<dd><p>Controls whether an invisible interaction layer with a
+larger clickable area (\"hitbox\") is added on top of the symbols.</p>
+<p>This can improve click and popup behaviour for small or densely packed
+symbols by enlarging the effective mouse interaction area.</p>
+<p>Possible values:</p><dl><dt>"none"</dt>
+<dd><p>No additional hitbox layer is added. Symbols are clickable
+only at their visible size.</p></dd>
+
+
+html<div class="sourceCode">\item{"plusX"}{Adds \code{X} pixels to the visible symbol diameter to
+compute the interaction size. For example, \code{"plus8"} widens the
+clickable area by 4 pixels around each symbol edge.}
+
+\item{"pmaxX"}{Ensures a minimum interaction diameter of \code{X} pixels:
+\code{pmax(symbol_diameter, X)}. Useful only for very small symbols, as
+it adds no margin to symbols already larger than \code{X}.}
+
+\item{"auto"}{\code{"pmax12"} if and only if interactive features are
+enabled (popup or hover), symbols are small (median visible diameter
+&lt; 12px), and there are fewer than 10000 features. Otherwise \code{"none"}.}
+html</div>
+
+
+</dl><p><code>plus</code> and <code>pmax</code> can be combined, e.g. <code>"plus4pmax8"</code>.
+The hitbox is not applied when clustering is enabled.</p></dd>
 
 
 <dt id="arg-grob-dim">grob.dim<a class="anchor" aria-label="anchor" href="#arg-grob-dim"></a></dt>

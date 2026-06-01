@@ -156,6 +156,9 @@ opt_tm_lines(lines.only = "ifany", hitbox = "auto")
   :   No additional hitbox layer is added. Lines are clickable only at
       their visible width.
 
+  `plus` and `pmax` can be combined, e.g. `"plus4pmax8"` means
+  `pmax(line_width + 4, 8)`.
+
   Adding a hitbox improves usability for thin lines but may reduce
   performance for very large datasets, as an additional invisible layer
   is rendered.

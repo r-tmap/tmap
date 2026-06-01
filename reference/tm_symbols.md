@@ -253,6 +253,7 @@ opt_tm_symbols(
   clustering = FALSE,
   icon.scale = 3,
   just = NA,
+  hitbox = "auto",
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
@@ -263,6 +264,7 @@ opt_tm_dots(
   clustering = FALSE,
   icon.scale = 3,
   just = NA,
+  hitbox = "auto",
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
@@ -273,6 +275,7 @@ opt_tm_bubbles(
   clustering = FALSE,
   icon.scale = 3,
   just = NA,
+  hitbox = "auto",
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 
@@ -283,6 +286,7 @@ opt_tm_squares(
   clustering = FALSE,
   icon.scale = 3,
   just = NA,
+  hitbox = "auto",
   grob.dim = c(width = 48, height = 48, render.width = 256, render.height = 256)
 )
 ```
@@ -539,6 +543,24 @@ opt_tm_squares(
   scaling number that determines how large the icons (or grobs) are in
   plot mode in comparison to proportional symbols (such as bubbles). For
   view mode, use the argument `grob.dim`
+
+- hitbox:
+
+  Controls whether an invisible interaction layer with a larger
+  clickable area (\\hitbox\\) is added on top of the symbols.
+
+  This can improve click and popup behaviour for small or densely packed
+  symbols by enlarging the effective mouse interaction area.
+
+  Possible values:
+
+  "none"
+
+  :   No additional hitbox layer is added. Symbols are clickable only at
+      their visible size.
+
+  `plus` and `pmax` can be combined, e.g. `"plus4pmax8"`. The hitbox is
+  not applied when clustering is enabled.
 
 - grob.dim:
 

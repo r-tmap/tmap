@@ -228,19 +228,23 @@ lines by increasing the effective mouse interaction width.</p>
 only at their visible width.</p></dd>
 
 
-html<div class="sourceCode">\item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels.
-The hitbox width is computed as \code{pmax(line_width, X)}.
-For example, \code{"pmax8"} guarantees at least 8 pixels.}
+html<div class="sourceCode">\item{"plusX"}{Adds \code{X} pixels to the visible line width to compute
+the interaction width: \code{line_width + X}. For example, \code{"plus8"}
+widens the clickable area by 4 pixels on each side.}
 
-\item{"timesX"}{Multiplies the visible line width by \code{X} to compute
-the interaction width. For example, \code{"times2"} doubles the
-clickable width.}
+\item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels:
+\code{pmax(line_width, X)}. For example, \code{"pmax8"} guarantees at
+least 8 pixels. Useful for very thin lines.}
 
-\item{"auto"}{Automatically: \code{"pmax8"} by default if and only if interactive features are enabled (popup or hover) and lines are thin (median line width &lt; 4) and there are less than 10000 features. Otherwise, \code{"none"} }
+\item{"auto"}{\code{"pmax8"} if and only if interactive features are
+enabled (popup or hover), lines are thin (median line width &lt; 4), and
+there are fewer than 10000 features. Otherwise \code{"none"}.}
 html</div>
 
 
-</dl><p>Adding a hitbox improves usability for thin lines but may reduce
+</dl><p><code>plus</code> and <code>pmax</code> can be combined, e.g. <code>"plus4pmax8"</code> means
+<code>pmax(line_width + 4, 8)</code>.</p>
+<p>Adding a hitbox improves usability for thin lines but may reduce
 performance for very large datasets, as an additional invisible
 layer is rendered.</p></dd>
 
