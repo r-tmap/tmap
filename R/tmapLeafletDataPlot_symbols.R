@@ -108,12 +108,12 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 	# below the 12px floor it would be raised to) when there are few enough
 	# features, and floors the clickable diameter at 12px. pmax12 leaves
 	# symbols already larger than 12px untouched.
-	hitbox = if (a$hitbox == "auto") {
+	hitbox = if (isTRUE(a$hitbox == "auto")) {
 		small = stats::median(2 * gp2$width * multiplier) < 12   # visible diameter (px)
 		light = nrow(dt) < 10000
 		if (small && light) "pmax12" else "none"
 	} else {
-		a$hitbox
+		a$hitbox %||% "none"
 	}
 
 	# A hitbox is only meaningful when there is something to click (interactive)

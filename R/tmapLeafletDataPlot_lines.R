@@ -51,12 +51,12 @@ tmapLeafletDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hd
 
 
 	# process hitbox option:
-	hitbox = if (a$hitbox == "auto") {
+	hitbox = if (isTRUE(a$hitbox == "auto")) {
 		thin = median(gp$lwd) < 4
 		light = length(shp) < 10000
 		if (thin && light) "pmax8" else "none"
 	} else {
-		a$hitbox
+		a$hitbox %||% "none"
 	}
 
 	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = "col", checkif = list(lty = "solid"), type = "lines", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
