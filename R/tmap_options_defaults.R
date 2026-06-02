@@ -68,7 +68,7 @@
 						   fontface = NULL,
 						   shape.squares = 22,
 						   shape.dots = 19,
-						   shape.markers = marker_icon(),
+						   shape.markers = NA,
 						   shape = 21,
 						   size.bubbles = 1.3333,
 						   size.squares = 1.3333,

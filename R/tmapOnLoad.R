@@ -1,42 +1,33 @@
-# envir = environment()
 .onLoad = function(...) {
 	options(tmap.style = "white", tmap.mode = "plot", mode_pool = NULL, tmap.design.mode = FALSE,
 			tmap.devel.mode = FALSE)
+
+	# Resolve the leaflet marker icon on the user's machine rather than at
+	# package build time. Calling marker_icon() at top level freezes the
+	# build server's leaflet path into the binary (e.g. D:/RCompile/...).
+	if (requireNamespace("leaflet", quietly = TRUE)) {
+		opts = .defaultTmapOptions
+		opts$value.const$shape.markers = marker_icon()
+		utils::assignInMyNamespace(".defaultTmapOptions", opts)
+	}
+
 	assign("defaultTmapOptions", .defaultTmapOptions, envir = .TMAP)
 	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP)
 
-	# makeActiveBinding("tmap_pals", function() {
-	# 	remove_non_letters = function(x) gsub("[-, _, \\,, (, ), \\ , \\.]",  "", x)
-	# 	hcl_pals = grDevices::hcl.pals()
-	# 	base_pals = grDevices::palette.pals()
-	# 	pals = ls(asNamespace("pals"))[substr(ls(asNamespace("pals")), 1, 4) != "pal."]
-	# 	list(base_hcl = structure(as.list(hcl_pals), names = remove_non_letters(hcl_pals)),
-	# 		 base_pal = structure(as.list(base_pals), names = remove_non_letters(base_pals)),
-	# 		 pals = structure(as.list(pals), names = pals))
-	# }, env = envir)
-
 	assign("last_map", NULL, envir = .TMAP)
 	assign("last_map_new", NULL, envir = .TMAP)
-
-
 	# flag for old v3 code
 	assign("v3", FALSE, envir = .TMAP)
-
 	assign("tips", sample(.tips), envir = .TMAP)
 	assign("tip_nr", 1L, envir = .TMAP)
-
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
-
 	.TMAP$round_to = as.vector(sapply((-9):9, function(i) {
-			sapply(c(1, 2.5, 5), function(j) {
-				j*10^i
-			})
+		sapply(c(1, 2.5, 5), function(j) {
+			j*10^i
+		})
 	})) # needed for pretty ticks for continuous scale with trans enabled (like log scale)
-
 	.TMAP$mode_last = "view"
-
 	.TMAP_GRID$maptiles_urls = character(0) # needed for caching
-
 	fill_providers()
 }
 
