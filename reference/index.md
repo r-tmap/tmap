@@ -300,6 +300,6 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 - [`.tmap_providers`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
   [`tmap_provider_credits()`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
   [`tmap_providers()`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
-  : Get basemap tiles providers
+  : Get basemap tile providers
 - [`tmap_overview()`](https://r-tmap.github.io/tmap/reference/tmap_overview.md)
   : Overview of tmap layers
