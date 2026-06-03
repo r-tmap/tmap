@@ -91,6 +91,7 @@ tree(opt)
 #> │ │ ├─iconAnchorX: 12
 #> │ │ └─iconAnchorY: 41
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -128,6 +129,7 @@ tree(opt)
 #> │ ├─shape.squares: 22
 #> │ ├─shape.dots: 19
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -949,6 +951,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ │ ├─iconAnchorX: 12
 #> │ │ └─iconAnchorY: 41
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -986,6 +989,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─shape.squares: 22
 #> │ ├─shape.dots: 19
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -1779,6 +1783,7 @@ tree(tmap_options_diff())
 #> │ │ ├─iconAnchorX: 12
 #> │ │ └─iconAnchorY: 41
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -1816,6 +1821,7 @@ tree(tmap_options_diff())
 #> │ ├─shape.squares: 22
 #> │ ├─shape.dots: 19
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3

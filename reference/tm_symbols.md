@@ -297,38 +297,51 @@ opt_tm_squares(
 
 - size, size.scale, size.legend, size.chart, size.free:
 
-  Visual variable that determines the size. See details.
+  Visual variable that determines the size. See details. *Unit:*
+  Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by
+  `values.scale` and `tmap_options(values.scale = ...)`.
 
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
-  Visual variable that determines the fill color. See details.
+  Visual variable that determines the fill color. See details. *Unit:*
+  Color – a color name, hex string, or (when mapped) a palette name.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. See details.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string, or (when mapped) a palette name.
 
 - shape, shape.scale, shape.legend, shape.chart, shape.free:
 
-  Visual variable that determines the shape. See details.
+  Visual variable that determines the shape. See details. *Unit:*
+  Integer `pch` code (1-25) or a single character used as a plotting
+  symbol.
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
-  Visual variable that determines the line width. See details.
+  Visual variable that determines the line width. See details. *Unit:*
+  Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
+  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
-  Visual variable that determines the line type. See details.
+  Visual variable that determines the line type. See details. *Unit:*
+  Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash",
+  "longdash", "twodash".
 
 - fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart,
   fill_alpha.free:
 
   Visual variable that determines the fill color transparency. See
-  details. the fill color alpha transparency See details.
+  details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque). the fill color alpha transparency See details.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
   Visual variable that determines the color transparency. See details.
+  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
+  opaque).
 
 - plot.order:
 
@@ -415,12 +428,14 @@ opt_tm_squares(
 
 - text, text.scale, text.legend, text.chart, text.free:
 
-  Visual variable that determines the text. See details.
+  Visual variable that determines the text. See details. *Unit:*
+  Character string.
 
 - fontface, fontface.scale, fontface.legend, fontface.chart,
   fontface.free:
 
-  Visual variable that determines the font face. See details.
+  Visual variable that determines the font face. See details. *Unit:*
+  "plain", "bold", "italic", or "bold.italic".
 
 - fontfamily:
 
@@ -430,25 +445,30 @@ opt_tm_squares(
 - bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free:
 
   Visual variable that determines the background color. See Details.
+  *Unit:* Color – a color name, hex string, or (when mapped) a palette
+  name.
 
 - bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart,
   bgcol_alpha.free:
 
   Visual variable that determines the background color transparency. See
-  Details.
+  Details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque).
 
 - xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free:
 
   Transformation variable that determines the x offset. See details.
+  *Unit:* Line heights, relative to the label anchor. Positive = right.
 
 - ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free:
 
-  Transformation variable that determines the y offset. See details. the
+  Transformation variable that determines the y offset. See details.
+  *Unit:* Line heights, relative to the label anchor. Positive = up. the
   text. See details.
 
 - angle, angle.scale, angle.legend, angle.chart, angle.free:
 
-  Rotation angle
+  Rotation angle *Unit:* Degrees, clockwise from north (0-360).
 
 - markers_on_top_of_text:
 

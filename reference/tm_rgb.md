@@ -52,6 +52,8 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1)
   col_alpha.free:
 
   Visual variable that determines the color transparency. See details.
+  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
+  opaque).
 
 - blend:
 

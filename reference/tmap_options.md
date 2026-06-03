@@ -1972,6 +1972,7 @@ if (requireNamespace("lobstr")) {
 #> │ │ ├─iconAnchorX: 12
 #> │ │ └─iconAnchorY: 41
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3
@@ -2009,6 +2010,7 @@ if (requireNamespace("lobstr")) {
 #> │ ├─shape.squares: 22
 #> │ ├─shape.dots: 19
 #> │ ├─shape: 21
+#> │ ├─size.circles: 1000
 #> │ ├─size.bubbles: 1.3333
 #> │ ├─size.squares: 1.3333
 #> │ ├─size.dots: 0.3

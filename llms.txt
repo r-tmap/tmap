@@ -154,6 +154,9 @@ R.
   [`opt_tm_bubbles()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   [`opt_tm_squares()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   : Map layer: symbols
+- [`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md)
+  [`opt_tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md)
+  : Map layer: geographic circles
 - [`tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
   [`opt_tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
   : Map layer: raster

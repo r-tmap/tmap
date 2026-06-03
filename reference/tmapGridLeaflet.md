@@ -151,6 +151,24 @@ tmapGridDataPlot(
   ...
 )
 
+# S3 method for class 'tm_data_circles'
+tmapGridDataPlot(
+  a,
+  shpTM,
+  dt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
 # S3 method for class 'tm_data_lines'
 tmapGridDataPlot(
   a,
@@ -493,6 +511,28 @@ tmapLeafletCompPrepare(comp, o)
 
 # Default S3 method
 tmapLeafletCompPrepare(comp, o)
+
+# S3 method for class 'tm_data_circles'
+tmapLeafletDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
 
 # S3 method for class 'tm_data_lines'
 tmapLeafletDataPlot(

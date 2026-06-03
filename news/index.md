@@ -3,6 +3,7 @@
 ## tmap 4.4 (in development)
 
 - \[!\] added blend argument to all layers
+- \[!\] added tm_circles (circles with fixed unit-based radii)
 - \[!\] added hitbox to tm_lines and tm_symbols for view mode (so
   hovering and clicking also works well for small objects)
 - added

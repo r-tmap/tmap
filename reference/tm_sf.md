@@ -69,36 +69,49 @@ opt_tm_sf(
 
 - fill, fill.scale, fill.legend, fill.free:
 
-  Visual variable that determines the fill color. See details.
+  Visual variable that determines the fill color. See details. *Unit:*
+  Color – a color name, hex string, or (when mapped) a palette name.
 
 - col, col.scale, col.legend, col.free:
 
-  Visual variable that determines the color. See details.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string, or (when mapped) a palette name.
 
 - size, size.scale, size.legend, size.free:
 
-  Visual variable that determines the size. See details.
+  Visual variable that determines the size. See details. *Unit:*
+  Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by
+  `values.scale` and `tmap_options(values.scale = ...)`.
 
 - shape, shape.scale, shape.legend, shape.free:
 
-  Visual variable that determines the shape. See details.
+  Visual variable that determines the shape. See details. *Unit:*
+  Integer `pch` code (1-25) or a single character used as a plotting
+  symbol.
 
 - lwd, lwd.scale, lwd.legend, lwd.free:
 
-  Visual variable that determines the line width. See details.
+  Visual variable that determines the line width. See details. *Unit:*
+  Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
+  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.free:
 
-  Visual variable that determines the line type. See details.
+  Visual variable that determines the line type. See details. *Unit:*
+  Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash",
+  "longdash", "twodash".
 
 - fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.free:
 
   Visual variable that determines the fill color transparency. See
-  details.
+  details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque).
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.free:
 
   Visual variable that determines the color transparency. See details.
+  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
+  opaque).
 
 - linejoin, lineend:
 
@@ -284,6 +297,51 @@ variable explicitly, for example with
 or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
+
+### Visual variable units
+
+Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via
+[`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
+output ranges via `values.range` / `values.scale` in the scale
+functions.
+
+|  |  |  |
+|----|----|----|
+| Variable | Output unit | Notes |
+| `fill`, `col`, `bgcol` | color | name, hex, or palette string |
+| `fill_alpha`, `col_alpha`, `bgcol_alpha` | proportion 0-1 | 0 = transparent, 1 = opaque |
+| `size` (symbols, bubbles, squares, dots) | typographic lines | 1 line approx. 1/6 inch; scaled by `values.scale` |
+| `size` (circles) | meters | plain numeric or a `units` object |
+| `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
+| `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
+| `lty` | – | integer 1-6 or name ("solid", "dashed", ...) |
+| `shape` | – | integer `pch` 1-25 or single character |
+| `angle` | degrees | 0-360, clockwise from north |
+| `fontface` | – | "plain", "bold", "italic", "bold.italic" |
+
+#### Symbol size (`size` in `tm_symbols`, `tm_bubbles`, `tm_squares`, `tm_dots`)
+
+"Lines" is a typographic unit: one line is approximately 1/6 inch (the
+default base line-height in R graphics). The global multiplier
+`tmap_options(values.scale = list(size.bubbles = 1.5))` scales all
+symbol sizes without changing the data mapping.
+
+#### Circle size (`size` in `tm_circles`)
+
+The value is a geographic radius in meters. A plain numeric vector is
+interpreted as meters; a `units` object (from the **units** package) is
+automatically converted, so `units::as_units(1, "mi")` gives a 1-mile
+radius. Because the radius is geographic, circles scale with zoom in
+interactive (view) mode – unlike bubble symbols which keep a fixed
+screen size.
+
+#### Text size (`size` in `tm_text`, `tm_labels`)
+
+The value is a multiplier of the base font size. `size = 1` renders at
+12 pt in plot mode (R's default `par("ps")`) and at 12 px in view mode
+(`gp$cex * 12` px, see `tmapLeafletDataPlot.tm_data_text`); the two
+modes are consistent by design.
 
 ### Layer blending (`blend`)
 

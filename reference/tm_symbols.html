@@ -393,36 +393,36 @@ shape the symbol shape, lwd (line width), lty (line type), fill_alpha
 
 
 <dl><dt id="arg-size-size-scale-size-legend-size-chart-size-free">size, size.scale, size.legend, size.chart, size.free<a class="anchor" aria-label="anchor" href="#arg-size-size-scale-size-legend-size-chart-size-free"></a></dt>
-<dd><p>Visual variable that determines the size. See details.</p></dd>
+<dd><p>Visual variable that determines the size. See details. <em>Unit:</em> Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by <code>values.scale</code> and <code>tmap_options(values.scale = ...)</code>.</p></dd>
 
 
 <dt id="arg-fill-fill-scale-fill-legend-fill-chart-fill-free">fill, fill.scale, fill.legend, fill.chart, fill.free<a class="anchor" aria-label="anchor" href="#arg-fill-fill-scale-fill-legend-fill-chart-fill-free"></a></dt>
-<dd><p>Visual variable that determines the fill color. See details.</p></dd>
+<dd><p>Visual variable that determines the fill color. See details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
-<dd><p>Visual variable that determines the color. See details.</p></dd>
+<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-shape-shape-scale-shape-legend-shape-chart-shape-free">shape, shape.scale, shape.legend, shape.chart, shape.free<a class="anchor" aria-label="anchor" href="#arg-shape-shape-scale-shape-legend-shape-chart-shape-free"></a></dt>
-<dd><p>Visual variable that determines the shape. See details.</p></dd>
+<dd><p>Visual variable that determines the shape. See details. <em>Unit:</em> Integer <code>pch</code> code (1-25) or a single character used as a plotting symbol.</p></dd>
 
 
 <dt id="arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free">lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free<a class="anchor" aria-label="anchor" href="#arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free"></a></dt>
-<dd><p>Visual variable that determines the line width. See details.</p></dd>
+<dd><p>Visual variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi. Controlled by <code>values.scale</code>.</p></dd>
 
 
 <dt id="arg-lty-lty-scale-lty-legend-lty-chart-lty-free">lty, lty.scale, lty.legend, lty.chart, lty.free<a class="anchor" aria-label="anchor" href="#arg-lty-lty-scale-lty-legend-lty-chart-lty-free"></a></dt>
-<dd><p>Visual variable that determines the line type. See details.</p></dd>
+<dd><p>Visual variable that determines the line type. See details. <em>Unit:</em> Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".</p></dd>
 
 
 <dt id="arg-fill-alpha-fill-alpha-scale-fill-alpha-legend-fill-alpha-chart-fill-alpha-free">fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free<a class="anchor" aria-label="anchor" href="#arg-fill-alpha-fill-alpha-scale-fill-alpha-legend-fill-alpha-chart-fill-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the fill color transparency. See details.
+<dd><p>Visual variable that determines the fill color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).
 the fill color alpha transparency See details.</p></dd>
 
 
 <dt id="arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free">col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free<a class="anchor" aria-label="anchor" href="#arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the color transparency. See details.</p></dd>
+<dd><p>Visual variable that determines the color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-plot-order">plot.order<a class="anchor" aria-label="anchor" href="#arg-plot-order"></a></dt>
@@ -500,11 +500,11 @@ no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 
 <dt id="arg-text-text-scale-text-legend-text-chart-text-free">text, text.scale, text.legend, text.chart, text.free<a class="anchor" aria-label="anchor" href="#arg-text-text-scale-text-legend-text-chart-text-free"></a></dt>
-<dd><p>Visual variable that determines the text. See details.</p></dd>
+<dd><p>Visual variable that determines the text. See details. <em>Unit:</em> Character string.</p></dd>
 
 
 <dt id="arg-fontface-fontface-scale-fontface-legend-fontface-chart-fontface-free">fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free<a class="anchor" aria-label="anchor" href="#arg-fontface-fontface-scale-fontface-legend-fontface-chart-fontface-free"></a></dt>
-<dd><p>Visual variable that determines the font face. See details.</p></dd>
+<dd><p>Visual variable that determines the font face. See details. <em>Unit:</em> "plain", "bold", "italic", or "bold.italic".</p></dd>
 
 
 <dt id="arg-fontfamily">fontfamily<a class="anchor" aria-label="anchor" href="#arg-fontfamily"></a></dt>
@@ -513,25 +513,25 @@ no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 <dt id="arg-bgcol-bgcol-scale-bgcol-legend-bgcol-chart-bgcol-free">bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free<a class="anchor" aria-label="anchor" href="#arg-bgcol-bgcol-scale-bgcol-legend-bgcol-chart-bgcol-free"></a></dt>
 <dd><p>Visual variable that determines
-the background color. See Details.</p></dd>
+the background color. See Details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-bgcol-alpha-bgcol-alpha-scale-bgcol-alpha-legend-bgcol-alpha-chart-bgcol-alpha-free">bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free<a class="anchor" aria-label="anchor" href="#arg-bgcol-alpha-bgcol-alpha-scale-bgcol-alpha-legend-bgcol-alpha-chart-bgcol-alpha-free"></a></dt>
 <dd><p>Visual variable that determines
-the background color transparency. See Details.</p></dd>
+the background color transparency. See Details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-xmod-xmod-scale-xmod-legend-xmod-chart-xmod-free">xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free<a class="anchor" aria-label="anchor" href="#arg-xmod-xmod-scale-xmod-legend-xmod-chart-xmod-free"></a></dt>
-<dd><p>Transformation variable that determines the x offset. See details.</p></dd>
+<dd><p>Transformation variable that determines the x offset. See details. <em>Unit:</em> Line heights, relative to the label anchor. Positive = right.</p></dd>
 
 
 <dt id="arg-ymod-ymod-scale-ymod-legend-ymod-chart-ymod-free">ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free<a class="anchor" aria-label="anchor" href="#arg-ymod-ymod-scale-ymod-legend-ymod-chart-ymod-free"></a></dt>
-<dd><p>Transformation variable that determines the y offset. See details.
+<dd><p>Transformation variable that determines the y offset. See details. <em>Unit:</em> Line heights, relative to the label anchor. Positive = up.
 the text. See details.</p></dd>
 
 
 <dt id="arg-angle-angle-scale-angle-legend-angle-chart-angle-free">angle, angle.scale, angle.legend, angle.chart, angle.free<a class="anchor" aria-label="anchor" href="#arg-angle-angle-scale-angle-legend-angle-chart-angle-free"></a></dt>
-<dd><p>Rotation angle</p></dd>
+<dd><p>Rotation angle <em>Unit:</em> Degrees, clockwise from north (0-360).</p></dd>
 
 
 <dt id="arg-markers-on-top-of-text">markers_on_top_of_text<a class="anchor" aria-label="anchor" href="#arg-markers-on-top-of-text"></a></dt>

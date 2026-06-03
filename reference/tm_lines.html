@@ -140,19 +140,19 @@
 
 
 <dl><dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
-<dd><p>Visual variable that determines the color. See details.</p></dd>
+<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free">lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free<a class="anchor" aria-label="anchor" href="#arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free"></a></dt>
-<dd><p>Visual variable that determines the line width. See details.</p></dd>
+<dd><p>Visual variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi. Controlled by <code>values.scale</code>.</p></dd>
 
 
 <dt id="arg-lty-lty-scale-lty-legend-lty-chart-lty-free">lty, lty.scale, lty.legend, lty.chart, lty.free<a class="anchor" aria-label="anchor" href="#arg-lty-lty-scale-lty-legend-lty-chart-lty-free"></a></dt>
-<dd><p>Visual variable that determines the line type. See details.</p></dd>
+<dd><p>Visual variable that determines the line type. See details. <em>Unit:</em> Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".</p></dd>
 
 
 <dt id="arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free">col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free<a class="anchor" aria-label="anchor" href="#arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the color transparency. See details.</p></dd>
+<dd><p>Visual variable that determines the color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-linejoin-lineend">linejoin, lineend<a class="anchor" aria-label="anchor" href="#arg-linejoin-lineend"></a></dt>
@@ -303,6 +303,48 @@ neighbouring polygons.</p></li>
 If a legend is required, compute the corresponding variable explicitly,
 for example with <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_length()</a></code>, or
 <code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p><div class="section">
+<h3 id="visual-variable-units">Visual variable units<a class="anchor" aria-label="anchor" href="#visual-variable-units"></a></h3>
+
+
+<p>Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via <code><a href="tm_const.html">tm_const()</a></code>,
+or output ranges via <code>values.range</code> / <code>values.scale</code> in the scale
+functions.</p><table class="table table"><tr><td>Variable</td><td>Output unit</td><td>Notes</td></tr><tr><td><code>fill</code>, <code>col</code>, <code>bgcol</code></td><td>color</td><td>name, hex, or palette string</td></tr><tr><td><code>fill_alpha</code>, <code>col_alpha</code>, <code>bgcol_alpha</code></td><td>proportion 0-1</td><td>0 = transparent, 1 = opaque</td></tr><tr><td><code>size</code> (symbols, bubbles, squares, dots)</td><td>typographic lines</td><td>1 line approx. 1/6 inch; scaled by <code>values.scale</code></td></tr><tr><td><code>size</code> (circles)</td><td>meters</td><td>plain numeric or a <code>units</code> object</td></tr><tr><td><code>size</code> (text, labels)</td><td>multiplier</td><td>1 = 12 pt (plot) / 12 px (view)</td></tr><tr><td><code>lwd</code></td><td>lwd</td><td>base R units; 1 lwd approx. 0.75 pt at 96 dpi</td></tr><tr><td><code>lty</code></td><td>–</td><td>integer 1-6 or name ("solid", "dashed", ...)</td></tr><tr><td><code>shape</code></td><td>–</td><td>integer <code>pch</code> 1-25 or single character</td></tr><tr><td><code>angle</code></td><td>degrees</td><td>0-360, clockwise from north</td></tr><tr><td><code>fontface</code></td><td>–</td><td>"plain", "bold", "italic", "bold.italic"</td></tr></table><div class="section">
+<h4 id="symbol-size-size-in-tm-symbols-tm-bubbles-tm-squares-tm-dots-">Symbol size (<code>size</code> in <code>tm_symbols</code>, <code>tm_bubbles</code>, <code>tm_squares</code>, <code>tm_dots</code>)<a class="anchor" aria-label="anchor" href="#symbol-size-size-in-tm-symbols-tm-bubbles-tm-squares-tm-dots-"></a></h4>
+
+
+<p>"Lines" is a typographic unit: one line is approximately 1/6 inch (the
+default base line-height in R graphics). The global multiplier
+<code>tmap_options(values.scale = list(size.bubbles = 1.5))</code> scales all symbol
+sizes without changing the data mapping.</p>
+</div>
+
+<div class="section">
+<h4 id="circle-size-size-in-tm-circles-">Circle size (<code>size</code> in <code>tm_circles</code>)<a class="anchor" aria-label="anchor" href="#circle-size-size-in-tm-circles-"></a></h4>
+
+
+<p>The value is a geographic radius in meters. A plain numeric vector is
+interpreted as meters; a <code>units</code> object (from the <strong>units</strong> package) is
+automatically converted, so <code>units::as_units(1, "mi")</code> gives a 1-mile
+radius. Because the radius is geographic, circles scale with zoom in
+interactive (view) mode – unlike bubble symbols which keep a fixed screen
+size.</p>
+</div>
+
+<div class="section">
+<h4 id="text-size-size-in-tm-text-tm-labels-">Text size (<code>size</code> in <code>tm_text</code>, <code>tm_labels</code>)<a class="anchor" aria-label="anchor" href="#text-size-size-in-tm-text-tm-labels-"></a></h4>
+
+
+<p>The value is a multiplier of the base font size. <code>size = 1</code> renders at
+12 pt in plot mode (R's default <code>par("ps")</code>) and at 12 px in view
+mode (<code>gp$cex * 12</code> px, see <code>tmapLeafletDataPlot.tm_data_text</code>); the two
+modes are consistent by design.</p>
+</div>
+
+
+</div>
+
+<div class="section">
 <h3 id="layer-blending-blend-">Layer blending (<code>blend</code>)<a class="anchor" aria-label="anchor" href="#layer-blending-blend-"></a></h3>
 
 

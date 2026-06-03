@@ -245,25 +245,33 @@ opt_tm_labels(
 
 - text, text.scale, text.legend, text.chart, text.free:
 
-  Visual variable that determines the text. See details.
+  Visual variable that determines the text. See details. *Unit:*
+  Character string.
 
 - size, size.scale, size.legend, size.chart, size.free:
 
-  Visual variable that determines the size. See details.
+  Visual variable that determines the size. See details. *Unit:*
+  Multiplier of the base font size. `size = 1` renders at the default
+  font size, which is 12 pt in plot mode (`par("ps")`) and 12 px in view
+  mode (consistent by design). `size = 1.5` renders at 18 pt / px, etc.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. See details.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string, or (when mapped) a palette name.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
   Visual variable that determines the color transparency. See details.
+  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
+  opaque).
 
 - fontface, fontface.scale, fontface.legend, fontface.chart,
   fontface.free:
 
-  Visual variable that determines the font face. See details.
+  Visual variable that determines the font face. See details. *Unit:*
+  "plain", "bold", "italic", or "bold.italic".
 
 - fontfamily:
 
@@ -273,25 +281,30 @@ opt_tm_labels(
 - bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free:
 
   Visual variable that determines the background color. See Details.
+  *Unit:* Color – a color name, hex string, or (when mapped) a palette
+  name.
 
 - bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart,
   bgcol_alpha.free:
 
   Visual variable that determines the background color transparency. See
-  Details.
+  Details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque).
 
 - xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free:
 
   Transformation variable that determines the x offset. See details.
+  *Unit:* Line heights, relative to the label anchor. Positive = right.
 
 - ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free:
 
-  Transformation variable that determines the y offset. See details. the
+  Transformation variable that determines the y offset. See details.
+  *Unit:* Line heights, relative to the label anchor. Positive = up. the
   text. See details.
 
 - angle, angle.scale, angle.legend, angle.chart, angle.free:
 
-  Rotation angle
+  Rotation angle *Unit:* Degrees, clockwise from north (0-360).
 
 - plot.order:
 
@@ -520,6 +533,51 @@ variable explicitly, for example with
 or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
+
+### Visual variable units
+
+Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via
+[`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
+output ranges via `values.range` / `values.scale` in the scale
+functions.
+
+|  |  |  |
+|----|----|----|
+| Variable | Output unit | Notes |
+| `fill`, `col`, `bgcol` | color | name, hex, or palette string |
+| `fill_alpha`, `col_alpha`, `bgcol_alpha` | proportion 0-1 | 0 = transparent, 1 = opaque |
+| `size` (symbols, bubbles, squares, dots) | typographic lines | 1 line approx. 1/6 inch; scaled by `values.scale` |
+| `size` (circles) | meters | plain numeric or a `units` object |
+| `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
+| `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
+| `lty` | – | integer 1-6 or name ("solid", "dashed", ...) |
+| `shape` | – | integer `pch` 1-25 or single character |
+| `angle` | degrees | 0-360, clockwise from north |
+| `fontface` | – | "plain", "bold", "italic", "bold.italic" |
+
+#### Symbol size (`size` in `tm_symbols`, `tm_bubbles`, `tm_squares`, `tm_dots`)
+
+"Lines" is a typographic unit: one line is approximately 1/6 inch (the
+default base line-height in R graphics). The global multiplier
+`tmap_options(values.scale = list(size.bubbles = 1.5))` scales all
+symbol sizes without changing the data mapping.
+
+#### Circle size (`size` in `tm_circles`)
+
+The value is a geographic radius in meters. A plain numeric vector is
+interpreted as meters; a `units` object (from the **units** package) is
+automatically converted, so `units::as_units(1, "mi")` gives a 1-mile
+radius. Because the radius is geographic, circles scale with zoom in
+interactive (view) mode – unlike bubble symbols which keep a fixed
+screen size.
+
+#### Text size (`size` in `tm_text`, `tm_labels`)
+
+The value is a multiplier of the base font size. `size = 1` renders at
+12 pt in plot mode (R's default `par("ps")`) and at 12 px in view mode
+(`gp$cex * 12` px, see `tmapLeafletDataPlot.tm_data_text`); the two
+modes are consistent by design.
 
 ### Layer blending (`blend`)
 

@@ -337,23 +337,23 @@
 
 
 <dl><dt id="arg-text-text-scale-text-legend-text-chart-text-free">text, text.scale, text.legend, text.chart, text.free<a class="anchor" aria-label="anchor" href="#arg-text-text-scale-text-legend-text-chart-text-free"></a></dt>
-<dd><p>Visual variable that determines the text. See details.</p></dd>
+<dd><p>Visual variable that determines the text. See details. <em>Unit:</em> Character string.</p></dd>
 
 
 <dt id="arg-size-size-scale-size-legend-size-chart-size-free">size, size.scale, size.legend, size.chart, size.free<a class="anchor" aria-label="anchor" href="#arg-size-size-scale-size-legend-size-chart-size-free"></a></dt>
-<dd><p>Visual variable that determines the size. See details.</p></dd>
+<dd><p>Visual variable that determines the size. See details. <em>Unit:</em> Multiplier of the base font size. <code>size = 1</code> renders at the default font size, which is 12 pt in plot mode (<code>par("ps")</code>) and 12 px in view mode (consistent by design). <code>size = 1.5</code> renders at 18 pt / px, etc.</p></dd>
 
 
 <dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
-<dd><p>Visual variable that determines the color. See details.</p></dd>
+<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free">col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free<a class="anchor" aria-label="anchor" href="#arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the color transparency. See details.</p></dd>
+<dd><p>Visual variable that determines the color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-fontface-fontface-scale-fontface-legend-fontface-chart-fontface-free">fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free<a class="anchor" aria-label="anchor" href="#arg-fontface-fontface-scale-fontface-legend-fontface-chart-fontface-free"></a></dt>
-<dd><p>Visual variable that determines the font face. See details.</p></dd>
+<dd><p>Visual variable that determines the font face. See details. <em>Unit:</em> "plain", "bold", "italic", or "bold.italic".</p></dd>
 
 
 <dt id="arg-fontfamily">fontfamily<a class="anchor" aria-label="anchor" href="#arg-fontfamily"></a></dt>
@@ -362,25 +362,25 @@
 
 <dt id="arg-bgcol-bgcol-scale-bgcol-legend-bgcol-chart-bgcol-free">bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free<a class="anchor" aria-label="anchor" href="#arg-bgcol-bgcol-scale-bgcol-legend-bgcol-chart-bgcol-free"></a></dt>
 <dd><p>Visual variable that determines
-the background color. See Details.</p></dd>
+the background color. See Details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
 
 
 <dt id="arg-bgcol-alpha-bgcol-alpha-scale-bgcol-alpha-legend-bgcol-alpha-chart-bgcol-alpha-free">bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free<a class="anchor" aria-label="anchor" href="#arg-bgcol-alpha-bgcol-alpha-scale-bgcol-alpha-legend-bgcol-alpha-chart-bgcol-alpha-free"></a></dt>
 <dd><p>Visual variable that determines
-the background color transparency. See Details.</p></dd>
+the background color transparency. See Details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-xmod-xmod-scale-xmod-legend-xmod-chart-xmod-free">xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free<a class="anchor" aria-label="anchor" href="#arg-xmod-xmod-scale-xmod-legend-xmod-chart-xmod-free"></a></dt>
-<dd><p>Transformation variable that determines the x offset. See details.</p></dd>
+<dd><p>Transformation variable that determines the x offset. See details. <em>Unit:</em> Line heights, relative to the label anchor. Positive = right.</p></dd>
 
 
 <dt id="arg-ymod-ymod-scale-ymod-legend-ymod-chart-ymod-free">ymod, ymod.scale, ymod.legend, ymod.chart, ymod.free<a class="anchor" aria-label="anchor" href="#arg-ymod-ymod-scale-ymod-legend-ymod-chart-ymod-free"></a></dt>
-<dd><p>Transformation variable that determines the y offset. See details.
+<dd><p>Transformation variable that determines the y offset. See details. <em>Unit:</em> Line heights, relative to the label anchor. Positive = up.
 the text. See details.</p></dd>
 
 
 <dt id="arg-angle-angle-scale-angle-legend-angle-chart-angle-free">angle, angle.scale, angle.legend, angle.chart, angle.free<a class="anchor" aria-label="anchor" href="#arg-angle-angle-scale-angle-legend-angle-chart-angle-free"></a></dt>
-<dd><p>Rotation angle</p></dd>
+<dd><p>Rotation angle <em>Unit:</em> Degrees, clockwise from north (0-360).</p></dd>
 
 
 <dt id="arg-plot-order">plot.order<a class="anchor" aria-label="anchor" href="#arg-plot-order"></a></dt>
@@ -544,6 +544,48 @@ neighbouring polygons.</p></li>
 If a legend is required, compute the corresponding variable explicitly,
 for example with <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_length()</a></code>, or
 <code><a href="https://r-tmap.github.io/tmaptools/reference/map_coloring.html">tmaptools::map_coloring()</a></code>, and use the resulting values instead.</p><div class="section">
+<h3 id="visual-variable-units">Visual variable units<a class="anchor" aria-label="anchor" href="#visual-variable-units"></a></h3>
+
+
+<p>Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via <code><a href="tm_const.html">tm_const()</a></code>,
+or output ranges via <code>values.range</code> / <code>values.scale</code> in the scale
+functions.</p><table class="table table"><tr><td>Variable</td><td>Output unit</td><td>Notes</td></tr><tr><td><code>fill</code>, <code>col</code>, <code>bgcol</code></td><td>color</td><td>name, hex, or palette string</td></tr><tr><td><code>fill_alpha</code>, <code>col_alpha</code>, <code>bgcol_alpha</code></td><td>proportion 0-1</td><td>0 = transparent, 1 = opaque</td></tr><tr><td><code>size</code> (symbols, bubbles, squares, dots)</td><td>typographic lines</td><td>1 line approx. 1/6 inch; scaled by <code>values.scale</code></td></tr><tr><td><code>size</code> (circles)</td><td>meters</td><td>plain numeric or a <code>units</code> object</td></tr><tr><td><code>size</code> (text, labels)</td><td>multiplier</td><td>1 = 12 pt (plot) / 12 px (view)</td></tr><tr><td><code>lwd</code></td><td>lwd</td><td>base R units; 1 lwd approx. 0.75 pt at 96 dpi</td></tr><tr><td><code>lty</code></td><td>–</td><td>integer 1-6 or name ("solid", "dashed", ...)</td></tr><tr><td><code>shape</code></td><td>–</td><td>integer <code>pch</code> 1-25 or single character</td></tr><tr><td><code>angle</code></td><td>degrees</td><td>0-360, clockwise from north</td></tr><tr><td><code>fontface</code></td><td>–</td><td>"plain", "bold", "italic", "bold.italic"</td></tr></table><div class="section">
+<h4 id="symbol-size-size-in-tm-symbols-tm-bubbles-tm-squares-tm-dots-">Symbol size (<code>size</code> in <code>tm_symbols</code>, <code>tm_bubbles</code>, <code>tm_squares</code>, <code>tm_dots</code>)<a class="anchor" aria-label="anchor" href="#symbol-size-size-in-tm-symbols-tm-bubbles-tm-squares-tm-dots-"></a></h4>
+
+
+<p>"Lines" is a typographic unit: one line is approximately 1/6 inch (the
+default base line-height in R graphics). The global multiplier
+<code>tmap_options(values.scale = list(size.bubbles = 1.5))</code> scales all symbol
+sizes without changing the data mapping.</p>
+</div>
+
+<div class="section">
+<h4 id="circle-size-size-in-tm-circles-">Circle size (<code>size</code> in <code>tm_circles</code>)<a class="anchor" aria-label="anchor" href="#circle-size-size-in-tm-circles-"></a></h4>
+
+
+<p>The value is a geographic radius in meters. A plain numeric vector is
+interpreted as meters; a <code>units</code> object (from the <strong>units</strong> package) is
+automatically converted, so <code>units::as_units(1, "mi")</code> gives a 1-mile
+radius. Because the radius is geographic, circles scale with zoom in
+interactive (view) mode – unlike bubble symbols which keep a fixed screen
+size.</p>
+</div>
+
+<div class="section">
+<h4 id="text-size-size-in-tm-text-tm-labels-">Text size (<code>size</code> in <code>tm_text</code>, <code>tm_labels</code>)<a class="anchor" aria-label="anchor" href="#text-size-size-in-tm-text-tm-labels-"></a></h4>
+
+
+<p>The value is a multiplier of the base font size. <code>size = 1</code> renders at
+12 pt in plot mode (R's default <code>par("ps")</code>) and at 12 px in view
+mode (<code>gp$cex * 12</code> px, see <code>tmapLeafletDataPlot.tm_data_text</code>); the two
+modes are consistent by design.</p>
+</div>
+
+
+</div>
+
+<div class="section">
 <h3 id="layer-blending-blend-">Layer blending (<code>blend</code>)<a class="anchor" aria-label="anchor" href="#layer-blending-blend-"></a></h3>
 
 
