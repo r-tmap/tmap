@@ -14,15 +14,15 @@
 #'  To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the \code{shape} argument.
 #'  For small multiples, a list of these shape specification(s) should be provided.
 #'
-#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
-#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
-#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")`
-#' @param shape,shape.scale,shape.legend,shape.chart,shape.free `r .doc_vv("shape")`
-#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
-#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")`
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.chart,fill_alpha.free `r .doc_vv("fill_alpha")`
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")` `r .doc_unit("fill")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")` `r .doc_unit("size")`
+#' @param shape,shape.scale,shape.legend,shape.chart,shape.free `r .doc_vv("shape")` `r .doc_unit("shape")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")` `r .doc_unit("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")` `r .doc_unit("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.chart,fill_alpha.free `r .doc_vv("fill_alpha")` `r .doc_unit("fill_alpha")`
 #'   the fill color alpha transparency See details.
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function

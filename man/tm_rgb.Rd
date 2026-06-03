@@ -38,7 +38,7 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1)
 \item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
 the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivariate = TRUE}}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the "Layer blending" section of \code{\link[=tm_polygons]{tm_polygons()}} for supported values.}
 

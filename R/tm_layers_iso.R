@@ -2,8 +2,8 @@
 #'
 #' Map layer that draws iso (contour) lines. Stack of [tm_lines()] and [tm_labels_highlighted].
 #'
-#' @param col `r .doc_vv("col")`
-#' @param text `r .doc_vv("text")`
+#' @param col `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param text `r .doc_vv("text")` `r .doc_unit("text")`
 #' @param ... passed on to [tm_lines()] and [tm_labels_highlighted()]. For the text color and alpha transparency of the text labels, please use `text_col` and `text_alpha` instead of `col` and `col_alpha`.
 #' @param options_lines The options for [tm_lines()]
 #' @param options_labels The options for [tm_labels_highlighted()]

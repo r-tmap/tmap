@@ -7,7 +7,7 @@
 #'
 #' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
 #'   the color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param blend Compositing operator for layer blending. Default `"over"` applies no blending. See the "Layer blending" section of [tm_polygons()] for supported values.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0

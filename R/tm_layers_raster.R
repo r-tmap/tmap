@@ -2,8 +2,8 @@
 #'
 #' Map layer that draws rasters. Supported visual variable is: `col` (the  color).
 #'
-#' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
+#' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @inheritParams tm_polygons
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0

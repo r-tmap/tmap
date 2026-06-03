@@ -31,6 +31,7 @@ reference:
   - tm_polygons
   - tm_lines
   - tm_markers
+  - tm_circles
   - tm_raster
   - tm_text
   - tm_iso

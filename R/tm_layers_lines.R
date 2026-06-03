@@ -2,10 +2,10 @@
 #'
 #' Map layer that draws lines. Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
 #'
-#' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")`
-#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free  `r .doc_vv("lwd")`
-#' @param lty,lty.scale,lty.legend,lty.chart,lty.free  `r .doc_vv("lty")`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")`
+#' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free  `r .doc_vv("lwd")` `r .doc_unit("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free  `r .doc_vv("lty")` `r .doc_unit("lty")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param linejoin,lineend line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn. See [tm_plot_order()] for details.
 #' @param options options passed on to the corresponding `opt_<layer_function>` function

@@ -5,14 +5,14 @@
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha` (fill color alpha transparency)
 #' and `col_alpha` (border color alpha transparency).
 #'
-#' @param fill,fill.scale,fill.legend,fill.free  `r .doc_vv("fill")`
-#' @param col,col.scale,col.legend,col.free  `r .doc_vv("col")`
-#' @param size,size.scale,size.legend,size.free  `r .doc_vv("size")`
-#' @param shape,shape.scale,shape.legend,shape.free  `r .doc_vv("shape")`
-#' @param lwd,lwd.scale,lwd.legend,lwd.free  `r .doc_vv("lwd")`
-#' @param lty,lty.scale,lty.legend,lty.free  `r .doc_vv("lty")`
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free  `r .doc_vv("fill_alpha")`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free  `r .doc_vv("col_alpha")`
+#' @param fill,fill.scale,fill.legend,fill.free  `r .doc_vv("fill")` `r .doc_unit("fill")`
+#' @param col,col.scale,col.legend,col.free  `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param size,size.scale,size.legend,size.free  `r .doc_vv("size")` `r .doc_unit("size")`
+#' @param shape,shape.scale,shape.legend,shape.free  `r .doc_vv("shape")` `r .doc_unit("shape")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.free  `r .doc_vv("lwd")` `r .doc_unit("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.free  `r .doc_vv("lty")` `r .doc_unit("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.legend,fill_alpha.free  `r .doc_vv("fill_alpha")` `r .doc_unit("fill_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param linejoin,lineend line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order.list Specification in which order the spatial features are drawn.
 #'   This consists of a list of three elementary geometry types: for polygons, lines and, points.

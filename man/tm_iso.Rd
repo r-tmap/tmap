@@ -13,9 +13,9 @@ tm_iso(
 )
 }
 \arguments{
-\item{col}{Visual variable that determines the color. See details.}
+\item{col}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
 
-\item{text}{Visual variable that determines the text. See details.}
+\item{text}{Visual variable that determines the text. See details. \emph{Unit:} Character string.}
 
 \item{...}{passed on to \code{\link[=tm_lines]{tm_lines()}} and \code{\link[=tm_labels_highlighted]{tm_labels_highlighted()}}. For the text color and alpha transparency of the text labels, please use \code{text_col} and \code{text_alpha} instead of \code{col} and \code{col_alpha}.}
 

@@ -27,9 +27,9 @@ tm_raster(
 opt_tm_raster(interpolate = FALSE)
 }
 \arguments{
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details.}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{zindex}{Controls the stacking order of map layers. Should be set to a
 value above 400. By default, layers are stacked in call order, starting
@@ -100,6 +100,53 @@ Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
 for example with \code{\link[sf:st_area]{sf::st_area()}}, \code{\link[sf:st_length]{sf::st_length()}}, or
 \code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
+\subsection{Visual variable units}{
+
+Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via \code{\link[=tm_const]{tm_const()}},
+or output ranges via \code{values.range} / \code{values.scale} in the scale
+functions.\tabular{lll}{
+   Variable \tab Output unit \tab Notes \cr
+   \code{fill}, \code{col}, \code{bgcol} \tab color \tab name, hex, or palette string \cr
+   \code{fill_alpha}, \code{col_alpha}, \code{bgcol_alpha} \tab proportion 0-1 \tab 0 = transparent, 1 = opaque \cr
+   \code{size} (symbols, bubbles, squares, dots) \tab typographic lines \tab 1 line approx. 1/6 inch; scaled by \code{values.scale} \cr
+   \code{size} (circles) \tab meters \tab plain numeric or a \code{units} object \cr
+   \code{size} (text, labels) \tab multiplier \tab 1 = 12 pt (plot) / 12 px (view) \cr
+   \code{lwd} \tab lwd \tab base R units; 1 lwd approx. 0.75 pt at 96 dpi \cr
+   \code{lty} \tab -- \tab integer 1-6 or name ("solid", "dashed", ...) \cr
+   \code{shape} \tab -- \tab integer \code{pch} 1-25 or single character \cr
+   \code{angle} \tab degrees \tab 0-360, clockwise from north \cr
+   \code{fontface} \tab -- \tab "plain", "bold", "italic", "bold.italic" \cr
+}
+
+\subsection{Symbol size (\code{size} in \code{tm_symbols}, \code{tm_bubbles}, \code{tm_squares}, \code{tm_dots})}{
+
+"Lines" is a typographic unit: one line is approximately 1/6 inch (the
+default base line-height in R graphics). The global multiplier
+\code{tmap_options(values.scale = list(size.bubbles = 1.5))} scales all symbol
+sizes without changing the data mapping.
+}
+
+\subsection{Circle size (\code{size} in \code{tm_circles})}{
+
+The value is a geographic radius in meters. A plain numeric vector is
+interpreted as meters; a \code{units} object (from the \strong{units} package) is
+automatically converted, so \code{units::as_units(1, "mi")} gives a 1-mile
+radius. Because the radius is geographic, circles scale with zoom in
+interactive (view) mode -- unlike bubble symbols which keep a fixed screen
+size.
+}
+
+\subsection{Text size (\code{size} in \code{tm_text}, \code{tm_labels})}{
+
+The value is a multiplier of the base font size. \code{size = 1} renders at
+12 pt in plot mode (R's default \code{par("ps")}) and at 12 px in view
+mode (\code{gp$cex * 12} px, see \code{tmapLeafletDataPlot.tm_data_text}); the two
+modes are consistent by design.
+}
+
+}
+
 \subsection{Layer blending (\code{blend})}{
 
 Blend modes control how a layer's pixels are combined with the pixels

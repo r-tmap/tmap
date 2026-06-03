@@ -3,20 +3,20 @@
 #' Map layer that draws symbols Supported visual variables are: `text`
 #' (the text itself) `col` (color), `size` (font size), and `fontface` (font face).
 #'
-#' @param text,text.scale,text.legend,text.chart,text.free `r .doc_vv("text")`
-#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")`
-#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
-#' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free `r .doc_vv("fontface")`
+#' @param text,text.scale,text.legend,text.chart,text.free `r .doc_vv("text")` `r .doc_unit("text")`
+#' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")` `r .doc_unit("size.text")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
+#' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free `r .doc_vv("fontface")` `r .doc_unit("fontface")`
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
 #' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
-#'   the background color. See Details.
+#'   the background color. See Details. `r .doc_unit("bgcol")`
 #' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
-#'   the background color transparency. See Details.
-#' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details.
-#' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details.
+#'   the background color transparency. See Details. `r .doc_unit("bgcol_alpha")`
+#' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details. `r .doc_unit("xmod")`
+#' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details. `r .doc_unit("ymod")`
 #'   the text. See details.
-#' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle
+#' @param angle,angle.scale,angle.legend,angle.chart,angle.free Rotation angle `r .doc_unit("angle")`
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
 #' @inherit tm_polygons details

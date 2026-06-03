@@ -78,6 +78,10 @@ tmapValuesCheck_shape = function(x, is_var = TRUE) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesCheck_size = function(x, is_var = TRUE) {
+	# units objects (from the units package) are accepted; they will be
+	# converted to plain numeric metres in tmapValuesScale_size.
+	if (inherits(x, "units")) return(TRUE)
+
 	res = inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
 
 	if (!res) {
@@ -709,7 +713,14 @@ tmapValuesScale_fill = function(x, scale) x
 tmapValuesScale_bgcol = function(x, scale) x
 #' @export
 #' @rdname tmap_internal
-tmapValuesScale_size = function(x, scale) x * scale
+tmapValuesScale_size = function(x, scale) {
+	# Convert units objects (from the units package) to plain numeric metres
+	# so that e.g. units::as_units(1, "mi") works transparently with tm_circles.
+	if (inherits(x, "units")) {
+		x = as.numeric(units::set_units(x, "m", mode = "standard"))
+	}
+	x * scale
+}
 #' @export
 #' @rdname tmap_internal
 tmapValuesScale_area = function(x, scale) x
