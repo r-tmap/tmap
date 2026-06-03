@@ -1,4 +1,4 @@
-leaflet_pos = function(pos) {
+leaflet_pos = function(pos, collapse = "") {
 	if (pos$type %in% c("out", "autoout")) {
 		sel = c("cell.v", "cell.h")
 	} else {
@@ -9,7 +9,7 @@ leaflet_pos = function(pos) {
 	if (x[1] %in% c("center", "centre")) x[1] = "top"
 	if (x[2] %in% c("center", "centre")) x[2] = "left"
 
-  paste(x, collapse = "")
+  paste(x, collapse = collapse)
 }
 
 

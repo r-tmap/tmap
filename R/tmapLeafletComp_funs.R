@@ -19,6 +19,9 @@ tmapLeafletCompWidth.tm_title = function(comp, o) {
 
 #' @export
 tmapLeafletCompPlot.tm_title = function(comp, lf, o) {
+	pos = (comp$position |>
+		leaflet_pos(collapse = "-") |>
+		strsplit(split = "-", fixed = TRUE))[[1]]
 	if (inherits(lf, "shiny.tag.list")) {
 		ncld <- length(lf[[1]])
 		lf[[1]] <- mapply(function(l, i) {
@@ -26,7 +29,7 @@ tmapLeafletCompPlot.tm_title = function(comp, lf, o) {
 			if (title!="") {
 				l$children[[1]] <- l$children[[1]] %>% htmlwidgets::onRender(paste("
 					function(el, x) {
-						var tldiv = el.getElementsByClassName(\"leaflet-top leaflet-left\")[0];
+						var tldiv = el.getElementsByClassName(\"leaflet-", pos[1], " leaflet-", pos[2],"\")[0];
 						var titlediv = document.createElement('div');
 						titlediv.className = \"info legend leaflet-control\";
 						titlediv.innerHTML = \"<b>", title, "</b>\";
@@ -41,7 +44,7 @@ tmapLeafletCompPlot.tm_title = function(comp, lf, o) {
 		if (title!="") {
 			lf <- lf %>% htmlwidgets::onRender(paste("
 						function(el, x) {
-							var tldiv = el.getElementsByClassName(\"leaflet-top leaflet-left\")[0];
+						    var tldiv = el.getElementsByClassName(\"leaflet-", pos[1], " leaflet-", pos[2],"\")[0];
 							var titlediv = document.createElement('div');
 							titlediv.className = \"info legend leaflet-control\";
 							titlediv.innerHTML = \"<b>", title, "</b>\";
