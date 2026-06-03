@@ -70,6 +70,7 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 			if ((substr(tiles$server[i], 1, 4) == "http")) {
 				lf = leaflet::addTiles(lf, urlTemplate = tiles$server[i], group = groups[i], options = opt)
 			} else {
+				if (!(tiles$server[i] %in% tmap_providers("view"))) message_basemaps_invalid_provider(tiles$server[i], "view")
 				lf = leaflet::addProviderTiles(lf, provider = tiles$server[i], group = groups[i], options = opt)
 			}
 		}
