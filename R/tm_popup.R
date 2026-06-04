@@ -37,10 +37,21 @@
 #'   (e.g. `5` means `"5em"`, roughly "show 5 lines"); a character string is
 #'   used as-is. Default `"25em"`. Use `max.height = "none"` (or `NA`/`Inf`) to
 #'   remove the cap, so the popup grows to fit its content and never scrolls.
-#' @param label.color Color of the variable-name (label) column in the popup
-#'   table. Default `"#888888"` (grey).
-#' @param value.align Horizontal alignment of the value column in the popup
-#'   table, one of `"right"` (default), `"left"`, or `"center"`.
+#' @param title.align,label.align,value.align Horizontal alignment of the
+#'   popup title (bold header), the variable-name (label) column, and the value
+#'   column respectively. Each one of `"left"`, `"center"`, or `"right"`.
+#'   Defaults: title `"left"`, label `"left"`, value `"right"`.
+#' @param title.color,label.color,value.color Text color of the popup title,
+#'   the label column, and the value column respectively. `NULL` (the default
+#'   for title and value) inherits the browser/popup default; `label.color`
+#'   defaults to `"#888888"` (grey).
+#' @param css Optional free-form CSS, injected verbatim as a `<style>` block in
+#'   each popup, for full restyling beyond the arguments above. Target the
+#'   semantic classes `.tmap-popup` (container), `.tmap-popup-table`,
+#'   `.tmap-popup-title`, `.tmap-popup-label`, and `.tmap-popup-value`. To size
+#'   the popup box itself, target the backend's own popup element
+#'   (`.leaflet-popup-content` in view mode, `.maplibregl-popup-content` in
+#'   maplibre mode). Default `NULL`.
 #' @return A `tm_popup` object.
 #' @seealso [tm_polygons()], [tm_symbols()], [tm_lines()]
 #' @export
@@ -49,16 +60,26 @@ tm_popup = function(vars = NA,
 					format = tm_label_format(),
 					width = "auto",
 					max.height = "25em",
+					title.align = "left",
+					title.color = NULL,
+					label.align = "left",
 					label.color = "#888888",
-					value.align = "right") {
+					value.align = "right",
+					value.color = NULL,
+					css = NULL) {
 	structure(
 		list(vars = vars,
 			 title = title,
 			 format = format,
 			 layout = list(width = width,
 			 			   max.height = max.height,
+			 			   title.align = title.align,
+			 			   title.color = title.color,
+			 			   label.align = label.align,
 			 			   label.color = label.color,
-			 			   value.align = value.align)),
+			 			   value.align = value.align,
+			 			   value.color = value.color,
+			 			   css = css)),
 		class = c("tm_popup", "list")
 	)
 }
@@ -70,8 +91,13 @@ tm_popup = function(vars = NA,
 popup_layout_default = function() {
 	list(width = "auto",
 		 max.height = "25em",
+		 title.align = "left",
+		 title.color = NULL,
+		 label.align = "left",
 		 label.color = "#888888",
-		 value.align = "right")
+		 value.align = "right",
+		 value.color = NULL,
+		 css = NULL)
 }
 
 complete_popup_layout = function(x) {
@@ -100,6 +126,16 @@ complete_popup_layout = function(x) {
 		return(paste0(x, unit))
 	}
 	x
+}
+
+# Internal: build an inline style="" attribute from an optional alignment and
+# color, omitting any component that is NULL/NA. Returns "" when neither is set.
+# Shared by the popup formatters so the title/label/value cells are styled
+# consistently.
+.popup_style_attr = function(align = NULL, color = NULL) {
+	parts = c(if (!is.null(align) && !is.na(align)) paste0("text-align:", align),
+			  if (!is.null(color) && !is.na(color)) paste0("color:", color))
+	if (!length(parts)) "" else paste0(" style=\"", paste(parts, collapse = "; "), ";\"")
 }
 
 #' @export
