@@ -18,8 +18,13 @@ tm_popup(
   format = tm_label_format(),
   width = "auto",
   max.height = "25em",
+  title.align = "left",
+  title.color = NULL,
+  label.align = "left",
   label.color = "#888888",
-  value.align = "right"
+  value.align = "right",
+  value.color = NULL,
+  css = NULL
 )
 ```
 
@@ -80,15 +85,28 @@ tm_popup(
   remove the cap, so the popup grows to fit its content and never
   scrolls.
 
-- label.color:
+- title.align, label.align, value.align:
 
-  Color of the variable-name (label) column in the popup table. Default
-  `"#888888"` (grey).
+  Horizontal alignment of the popup title (bold header), the
+  variable-name (label) column, and the value column respectively. Each
+  one of `"left"`, `"center"`, or `"right"`. Defaults: title `"left"`,
+  label `"left"`, value `"right"`.
 
-- value.align:
+- title.color, label.color, value.color:
 
-  Horizontal alignment of the value column in the popup table, one of
-  `"right"` (default), `"left"`, or `"center"`.
+  Text color of the popup title, the label column, and the value column
+  respectively. `NULL` (the default for title and value) inherits the
+  browser/popup default; `label.color` defaults to `"#888888"` (grey).
+
+- css:
+
+  Optional free-form CSS, injected verbatim as a `<style>` block in each
+  popup, for full restyling beyond the arguments above. Target the
+  semantic classes `.tmap-popup` (container), `.tmap-popup-table`,
+  `.tmap-popup-title`, `.tmap-popup-label`, and `.tmap-popup-value`. To
+  size the popup box itself, target the backend's own popup element
+  (`.leaflet-popup-content` in view mode, `.maplibregl-popup-content` in
+  maplibre mode). Default `NULL`.
 
 ## Value
 

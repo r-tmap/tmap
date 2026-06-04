@@ -110,8 +110,13 @@ replaces the (now deprecated) layer arguments <code>popup.vars</code> and <code>
 <span>  format <span class="op">=</span> <span class="fu"><a href="tm_label_format.html">tm_label_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  width <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  max.height <span class="op">=</span> <span class="st">"25em"</span>,</span>
+<span>  title.align <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  title.color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label.align <span class="op">=</span> <span class="st">"left"</span>,</span>
 <span>  label.color <span class="op">=</span> <span class="st">"#888888"</span>,</span>
-<span>  value.align <span class="op">=</span> <span class="st">"right"</span></span>
+<span>  value.align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>  value.color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  css <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -171,14 +176,28 @@ used as-is. Default <code>"25em"</code>. Use <code>max.height = "none"</code> (o
 remove the cap, so the popup grows to fit its content and never scrolls.</p></dd>
 
 
-<dt id="arg-label-color">label.color<a class="anchor" aria-label="anchor" href="#arg-label-color"></a></dt>
-<dd><p>Color of the variable-name (label) column in the popup
-table. Default <code>"#888888"</code> (grey).</p></dd>
+<dt id="arg-title-align-label-align-value-align">title.align, label.align, value.align<a class="anchor" aria-label="anchor" href="#arg-title-align-label-align-value-align"></a></dt>
+<dd><p>Horizontal alignment of the
+popup title (bold header), the variable-name (label) column, and the value
+column respectively. Each one of <code>"left"</code>, <code>"center"</code>, or <code>"right"</code>.
+Defaults: title <code>"left"</code>, label <code>"left"</code>, value <code>"right"</code>.</p></dd>
 
 
-<dt id="arg-value-align">value.align<a class="anchor" aria-label="anchor" href="#arg-value-align"></a></dt>
-<dd><p>Horizontal alignment of the value column in the popup
-table, one of <code>"right"</code> (default), <code>"left"</code>, or <code>"center"</code>.</p></dd>
+<dt id="arg-title-color-label-color-value-color">title.color, label.color, value.color<a class="anchor" aria-label="anchor" href="#arg-title-color-label-color-value-color"></a></dt>
+<dd><p>Text color of the popup title,
+the label column, and the value column respectively. <code>NULL</code> (the default
+for title and value) inherits the browser/popup default; <code>label.color</code>
+defaults to <code>"#888888"</code> (grey).</p></dd>
+
+
+<dt id="arg-css">css<a class="anchor" aria-label="anchor" href="#arg-css"></a></dt>
+<dd><p>Optional free-form CSS, injected verbatim as a <code>&lt;style&gt;</code> block in
+each popup, for full restyling beyond the arguments above. Target the
+semantic classes <code>.tmap-popup</code> (container), <code>.tmap-popup-table</code>,
+<code>.tmap-popup-title</code>, <code>.tmap-popup-label</code>, and <code>.tmap-popup-value</code>. To size
+the popup box itself, target the backend's own popup element
+(<code>.leaflet-popup-content</code> in view mode, <code>.maplibregl-popup-content</code> in
+maplibre mode). Default <code>NULL</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
