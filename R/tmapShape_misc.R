@@ -82,7 +82,8 @@ get_fact_levels_na = function(x, o) {
 		}
 	} else if (inherits(x, "POSIXct")) {
 		u = unique(x)
-		if (length(u) > o$facet.max) {
+		if (length(u) > 1e5) { # was #o$facet.max but enlarged for animations
+			# with 30 fps this is 55 minutes
 			levs = NULL
 		} else {
 			levs = as.character(sort(u))
@@ -95,7 +96,7 @@ get_fact_levels_na = function(x, o) {
 		}
 	} else {
  		u = unique(as.vector(x))
-		if (length(u) > o$facet.max) {
+		if (length(u) > 1e5) { # was #o$facet.max but enlarged for animations
 			levs = NULL
 		} else {
 			levs = as.character(sort(u))
