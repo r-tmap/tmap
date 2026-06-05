@@ -14,6 +14,7 @@
   e.g. [`library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`](https://github.com/r-tmap/tmap.mapgl)
 - shiny dispatch methods added (to allow integration for other modes)
 - added support for terra’s PackedSpatX objects
+- added height to tmap_arrange (for interactive modes)
 - bug fixes (most importantly regarding \>=1000 polygons in view mode)
 
 ## tmap 4.3

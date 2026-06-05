@@ -18,7 +18,8 @@ tmap_arrange(
   heights = NA,
   sync = FALSE,
   asp = 0,
-  outer.margins = 0.02
+  outer.margins = 0.02,
+  height = NULL
 )
 
 # S3 method for class 'tmap_arrange'
@@ -81,6 +82,13 @@ print(x, knit = FALSE, ..., options = NULL)
   argument from
   [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md),
   unless set to `NULL`.
+
+- height:
+
+  height of the arranged output. Only used in the interactive modes
+  (`"view"`, `"maplibre"`, `"mapbox"`). A bare number is interpreted as
+  pixels; a string is used as-is (e.g. `"80vh"`). The default `NULL`
+  fills the available viewport height.
 
 - x:
 

@@ -109,7 +109,8 @@ by specifying multiple variables for one aesthetic or by specifying the by argum
 <span>  heights <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  sync <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  asp <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  outer.margins <span class="op">=</span> <span class="fl">0.02</span></span>
+<span>  outer.margins <span class="op">=</span> <span class="fl">0.02</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'tmap_arrange'</span></span>
@@ -165,6 +166,13 @@ the aspect ratio will be adjusted to the used shapes.</p></dd>
 <dd><p>outer.margins, numeric vector four or a single value.
 If defines the outer margins for each multiple. If will overwrite the
 <code>outer.margins</code> argument from <code><a href="tm_layout.html">tm_layout()</a></code>, unless set to <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
+<dd><p>height of the arranged output. Only used in the interactive
+modes (<code>"view"</code>, <code>"maplibre"</code>, <code>"mapbox"</code>). A bare number is interpreted as
+pixels; a string is used as-is (e.g. <code>"80vh"</code>). The default <code>NULL</code> fills the
+available viewport height.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
