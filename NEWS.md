@@ -7,6 +7,7 @@
 - shiny dispatch methods added (to allow integration for other modes)
 - added support for terra's PackedSpatX objects 
 - added height to tmap_arrange (for interactive modes)
+- fixed date/time formatting of facet labels
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
 
 

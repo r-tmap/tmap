@@ -195,9 +195,9 @@ message_basemaps_none = function(serv, z) {
 
 }
 
-message_basemaps_invalid_provider = function(serv, mode) {
-	cli::cli_abort(
-		"{.field [basemaps]} Provider {.str {serv}} does not exist for mode {.str {mode}}. Run {.fun tmap_providers} to see which ones are available"
+message_basemaps_invalid_provider = function(serv, mode, new) {
+	cli::cli_warn(
+		"{.field [basemaps]} Provider {.str {serv}} does not exist for mode {.str {mode}}. Run {.fun tmap_providers} to see which ones are available. Basemap is set to {.str {new}}."
 	)
 
 }

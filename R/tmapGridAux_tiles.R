@@ -68,7 +68,10 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 		}
 		if (api == "") message_basemaps(is_stadia)
 	} else {
-		if (!(serv %in% tmap_providers("plot"))) message_basemaps_invalid_provider(serv, "plot")
+		if (!(serv %in% tmap_providers("plot"))) {
+			message_basemaps_invalid_provider(serv, "plot", o$basemap.server[1])
+			serv = o$basemap.server[1]
+		}
 		api = NULL
 	}
 

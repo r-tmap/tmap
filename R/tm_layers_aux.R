@@ -19,7 +19,7 @@
 #'   Use `NULL` in `tm_basemap()` to disable basemaps. It can be a named vector. In that case these names will be used a group names, as alternative to the argument `group`.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
-#' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode. See details
+#' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode, and for `Esri`/`MapTiler` basemaps in `"maplibre"`/`"mapbox"` mode (alternatively set the env var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`). See details
 #' @param max.native.zoom Maximum native zoom level (only used in view mode).
 #'   The minimum and maximum zoom levels are determined in `tm_view()`.
 #' @param sub subdomain of the tile server. Only used when `server` is a url template. The

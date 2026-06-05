@@ -66,12 +66,19 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 	groups = rep(strsplit(group, "__", fixed = TRUE)[[1]], length.out = k)
 
 	for (i in 1L:k) {
-		if (tiles$server[i] != "") {
-			if ((substr(tiles$server[i], 1, 4) == "http")) {
-				lf = leaflet::addTiles(lf, urlTemplate = tiles$server[i], group = groups[i], options = opt)
+		serv = tiles$server[i]
+		if (serv != "") {
+			if ((substr(serv, 1, 4) == "http")) {
+				lf = leaflet::addTiles(lf, urlTemplate = serv, group = groups[i], options = opt)
 			} else {
-				if (!(tiles$server[i] %in% tmap_providers("view"))) message_basemaps_invalid_provider(tiles$server[i], "view")
-				lf = leaflet::addProviderTiles(lf, provider = tiles$server[i], group = groups[i], options = opt)
+				# Invalid provider: warn and fall back to the default view basemap
+				# rather than adding a broken (blank) provider layer, matching the
+				# fallback behaviour of the maplibre/mapbox modes.
+				if (!(serv %in% tmap_providers("view"))) {
+					message_basemaps_invalid_provider(serv, "view", o$basemap.server[1])
+					serv = o$basemap.server[1]
+				}
+				lf = leaflet::addProviderTiles(lf, provider = serv, group = groups[i], options = opt)
 			}
 		}
 	}

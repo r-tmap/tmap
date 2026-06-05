@@ -40,7 +40,7 @@ Use \code{NULL} in \code{tm_basemap()} to disable basemaps. It can be a named ve
 
 \item{zoom}{Zoom level (only used in plot mode)}
 
-\item{api}{API key. Needed for \code{Stadia} and \code{Thunderforest} maps in plot mode. See details}
+\item{api}{API key. Needed for \code{Stadia} and \code{Thunderforest} maps in plot mode, and for \code{Esri}/\code{MapTiler} basemaps in \code{"maplibre"}/\code{"mapbox"} mode (alternatively set the env var \code{ARCGIS_API_KEY} / \code{MAPTILER_API_KEY}). See details}
 
 \item{max.native.zoom}{Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in \code{tm_view()}.}
