@@ -14,7 +14,8 @@ tmap_arrange(
   heights = NA,
   sync = FALSE,
   asp = 0,
-  outer.margins = 0.02
+  outer.margins = 0.02,
+  height = NULL
 )
 
 \method{knit_print}{tmap_arrange}(x, ..., options = NULL)
@@ -49,6 +50,11 @@ the aspect ratio will be adjusted to the used shapes.}
 \item{outer.margins}{outer.margins, numeric vector four or a single value.
 If defines the outer margins for each multiple. If will overwrite the
 \code{outer.margins} argument from \code{\link[=tm_layout]{tm_layout()}}, unless set to \code{NULL}.}
+
+\item{height}{height of the arranged output. Only used in the interactive
+modes (\code{"view"}, \code{"maplibre"}, \code{"mapbox"}). A bare number is interpreted as
+pixels; a string is used as-is (e.g. \code{"80vh"}). The default \code{NULL} fills the
+available viewport height.}
 
 \item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange()}).}
 
