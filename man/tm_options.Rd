@@ -7,6 +7,7 @@
 tm_options(
   crs,
   facet.max,
+  facet_levels.max,
   free.scales,
   raster.max_cells,
   raster.warp,
@@ -332,7 +333,9 @@ tm_options(
 \arguments{
 \item{crs}{Map crs (see \code{\link[=tm_shape]{tm_shape()}}). \code{NA} means the crs is specified in \code{\link[=tm_shape]{tm_shape()}}. The crs that is used by the transformation functions is defined in \code{\link[=tm_shape]{tm_shape()}}.}
 
-\item{facet.max}{Maximum number of facets}
+\item{facet.max}{Maximum number of facets in a static plot (rows x columns); animation frames are not counted.}
+
+\item{facet_levels.max}{Maximum number of facet levels processed across all faceting dimensions, animation frames included (rows x columns x frames). Default \code{1e5}.}
 
 \item{free.scales}{For backward compatibility: if this value is set, it will be used to impute the free arguments in the layer functions}
 

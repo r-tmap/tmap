@@ -56,6 +56,10 @@ make_by_vars = function(dt, tmf, smeta) {
 #' @export
 #' @keywords internal
 get_fact_levels_na = function(x, o) {
+	# POSIXlt is stored as a list; normalise to POSIXct so it is treated as a
+	# date/time vector below instead of being caught by the is.list() guard
+	if (inherits(x, "POSIXlt")) x = as.POSIXct(x)
+
 	if (inherits(x, "sfc") || is.list(x)) {
 		levs = NULL
 	} else if (is.factor(x)) {
@@ -80,10 +84,14 @@ get_fact_levels_na = function(x, o) {
 		} else {
 			showNA = FALSE
 		}
-	} else if (inherits(x, "POSIXct")) {
+	} else if (inherits(x, c("POSIXct", "Date", "difftime"))) {
+		# Date/time classes: keep the class. The plain branch below uses
+		# as.vector(), which would strip the class and turn dates into raw
+		# day/second counts. Order chronologically and format the labels with
+		# the class's own as.character() method; make_by_vars() coerces the
+		# column with the same as.character(), so the facet join lines up.
 		u = unique(x)
-		if (length(u) > 1e5) { # was #o$facet.max but enlarged for animations
-			# with 30 fps this is 55 minutes
+		if (length(u) > o$facet_levels.max) {
 			levs = NULL
 		} else {
 			levs = as.character(sort(u))
@@ -96,7 +104,7 @@ get_fact_levels_na = function(x, o) {
 		}
 	} else {
  		u = unique(as.vector(x))
-		if (length(u) > 1e5) { # was #o$facet.max but enlarged for animations
+		if (length(u) > o$facet_levels.max) {
 			levs = NULL
 		} else {
 			levs = as.character(sort(u))
