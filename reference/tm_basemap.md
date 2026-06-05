@@ -57,7 +57,9 @@ tm_tiles(
 
 - api:
 
-  API key. Needed for `Stadia` and `Thunderforest` maps in plot mode.
+  API key. Needed for `Stadia` and `Thunderforest` maps in plot mode,
+  and for `Esri`/`MapTiler` basemaps in `"maplibre"`/`"mapbox"` mode
+  (alternatively set the env var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`).
   See details
 
 - max.native.zoom:
