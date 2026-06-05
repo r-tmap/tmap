@@ -26,7 +26,16 @@ make_by_vars = function(dt, tmf, smeta) {
 					}
 					if (attr(levs, "showNA")) levs[length(levs)] = NA
 
-					dt[, (byname):= match(get(get(..byvar)), levs)]
+					# `levs` are always character labels (built via as.character()
+					# or levels() in get_fact_levels_na). match() does coerce the
+					# left-hand side to character, but for classed columns it relies
+					# on as.character() S3 dispatch: Date has an as.character method
+					# and formats correctly, whereas POSIXct (and other date/time
+					# classes lacking such a method) fall back to the raw underlying
+					# double (e.g. "1672574400") and never match the formatted labels.
+					# Coercing here with as.character() uses the same representation
+					# that produced `levs`, so the join is correct for every class.
+					dt[, (byname):= match(as.character(get(get(..byvar))), levs)]
 				} else if (tmf[[byvar]] %in% smeta$dims) {
 					dt[, (byname):= match(get(get(..byvar)), smeta$dims_vals[[var]])]
 				}
@@ -71,8 +80,21 @@ get_fact_levels_na = function(x, o) {
 		} else {
 			showNA = FALSE
 		}
+	} else if (inherits(x, "POSIXct")) {
+		u = unique(x)
+		if (length(u) > o$facet.max) {
+			levs = NULL
+		} else {
+			levs = as.character(sort(u))
+			if (!o$drop.NA.facets && any(is.na(u))) {
+				showNA = TRUE
+				levs = c(levs, o$na.text)
+			} else {
+				showNA = FALSE
+			}
+		}
 	} else {
-		u = unique(as.vector(x))
+ 		u = unique(as.vector(x))
 		if (length(u) > o$facet.max) {
 			levs = NULL
 		} else {
