@@ -17,6 +17,7 @@ tmap_options(
   ...,
   crs,
   facet.max,
+  facet_levels.max,
   free.scales,
   raster.max_cells,
   raster.warp,
@@ -381,7 +382,14 @@ tmap_options_save(style)
 
 - facet.max:
 
-  Maximum number of facets
+  Maximum number of facets in a static plot (rows x columns); animation
+  frames are not counted.
+
+- facet_levels.max:
+
+  Maximum number of facet levels processed across all faceting
+  dimensions, animation frames included (rows x columns x frames).
+  Default `1e5`.
 
 - free.scales:
 
@@ -1938,6 +1946,7 @@ if (requireNamespace("lobstr")) {
 #> ├─crs: NA
 #> ├─bbox: <NULL>
 #> ├─facet.max: 64
+#> ├─facet_levels.max: 1e+05
 #> ├─free.scales: <NULL>
 #> ├─raster.max_cells: 1e+07
 #> ├─raster.warp: TRUE

@@ -57,6 +57,7 @@ tree(opt)
 #> ├─crs: NA
 #> ├─bbox: <NULL>
 #> ├─facet.max: 64
+#> ├─facet_levels.max: 1e+05
 #> ├─free.scales: <NULL>
 #> ├─raster.max_cells: 1e+07
 #> ├─raster.warp: TRUE
@@ -917,6 +918,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> ├─crs: NA
 #> ├─bbox: <NULL>
 #> ├─facet.max: 16
+#> ├─facet_levels.max: 1e+05
 #> ├─free.scales: <NULL>
 #> ├─raster.max_cells: 1e+07
 #> ├─raster.warp: TRUE

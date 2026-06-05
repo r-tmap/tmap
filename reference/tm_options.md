@@ -8,6 +8,7 @@ tmap options
 tm_options(
   crs,
   facet.max,
+  facet_levels.max,
   free.scales,
   raster.max_cells,
   raster.warp,
@@ -344,7 +345,14 @@ tm_options(
 
 - facet.max:
 
-  Maximum number of facets
+  Maximum number of facets in a static plot (rows x columns); animation
+  frames are not counted.
+
+- facet_levels.max:
+
+  Maximum number of facet levels processed across all faceting
+  dimensions, animation frames included (rows x columns x frames).
+  Default `1e5`.
 
 - free.scales:
 
