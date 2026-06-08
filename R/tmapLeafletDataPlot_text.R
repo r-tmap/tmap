@@ -29,7 +29,7 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 		shpTM_match = TRUE
 	}
 
-	text = as.character(dt$text[shpTM_match])
+	text = decode_expr_chr(as.character(dt$text[shpTM_match]))
 	if (all(text == "")) return(NULL)
 
 	idt = dt$tmapID__[shpTM_match] |>

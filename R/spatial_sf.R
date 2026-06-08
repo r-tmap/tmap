@@ -40,7 +40,17 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, 
 	if (!is.null(isv)) {
 		shp = shp[isv, ]
 	}
-	dt = data.table::as.data.table(sf::st_drop_geometry(shp))
+	df = sf::st_drop_geometry(shp)
+
+	# Encode expression columns (e.g. created with parse()) as character strings
+	# so they survive the data.table-based data pipeline. They are decoded again
+	# at plot time (tm_text / tm_labels) to render as plotmath expressions.
+	is_expr = vapply(df, is.expression, FUN.VALUE = logical(1))
+	if (any(is_expr)) {
+		df[is_expr] = lapply(df[is_expr], encode_expr)
+	}
+
+	dt = data.table::as.data.table(df)
 
 	dtcols = copy(names(dt))
 

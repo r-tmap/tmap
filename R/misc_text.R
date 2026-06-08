@@ -109,12 +109,39 @@ encode_expr = function(txt) {
 }
 
 decode_expr = function(txt) {
-	if (substr(txt, 1, 8) == "__expr__") {
+	if (!is.na(txt) && substr(txt, 1, 8) == "__expr__") {
 		txt = substr(txt, 9, nchar(txt))
 		parse(text = txt)[[1]]
 	} else {
 		txt
 	}
+}
+
+# Is a label expression-encoded (i.e. produced by encode_expr)?
+is_encoded_expr = function(txt) {
+	is.character(txt) & !is.na(txt) & substr(txt, 1, 8) == "__expr__"
+}
+
+# Decode a character vector of (possibly expression-encoded) labels into a form
+# accepted by grid::textGrob(). When none of the labels are expressions the
+# input character vector is returned unchanged (so plain text keeps its exact
+# behaviour, including multi-line "\n" labels). When at least one label is an
+# expression, an expression vector (plotmath) is returned; plain strings in the
+# mix become plotmath string constants, which render as literal text.
+decode_expr_vec = function(txt) {
+	if (!is.character(txt)) return(txt)
+	if (!any(is_encoded_expr(txt))) return(txt)
+	as.expression(lapply(txt, decode_expr))
+}
+
+# Decode expression-encoded labels to plain character (deparsed), for backends
+# that cannot render plotmath (e.g. Leaflet/HTML). Consistent with how titles
+# and credits fall back to expr_to_char() in view mode.
+decode_expr_chr = function(txt) {
+	if (!is.character(txt)) return(expr_to_char(txt))
+	enc = is_encoded_expr(txt)
+	txt[enc] = substr(txt[enc], 9, nchar(txt[enc]))
+	txt
 }
 
 

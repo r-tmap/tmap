@@ -93,9 +93,13 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 
 		gps = split_gp(gp, n)
 
+		# decode (possibly) expression-encoded labels; each element is either a
+		# character string or a language object, both accepted by textGrob()
+		text_dec = lapply(text, decode_expr)
+
 		grobTextList = mapply(function(txt, x , y, gp, a) {
 			grid::textGrob(x = grid::unit(x, "native"), y = grid::unit(y, "native"), label = txt, gp = gp, rot = a, just = just) #, name = paste0("text_", id))
-		}, text, coords[,1], coords[,2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+		}, text_dec, coords[,1], coords[,2], gps, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
 		if (with_shadow_halo) {
 			gp_sh = gp
@@ -141,7 +145,7 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 								   rot = ai,
 								   just = just)
 				}
-			}, coords[,1], coords[,2], text, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+			}, coords[,1], coords[,2], text_dec, gps_sh, angle, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 		} else {
 			grobTextShList = NULL
 		}
@@ -263,7 +267,7 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 		grb = grid::grobTree(do.call(grid::gList, do.call(c, do.call(mapply, c(list(FUN = list, SIMPLIFY = FALSE, USE.NAMES = FALSE), grobTextAll2)))))
 
 	} else {
-		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = text, gp = gp, name = paste0("text_", id), rot = angle)
+		grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = decode_expr_vec(text), gp = gp, name = paste0("text_", id), rot = angle)
 		grb = grid::grobTree(gList(grobText))
 	}
 

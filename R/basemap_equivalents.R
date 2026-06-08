@@ -13,9 +13,9 @@
 # values. When several providers are listed for a mode, the first is the
 # representative used when substituting into that mode; all of them are matched
 # when identifying the concept of an incoming provider.
-
-.tmap_basemap_equiv = new.env(parent = emptyenv())
-.tmap_basemap_equiv$concepts = list()
+#
+# The registry lives in the package state environment as .TMAP$basemap_equiv (a
+# named list of concepts). It is populated once, from the extension's .onLoad.
 
 #' Register cross-mode basemap equivalences
 #'
@@ -32,10 +32,10 @@
 #' @export
 #' @keywords internal
 tmapSubmitBasemapEquivalents = function(equivalents, replace = FALSE) {
-	if (replace) {
-		.tmap_basemap_equiv$concepts = equivalents
+	if (replace || is.null(.TMAP$basemap_equiv)) {
+		.TMAP$basemap_equiv = equivalents
 	} else {
-		.tmap_basemap_equiv$concepts = utils::modifyList(.tmap_basemap_equiv$concepts, equivalents)
+		.TMAP$basemap_equiv = utils::modifyList(.TMAP$basemap_equiv, equivalents)
 	}
 	invisible(NULL)
 }
@@ -43,7 +43,9 @@ tmapSubmitBasemapEquivalents = function(equivalents, replace = FALSE) {
 # Closest equivalent of `serv` in `to_mode`, or NA_character_ if `serv` is not
 # known to the registry. `serv` may be a provider from any mode.
 basemap_equivalent = function(serv, to_mode) {
-	for (concept in .tmap_basemap_equiv$concepts) {
+	concepts = .TMAP$basemap_equiv
+	if (is.null(concepts)) return(NA_character_)
+	for (concept in concepts) {
 		if (serv %in% unlist(concept, use.names = FALSE)) {
 			q = concept[[to_mode]]
 			if (!is.null(q) && length(q)) return(q[[1]])

@@ -60,7 +60,7 @@ get_fact_levels_na = function(x, o) {
 	# date/time vector below instead of being caught by the is.list() guard
 	if (inherits(x, "POSIXlt")) x = as.POSIXct(x)
 
-	if (inherits(x, "sfc") || is.list(x)) {
+	if (inherits(x, "sfc") || is.list(x) || is.expression(x)) {
 		levs = NULL
 	} else if (is.factor(x)) {
 		if (o$drop.empty.facets) {
