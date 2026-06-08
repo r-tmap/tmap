@@ -269,7 +269,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		}
 		if (length(b_t) == 2) {
 			sel = TRUE
-			labels_select = TRUE
+			labels_select = c(TRUE, TRUE)
 		} else {
 			# #1039
 			# to include min/max if they are closer to the next 'not included' tick than the included tick
