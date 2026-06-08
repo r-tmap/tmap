@@ -75,8 +75,14 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 				# rather than adding a broken (blank) provider layer, matching the
 				# fallback behaviour of the maplibre/mapbox modes.
 				if (!(serv %in% tmap_providers("view"))) {
-					message_basemaps_invalid_provider(serv, "view", o$basemap.server[1])
-					serv = o$basemap.server[1]
+					eq = basemap_equivalent(serv, "view")
+					if (!is.na(eq)) {
+						message_basemaps_equivalent(serv, "view", eq)
+						serv = eq
+					} else {
+						message_basemaps_invalid_provider(serv, "view", o$basemap.server[1])
+						serv = o$basemap.server[1]
+					}
 				}
 				lf = leaflet::addProviderTiles(lf, provider = serv, group = groups[i], options = opt)
 			}
