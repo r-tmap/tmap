@@ -5,8 +5,17 @@
 # manual: tm_layout: start with scale (the options before that are tm_options only)
 #' Layout options
 #'
-#' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
+#' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
 #'
+#' @details
+#' When [tm_style()] is called, all layout options are reset according to that
+#' style. To override specific layout options for a chosen style, call
+#' [tm_layout()] *after* [tm_style()].
+#' @note In earlier versions of tmap, the `"natural"` style enabled the earth
+#'   boundary automatically. This is no longer the case, because it did not work
+#'   well for many projections. The earth boundary can still be enabled
+#'   explicitly via the `earth_boundary` argument of [tm_layout()] (see the
+#'   example above).
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_layout}{Vignette about layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{vignette about margins and aspect ratio} and \href{https://r-tmap.github.io/tmap/articles/adv_options}{vignette about options}
 #' @inheritParams tmap_options
 #' @example ./examples/tm_layout.R

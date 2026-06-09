@@ -13,7 +13,7 @@ tm_iso(
 )
 }
 \arguments{
-\item{col}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
+\item{col}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
 \item{text}{Visual variable that determines the text. See details. \emph{Unit:} Character string.}
 

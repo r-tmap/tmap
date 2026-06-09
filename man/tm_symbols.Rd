@@ -299,13 +299,13 @@ opt_tm_squares(
 \arguments{
 \item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines the size. See details. \emph{Unit:} Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by \code{values.scale} and \code{tmap_options(values.scale = ...)}.}
 
-\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
+\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{shape, shape.scale, shape.legend, shape.chart, shape.free}{Visual variable that determines the shape. See details. \emph{Unit:} Integer \code{pch} code (1-25) or a single character used as a plotting symbol.}
+\item{shape, shape.scale, shape.legend, shape.chart, shape.free}{Visual variable that determines the shape. See details. \emph{Unit:} Integer \code{pch} code (1-25) used as a plotting symbol. See example of \code{tm_symbols()}}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi. Controlled by \code{values.scale}.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
 
 \item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
 
@@ -371,7 +371,7 @@ no blending. See the "Layer blending" section for the supported values.}
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 
 \item{bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free}{Visual variable that determines
-the background color. See Details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
+the background color. See Details. \emph{Unit:} Color -- a color name, hex string.}
 
 \item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free}{Visual variable that determines
 the background color transparency. See Details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}

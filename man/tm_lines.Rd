@@ -45,9 +45,9 @@ tm_lines(
 opt_tm_lines(lines.only = "ifany", hitbox = "auto")
 }
 \arguments{
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string, or (when mapped) a palette name.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi. Controlled by \code{values.scale}.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
 
 \item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
 
@@ -116,20 +116,15 @@ Possible values:
 \describe{
 \item{"none"}{No additional hitbox layer is added. Lines are clickable
 only at their visible width.}
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item\{"plusX"\}\{Adds \code{X} pixels to the visible line width to compute
+\item{"plusX"}{Adds \code{X} pixels to the visible line width to compute
 the interaction width: \code{line_width + X}. For example, \code{"plus8"}
-widens the clickable area by 4 pixels on each side.\}
-
-\\item\{"pmaxX"\}\{Ensures a minimum interaction width of \code{X} pixels:
+widens the clickable area by 4 pixels on each side.}
+\item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels:
 \code{pmax(line_width, X)}. For example, \code{"pmax8"} guarantees at
-least 8 pixels. Useful for very thin lines.\}
-
-\\item\{"auto"\}\{\code{"pmax8"} if and only if interactive features are
+least 8 pixels. Useful for very thin lines.}
+\item{"auto"}{\code{"pmax8"} if and only if interactive features are
 enabled (popup or hover), lines are thin (median line width < 4), and
-there are fewer than 10000 features. Otherwise \code{"none"}.\}
-}\if{html}{\out{</div>}}
-
+there are fewer than 10000 features. Otherwise \code{"none"}.}
 }
 
 \code{plus} and \code{pmax} can be combined, e.g. \code{"plus4pmax8"} means

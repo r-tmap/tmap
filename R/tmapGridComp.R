@@ -385,6 +385,12 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		stack_margin = rep_len(stack_margin, 2L)
 	}
 
+	if (stack == "horizontal") {
+		stack_margin[2] = 0
+	} else {
+		stack_margin[1] = 0
+	}
+
 	marginInH = stack_margin[1] * o$lin
 	marginInV = stack_margin[2] * o$lin
 
@@ -393,8 +399,8 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 	offsetInTot.h  = 2 * offsetIn.h
 	offsetInTot.v  = 2 * offsetIn.v
 
-	totH = sum(rowsIn) - offsetInTot.v - marginInTotH
-	totW = sum(colsIn) - offsetInTot.h - marginInTotV
+	totH = sum(rowsIn) - offsetInTot.v - marginInTotV
+	totW = sum(colsIn) - offsetInTot.h - marginInTotH
 
 	## update scale_bar width: identified by the WnativeID = 3 item (null for other components)
 	comp = mapply(function(cmp, bb) {

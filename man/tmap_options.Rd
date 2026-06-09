@@ -448,9 +448,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{inner.margins.extra}{The extra arguments of the margins of the inner space (inside the frame). A list of arguments.}
 
-\item{meta.margins}{The margins of the meta. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+\item{meta.margins}{The margins of the 'meta' space (reserved for outside map components). A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{meta.auto_margins}{The auto_margins of the meta.}
+\item{meta.auto_margins}{The auto_margins of the 'meta' space (reserved for outside map components).}
 
 \item{between_margin}{Margin between the map.}
 

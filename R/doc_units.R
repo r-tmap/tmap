@@ -7,9 +7,9 @@
 # output survives the Rd processing pipeline on all platforms.
 .doc_unit = function(aes) {
 	lu = list(
-		fill        = "Color -- a color name, hex string, or (when mapped) a palette name.",
-		col         = "Color -- a color name, hex string, or (when mapped) a palette name.",
-		bgcol       = "Color -- a color name, hex string, or (when mapped) a palette name.",
+		fill        = "Color -- a color name, hex string.",
+		col         = "Color -- a color name, hex string.",
+		bgcol       = "Color -- a color name, hex string.",
 		fill_alpha  = "Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).",
 		col_alpha   = "Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).",
 		bgcol_alpha = "Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).",
@@ -40,14 +40,13 @@
 		),
 
 		lwd         = paste0(
-			"Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.",
-			" Controlled by `values.scale`."
+			"Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi."
 		),
 		lty         = paste0(
 			"Integer (1-6) or name: \"solid\", \"dashed\", \"dotted\",",
 			" \"dotdash\", \"longdash\", \"twodash\"."
 		),
-		shape       = "Integer `pch` code (1-25) or a single character used as a plotting symbol.",
+		shape       = "Integer `pch` code (1-25) used as a plotting symbol. See example of `tm_symbols()`",
 		angle       = "Degrees, clockwise from north (0-360).",
 		fontface    = "\"plain\", \"bold\", \"italic\", or \"bold.italic\".",
 		text        = "Character string.",

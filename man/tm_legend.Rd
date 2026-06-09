@@ -32,6 +32,8 @@ tm_legend(
   text.alpha,
   format,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   bg,
@@ -128,6 +130,10 @@ tm_legend_bivariate(
 \item{format}{Not used anymore: use the format argument of the \verb{tm_scale_*()} functions instead.}
 
 \item{frame}{frame should a frame be drawn?}
+
+\item{frame.color}{frame color}
+
+\item{frame.alpha}{frame alpha transparancy}
 
 \item{frame.lwd}{frame line width}
 

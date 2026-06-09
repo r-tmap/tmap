@@ -6,8 +6,8 @@
 #' @param frame_combine put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
 #' @param equalize in case `frame_combine` is `FALSE`, should the separate frames be equalized, i.e. have the same width (when stacked vertically) or height (when stacked horizontally)?
 #' @param resize_as_group in case a component if rescaled because of the limited space, rescale the other components proportionally?
-#' @param stack_margin Margin between components
-#' @param offset Offset margin between frame and the components block
+#' @param stack_margin Margin between components. One or two values. If two values are provided, the first is the horizontal stacking margin and the second the vertical. The unit is text line heights.
+#' @param offset Offset margin between frame and the components block. One or two values. If two values are provided, the first is the horizontal offset and the second the vertical. The unit is text line heights.
 #' @param frame Should a frame be drawn? By default `TRUE` for legends, charts and insets, and `FALSE` otherwise.
 #' @param frame.color frame color
 #' @param frame.alpha frame alpha transparancy

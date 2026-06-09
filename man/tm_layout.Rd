@@ -102,9 +102,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 
 \item{inner.margins.extra}{The extra arguments of the margins of the inner space (inside the frame). A list of arguments.}
 
-\item{meta.margins}{The margins of the meta. A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
+\item{meta.margins}{The margins of the 'meta' space (reserved for outside map components). A vector of 4 values: bottom, left, top, right. The unit is the device height (for bottom and top) or width (for left and right).}
 
-\item{meta.auto_margins}{The auto_margins of the meta.}
+\item{meta.auto_margins}{The auto_margins of the 'meta' space (reserved for outside map components).}
 
 \item{between_margin}{Margin between the map.}
 
@@ -177,7 +177,19 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{space.color}{The color of the space.}
 }
 \description{
-Specify the layout of the maps. \code{\link[=tm_layout]{tm_layout()}} is identical as \code{\link[=tm_options]{tm_options()}} but only contain the tmap options that are directly related to the layout. \code{\link[=tm_style]{tm_style()}} sets the style for the map. A style is a specified set of options (that can be changed afterwards with \code{\link[=tm_layout]{tm_layout()}}). These functions are used within a plot a plot call (stacked with the \code{+} operator). Their counterparts \code{\link[=tmap_options]{tmap_options()}} and \code{\link[=tmap_style]{tmap_style()}} can be used to set the (layout) options globally.
+Specify the layout of the maps. \code{\link[=tm_layout]{tm_layout()}} is identical as \code{\link[=tm_options]{tm_options()}} but only contain the tmap options that are directly related to the layout. \code{\link[=tm_style]{tm_style()}} sets the style for the map. A style is a specified set of options (that can be changed afterwards with \code{\link[=tm_layout]{tm_layout()}}). These functions are used within a plot call (stacked with the \code{+} operator). Their counterparts \code{\link[=tmap_options]{tmap_options()}} and \code{\link[=tmap_style]{tmap_style()}} can be used to set the (layout) options globally.
+}
+\details{
+When \code{\link[=tm_style]{tm_style()}} is called, all layout options are reset according to that
+style. To override specific layout options for a chosen style, call
+\code{\link[=tm_layout]{tm_layout()}} \emph{after} \code{\link[=tm_style]{tm_style()}}.
+}
+\note{
+In earlier versions of tmap, the \code{"natural"} style enabled the earth
+boundary automatically. This is no longer the case, because it did not work
+well for many projections. The earth boundary can still be enabled
+explicitly via the \code{earth_boundary} argument of \code{\link[=tm_layout]{tm_layout()}} (see the
+example above).
 }
 \examples{
 tm_shape(World) +

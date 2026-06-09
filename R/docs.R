@@ -5,7 +5,8 @@
 
 	cls_lookup = c(inner = "inner space (inside the frame)",
 				   outer = "outer space (outside the frame",
-				   item_text = "space between item and text")
+				   item_text = "space between item and text",
+				   meta = "'meta' space (reserved for outside map components)")
 
 	what_lookup = c(alpha = "alpha transparency",
 					asp = "asp ration",

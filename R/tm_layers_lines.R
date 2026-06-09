@@ -287,15 +287,12 @@ tm_lines = function(col = tm_const(),
 #'   \describe{
 #'     \item{"none"}{No additional hitbox layer is added. Lines are clickable
 #'     only at their visible width.}
-#'
 #'     \item{"plusX"}{Adds \code{X} pixels to the visible line width to compute
 #'     the interaction width: \code{line_width + X}. For example, \code{"plus8"}
 #'     widens the clickable area by 4 pixels on each side.}
-#'
 #'     \item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels:
 #'     \code{pmax(line_width, X)}. For example, \code{"pmax8"} guarantees at
 #'     least 8 pixels. Useful for very thin lines.}
-#'
 #'     \item{"auto"}{\code{"pmax8"} if and only if interactive features are
 #'     enabled (popup or hover), lines are thin (median line width < 4), and
 #'     there are fewer than 10000 features. Otherwise \code{"none"}.}
