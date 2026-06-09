@@ -21,7 +21,8 @@ Authors@R: c(
     person("Stéphane", "Guillou", , "stephane.guillou@member.fsf.org", role = "ctb"),
     person("Monika Anna", "Tomaszewska", , "monika.anna.tomaszewska@gmail.com", role = "ctb"),
     person("Ajoke", "Onojeghuo", , "a.onojeghuo@gmail.com", role = "ctb"),
-    person("Jerome", "Guelat", , "jerome.guelat@vogelwarte.ch", role = "ctb"))
+    person("Jerome", "Guelat", , "jerome.guelat@vogelwarte.ch", role = "ctb"),
+    person("Artur", "Wroblewski", , "wrobell@riseup.net", role = "ctb"))
 Description: Thematic maps are geographical maps in which spatial data
     distributions are visualized. This package offers a flexible,
     layer-based, and easy to use approach to create thematic maps, such as
