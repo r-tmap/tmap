@@ -33,7 +33,7 @@ opt_tm_raster(interpolate = FALSE)
 - col, col.scale, col.legend, col.chart, col.free:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:

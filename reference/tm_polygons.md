@@ -67,18 +67,17 @@ opt_tm_polygons(polygons.only = "ifany")
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
   Visual variable that determines the fill color. See details. *Unit:*
-  Color – a color name, hex string, or (when mapped) a palette name.
+  Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
   Visual variable that determines the line width. See details. *Unit:*
   Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
-  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 

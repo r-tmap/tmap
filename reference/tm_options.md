@@ -544,13 +544,14 @@ tm_options(
 
 - meta.margins:
 
-  The margins of the meta. A vector of 4 values: bottom, left, top,
-  right. The unit is the device height (for bottom and top) or width
-  (for left and right).
+  The margins of the 'meta' space (reserved for outside map components).
+  A vector of 4 values: bottom, left, top, right. The unit is the device
+  height (for bottom and top) or width (for left and right).
 
 - meta.auto_margins:
 
-  The auto_margins of the meta.
+  The auto_margins of the 'meta' space (reserved for outside map
+  components).
 
 - between_margin:
 

@@ -70,12 +70,12 @@ opt_tm_sf(
 - fill, fill.scale, fill.legend, fill.free:
 
   Visual variable that determines the fill color. See details. *Unit:*
-  Color – a color name, hex string, or (when mapped) a palette name.
+  Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.free:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - size, size.scale, size.legend, size.free:
 
@@ -86,14 +86,13 @@ opt_tm_sf(
 - shape, shape.scale, shape.legend, shape.free:
 
   Visual variable that determines the shape. See details. *Unit:*
-  Integer `pch` code (1-25) or a single character used as a plotting
-  symbol.
+  Integer `pch` code (1-25) used as a plotting symbol. See example of
+  [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
 
 - lwd, lwd.scale, lwd.legend, lwd.free:
 
   Visual variable that determines the line width. See details. *Unit:*
   Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
-  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.free:
 

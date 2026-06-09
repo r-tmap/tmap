@@ -30,6 +30,8 @@ tm_legend(
   text.alpha,
   format,
   frame,
+  frame.color,
+  frame.alpha,
   frame.lwd,
   frame.r,
   bg,
@@ -206,6 +208,14 @@ tm_legend_bivariate(
 - frame:
 
   frame should a frame be drawn?
+
+- frame.color:
+
+  frame color
+
+- frame.alpha:
+
+  frame alpha transparancy
 
 - frame.lwd:
 

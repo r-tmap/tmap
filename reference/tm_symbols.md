@@ -304,24 +304,23 @@ opt_tm_squares(
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
   Visual variable that determines the fill color. See details. *Unit:*
-  Color – a color name, hex string, or (when mapped) a palette name.
+  Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - shape, shape.scale, shape.legend, shape.chart, shape.free:
 
   Visual variable that determines the shape. See details. *Unit:*
-  Integer `pch` code (1-25) or a single character used as a plotting
-  symbol.
+  Integer `pch` code (1-25) used as a plotting symbol. See example of
+  `tm_symbols()`
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
   Visual variable that determines the line width. See details. *Unit:*
   Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
-  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
@@ -445,8 +444,7 @@ opt_tm_squares(
 - bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free:
 
   Visual variable that determines the background color. See Details.
-  *Unit:* Color – a color name, hex string, or (when mapped) a palette
-  name.
+  *Unit:* Color – a color name, hex string.
 
 - bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart,
   bgcol_alpha.free:

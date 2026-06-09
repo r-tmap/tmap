@@ -140,11 +140,11 @@
 
 
 <dl><dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
-<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string, or (when mapped) a palette name.</p></dd>
+<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string.</p></dd>
 
 
 <dt id="arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free">lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free<a class="anchor" aria-label="anchor" href="#arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free"></a></dt>
-<dd><p>Visual variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi. Controlled by <code>values.scale</code>.</p></dd>
+<dd><p>Visual variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.</p></dd>
 
 
 <dt id="arg-lty-lty-scale-lty-legend-lty-chart-lty-free">lty, lty.scale, lty.legend, lty.chart, lty.free<a class="anchor" aria-label="anchor" href="#arg-lty-lty-scale-lty-legend-lty-chart-lty-free"></a></dt>
@@ -245,19 +245,20 @@ lines by increasing the effective mouse interaction width.</p>
 <dd><p>No additional hitbox layer is added. Lines are clickable
 only at their visible width.</p></dd>
 
+<dt>"plusX"</dt>
+<dd><p>Adds <code>X</code> pixels to the visible line width to compute
+the interaction width: <code>line_width + X</code>. For example, <code>"plus8"</code>
+widens the clickable area by 4 pixels on each side.</p></dd>
 
-html<div class="sourceCode">\item{"plusX"}{Adds \code{X} pixels to the visible line width to compute
-the interaction width: \code{line_width + X}. For example, \code{"plus8"}
-widens the clickable area by 4 pixels on each side.}
+<dt>"pmaxX"</dt>
+<dd><p>Ensures a minimum interaction width of <code>X</code> pixels:
+<code>pmax(line_width, X)</code>. For example, <code>"pmax8"</code> guarantees at
+least 8 pixels. Useful for very thin lines.</p></dd>
 
-\item{"pmaxX"}{Ensures a minimum interaction width of \code{X} pixels:
-\code{pmax(line_width, X)}. For example, \code{"pmax8"} guarantees at
-least 8 pixels. Useful for very thin lines.}
-
-\item{"auto"}{\code{"pmax8"} if and only if interactive features are
+<dt>"auto"</dt>
+<dd><p><code>"pmax8"</code> if and only if interactive features are
 enabled (popup or hover), lines are thin (median line width &lt; 4), and
-there are fewer than 10000 features. Otherwise \code{"none"}.}
-html</div>
+there are fewer than 10000 features. Otherwise <code>"none"</code>.</p></dd>
 
 
 </dl><p><code>plus</code> and <code>pmax</code> can be combined, e.g. <code>"plus4pmax8"</code> means

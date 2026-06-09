@@ -52,13 +52,12 @@ opt_tm_lines(lines.only = "ifany", hitbox = "auto")
 - col, col.scale, col.legend, col.chart, col.free:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
   Visual variable that determines the line width. See details. *Unit:*
   Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
-  Controlled by `values.scale`.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
@@ -183,6 +182,24 @@ opt_tm_lines(lines.only = "ifany", hitbox = "auto")
 
   :   No additional hitbox layer is added. Lines are clickable only at
       their visible width.
+
+  "plusX"
+
+  :   Adds `X` pixels to the visible line width to compute the
+      interaction width: `line_width + X`. For example, `"plus8"` widens
+      the clickable area by 4 pixels on each side.
+
+  "pmaxX"
+
+  :   Ensures a minimum interaction width of `X` pixels:
+      `pmax(line_width, X)`. For example, `"pmax8"` guarantees at least
+      8 pixels. Useful for very thin lines.
+
+  "auto"
+
+  :   `"pmax8"` if and only if interactive features are enabled (popup
+      or hover), lines are thin (median line width \< 4), and there are
+      fewer than 10000 features. Otherwise `"none"`.
 
   `plus` and `pmax` can be combined, e.g. `"plus4pmax8"` means
   `pmax(line_width + 4, 8)`.

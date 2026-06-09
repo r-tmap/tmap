@@ -5,7 +5,7 @@ Specify the layout of the maps. `tm_layout()` is identical as
 but only contain the tmap options that are directly related to the
 layout. `tm_style()` sets the style for the map. A style is a specified
 set of options (that can be changed afterwards with `tm_layout()`).
-These functions are used within a plot a plot call (stacked with the `+`
+These functions are used within a plot call (stacked with the `+`
 operator). Their counterparts
 [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
 and
@@ -161,13 +161,14 @@ tm_layout(
 
 - meta.margins:
 
-  The margins of the meta. A vector of 4 values: bottom, left, top,
-  right. The unit is the device height (for bottom and top) or width
-  (for left and right).
+  The margins of the 'meta' space (reserved for outside map components).
+  A vector of 4 values: bottom, left, top, right. The unit is the device
+  height (for bottom and top) or width (for left and right).
 
 - meta.auto_margins:
 
-  The auto_margins of the meta.
+  The auto_margins of the 'meta' space (reserved for outside map
+  components).
 
 - between_margin:
 
@@ -331,6 +332,20 @@ tm_layout(
 - space.color:
 
   The color of the space.
+
+## Details
+
+When `tm_style()` is called, all layout options are reset according to
+that style. To override specific layout options for a chosen style, call
+`tm_layout()` *after* `tm_style()`.
+
+## Note
+
+In earlier versions of tmap, the `"natural"` style enabled the earth
+boundary automatically. This is no longer the case, because it did not
+work well for many projections. The earth boundary can still be enabled
+explicitly via the `earth_boundary` argument of `tm_layout()` (see the
+example above).
 
 ## See also
 

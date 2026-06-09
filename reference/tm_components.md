@@ -75,11 +75,15 @@ tm_components(
 
 - stack_margin:
 
-  Margin between components
+  Margin between components. One or two values. If two values are
+  provided, the first is the horizontal stacking margin and the second
+  the vertical. The unit is text line heights.
 
 - offset:
 
-  Offset margin between frame and the components block
+  Offset margin between frame and the components block. One or two
+  values. If two values are provided, the first is the horizontal offset
+  and the second the vertical. The unit is text line heights.
 
 - frame:
 

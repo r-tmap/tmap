@@ -21,7 +21,7 @@ tm_iso(
 - col:
 
   Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string, or (when mapped) a palette name.
+  – a color name, hex string.
 
 - text:
 
