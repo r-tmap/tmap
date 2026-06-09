@@ -42,6 +42,8 @@
 
 - **Jerome Guelat**. Contributor.
 
+- **Artur Wroblewski**. Contributor.
+
 ## Citation
 
 Source:
