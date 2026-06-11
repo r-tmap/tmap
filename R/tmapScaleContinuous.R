@@ -181,7 +181,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			rng <- range(x_t, na.rm = TRUE)
 			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 
-				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full range of visual values.")
+				if (show.messages) message_midpoint(aes, "tm_scale_continous")
 				midpoint <- 0
 			} else {
 				if (vnum) {

@@ -51,6 +51,7 @@ tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, ..., crs) {
 
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, layer, shp_name, smeta, o, tmf) {
+	print("shape")
 	if (identical(crs, "auto")) crs = auto_crs(shp, crs_extra = o$crs_extra, crs_global = o$crs_global)
 
 	dev = getOption("tmap.devel.mode")
@@ -165,6 +166,11 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, layer, shp_nam
 
 
 #' @export
+tmapSubsetShp.stars_proxy = function(shp, vars) {
+	shp
+}
+
+#' @export
 tmapSubsetShp.stars = function(shp, vars) {
 	ids = which(names(shp) %in% vars)
 	nom = setdiff(vars, names(shp))
@@ -176,6 +182,11 @@ tmapSubsetShp.stars = function(shp, vars) {
 	shp2
 }
 
+#' @export
+tmapGetShapeMeta1.stars_proxy = function(shp, layer, o) {
+	shp = st_downsample(shp, floor(dim(shp)[1:2])/2)
+	tmapGetShapeMeta1.stars(shp, layer, o)
+}
 
 #' @export
 tmapGetShapeMeta1.stars = function(shp, layer, o) {
@@ -207,6 +218,13 @@ tmapGetShapeMeta1.stars = function(shp, layer, o) {
 }
 
 #' @export
+tmapGetShapeMeta2.stars_proxy = function(shp, smeta, o) {
+	vars = character(0)
+	smeta$vars_levs = list()
+	smeta
+}
+
+#' @export
 tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 	smeta$vars_levs = lapply(seq_len(length(shp)), function(i) {
 		get_fact_levels_na(shp[[i]], o)
@@ -214,4 +232,5 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 	names(smeta$vars_levs) = names(shp)
 	smeta
 }
+
 

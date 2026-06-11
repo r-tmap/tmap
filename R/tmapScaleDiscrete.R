@@ -59,7 +59,7 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
 			if (d_isdiv && is.null(midpoint)) {
 
-				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
+				if (show.messages) message_midpoint(aes, "tm_scale_discrete")
 				midpoint = 0
 			} else {
 				if ((n %% 2) == 1) {

@@ -302,7 +302,7 @@ interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 			rng <- range(x1, na.rm = TRUE)
 			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 
-				if (show.messages) message(paste0("[scale] tm_", layer[1], ":() the data variable assigned to '", aes, "' contains positive and negative values, so midpoint is set to 0. Set 'midpoint = NA' in 'fill.scale = tm_scale_intervals(<HERE>)' to use all visual values (e.g. colors)"))
+				if (show.messages)  message_midpoint(aes, "tm_scale_intervals")
 				midpoint <- 0
 			} else {
 				if ((n %% 2) == 1) {

@@ -219,3 +219,11 @@ message_basemaps = function(is_stadia) {
 		.frequency = "once"
 	)
 }
+
+message_midpoint = function(aes, scale) {
+	cli::cli_inform(
+		"{.field [{.fun {scale}}]} Variable(s) {.str {aes}} contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full range of visual values.",
+		.frequency_id = "midpoint",
+		.frequency = "once"
+	)
+}
