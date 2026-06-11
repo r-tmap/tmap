@@ -100,6 +100,7 @@ use the argument `dimvalues` to select them:
 
 tm_shape(L7) +
     tm_rgb(col = tm_vars(dimvalues = 3:1, multivariate = TRUE))
+#> [1] "shape"
 ```
 
 ![](adv_multivariate_files/figure-html/unnamed-chunk-7-1.png)
@@ -130,6 +131,7 @@ and plot it like this:
 
 tm_shape(L7split) +
     tm_rgb(col = tm_vars(3:1, multivariate = TRUE))
+#> [1] "shape"
 ```
 
 ![](adv_multivariate_files/figure-html/unnamed-chunk-9-1.png)
