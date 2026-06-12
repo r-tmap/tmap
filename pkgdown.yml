@@ -3,6 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   adv_animations: adv_animations.html
+  adv_blend: adv_blend.html
   adv_comp_group: adv_comp_group.html
   adv_extensions: adv_extensions.html
   adv_ggplot2: adv_ggplot2.html
@@ -38,10 +39,11 @@ articles:
   ext_networks: ext_networks.html
   foundations_crs: foundations_crs.html
   foundations_gg: foundations_gg.html
+  foundations_units: foundations_units.html
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-06-12T12:06Z
+last_built: 2026-06-12T16:00Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

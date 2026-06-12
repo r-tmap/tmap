@@ -36,7 +36,6 @@ tm_layout(earth_boundary = TRUE,
 tm_title("Map of the World", 
   position = tm_pos_out(cell.h = "center", cell.v = "top", pos.h = "center")) +
 tm_credits("Eckert IV projection", position = c("RIGHT", "BOTTOM"))
-#> [1] "shape"
 #> Warning: ! Unable to warp stars. Stars will be transformed now (which will take some
 #>   time).
 ```
@@ -55,7 +54,6 @@ tmap_style("classic")
 #> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "watercolor"
 #> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
 tmap_last()
-#> [1] "shape"
 #> Warning: ! Unable to warp stars. Stars will be transformed now (which will take some
 #>   time).
 ```

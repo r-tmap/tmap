@@ -54,7 +54,6 @@ tm_shape(metroAfrica) +
     shape.legend = tm_legend_combine("size")) +
   tm_labels("name") +
 tm_credits("United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects.\nProduction of Global Land Cover Data - GLCNMO2008.", position = tm_pos_out("center", "bottom"))
-#> [1] "shape"
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-4-1.png)
@@ -73,7 +72,6 @@ tm_shape(land) +
   tm_raster("cover_cls",
     col.legend = tm_legend("Land use"))
 tm
-#> [1] "shape"
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-5-1.png)
@@ -89,7 +87,6 @@ tm_shape(World_rivers) +
     lwd.scale = tm_scale_asis(values.scale = .5),
     col = "#A6CEE3")
 tm
-#> [1] "shape"
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-6-1.png)
@@ -107,7 +104,6 @@ tm = tm +
 tm_shape(Africa, is.main = TRUE) +
   tm_borders()
 tm
-#> [1] "shape"
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-7-1.png)
@@ -131,7 +127,6 @@ tm_shape(metroAfrica) +
     shape.legend = tm_legend_combine("size")) +
   tm_labels("name")
 tm
-#> [1] "shape"
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-8-1.png)

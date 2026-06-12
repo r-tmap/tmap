@@ -55,6 +55,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
 <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
     <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -102,6 +103,7 @@
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -135,7 +137,7 @@
 </h3>
 <p>A spatial data object contained in tmap is called <code>World</code>. It is a data frame with a row for each country. The columns are the following data variables plus an additional geometry column which contains the geometries (see sf package):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "iso_a3"       "name"         "sovereignt"   "continent"    "area"        </span></span>
 <span><span class="co">#&gt;  [6] "pop_est"      "pop_est_dens" "economy"      "income_grp"   "gdp_cap_est" </span></span>
 <span><span class="co">#&gt; [11] "life_exp"     "well_being"   "footprint"    "HPI"          "inequality"  </span></span>

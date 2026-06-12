@@ -33,6 +33,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-foundations"><li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
     <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-examples" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Examples</button>
@@ -72,6 +73,7 @@
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -97,6 +99,8 @@
 </li>
 <li>shiny dispatch methods added (to allow integration for other modes)</li>
 <li>added support for terra’s PackedSpatX objects</li>
+<li>added support for stars_proxy when changed after evaluation</li>
+<li>tm_crs() can take bbox and tmaptools::bb arguments</li>
 <li>added height to tmap_arrange (for interactive modes)</li>
 <li>fixed date/time formatting of facet labels</li>
 <li>bug fixes (most importantly regarding &gt;=1000 polygons in view mode)</li>

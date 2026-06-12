@@ -55,6 +55,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
 <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
     <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -102,6 +103,7 @@
     <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -169,7 +171,7 @@
 <span>    label.format <span class="op">=</span> <span class="fu"><a href="../reference/tm_label_format.html">tm_label_format</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="va">lst</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%05d"</span>, <span class="va">x</span><span class="op">)</span>, split <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">lst</span>, <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/as.list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="op">}</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>

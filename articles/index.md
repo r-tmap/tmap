@@ -4,6 +4,8 @@
 
 - [tmap advanced:
   animations](https://r-tmap.github.io/tmap/articles/adv_animations.md):
+- [tmap advanced: layer
+  blending](https://r-tmap.github.io/tmap/articles/adv_blend.md):
 - [tmap advanced: grouping of
   components](https://r-tmap.github.io/tmap/articles/adv_comp_group.md):
 - [tmap advanced:
@@ -74,6 +76,8 @@
   (CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs.md):
 - [tmap foundations: Grammar of
   Graphics](https://r-tmap.github.io/tmap/articles/foundations_gg.md):
+- [tmap foundations:
+  units](https://r-tmap.github.io/tmap/articles/foundations_units.md):
 - [tmap versus:
   ggplot2](https://r-tmap.github.io/tmap/articles/versus_ggplot2.md):
 - [tmap versus:

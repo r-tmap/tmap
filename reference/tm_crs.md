@@ -9,7 +9,7 @@ work-in-progress.
 ## Usage
 
 ``` r
-tm_crs(crs = NA, property = NA, bbox = NULL)
+tm_crs(crs = NA, property = NA, bbox = NULL, ...)
 ```
 
 ## Arguments
@@ -38,6 +38,12 @@ tm_crs(crs = NA, property = NA, bbox = NULL)
   (this also guarantees that transformations to another CRS keep the
   whole earth, unlike
   [`sf::st_bbox()`](https://r-spatial.github.io/sf/reference/st_bbox.html)).
+
+- ...:
+
+  passed on to
+  [`bb`](https://r-tmap.github.io/tmaptools/reference/bb.html) (e.g.
+  `ext` can be used to enlarge or shrink a bounding box)
 
 ## Details
 
