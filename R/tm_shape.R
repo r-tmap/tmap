@@ -123,7 +123,8 @@ tm_shape = function(shp = NULL,
 
 
 	if (missing(shp)) {
-		do.call(tm_options, args[intersect(args_called, c("bbox", "crs", "set_bounds", "set_view", "set_zoom_limits"))])
+		cli::cli_inform("{.field {.fun tm_shape}} Argument {.arg shp} not specified: please use {.fun tm_crs} to specify a bounding box and/or crs")
+		do.call(tm_options, args[intersect(args_called, c("bbox", "crs"))])
 	} else {
 		tm_element_list(tm_element(shp = shp,
 								   is.main = is.main,

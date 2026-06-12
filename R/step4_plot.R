@@ -218,6 +218,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	if (o$name != gs) cli::cli_abort("tmap mode changed during execution; did you run {.code tmap_mode()} inside a shiny app?")
 
 	bbo = o$bbox
+	bbo_args = o$bbox_args %||% list()
 
 	# shortcut if no data layers are used, but only a tm_shape
 	if (length(tmx)) {
@@ -485,9 +486,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			if (!is.null(bbo) || is.null(bbm)) {
 				if (!is.null(bbo) && identical(bbo, "FULL") || (is.null(bbo) && is.null(bbm))) {
 					bbm = full_bbox(crs)
+					if (length(bbo_args) >= 0) bbm = do.call(tmaptools::bb, c(list(x = bbm), bbo_args))
 				} else {
 					if (inherits(bbo, "SpatExtent")) bbo = sf::st_bbox(bbo)
-					bbm = tmaptools::bb(bbo, projection = crs)
+					bbm = do.call(tmaptools::bb, c(list(x = bbo, projection = crs), bbo_args))
 				}
 				if (o$earth_bbox) {
 					bbm = bb_ext(bbm, o$inner.margins)
@@ -499,10 +501,10 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		}
 	} else {
 		if (is.null(bbm)) {
-			if (!is.null(bbo)) {
-				bbm = tmaptools::bb(bbo, projection = crs)
+			if (!is.null(bbo) && !identical(bbo, "FULL")) {
+				bbm = do.call(tmaptools::bb, c(list(x = bbo, projection = crs), bbo_args))
 			} else {
-				bbm = full_bbox(crs)
+				bbm = bbm = do.call(tmaptools::bb, c(list(x = full_bbox(crs)), bbo_args))
 			}
 		} else {
 			bbm = sf::st_transform(bbm, crs = crs)

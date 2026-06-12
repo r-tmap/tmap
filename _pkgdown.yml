@@ -162,6 +162,8 @@ navbar:
           href: articles/foundations_gg
         - text: Map projections (CRS)
           href: articles/foundations_crs
+        - text: Units
+          href: articles/foundations_units
 
     example:
       text: Examples
@@ -232,3 +234,5 @@ navbar:
           href: articles/adv_groups
         - text: Extending tmap
           href: articles/adv_extensions
+        - text: Layer blending
+          href: articles/adv_blend

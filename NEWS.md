@@ -6,6 +6,8 @@
 - added `tmap_mode_pool()` to restrict which modes are cycled by `ttm()` and `rtm()`, e.g. `library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`
 - shiny dispatch methods added (to allow integration for other modes)
 - added support for terra's PackedSpatX objects 
+- added support for stars_proxy when changed after evaluation
+- tm_crs() can take bbox and tmaptools::bb arguments
 - added height to tmap_arrange (for interactive modes)
 - fixed date/time formatting of facet labels
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
