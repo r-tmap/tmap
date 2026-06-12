@@ -89,24 +89,54 @@ usually take more space then the map resources.}
 \item{verbose}{Deprecated. It is now controlled by the tmap option \code{show.messages}
 (see \code{\link[=tmap_options]{tmap_options()}})}
 
-\item{...}{
-  Arguments passed on to \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget}}, \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe}}
-  \describe{
-    \item{\code{widget}}{Widget to save}
-    \item{\code{file}}{File to save HTML into}
-    \item{\code{libdir}}{Directory to copy HTML dependencies into (defaults to
-filename_files).}
-    \item{\code{background}}{Text string giving the html background color of the widget.
-Defaults to white.}
-    \item{\code{title}}{Text to use as the title of the generated page.}
-    \item{\code{knitrOptions}}{A list of \pkg{knitr} chunk options.}
-  }}
+\item{...}{additional arguments passed on to the underlying output function
+(see Details). For interactive (html) maps these are passed to
+\code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}} or \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}}. For static
+maps they are passed to the graphic device; the most useful are:
+\describe{
+\item{\code{colormodel} (pdf, eps)}{Color model of the output. The default is
+\code{"srgb"}; use \code{colormodel = "cmyk"} for print workflows that require
+CMYK. See \code{\link[grDevices:pdf]{grDevices::pdf()}}.}
+\item{\code{compression} (tiff)}{Compression method, e.g. \code{"lzw"}, \code{"zip"}, or
+\code{"jpeg"}. The default \code{"none"} can produce very large files; the
+lossless \code{"lzw"} or \code{"zip"} is usually a good choice for publication.}
+\item{\code{quality} (jpg)}{JPEG quality, from \code{0} to \code{100} (default \code{75}).}
+\item{\code{bg} (all)}{Background color. Use \code{bg = "transparent"} for a
+transparent background (png, tiff, and svg support transparency; jpg and
+bmp do not).}
+\item{\code{pointsize} (all)}{Default point size of text, which scales the text
+drawn by the device.}
+\item{\code{family} (pdf, eps, svg), \code{fonts} (pdf, eps)}{Font family, and fonts
+to embed in the file.}
+\item{\code{antialias} (png, jpg, bmp, tiff)}{Type of anti-aliasing, e.g.
+\code{"default"}, \code{"none"}, \code{"gray"}, or \code{"subpixel"}. This only applies to
+cairo-type devices. \code{png} always uses cairo (\code{type = "cairo-png"}), but
+\code{jpg}, \code{bmp}, and \code{tiff} use the platform default device type, so on a
+build without cairo support \code{antialias} is ignored for those formats.}
+}}
 }
 \value{
 the filename, invisibly, if export is successful.
 }
 \description{
 Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
+}
+\details{
+Extra arguments (\code{...}) are passed on to the function that writes the
+output. For interactive (html) maps this is \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}, or
+\code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}} when \code{in.iframe = TRUE}. For static maps it
+is the graphic device: the function supplied to \code{device}, or, when
+\code{device = NULL}, the default device for the file extension:
+\code{\link[grDevices:pdf]{grDevices::pdf()}} (\code{"pdf"}), \code{\link[grDevices:postscript]{grDevices::postscript()}} (\code{"eps"}),
+\code{\link[grDevices:svg]{grDevices::svg()}} (\code{"svg"}), \code{\link[grDevices:png]{grDevices::png()}} (\code{"png"}),
+\code{\link[grDevices:jpeg]{grDevices::jpeg()}} (\code{"jpg"}/\code{"jpeg"}), \code{\link[grDevices:bmp]{grDevices::bmp()}} (\code{"bmp"}), and
+\code{\link[grDevices:tiff]{grDevices::tiff()}} (\code{"tiff"}). The most useful device arguments are listed
+under \code{...}.
+
+Note that \code{filename}, \code{width}, and \code{height} are always set by \code{tmap_save},
+as are \code{res} and \code{units} for the raster formats (png, jpg, bmp, tiff); these
+cannot be overridden through \code{...}. Use the \code{dpi}, \code{width}, \code{height}, and
+\code{units} arguments of \code{tmap_save} instead.
 }
 \examples{
 \dontrun{

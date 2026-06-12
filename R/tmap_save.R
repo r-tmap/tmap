@@ -2,6 +2,23 @@
 #'
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
+#' @details
+#'   Extra arguments (`...`) are passed on to the function that writes the
+#'   output. For interactive (html) maps this is [htmlwidgets::saveWidget()], or
+#'   [widgetframe::saveWidgetframe()] when `in.iframe = TRUE`. For static maps it
+#'   is the graphic device: the function supplied to `device`, or, when
+#'   `device = NULL`, the default device for the file extension:
+#'   [grDevices::pdf()] (`"pdf"`), [grDevices::postscript()] (`"eps"`),
+#'   [grDevices::svg()] (`"svg"`), [grDevices::png()] (`"png"`),
+#'   [grDevices::jpeg()] (`"jpg"`/`"jpeg"`), [grDevices::bmp()] (`"bmp"`), and
+#'   [grDevices::tiff()] (`"tiff"`). The most useful device arguments are listed
+#'   under `...`.
+#'
+#'   Note that `filename`, `width`, and `height` are always set by `tmap_save`,
+#'   as are `res` and `units` for the raster formats (png, jpg, bmp, tiff); these
+#'   cannot be overridden through `...`. Use the `dpi`, `width`, `height`, and
+#'   `units` arguments of `tmap_save` instead.
+#'
 #' @param tm tmap object
 # The docs for filename could be put in tmap_mode.
 #' @param filename filename including extension, and optionally the path.
@@ -52,8 +69,31 @@
 #'   usually take more space then the map resources.
 #' @param verbose Deprecated. It is now controlled by the tmap option `show.messages`
 #'    (see [tmap_options()])
-#' @inheritDotParams htmlwidgets::saveWidget
-#' @inheritDotParams widgetframe::saveWidgetframe
+#' @param ... additional arguments passed on to the underlying output function
+#'   (see Details). For interactive (html) maps these are passed to
+#'   [htmlwidgets::saveWidget()] or [widgetframe::saveWidgetframe()]. For static
+#'   maps they are passed to the graphic device; the most useful are:
+#'   \describe{
+#'     \item{`colormodel` (pdf, eps)}{Color model of the output. The default is
+#'       `"srgb"`; use `colormodel = "cmyk"` for print workflows that require
+#'       CMYK. See [grDevices::pdf()].}
+#'     \item{`compression` (tiff)}{Compression method, e.g. `"lzw"`, `"zip"`, or
+#'       `"jpeg"`. The default `"none"` can produce very large files; the
+#'       lossless `"lzw"` or `"zip"` is usually a good choice for publication.}
+#'     \item{`quality` (jpg)}{JPEG quality, from `0` to `100` (default `75`).}
+#'     \item{`bg` (all)}{Background color. Use `bg = "transparent"` for a
+#'       transparent background (png, tiff, and svg support transparency; jpg and
+#'       bmp do not).}
+#'     \item{`pointsize` (all)}{Default point size of text, which scales the text
+#'       drawn by the device.}
+#'     \item{`family` (pdf, eps, svg), `fonts` (pdf, eps)}{Font family, and fonts
+#'       to embed in the file.}
+#'     \item{`antialias` (png, jpg, bmp, tiff)}{Type of anti-aliasing, e.g.
+#'       `"default"`, `"none"`, `"gray"`, or `"subpixel"`. This only applies to
+#'       cairo-type devices. `png` always uses cairo (`type = "cairo-png"`), but
+#'       `jpg`, `bmp`, and `tiff` use the platform default device type, so on a
+#'       build without cairo support `antialias` is ignored for those formats.}
+#'   }
 #' @returns the filename, invisibly, if export is successful.
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
