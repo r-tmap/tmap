@@ -26,33 +26,33 @@ layer function
 
 ## Blend modes
 
-For each pixel, let \\S\\ be the source (the top layer) and \\D\\ the
-destination (the layer below it), both as RGB values normalized to
-\\\[0, 1\]\\. The result is one image; the “Result” column describes
-what it looks like.
+tmap supports the blend modes below. The “Result” column describes what
+the combined image looks like when the top layer is blended onto the
+layer below. The default `"over"` applies no blending, so existing maps
+are unaffected.
 
-| `blend` | Formula | Result |
-|----|----|----|
-| `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | The top layer simply covers the layer below (default; no blending). |
-| `"multiply"` | \\S \cdot D\\ | Always darker. White in the top layer leaves the layer below unchanged; black turns it black. |
-| `"screen"` | \\1 - (1 - S)(1 - D)\\ | Always lighter. The opposite of multiply. |
-| `"overlay"` | multiply if \\D \< 0.5\\, screen otherwise | Raises contrast: dark areas get darker, light areas get lighter. |
-| `"darken"` | \\\min(S, D)\\ | Keeps the darker color at each pixel. |
-| `"lighten"` | \\\max(S, D)\\ | Keeps the lighter color at each pixel. |
-| `"color.dodge"` | \\D / (1 - S)\\ | Strongly brightens the layer below. |
-| `"color.burn"` | \\1 - (1 - D) / S\\ | Strongly darkens the layer below. |
-| `"hard.light"` | overlay with \\S\\ and \\D\\ swapped | Strong contrast, driven by the top layer. |
-| `"soft.light"` | gentle `hard.light` | Soft contrast; a subtle version of `hard.light`. |
-| `"difference"` | \\\lvert S - D \rvert\\ | The absolute difference. Identical colors become black. |
-| `"exclusion"` | \\S + D - 2 S D\\ | Like difference but with lower contrast (grays rather than black). |
-
-The default `"over"` applies no blending, so existing maps are
-unaffected.
+| `blend` | Result |
+|----|----|
+| `"over"` | The top layer simply covers the layer below (default; no blending). |
+| `"multiply"` | Always darker. White in the top layer leaves the layer below unchanged; black turns it black. |
+| `"screen"` | Always lighter. The opposite of multiply. |
+| `"overlay"` | Raises contrast: dark areas get darker, light areas get lighter. |
+| `"darken"` | Keeps the darker color at each pixel. |
+| `"lighten"` | Keeps the lighter color at each pixel. |
+| `"color.dodge"` | Strongly brightens the layer below. |
+| `"color.burn"` | Strongly darkens the layer below. |
+| `"hard.light"` | Strong contrast, driven by the top layer. |
+| `"soft.light"` | Soft contrast; a subtle version of `hard.light`. |
+| `"difference"` | The absolute difference of the two layers. Identical colors become black. |
+| `"exclusion"` | Like difference but with lower contrast. |
 
 The mode names above are the ones used in **plot mode**. In **view
 mode** the compound names follow the CSS spelling with hyphens instead
 of dots (`"color-dodge"`, `"color-burn"`, `"hard-light"`,
 `"soft-light"`); the others are identical.
+
+The exact formula behind each mode is given in the
+[appendix](#appendix-blend-mode-formulas).
 
 ## A sandbox example
 
@@ -87,8 +87,8 @@ names(grad) = "gradient"
 ```
 
 We map the gradient with a continuous black-to-white scale, so a value
-of `1` is white (top) and `0` is black (bottom). With the default
-`"over"`, the gradient simply covers the rainbow:
+of `1` is white (top) and `0` is black (bottom). Here are the two layers
+on their own:
 
 ``` r
 
@@ -105,7 +105,9 @@ tmap_arrange(tm_rainbow, tm_gradient)
 
 ![](adv_blend_files/figure-html/unnamed-chunk-4-1.png)
 
-Here are all twelve modes side by side. A small helper keeps the code
+Now we blend the gradient onto the rainbow. Here are all twelve modes
+side by side; the first panel (`over`) is the default, where the
+gradient simply covers the rainbow. A small helper keeps the code
 compact:
 
 ``` r
@@ -149,33 +151,50 @@ panel reads top-to-bottom:
 
 ## Example 1: basemap labels
 
+A very common reason to reach for `multiply` is to drape a thematic
+layer over a basemap while keeping the basemap’s reference detail —
+place names, roads, country borders — readable underneath. Light
+basemaps such as `CartoDB.Positron` draw that detail as dark marks on a
+near-white background. An opaque thematic fill would hide it completely,
+and even a semi-transparent fill dulls it.
+
+`multiply` solves this neatly. Multiplying the thematic color by the
+near-white background barely changes it, so the choropleth shows in full
+where the basemap is empty. Multiplying it by the dark labels and lines
+keeps those dark, so they stay legible right through the fill.
+
+We map the Happy Planet Index of the `World` dataset over Africa. First
+the basemap and the choropleth on their own:
+
 ``` r
 
-# basemap
+# the basemap on its own
 tm_basemap("CartoDB.Positron", zoom = 3) +
-    tm_crs(bbox = "Africa", ext =2 )
+    tm_crs(bbox = "Africa", ext = 2)
 ```
 
 ![](adv_blend_files/figure-html/unnamed-chunk-6-1.png)
 
 ``` r
 
-# thematic map
-tm_shape(World, bbox = "Africa", ext =2 ) + 
+# the choropleth on its own
+tm_shape(World, bbox = "Africa", ext = 2) + 
     tm_polygons(fill = "HPI", 
-                fill.scale = tm_scale_intervals(values = "-bu_br_div"),
-                blend = "multiply")
+                fill.scale = tm_scale_intervals(values = "-bu_br_div"))
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
 ```
 
 ![](adv_blend_files/figure-html/unnamed-chunk-7-1.png)
 
+Now the choropleth blended onto the basemap with `multiply`. The labels
+and borders from the basemap remain visible through the colors:
+
 ``` r
 
 # multiply overlay
 tm_basemap("CartoDB.Positron", zoom = 3) +
-    tm_shape(World, bbox = "Africa", ext =2 ) + 
+    tm_shape(World, bbox = "Africa", ext = 2) + 
     tm_polygons(fill = "HPI", 
                 fill.scale = tm_scale_intervals(values = "-bu_br_div"),
                 blend = "multiply")
@@ -302,3 +321,24 @@ tm_shape(hs) +
     col.legend = tm_legend_hide(),
     blend = "overlay")
 ```
+
+## Appendix: blend mode formulas
+
+For each pixel, let \\S\\ be the source (the top layer) and \\D\\ the
+destination (the layer below it), both as RGB values normalized to
+\\\[0, 1\]\\; \\\alpha\\ is the opacity of the top layer.
+
+| `blend`         | Formula                                    |
+|-----------------|--------------------------------------------|
+| `"over"`        | \\S \cdot \alpha + D \cdot (1 - \alpha)\\  |
+| `"multiply"`    | \\S \cdot D\\                              |
+| `"screen"`      | \\1 - (1 - S)(1 - D)\\                     |
+| `"overlay"`     | multiply if \\D \< 0.5\\, screen otherwise |
+| `"darken"`      | \\\min(S, D)\\                             |
+| `"lighten"`     | \\\max(S, D)\\                             |
+| `"color.dodge"` | \\D / (1 - S)\\                            |
+| `"color.burn"`  | \\1 - (1 - D) / S\\                        |
+| `"hard.light"`  | overlay with \\S\\ and \\D\\ swapped       |
+| `"soft.light"`  | gentle `hard.light`                        |
+| `"difference"`  | \\\lvert S - D \rvert\\                    |
+| `"exclusion"`   | \\S + D - 2 S D\\                          |
