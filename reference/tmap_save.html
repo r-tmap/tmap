@@ -215,25 +215,41 @@ usually take more space then the map resources.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget</a></code>, <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe</a></code></p><dl><dt><code>widget</code></dt>
-<dd><p>Widget to save</p></dd>
+<dd><p>additional arguments passed on to the underlying output function
+(see Details). For interactive (html) maps these are passed to
+<code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code> or <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe()</a></code>. For static
+maps they are passed to the graphic device; the most useful are:</p><dl><dt><code>colormodel</code> (pdf, eps)</dt>
+<dd><p>Color model of the output. The default is
+<code>"srgb"</code>; use <code>colormodel = "cmyk"</code> for print workflows that require
+CMYK. See <code><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">grDevices::pdf()</a></code>.</p></dd>
 
-    <dt><code>file</code></dt>
-<dd><p>File to save HTML into</p></dd>
+<dt><code>compression</code> (tiff)</dt>
+<dd><p>Compression method, e.g. <code>"lzw"</code>, <code>"zip"</code>, or
+<code>"jpeg"</code>. The default <code>"none"</code> can produce very large files; the
+lossless <code>"lzw"</code> or <code>"zip"</code> is usually a good choice for publication.</p></dd>
 
-    <dt><code>libdir</code></dt>
-<dd><p>Directory to copy HTML dependencies into (defaults to
-filename_files).</p></dd>
+<dt><code>quality</code> (jpg)</dt>
+<dd><p>JPEG quality, from <code>0</code> to <code>100</code> (default <code>75</code>).</p></dd>
 
-    <dt><code>background</code></dt>
-<dd><p>Text string giving the html background color of the widget.
-Defaults to white.</p></dd>
+<dt><code>bg</code> (all)</dt>
+<dd><p>Background color. Use <code>bg = "transparent"</code> for a
+transparent background (png, tiff, and svg support transparency; jpg and
+bmp do not).</p></dd>
 
-    <dt><code>title</code></dt>
-<dd><p>Text to use as the title of the generated page.</p></dd>
+<dt><code>pointsize</code> (all)</dt>
+<dd><p>Default point size of text, which scales the text
+drawn by the device.</p></dd>
 
-    <dt><code>knitrOptions</code></dt>
-<dd><p>A list of <span class="pkg">knitr</span> chunk options.</p></dd>
+<dt><code>family</code> (pdf, eps, svg), <code>fonts</code> (pdf, eps)</dt>
+<dd><p>Font family, and fonts
+to embed in the file.</p></dd>
+
+<dt><code>antialias</code> (png, jpg, bmp, tiff)</dt>
+<dd><p>Type of anti-aliasing, e.g.
+<code>"default"</code>, <code>"none"</code>, <code>"gray"</code>, or <code>"subpixel"</code>. This only applies to
+cairo-type devices. <code>png</code> always uses cairo (<code>type = "cairo-png"</code>), but
+<code>jpg</code>, <code>bmp</code>, and <code>tiff</code> use the platform default device type, so on a
+build without cairo support <code>antialias</code> is ignored for those formats.</p></dd>
 
 
 </dl></dd>
@@ -242,6 +258,23 @@ Defaults to white.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>the filename, invisibly, if export is successful.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Extra arguments (<code>...</code>) are passed on to the function that writes the
+output. For interactive (html) maps this is <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code>, or
+<code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe()</a></code> when <code>in.iframe = TRUE</code>. For static maps it
+is the graphic device: the function supplied to <code>device</code>, or, when
+<code>device = NULL</code>, the default device for the file extension:
+<code><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">grDevices::pdf()</a></code> (<code>"pdf"</code>), <code><a href="https://rdrr.io/r/grDevices/postscript.html" class="external-link">grDevices::postscript()</a></code> (<code>"eps"</code>),
+<code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">grDevices::svg()</a></code> (<code>"svg"</code>), <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">grDevices::png()</a></code> (<code>"png"</code>),
+<code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">grDevices::jpeg()</a></code> (<code>"jpg"</code>/<code>"jpeg"</code>), <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">grDevices::bmp()</a></code> (<code>"bmp"</code>), and
+<code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">grDevices::tiff()</a></code> (<code>"tiff"</code>). The most useful device arguments are listed
+under <code>...</code>.</p>
+<p>Note that <code>filename</code>, <code>width</code>, and <code>height</code> are always set by <code>tmap_save</code>,
+as are <code>res</code> and <code>units</code> for the raster formats (png, jpg, bmp, tiff); these
+cannot be overridden through <code>...</code>. Use the <code>dpi</code>, <code>width</code>, <code>height</code>, and
+<code>units</code> arguments of <code>tmap_save</code> instead.</p>
     </div>
 
     <div class="section level2">

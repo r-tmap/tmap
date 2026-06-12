@@ -142,39 +142,81 @@ tmap_save(
 
 - ...:
 
-  Arguments passed on to
-  [`htmlwidgets::saveWidget`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html),
-  [`widgetframe::saveWidgetframe`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html)
+  additional arguments passed on to the underlying output function (see
+  Details). For interactive (html) maps these are passed to
+  [`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html)
+  or
+  [`widgetframe::saveWidgetframe()`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html).
+  For static maps they are passed to the graphic device; the most useful
+  are:
 
-  `widget`
+  `colormodel` (pdf, eps)
 
-  :   Widget to save
+  :   Color model of the output. The default is `"srgb"`; use
+      `colormodel = "cmyk"` for print workflows that require CMYK. See
+      [`grDevices::pdf()`](https://rdrr.io/r/grDevices/pdf.html).
 
-  `file`
+  `compression` (tiff)
 
-  :   File to save HTML into
+  :   Compression method, e.g. `"lzw"`, `"zip"`, or `"jpeg"`. The
+      default `"none"` can produce very large files; the lossless
+      `"lzw"` or `"zip"` is usually a good choice for publication.
 
-  `libdir`
+  `quality` (jpg)
 
-  :   Directory to copy HTML dependencies into (defaults to
-      filename_files).
+  :   JPEG quality, from `0` to `100` (default `75`).
 
-  `background`
+  `bg` (all)
 
-  :   Text string giving the html background color of the widget.
-      Defaults to white.
+  :   Background color. Use `bg = "transparent"` for a transparent
+      background (png, tiff, and svg support transparency; jpg and bmp
+      do not).
 
-  `title`
+  `pointsize` (all)
 
-  :   Text to use as the title of the generated page.
+  :   Default point size of text, which scales the text drawn by the
+      device.
 
-  `knitrOptions`
+  `family` (pdf, eps, svg), `fonts` (pdf, eps)
 
-  :   A list of knitr chunk options.
+  :   Font family, and fonts to embed in the file.
+
+  `antialias` (png, jpg, bmp, tiff)
+
+  :   Type of anti-aliasing, e.g. `"default"`, `"none"`, `"gray"`, or
+      `"subpixel"`. This only applies to cairo-type devices. `png`
+      always uses cairo (`type = "cairo-png"`), but `jpg`, `bmp`, and
+      `tiff` use the platform default device type, so on a build without
+      cairo support `antialias` is ignored for those formats.
 
 ## Value
 
 the filename, invisibly, if export is successful.
+
+## Details
+
+Extra arguments (`...`) are passed on to the function that writes the
+output. For interactive (html) maps this is
+[`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html),
+or
+[`widgetframe::saveWidgetframe()`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html)
+when `in.iframe = TRUE`. For static maps it is the graphic device: the
+function supplied to `device`, or, when `device = NULL`, the default
+device for the file extension:
+[`grDevices::pdf()`](https://rdrr.io/r/grDevices/pdf.html) (`"pdf"`),
+[`grDevices::postscript()`](https://rdrr.io/r/grDevices/postscript.html)
+(`"eps"`), [`grDevices::svg()`](https://rdrr.io/r/grDevices/cairo.html)
+(`"svg"`), [`grDevices::png()`](https://rdrr.io/r/grDevices/png.html)
+(`"png"`), [`grDevices::jpeg()`](https://rdrr.io/r/grDevices/png.html)
+(`"jpg"`/`"jpeg"`),
+[`grDevices::bmp()`](https://rdrr.io/r/grDevices/png.html) (`"bmp"`),
+and [`grDevices::tiff()`](https://rdrr.io/r/grDevices/png.html)
+(`"tiff"`). The most useful device arguments are listed under `...`.
+
+Note that `filename`, `width`, and `height` are always set by
+`tmap_save`, as are `res` and `units` for the raster formats (png, jpg,
+bmp, tiff); these cannot be overridden through `...`. Use the `dpi`,
+`width`, `height`, and `units` arguments of `tmap_save` instead.
 
 ## Examples
 
