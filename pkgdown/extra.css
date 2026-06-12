@@ -1,0 +1,4 @@
+/* Make navbar dropdowns taller */
+.navbar .dropdown-menu {
+  max-height: 95vh;
+}
