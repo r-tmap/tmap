@@ -107,6 +107,10 @@ Workarounds for small multiples: create multiple independent maps or
 specify `as.layers = TRUE` in
 [`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md).
 
+## See also
+
+[Shiny integration](https://r-tmap.github.io/tmap/articles/adv_shiny)
+
 ## Examples
 
 ``` r

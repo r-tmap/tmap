@@ -1778,8 +1778,9 @@ tm_options(
 
 ## See also
 
-[Vignette about
-layout](https://r-tmap.github.io/tmap/articles/basics_layout), [vignette
-about margins and aspect
-ratio](https://r-tmap.github.io/tmap/articles/adv_margins) and [vignette
-about options](https://r-tmap.github.io/tmap/articles/adv_options)
+[Layout](https://r-tmap.github.io/tmap/articles/basics_layout), [Margins
+and aspect ratio](https://r-tmap.github.io/tmap/articles/adv_margins),
+[Options and
+styles](https://r-tmap.github.io/tmap/articles/adv_options), [Choropleth
+(World)](https://r-tmap.github.io/tmap/articles/examples_choro_World),
+[Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)

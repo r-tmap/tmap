@@ -67,8 +67,9 @@ tm_chart_heatmap(position, group_id, width, height, stack, z, ...)
   coordinates. The first is `"left"`, `"center"` or `"right"` (or upper
   case, meaning tighter to the map frame), the second `"top"`,
   `"center"` or `"bottom"`. Numeric values are also supported, where 0,
-  0 means left bottom and 1, 1 right top. See also [vignette about
-  positioning](https://r-tmap.github.io/tmap/articles/adv_positions). In
+  0 means left bottom and 1, 1 right top. See also vignette:
+  [Positioning of
+  components](https://r-tmap.github.io/tmap/articles/adv_positions). In
   case multiple components should be combined (stacked), use `group_id`
   and specify `component` in
   [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md).
@@ -107,8 +108,10 @@ Those are called glyphs (to be implemented).
 
 ## See also
 
-[Vignette about
-charts](https://r-tmap.github.io/tmap/articles/basics_charts)
+[Charts](https://r-tmap.github.io/tmap/articles/basics_charts),
+[Components](https://r-tmap.github.io/tmap/articles/basics_components),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions)
 
 ## Examples
 

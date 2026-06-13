@@ -133,5 +133,10 @@ with the maps.
 
 ## See also
 
-[Vignette about
-positioning](https://r-tmap.github.io/tmap/articles/adv_positions)
+[Components](https://r-tmap.github.io/tmap/articles/basics_components),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions),
+[Grouping of
+components](https://r-tmap.github.io/tmap/articles/adv_comp_group),
+[Choropleth
+(Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD)

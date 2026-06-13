@@ -37,3 +37,10 @@ tm_vars(
 - animate:
 
   should the variable(s) be animated? (experimental)
+
+## See also
+
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
+variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Multivariate visual
+variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)

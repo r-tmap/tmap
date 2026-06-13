@@ -70,8 +70,9 @@ tm_inset(
   coordinates. The first is `"left"`, `"center"` or `"right"` (or upper
   case, meaning tighter to the map frame), the second `"top"`,
   `"center"` or `"bottom"`. Numeric values are also supported, where 0,
-  0 means left bottom and 1, 1 right top. See also [vignette about
-  positioning](https://r-tmap.github.io/tmap/articles/adv_positions). In
+  0 means left bottom and 1, 1 right top. See also vignette:
+  [Positioning of
+  components](https://r-tmap.github.io/tmap/articles/adv_positions). In
   case multiple components should be combined (stacked), use `group_id`
   and specify `component` in
   [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md).
@@ -146,6 +147,19 @@ tm_inset(
 
   z index, e.g. the place of the component relative to the other
   componets
+
+## See also
+
+[Inset maps](https://r-tmap.github.io/tmap/articles/adv_inset_maps),
+[ggplot2
+integration](https://r-tmap.github.io/tmap/articles/adv_ggplot2)
+[Components](https://r-tmap.github.io/tmap/articles/basics_components),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions),
+[Grouping of
+components](https://r-tmap.github.io/tmap/articles/adv_comp_group),
+[Choropleth
+(Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD)
 
 ## Examples
 

@@ -80,6 +80,13 @@ tm_add_legend(
   z index, e.g. the place of the component relative to the other
   componets
 
+## See also
+
+[Legends
+(advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions)
+
 ## Examples
 
 ``` r

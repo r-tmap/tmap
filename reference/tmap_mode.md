@@ -74,8 +74,7 @@ Software, 84(6), 1-39,
 
 ## See also
 
-[vignette about
-modes](https://r-tmap.github.io/tmap/articles/basics_modes)
+- .doc_see_also_modes()
 
 - [`tmap_last()`](https://r-tmap.github.io/tmap/reference/tmap_last.md)
   to show the last map

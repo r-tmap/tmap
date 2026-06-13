@@ -237,6 +237,16 @@ tm_grid(
 `"tmap{zindex}"` (e.g., `"tmap401"`, `"tmap402"`), with base tile layers
 placed in the standard `"tile"` pane.
 
+## See also
+
+[Map projections
+(CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs),
+[Choropleth
+(Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD),
+[Choropleth
+(World)](https://r-tmap.github.io/tmap/articles/examples_choro_World),
+[Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)
+
 ## Examples
 
 ``` r

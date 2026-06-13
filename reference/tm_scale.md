@@ -23,6 +23,10 @@ tm_scale(...)
 
 ## See also
 
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
+variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Multivariate visual
+variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
 [`tm_scale_asis()`](https://r-tmap.github.io/tmap/reference/tm_scale_asis.md),
 [`tm_scale_ordinal()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md),
 [`tm_scale_categorical()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md),

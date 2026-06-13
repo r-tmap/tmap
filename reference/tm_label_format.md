@@ -133,3 +133,10 @@ tm_label_format(
 ## Value
 
 list with formatting options
+
+## See also
+
+[Legends
+(advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions)

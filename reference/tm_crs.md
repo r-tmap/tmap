@@ -48,9 +48,9 @@ tm_crs(crs = NA, property = NA, bbox = NULL, ...)
 ## Details
 
 The map projection (`crs`) determines in which coordinate system the
-spatial object is processed and plotted. See [vignette about
-CRS](https://r-tmap.github.io/tmap/articles/foundations_crs). The `crs`
-can be specified in two places: 1)
+spatial object is processed and plotted. See vignette: [Map projections
+(CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs). The
+`crs` can be specified in two places: 1)
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md) and
 `tm_crs()`. In both cases, the map is plotted into the specified `crs`.
 The difference is that in the first option, the `crs` is also taken into
@@ -64,7 +64,7 @@ the following:
 |  |  |
 |----|----|
 | **Property** | **Recommendation** |
-| `global` (for world maps) | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Earth). See <https://r-tmap.github.io/tmap/articles/41_advanced_crs.html> for more options |
+| `global` (for world maps) | A pseudocylindrical projection tmap option `crs_global`, by default `"eqearth` (Equal Earth). See vignette: [Map projections (CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs) for more options |
 | `area` (equal area) | Lambert Azimuthal Equal Area (`laea`) |
 | `distance` (equidistant) | Azimuthal Equidistant (`aeqd`) |
 | `shape` (conformal) | Stereographic (`stere`) |
@@ -83,8 +83,13 @@ automatic crs recommendation to a separate package.
 
 ## See also
 
-[vignette about
-CRS](https://r-tmap.github.io/tmap/articles/foundations_crs)
+[Map projections
+(CRS)](https://r-tmap.github.io/tmap/articles/foundations_crs),
+[Choropleth
+(Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD),
+[Choropleth
+(World)](https://r-tmap.github.io/tmap/articles/examples_choro_World),
+[Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)
 
 ## Examples
 

@@ -177,8 +177,9 @@ The animation can still be saved via
 
 [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)
 
-[Vignette about
-facets](https://r-tmap.github.io/tmap/articles/basics_facets)
+[Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
+[Animations](https://r-tmap.github.io/tmap/articles/adv_animations),
+[Gridmap](https://r-tmap.github.io/tmap/articles/examples_gridmaps)
 
 ## Examples
 

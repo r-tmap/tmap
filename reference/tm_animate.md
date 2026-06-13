@@ -90,10 +90,8 @@ via
 
 ## See also
 
-[`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
-which is the core function, and
-[`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
-used to save the animation
+[Animations](https://r-tmap.github.io/tmap/articles/adv_animations),
+[tmap.cartogram](https://r-tmap.github.io/tmap/articles/ext_cartogram)
 
 ## Examples
 

@@ -21,3 +21,7 @@ tm_plot(use_gradient, limit_latitude_3857)
   projection (EPSG 3857). If `c(-90, 90)` the poles will be inflated too
   much. The Web Mercator is defines as `c(-85.06, 85.06)`, but the
   default setting in tmap is `c(-84, 84)`.
+
+## See also
+
+[Modes](https://r-tmap.github.io/tmap/articles/basics_modes)

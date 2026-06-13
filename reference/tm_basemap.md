@@ -105,8 +105,8 @@ placed in the standard `"tile"` pane.
 
 ## See also
 
-[Basemap
-examples](https://r-tmap.github.io/tmap/articles/basics_basemaps)
+[Basemaps](https://r-tmap.github.io/tmap/articles/basics_basemaps),
+[Modes](https://r-tmap.github.io/tmap/articles/basics_modes)
 
 ## Examples
 

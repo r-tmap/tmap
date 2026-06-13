@@ -113,4 +113,16 @@ tm_scale_bivariate(
 
 ## See also
 
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
+variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Multivariate visual
+variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
+[Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
+[Legends
+(advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
+[Components](https://r-tmap.github.io/tmap/articles/basics_components),
+[Positioning of
+components](https://r-tmap.github.io/tmap/articles/adv_positions),
+[Bivariate
+choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro)
 [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md)

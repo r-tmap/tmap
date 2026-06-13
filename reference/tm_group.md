@@ -33,5 +33,5 @@ tm_group(name, control = NA, zoom_levels = NA)
 
 ## See also
 
-[vignette about layer
-groups](https://r-tmap.github.io/tmap/articles/adv_groups)
+[Layer groups (view
+mode)](https://r-tmap.github.io/tmap/articles/adv_groups)

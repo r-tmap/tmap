@@ -625,7 +625,7 @@ A symbol shape specification is one of the following three options.
     [`ggplotGrob`](https://ggplot2.tidyverse.org/reference/ggplotGrob.html).
     To specify multiple shapes, a list of grob objects is required. Tip:
     for proportional symbols, such as donuts or pies, see the extension
-    package
+    package vignette:
     [tmap.glyphs](https://r-tmap.github.io/tmap/articles/ext_glyphs).
 
 3.  An icon specification, which can be created with
@@ -640,10 +640,14 @@ multiples, a list of these shape specification(s) should be provided.
 
 ## See also
 
-[Bubble map
-example](https://r-tmap.github.io/tmap/articles/examples_bubble) and
-[terrain map
-example](https://r-tmap.github.io/tmap/articles/examples_terrain)
+[Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales),
+[Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
+[Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
+[Units](https://r-tmap.github.io/tmap/articles/foundations_units),
+[Layer blending](https://r-tmap.github.io/tmap/articles/adv_blend),
+[Bubble map](https://r-tmap.github.io/tmap/articles/examples_bubble),
+[Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)
 
 ## Examples
 
