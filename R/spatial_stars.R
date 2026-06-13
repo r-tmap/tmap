@@ -183,7 +183,7 @@ tmapSubsetShp.stars = function(shp, vars) {
 
 #' @export
 tmapGetShapeMeta1.stars_proxy = function(shp, layer, o) {
-	shp = st_downsample(shp, floor(dim(shp)[1:2])/2)
+	shp = stars::st_downsample(shp, floor(dim(shp)[1:2])/2)
 	tmapGetShapeMeta1.stars(shp, layer, o)
 }
 
