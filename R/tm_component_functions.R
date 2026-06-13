@@ -19,11 +19,11 @@
 #' @param bg Show background?
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
-#' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_components()].
+#' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also `r .doc_see_vig("adv_positions")`. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_components()].
 #' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_components()] where its argument `id` should correspond to `group_id`.
 #' @param width,height width and height of the component.
 #' @param z z index, e.g. the place of the component relative to the other componets
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha, position, group_id, width, height, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
@@ -67,7 +67,7 @@ tm_title_out = function(text, ..., position = tm_pos_out("center", "top")) {
 #'
 #' @inheritParams tm_title
 #' @param ... to catch deprecated arguments
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.lwd, frame.r, bg, bg.color, bg.alpha, position, group_id, width, height, z, ...) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
@@ -103,7 +103,7 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 #' @param just just
 #' @param margins margins
 #' @param ... to catch deprecated arguments (alpha)
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_compass <- function(north,
 					   type,
@@ -164,7 +164,7 @@ tm_compass <- function(north,
 #' @param size Deprecated (use `text.size` instead)
 #' @param stack stack with other map components, either `"vertical"` or `"horizontal"`.
 #' @param margins margins
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_scalebar = function(breaks,
 						width,
@@ -209,7 +209,7 @@ tm_scalebar = function(breaks,
 #'
 #' Map component that adds mouse coordinates
 #'
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @inheritParams tm_title
 #' @export
 tm_mouse_coordinates <- function(stack,
@@ -235,7 +235,7 @@ tm_mouse_coordinates <- function(stack,
 #' @inheritParams tm_title
 #' @inheritParams tm_inset
 #' @inheritDotParams leaflet::addMiniMap
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()` `.doc_see_also_insets()`
 #' @export
 tm_minimap <- function(server,
 					   toggle,
@@ -269,7 +269,7 @@ tm_minimap <- function(server,
 #' @param between_margin Margin between
 #' @inheritParams tm_title
 #' @example ./examples/tm_logo.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_logo = function(file,
 				   height,

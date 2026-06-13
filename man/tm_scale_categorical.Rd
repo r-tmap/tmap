@@ -79,5 +79,5 @@ For colors (the visual variable \code{fill} or \code{col}), different default co
 palettes are used (see the tmap option \code{values.var}).
 }
 \seealso{
-\code{\link[=tm_scale]{tm_scale()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \code{\link[=tm_scale]{tm_scale()}}
 }

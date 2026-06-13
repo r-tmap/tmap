@@ -58,5 +58,5 @@ if (interactive()) {
 
 }
 \seealso{
-\code{\link[=tm_facets]{tm_facets()}} which is the core function, and \code{\link[=tmap_animation]{tmap_animation()}} used to save the animation
+\href{https://r-tmap.github.io/tmap/articles/adv_animations}{Animations}, \href{https://r-tmap.github.io/tmap/articles/ext_cartogram}{tmap.cartogram}
 }

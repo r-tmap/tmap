@@ -21,11 +21,11 @@
 #'   See [tm_plot_order()] for details.
 #' @inherit tm_polygons details
 #' @inheritParams tm_polygons
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map example}
+#' @seealso `r .doc_see_also_layers("terrain")`
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_topo_Africa}{Topographic map}
+#' @seealso `r .doc_see_also_layers("text")`
 #' @export
 tm_text = function(text = tm_const(),
 				   text.scale = tm_scale(),

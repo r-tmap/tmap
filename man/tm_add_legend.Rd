@@ -65,3 +65,6 @@ tm_shape(NLD_muni) +
 				  bg.alpha = 1)
 }
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/adv_legends}{Legends (advanced)}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}
+}

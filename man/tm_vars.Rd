@@ -26,3 +26,6 @@ tm_vars(
 \description{
 tmap function to specify all variables in the shape object
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables}
+}

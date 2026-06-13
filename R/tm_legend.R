@@ -33,7 +33,7 @@
 #' @param item.na.width `r .doc_opt("legend.na item.width")`
 #' @param item.na.space `r .doc_opt("legend.na item.space")`
 #' @param item.shape `r .doc_opt("legend.item.shape")`
-#' @param ticks List of vectors of size 2 that determines a tick mark line (for portrait legends). The values are the y-values of begin and endpoint of a tick mark. For a solid line, only one vector is required, for dashed lines one for each dash. See \href{https://r-tmap.github.io/tmap/articles/versus_ggplot2#mimicking-ggplot2-layout}{ggplot2 style example}.
+#' @param ticks List of vectors of size 2 that determines a tick mark line (for portrait legends). The values are the y-values of begin and endpoint of a tick mark. For a solid line, only one vector is required, for dashed lines one for each dash. See `r .doc_see_vig("versus_ggplot2")`.
 #' @param ticks.disable.na Remove ticks for `NA` values
 #' @param ticks.col `r .doc_opt("legend.ticks.col")`
 #' @param ticks.lwd `r .doc_opt("legend.ticks.lwd")`
@@ -41,7 +41,7 @@
 #' @param item_text.margin `r .doc_opt("legend.item_text.margin")`
 #' @param ... visual values, e.g. `col`, `fill`, `lwd`, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
 #' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Vignette about legends}
+#' @seealso `r .doc_see_also_legend(advanced = TRUE, biv = TRUE)` `r .doc_see_also_comp()`
 #' @return A tm_legend component
 #' @export
 #' @example ./examples/tm_legend.R

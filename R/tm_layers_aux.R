@@ -35,7 +35,7 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @export
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemap examples}
+#' @seealso `r .doc_see_also_basemaps()`
 #' @example ./examples/tm_basemap.R
 tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.native.zoom = 17, sub = "abc", zindex = 0, group = NA, group.control = "radio") {
 	if (is.null(server)) {
@@ -202,6 +202,7 @@ tm_graticules = function(x = NA,
 #'   for no control (the group cannot be (de)selected).
 #' @param ... Used to catch deprecated arguments from tmap v3.
 #' @export
+#' @seealso `r .doc_see_also_shape()`
 #' @example ./examples/tm_grid.R
 tm_grid = function(x = NA,
 				   y = NA,

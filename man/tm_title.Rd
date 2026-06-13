@@ -70,7 +70,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{bg.alpha}{Background transparency}
 
-\item{position}{The position specification of the component: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use \code{group_id} and specify \code{component} in \code{\link[=tm_components]{tm_components()}}.}
+\item{position}{The position specification of the component: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also vignette: \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}. In case multiple components should be combined (stacked), use \code{group_id} and specify \code{component} in \code{\link[=tm_components]{tm_components()}}.}
 
 \item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_components]{tm_components()}} where its argument \code{id} should correspond to \code{group_id}.}
 
@@ -84,5 +84,5 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 Map component that adds a title
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Components}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}, \href{https://r-tmap.github.io/tmap/articles/adv_comp_group}{Grouping of components}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}
 }

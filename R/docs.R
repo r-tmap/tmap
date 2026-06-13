@@ -135,3 +135,140 @@
 	if (is.na(txt)) txt = x
 	paste0("Visual variable that determines the ", txt, ". See details.")
 }
+
+.tmap_article_url = "https://r-tmap.github.io/tmap/articles/"
+
+# Single source of truth: vignette slug -> link label
+.tmap_vignettes = c(
+	basics_vv            = "Visual variables",
+	basics_scales        = "Scales",
+	basics_modes         = "Modes",
+	basics_facets        = "Facets",
+	basics_legends       = "Legends",
+	basics_basemaps      = "Basemaps",
+	basics_components    = "Components",
+	basics_charts        = "Charts",
+	basics_layout        = "Layout",
+	basics_exporting     = "Exporting",
+	foundations_gg       = "Grammar of Graphics",
+	foundations_crs      = "Map projections (CRS)",
+	foundations_units    = "Units",
+	examples_choro_World = "Choropleth (World)",
+	examples_choro_NLD   = "Choropleth (Netherlands)",
+	examples_bubble      = "Bubble map",
+	examples_raster      = "Raster map",
+	examples_topo_Africa = "Topographic map (Africa)",
+	examples_terrain     = "Terrain map",
+	examples_gridmaps    = "Gridmap",
+	examples_biv_choro   = "Bivariate choropleth",
+	versus_ggplot2       = "tmap vs ggplot2",
+	versus_mapview       = "tmap vs mapview",
+	versus_mapsf         = "tmap vs mapsf",
+	ext_mapgl            = "tmap.mapgl",
+	ext_cartogram        = "tmap.cartogram",
+	ext_glyphs           = "tmap.glyphs",
+	ext_networks         = "tmap.networks",
+	adv_legends          = "Legends (advanced)",
+	adv_inset_maps       = "Inset maps",
+	adv_animations       = "Animations",
+	adv_shiny            = "Shiny integration",
+	adv_ggplot2          = "ggplot2 integration",
+	adv_multivariate     = "Multivariate visual variables",
+	adv_positions        = "Positioning of components",
+	adv_comp_group       = "Grouping of components",
+	adv_options          = "Options and styles",
+	adv_margins          = "Margins and aspect ratio",
+	adv_groups           = "Layer groups (view mode)",
+	adv_extensions       = "Extending tmap",
+	adv_blend            = "Layer blending"
+)
+
+# Build a comma-separated list of markdown links from vignette slugs
+.doc_links = function(slugs) {
+	labels = .tmap_vignettes[slugs]
+	if (anyNA(labels)) {
+		stop("Unknown tmap vignette slug(s): ",
+			 paste(slugs[is.na(labels)], collapse = ", "), call. = FALSE)
+	}
+	paste0("[", labels, "](", .tmap_article_url, slugs, ")", collapse = ", ")
+}
+
+.doc_see_also_layers = function(layer) {
+	common = c("basics_vv", "basics_scales", "basics_legends", "basics_facets", "foundations_units", "adv_blend")
+	# layer-specific examples — review/adjust these mappings to taste
+	examples = switch(layer,
+					  polygons = c("examples_choro_World", "examples_choro_NLD", "examples_biv_choro", "examples_gridmaps"),
+					  symbols  = c("examples_bubble", "examples_terrain"),
+					  lines = "examples_terrain",
+					  text = c("examples_topo_Africa", "examples_terrain"),
+					  raster   = c("examples_raster", "examples_terrain"),
+					  character(0)  # default: common links only (lines, text, ...)
+	)
+	.doc_links(c(common, examples))
+}
+
+.doc_see_vig = function(x, cap = FALSE) {
+	init = ifelse(cap, "V", "v")
+	paste0(init, "ignette: ", .doc_links(x))
+}
+
+.doc_see_also_comp = function() {
+	.doc_links(c("basics_components", "adv_positions", "adv_comp_group", "examples_choro_NLD"))
+}
+
+.doc_see_also_scales = function() {
+	.doc_links(c("basics_scales", "basics_vv", "adv_multivariate"))
+}
+
+.doc_see_also_legend = function(advanced = FALSE, biv = FALSE) {
+	biv_txt = if (biv) "examples_biv_choro" else NULL
+	if (advanced) {
+		.doc_links(c("adv_legends", "adv_positions", biv_txt))
+	} else {
+		.doc_links(c("basics_legends", "adv_legends", "basics_components", "adv_positions", biv_txt))
+	}
+}
+
+.doc_see_also_chart = function() {
+	.doc_links(c("basics_charts", "basics_components", "adv_positions"))
+}
+
+.doc_see_also_layout = function() {
+	.doc_links(c("basics_layout", "adv_margins", "adv_options", "examples_choro_World", "examples_terrain"))
+}
+
+.doc_see_also_facets = function() {
+	.doc_links(c("basics_facets", "adv_animations", "examples_gridmaps"))
+}
+
+.doc_see_also_animations = function() {
+	.doc_links(c("adv_animations",  "ext_cartogram"))
+}
+
+.doc_see_also_modes = function() {
+	.doc_links(c("basics_modes"))
+}
+
+.doc_see_also_export = function() {
+	.doc_links(c("basics_exporting"))
+}
+
+.doc_see_also_shiny = function() {
+	.doc_links(c("adv_shiny"))
+}
+
+.doc_see_also_basemaps = function() {
+	.doc_links(c("basics_basemaps", "basics_modes"))
+}
+
+.doc_see_also_groups = function() {
+	.doc_links(c("adv_groups"))
+}
+
+.doc_see_also_shape = function() {
+	.doc_links(c("foundations_crs", "examples_choro_NLD", "examples_choro_World", "examples_terrain"))
+}
+
+.doc_see_also_insets = function() {
+	.doc_links(c("adv_inset_maps", "adv_ggplot2"))
+}

@@ -61,12 +61,12 @@ class packages: \code{\link[sf:sf]{sf}}, \code{\link[stars:st_as_stars]{stars}},
 }
 \details{
 The map projection (\code{crs}) determines in which coordinate system the spatial object is processed and plotted.
-See \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}. The \code{crs} can be specified in two places: 1) \code{tm_shape()} and \code{tm_crs()}.
+See vignette: \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{Map projections (CRS)}. The \code{crs} can be specified in two places: 1) \code{tm_shape()} and \code{tm_crs()}.
 In both cases, the map is plotted into the specified \code{crs}. The difference is that in the first option, the \code{crs} is also taken into account in spatial transformation functions, such as the calculation of centroids and cartograms. In the second option, the \code{crs} is only used in the plotting phase.
 
 The automatic crs recommendation (which is still work-in-progress) is the following:\tabular{ll}{
    \strong{Property} \tab \strong{Recommendation} \cr
-   \code{global} (for world maps) \tab A pseudocylindrical projection tmap option \code{crs_global}, by default \verb{"eqearth} (Equal Earth). See \url{https://r-tmap.github.io/tmap/articles/41_advanced_crs.html} for more options \cr
+   \code{global} (for world maps) \tab A pseudocylindrical projection tmap option \code{crs_global}, by default \verb{"eqearth} (Equal Earth). See vignette: \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{Map projections (CRS)} for more options \cr
    \code{area} (equal area) \tab Lambert Azimuthal Equal Area (\code{laea}) \cr
    \code{distance}	(equidistant) \tab Azimuthal Equidistant (\code{aeqd}) \cr
    \code{shape}	(conformal) \tab Stereographic (\code{stere}) \cr
@@ -94,5 +94,5 @@ tm_shape(World, crs = "+proj=robin", filter = World$continent=="Africa") +
 	tm_polygons()
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
+\href{https://r-tmap.github.io/tmap/articles/foundations_crs}{Map projections (CRS)}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth (World)}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
 }

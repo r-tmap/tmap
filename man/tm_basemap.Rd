@@ -116,5 +116,5 @@ if (requireNamespace("maptiles")) {
 }
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemap examples}
+\href{https://r-tmap.github.io/tmap/articles/basics_basemaps}{Basemaps}, \href{https://r-tmap.github.io/tmap/articles/basics_modes}{Modes}
 }

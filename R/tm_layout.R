@@ -16,7 +16,7 @@
 #'   well for many projections. The earth boundary can still be enabled
 #'   explicitly via the `earth_boundary` argument of [tm_layout()] (see the
 #'   example above).
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_layout}{Vignette about layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{vignette about margins and aspect ratio} and \href{https://r-tmap.github.io/tmap/articles/adv_options}{vignette about options}
+#' @seealso `r .doc_see_also_layout()`
 #' @inheritParams tmap_options
 #' @example ./examples/tm_layout.R
 #' @export
@@ -69,7 +69,7 @@ tm_layout = function(
 #'   [leafletOptions()][leaflet::leafletOptions()]
 #' @param ... to catch deprecated arguments
 #' @export
-#' @seealso [tm_group()]
+#' @seealso `r .doc_see_also_modes()` `r .doc_see_also_groups()`
 tm_view = function(use_browser,
 				   use_WebGL,
 				   control.position,
@@ -95,6 +95,7 @@ tm_view = function(use_browser,
 #'
 #' @param use_gradient Use gradient fill using [linearGradient()][grid::linearGradient()]
 #' @param limit_latitude_3857 Vector of two limit latitude values for maps printed in Web Mercator projection (EPSG 3857). If `c(-90, 90)` the poles will be inflated too much. The Web Mercator is defines as `c(-85.06, 85.06)`, but the default setting in tmap is `c(-84, 84)`.
+#' @seealso `r .doc_see_also_modes()`
 #' @export
 tm_plot = function(use_gradient, limit_latitude_3857) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())

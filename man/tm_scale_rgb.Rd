@@ -50,5 +50,5 @@ tm_shape(L7) +
 }
 }
 \seealso{
-\code{\link[=tm_scale]{tm_scale()}} and \code{\link[stars:st_rgb]{stars::st_rgb()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \code{\link[=tm_scale]{tm_scale()}} \code{\link[stars:st_rgb]{stars::st_rgb()}}
 }

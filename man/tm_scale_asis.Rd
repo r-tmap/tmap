@@ -22,5 +22,5 @@ layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons
 The function \code{tm_scale_asis()} is used to take data values as they are and use them as such for the visual variable.
 }
 \seealso{
-\code{\link[=tm_scale]{tm_scale()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \code{\link[=tm_scale]{tm_scale()}}
 }

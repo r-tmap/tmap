@@ -9,7 +9,7 @@
 #' @note Plans are to migrate the functionality regarding generic crs and automatic crs recommendation to a separate package.
 #' @inherit tm_shape details
 #' @example ./examples/tm_crs.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/foundations_crs}{vignette about CRS}
+#' @seealso `r .doc_see_also_shape()`
 #' @export
 tm_crs = function(crs = NA, property = NA, bbox = NULL, ...) {
 	bb_args = list(...)

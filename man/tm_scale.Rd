@@ -18,7 +18,7 @@ and the visual variable. The tmap option \code{scales.var} contains information
 which scale is applied when.
 }
 \seealso{
-\code{\link[=tm_scale_asis]{tm_scale_asis()}}, \code{\link[=tm_scale_ordinal]{tm_scale_ordinal()}}, \code{\link[=tm_scale_categorical]{tm_scale_categorical()}},
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \code{\link[=tm_scale_asis]{tm_scale_asis()}}, \code{\link[=tm_scale_ordinal]{tm_scale_ordinal()}}, \code{\link[=tm_scale_categorical]{tm_scale_categorical()}},
 \code{\link[=tm_scale_intervals]{tm_scale_intervals()}}, \code{\link[=tm_scale_discrete]{tm_scale_discrete()}}, \code{\link[=tm_scale_continuous]{tm_scale_continuous()}},
 \code{\link[=tm_scale_rank]{tm_scale_rank()}}, \code{\link[=tm_scale_continuous_log]{tm_scale_continuous_log()}}, \code{\link[=tm_scale_continuous_log2]{tm_scale_continuous_log2()}},
 \code{\link[=tm_scale_continuous_log10]{tm_scale_continuous_log10()}}, \code{\link[=tm_scale_continuous_log1p]{tm_scale_continuous_log1p()}}, \code{\link[=tm_scale_continuous_sqrt]{tm_scale_continuous_sqrt()}},

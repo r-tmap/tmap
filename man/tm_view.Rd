@@ -56,5 +56,5 @@ zoom levels (see \link[leaflet:tileOptions]{tileOptions()}).}
 View mode options. These options are specific to the view mode.
 }
 \seealso{
-\code{\link[=tm_group]{tm_group()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_modes}{Modes} \href{https://r-tmap.github.io/tmap/articles/adv_groups}{Layer groups (view mode)}
 }

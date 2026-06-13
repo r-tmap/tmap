@@ -34,7 +34,7 @@
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` `r .doc_see_also_legend(biv = TRUE)` [tm_scale()]
 #' @export
 tm_scale_bivariate = function(scale1 = tm_scale(),
 							  scale2 = tm_scale(),

@@ -60,21 +60,21 @@ Map layer that draws rasters. Supported visual variable is: \code{col} (the  col
 The visual variable arguments (e.g. \code{col}) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
 specified in \code{\link[=tm_shape]{tm_shape()}}), with a visual value (for \code{col}, a color is expected), or with a geometry-derived variable (see below).
-See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
+See vignette: \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}.
 
 Multiple values can be specified: in that case facets are created.
 These facets can be combined with other faceting data variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
-See \href{https://r-tmap.github.io/tmap/articles/basics_facets}{vignette about facets}.
+See vignette: \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}.
 \itemize{
 \item The \verb{*.scale} arguments determine the used scale to map the data values to
 visual variable values. These can be specified with one of the available
 \verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[=tm_options]{tm_options()}}) \code{scales.var}.
-See \href{https://r-tmap.github.io/tmap/articles/basics_scales}{vignette about scales}.
+See `rvignette: \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}
 \item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
 The default legend and its settings are determined by the tmap options (\code{\link[=tm_options]{tm_options()}}) \code{legend.} .
-See \href{https://r-tmap.github.io/tmap/articles/basics_legends}{vignette about legends}.
+See `rvignette: \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}
 \item The \verb{*.chart} arguments specify additional charts, specified with \code{tm_chart_}, e.g. \code{\link[=tm_chart_histogram]{tm_chart_histogram()}}.
-See \href{https://r-tmap.github.io/tmap/articles/basics_charts}{vignette about charts}.
+See `rvignette: \href{https://r-tmap.github.io/tmap/articles/basics_charts}{Charts}
 \item The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
 A logical value is required. They can also be specified with a vector of three
 logical values; these determine whether scales are applied freely per facet dimension.

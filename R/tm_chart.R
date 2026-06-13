@@ -9,7 +9,7 @@
 #' @param extra.ggplot2 Extra ggplot2 code
 #' @inheritParams tm_title
 #' @example examples/tm_chart.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_charts}{Vignette about charts}
+#' @seealso `r .doc_see_also_chart()`
 #' @name tm_chart
 #' @export
 tm_chart_histogram = function(breaks,

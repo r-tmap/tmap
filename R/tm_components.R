@@ -1,7 +1,7 @@
 #' Group components
 #'
 #' @param group_id id of the component group. By default set to `""`, which will apply to all components. There are two other options. 1) To use the same (self-chosen) name that corresponds to the `group_id` argument of a component function, such as [tm_legend()] and [tm_title()]. 2) To specify one (or more) component function names, e.g. `"tm_legend"` or `c("tm_scalebar", "tm_compass")`.
-#' @param position The position specification of the components in this group: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}.
+#' @param position The position specification of the components in this group: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also `r .doc_see_vig("adv_positions")`.
 #' @param stack stacking `"horizontal"` or `"vertical"`
 #' @param frame_combine put frame around all components that are drawn on the same location. Whether a frame is drawn is still decided by the `frame` argument of the  'main' (first) component.
 #' @param equalize in case `frame_combine` is `FALSE`, should the separate frames be equalized, i.e. have the same width (when stacked vertically) or height (when stacked horizontally)?
@@ -16,6 +16,7 @@
 #' @param bg Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.color Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.
 #' @param bg.alpha Background alpha transparency of the components block. Is usually set in each component function, but if specified here, it will overwrite them.
+#' @seealso `r .doc_see_also_comp()`
 #' @return A [`tmap-element`]
 #' @export
 tm_components = function(

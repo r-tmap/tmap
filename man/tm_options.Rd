@@ -973,5 +973,5 @@ adjusted to the size of the device divided by the number of columns and rows.}
 tmap options
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_layout}{Vignette about layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{vignette about margins and aspect ratio} and \href{https://r-tmap.github.io/tmap/articles/adv_options}{vignette about options}
+\href{https://r-tmap.github.io/tmap/articles/basics_layout}{Layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{Margins and aspect ratio}, \href{https://r-tmap.github.io/tmap/articles/adv_options}{Options and styles}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth (World)}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
 }

@@ -22,6 +22,7 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @example ./examples/tm_add_legend.R
+#' @seealso `r .doc_see_also_legend(advanced = TRUE)`
 #' @export
 tm_add_legend = function(...,
 						 labels = "",

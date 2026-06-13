@@ -19,6 +19,7 @@
 #' @param text.to.columns Not implemented in v4 (yet). Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.
 #' @param html.escape Logical that determins whther HTML code is escaped in the popups in view mode. By default \code{TRUE}. If set to \code{FALSE} HTML code can be added, e.g. to added white space via \code{&nbsp;}.
 #' @param ... arguments passed on to \code{\link[base:formatC]{formatC}}
+#' @seealso `r .doc_see_also_legend(advanced = TRUE)`
 #' @return list with formatting options
 #' @export
 tm_label_format = function(fun,

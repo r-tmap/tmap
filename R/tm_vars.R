@@ -7,6 +7,7 @@
 #' @param n if specified the first `n` variables are taken (or the first `n` dimension values)
 #' @param multivariate in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate visual variable?
 #' @param animate should the variable(s) be animated? (experimental)
+#' @seealso `r .doc_see_also_scales()`
 #' @export
 tm_vars = function(x = NA, dimvalues = NULL, n = NA, multivariate = FALSE, animate = FALSE) {
 	structure(list(x = x, dimvalues = dimvalues, n = n, multivariate = multivariate, animate = animate), class = c("tmapVars", "list"))

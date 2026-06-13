@@ -15,6 +15,7 @@
 #' @param main_frame.r,main_frame.color,main_frame.alpha,main_frame.lwd Properties of the main frame
 #' @inheritParams tm_title
 #' @example ./examples/tm_inset.R
+#' @seealso `r .doc_see_also_insets()` `r .doc_see_also_comp()`
 #' @export
 tm_inset = function(x = NULL,
 					height,

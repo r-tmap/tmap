@@ -111,5 +111,5 @@ of the legends (or components) is right next to the maps, these legends
 (or components) will be aligned with the maps.
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/adv_positions}{Vignette about positioning}
+\href{https://r-tmap.github.io/tmap/articles/basics_components}{Components}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}, \href{https://r-tmap.github.io/tmap/articles/adv_comp_group}{Grouping of components}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}
 }

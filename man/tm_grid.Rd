@@ -202,3 +202,6 @@ qtm(World, shape.crs = "+proj=robin", style = "natural") +
 tmap_mode(current.mode)
 }
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/foundations_crs}{Map projections (CRS)}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth (World)}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
+}

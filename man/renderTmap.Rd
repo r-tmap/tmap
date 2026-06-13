@@ -116,3 +116,6 @@ if (interactive() && require("shiny")) {
 	tmap_mode(current.mode)
 }
 }
+\seealso{
+\href{https://r-tmap.github.io/tmap/articles/adv_shiny}{Shiny integration}
+}

@@ -25,7 +25,8 @@
 #' * `ttm()`, `rtm()` return the previous mode invisibly.
 #' * `tmap_mode_pool()` returns the previous pool invisibly.
 #' @example ./examples/tmap_mode.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_modes}{vignette about modes}
+#' @seealso
+#' * .doc_see_also_modes()
 #' * [tmap_last()] to show the last map
 #' * [tm_view()] for viewing options
 #' * [tmap_leaflet()] for obtaining a leaflet widget

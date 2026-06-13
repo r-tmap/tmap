@@ -142,5 +142,5 @@ tm_layout(panel.labels = c("Gender Inequality Index (GII)", "World Press Freedom
 \seealso{
 \code{\link[=tm_animate]{tm_animate()}}
 
-\href{https://r-tmap.github.io/tmap/articles/basics_facets}{Vignette about facets}
+\href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/adv_animations}{Animations}, \href{https://r-tmap.github.io/tmap/articles/examples_gridmaps}{Gridmap}
 }

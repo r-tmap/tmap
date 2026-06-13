@@ -26,6 +26,7 @@
 #' @param ... passed on to the mode-specific methods
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @example ./examples/tmapOutput.R
+#' @seealso `r .doc_see_also_shiny()`
 #' @export
 renderTmap <- function(expr, env = parent.frame(), quoted = FALSE, execOnResize = TRUE, mode = NA) {
 	if (!quoted) expr <- substitute(expr)            # capture once, in this frame

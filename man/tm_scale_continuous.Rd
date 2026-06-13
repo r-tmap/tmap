@@ -120,5 +120,5 @@ tm_shape(metro) +
 # Note that for this type of legend, we recommend tm_scale_intervals()
 }
 \seealso{
-\code{\link[=tm_scale]{tm_scale()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \code{\link[=tm_scale]{tm_scale()}}
 }

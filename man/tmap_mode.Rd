@@ -76,8 +76,8 @@ Tennekes, M., 2018, {tmap}: Thematic Maps in {R},
 Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_modes}{vignette about modes}
 \itemize{
+\item .doc_see_also_modes()
 \item \code{\link[=tmap_last]{tmap_last()}} to show the last map
 \item \code{\link[=tm_view]{tm_view()}} for viewing options
 \item \code{\link[=tmap_leaflet]{tmap_leaflet()}} for obtaining a leaflet widget

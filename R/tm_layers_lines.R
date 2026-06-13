@@ -13,7 +13,7 @@
 #' @inherit tm_polygons details
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_lines.R
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map example}
+#' @seealso `r .doc_see_also_layers("lines")`
 #' @export
 tm_lines = function(col = tm_const(),
 					col.scale = tm_scale(),

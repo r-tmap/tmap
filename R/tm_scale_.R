@@ -17,7 +17,7 @@ tm_const = function() {
 #' which scale is applied when.
 #'
 #' @param ... arguments passed on to the applied scale function `tm_scale_*()`
-#' @seealso [tm_scale_asis()], [tm_scale_ordinal()], [tm_scale_categorical()],
+#' @seealso `r .doc_see_also_scales()` [tm_scale_asis()], [tm_scale_ordinal()], [tm_scale_categorical()],
 #' [tm_scale_intervals()], [tm_scale_discrete()], [tm_scale_continuous()],
 #' [tm_scale_rank()], [tm_scale_continuous_log()], [tm_scale_continuous_log2()],
 #' [tm_scale_continuous_log10()], [tm_scale_continuous_log1p()], [tm_scale_continuous_sqrt()],
@@ -37,7 +37,7 @@ tm_scale = function(...) {
 #'
 #' @inheritParams tm_scale_categorical
 #' @param ... Arguments caught (and not used) from the automatic function [tm_scale()]
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 tm_scale_asis = function(values.scale = NA, value.neutral = NA, value.na = NA, ...) {
 	structure(c(list(FUN = "tmapScaleAsIs"), c(list(values.scale = values.scale, value.neutral = value.neutral, value.na = value.na), list(...))), class = c("tm_scale_asis", "tm_scale", "list"))
@@ -87,7 +87,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 tm_scale_categorical = function(n.max = 30,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
@@ -129,8 +129,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
-#' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_scales}{tmap basics: scales}
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 tm_scale_intervals = function(n = 5,
 							  style = ifelse(is.null(breaks), "pretty", "fixed"),
@@ -175,7 +174,7 @@ tm_scale_intervals = function(n = 5,
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 tm_scale_discrete = function(ticks = NA,
 							 #step = NA,
@@ -222,7 +221,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @param trans.args list of additional argument for the transformation (generic transformation arguments)
 #' @inheritParams scales::transform_pseudo_log
 #' @example ./examples/tm_scale_continuous.R
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 #' @name tm_scale_continuous
 tm_scale_continuous = function(n = NULL,
@@ -269,7 +268,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
 #' @param label.format (generic scale argument) Label formatting. Output of [tm_label_format()]
 #' @param unit The unit name of the values. By default `"rank"`.
-#' @seealso [tm_scale()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()]
 #' @export
 tm_scale_rank = function(n = NULL,
 						 ticks = NULL,
@@ -356,7 +355,7 @@ tm_scale_continuous_pseudo_log = function(..., base = exp(1), sigma = 1) {
 #'   In the first case, the values are stretched to `probs[1]...probs[2]`. In the second case, a histogram equalization is performed
 #' @param probs probability (quantile) values when `stretch = "percent"`
 #' @param max_color_value maximum value
-#' @seealso [tm_scale()] and [stars::st_rgb()]
+#' @seealso `r .doc_see_also_scales()` [tm_scale()] [stars::st_rgb()]
 #' @example ./examples/tm_scale_rgb.R
 #' @export
 tm_scale_rgb = function(value.na = NA,
