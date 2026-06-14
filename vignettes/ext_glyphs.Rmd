@@ -50,7 +50,6 @@ With the extension package [**tmap.glyphs**](https://github.com/r-tmap/tmap.glyp
 
 ## Donut maps
 
-
 ```{r, fig.height=6}
 ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
 
