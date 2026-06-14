@@ -17,13 +17,6 @@ ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
 
 ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
 
-which.max(ZH_muni$population)
-#> [1] 26
-
-ZH_muni$population[c(10,26)] = 500000
-
-ZH_muni$income_high[1:15] = NA
-
 tm_shape(ZH_muni) +
   tm_polygons() +
   tm_donuts(parts = tm_vars(c("income_low", "income_middle", "income_high"), multivariate = TRUE),
@@ -62,7 +55,10 @@ tm_shape(World) +
 tm_shape(World) +   
     tm_flowers(parts = tm_vars(c("norm_gender", "norm_press", "norm_footprint", "norm_well_being", "norm_inequality"), multivariate = TRUE),
                fill.scale = tm_scale(values = "friendly5"),
-               size = 1, popup.vars = c("norm_gender", "norm_press", "norm_footprint", "norm_well_being","norm_inequality"), id = "name") +
+               size = 1, 
+               popup = tm_popup(vars = c("Gender" = "norm_gender", "Press freedom" = "norm_press", 
+                  "Footprint" = "norm_footprint", "Well being" = "norm_well_being", "Economic inequality" =  "norm_inequality")),
+               id = "name") +
     tm_basemap(NULL) +
     tm_layout(bg.color = "grey90")
 #> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_polygons()`

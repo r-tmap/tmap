@@ -2,6 +2,8 @@
 
 ## tmap 4.4
 
+CRAN release: 2026-06-14
+
 - \[!\] added tm_circles (circles with fixed unit-based radii)
 - \[!\] added blend argument to all layers
 - \[!\] added hitbox to tm_lines and tm_symbols for view mode (so
