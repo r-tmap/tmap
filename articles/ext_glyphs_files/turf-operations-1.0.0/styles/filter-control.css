@@ -1,0 +1,65 @@
+.filter-control {
+    background: #fff;
+    position: absolute;
+    z-index: 1;
+    border-radius: 3px;
+    width: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    font-family: 'Open Sans', sans-serif;
+    margin: 10px;
+    padding: 10px;
+}
+
+.filter-control .filter-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.filter-control input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.filter-control .range-value {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.filter-control .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-control .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-control .toggle-button {
+    background: darkgrey;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 0;
+    border-radius: 3px 3px 0 0;
+    margin: -10px -10px 10px -10px;
+}
+
+.filter-control .toggle-button:hover {
+    background: grey;
+}
+
+.filter-control .filter-content {
+    display: block;
+}
+
+.filter-control.collapsible .filter-content {
+    display: none;
+}
+
+.filter-control.collapsible.open .filter-content {
+    display: block;
+}

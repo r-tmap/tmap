@@ -1,0 +1,123 @@
+.layers-control {
+    background: #fff;
+    position: absolute;
+    z-index: 1;
+    border-radius: 4px;
+    width: 120px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    font-family: "Open Sans", sans-serif;
+    margin: 0px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.layers-control a {
+    font-size: 13px;
+    color: #404040;
+    display: block;
+    margin: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.15s ease-in-out;
+    font-weight: normal;
+}
+
+.layers-control a:last-child {
+    border: none;
+}
+
+.layers-control a:hover {
+    background-color: #f8f8f8;
+    color: #1a1a1a;
+}
+
+.layers-control a.active {
+    background-color: #4a90e2;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.layers-control a.active:hover {
+    background: #3b7ed2;
+}
+
+.layers-control .toggle-button {
+    display: none;
+    background: #4a90e2;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 0;
+    border-radius: 4px 4px 0 0;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05) inset;
+    transition: all 0.15s ease-in-out;
+}
+
+.layers-control .toggle-button:hover {
+    background: #3b7ed2;
+}
+
+.layers-control .layers-list {
+    display: block;
+}
+
+.layers-control.collapsible .toggle-button {
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.layers-control.collapsible .layers-list {
+    display: none;
+    opacity: 0;
+    max-height: 0;
+    transition:
+        opacity 0.25s ease,
+        max-height 0.25s ease;
+}
+
+.layers-control.collapsible.open .layers-list {
+    display: block;
+    opacity: 1;
+    max-height: 500px; /* Large enough value to accommodate all content */
+}
+
+/* Compact icon styling */
+.layers-control.collapsible.icon-only {
+    width: auto;
+    min-width: 36px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transform: translateZ(
+        0
+    ); /* Force hardware acceleration for smoother animations */
+}
+
+.layers-control.collapsible.icon-only .toggle-button {
+    border-radius: 4px;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    box-sizing: border-box;
+    margin: 0;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+}
+
+.layers-control.collapsible.icon-only.open {
+    width: 120px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.layers-control.collapsible.icon-only.open .toggle-button {
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
