@@ -8,7 +8,7 @@ tm_shape(Africa_border) + tm_polygons()
 tm_shape(Africa_border) + tm_fill()
 tm_shape(Africa_border) + tm_borders()
 
-# specification with visual variable values
+# specification with map variable values
 tm_shape(Africa) +
   tm_polygons(fill = "limegreen", col = "purple", lwd = 2, lty = "solid", col_alpha = 0.3) +
   tm_text("name", options = opt_tm_text(remove_overlap = TRUE)) +

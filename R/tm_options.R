@@ -1,4 +1,8 @@
-#' tmap options
+#' Map-specific tmap options
+#'
+#' Set tmap options for a single map. Unlike [tmap_options()], which sets options
+#' globally, `tm_options()` applies only to the map it is added to. [tm_layout()]
+#' is identical but exposes only the layout-related options.
 #'
 #' @inheritParams tmap_options
 #' @seealso `r .doc_see_also_layout()`

@@ -1,6 +1,6 @@
 #' Map layer: raster
 #'
-#' Map layer that draws rasters. Supported visual variable is: `col` (the  color).
+#' Map layer that draws rasters. Supported map variable is: `col` (the  color).
 #'
 #' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")` `r .doc_unit("col")`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
@@ -56,7 +56,7 @@ tm_raster = function(col = tm_vars(),
 			style = style[1]
 			.TMAP$v3_list$mult = TRUE
 		}
-		# v3 visual variable: col
+		# v3 map variable: col
 		col.scale.args = c(list(n = v3_impute(args, "n", 5),
 								style = style,
 								style.args = v3_impute(args, "style.args", list())),

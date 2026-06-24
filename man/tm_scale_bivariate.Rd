@@ -26,7 +26,7 @@ tm_scale_bivariate(
 (e.g. \code{fill} or \code{col} for \code{tm_polygons()}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}})
 or vector of colors, for size (e.g. \code{size} for \code{tm_symbols()}) these are a set of sizes (if two values are specified they are interpret as range),
 for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc.
-The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+The tmap option \code{values.var} contains the default values per map variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
@@ -39,17 +39,17 @@ that only colors are used from black to middle grey (\code{"grey50"}).
 When only one number is specified, this is interpreted as the second number
 (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
 
-\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link[=tm_symbols]{tm_symbols()}} and \code{lwd} of \code{\link[=tm_lines]{tm_lines()}}.}
+\item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related map variables, such as \code{size} of \code{\link[=tm_symbols]{tm_symbols()}} and \code{lwd} of \code{\link[=tm_lines]{tm_lines()}}.}
 
-\item{value.na}{(generic scale argument) Value used for missing values. See tmap option \code{"value.na"} for defaults per visual variable.}
+\item{value.na}{(generic scale argument) Value used for missing values. See tmap option \code{"value.na"} for defaults per map variable.}
 
 \item{value.null}{(generic scale argument) Value used for NULL values.
-See tmap option \code{"value.null"} for defaults per visual variable. Null data
+See tmap option \code{"value.null"} for defaults per map variable. Null data
 values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country,
 the null values are applied to countries outside Europe).}
 
 \item{value.neutral}{(generic scale argument) Value that can be considered neutral.
-This is used for legends of other visual variables of the same map layer.
+This is used for legends of other map variables of the same map layer.
 E.g. when both \code{fill} and \code{size} are used for \code{\link[=tm_symbols]{tm_symbols()}} (using filled circles),
 the size legend items are filled with the \code{value.neutral} color from the \code{fill.scale} scale,
 and fill legend items are bubbles of size \code{value.neutral} from the \code{size.scale} scale.}
@@ -67,5 +67,5 @@ layer functions (e.g. \code{fill.scale} in \code{\link[=tm_polygons]{tm_polygons
 The function \code{tm_scale_bivariate()} is used for \code{bivariate.scales}.
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables} \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/adv_legends}{Legends (advanced)}, \href{https://r-tmap.github.io/tmap/articles/basics_components}{Components}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}, \href{https://r-tmap.github.io/tmap/articles/examples_biv_choro}{Bivariate choropleth} \code{\link[=tm_scale]{tm_scale()}}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate map variables} \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/adv_legends}{Legends (advanced)}, \href{https://r-tmap.github.io/tmap/articles/basics_components}{Components}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}, \href{https://r-tmap.github.io/tmap/articles/examples_biv_choro}{Bivariate choropleth} \code{\link[=tm_scale]{tm_scale()}}
 }

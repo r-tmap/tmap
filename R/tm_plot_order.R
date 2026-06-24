@@ -2,7 +2,7 @@
 #' 
 #' Determine plotting order of features.
 #' 
-#' @param aes Visual variable for which the values determine the plotting order.
+#' @param aes Map variable for which the values determine the plotting order.
 #'   Example: bubble map where the `"size"` aesthetic is used.
 #'   A data variable (say population) is mapped via a continuous scale ([tm_scale_continuous()])
 #'   to bubble sizes. The bubbles are plotted in order of size.

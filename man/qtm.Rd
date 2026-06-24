@@ -45,9 +45,9 @@ plain interactive map is shown positioned according to the results of the
 search query (from OpenStreetMap nominatim)
 }}
 
-\item{fill, col, size, shape, lwd, lty, fill_alpha, col_alpha}{Visual variables.}
+\item{fill, col, size, shape, lwd, lty, fill_alpha, col_alpha}{Map variables.}
 
-\item{text, text_col, text_size}{Visual variables.}
+\item{text, text_col, text_size}{Map variables.}
 
 \item{by}{data variable name by which the data is split, or a vector of two
 variable names to split the data by two variables (where the first is used
@@ -88,7 +88,7 @@ See \code{\link[=tmap_style]{tmap_style()}} for details.}
 
 \item{format}{Deprecated, see \code{\link[=tm_format]{tm_format()}} for alternatives}
 
-\item{...}{arguments associated with the visual variables are passed on
+\item{...}{arguments associated with the map variables are passed on
 to the layer functions \code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tm_lines]{tm_lines()}}, \code{\link[=tm_symbols]{tm_symbols()}},
 and \code{\link[=tm_text]{tm_text()}}.
 For instance, \code{fill.scale} is the scale specifications of the fill color

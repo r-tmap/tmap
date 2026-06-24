@@ -1,4 +1,4 @@
-#' @param fill,col,shape,size,fill_alpha,col_alpha,lty,lwd,linejoin,lineend visual variables
+#' @param fill,col,shape,size,fill_alpha,col_alpha,lty,lwd,linejoin,lineend map variables
 #' @param ... args
 #' @export
 #' @rdname tmap_internal

@@ -8,7 +8,7 @@
 \alias{renderTmapGS}
 \alias{tmapOutputGS}
 \alias{tmapProxyGS}
-\title{Wrapper functions for using \strong{tmap} in \strong{shiny}}
+\title{Shiny integration for tmap}
 \usage{
 renderTmap(
   expr,

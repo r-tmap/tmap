@@ -102,7 +102,7 @@ message_webgl_vars = function(supported, vary) {
 	var_text = paste(names(vary)[vary], collapse = ", ")
 	var_sel = names(vary)[vary]
 
-	cli::cli_inform("{.field [view mode]} WebGL enabled, but the only supported visual variables are: {.val {supported}}. The visual variable(s) {.val {var_sel}} are not supported. Set {.code use_WebGL = FALSE} to support them.")
+	cli::cli_inform("{.field [view mode]} WebGL enabled, but the only supported map variables are: {.val {supported}}. The map variable(s) {.val {var_sel}} are not supported. Set {.code use_WebGL = FALSE} to support them.")
 
 }
 
@@ -115,7 +115,7 @@ message_webgl_hover = function(type) {
 
 message_webgl_checks = function(checks, checkif) {
 	vals = paste(paste(names(checkif)[!checks], checkif[!checks], sep = " = "), collapse = ", ")
-	cli::cli_inform("{.field [view mode]} WebGL enabled, but the following visual variable only accept one value {.arg {vals}}. Set {.code use_WebGL = FALSE} to support them.",
+	cli::cli_inform("{.field [view mode]} WebGL enabled, but the following map variable only accept one value {.arg {vals}}. Set {.code use_WebGL = FALSE} to support them.",
 					.frequency_id = "webGL_vv",
 					.frequency = "once")
 }
@@ -174,14 +174,14 @@ message_scale_interval_value0 = function(aes, values, layer) {
 
 
 	cli::cli_inform(
-		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the visual variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
+		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the map variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
 		.frequency_id = "size0"
 	)
 }
 
 message_shiny_css = function() {
 	cli::cli_inform(
-		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the visual variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
+		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the map variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
 		.frequency_id = "size0"
 	)
 }

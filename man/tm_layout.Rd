@@ -3,7 +3,7 @@
 \name{tm_style}
 \alias{tm_style}
 \alias{tm_layout}
-\title{Layout options}
+\title{Layout and style options}
 \usage{
 tm_style(style, ...)
 

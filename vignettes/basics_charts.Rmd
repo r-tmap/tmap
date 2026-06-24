@@ -53,7 +53,7 @@ tmap_options(scale = 0.8)
 
 ## Introduction
 
-Each visual variable (e.g. `fill` in `tm_polygons()`) has an additional `.chart` argument via which charts can be shown:
+Each map variable (e.g. `fill` in `tm_polygons()`) has an additional `.chart` argument via which charts can be shown:
 
 ```{r, fig.height = 5}
 tm_shape(World) +

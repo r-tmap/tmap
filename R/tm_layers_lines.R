@@ -1,6 +1,6 @@
 #' Map layer: lines
 #'
-#' Map layer that draws lines. Supported visual variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
+#' Map layer that draws lines. Supported map variables are: `col` (the color), `lwd` (line width), `lty` (line type), and `col_alpha` (color alpha transparency).
 #'
 #' @param col,col.scale,col.legend,col.chart,col.free  `r .doc_vv("col")` `r .doc_unit("col")`
 #' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free  `r .doc_vv("lwd")` `r .doc_unit("lwd")`
@@ -77,7 +77,7 @@ tm_lines = function(col = tm_const(),
 			style = style[1]
 			.TMAP$v3_list$mult = TRUE
 		}
-		# v3 visual variable: col
+		# v3 map variable: col
 		col.scale.args = c(list(n = v3_impute(args, "n", 5),
 								style = style,
 								style.args = v3_impute(args, "style.args", list())),
@@ -161,8 +161,8 @@ tm_lines = function(col = tm_const(),
 			v3_tm_legend(fun = layer_fun, vv = "col", arg_list = v3_list_get())
 		}
 
-		# v3 visual variable: lwd
-		# v3 visual variable: size
+		# v3 map variable: lwd
+		# v3 map variable: size
 		v3_list_init()
 		lwd.scale.args = list(ticks = v3_impute(args, "lwd.legend", NULL, "ticks"),
 							  labels = v3_impute(args, "lwd.legend.labels", NULL, "labels"),

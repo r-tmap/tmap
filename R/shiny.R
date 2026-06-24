@@ -1,4 +1,4 @@
-#' Wrapper functions for using **tmap** in **shiny**
+#' Shiny integration for tmap
 #'
 #' @description
 #' * `tmapOutput()` creates a UI element

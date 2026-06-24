@@ -297,22 +297,22 @@ opt_tm_squares(
 )
 }
 \arguments{
-\item{size, size.scale, size.legend, size.chart, size.free}{Visual variable that determines the size. See details. \emph{Unit:} Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by \code{values.scale} and \code{tmap_options(values.scale = ...)}.}
+\item{size, size.scale, size.legend, size.chart, size.free}{Map variable that determines the size. See details. \emph{Unit:} Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by \code{values.scale} and \code{tmap_options(values.scale = ...)}.}
 
-\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Visual variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string.}
+\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Map variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{shape, shape.scale, shape.legend, shape.chart, shape.free}{Visual variable that determines the shape. See details. \emph{Unit:} Integer \code{pch} code (1-25) used as a plotting symbol. See example of \code{tm_symbols()}}
+\item{shape, shape.scale, shape.legend, shape.chart, shape.free}{Map variable that determines the shape. See details. \emph{Unit:} Integer \code{pch} code (1-25) used as a plotting symbol. See example of \code{tm_symbols()}}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Map variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
 
-\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
+\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Map variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free}{Visual variable that determines the fill color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).
+\item{fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free}{Map variable that determines the fill color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).
 the fill color alpha transparency See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
 See \code{\link[=tm_plot_order]{tm_plot_order()}} for details.}
@@ -364,16 +364,16 @@ no blending. See the "Layer blending" section for the supported values.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
-\item{text, text.scale, text.legend, text.chart, text.free}{Visual variable that determines the text. See details. \emph{Unit:} Character string.}
+\item{text, text.scale, text.legend, text.chart, text.free}{Map variable that determines the text. See details. \emph{Unit:} Character string.}
 
-\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Visual variable that determines the font face. See details. \emph{Unit:} "plain", "bold", "italic", or "bold.italic".}
+\item{fontface, fontface.scale, fontface.legend, fontface.chart, fontface.free}{Map variable that determines the font face. See details. \emph{Unit:} "plain", "bold", "italic", or "bold.italic".}
 
 \item{fontfamily}{The font family. See \link[grid:gpar]{gpar()} for details.}
 
-\item{bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free}{Visual variable that determines
+\item{bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free}{Map variable that determines
 the background color. See Details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free}{Visual variable that determines
+\item{bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart, bgcol_alpha.free}{Map variable that determines
 the background color transparency. See Details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{xmod, xmod.scale, xmod.legend, xmod.chart, xmod.free}{Transformation variable that determines the x offset. See details. \emph{Unit:} Line heights, relative to the label anchor. Positive = right.}
@@ -451,7 +451,7 @@ The hitbox is not applied when clustering is enabled.}
 \item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 }
 \description{
-Map layer that draws symbols Supported visual variables are:
+Map layer that draws symbols Supported map variables are:
 \code{fill} (the fill color), \code{col} (the border color), \code{size} the symbol size,
 \code{shape} the symbol shape, \code{lwd} (line width), \code{lty} (line type), \code{fill_alpha}
 (fill color alpha transparency) and \code{col_alpha} (border color alpha transparency).
@@ -485,5 +485,5 @@ tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
 	tm_text("id", ymod = -2)
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_bubble}{Bubble map}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
+\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_bubble}{Bubble map}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
 }

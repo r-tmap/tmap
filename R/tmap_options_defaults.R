@@ -52,7 +52,7 @@
 		animation.dpi = 100,
 
 
-		# default visual variable values
+		# default map variable values
 		value.const = list(fill.symbols = "grey60",
 						   fill.dots = "black",
 						   fill = "grey85",

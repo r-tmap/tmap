@@ -9,7 +9,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 	nm__ord = paste0(nm, "__ord")
 
 
-	#nm and unm are both visual variables
+	#nm and unm are both map variables
 	#nm is the 'prototype', for which methods are written (tmapScale_defaults.R)
 	#unm is the name known by the user, so used in messaging and also as identifier in data
 
@@ -49,7 +49,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 		if (inherits(val, "tmapUsrCls")) {
 			temp = local({
-				# not data driven variable: visual variable to support tm_vars(multivariate = TRUE) of other visual variable (e.g. fill of donut maps)
+				# not data driven variable: map variable to support tm_vars(multivariate = TRUE) of other map variable (e.g. fill of donut maps)
 				k = length(aes$value[[1]]$x)
 				vls = unname(aes$value[[1]]$x)
 				dtl = data.table::data.table(tmapID__ = 1L:k, sel = TRUE, value = factor(vls, levels = vls))
@@ -103,7 +103,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 		if (!aes$data_vars && !aes$geo_vars && !aes$bypass_vars) {
 			#cat("step2_grp_lyr_aes_const", unm," \n")
 			# constant values (take first value (of possible multivariate per facet)
-			if (any(nvari) > 1) warning("Mapping values considered as direct visual variables, which cannot be used with multivariate variables", call. = FALSE)
+			if (any(nvari) > 1) warning("Mapping values considered as direct map variables, which cannot be used with multivariate variables", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 
 			if (!aes$bypass_vars) {
@@ -295,7 +295,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				l$group = group
 				crt = update_crt(o = o, crt = crt, v = v, mfun = mfun, unm = unm, active = TRUE)
 
-				if (length(s) == 0) cli::cli_abort("mapping not implemented for visual variable {unm}")
+				if (length(s) == 0) cli::cli_abort("mapping not implemented for map variable {unm}")
 				._f = s$FUN
 				s$FUN = NULL
 				# update label.format
@@ -365,7 +365,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 						dtl[, c(varname, ordname, legname, crtname) := list(value.null, -1L, 0L, 0L)]
 					}
 
-					if (is.na(value.null)) cli::cli_abort("{.code value.null} not implemented for visual variable {unm}")
+					if (is.na(value.null)) cli::cli_abort("{.code value.null} not implemented for map variable {unm}")
 					if (bypass_ord) {
 						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
@@ -466,7 +466,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 					cli::cli_abort("incorrect scale specification")
 				}
 
-				if (length(s) == 0) cli::cli_abort("mapping not implemented for visual variable {unm}")
+				if (length(s) == 0) cli::cli_abort("mapping not implemented for map variable {unm}")
 
 				if (inherits(aes$legend, "tm_legend")) {
 					l = aes$legend

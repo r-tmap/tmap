@@ -14,7 +14,7 @@
 # nms_lst = sapply(nms_s, tail, 1)
 # whats = sort(unique(nms_lst))
 # cat(paste0("c(", paste(sapply(whats, function(w) paste0(w, " = \"", w, "\"")), collapse = ",\n"), ")"))
-#' tmap options
+#' Global tmap options
 #'
 #' Get or set the tmap options globally. For map specific options, we recommend to use [tm_options()] or [tm_layout()] via which the layout-related options can be set. [tmap_options()] functions similar to [base::options()].
 #'
@@ -32,16 +32,16 @@
 #' @param output.size Output size
 #' @param output.dpi Output dpi
 #' @param animation.dpi Output dpi for animations
-#' @param value.const Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per visual variable a value.
-#' @param value.na Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.
-#' @param value.null Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.
-#' @param value.blank Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per visual variable a value.
-#' @param values.var Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.
-#' @param values.range Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
-#' @param value.neutral Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.
-#' @param values.scale Default scales (as in object sizes) for values. See `values.range` of [tm_scale_categorical()]. A list is required with per visual variable a value.
-#' @param scales.var Default scale functions per visual variable and type of data variable. A list is required with per visual variable per data type.
-#' @param scale.misc.args Default values of scale function-specific arguments. A list is required with per scale function and optional per visual variable.
+#' @param value.const Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per map variable a value.
+#' @param value.na Default visual values that are used to visualize NA data values. A list is required with per map variable a value.
+#' @param value.null Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per map variable a value.
+#' @param value.blank Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per map variable a value.
+#' @param values.var Default values when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
+#' @param values.range Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per map variable a value.
+#' @param value.neutral Default values for when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
+#' @param values.scale Default scales (as in object sizes) for values. See `values.range` of [tm_scale_categorical()]. A list is required with per map variable a value.
+#' @param scales.var Default scale functions per map variable and type of data variable. A list is required with per map variable per data type.
+#' @param scale.misc.args Default values of scale function-specific arguments. A list is required with per scale function and optional per map variable.
 #' @param continuous.nclass_per_legend_break The number of continuous legend breaks within one 'unit' (label).  The default value is 50.
 #' @param continuous.nclasses the number of classes of a continuous scale. Should be odd.  The default value is 101.
 #' @param label.format Format for the labels. These are the default values for [tm_label_format()]
@@ -554,8 +554,8 @@ tmapOption = function(...) {
 #' Internal tmap function to add a default value for the layer functions. Deprecated. Use [tmapSubmitOptions()] instead.
 #'
 #' @param option, one of: `"value.const"`, `"value.na"`, `"value.blank"`, `"values.var"`, `'values.range'`, `"value.neutral"`, `"scales.var"`
-#' @param id name of the visual variable with layer, in the format `"x.y"`,
-#'   where `x` is the visual variable and `y` is the layer.
+#' @param id name of the map variable with layer, in the format `"x.y"`,
+#'   where `x` is the map variable and `y` is the layer.
 #'   It is also possible to set `x` only; then it applies to all layer functions.
 #' @param value value
 #' @keywords internal

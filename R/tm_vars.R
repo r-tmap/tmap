@@ -1,11 +1,11 @@
-#' tmap function to specify variables
+#' Specify variables
 #'
 #' tmap function to specify all variables in the shape object
 #'
 #' @param x variable names, variable indices, or a dimension name
 #' @param dimvalues dimension values
 #' @param n if specified the first `n` variables are taken (or the first `n` dimension values)
-#' @param multivariate in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate visual variable?
+#' @param multivariate in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate map variable?
 #' @param animate should the variable(s) be animated? (experimental)
 #' @seealso `r .doc_see_also_scales()`
 #' @export
@@ -14,7 +14,7 @@ tm_vars = function(x = NA, dimvalues = NULL, n = NA, multivariate = FALSE, anima
 }
 
 
-# process visual variable specification. Can either be tmapVars (output of tm_vars) or a list of values.
+# process map variable specification. Can either be tmapVars (output of tm_vars) or a list of values.
 tmapVV = function(x) {
 	if (is.null(x)) {
 		x = structure(list("value.blank"), class = "tmapOption")

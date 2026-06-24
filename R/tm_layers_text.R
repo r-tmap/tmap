@@ -1,6 +1,6 @@
 #' Map layer: text
 #'
-#' Map layer that draws symbols Supported visual variables are: `text`
+#' Map layer that draws symbols Supported map variables are: `text`
 #' (the text itself) `col` (color), `size` (font size), and `fontface` (font face).
 #'
 #' @param text,text.scale,text.legend,text.chart,text.free `r .doc_vv("text")` `r .doc_unit("text")`
@@ -9,9 +9,9 @@
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free `r .doc_vv("fontface")` `r .doc_unit("fontface")`
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
-#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Visual variable that determines
+#' @param bgcol,bgcol.scale,bgcol.legend,bgcol.chart,bgcol.free Map variable that determines
 #'   the background color. See Details. `r .doc_unit("bgcol")`
-#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Visual variable that determines
+#' @param bgcol_alpha,bgcol_alpha.scale,bgcol_alpha.legend,bgcol_alpha.chart,bgcol_alpha.free Map variable that determines
 #'   the background color transparency. See Details. `r .doc_unit("bgcol_alpha")`
 #' @param xmod,xmod.scale,xmod.legend,xmod.chart,xmod.free Transformation variable that determines the x offset. See details. `r .doc_unit("xmod")`
 #' @param ymod,ymod.scale,ymod.legend,ymod.chart,ymod.free Transformation variable that determines the y offset. See details. `r .doc_unit("ymod")`

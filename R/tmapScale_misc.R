@@ -6,7 +6,7 @@ check_values = function(layer, aes, values) {
 		info = attr(are_valid, "info")
 		cli::cli_abort(c(
 			"x" = "Incorrect values for layer {layer} aesthetic {aes}",
-			"!" = "values should conform visual variable {.val {aes}}.",
+			"!" = "values should conform map variable {.val {aes}}.",
 			"i" = info
 		),
 		call = call(paste0("tm_", layer[1])))

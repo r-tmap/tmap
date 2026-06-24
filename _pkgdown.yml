@@ -134,7 +134,7 @@ navbar:
     basics:
       text: Basics
       menu:
-        - text: Visual variables
+        - text: Map variables
           href: articles/basics_vv
         - text: Scales
           href: articles/basics_scales

@@ -18,15 +18,15 @@ tm_add_legend(
 )
 }
 \arguments{
-\item{...}{visual variables and arguments passed on to \code{tm_legend()}.
+\item{...}{map variables and arguments passed on to \code{tm_legend()}.
 By default, the argument \code{type} is set to \code{"symbols"}, which means that the
-supported visual variables are: \code{"fill"}, \code{"col"}, \code{"shape"}, \code{"size"},
+supported map variables are: \code{"fill"}, \code{"col"}, \code{"shape"}, \code{"size"},
 \code{"fill_alpha"}, \code{"col_alpha"}, \code{"lty"}, \code{"lwd"}, \code{"linejoin"}, and \code{"lineend"}.
 The number of legend items will be equal to the maximum number of specific values (and specified labels.)}
 
 \item{labels}{labels by default \code{""} (so omitted)}
 
-\item{type}{the layer type from which the visual variables (see \code{...}) are taken.
+\item{type}{the layer type from which the map variables (see \code{...}) are taken.
 Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \code{"text"}.}
 
 \item{title}{The title of the legend.}

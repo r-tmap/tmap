@@ -32,7 +32,7 @@
 }
 
 .tips <- c(
-	"tmap works with {.href [visual variables](https://r-tmap.github.io/tmap/articles/basics_vv)}.",
+	"tmap works with {.href [map variables](https://r-tmap.github.io/tmap/articles/basics_vv)}.",
 	"tmap can be {.href [extended](https://r-tmap.github.io/tmap/articles/adv_extensions)} in several ways.",
 	"{.href [Charts](https://r-tmap.github.io/tmap/articles/basics_charts)} can be added next to legends.",
 	"Layout {.href [styles](https://r-tmap.github.io/tmap/articles/adv_options#setting-options-and-styles)} can be created.",

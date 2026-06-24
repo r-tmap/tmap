@@ -133,14 +133,14 @@
 			   fontface = "font face")
 	txt = unname(lookup[x])
 	if (is.na(txt)) txt = x
-	paste0("Visual variable that determines the ", txt, ". See details.")
+	paste0("Map variable that determines the ", txt, ". See details.")
 }
 
 .tmap_article_url = "https://r-tmap.github.io/tmap/articles/"
 
 # Single source of truth: vignette slug -> link label
 .tmap_vignettes = c(
-	basics_vv            = "Visual variables",
+	basics_vv            = "Map variables",
 	basics_scales        = "Scales",
 	basics_modes         = "Modes",
 	basics_facets        = "Facets",
@@ -173,7 +173,7 @@
 	adv_animations       = "Animations",
 	adv_shiny            = "Shiny integration",
 	adv_ggplot2          = "ggplot2 integration",
-	adv_multivariate     = "Multivariate visual variables",
+	adv_multivariate     = "Multivariate map variables",
 	adv_positions        = "Positioning of components",
 	adv_comp_group       = "Grouping of components",
 	adv_options          = "Options and styles",

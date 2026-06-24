@@ -2,10 +2,10 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_const}
 \alias{tm_const}
-\title{tmap function to define a constant visual value}
+\title{Constant visual value}
 \usage{
 tm_const()
 }
 \description{
-tmap function to define a constant visual value
+Specify a constant value for a map variable (e.g. a fixed fill color or symbol size), bypassing data-driven scaling.
 }

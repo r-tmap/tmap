@@ -29,8 +29,8 @@
 #'  * An OpenStreetMap search string, e.g. `qtm("Amsterdam")`. In this case a
 #'    plain interactive map is shown positioned according to the results of the
 #'    search query (from OpenStreetMap nominatim)
-#' @param fill,col,size,shape,lwd,lty,fill_alpha,col_alpha Visual variables.
-#' @param text,text_col,text_size Visual variables.
+#' @param fill,col,size,shape,lwd,lty,fill_alpha,col_alpha Map variables.
+#' @param text,text_col,text_size Map variables.
 #' @param by data variable name by which the data is split, or a vector of two
 #'   variable names to split the data by two variables (where the first is used
 #'   for the rows and the second for the columns). See also [tm_facets()].
@@ -58,7 +58,7 @@
 #' @param style Layout options (see [tm_layout()]) that define the style.
 #'   See [tmap_style()] for details.
 #' @param format Deprecated, see [tm_format()] for alternatives
-#' @param ... arguments associated with the visual variables are passed on
+#' @param ... arguments associated with the map variables are passed on
 #'   to the layer functions [tm_polygons()], [tm_lines()], [tm_symbols()],
 #'   and [tm_text()].
 #'   For instance, `fill.scale` is the scale specifications of the fill color

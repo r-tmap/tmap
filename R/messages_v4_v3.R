@@ -94,7 +94,7 @@ v3_tm_scale = function(scale_fun, vv, layer_fun, arg_list) {
 
 			al = v3_list_text(olds = arg_list$old, news = arg_list$new)
 			cli::cli_inform(c(
-				"{.field [v3->v4]} {.fn tm_{layer_fun}}: migrate the argument(s) related to the scale of the visual variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).",
+				"{.field [v3->v4]} {.fn tm_{layer_fun}}: migrate the argument(s) related to the scale of the map variable {.var {vv}} namely {al} to {vv}.scale = {scale_fun}(<HERE>).",
 				"i" = x
 			))
 		}
@@ -197,7 +197,7 @@ v3_list_text = function(olds, news) {
 v3_tm_legend = function(fun, vv, arg_list) {
 	if (length(arg_list$old)) {
 		al = v3_list_text(olds = arg_list$old, news = arg_list$new)
-		cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: migrate the argument(s) related to the legend of the visual variable {.var {vv}} namely {al} to '{vv}.legend = tm_legend(<HERE>)'")
+		cli::cli_inform("{.field [v3->v4]} {.fn {fun}}: migrate the argument(s) related to the legend of the map variable {.var {vv}} namely {al} to '{vv}.legend = tm_legend(<HERE>)'")
 	}
 	NULL
 }
@@ -270,7 +270,7 @@ v3_message_col_fill = function(layer_fun) {
 
 v3_message_vv_null = function(layer_fun) {
 	cli::cli_inform(c(
-		"{.field [v3->v4]} {.fn {layer_fun}}: use {.val {NA}} instead of {.code NULL} to hide a visual variable."
+		"{.field [v3->v4]} {.fn {layer_fun}}: use {.val {NA}} instead of {.code NULL} to hide a map variable."
 	),
 	.frequency_id = "hide-vv",
 	.frequency = "regularly"

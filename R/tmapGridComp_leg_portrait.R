@@ -294,7 +294,7 @@ add_user_specified_values = function(gp, usr) {
 	for (v in names(usr)) {
 		fun = paste0("tmapValuesCheck_", v)
 		val = usr[[v]]
-		if (!do.call(fun, list(x = val, is_var = TRUE))) stop("Values assigned to visual variable ", v, " in tm_legend incorrect")
+		if (!do.call(fun, list(x = val, is_var = TRUE))) stop("Values assigned to map variable ", v, " in tm_legend incorrect")
 
 		gp[[v]] = val
 	}

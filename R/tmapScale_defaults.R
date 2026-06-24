@@ -804,7 +804,7 @@ tmapValuesColorize_angle = function(x, pc) x
 
 #' Specify a numeric sequence
 #'
-#' Specify a numeric sequence, for numeric scales like [tm_scale_continuous()]. This function is needed when there is a non-linear relationship between the numeric data values and the visual variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
+#' Specify a numeric sequence, for numeric scales like [tm_scale_continuous()]. This function is needed when there is a non-linear relationship between the numeric data values and the map variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
 #'
 #' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting `power` to `"sqrt_perceptual"`
 #'
@@ -1002,7 +1002,7 @@ tmapValuesCVV_fontface = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_fontface(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
-# bivariate visual variables
+# bivariate map variables
 #' @export
 #' @rdname tmap_internal
 tmapValuesBVV_fill = function(x, value.na, m, n, scale, rep, o) {

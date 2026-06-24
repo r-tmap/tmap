@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_options.R
 \name{tm_options}
 \alias{tm_options}
-\title{tmap options}
+\title{Map-specific tmap options}
 \usage{
 tm_options(
   crs,
@@ -356,25 +356,25 @@ When a different projection (crs) is used, a (usually) regular raster will be}
 
 \item{animation.dpi}{Output dpi for animations}
 
-\item{value.const}{Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per visual variable a value.}
+\item{value.const}{Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per map variable a value.}
 
-\item{value.na}{Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.}
+\item{value.na}{Default visual values that are used to visualize NA data values. A list is required with per map variable a value.}
 
-\item{value.null}{Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.}
+\item{value.null}{Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per map variable a value.}
 
-\item{value.blank}{Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value.}
+\item{value.blank}{Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per map variable a value.}
 
-\item{values.var}{Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.}
+\item{values.var}{Default values when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
 
-\item{values.range}{Default range for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per visual variable a value.}
+\item{values.range}{Default range for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per map variable a value.}
 
-\item{value.neutral}{Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value.}
+\item{value.neutral}{Default values for when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
 
-\item{values.scale}{Default scales (as in object sizes) for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per visual variable a value.}
+\item{values.scale}{Default scales (as in object sizes) for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per map variable a value.}
 
-\item{scales.var}{Default scale functions per visual variable and type of data variable. A list is required with per visual variable per data type.}
+\item{scales.var}{Default scale functions per map variable and type of data variable. A list is required with per map variable per data type.}
 
-\item{scale.misc.args}{Default values of scale function-specific arguments. A list is required with per scale function and optional per visual variable.}
+\item{scale.misc.args}{Default values of scale function-specific arguments. A list is required with per scale function and optional per map variable.}
 
 \item{continuous.nclass_per_legend_break}{The number of continuous legend breaks within one 'unit' (label).  The default value is 50.}
 
@@ -970,7 +970,9 @@ adjusted to the size of the device divided by the number of columns and rows.}
 \item{...}{List of tmap options to be set, or option names (characters) to be returned (see details)}
 }
 \description{
-tmap options
+Set tmap options for a single map. Unlike \code{\link[=tmap_options]{tmap_options()}}, which sets options
+globally, \code{tm_options()} applies only to the map it is added to. \code{\link[=tm_layout]{tm_layout()}}
+is identical but exposes only the layout-related options.
 }
 \seealso{
 \href{https://r-tmap.github.io/tmap/articles/basics_layout}{Layout}, \href{https://r-tmap.github.io/tmap/articles/adv_margins}{Margins and aspect ratio}, \href{https://r-tmap.github.io/tmap/articles/adv_options}{Options and styles}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth (World)}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}

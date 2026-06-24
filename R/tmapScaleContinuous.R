@@ -33,7 +33,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 	if (attr(cls, "unique") && any(is.na(scale$limits)) && is.null(scale$ticks)) {
 		scale$ticks = NA
-		cli::cli_inform("The visual variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
+		cli::cli_inform("The map variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
 		return(tmapScaleDiscrete(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = submit_legend))
 	}
 

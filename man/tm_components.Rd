@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_components.R
 \name{tm_components}
 \alias{tm_components}
-\title{Group components}
+\title{Group map components}
 \usage{
 tm_components(
   group_id = "",
@@ -60,7 +60,7 @@ tm_components(
 A \code{\link{tmap-element}}
 }
 \description{
-Group components
+Control the grouping, position, and stacking of map components (legends, titles, scale bars, etc.).
 }
 \seealso{
 \href{https://r-tmap.github.io/tmap/articles/basics_components}{Components}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}, \href{https://r-tmap.github.io/tmap/articles/adv_comp_group}{Grouping of components}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}

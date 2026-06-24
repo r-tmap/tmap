@@ -3,7 +3,7 @@
 # args = setdiff(intersect(names(tmap_options_mode("view", mode.specific = FALSE)),names(tmap_options_mode("plot", mode.specific = FALSE))),  "name")
 # cat(paste(args, collapse = ", "))
 # manual: tm_layout: start with scale (the options before that are tm_options only)
-#' Layout options
+#' Layout and style options
 #'
 #' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
 #'
@@ -49,8 +49,8 @@ tm_layout = function(
 #' View mode options. These options are specific to the view mode.
 #'
 #' @param use_browser If `TRUE` it opens an external browser, and `FALSE` (default) it opens the internal IDEs (e.g. RStudio) browser.
-#' @param use_WebGL use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of visual variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only `TRUE` for large spatial objects (1000 or more features) when the mentioned criteria are met.
-#'  By default `TRUE` if no other visual variables are used.
+#' @param use_WebGL use webGL for points, lines, and polygons. For large spatial objects, this is much faster than the standard leaflet layer functions. However, it can not always be used for two reasons. First, the number of map variables are limited; only fill, size, and color (for lines) are supported. Second, projected CRS's are not supported. Furthermore, it has the drawback that polygon borders are not as sharp. By default only `TRUE` for large spatial objects (1000 or more features) when the mentioned criteria are met.
+#'  By default `TRUE` if no other map variables are used.
 #' @param control.position `r .doc_opt("control.position")`
 #' @param control.bases base layers
 #' @param control.overlays overlay layers
@@ -103,7 +103,7 @@ tm_plot = function(use_gradient, limit_latitude_3857) {
 }
 
 
-#' @rdname tm_extra_innner_margin
+#' @rdname tm_extra_inner_margin
 #' @export
 tm_place_legends_right = function(width = NA) {
 	if (is.na(width)) {
@@ -113,7 +113,7 @@ tm_place_legends_right = function(width = NA) {
 	}
 }
 
-#' @rdname tm_extra_innner_margin
+#' @rdname tm_extra_inner_margin
 #' @param width width
 #' @export
 tm_place_legends_left = function(width = NA) {
@@ -124,7 +124,7 @@ tm_place_legends_left = function(width = NA) {
 	}
 }
 
-#' @rdname tm_extra_innner_margin
+#' @rdname tm_extra_inner_margin
 #' @param height height
 #' @export
 tm_place_legends_bottom = function(height = NA) {
@@ -135,7 +135,7 @@ tm_place_legends_bottom = function(height = NA) {
 	}
 }
 
-#' @rdname tm_extra_innner_margin
+#' @rdname tm_extra_inner_margin
 #' @export
 tm_place_legends_top = function(height = NA) {
 	if (is.na(height)) {
@@ -145,7 +145,7 @@ tm_place_legends_top = function(height = NA) {
 	}
 }
 
-#' @rdname tm_extra_innner_margin
+#' @rdname tm_extra_inner_margin
 #' @param pos.h,pos.v position (horizontal and vertical)
 #' @export
 tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
@@ -161,16 +161,27 @@ tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 	}
 }
 
-#' tmap layout: helper functions
+#' Layout helpers: inner margins and legend placement
 #'
 #' @param left,right,top,bottom extra margins
 #' @export
-#' @name tm_extra_innner_margin
+#' @name tm_extra_inner_margin
 tm_extra_inner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
-#' @rdname tmap_options
+#' Check and fix invalid geometries
+#'
+#' Checks whether the geometries of the shapes specified via [tm_shape()] are
+#' valid. Invalid geometries can cause errors or maps with artifacts.
+#'
+#' This tmap element checks the geometries with [sf::st_is_valid()] and, if
+#' needed, applies [sf::st_make_valid()]. If that is unsuccessful, it toggles the
+#' s2 backend of the **sf** package (on or off, depending on whether it was
+#' already enabled) and tries again. If the geometries are still invalid, the map
+#' is drawn with a warning and the invalid geometries are removed.
+#'
+#' @returns A `tmap` element.
 #' @export
 tm_check_fix = function() {
 	tm_options(check_and_fix = TRUE)

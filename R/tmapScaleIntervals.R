@@ -6,7 +6,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 	if (attr(cls, "unique") && is.null(scale$breaks)) {
 		scale$ticks = NA
-		cli::cli_inform("The visual variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
+		cli::cli_inform("The map variable {.arg {aes}} of the layer {.str {layer}} contains a unique value. Therefore a discrete scale is applied (tm_scale_discrete).")
 		return(tmapScaleDiscrete(x1, scale, legend, chart, o, aes, layer, layer_args, sortRev, bypass_ord, submit_legend = submit_legend))
 
 	}
@@ -63,7 +63,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	# data-type dependent processing
 	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer, show.messages = show.messages, show.warnings = show.warnings))
 
-	# visual variable processing
+	# map variable processing
 	with(scale, {
 		fun_getVV = paste0("tmapValuesVV_", aes)
 		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))

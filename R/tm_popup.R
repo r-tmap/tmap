@@ -13,7 +13,7 @@
 #'   \describe{
 #'     \item{`TRUE`}{show all variables of the shape object;}
 #'     \item{`FALSE`}{disable popups;}
-#'     \item{`NA` (default)}{automatic: if visual variables (e.g. `fill`) are
+#'     \item{`NA` (default)}{automatic: if map variables (e.g. `fill`) are
 #'       used, only those are shown, otherwise all variables of the shape
 #'       object are shown.}
 #'   }

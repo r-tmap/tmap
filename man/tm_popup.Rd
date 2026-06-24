@@ -28,7 +28,7 @@ argument):
 \describe{
 \item{\code{TRUE}}{show all variables of the shape object;}
 \item{\code{FALSE}}{disable popups;}
-\item{\code{NA} (default)}{automatic: if visual variables (e.g. \code{fill}) are
+\item{\code{NA} (default)}{automatic: if map variables (e.g. \code{fill}) are
 used, only those are shown, otherwise all variables of the shape
 object are shown.}
 }}

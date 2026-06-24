@@ -35,10 +35,10 @@ tm_rgba(
 opt_tm_rgb(interpolate = FALSE, saturation = 1)
 }
 \arguments{
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines
+\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines
 the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\code{tm_rgba}) numeric data variables. These can be specified via \code{\link[=tm_vars]{tm_vars()}} with \code{multivariate = TRUE}}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{blend}{Compositing operator for layer blending. Default \code{"over"} applies no blending. See the "Layer blending" section of \code{\link[=tm_polygons]{tm_polygons()}} for supported values.}
 
@@ -51,7 +51,7 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 \item{saturation}{The saturation of the rgb.}
 }
 \description{
-Map layer that an rgb image.. The used (multivariate) visual variable is \code{col},
+Map layer that an rgb image.. The used (multivariate) map variable is \code{col},
 which should be specified with 3 or 4 variables for \code{tm_rgb()} and \code{tm_rgba()} respectively.
 The first three correspond to the red, green, and blue channels. The optional
 fourth is the alpha transparency channel.

@@ -757,7 +757,7 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 
 \item{subclass}{subclass}
 
-\item{fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin, lineend}{visual variables}
+\item{fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin, lineend}{map variables}
 
 \item{scale}{scale}
 

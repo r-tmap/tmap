@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_vars.R
 \name{tm_vars}
 \alias{tm_vars}
-\title{tmap function to specify variables}
+\title{Specify variables}
 \usage{
 tm_vars(
   x = NA,
@@ -19,7 +19,7 @@ tm_vars(
 
 \item{n}{if specified the first \code{n} variables are taken (or the first \code{n} dimension values)}
 
-\item{multivariate}{in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate visual variable?}
+\item{multivariate}{in case multiple variables are specified, should they serve as facets (FALSE) or as a multivariate map variable?}
 
 \item{animate}{should the variable(s) be animated? (experimental)}
 }
@@ -27,5 +27,5 @@ tm_vars(
 tmap function to specify all variables in the shape object
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate visual variables}
+\href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/adv_multivariate}{Multivariate map variables}
 }

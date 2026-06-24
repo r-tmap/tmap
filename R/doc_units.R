@@ -1,4 +1,4 @@
-# Internal helper: generate a short "Unit: ..." sentence for a visual variable,
+# Internal helper: generate a short "Unit: ..." sentence for a map variable,
 # for use as inline R code inside roxygen @param tags, e.g.:
 #
 #   #' @param size,size.scale,... `r .doc_vv("size")` `r .doc_unit("size")`
@@ -69,9 +69,9 @@
 # -------------------------------------------------------------------------
 #
 # #' @details
-# #' ## Visual variable units
+# #' ## Map variable units
 # #'
-# #' Every visual variable maps data values to a specific output unit.
+# #' Every map variable maps data values to a specific output unit.
 # #' Knowing the unit matters when supplying constant values via [tm_const()],
 # #' or output ranges via `values.range` / `values.scale` in the scale
 # #' functions.

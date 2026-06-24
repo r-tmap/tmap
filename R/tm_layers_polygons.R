@@ -1,10 +1,10 @@
 #' Map layer: polygons
 #'
-#' Map layer that draws polygons. Supported visual variables are: `fill` (the fill color),
+#' Map layer that draws polygons. Supported map variables are: `fill` (the fill color),
 #' `col` (the border color), `lwd` (line width), `lty` (line type),
 #' `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
 #'
-#' The visual variable arguments (e.g. `col`) can be specified with a data
+#' The map variable arguments (e.g. `col`) can be specified with a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
 #' specified in [tm_shape()]), with a visual value (for `col`, a color is expected), or with a geometry-derived variable (see below).
 #' See `r .doc_see_vig("basics_vv")`.
@@ -14,7 +14,7 @@
 #' See `r .doc_see_vig("basics_facets")`.
 #'
 #' - The `*.scale` arguments determine the used scale to map the data values to
-#' visual variable values. These can be specified with one of the available
+#' map variable values. These can be specified with one of the available
 #' `tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
 #' See `r .doc_see_vig("basics_scales")`.
 #'
@@ -31,7 +31,7 @@
 #' This is only useful when facets are applied (see [tm_facets()]).
 #' There are maximally three facet dimensions: rows, columns, and pages. This only
 #' applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)`
-#' means that for the visual variable `col`, each row of facets will have its own
+#' means that for the map variable `col`, each row of facets will have its own
 #' scale, and therefore its own legend. For facet wraps and stacks
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
@@ -51,9 +51,9 @@
 #' for example with [sf::st_area()], [sf::st_length()], or
 #' [tmaptools::map_coloring()], and use the resulting values instead.
 #'
-#' ## Visual variable units
+#' ## Map variable units
 #'
-#' Every visual variable maps data values to a specific output unit.
+#' Every map variable maps data values to a specific output unit.
 #' Knowing the unit matters when supplying constant values via [tm_const()],
 #' or output ranges via `values.range` / `values.scale` in the scale
 #' functions.

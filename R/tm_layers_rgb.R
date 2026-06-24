@@ -1,11 +1,11 @@
 #' Map layer: rgb images
 #'
-#' Map layer that an rgb image.. The used (multivariate) visual variable is `col`,
+#' Map layer that an rgb image.. The used (multivariate) map variable is `col`,
 #' which should be specified with 3 or 4 variables for `tm_rgb()` and `tm_rgba()` respectively.
 #' The first three correspond to the red, green, and blue channels. The optional
 #' fourth is the alpha transparency channel.
 #'
-#' @param col,col.scale,col.legend,col.chart,col.free Visual variable that determines
+#' @param col,col.scale,col.legend,col.chart,col.free Map variable that determines
 #'   the color. `col` is a multivariate variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables. These can be specified via [tm_vars()] with `multivariate = TRUE`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free  `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param blend Compositing operator for layer blending. Default `"over"` applies no blending. See the "Layer blending" section of [tm_polygons()] for supported values.

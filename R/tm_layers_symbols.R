@@ -1,6 +1,6 @@
 #' Map layer: symbols
 #'
-#' Map layer that draws symbols Supported visual variables are:
+#' Map layer that draws symbols Supported map variables are:
 #' `fill` (the fill color), `col` (the border color), `size` the symbol size,
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha`
 #' (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
@@ -241,7 +241,7 @@ v3_symbols = function(args, args_called, arg_col = NULL) {
 			.TMAP$v3_list$mult = TRUE
 		}
 
-		# v3 visual variable: fill
+		# v3 map variable: fill
 		fill.scale.args = c(list(n = v3_impute(args, "n", 5),
 								 style = style,
 								 style.args = v3_impute(args, "style.args", list())),
@@ -354,7 +354,7 @@ v3_symbols = function(args, args_called, arg_col = NULL) {
 		}
 
 
-		# v3 visual variable: size
+		# v3 map variable: size
 		v3_list_init()
 		size.scale.args = list(ticks = v3_impute(args, "sizes.legend", NULL, "ticks"),
 							   values.range = {if ("size.lim" %in% names(args)) {
@@ -382,7 +382,7 @@ v3_symbols = function(args, args_called, arg_col = NULL) {
 			size.legend = do.call("tm_legend", size.legend.args)
 		}
 
-		# v3 visual variable: shape
+		# v3 map variable: shape
 		if (!("shapes.style" %in% names(args))) {
 			if (!"shapes.breaks" %in% names(args)) {
 				shapes.style = "pretty"

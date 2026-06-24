@@ -16,7 +16,7 @@ tm_seq(
 \item{power}{The power component, a number or or one of \code{"lin"}, \code{"sqrt"}, \code{"sqrt_perceptual"}, \code{"quadratic"}, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.}
 }
 \description{
-Specify a numeric sequence, for numeric scales like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}. This function is needed when there is a non-linear relationship between the numeric data values and the visual variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
+Specify a numeric sequence, for numeric scales like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}. This function is needed when there is a non-linear relationship between the numeric data values and the map variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
 }
 \details{
 The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting \code{power} to \code{"sqrt_perceptual"}

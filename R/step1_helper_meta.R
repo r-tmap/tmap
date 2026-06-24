@@ -83,7 +83,7 @@ preprocess_meta_step1 = function(o, knit_opts = NULL) {
 		for (nm in names(o)[grep("fontface", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontface)
 		for (nm in names(o)[grep("fontfamily", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontfamily)
 
-		# special case: fontface is a visual variable. Therefore, check if value.const etc is NULL if so, replace
+		# special case: fontface is a map variable. Therefore, check if value.const etc is NULL if so, replace
 		if (is.null(value.const$fontface)) value.const$fontface = text.fontface
 		if (is.null(value.blank$fontface)) value.blank$fontface = text.fontface
 		if (is.null(value.na$fontface)) value.na$fontface = text.fontface

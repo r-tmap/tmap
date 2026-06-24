@@ -1,4 +1,6 @@
-#' Group components
+#' Group map components
+#'
+#' Control the grouping, position, and stacking of map components (legends, titles, scale bars, etc.).
 #'
 #' @param group_id id of the component group. By default set to `""`, which will apply to all components. There are two other options. 1) To use the same (self-chosen) name that corresponds to the `group_id` argument of a component function, such as [tm_legend()] and [tm_title()]. 2) To specify one (or more) component function names, e.g. `"tm_legend"` or `c("tm_scalebar", "tm_compass")`.
 #' @param position The position specification of the components in this group: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also `r .doc_see_vig("adv_positions")`.

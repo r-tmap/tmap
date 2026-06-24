@@ -1,6 +1,6 @@
 #' Map layer: simple features
 #'
-#' Map layer that draws simple features as they are. Supported visual variables
+#' Map layer that draws simple features as they are. Supported map variables
 #' are: `fill` (the fill color), `col` (the border color), `size` the point size,
 #' `shape` the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha` (fill color alpha transparency)
 #' and `col_alpha` (border color alpha transparency).

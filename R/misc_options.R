@@ -73,7 +73,7 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
 		z = y[[al[id]]]
 	} else if (aes %in% names(y)) {
-		# take matching visual variable (regardless what layer)
+		# take matching map variable (regardless what layer)
 		z = y[[aes]]
 	} else if (is.list(y)) {
 		# check if there are non-named list items, if so take the first one

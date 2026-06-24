@@ -57,11 +57,11 @@ Most of the time tmap chooses sensible values automatically, so the units behind
 * an output range via `values.range` or `values.scale` in a scale function,
 * a margin, a component size, or a font size in `tm_layout()` or a component function.
 
-This vignette collects the units used throughout the package. There are two groups: the **visual variable units** that data values are mapped to, and the **layout units** used for margins, component sizes, and fonts.
+This vignette collects the units used throughout the package. There are two groups: the **map variable units** that data values are mapped to, and the **layout units** used for margins, component sizes, and fonts.
 
-## Visual variable units
+## Map variable units
 
-A visual variable (`fill`, `size`, `lwd`, ...) maps a data variable to an output value with a specific unit. The same units apply when you supply a constant instead of a data variable.
+A map variable (`fill`, `size`, `lwd`, ...) maps a data variable to an output value with a specific unit. The same units apply when you supply a constant instead of a data variable.
 
 | Variable | Unit | Notes |
 | --- | --- | --- |
@@ -114,7 +114,7 @@ tm_shape(World) +
 
 ### Size
 
-`size` is the one visual variable whose unit depends on the layer, because three different things are sized in three natural units:
+`size` is the one map variable whose unit depends on the layer, because three different things are sized in three natural units:
 
 * In `tm_symbols()`, `tm_bubbles()`, `tm_squares()`, and `tm_dots()`, `size` is measured in **typographic lines** (one line ≈ 1/6 inch). These symbols keep a fixed *screen* size, so they do not grow when you zoom in view mode. The global multiplier `tmap_options(values.scale = list(...))` rescales all symbols without changing the data mapping.
 

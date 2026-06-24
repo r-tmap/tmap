@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_label_format.R
 \name{tm_label_format}
 \alias{tm_label_format}
-\title{tmap function to specify labels}
+\title{Label formatting for scales}
 \usage{
 tm_label_format(
   fun,

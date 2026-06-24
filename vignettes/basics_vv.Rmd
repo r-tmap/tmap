@@ -1,5 +1,5 @@
 ---
-title: "tmap basics: visual variables"
+title: "tmap basics: map variables"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -55,12 +55,12 @@ tmap_options(scale = 0.75)
 
 ### Map layers
 
-A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A **visual variable**
+A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A **map variable**
 changes the appearance of a spatial object, e.g. fill color or line width.
 
-The following table shows which visual variables are used in standard map layers.
+The following table shows which map variables are used in standard map layers.
 
-|Map layer		|Visual variables				|
+|Map layer		|Map variables				|
 |:--------------|:--------------------------------------------------------------|
 |`tm_polygons`	|`fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width), `lty` (border line type)	|
 |`tm_symbols` |`size`, `shape` <br> `fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width) `lty` (border line type) |
@@ -87,9 +87,9 @@ s <- tm_shape(World, crs = "+proj=eqearth")
 
 ## Constant visual values
 
-Each visual variable can be assigned a constant value. E.g. `fill = "red"` or `size = 2`.
+Each map variable can be assigned a constant value. E.g. `fill = "red"` or `size = 2`.
 
-An example where several visual variables are specified with constant values:
+An example where several map variables are specified with constant values:
 
 ```{r constant, fig.height = 3.5}
 s + 
@@ -100,13 +100,13 @@ s +
     lty = "dashed")   # line type
 ```
 
-For advanced users: the default constant values are specified for combinations of visual variables and layer type. See `tmap_options("value.const")`
+For advanced users: the default constant values are specified for combinations of map variables and layer type. See `tmap_options("value.const")`
 
 
 
-## Data-driven visual variables
+## Data-driven map variables
 
-Each visual variable argument can also be specified with a data variable (e.g., a column name):
+Each map variable argument can also be specified with a data variable (e.g., a column name):
 
 ```{r polygons}
 s + tm_polygons(fill = "press")    # a column in World
@@ -133,11 +133,11 @@ s +
 
 ### Scales and legend
 
-For each data-driven visual variable, a scale and legend can be specified. See other vignettes.
+For each data-driven map variable, a scale and legend can be specified. See other vignettes.
 
 ## Facets
 
-A facet map is created by specifying two data variables (columns in `World`) to the visual variable `fill`:
+A facet map is created by specifying two data variables (columns in `World`) to the map variable `fill`:
 
 ```{r facet, fig.height = 3.5}
 s + tm_polygons(fill = c("well_being", "life_exp")) 

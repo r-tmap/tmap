@@ -1,5 +1,5 @@
 ---
-title: "tmap advanced: multiple visual variables"
+title: "tmap advanced: multiple map variables"
 output: 
   bookdown::html_vignette2:
 pkgdown:
@@ -51,11 +51,11 @@ tmap_options(scale = 0.75)
 
 
 
-## Multiple visual variables
+## Multiple map variables
 
-Usually we specify a data-driven visual variable with **one** data variable (see [vignette about visual variables](https://r-tmap.github.io/tmap/articles/basics_vv)). However, in several use cases, it is useful to use a few data variables for one visual variables.
+Usually we specify a data-driven map variable with **one** data variable (see [vignette about map variables](https://r-tmap.github.io/tmap/articles/basics_vv)). However, in several use cases, it is useful to use a few data variables for one map variables.
 
-There are two ways to use multiple data variables for one visual variable: for creating facets, and for multivariate mapping.
+There are two ways to use multiple data variables for one map variable: for creating facets, and for multivariate mapping.
 
 ## Creating facets
 
@@ -144,5 +144,5 @@ tm_shape(ZH_muni) +
     size.scale = tm_scale_continuous(ticks = c(50000, 100000, 250000, 500000)))	
 ```
 
-The visual variable `parts` (introduced in `tmap.glyphs`) is specified as multivariate visual variable. It specifies the parts (slices) of the donut charts and uses this also for the `fill` color.
+The map variable `parts` (introduced in `tmap.glyphs`) is specified as multivariate map variable. It specifies the parts (slices) of the donut charts and uses this also for the `fill` color.
 

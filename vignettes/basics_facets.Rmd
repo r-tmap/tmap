@@ -73,7 +73,7 @@ tm_facets("province")
 
 In this example, there is *one facet variable*. For these kind of plots, and the facets are either **wrapped** or **stacked**, with `tm_facets_wrap()` or `tm_facets_stack()`. The general purpose function `tm_facets()` determines the faceting type, which is in this example `wrap`.
 
-Groups can also be defined by specifying multiple data variable names for one visual variable:
+Groups can also be defined by specifying multiple data variable names for one map variable:
 
 ```{r, fig.height = 5}
 tm_shape(NLD_muni) +

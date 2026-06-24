@@ -45,13 +45,13 @@ tm_lines(
 opt_tm_lines(lines.only = "ifany", hitbox = "auto")
 }
 \arguments{
-\item{col, col.scale, col.legend, col.chart, col.free}{Visual variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Visual variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Map variable that determines the line width. See details. \emph{Unit:} Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.}
 
-\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Visual variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
+\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Map variable that determines the line type. See details. \emph{Unit:} Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Visual variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
 \item{linejoin, lineend}{line join and line end. See \link[grid:gpar]{gpar()} for details.}
 
@@ -135,20 +135,20 @@ performance for very large datasets, as an additional invisible
 layer is rendered.}
 }
 \description{
-Map layer that draws lines. Supported visual variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
+Map layer that draws lines. Supported map variables are: \code{col} (the color), \code{lwd} (line width), \code{lty} (line type), and \code{col_alpha} (color alpha transparency).
 }
 \details{
-The visual variable arguments (e.g. \code{col}) can be specified with a data
+The map variable arguments (e.g. \code{col}) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
 specified in \code{\link[=tm_shape]{tm_shape()}}), with a visual value (for \code{col}, a color is expected), or with a geometry-derived variable (see below).
-See vignette: \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}.
+See vignette: \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}.
 
 Multiple values can be specified: in that case facets are created.
 These facets can be combined with other faceting data variables, specified with \code{\link[=tm_facets]{tm_facets()}}.
 See vignette: \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}.
 \itemize{
 \item The \verb{*.scale} arguments determine the used scale to map the data values to
-visual variable values. These can be specified with one of the available
+map variable values. These can be specified with one of the available
 \verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[=tm_options]{tm_options()}}) \code{scales.var}.
 See `rvignette: \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}
 \item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[=tm_legend]{tm_legend()}}.
@@ -162,7 +162,7 @@ logical values; these determine whether scales are applied freely per facet dime
 This is only useful when facets are applied (see \code{\link[=tm_facets]{tm_facets()}}).
 There are maximally three facet dimensions: rows, columns, and pages. This only
 applies for a facet grid (\code{\link[=tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)}
-means that for the visual variable \code{col}, each row of facets will have its own
+means that for the map variable \code{col}, each row of facets will have its own
 scale, and therefore its own legend. For facet wraps and stacks
 (\code{\link[=tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[=tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
 so the \verb{*.free} argument requires only one logical value.
@@ -181,9 +181,9 @@ Note that geometry-derived variables do not generate a legend automatically.
 If a legend is required, compute the corresponding variable explicitly,
 for example with \code{\link[sf:st_area]{sf::st_area()}}, \code{\link[sf:st_length]{sf::st_length()}}, or
 \code{\link[tmaptools:map_coloring]{tmaptools::map_coloring()}}, and use the resulting values instead.
-\subsection{Visual variable units}{
+\subsection{Map variable units}{
 
-Every visual variable maps data values to a specific output unit.
+Every map variable maps data values to a specific output unit.
 Knowing the unit matters when supplying constant values via \code{\link[=tm_const]{tm_const()}},
 or output ranges via \code{values.range} / \code{values.scale} in the scale
 functions.\tabular{lll}{
@@ -272,5 +272,5 @@ tm_shape(World) +
 			 lty.legend = tm_legend_combine("col"))
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Visual variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
+\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
 }
