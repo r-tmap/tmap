@@ -84,6 +84,7 @@ reference:
   - tm_view
   - tm_group
   - tm_plot
+  - tm_check_fix
 - title: Set options globally for tmap
   contents:
   - tmap_options
