@@ -58,18 +58,18 @@ reference:
   - tm_mouse_coordinates
   - tm_xlab
   - tm_inset
-- title: Set scale for a visual variable
+- title: Set scale for a map variable
   desc: Always use those in this form `<vv>.scale = tm_scale*()`
   contents:
   - tm_scale
   - starts_with("tm_scale_")
-- title: Set legend for a visual variable
+- title: Set legend for a map variable
   desc: Always use those in this form `<vv>.legend = tm_legend*()`
   contents:
   - starts_with("tm_legend")
   - tm_add_legend
-  - tm_place_legends_right
-- title: Set charts for a visual variable
+  - tm_extra_inner_margin
+- title: Set charts for a map variable
   desc: Always use those in this form `<vv>.chart = tm_chart*()`
   contents:
   - starts_with("tm_chart")
@@ -220,7 +220,7 @@ navbar:
           href: articles/adv_shiny
         - text: ggplot2 integration
           href: articles/adv_ggplot2
-        - text: Multivariate visual variables
+        - text: Multivariate map variables
           href: articles/adv_multivariate
         - text: Positioning of components
           href: articles/adv_positions
