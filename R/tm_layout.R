@@ -103,6 +103,14 @@ tm_plot = function(use_gradient, limit_latitude_3857) {
 }
 
 
+#' Layout helpers: inner margins and legend placement
+#'
+#' @param left,right,top,bottom extra margins
+#' @export
+tm_extra_inner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
+	tm_options(inner.margins.extra = c(bottom, left, top, right))
+}
+
 #' @rdname tm_extra_inner_margin
 #' @export
 tm_place_legends_right = function(width = NA) {
@@ -159,15 +167,6 @@ tm_place_legends_inside = function(pos.h = NULL, pos.v = NULL) {
 	} else {
 		tm_options(legend.position = tm_pos_in(pos.h = pos.h, pos.v = pos.v))
 	}
-}
-
-#' Layout helpers: inner margins and legend placement
-#'
-#' @param left,right,top,bottom extra margins
-#' @export
-#' @name tm_extra_inner_margin
-tm_extra_inner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
-	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
 #' Check and fix invalid geometries
