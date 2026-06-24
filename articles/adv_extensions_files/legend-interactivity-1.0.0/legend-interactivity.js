@@ -20,28 +20,30 @@ function initializeLegendInteractivity(map, mapId, config) {
         return;
     }
 
-    // Ensure layer state tracking exists
-    if (!window._mapglLayerState) {
-        window._mapglLayerState = {};
-    }
-    if (!window._mapglLayerState[mapId]) {
-        window._mapglLayerState[mapId] = {
-            filters: {},
-            paintProperties: {},
-            layoutProperties: {},
-            tooltips: {},
-            popups: {},
-            legends: {},
-            interactiveFilters: {}
-        };
-    }
-
-    var layerState = window._mapglLayerState[mapId];
-
-    // Ensure interactiveFilters exists (state object may have been created
-    // by map init code without this property)
-    if (!layerState.interactiveFilters) {
-        layerState.interactiveFilters = {};
+    // Ensure layer state tracking exists via the shared helper that the
+    // main binding files install on window. Falls back to a local init if
+    // the helper isn't available (e.g. legacy load order), keeping the
+    // interactiveFilters field the legend UI depends on.
+    var layerState;
+    if (typeof window._mapglEnsureLayerState === "function") {
+        layerState = window._mapglEnsureLayerState(map);
+    } else {
+        if (!window._mapglLayerState) window._mapglLayerState = {};
+        if (!window._mapglLayerState[mapId]) {
+            window._mapglLayerState[mapId] = {
+                filters: {},
+                paintProperties: {},
+                layoutProperties: {},
+                tooltips: {},
+                popups: {},
+                legends: {},
+                interactiveFilters: {},
+                filterStack: {}
+            };
+        }
+        layerState = window._mapglLayerState[mapId];
+        if (!layerState.interactiveFilters) layerState.interactiveFilters = {};
+        if (!layerState.filterStack) layerState.filterStack = {};
     }
 
     // Normalize layerId to array for multi-layer support
@@ -564,13 +566,21 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
 
         // Reset filter to original for all layers
         layerIds.forEach(function(lid) {
-            var interactiveState = layerState.interactiveFilters[lid];
-            if (interactiveState.originalFilter) {
-                map.setFilter(lid, interactiveState.originalFilter);
+            // Release the legend slot from the filter registry; the composer
+            // restores base/user/slider automatically.
+            layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+            layerState.filterStack[lid].legend = null;
+            if (typeof window._mapglComposeFilter === "function") {
+                window._mapglComposeFilter(map, lid);
             } else {
-                map.setFilter(lid, null);
+                var _is = layerState.interactiveFilters[lid];
+                if (_is && _is.originalFilter) {
+                    map.setFilter(lid, _is.originalFilter);
+                } else {
+                    map.setFilter(lid, null);
+                }
+                layerState.filters[lid] = _is ? _is.originalFilter : null;
             }
-            layerState.filters[lid] = interactiveState.originalFilter;
         });
 
         updateResetButton(legendElement, false);
@@ -779,8 +789,15 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
                 interactiveState.rangeMax = maxVal;
 
                 if (isAtFullRange) {
-                    map.setFilter(lid, interactiveState.originalFilter);
-                    layerState.filters[lid] = interactiveState.originalFilter;
+                    // Release the legend slot; composer restores base/user/slider.
+                    layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+                    layerState.filterStack[lid].legend = null;
+                    if (typeof window._mapglComposeFilter === "function") {
+                        window._mapglComposeFilter(map, lid);
+                    } else {
+                        map.setFilter(lid, interactiveState.originalFilter);
+                        layerState.filters[lid] = interactiveState.originalFilter;
+                    }
                 } else {
                     applyRangeFilter(
                         map,
@@ -961,12 +978,19 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
             interactiveState.rangeMin = minValue;
             interactiveState.rangeMax = maxValue;
 
-            if (interactiveState.originalFilter) {
-                map.setFilter(lid, interactiveState.originalFilter);
+            // Release the legend slot; composer handles base/user/slider.
+            layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+            layerState.filterStack[lid].legend = null;
+            if (typeof window._mapglComposeFilter === "function") {
+                window._mapglComposeFilter(map, lid);
             } else {
-                map.setFilter(lid, null);
+                if (interactiveState.originalFilter) {
+                    map.setFilter(lid, interactiveState.originalFilter);
+                } else {
+                    map.setFilter(lid, null);
+                }
+                layerState.filters[lid] = interactiveState.originalFilter;
             }
-            layerState.filters[lid] = interactiveState.originalFilter;
         });
 
         updateResetButton(legendElement, false);
@@ -1026,11 +1050,17 @@ function applyCategoricalFilter(
         ];
     }
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; the composer
+    // handles merging with base/user/slider slots.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**
@@ -1088,11 +1118,16 @@ function applyRangeBasedCategoricalFilter(
         }
     }
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; composer merges.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**
@@ -1123,11 +1158,16 @@ function applyRangeFilter(
         ["<=", ["get", column], filterMax]
     ];
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; composer merges.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**

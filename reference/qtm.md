@@ -59,11 +59,11 @@ qtm(
 
 - fill, col, size, shape, lwd, lty, fill_alpha, col_alpha:
 
-  Visual variables.
+  Map variables.
 
 - text, text_col, text_size:
 
-  Visual variables.
+  Map variables.
 
 - by:
 
@@ -140,8 +140,8 @@ qtm(
 
 - ...:
 
-  arguments associated with the visual variables are passed on to the
-  layer functions
+  arguments associated with the map variables are passed on to the layer
+  functions
   [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md),
   [`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md),
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md),

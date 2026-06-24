@@ -1,0 +1,764 @@
+{
+  "schemaVersion": 1,
+  "source": "npm release packages",
+  "build": {
+    "command": "data-raw/flowmap-vendor/build-flowmap.sh build",
+    "node": "v26.0.0",
+    "npm": "11.14.1",
+    "esbuild": "0.28.0"
+  },
+  "bundle": {
+    "path": "inst/htmlwidgets/lib/flowmap-gl/flowmap-gl-bundle.min.js",
+    "sha256": "6ee7d9f48276e5ff94a81333b8006590e7a3dba9cdb26c8802a9adf61a380fda",
+    "bytes": 811231
+  },
+  "patches": [
+    {
+      "path": "data-raw/flowmap-vendor/patches/flowmap-temporal-scale-domain.patch",
+      "sha256": "4643c406fdd4c82175f5cbda27d414d5b1e65b08d7270b98eef9b3dc1045b7e7",
+      "bytes": 19025,
+      "purpose": "Add temporalScaleDomain so temporal flow width/color domains can use selected-time or all-time flows."
+    }
+  ],
+  "copyrights": {
+    "path": "LICENSE.note"
+  },
+  "colorSchemes": {
+    "source": "FlowMapGL 9.3.0 vendored bundle",
+    "names": [
+      "Blues",
+      "BluGrn",
+      "BluYl",
+      "BrwnYl",
+      "BuGn",
+      "BuPu",
+      "Burg",
+      "BurgYl",
+      "Cool",
+      "DarkMint",
+      "Emrld",
+      "GnBu",
+      "Grayish",
+      "Greens",
+      "Greys",
+      "Inferno",
+      "Magenta",
+      "Magma",
+      "Mint",
+      "Oranges",
+      "OrRd",
+      "OrYel",
+      "Peach",
+      "Plasma",
+      "PinkYl",
+      "PuBu",
+      "PuBuGn",
+      "PuRd",
+      "Purp",
+      "Purples",
+      "PurpOr",
+      "RdPu",
+      "RedOr",
+      "Reds",
+      "Sunset",
+      "SunsetDark",
+      "Teal",
+      "TealGrn",
+      "Viridis",
+      "Warm",
+      "YlGn",
+      "YlGnBu",
+      "YlOrBr",
+      "YlOrRd"
+    ]
+  },
+  "directDependencies": [
+    {
+      "name": "@deck.gl/core",
+      "version": "9.3.2",
+      "license": "MIT",
+      "integrity": "sha512-32Va3np0Zdlz/LBNtDWCs4EkKqdHmXcbGmVp4+7i1Cpdza8y8CFmJs2VPOmSX1fwHvNCGkAZV/SFZOfDb2INsg==",
+      "resolved": "https://registry.npmjs.org/@deck.gl/core/-/core-9.3.2.tgz",
+      "gitHead": "09af8de8d18a9cb9a31d064cae8f9e7239df7f53",
+      "homepage": null,
+      "repository": "https://github.com/visgl/deck.gl.git"
+    },
+    {
+      "name": "@deck.gl/layers",
+      "version": "9.3.2",
+      "license": "MIT",
+      "integrity": "sha512-TeVfhQ/cQU1oTlTn16mCp7268d1uBJ6dwfgmKXThe2TzW9hql3iJaxbYTKg2phDg5YSiGmeEOpXbeBh59jyUcA==",
+      "resolved": "https://registry.npmjs.org/@deck.gl/layers/-/layers-9.3.2.tgz",
+      "gitHead": "09af8de8d18a9cb9a31d064cae8f9e7239df7f53",
+      "homepage": null,
+      "repository": "https://github.com/visgl/deck.gl.git"
+    },
+    {
+      "name": "@deck.gl/mapbox",
+      "version": "9.3.2",
+      "license": "MIT",
+      "integrity": "sha512-+T9pJwsOXwjUxyGN6oiBMfIs28VtDIG1V1Rqz4qqn4TjjNEFFw+xO0olJIg8FO5IAqw2OtePdsrMj0tX8tHdGQ==",
+      "resolved": "https://registry.npmjs.org/@deck.gl/mapbox/-/mapbox-9.3.2.tgz",
+      "gitHead": "09af8de8d18a9cb9a31d064cae8f9e7239df7f53",
+      "homepage": null,
+      "repository": "https://github.com/visgl/deck.gl.git"
+    },
+    {
+      "name": "@flowmap.gl/data",
+      "version": "9.3.0",
+      "license": "Apache-2.0",
+      "integrity": "sha512-1a4EZJdK13q5Mj3bVurFSpuYVBLSaByJJ9B4LMd7XvuD/ovB6JArDjdJetsA9jVHdA89lZli7f8ALX+oek+WtA==",
+      "resolved": "https://registry.npmjs.org/@flowmap.gl/data/-/data-9.3.0.tgz",
+      "gitHead": "ed581e11ca674ed1e17457a9526c864f8def678b",
+      "homepage": null,
+      "repository": "git@github.com:visgl/flowmap.gl.git"
+    },
+    {
+      "name": "@flowmap.gl/layers",
+      "version": "9.3.0",
+      "license": "Apache-2.0",
+      "integrity": "sha512-kARLb28BYK58O4iuiZK0IdNO+W1EX4+MaLbufRU1O0LTMM0Aoe2lET7y4QcrOifQT0dV6cAjzjw4GDnbogOxJg==",
+      "resolved": "https://registry.npmjs.org/@flowmap.gl/layers/-/layers-9.3.0.tgz",
+      "gitHead": "ed581e11ca674ed1e17457a9526c864f8def678b",
+      "homepage": null,
+      "repository": "git@github.com:visgl/flowmap.gl.git"
+    },
+    {
+      "name": "@luma.gl/core",
+      "version": "9.3.3",
+      "license": "MIT",
+      "integrity": "sha512-jCFm2htvrVpcXIy85TBTF1ROgMfknKnfw2OH+Vydr41hiCFd6nqr79gM3f2uhaNkal0BghFNqF3qDioKiUWtew==",
+      "resolved": "https://registry.npmjs.org/@luma.gl/core/-/core-9.3.3.tgz",
+      "gitHead": "1069000732d3dd5ba6e41f9ad958a7f274125ef4",
+      "homepage": null,
+      "repository": "https://github.com/visgl/luma.gl"
+    },
+    {
+      "name": "@luma.gl/engine",
+      "version": "9.3.3",
+      "license": "MIT",
+      "integrity": "sha512-StmMTzUcUlpKMU3wvWU48A6OQyphptD9zVGBsSkK6iHIBdtBKlOcmqRkyfvRouo8JHtlrnoJDHLVKhxorwhGAg==",
+      "resolved": "https://registry.npmjs.org/@luma.gl/engine/-/engine-9.3.3.tgz",
+      "gitHead": "1069000732d3dd5ba6e41f9ad958a7f274125ef4",
+      "homepage": null,
+      "repository": "https://github.com/visgl/luma.gl"
+    },
+    {
+      "name": "@luma.gl/shadertools",
+      "version": "9.3.3",
+      "license": "MIT",
+      "integrity": "sha512-4ZfG4/Utix951vqyiG/JIx+Eg+GMNwOxgr/07/i0gf7bK1gJZIEQ5BxVcDw4MCQfdoVlGPGzl0cQKbdqBvaCAQ==",
+      "resolved": "https://registry.npmjs.org/@luma.gl/shadertools/-/shadertools-9.3.3.tgz",
+      "gitHead": "1069000732d3dd5ba6e41f9ad958a7f274125ef4",
+      "homepage": null,
+      "repository": "https://github.com/visgl/luma.gl"
+    },
+    {
+      "name": "esbuild",
+      "version": "0.28.0",
+      "license": "MIT",
+      "integrity": "sha512-sNR9MHpXSUV/XB4zmsFKN+QgVG82Cc7+/aaxJ8Adi8hyOac+EXptIp45QBPaVyX3N70664wRbTcLTOemCAnyqw==",
+      "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git+https://github.com/evanw/esbuild.git"
+    }
+  ],
+  "transitiveDependencies": [
+    {
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.28.0",
+      "license": "MIT",
+      "integrity": "sha512-0T+A9WZm+bZ84nZBtk1ckYsOvyA3x7e2Acj1KdVfV4/2tdG4fzUp91YHx+GArWLtwqp77pBXVCPn2We7Letr0Q==",
+      "resolved": "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.28.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git+https://github.com/evanw/esbuild.git"
+    },
+    {
+      "name": "@loaders.gl/core",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-DZmsTwxdKh3q+mS1vSOW2EXFgwxZ4nIBte4H5g6e4VyQoQ6jAOkk0M6V+Asgy/eqjGTNjhfBA1HIkyBl0A9hcA==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/core/-/core-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@loaders.gl/images",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-b+1keNvPlyLniWtX4ZaThz2dF2aohi8Q+OEsDF2hJNZYyZJOqP9b/72UhlVk+inxTJfTLRBNARs2TJ2ssBlelg==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/images/-/images-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@loaders.gl/loader-utils",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-kqwBbyRC7rrQVsnJyKeoaig9hxaa5oj91OKqWm27HPuVn4q2dD67SEhiG0ND62eRp0tLY6jTqEcI5kDzHBZ6MA==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/loader-utils/-/loader-utils-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@loaders.gl/schema",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-mJTZehTHIFl8ed+03nebuPAMnLP8Yp00DKTzCnKT2HNy/uV4+Sw+GrGIuhPHGU8tdQmtBXRURGM2ZxUAxMfGKg==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/schema/-/schema-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@loaders.gl/schema-utils",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-yYYRD/POBEO72rhIyLASrqKUUhfIOQuFk/fgInN6Td2qvFgsHbo5UaCM4sTqVUWwNxNvXDQi8ezpbnCa/yi+OQ==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/schema-utils/-/schema-utils-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@loaders.gl/worker-utils",
+      "version": "4.4.2",
+      "license": "MIT",
+      "integrity": "sha512-oiZ0SoC1QKrOkhYPlVZ6Q06CtmuFRyZw2rwzmT08ZyaGtOArIJHDjlhxzwWiv+6fdws47Ub5uIGsdI1Ab1xYsA==",
+      "resolved": "https://registry.npmjs.org/@loaders.gl/worker-utils/-/worker-utils-4.4.2.tgz",
+      "gitHead": "1c9649781db0403dbf7c3f1224bbeec77bd812eb",
+      "homepage": null,
+      "repository": "https://github.com/visgl/loaders.gl"
+    },
+    {
+      "name": "@luma.gl/webgl",
+      "version": "9.3.3",
+      "license": "MIT",
+      "integrity": "sha512-X+aavdP5o6VFHSA0es9gKZTT145jfcFbhKJt/gwJrptnKNoIW4+Y37ZEpCo1AzAnr+FQCxjgcM2kOCpoWMfSVA==",
+      "resolved": "https://registry.npmjs.org/@luma.gl/webgl/-/webgl-9.3.3.tgz",
+      "gitHead": "1069000732d3dd5ba6e41f9ad958a7f274125ef4",
+      "homepage": null,
+      "repository": "https://github.com/visgl/luma.gl"
+    },
+    {
+      "name": "@mapbox/tiny-sdf",
+      "version": "2.2.0",
+      "license": "BSD-2-Clause",
+      "integrity": "sha512-LVL4wgI9YAum5V+LNVQO6QgFBPw7/MIIY4XJPNsPDMrjEwcE+JfKk1LuIl8GnF197ejVdC9QdPaxrx5gfgdGXg==",
+      "resolved": "https://registry.npmjs.org/@mapbox/tiny-sdf/-/tiny-sdf-2.2.0.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/mapbox/tiny-sdf#readme",
+      "repository": "git+https://github.com/mapbox/tiny-sdf.git"
+    },
+    {
+      "name": "@math.gl/core",
+      "version": "4.1.0",
+      "license": "MIT",
+      "integrity": "sha512-FrdHBCVG3QdrworwrUSzXIaK+/9OCRLscxI2OUy6sLOHyHgBMyfnEGs99/m3KNvs+95BsnQLWklVfpKfQzfwKA==",
+      "resolved": "https://registry.npmjs.org/@math.gl/core/-/core-4.1.0.tgz",
+      "gitHead": "76820f54e2a9034b42bd24ffeb381cc4e01ad46e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/math.gl.git"
+    },
+    {
+      "name": "@math.gl/polygon",
+      "version": "4.1.0",
+      "license": "MIT",
+      "integrity": "sha512-YA/9PzaCRHbIP5/0E9uTYrqe+jsYTQoqoDWhf6/b0Ixz8bPZBaGDEafLg3z7ffBomZLacUty9U3TlPjqMtzPjA==",
+      "resolved": "https://registry.npmjs.org/@math.gl/polygon/-/polygon-4.1.0.tgz",
+      "gitHead": "76820f54e2a9034b42bd24ffeb381cc4e01ad46e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/math.gl.git"
+    },
+    {
+      "name": "@math.gl/sun",
+      "version": "4.1.0",
+      "license": "MIT",
+      "integrity": "sha512-i3q6OCBLSZ5wgZVhXg+X7gsjY/TUtuFW/2KBiq/U1ypLso3S4sEykoU/MGjxUv1xiiGtr+v8TeMbO1OBIh/HmA==",
+      "resolved": "https://registry.npmjs.org/@math.gl/sun/-/sun-4.1.0.tgz",
+      "gitHead": "76820f54e2a9034b42bd24ffeb381cc4e01ad46e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/math.gl.git"
+    },
+    {
+      "name": "@math.gl/types",
+      "version": "4.1.0",
+      "license": "MIT",
+      "integrity": "sha512-clYZdHcmRvMzVK5fjeDkQlHUzXQSNdZ7s4xOqC3nJPgz4C/TZkUecTo9YS4PruZqtDda/ag4erndP0MIn40dGA==",
+      "resolved": "https://registry.npmjs.org/@math.gl/types/-/types-4.1.0.tgz",
+      "gitHead": "76820f54e2a9034b42bd24ffeb381cc4e01ad46e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/math.gl.git"
+    },
+    {
+      "name": "@math.gl/web-mercator",
+      "version": "4.1.0",
+      "license": "MIT",
+      "integrity": "sha512-HZo3vO5GCMkXJThxRJ5/QYUYRr3XumfT8CzNNCwoJfinxy5NtKUd7dusNTXn7yJ40UoB8FMIwkVwNlqaiRZZAw==",
+      "resolved": "https://registry.npmjs.org/@math.gl/web-mercator/-/web-mercator-4.1.0.tgz",
+      "gitHead": "76820f54e2a9034b42bd24ffeb381cc4e01ad46e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/math.gl.git"
+    },
+    {
+      "name": "@probe.gl/env",
+      "version": "4.1.1",
+      "license": "MIT",
+      "integrity": "sha512-+68seNDMVsEegRB47pFA/Ws1Fjy8agcFYXxzorKToyPcD6zd+gZ5uhwoLd7TzsSw6Ydns//2KEszWn+EnNHTbA==",
+      "resolved": "https://registry.npmjs.org/@probe.gl/env/-/env-4.1.1.tgz",
+      "gitHead": "bd33a0cf48fe0bcc56941272e3a760d13df65b4e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/probe.gl.git"
+    },
+    {
+      "name": "@probe.gl/log",
+      "version": "4.1.1",
+      "license": "MIT",
+      "integrity": "sha512-kcZs9BT44pL7hS1OkRGKYRXI/SN9KejUlPD+BY40DguRLzdC5tLG/28WGMyfKdn/51GT4a0p+0P8xvDn1Ez+Kg==",
+      "resolved": "https://registry.npmjs.org/@probe.gl/log/-/log-4.1.1.tgz",
+      "gitHead": "bd33a0cf48fe0bcc56941272e3a760d13df65b4e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/probe.gl.git"
+    },
+    {
+      "name": "@probe.gl/stats",
+      "version": "4.1.1",
+      "license": "MIT",
+      "integrity": "sha512-4VpAyMHOqydSvPlEyHwXaE+AkIdR03nX+Qhlxsk2D/IW4OVmDZgIsvJB1cDzyEEtcfKcnaEbfXeiPgejBceT6g==",
+      "resolved": "https://registry.npmjs.org/@probe.gl/stats/-/stats-4.1.1.tgz",
+      "gitHead": "bd33a0cf48fe0bcc56941272e3a760d13df65b4e",
+      "homepage": null,
+      "repository": "https://github.com/visgl/probe.gl.git"
+    },
+    {
+      "name": "@swc/helpers",
+      "version": "0.5.23",
+      "license": "Apache-2.0",
+      "integrity": "sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==",
+      "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.23.tgz",
+      "gitHead": null,
+      "homepage": "https://swc.rs",
+      "repository": "git+https://github.com/swc-project/swc.git"
+    },
+    {
+      "name": "@types/command-line-args",
+      "version": "5.2.3",
+      "license": "MIT",
+      "integrity": "sha512-uv0aG6R0Y8WHZLTamZwtfsDLVRnOa+n+n5rEvFWL5Na5gZ8V2Teab/duDPFzIIIhs9qizDpcavCusCLJZu62Kw==",
+      "resolved": "https://registry.npmjs.org/@types/command-line-args/-/command-line-args-5.2.3.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/command-line-args",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/command-line-usage",
+      "version": "5.0.4",
+      "license": "MIT",
+      "integrity": "sha512-BwR5KP3Es/CSht0xqBcUXS3qCAUVXwpRKsV2+arxeb65atasuXG9LykC9Ab10Cw3s2raH92ZqOeILaQbsB2ACg==",
+      "resolved": "https://registry.npmjs.org/@types/command-line-usage/-/command-line-usage-5.0.4.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/command-line-usage",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/geojson",
+      "version": "7946.0.16",
+      "license": "MIT",
+      "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==",
+      "resolved": "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/geojson",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/node",
+      "version": "24.12.4",
+      "license": "MIT",
+      "integrity": "sha512-GUUEShf+PBCGW2KaXwcIt3Yk+e3pkKwWKb9GSyM9WQVE+ep2jzmHdGsHzu4wgcZy5fN9FBdVzjpBQsYlpfpgLA==",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.12.4.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/offscreencanvas",
+      "version": "2019.7.3",
+      "license": "MIT",
+      "integrity": "sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==",
+      "resolved": "https://registry.npmjs.org/@types/offscreencanvas/-/offscreencanvas-2019.7.3.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/offscreencanvas",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "ansi-styles",
+      "version": "4.3.0",
+      "license": "MIT",
+      "integrity": "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==",
+      "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "chalk/ansi-styles"
+    },
+    {
+      "name": "apache-arrow",
+      "version": "21.1.0",
+      "license": "Apache-2.0",
+      "integrity": "sha512-kQrYLxhC+NTVVZ4CCzGF6L/uPVOzJmD1T3XgbiUnP7oTeVFOFgEUu6IKNwCDkpFoBVqDKQivlX4RUFqqnWFlEA==",
+      "resolved": "https://registry.npmjs.org/apache-arrow/-/apache-arrow-21.1.0.tgz",
+      "gitHead": null,
+      "homepage": "https://arrow.apache.org/js/",
+      "repository": "git+https://github.com/apache/arrow-js.git"
+    },
+    {
+      "name": "array-back",
+      "version": "6.2.3",
+      "license": "MIT",
+      "integrity": "sha512-SGDvmg6QTYiTxCBkYVmThcoa67uLl35pyzRHdpCGBOcqFy6BtwnphoFPk7LhJshD+Yk1Kt35WGWeZPTgwR4Fhw==",
+      "resolved": "https://registry.npmjs.org/array-back/-/array-back-6.2.3.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git+https://github.com/75lb/array-back.git"
+    },
+    {
+      "name": "chalk",
+      "version": "4.1.2",
+      "license": "MIT",
+      "integrity": "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==",
+      "resolved": "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "chalk/chalk"
+    },
+    {
+      "name": "chalk-template",
+      "version": "0.4.0",
+      "license": "MIT",
+      "integrity": "sha512-/ghrgmhfY8RaSdeo43hNXxpoHAtxdbskUHjPpfqUWGttFgycUhYPGx3YZBCnUCvOa7Doivn1IZec3DEGFoMgLg==",
+      "resolved": "https://registry.npmjs.org/chalk-template/-/chalk-template-0.4.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "chalk/chalk-template"
+    },
+    {
+      "name": "color-convert",
+      "version": "2.0.1",
+      "license": "MIT",
+      "integrity": "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==",
+      "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "Qix-/color-convert"
+    },
+    {
+      "name": "color-name",
+      "version": "1.1.4",
+      "license": "MIT",
+      "integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==",
+      "resolved": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/colorjs/color-name",
+      "repository": "git@github.com:colorjs/color-name.git"
+    },
+    {
+      "name": "command-line-args",
+      "version": "6.0.2",
+      "license": "MIT",
+      "integrity": "sha512-AIjYVxrV9X752LmPDLbVYv8aMCuHPSLZJXEo2qo/xJfv+NYhaZ4sMSF01rM+gHPaMgvPM0l5D/F+Qx+i2WfSmQ==",
+      "resolved": "https://registry.npmjs.org/command-line-args/-/command-line-args-6.0.2.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/75lb/command-line-args#readme",
+      "repository": "git+https://github.com/75lb/command-line-args.git"
+    },
+    {
+      "name": "command-line-usage",
+      "version": "7.0.4",
+      "license": "MIT",
+      "integrity": "sha512-85UdvzTNx/+s5CkSgBm/0hzP80RFHAa7PsfeADE5ezZF3uHz3/Tqj9gIKGT9PTtpycc3Ua64T0oVulGfKxzfqg==",
+      "resolved": "https://registry.npmjs.org/command-line-usage/-/command-line-usage-7.0.4.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "https://github.com/75lb/command-line-usage"
+    },
+    {
+      "name": "d3-array",
+      "version": "3.2.4",
+      "license": "ISC",
+      "integrity": "sha512-tdQAmyA18i4J7wprpYq8ClcxZy3SC31QMeByyCFyRt7BVHdREQZ5lpzoe5mFEYZUWe+oq8HBvk9JjpibyEV4Jg==",
+      "resolved": "https://registry.npmjs.org/d3-array/-/d3-array-3.2.4.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-array/",
+      "repository": "https://github.com/d3/d3-array.git"
+    },
+    {
+      "name": "d3-color",
+      "version": "3.1.0",
+      "license": "ISC",
+      "integrity": "sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==",
+      "resolved": "https://registry.npmjs.org/d3-color/-/d3-color-3.1.0.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-color/",
+      "repository": "https://github.com/d3/d3-color.git"
+    },
+    {
+      "name": "d3-format",
+      "version": "3.1.2",
+      "license": "ISC",
+      "integrity": "sha512-AJDdYOdnyRDV5b6ArilzCPPwc1ejkHcoyFarqlPqT7zRYjhavcT3uSrqcMvsgh2CgoPbK3RCwyHaVyxYcP2Arg==",
+      "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-3.1.2.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-format/",
+      "repository": "https://github.com/d3/d3-format.git"
+    },
+    {
+      "name": "d3-geo",
+      "version": "3.1.1",
+      "license": "ISC",
+      "integrity": "sha512-637ln3gXKXOwhalDzinUgY83KzNWZRKbYubaG+fGVuc/dxO64RRljtCTnf5ecMyE1RIdtqpkVcq0IbtU2S8j2Q==",
+      "resolved": "https://registry.npmjs.org/d3-geo/-/d3-geo-3.1.1.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-geo/",
+      "repository": "https://github.com/d3/d3-geo.git"
+    },
+    {
+      "name": "d3-interpolate",
+      "version": "3.0.1",
+      "license": "ISC",
+      "integrity": "sha512-3bYs1rOD33uo8aqJfKP3JWPAibgw8Zm2+L9vBKEHJ2Rg+viTR7o5Mmv5mZcieN+FRYaAOWX5SJATX6k1PWz72g==",
+      "resolved": "https://registry.npmjs.org/d3-interpolate/-/d3-interpolate-3.0.1.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-interpolate/",
+      "repository": "https://github.com/d3/d3-interpolate.git"
+    },
+    {
+      "name": "d3-scale",
+      "version": "4.0.2",
+      "license": "ISC",
+      "integrity": "sha512-GZW464g1SH7ag3Y7hXjf8RoUuAFIqklOAq3MRl4OaWabTFJY9PN/E1YklhXLh+OQ3fM9yS2nOkCoS+WLZ6kvxQ==",
+      "resolved": "https://registry.npmjs.org/d3-scale/-/d3-scale-4.0.2.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-scale/",
+      "repository": "https://github.com/d3/d3-scale.git"
+    },
+    {
+      "name": "d3-scale-chromatic",
+      "version": "3.1.0",
+      "license": "ISC",
+      "integrity": "sha512-A3s5PWiZ9YCXFye1o246KoscMWqf8BsD9eRiJ3He7C9OBaxKhAd5TFCdEx/7VbKtxxTsu//1mMJFrEt572cEyQ==",
+      "resolved": "https://registry.npmjs.org/d3-scale-chromatic/-/d3-scale-chromatic-3.1.0.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-scale-chromatic/",
+      "repository": "https://github.com/d3/d3-scale-chromatic.git"
+    },
+    {
+      "name": "d3-time",
+      "version": "3.1.0",
+      "license": "ISC",
+      "integrity": "sha512-VqKjzBLejbSMT4IgbmVgDjpkYrNWUYJnbCGo874u7MMKIWsILRX+OpX/gTk8MqjpT1A/c6HY2dCA77ZN0lkQ2Q==",
+      "resolved": "https://registry.npmjs.org/d3-time/-/d3-time-3.1.0.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-time/",
+      "repository": "https://github.com/d3/d3-time.git"
+    },
+    {
+      "name": "d3-time-format",
+      "version": "4.1.0",
+      "license": "ISC",
+      "integrity": "sha512-dJxPBlzC7NugB2PDLwo9Q8JiTR3M3e4/XANkreKSUxF8vvXKqm1Yfq4Q5dl8budlunRVlUUaDUgFt7eA8D6NLg==",
+      "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-4.1.0.tgz",
+      "gitHead": null,
+      "homepage": "https://d3js.org/d3-time-format/",
+      "repository": "https://github.com/d3/d3-time-format.git"
+    },
+    {
+      "name": "earcut",
+      "version": "2.2.4",
+      "license": "ISC",
+      "integrity": "sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==",
+      "resolved": "https://registry.npmjs.org/earcut/-/earcut-2.2.4.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git://github.com/mapbox/earcut.git"
+    },
+    {
+      "name": "find-replace",
+      "version": "5.0.2",
+      "license": "MIT",
+      "integrity": "sha512-Y45BAiE3mz2QsrN2fb5QEtO4qb44NcS7en/0y9PEVsg351HsLeVclP8QPMH79Le9sH3rs5RSwJu99W0WPZO43Q==",
+      "resolved": "https://registry.npmjs.org/find-replace/-/find-replace-5.0.2.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git+https://github.com/75lb/find-replace.git"
+    },
+    {
+      "name": "flatbuffers",
+      "version": "25.9.23",
+      "license": "Apache-2.0",
+      "integrity": "sha512-MI1qs7Lo4Syw0EOzUl0xjs2lsoeqFku44KpngfIduHBYvzm8h2+7K8YMQh1JtVVVrUvhLpNwqVi4DERegUJhPQ==",
+      "resolved": "https://registry.npmjs.org/flatbuffers/-/flatbuffers-25.9.23.tgz",
+      "gitHead": null,
+      "homepage": "https://google.github.io/flatbuffers/",
+      "repository": "git+https://github.com/google/flatbuffers.git"
+    },
+    {
+      "name": "gl-matrix",
+      "version": "3.4.4",
+      "license": "MIT",
+      "integrity": "sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==",
+      "resolved": "https://registry.npmjs.org/gl-matrix/-/gl-matrix-3.4.4.tgz",
+      "gitHead": null,
+      "homepage": "http://glmatrix.net",
+      "repository": "https://github.com/toji/gl-matrix.git"
+    },
+    {
+      "name": "has-flag",
+      "version": "4.0.0",
+      "license": "MIT",
+      "integrity": "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==",
+      "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "sindresorhus/has-flag"
+    },
+    {
+      "name": "internmap",
+      "version": "2.0.3",
+      "license": "ISC",
+      "integrity": "sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==",
+      "resolved": "https://registry.npmjs.org/internmap/-/internmap-2.0.3.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/mbostock/internmap/",
+      "repository": "https://github.com/mbostock/internmap.git"
+    },
+    {
+      "name": "json-bignum",
+      "version": "0.0.3",
+      "license": [
+        {
+          "type": "MIT",
+          "url": "https://github.com/datalanche/json-bignum/raw/master/LICENSE"
+        }
+      ],
+      "integrity": "sha512-2WHyXj3OfHSgNyuzDbSxI1w2jgw5gkWSWhS7Qg4bWXx1nLk3jnbwfUeS0PSba3IzpTUWdHxBieELUzXRjQB2zg==",
+      "resolved": "https://registry.npmjs.org/json-bignum/-/json-bignum-0.0.3.tgz",
+      "gitHead": null,
+      "homepage": "https://github.com/datalanche/json-bignum",
+      "repository": "https://github.com/datalanche/json-bignum.git"
+    },
+    {
+      "name": "kdbush",
+      "version": "4.1.0",
+      "license": "ISC",
+      "integrity": "sha512-e9vurzrXJQrFX6ckpHP3bvj5l+9CnYzkxDNnNQ1h2QTqdWsUAJgXiKdGNcOa1EY85dU8KbQ+z/FdQdB7P+9yfQ==",
+      "resolved": "https://registry.npmjs.org/kdbush/-/kdbush-4.1.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git://github.com/mourner/kdbush.git"
+    },
+    {
+      "name": "lodash.camelcase",
+      "version": "4.3.0",
+      "license": "MIT",
+      "integrity": "sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==",
+      "resolved": "https://registry.npmjs.org/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz",
+      "gitHead": null,
+      "homepage": "https://lodash.com/",
+      "repository": "lodash/lodash"
+    },
+    {
+      "name": "mjolnir.js",
+      "version": "3.0.0",
+      "license": "MIT",
+      "integrity": "sha512-siX3YCG7N2HnmN1xMH3cK4JkUZJhbkhRFJL+G5N1vH0mh1t5088rJknIoqDFWDIU6NPGvRRgLnYW3ZHjSMEBLA==",
+      "resolved": "https://registry.npmjs.org/mjolnir.js/-/mjolnir.js-3.0.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "https://github.com/visgl/mjolnir.js"
+    },
+    {
+      "name": "reselect",
+      "version": "5.2.0",
+      "license": "MIT",
+      "integrity": "sha512-AgZ3UOZm3YndfrJ4OYjgrT7bmCm/1iqkjvEfH/oYjzh6PD2qw4QuT3jjnXIrpdt4MTpMXclMT3lXbmRY+XRakw==",
+      "resolved": "https://registry.npmjs.org/reselect/-/reselect-5.2.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "https://github.com/reduxjs/reselect.git"
+    },
+    {
+      "name": "seedrandom",
+      "version": "3.0.5",
+      "license": "MIT",
+      "integrity": "sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==",
+      "resolved": "https://registry.npmjs.org/seedrandom/-/seedrandom-3.0.5.tgz",
+      "gitHead": null,
+      "homepage": "http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html",
+      "repository": "git://github.com/davidbau/seedrandom.git"
+    },
+    {
+      "name": "supports-color",
+      "version": "7.2.0",
+      "license": "MIT",
+      "integrity": "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "chalk/supports-color"
+    },
+    {
+      "name": "table-layout",
+      "version": "4.1.1",
+      "license": "MIT",
+      "integrity": "sha512-iK5/YhZxq5GO5z8wb0bY1317uDF3Zjpha0QFFLA8/trAoiLbQD0HUbMesEaxyzUgDxi2QlcbM8IvqOlEjgoXBA==",
+      "resolved": "https://registry.npmjs.org/table-layout/-/table-layout-4.1.1.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "https://github.com/75lb/table-layout"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "license": "0BSD",
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+      "gitHead": null,
+      "homepage": "https://www.typescriptlang.org/",
+      "repository": "https://github.com/Microsoft/tslib.git"
+    },
+    {
+      "name": "typical",
+      "version": "7.3.0",
+      "license": "MIT",
+      "integrity": "sha512-ya4mg/30vm+DOWfBg4YK3j2WD6TWtRkCbasOJr40CseYENzCUby/7rIvXA99JGsQHeNxLbnXdyLLxKSv3tauFw==",
+      "resolved": "https://registry.npmjs.org/typical/-/typical-7.3.0.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "git+https://github.com/75lb/typical.git"
+    },
+    {
+      "name": "undici-types",
+      "version": "7.16.0",
+      "license": "MIT",
+      "integrity": "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+      "gitHead": null,
+      "homepage": "https://undici.nodejs.org",
+      "repository": "git+https://github.com/nodejs/undici.git"
+    },
+    {
+      "name": "wordwrapjs",
+      "version": "5.1.1",
+      "license": "MIT",
+      "integrity": "sha512-0yweIbkINJodk27gX9LBGMzyQdBDan3s/dEAiwBOj+Mf0PPyWL6/rikalkv8EeD0E8jm4o5RXEOrFTP3NXbhJg==",
+      "resolved": "https://registry.npmjs.org/wordwrapjs/-/wordwrapjs-5.1.1.tgz",
+      "gitHead": null,
+      "homepage": null,
+      "repository": "https://github.com/75lb/wordwrapjs"
+    }
+  ]
+}

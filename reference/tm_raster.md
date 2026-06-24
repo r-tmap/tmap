@@ -1,6 +1,6 @@
 # Map layer: raster
 
-Map layer that draws rasters. Supported visual variable is: `col` (the
+Map layer that draws rasters. Supported map variable is: `col` (the
 color).
 
 ## Usage
@@ -32,13 +32,13 @@ opt_tm_raster(interpolate = FALSE)
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string.
+  Map variable that determines the color. See details. *Unit:* Color – a
+  color name, hex string.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Visual variable that determines the color transparency. See details.
+  Map variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
@@ -82,12 +82,12 @@ opt_tm_raster(interpolate = FALSE)
 
 ## Details
 
-The visual variable arguments (e.g. `col`) can be specified with a data
+The map variable arguments (e.g. `col`) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the
 object specified in
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)),
 with a visual value (for `col`, a color is expected), or with a
-geometry-derived variable (see below). See vignette: [Visual
+geometry-derived variable (see below). See vignette: [Map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 
 Multiple values can be specified: in that case facets are created. These
@@ -98,9 +98,9 @@ See vignette:
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets).
 
 - The `*.scale` arguments determine the used scale to map the data
-  values to visual variable values. These can be specified with one of
-  the available `tm_scale_*()` functions. The default is specified by
-  the tmap option
+  values to map variable values. These can be specified with one of the
+  available `tm_scale_*()` functions. The default is specified by the
+  tmap option
   ([`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md))
   `scales.var`. See \`rvignette:
   [Scales](https://r-tmap.github.io/tmap/articles/basics_scales)
@@ -128,7 +128,7 @@ See vignette:
   This only applies for a facet grid
   ([`tm_facets_grid()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)).
   For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the
-  visual variable `col`, each row of facets will have its own scale, and
+  map variable `col`, each row of facets will have its own scale, and
   therefore its own legend. For facet wraps and stacks
   ([`tm_facets_wrap()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
   and
@@ -155,10 +155,10 @@ or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
 
-### Visual variable units
+### Map variable units
 
-Every visual variable maps data values to a specific output unit.
-Knowing the unit matters when supplying constant values via
+Every map variable maps data values to a specific output unit. Knowing
+the unit matters when supplying constant values via
 [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
 output ranges via `values.range` / `values.scale` in the scale
 functions.

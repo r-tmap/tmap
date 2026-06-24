@@ -1,6 +1,6 @@
 # Map layer: text
 
-Map layer that draws symbols Supported visual variables are: `text` (the
+Map layer that draws symbols Supported map variables are: `text` (the
 text itself) `col` (color), `size` (font size), and `fontface` (font
 face).
 
@@ -245,32 +245,32 @@ opt_tm_labels(
 
 - text, text.scale, text.legend, text.chart, text.free:
 
-  Visual variable that determines the text. See details. *Unit:*
-  Character string.
+  Map variable that determines the text. See details. *Unit:* Character
+  string.
 
 - size, size.scale, size.legend, size.chart, size.free:
 
-  Visual variable that determines the size. See details. *Unit:*
-  Multiplier of the base font size. `size = 1` renders at the default
-  font size, which is 12 pt in plot mode (`par("ps")`) and 12 px in view
-  mode (consistent by design). `size = 1.5` renders at 18 pt / px, etc.
+  Map variable that determines the size. See details. *Unit:* Multiplier
+  of the base font size. `size = 1` renders at the default font size,
+  which is 12 pt in plot mode (`par("ps")`) and 12 px in view mode
+  (consistent by design). `size = 1.5` renders at 18 pt / px, etc.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string.
+  Map variable that determines the color. See details. *Unit:* Color – a
+  color name, hex string.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Visual variable that determines the color transparency. See details.
+  Map variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
 - fontface, fontface.scale, fontface.legend, fontface.chart,
   fontface.free:
 
-  Visual variable that determines the font face. See details. *Unit:*
+  Map variable that determines the font face. See details. *Unit:*
   "plain", "bold", "italic", or "bold.italic".
 
 - fontfamily:
@@ -280,13 +280,13 @@ opt_tm_labels(
 
 - bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free:
 
-  Visual variable that determines the background color. See Details.
+  Map variable that determines the background color. See Details.
   *Unit:* Color – a color name, hex string.
 
 - bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart,
   bgcol_alpha.free:
 
-  Visual variable that determines the background color transparency. See
+  Map variable that determines the background color transparency. See
   Details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
   fully opaque).
 
@@ -460,12 +460,12 @@ opt_tm_labels(
 
 ## Details
 
-The visual variable arguments (e.g. `col`) can be specified with a data
+The map variable arguments (e.g. `col`) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the
 object specified in
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)),
 with a visual value (for `col`, a color is expected), or with a
-geometry-derived variable (see below). See vignette: [Visual
+geometry-derived variable (see below). See vignette: [Map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 
 Multiple values can be specified: in that case facets are created. These
@@ -476,9 +476,9 @@ See vignette:
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets).
 
 - The `*.scale` arguments determine the used scale to map the data
-  values to visual variable values. These can be specified with one of
-  the available `tm_scale_*()` functions. The default is specified by
-  the tmap option
+  values to map variable values. These can be specified with one of the
+  available `tm_scale_*()` functions. The default is specified by the
+  tmap option
   ([`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md))
   `scales.var`. See \`rvignette:
   [Scales](https://r-tmap.github.io/tmap/articles/basics_scales)
@@ -506,7 +506,7 @@ See vignette:
   This only applies for a facet grid
   ([`tm_facets_grid()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)).
   For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the
-  visual variable `col`, each row of facets will have its own scale, and
+  map variable `col`, each row of facets will have its own scale, and
   therefore its own legend. For facet wraps and stacks
   ([`tm_facets_wrap()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
   and
@@ -533,10 +533,10 @@ or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
 
-### Visual variable units
+### Map variable units
 
-Every visual variable maps data values to a specific output unit.
-Knowing the unit matters when supplying constant values via
+Every map variable maps data values to a specific output unit. Knowing
+the unit matters when supplying constant values via
 [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
 output ranges via `values.range` / `values.scale` in the scale
 functions.
@@ -610,14 +610,14 @@ placed in the standard `"tile"` pane.
 
 ## See also
 
-[Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Map variables](https://r-tmap.github.io/tmap/articles/basics_vv),
 [Scales](https://r-tmap.github.io/tmap/articles/basics_scales),
 [Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
 [Units](https://r-tmap.github.io/tmap/articles/foundations_units),
 [Layer blending](https://r-tmap.github.io/tmap/articles/adv_blend)
 
-[Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Map variables](https://r-tmap.github.io/tmap/articles/basics_vv),
 [Scales](https://r-tmap.github.io/tmap/articles/basics_scales),
 [Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),

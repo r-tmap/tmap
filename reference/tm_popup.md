@@ -48,8 +48,8 @@ tm_popup(
 
   `NA` (default)
 
-  :   automatic: if visual variables (e.g. `fill`) are used, only those
-      are shown, otherwise all variables of the shape object are shown.
+  :   automatic: if map variables (e.g. `fill`) are used, only those are
+      shown, otherwise all variables of the shape object are shown.
 
 - title:
 

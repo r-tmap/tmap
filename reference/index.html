@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -66,7 +66,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -351,7 +351,7 @@
         </dt>
         <dd>Map component: inset maps and other objects</dd>
       </dl></div><div class="section level2">
-      <h2 id="set-scale-for-a-visual-variable">Set scale for a visual variable<a class="anchor" aria-label="anchor" href="#set-scale-for-a-visual-variable"></a></h2>
+      <h2 id="set-scale-for-a-map-variable">Set scale for a map variable<a class="anchor" aria-label="anchor" href="#set-scale-for-a-map-variable"></a></h2>
 
       <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.scale = tm_scale*()</code></p></div>
 
@@ -423,7 +423,7 @@
         </dt>
         <dd>Scales: RGB</dd>
       </dl></div><div class="section level2">
-      <h2 id="set-legend-for-a-visual-variable">Set legend for a visual variable<a class="anchor" aria-label="anchor" href="#set-legend-for-a-visual-variable"></a></h2>
+      <h2 id="set-legend-for-a-map-variable">Set legend for a map variable<a class="anchor" aria-label="anchor" href="#set-legend-for-a-map-variable"></a></h2>
 
       <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.legend = tm_legend*()</code></p></div>
 
@@ -448,12 +448,12 @@
 
         <dt>
 
-          <code><a href="tm_extra_innner_margin.html">tm_place_legends_right()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_left()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_bottom()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_top()</a></code> <code><a href="tm_extra_innner_margin.html">tm_place_legends_inside()</a></code> <code><a href="tm_extra_innner_margin.html">tm_extra_inner_margin()</a></code>
+          <code><a href="tm_extra_inner_margin.html">tm_extra_inner_margin()</a></code> <code><a href="tm_extra_inner_margin.html">tm_place_legends_right()</a></code> <code><a href="tm_extra_inner_margin.html">tm_place_legends_left()</a></code> <code><a href="tm_extra_inner_margin.html">tm_place_legends_bottom()</a></code> <code><a href="tm_extra_inner_margin.html">tm_place_legends_top()</a></code> <code><a href="tm_extra_inner_margin.html">tm_place_legends_inside()</a></code>
 
         </dt>
-        <dd>tmap layout: helper functions</dd>
+        <dd>Layout helpers: inner margins and legend placement</dd>
       </dl></div><div class="section level2">
-      <h2 id="set-charts-for-a-visual-variable">Set charts for a visual variable<a class="anchor" aria-label="anchor" href="#set-charts-for-a-visual-variable"></a></h2>
+      <h2 id="set-charts-for-a-map-variable">Set charts for a map variable<a class="anchor" aria-label="anchor" href="#set-charts-for-a-map-variable"></a></h2>
 
       <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.chart = tm_chart*()</code></p></div>
 
@@ -490,7 +490,7 @@
           <code><a href="tm_components.html">tm_components()</a></code>
 
         </dt>
-        <dd>Group components</dd>
+        <dd>Group map components</dd>
       </dl></div><div class="section level2">
       <h2 id="set-layout-options">Set layout options<a class="anchor" aria-label="anchor" href="#set-layout-options"></a></h2>
 
@@ -506,14 +506,14 @@
           <code><a href="tm_layout.html">tm_style()</a></code> <code><a href="tm_layout.html">tm_layout()</a></code>
 
         </dt>
-        <dd>Layout options</dd>
+        <dd>Layout and style options</dd>
 
         <dt>
 
           <code><a href="tm_options.html">tm_options()</a></code>
 
         </dt>
-        <dd>tmap options</dd>
+        <dd>Map-specific tmap options</dd>
 
         <dt>
 
@@ -535,6 +535,13 @@
 
         </dt>
         <dd>Plot mode options</dd>
+
+        <dt>
+
+          <code><a href="tm_check_fix.html">tm_check_fix()</a></code>
+
+        </dt>
+        <dd>Check and fix invalid geometries</dd>
       </dl></div><div class="section level2">
       <h2 id="set-options-globally-for-tmap">Set options globally for tmap<a class="anchor" aria-label="anchor" href="#set-options-globally-for-tmap"></a></h2>
 
@@ -547,10 +554,10 @@
 
       <dl><dt>
 
-          <code><a href="tmap_options.html">tm_check_fix()</a></code> <code><a href="tmap_options.html">tmap_options()</a></code> <code><a href="tmap_options.html">tmap_options_mode()</a></code> <code><a href="tmap_options.html">tmap_options_diff()</a></code> <code><a href="tmap_options.html">tmap_options_reset()</a></code> <code><a href="tmap_options.html">tmap_options_save()</a></code>
+          <code><a href="tmap_options.html">tmap_options()</a></code> <code><a href="tmap_options.html">tmap_options_mode()</a></code> <code><a href="tmap_options.html">tmap_options_diff()</a></code> <code><a href="tmap_options.html">tmap_options_reset()</a></code> <code><a href="tmap_options.html">tmap_options_save()</a></code>
 
         </dt>
-        <dd>tmap options</dd>
+        <dd>Global tmap options</dd>
 
         <dt>
 
@@ -668,7 +675,7 @@
           <code><a href="renderTmap.html">renderTmap()</a></code> <code><a href="renderTmap.html">tmapOutput()</a></code> <code><a href="renderTmap.html">tmapProxy()</a></code> <code><a href="renderTmap.html">tm_remove_layer()</a></code> <code><a href="renderTmap.html">renderTmapGS()</a></code> <code><a href="renderTmap.html">tmapOutputGS()</a></code> <code><a href="renderTmap.html">tmapProxyGS()</a></code>
 
         </dt>
-        <dd>Wrapper functions for using <strong>tmap</strong> in <strong>shiny</strong></dd>
+        <dd>Shiny integration for tmap</dd>
       </dl></div><div class="section level2">
       <h2 id="print-a-tmap-object">Print a tmap object<a class="anchor" aria-label="anchor" href="#print-a-tmap-object"></a></h2>
 
@@ -721,7 +728,7 @@
           <code><a href="tm_const.html">tm_const()</a></code>
 
         </dt>
-        <dd>tmap function to define a constant visual value</dd>
+        <dd>Constant visual value</dd>
 
         <dt>
 
@@ -735,7 +742,7 @@
           <code><a href="tm_vars.html">tm_vars()</a></code>
 
         </dt>
-        <dd>tmap function to specify variables</dd>
+        <dd>Specify variables</dd>
 
         <dt>
 
@@ -749,7 +756,7 @@
           <code><a href="tm_label_format.html">tm_label_format()</a></code>
 
         </dt>
-        <dd>tmap function to specify labels</dd>
+        <dd>Label formatting for scales</dd>
 
         <dt>
 

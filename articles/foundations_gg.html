@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -164,8 +164,8 @@
 <h2 id="ggplot2">ggplot2<a class="anchor" aria-label="anchor" href="#ggplot2"></a>
 </h2>
 <ul>
-<li>In ggplot2, the visual variables are defined on plot level (by default), but in tmap on layer level. This makes sense, since in non-spatial visualizations the x and y variables, the most important ones, are shared among the plot layers. However, in spatial visualizations the x and y variables are not considered data-driven but rather geometry-driven. The other visual variables, such as fill and border color, line width, and symbol shape.</li>
-<li>This also applies to the scale funtions: e.g. in ggplot2, the <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_fill_continuous()</a></code> is defined for the visual variable fill for the whole plot. In tmap, the scale functions are mapped 1 to 1 to the visual variables per layer: <code>tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())</code>
+<li>In ggplot2, the map variables are defined on plot level (by default), but in tmap on layer level. This makes sense, since in non-spatial visualizations the x and y variables, the most important ones, are shared among the plot layers. However, in spatial visualizations the x and y variables are not considered data-driven but rather geometry-driven. The other map variables, such as fill and border color, line width, and symbol shape.</li>
+<li>This also applies to the scale funtions: e.g. in ggplot2, the <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_fill_continuous()</a></code> is defined for the map variable fill for the whole plot. In tmap, the scale functions are mapped 1 to 1 to the map variables per layer: <code>tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())</code>
 </li>
 </ul>
 <p>See other vignette (to do: link) that compares tmap with ggplot2 by a series of examples</p>

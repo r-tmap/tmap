@@ -18,7 +18,7 @@ tm_plot_order(
 
 - aes:
 
-  Visual variable for which the values determine the plotting order.
+  Map variable for which the values determine the plotting order.
   Example: bubble map where the `"size"` aesthetic is used. A data
   variable (say population) is mapped via a continuous scale
   ([`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md))

@@ -85,3 +85,13 @@ dependencies:
       - "legend-interactivity.js"
     stylesheet:
       - "legend-interactivity.css"
+  - name: mapgl-slider
+    version: "1.0.0"
+    src: "htmlwidgets/lib/slider"
+    script:
+      - "slider.js"
+  - name: mapgl-slider-css
+    version: "1.0.0"
+    src: "htmlwidgets/styles"
+    stylesheet:
+      - "slider-control.css"

@@ -29,18 +29,17 @@ differently.
 
 ## ggplot2
 
-- In ggplot2, the visual variables are defined on plot level (by
-  default), but in tmap on layer level. This makes sense, since in
-  non-spatial visualizations the x and y variables, the most important
-  ones, are shared among the plot layers. However, in spatial
-  visualizations the x and y variables are not considered data-driven
-  but rather geometry-driven. The other visual variables, such as fill
-  and border color, line width, and symbol shape.
+- In ggplot2, the map variables are defined on plot level (by default),
+  but in tmap on layer level. This makes sense, since in non-spatial
+  visualizations the x and y variables, the most important ones, are
+  shared among the plot layers. However, in spatial visualizations the x
+  and y variables are not considered data-driven but rather
+  geometry-driven. The other map variables, such as fill and border
+  color, line width, and symbol shape.
 - This also applies to the scale funtions: e.g. in ggplot2, the
   [`scale_fill_continuous()`](https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html)
-  is defined for the visual variable fill for the whole plot. In tmap,
-  the scale functions are mapped 1 to 1 to the visual variables per
-  layer:
+  is defined for the map variable fill for the whole plot. In tmap, the
+  scale functions are mapped 1 to 1 to the map variables per layer:
   `tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())`
 
 See other vignette (to do: link) that compares tmap with ggplot2 by a

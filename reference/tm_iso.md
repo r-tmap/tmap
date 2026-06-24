@@ -20,13 +20,13 @@ tm_iso(
 
 - col:
 
-  Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string.
+  Map variable that determines the color. See details. *Unit:* Color – a
+  color name, hex string.
 
 - text:
 
-  Visual variable that determines the text. See details. *Unit:*
-  Character string.
+  Map variable that determines the text. See details. *Unit:* Character
+  string.
 
 - ...:
 

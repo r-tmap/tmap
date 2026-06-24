@@ -1,0 +1,425 @@
+/*
+ * Time slider control styling.
+ *
+ * Matches design tokens used by layers-control.css, filter-control.css,
+ * and the legend module (Open Sans, #4a90e2 accent, 4px radius, subtle
+ * shadow). Uses the .mapboxgl-ctrl class selector that native Mapbox /
+ * MapLibre control positioning applies so the control slots in beside
+ * navigation, scale, etc.
+ */
+
+.mapgl-slider {
+    box-sizing: border-box;
+    background: #ffffffcc;
+    color: #404040;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 10px 12px 8px 12px;
+    pointer-events: auto;
+    --mapgl-slider-accent: #4a90e2;
+    --mapgl-slider-active-color: var(--mapgl-slider-accent);
+    --mapgl-slider-track-color: rgba(0, 0, 0, 0.15);
+    --mapgl-slider-track-height: 4px;
+    --mapgl-slider-thumb-color: var(--mapgl-slider-accent);
+    --mapgl-slider-thumb-border-color: #fff;
+    --mapgl-slider-thumb-size: 15px;
+    --mapgl-slider-play-background: #fff;
+    --mapgl-slider-play-color: var(--mapgl-slider-accent);
+    --mapgl-slider-play-border-color: rgba(0, 0, 0, 0.15);
+}
+
+.mapgl-slider .mapgl-slider-body {
+    display: block;
+}
+
+.mapgl-slider .mapgl-slider-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: inherit;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.mapgl-slider .mapgl-slider-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 18px;
+}
+
+.mapgl-slider .mapgl-slider-value {
+    font-size: 12px;
+    font-weight: 500;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mapgl-slider .mapgl-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.mapgl-slider .mapgl-slider-play {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mapgl-slider-play-background);
+    color: var(--mapgl-slider-play-color);
+    border: 1px solid var(--mapgl-slider-play-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.mapgl-slider .mapgl-slider-play:hover {
+    background: var(--mapgl-slider-active-color);
+    color: #fff;
+    border-color: var(--mapgl-slider-active-color);
+}
+
+.mapgl-slider .mapgl-slider-play:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.35);
+}
+
+/* Range input — cross-browser styling of track and thumb. */
+.mapgl-slider .mapgl-slider-input {
+    flex: 1 1 auto;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 18px;
+    background: transparent;
+    cursor: ew-resize;
+    margin: 0;
+}
+
+.mapgl-slider .mapgl-slider-input:focus {
+    outline: none;
+}
+
+/* WebKit */
+.mapgl-slider .mapgl-slider-input::-webkit-slider-runnable-track {
+    height: var(--mapgl-slider-track-height);
+    background: var(--mapgl-slider-track-color);
+    border-radius: 2px;
+}
+
+.mapgl-slider .mapgl-slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--mapgl-slider-thumb-size);
+    width: var(--mapgl-slider-thumb-size);
+    border-radius: 50%;
+    background: var(--mapgl-slider-thumb-color);
+    border: 2px solid var(--mapgl-slider-thumb-border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    margin-top: calc((var(--mapgl-slider-track-height) - var(--mapgl-slider-thumb-size)) / 2);
+    cursor: ew-resize;
+    transition: transform 0.1s ease;
+}
+
+.mapgl-slider .mapgl-slider-input:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+}
+
+/* Firefox */
+.mapgl-slider .mapgl-slider-input::-moz-range-track {
+    height: var(--mapgl-slider-track-height);
+    background: var(--mapgl-slider-track-color);
+    border-radius: 2px;
+    border: none;
+}
+
+.mapgl-slider .mapgl-slider-input::-moz-range-thumb {
+    height: var(--mapgl-slider-thumb-size);
+    width: var(--mapgl-slider-thumb-size);
+    border-radius: 50%;
+    background: var(--mapgl-slider-thumb-color);
+    border: 2px solid var(--mapgl-slider-thumb-border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    cursor: ew-resize;
+    transition: transform 0.1s ease;
+}
+
+.mapgl-slider .mapgl-slider-input:hover::-moz-range-thumb {
+    transform: scale(1.1);
+}
+
+/* ---- Window mode: two-handle range ---------------------------------- */
+/* Two native range inputs are stacked over a shared track. pointer-events
+   are disabled on the inputs and re-enabled only on the thumbs so both
+   handles stay grabbable; the filled band sits between them. */
+.mapgl-slider .mapgl-slider-range {
+    position: relative;
+    flex: 1;
+    height: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.mapgl-slider .mapgl-slider-range-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: var(--mapgl-slider-track-height);
+    border-radius: 2px;
+    background: var(--mapgl-slider-track-color);
+    pointer-events: none;
+}
+
+/* The fill spans the full track height so it presents a tall grab target,
+   but only paints a thin bar via ::before. pointer-events:auto makes the
+   band draggable; the handle thumbs paint on top and grab first. */
+.mapgl-slider .mapgl-slider-range-fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: transparent;
+    pointer-events: auto;
+    cursor: grab;
+}
+
+.mapgl-slider .mapgl-slider-range-fill::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    height: var(--mapgl-slider-track-height);
+    border-radius: 2px;
+    background: var(--mapgl-slider-active-color);
+}
+
+.mapgl-slider .mapgl-slider-range-fill.is-dragging {
+    cursor: grabbing;
+}
+
+.mapgl-slider .mapgl-slider-range-fixed .mapgl-slider-range-fill {
+    pointer-events: none;
+    cursor: default;
+}
+
+.mapgl-slider .mapgl-slider-range input[type="range"] {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    height: 22px;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+}
+
+/* WebKit thumbs */
+.mapgl-slider .mapgl-slider-range input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: auto;
+    height: var(--mapgl-slider-thumb-size);
+    width: var(--mapgl-slider-thumb-size);
+    border-radius: 50%;
+    background: var(--mapgl-slider-thumb-color);
+    border: 2px solid var(--mapgl-slider-thumb-border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    cursor: ew-resize;
+}
+
+.mapgl-slider .mapgl-slider-range input[type="range"]::-webkit-slider-runnable-track {
+    background: transparent;
+    border: none;
+}
+
+/* Firefox thumbs */
+.mapgl-slider .mapgl-slider-range input[type="range"]::-moz-range-thumb {
+    pointer-events: auto;
+    height: var(--mapgl-slider-thumb-size);
+    width: var(--mapgl-slider-thumb-size);
+    border-radius: 50%;
+    background: var(--mapgl-slider-thumb-color);
+    border: 2px solid var(--mapgl-slider-thumb-border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    cursor: ew-resize;
+}
+
+.mapgl-slider .mapgl-slider-range input[type="range"]::-moz-range-track {
+    background: transparent;
+    border: none;
+}
+
+/* ---- Histogram density strip ---------------------------------------- */
+.mapgl-slider .mapgl-slider-histogram {
+    width: 100%;
+    margin: 2px 0 2px;
+    line-height: 0; /* remove inline-SVG descender gap */
+    overflow: hidden; /* clip the half-bars at the extreme ends */
+}
+
+.mapgl-slider .mapgl-slider-histogram svg {
+    display: block;
+    width: 100%;
+}
+
+/* .mapgl-bar fill + opacity are set inline by the renderer; the transition
+   smooths the active/dimmed change as the selection moves. */
+.mapgl-slider .mapgl-bar {
+    transition: opacity 0.12s ease;
+}
+
+/* ---- Timeline presentation (brushable histogram) ---------------------- */
+.mapgl-slider.mapgl-slider-timeline-root {
+    min-width: 320px;
+    padding: 8px 10px 6px 10px;
+}
+
+.mapgl-slider .mapgl-slider-timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.mapgl-slider .mapgl-slider-timeline-header .mapgl-slider-play {
+    width: 24px;
+    height: 24px;
+}
+
+.mapgl-slider .mapgl-slider-timeline-title {
+    margin: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mapgl-slider .mapgl-slider-timeline-readout {
+    margin: 0 0 5px 2px;
+    font-size: 11px;
+    opacity: 0.85;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mapgl-slider .mapgl-slider-timeline-chart {
+    position: relative;
+    width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.mapgl-slider .mapgl-slider-timeline-hist {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mapgl-slider .mapgl-slider-timeline-hist svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.mapgl-slider .mapgl-slider-brush {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    background: color-mix(in srgb, var(--mapgl-slider-accent) 16%, transparent);
+    border-left: 1px solid var(--mapgl-slider-accent);
+    border-right: 1px solid var(--mapgl-slider-accent);
+    cursor: grab;
+    min-width: 2px;
+}
+
+.mapgl-slider .mapgl-slider-brush.is-dragging {
+    cursor: grabbing;
+}
+
+.mapgl-slider .mapgl-slider-brush-grip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+}
+
+.mapgl-slider .mapgl-slider-brush-grip::after {
+    content: "";
+    width: 3px;
+    height: 56%;
+    border-radius: 2px;
+    background: var(--mapgl-slider-accent);
+}
+
+.mapgl-slider .mapgl-slider-brush-grip-start {
+    left: -6px;
+}
+
+.mapgl-slider .mapgl-slider-brush-grip-end {
+    right: -6px;
+}
+
+/* Fixed-width window: edges pan rather than resize (no resize cursor). */
+.mapgl-slider .mapgl-slider-brush-fixed,
+.mapgl-slider .mapgl-slider-brush-fixed .mapgl-slider-brush-grip {
+    cursor: grab;
+}
+
+.mapgl-slider .mapgl-slider-axis {
+    position: relative;
+    height: 14px;
+    margin-top: 4px;
+}
+
+.mapgl-slider .mapgl-slider-axis-tick {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 8px;
+    line-height: 1;
+    opacity: 0.65;
+    white-space: nowrap;
+}
+
+.mapgl-slider .mapgl-slider-axis-tick:first-child {
+    transform: translateX(0);
+}
+
+.mapgl-slider .mapgl-slider-axis-tick:last-child {
+    transform: translateX(-100%);
+}
+
+/* Draggable panel: grabbable body, no text selection while dragging. */
+.mapgl-slider.mapgl-slider-draggable {
+    cursor: move;
+}
+
+.mapgl-slider.mapgl-slider-draggable.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}

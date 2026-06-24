@@ -60,6 +60,176 @@ function evaluateExpression(expression, properties) {
   }
 }
 
+// Escape a value for safe insertion as tooltip/popup text.
+function escapeTemplateValue(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Render a {brace} template against a properties object. Shared, package-wide
+// tooltip/popup syntax. NOTE: duplicated verbatim in mapboxgl.js,
+// maplibregl.js, maplibregl_compare.js, and flowmap.js — keep in sync.
+function renderTemplate(template, properties) {
+  if (typeof template !== "string") {
+    return template;
+  }
+  return template.replace(/\{([^}]+)\}/g, function (match, path) {
+    const value = path
+      .trim()
+      .split(".")
+      .reduce(function (acc, key) {
+        return acc == null ? undefined : acc[key];
+      }, properties);
+    return value == null ? "" : escapeTemplateValue(value);
+  });
+}
+
+// Resolve a tooltip/popup content spec: array -> expression, "{..}" -> brace
+// template, string -> column name lookup.
+function resolveTooltipContent(spec, properties) {
+  if (Array.isArray(spec)) {
+    return evaluateExpression(spec, properties);
+  }
+  if (typeof spec === "string" && spec.indexOf("{") !== -1) {
+    return renderTemplate(spec, properties);
+  }
+  return properties[spec];
+}
+
+// Convert "#rgb"/"#rrggbb" + alpha to rgba(); pass other color strings through.
+function tooltipHexToRgba(color, alpha) {
+  if (typeof color !== "string" || color.charAt(0) !== "#") {
+    return color;
+  }
+  let h = color.slice(1);
+  if (h.length === 3) {
+    h = h
+      .split("")
+      .map(function (c) {
+        return c + c;
+      })
+      .join("");
+  }
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+}
+
+// Build (and cache) a scoped CSS class from a tooltip/popup style spec. Returns
+// null for an empty/absent spec. NOTE: duplicated across the bindings and
+// flowmap.js — keep in sync.
+function tooltipStyleToClass(spec) {
+  if (!spec || typeof spec !== "object") {
+    return null;
+  }
+  if (!window._mapglTooltipStyleClasses) {
+    window._mapglTooltipStyleClasses = {};
+  }
+  const cache = window._mapglTooltipStyleClasses;
+  const key = JSON.stringify(spec);
+  if (cache[key]) {
+    return cache[key];
+  }
+  const cls = "mapgl-tooltip-style-" + (Object.keys(cache).length + 1);
+
+  let bg = spec.background_color;
+  if (bg != null && spec.background_opacity != null) {
+    bg = tooltipHexToRgba(bg, spec.background_opacity);
+  }
+
+  const content = [];
+  if (bg != null) content.push("background:" + bg + ";");
+  if (spec.text_color != null) content.push("color:" + spec.text_color + ";");
+  if (spec.border_color != null || spec.border_width != null) {
+    const bw = spec.border_width == null ? 1 : spec.border_width;
+    const bc = spec.border_color == null ? "transparent" : spec.border_color;
+    content.push("border:" + bw + "px solid " + bc + ";");
+  }
+  if (spec.border_radius != null) {
+    content.push("border-radius:" + spec.border_radius + "px;");
+  }
+  if (spec.font_family != null) {
+    content.push("font-family:" + spec.font_family + ";");
+  }
+  if (spec.font_size != null) {
+    content.push("font-size:" + spec.font_size + "px;");
+  }
+  if (spec.font_weight != null) {
+    content.push("font-weight:" + spec.font_weight + ";");
+  }
+  if (spec.padding != null) content.push("padding:" + spec.padding + "px;");
+  if (spec.max_width != null) {
+    const mw =
+      typeof spec.max_width === "number"
+        ? spec.max_width + "px"
+        : spec.max_width;
+    content.push("max-width:" + mw + ";");
+  }
+  if (spec.shadow) {
+    const ss = spec.shadow_size == null ? 8 : spec.shadow_size;
+    const sc = spec.shadow_color == null ? "rgba(0, 0, 0, 0.2)" : spec.shadow_color;
+    content.push("box-shadow:0 2px " + ss + "px " + sc + ";");
+  }
+
+  let css =
+    "." +
+    cls +
+    " .mapboxgl-popup-content, ." +
+    cls +
+    " .maplibregl-popup-content {" +
+    content.join("") +
+    "}";
+  if (bg != null) {
+    css +=
+      "." +
+      cls +
+      " .mapboxgl-popup-tip, ." +
+      cls +
+      " .maplibregl-popup-tip {border-top-color:" +
+      bg +
+      ";border-bottom-color:" +
+      bg +
+      ";}";
+  }
+
+  const styleEl = document.createElement("style");
+  styleEl.textContent = css;
+  document.head.appendChild(styleEl);
+  cache[key] = cls;
+  return cls;
+}
+
+// Apply a style spec's generated class to a popup. (Re)applies on the "open"
+// event so a lazily-built tooltip container gets themed in both Mapbox and
+// MapLibre, swapping out any previously applied generated class.
+function applyPopupClass(popup, spec) {
+  if (!popup) {
+    return;
+  }
+  const cls = tooltipStyleToClass(spec);
+  const prev = popup._mapglStyleClass;
+  if (popup._container && prev && prev !== cls) {
+    popup._container.classList.remove(prev);
+  }
+  popup._mapglStyleClass = cls || null;
+  if (popup._container && cls) {
+    popup._container.classList.add(cls);
+  }
+  if (!popup._mapglClassHook && typeof popup.on === "function") {
+    popup._mapglClassHook = true;
+    popup.on("open", function () {
+      if (popup._container && popup._mapglStyleClass) {
+        popup._container.classList.add(popup._mapglStyleClass);
+      }
+    });
+  }
+}
+
 function formatDmsCoordinate(value, axis, precision) {
   const direction =
     axis === "lng" ? (value < 0 ? "W" : "E") : value < 0 ? "S" : "N";
@@ -311,19 +481,12 @@ function onMouseMoveTooltip(e, map, tooltipPopup, tooltipProperty, layerId) {
         window._activeTooltip.remove();
       }
 
-      let description;
-
-      // Check if tooltipProperty is an expression (array) or a simple property name (string)
-      if (Array.isArray(tooltipProperty)) {
-        // It's an expression, evaluate it
-        description = evaluateExpression(
-          tooltipProperty,
-          e.features[0].properties,
-        );
-      } else {
-        // It's a property name, get the value
-        description = e.features[0].properties[tooltipProperty];
-      }
+      // tooltipProperty may be a column name, a {brace} template, or a
+      // concat()/number_format() expression.
+      const description = resolveTooltipContent(
+        tooltipProperty,
+        e.features[0].properties,
+      );
 
       tooltipPopup.setLngLat(e.lngLat).setHTML(description).addTo(map);
 
@@ -353,7 +516,7 @@ function onMouseLeaveTooltip(map, tooltipPopup) {
   }
 }
 
-function onClickPopup(e, map, popupProperty, layerId) {
+function onClickPopup(e, map, popupProperty, layerId, popupStyle) {
   if (e.features.length > 0) {
     // Query all features at this point to determine z-order
     const allFeatures = map.queryRenderedFeatures(e.point);
@@ -376,19 +539,12 @@ function onClickPopup(e, map, popupProperty, layerId) {
 
     // Only show popup if this is the topmost layer with a popup
     if (topmostLayerWithPopup === layerId) {
-      let description;
-
-      // Check if popupProperty is an expression (array) or a simple property name (string)
-      if (Array.isArray(popupProperty)) {
-        // It's an expression, evaluate it
-        description = evaluateExpression(
-          popupProperty,
-          e.features[0].properties,
-        );
-      } else {
-        // It's a property name, get the value
-        description = e.features[0].properties[popupProperty];
-      }
+      // popupProperty may be a column name, a {brace} template, or a
+      // concat()/number_format() expression.
+      const description = resolveTooltipContent(
+        popupProperty,
+        e.features[0].properties,
+      );
 
       // Remove any existing popup for this layer
       if (window._mapboxPopups && window._mapboxPopups[layerId]) {
@@ -400,6 +556,7 @@ function onClickPopup(e, map, popupProperty, layerId) {
         .setLngLat(e.lngLat)
         .setHTML(description)
         .addTo(map);
+      applyPopupClass(popup, popupStyle);
 
       // Store reference to this popup
       if (!window._mapboxPopups) {
@@ -535,6 +692,16 @@ HTMLWidgets.widget({
 
         // Set the global access token
         mapboxgl.accessToken = compareMapsData[0].access_token;
+
+        compareMaps.forEach(function (compareMap) {
+          compareMap.on("style.load", function () {
+            if (!compareMap._basemapLayerIds) {
+              compareMap._basemapLayerIds = new Set(
+                compareMap.getStyle().layers.map((layer) => layer.id),
+              );
+            }
+          });
+        });
 
         if (x.mode === "swipe") {
           // Only create the swiper in swipe mode
@@ -885,6 +1052,7 @@ HTMLWidgets.widget({
                         map,
                         message.layer.popup,
                         message.layer.id,
+                        message.layer.popup_style,
                       );
                     };
 
@@ -915,6 +1083,7 @@ HTMLWidgets.widget({
                       closeOnClick: false,
                       maxWidth: "400px",
                     });
+                    applyPopupClass(tooltip, message.layer.tooltip_style);
 
                     // Define named handler functions:
                     const mouseMoveHandler = function (e) {
@@ -1126,6 +1295,22 @@ HTMLWidgets.widget({
                 }
                 layerState.layoutProperties[message.layer][message.name] =
                   message.value;
+              } else if (message.type === "set_flowmap_filter") {
+                if (window.MapGLFlowmapPlugin) {
+                  window.MapGLFlowmapPlugin.setFilter(
+                    map,
+                    message.id,
+                    message.filter,
+                  );
+                }
+              } else if (message.type === "set_flowmap_settings") {
+                if (window.MapGLFlowmapPlugin) {
+                  window.MapGLFlowmapPlugin.setSettings(
+                    map,
+                    message.id,
+                    message.settings,
+                  );
+                }
               } else if (message.type === "set_paint_property") {
                 const layerId = message.layer;
                 const propertyName = message.name;
@@ -2146,12 +2331,15 @@ HTMLWidgets.widget({
                     closeOnClick: false,
                     maxWidth: "400px",
                   });
+                  applyPopupClass(tooltip, message.tooltip_style);
 
                   map.on("mousemove", message.layer, function (e) {
                     map.getCanvas().style.cursor = "pointer";
                     if (e.features.length > 0) {
-                      const description =
-                        e.features[0].properties[message.tooltip];
+                      const description = resolveTooltipContent(
+                        message.tooltip,
+                        e.features[0].properties,
+                      );
                       tooltip
                         .setLngLat(e.lngLat)
                         .setHTML(description)
@@ -2193,7 +2381,13 @@ HTMLWidgets.widget({
 
                   // Create new click handler for popup
                   const clickHandler = function (e) {
-                    onClickPopup(e, map, message.popup, message.layer);
+                    onClickPopup(
+                      e,
+                      map,
+                      message.popup,
+                      message.layer,
+                      message.popup_style,
+                    );
                   };
 
                   // Store handler reference
@@ -2641,12 +2835,18 @@ HTMLWidgets.widget({
                 // Add popups or tooltips if provided
                 if (layer.popup) {
                   map.on("click", layer.id, function (e) {
-                    const description = e.features[0].properties[layer.popup];
+                    // Use the shared resolver so {brace} templates and
+                    // expressions work in compare popups too.
+                    const description = resolveTooltipContent(
+                      layer.popup,
+                      e.features[0].properties,
+                    );
 
-                    new mapboxgl.Popup({ maxWidth: "400px" })
+                    const popup = new mapboxgl.Popup({ maxWidth: "400px" })
                       .setLngLat(e.lngLat)
                       .setHTML(description)
                       .addTo(map);
+                    applyPopupClass(popup, layer.popup_style);
                   });
                 }
 
@@ -2656,6 +2856,7 @@ HTMLWidgets.widget({
                     closeOnClick: false,
                     maxWidth: "400px",
                   });
+                  applyPopupClass(tooltip, layer.tooltip_style);
 
                   // Create a reference to the mousemove handler function
                   const mouseMoveHandler = function (e) {
@@ -2758,6 +2959,22 @@ HTMLWidgets.widget({
                 console.error("Failed to add layer: ", layer, e);
               }
             });
+          }
+
+          if (mapData.flowmaps) {
+            if (window.MapGLFlowmapPlugin) {
+              const flowmapEl = {
+                id: `${el.id}-map${compareMaps.indexOf(map) + 1}`,
+              };
+              window.MapGLFlowmapPlugin.init(
+                map,
+                mapData,
+                flowmapEl,
+                HTMLWidgets,
+              );
+            } else {
+              console.error("Flowmap plugin is not loaded. Cannot add flowmap layers.");
+            }
           }
 
           // Set terrain if provided
@@ -3524,6 +3741,43 @@ HTMLWidgets.widget({
               mapData.layers_control.layers ||
               map.getStyle().layers.map((layer) => layer.id);
             let layersConfig = mapData.layers_control.layers_config;
+            const getLayerControlVisibility = (targetMap, layerId) => {
+              if (
+                window.MapGLFlowmapPlugin &&
+                window.MapGLFlowmapPlugin.hasLayer(targetMap, layerId)
+              ) {
+                return window.MapGLFlowmapPlugin.getVisibility(
+                  targetMap,
+                  layerId,
+                );
+              }
+              if (targetMap.getLayer(layerId)) {
+                return (
+                  targetMap.getLayoutProperty(layerId, "visibility") ||
+                  "visible"
+                );
+              }
+              return "visible";
+            };
+            const setLayerControlVisibility = (
+              targetMap,
+              layerId,
+              visibility,
+            ) => {
+              if (
+                window.MapGLFlowmapPlugin &&
+                window.MapGLFlowmapPlugin.setVisibility(
+                  targetMap,
+                  layerId,
+                  visibility,
+                )
+              ) {
+                return;
+              }
+              if (targetMap.getLayer(layerId)) {
+                targetMap.setLayoutProperty(layerId, "visibility", visibility);
+              }
+            };
 
             // If we have a layers_config, use that; otherwise fall back to original behavior
             if (layersConfig && Array.isArray(layersConfig)) {
@@ -3541,9 +3795,9 @@ HTMLWidgets.widget({
 
                 // Check if the first layer's visibility is set to "none" initially
                 const firstLayerId = layerIds[0];
-                const initialVisibility = map.getLayoutProperty(
+                const initialVisibility = getLayerControlVisibility(
+                  map,
                   firstLayerId,
-                  "visibility",
                 );
                 link.className = initialVisibility === "none" ? "" : "active";
 
@@ -3556,20 +3810,20 @@ HTMLWidgets.widget({
                     this.getAttribute("data-layer-ids"),
                   );
                   const firstLayerId = layerIds[0];
-                  const visibility = map.getLayoutProperty(
+                  const visibility = getLayerControlVisibility(
+                    map,
                     firstLayerId,
-                    "visibility",
                   );
 
                   // Toggle visibility for all layer IDs in the group
                   if (visibility === "visible") {
                     layerIds.forEach((layerId) => {
-                      map.setLayoutProperty(layerId, "visibility", "none");
+                      setLayerControlVisibility(map, layerId, "none");
                     });
                     this.className = "";
                   } else {
                     layerIds.forEach((layerId) => {
-                      map.setLayoutProperty(layerId, "visibility", "visible");
+                      setLayerControlVisibility(map, layerId, "visible");
                     });
                     this.className = "active";
                   }
@@ -3592,22 +3846,18 @@ HTMLWidgets.widget({
                   e.preventDefault();
                   e.stopPropagation();
 
-                  const visibility = map.getLayoutProperty(
+                  const visibility = getLayerControlVisibility(
+                    map,
                     clickedLayer,
-                    "visibility",
                   );
 
                   // Toggle layer visibility by changing the layout object's visibility property
                   if (visibility === "visible") {
-                    map.setLayoutProperty(clickedLayer, "visibility", "none");
+                    setLayerControlVisibility(map, clickedLayer, "none");
                     this.className = "";
                   } else {
                     this.className = "active";
-                    map.setLayoutProperty(
-                      clickedLayer,
-                      "visibility",
-                      "visible",
-                    );
+                    setLayerControlVisibility(map, clickedLayer, "visible");
                   }
                 };
 

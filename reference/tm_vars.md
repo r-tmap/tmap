@@ -1,4 +1,4 @@
-# tmap function to specify variables
+# Specify variables
 
 tmap function to specify all variables in the shape object
 
@@ -32,7 +32,7 @@ tm_vars(
 - multivariate:
 
   in case multiple variables are specified, should they serve as facets
-  (FALSE) or as a multivariate visual variable?
+  (FALSE) or as a multivariate map variable?
 
 - animate:
 
@@ -40,7 +40,7 @@ tm_vars(
 
 ## See also
 
-[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv),
-[Multivariate visual
+[Multivariate map
 variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)

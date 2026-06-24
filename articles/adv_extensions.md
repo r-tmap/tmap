@@ -16,11 +16,11 @@ proof-of-concept extension packages:
 
 This type of extension requires:
 
-- Specification of visual variables. For new visual variable, options
-  need to be added.
+- Specification of map variables. For new map variable, options need to
+  be added.
 - Spatial transformation function needs to be specified: e.g. should
   centroids be used?
-- The mapping between visual variables and (standard) visual or
+- The mapping between map variables and (standard) visual or
   transformation parameters.
 
 See [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs). A layer
@@ -94,11 +94,6 @@ features new map layers, albeit very basic so far:
 
 tm_shape(sfn) +
     tm_network()
-#> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_lines()` are
-#> deprecated.
-#> ℹ Use `popup` with `tm_popup()` instead, e.g. `popup = tm_popup(vars = ...,
-#>   format = ...)`.
-#> This message is displayed once every 8 hours.
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-5-1.png)

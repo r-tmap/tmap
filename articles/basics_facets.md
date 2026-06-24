@@ -46,7 +46,7 @@ The general purpose function
 determines the faceting type, which is in this example `wrap`.
 
 Groups can also be defined by specifying multiple data variable names
-for one visual variable:
+for one map variable:
 
 ``` r
 

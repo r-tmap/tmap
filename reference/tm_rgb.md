@@ -1,6 +1,6 @@
 # Map layer: rgb images
 
-Map layer that an rgb image.. The used (multivariate) visual variable is
+Map layer that an rgb image.. The used (multivariate) map variable is
 `col`, which should be specified with 3 or 4 variables for `tm_rgb()`
 and `tm_rgba()` respectively. The first three correspond to the red,
 green, and blue channels. The optional fourth is the alpha transparency
@@ -42,7 +42,7 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1)
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. `col` is a multivariate
+  Map variable that determines the color. `col` is a multivariate
   variable, with 3 (`tm_rgb`) or 4 (`tm_rgba`) numeric data variables.
   These can be specified via
   [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) with
@@ -51,7 +51,7 @@ opt_tm_rgb(interpolate = FALSE, saturation = 1)
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Visual variable that determines the color transparency. See details.
+  Map variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 

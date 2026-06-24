@@ -190,6 +190,171 @@ async function prepareMapForScreenshot(map, options) {
   }
 }
 
+function findClonedCanvas(
+  originalRoot,
+  clonedDoc,
+  clonedElement,
+  originalCanvas,
+  selector
+) {
+  if (!originalCanvas) {
+    return null;
+  }
+
+  if (originalCanvas.id) {
+    const clonedById = clonedDoc.getElementById(originalCanvas.id);
+    if (clonedById) {
+      return clonedById;
+    }
+  }
+
+  const originalCanvases = Array.from(originalRoot.querySelectorAll(selector));
+  const clonedCanvases = Array.from(clonedElement.querySelectorAll(selector));
+  const canvasIndex = originalCanvases.indexOf(originalCanvas);
+
+  return canvasIndex >= 0 ? clonedCanvases[canvasIndex] : null;
+}
+
+function copyCanvasContents(originalCanvas, clonedCanvas) {
+  if (!originalCanvas || !clonedCanvas) {
+    return false;
+  }
+
+  const ctx = clonedCanvas.getContext('2d');
+  if (!ctx) {
+    return false;
+  }
+
+  ctx.drawImage(originalCanvas, 0, 0);
+  return true;
+}
+
+function canvasHasVisiblePixels(canvas) {
+  if (!canvas) {
+    return false;
+  }
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    return false;
+  }
+
+  try {
+    const width = canvas.width;
+    const height = canvas.height;
+    const sampleCount = 5;
+
+    for (let yStep = 0; yStep < sampleCount; yStep++) {
+      for (let xStep = 0; xStep < sampleCount; xStep++) {
+        const x = Math.min(
+          width - 1,
+          Math.floor((xStep / (sampleCount - 1)) * (width - 1))
+        );
+        const y = Math.min(
+          height - 1,
+          Math.floor((yStep / (sampleCount - 1)) * (height - 1))
+        );
+        const pixel = ctx.getImageData(x, y, 1, 1).data;
+        if (pixel[3] !== 0) {
+          return true;
+        }
+      }
+    }
+  } catch (e) {
+    return true;
+  }
+
+  return false;
+}
+
+function getFlowmapBlendMode(deckCanvas) {
+  if (!deckCanvas) {
+    return null;
+  }
+
+  const computedStyle = window.getComputedStyle(deckCanvas);
+  const blendMode =
+    deckCanvas.style.mixBlendMode ||
+    (computedStyle && computedStyle.mixBlendMode) ||
+    '';
+
+  if (!blendMode || blendMode === 'normal') {
+    return null;
+  }
+
+  return blendMode;
+}
+
+function compositeFlowmapCanvasForScreenshot(map, state, clonedDoc, clonedElement) {
+  const mapCanvasSelector = 'canvas.maplibregl-canvas, canvas.mapboxgl-canvas';
+  const originalMapCanvas = state.container.querySelector(mapCanvasSelector);
+  const clonedMapCanvas = findClonedCanvas(
+    state.container,
+    clonedDoc,
+    clonedElement,
+    originalMapCanvas,
+    mapCanvasSelector
+  );
+
+  const mapCanvasCopied = copyCanvasContents(originalMapCanvas, clonedMapCanvas);
+  const mapCanvasHasContent =
+    mapCanvasCopied && canvasHasVisiblePixels(clonedMapCanvas);
+
+  const originalDeckCanvas = map._deckCanvas &&
+    state.container.contains(map._deckCanvas) ?
+    map._deckCanvas :
+    state.container.querySelector('canvas[id^="deck-canvas-"]');
+
+  if (!originalDeckCanvas) {
+    return;
+  }
+
+  const deckCanvasSelector = 'canvas[id^="deck-canvas-"]';
+  const clonedDeckCanvas = findClonedCanvas(
+    state.container,
+    clonedDoc,
+    clonedElement,
+    originalDeckCanvas,
+    deckCanvasSelector
+  );
+  const blendMode = getFlowmapBlendMode(originalDeckCanvas);
+
+  copyCanvasContents(originalDeckCanvas, clonedDeckCanvas);
+
+  if (!blendMode || !clonedMapCanvas || !mapCanvasHasContent) {
+    copyCanvasContents(originalDeckCanvas, clonedDeckCanvas);
+    return;
+  }
+
+  const mapCtx = clonedMapCanvas.getContext('2d');
+  if (!mapCtx) {
+    copyCanvasContents(originalDeckCanvas, clonedDeckCanvas);
+    return;
+  }
+
+  const previousCompositeOperation = mapCtx.globalCompositeOperation;
+  mapCtx.globalCompositeOperation = blendMode;
+
+  if (mapCtx.globalCompositeOperation !== blendMode) {
+    mapCtx.globalCompositeOperation = previousCompositeOperation;
+    copyCanvasContents(originalDeckCanvas, clonedDeckCanvas);
+    return;
+  }
+
+  mapCtx.drawImage(
+    originalDeckCanvas,
+    0,
+    0
+  );
+  mapCtx.globalCompositeOperation = previousCompositeOperation;
+
+  // The flowmap is already blended into the cloned map canvas. Hide the cloned
+  // Deck canvas so html2canvas does not draw it a second time in normal mode.
+  if (clonedDeckCanvas) {
+    clonedDeckCanvas.style.display = 'none';
+  }
+}
+
 async function captureMapScreenshot(map, options) {
   const state = await prepareMapForScreenshot(map, options);
 
@@ -201,15 +366,7 @@ async function captureMapScreenshot(map, options) {
       logging: false,
       scale: options.image_scale || 1,
       onclone: function(clonedDoc, clonedElement) {
-        // Copy WebGL canvas content to cloned canvas
-        const originalCanvas = state.container.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
-        const clonedCanvas = clonedElement.querySelector('canvas.maplibregl-canvas, canvas.mapboxgl-canvas');
-        if (originalCanvas && clonedCanvas) {
-          const ctx = clonedCanvas.getContext('2d');
-          if (ctx) {
-            ctx.drawImage(originalCanvas, 0, 0);
-          }
-        }
+        compositeFlowmapCanvasForScreenshot(map, state, clonedDoc, clonedElement);
       }
     });
 

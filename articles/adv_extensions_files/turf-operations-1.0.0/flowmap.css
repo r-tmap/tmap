@@ -1,0 +1,53 @@
+.mapgl-flowmap-tooltip.mapboxgl-popup .mapboxgl-popup-content,
+.mapgl-flowmap-tooltip.maplibregl-popup .maplibregl-popup-content {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.mapgl-flowmap-tooltip--dark.mapboxgl-popup .mapboxgl-popup-content,
+.mapgl-flowmap-tooltip--dark.maplibregl-popup .maplibregl-popup-content {
+  background: rgba(35, 35, 35, 0.94);
+  color: #fff;
+}
+
+.mapgl-flowmap-tooltip--dark.mapboxgl-popup .mapboxgl-popup-tip,
+.mapgl-flowmap-tooltip--dark.maplibregl-popup .maplibregl-popup-tip {
+  border-top-color: rgba(35, 35, 35, 0.94);
+  border-bottom-color: rgba(35, 35, 35, 0.94);
+}
+
+.mapgl-flowmap-tooltip--light.mapboxgl-popup .mapboxgl-popup-content,
+.mapgl-flowmap-tooltip--light.maplibregl-popup .maplibregl-popup-content {
+  background: rgba(255, 255, 255, 0.96);
+  color: #222;
+}
+
+.mapgl-flowmap-example-tooltip {
+  position: absolute;
+  z-index: 5;
+  display: none;
+  max-width: 320px;
+  padding: 1em;
+  border-radius: 5px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.mapgl-flowmap-example-tooltip--dark {
+  background-color: rgba(150, 150, 150, 0.75);
+  color: #fff;
+}
+
+.mapgl-flowmap-example-tooltip--light {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #222;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+}

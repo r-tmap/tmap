@@ -1,4 +1,4 @@
-# tmap basics: visual variables
+# tmap basics: map variables
 
 ## Introduction
 
@@ -8,11 +8,11 @@
 
 A (thematic) map consists of one or more map layers. Each map layer has
 a specific set of variables that determine how the objects of that layer
-are drawn. A **visual variable** changes the appearance of a spatial
+are drawn. A **map variable** changes the appearance of a spatial
 object, e.g. fill color or line width.
 
-The following table shows which visual variables are used in standard
-map layers.
+The following table shows which map variables are used in standard map
+layers.
 
 [TABLE]
 
@@ -42,10 +42,10 @@ s <- tm_shape(World, crs = "+proj=eqearth")
 
 ## Constant visual values
 
-Each visual variable can be assigned a constant value. E.g.
-`fill = "red"` or `size = 2`.
+Each map variable can be assigned a constant value. E.g. `fill = "red"`
+or `size = 2`.
 
-An example where several visual variables are specified with constant
+An example where several map variables are specified with constant
 values:
 
 ``` r
@@ -61,12 +61,12 @@ s +
 ![](basics_vv_files/figure-html/constant-1.png)
 
 For advanced users: the default constant values are specified for
-combinations of visual variables and layer type. See
+combinations of map variables and layer type. See
 `tmap_options("value.const")`
 
-## Data-driven visual variables
+## Data-driven map variables
 
-Each visual variable argument can also be specified with a data variable
+Each map variable argument can also be specified with a data variable
 (e.g., a column name):
 
 ``` r
@@ -106,13 +106,13 @@ s +
 
 ### Scales and legend
 
-For each data-driven visual variable, a scale and legend can be
-specified. See other vignettes.
+For each data-driven map variable, a scale and legend can be specified.
+See other vignettes.
 
 ## Facets
 
 A facet map is created by specifying two data variables (columns in
-`World`) to the visual variable `fill`:
+`World`) to the map variable `fill`:
 
 ``` r
 

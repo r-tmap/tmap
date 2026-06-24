@@ -24,7 +24,7 @@ is a fixed number of screen pixels."><meta property="og:image" content="https://
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -72,7 +72,7 @@ is a fixed number of screen pixels."><meta property="og:image" content="https://
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -168,32 +168,32 @@ is a fixed number of screen pixels.</p>
 
 
 <dl><dt id="arg-size-size-scale-size-legend-size-chart-size-free">size, size.scale, size.legend, size.chart, size.free<a class="anchor" aria-label="anchor" href="#arg-size-size-scale-size-legend-size-chart-size-free"></a></dt>
-<dd><p>Visual variable that determines the size. See details. <em>Unit:</em> Meters. Accepts a plain numeric vector (values already in meters) or a <code>units</code> object from the <strong>units</strong> package (any linear unit, e.g. <code>units::as_units(50, "km")</code>), which is converted to meters automatically.
+<dd><p>Map variable that determines the size. See details. <em>Unit:</em> Meters. Accepts a plain numeric vector (values already in meters) or a <code>units</code> object from the <strong>units</strong> package (any linear unit, e.g. <code>units::as_units(50, "km")</code>), which is converted to meters automatically.
 <em>Unit:</em> Meters. Accepts a plain numeric vector (values already in meters) or a <code>units</code> object from the <strong>units</strong> package (any linear unit, e.g. <code>units::as_units(50, "km")</code>), which is converted to meters automatically.</p></dd>
 
 
 <dt id="arg-fill-fill-scale-fill-legend-fill-chart-fill-free">fill, fill.scale, fill.legend, fill.chart, fill.free<a class="anchor" aria-label="anchor" href="#arg-fill-fill-scale-fill-legend-fill-chart-fill-free"></a></dt>
-<dd><p>Visual variable that determines the fill color. See details. <em>Unit:</em> Color – a color name, hex string.</p></dd>
+<dd><p>Map variable that determines the fill color. See details. <em>Unit:</em> Color – a color name, hex string.</p></dd>
 
 
 <dt id="arg-col-col-scale-col-legend-col-chart-col-free">col, col.scale, col.legend, col.chart, col.free<a class="anchor" aria-label="anchor" href="#arg-col-col-scale-col-legend-col-chart-col-free"></a></dt>
-<dd><p>Visual variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string.</p></dd>
+<dd><p>Map variable that determines the color. See details. <em>Unit:</em> Color – a color name, hex string.</p></dd>
 
 
 <dt id="arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free">lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free<a class="anchor" aria-label="anchor" href="#arg-lwd-lwd-scale-lwd-legend-lwd-chart-lwd-free"></a></dt>
-<dd><p>Visual variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.</p></dd>
+<dd><p>Map variable that determines the line width. See details. <em>Unit:</em> Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.</p></dd>
 
 
 <dt id="arg-lty-lty-scale-lty-legend-lty-chart-lty-free">lty, lty.scale, lty.legend, lty.chart, lty.free<a class="anchor" aria-label="anchor" href="#arg-lty-lty-scale-lty-legend-lty-chart-lty-free"></a></dt>
-<dd><p>Visual variable that determines the line type. See details. <em>Unit:</em> Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".</p></dd>
+<dd><p>Map variable that determines the line type. See details. <em>Unit:</em> Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash", "longdash", "twodash".</p></dd>
 
 
 <dt id="arg-fill-alpha-fill-alpha-scale-fill-alpha-legend-fill-alpha-chart-fill-alpha-free">fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart, fill_alpha.free<a class="anchor" aria-label="anchor" href="#arg-fill-alpha-fill-alpha-scale-fill-alpha-legend-fill-alpha-chart-fill-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the fill color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
+<dd><p>Map variable that determines the fill color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free">col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free<a class="anchor" aria-label="anchor" href="#arg-col-alpha-col-alpha-scale-col-alpha-legend-col-alpha-chart-col-alpha-free"></a></dt>
-<dd><p>Visual variable that determines the color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
+<dd><p>Map variable that determines the color transparency. See details. <em>Unit:</em> Proportion – numeric 0-1 (0 = fully transparent, 1 = fully opaque).</p></dd>
 
 
 <dt id="arg-plot-order">plot.order<a class="anchor" aria-label="anchor" href="#arg-plot-order"></a></dt>
@@ -290,7 +290,7 @@ replaced via <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Supported visual variables: <code>fill</code> (fill colour), <code>col</code> (border colour),
+    <p>Supported map variables: <code>fill</code> (fill colour), <code>col</code> (border colour),
 <code>size</code> (radius in meters), <code>lwd</code> (line width), <code>lty</code> (line type),
 <code>fill_alpha</code> (fill transparency), <code>col_alpha</code> (border transparency).</p>
     </div>

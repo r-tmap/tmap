@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -1988,8 +1988,8 @@
 <div class="section level2">
 <h2 id="what-are-the-options-for">What are the options for?<a class="anchor" aria-label="anchor" href="#what-are-the-options-for"></a>
 </h2>
-<p>All options with the name prefix <code>value(s)</code> refer to default values for visual variables/values. E.g. <code>value.const</code> and subitem <code>fill.polygons</code> is the default polygon fill color.</p>
-<p>The <code>scales.var</code> options specify which scales are used by default to map data variables to visual variables. This depends on the visual variable and the data type. E.g. for numeric data (“num”) and the visual variable <code>size</code>, the <code>continuous</code> scale is used, so <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code>. For the visual variable <code>text</code> (of <code><a href="../reference/tm_text.html">tm_text()</a></code>) the scale <code>asis</code> is used, so <code><a href="../reference/tm_scale_asis.html">tm_scale_asis()</a></code>.</p>
+<p>All options with the name prefix <code>value(s)</code> refer to default values for map variables/values. E.g. <code>value.const</code> and subitem <code>fill.polygons</code> is the default polygon fill color.</p>
+<p>The <code>scales.var</code> options specify which scales are used by default to map data variables to map variables. This depends on the map variable and the data type. E.g. for numeric data (“num”) and the map variable <code>size</code>, the <code>continuous</code> scale is used, so <code><a href="../reference/tm_scale_continuous.html">tm_scale_continuous()</a></code>. For the map variable <code>text</code> (of <code><a href="../reference/tm_text.html">tm_text()</a></code>) the scale <code>asis</code> is used, so <code><a href="../reference/tm_scale_asis.html">tm_scale_asis()</a></code>.</p>
 <p>There are several options that deal with the margins and aspect ratio. These are explained in <a href="https://r-tmap.github.io/tmap/articles/adv_margins">another vignette</a>.</p>
 <p>Most other options are default values of arguments of component functions. E.g., <code>compass.type</code> specifies the default compass type.</p>
 <p>The options with the prefix <code>qtm</code> specify what components are shown by default (in view mode).</p>

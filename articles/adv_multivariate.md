@@ -1,15 +1,15 @@
-# tmap advanced: multiple visual variables
+# tmap advanced: multiple map variables
 
-## Multiple visual variables
+## Multiple map variables
 
-Usually we specify a data-driven visual variable with **one** data
-variable (see [vignette about visual
+Usually we specify a data-driven map variable with **one** data variable
+(see [vignette about map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv)). However,
 in several use cases, it is useful to use a few data variables for one
-visual variables.
+map variables.
 
-There are two ways to use multiple data variables for one visual
-variable: for creating facets, and for multivariate mapping.
+There are two ways to use multiple data variables for one map variable:
+for creating facets, and for multivariate mapping.
 
 ## Creating facets
 
@@ -157,6 +157,6 @@ tm_shape(ZH_muni) +
 
 ![](adv_multivariate_files/figure-html/unnamed-chunk-10-1.png)
 
-The visual variable `parts` (introduced in `tmap.glyphs`) is specified
-as multivariate visual variable. It specifies the parts (slices) of the
-donut charts and uses this also for the `fill` color.
+The map variable `parts` (introduced in `tmap.glyphs`) is specified as
+multivariate map variable. It specifies the parts (slices) of the donut
+charts and uses this also for the `fill` color.
