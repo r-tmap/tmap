@@ -37,7 +37,7 @@ object are shown.}
 header shown above the popup table). This overrules the layer argument
 \code{id}, analogous to how \code{hover} overrules \code{id} for hover labels. The
 default (\code{NA}) means that the popup title is derived from \code{id} (the former,
-and still default, behaviour). A length-one character vector is expected;
+and still default, behavior). A length-one character vector is expected;
 a named value is allowed and reserved for future use.}
 
 \item{format}{A list of formatting options for the popup values, the output

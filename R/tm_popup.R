@@ -21,7 +21,7 @@
 #'   header shown above the popup table). This overrules the layer argument
 #'   `id`, analogous to how `hover` overrules `id` for hover labels. The
 #'   default (`NA`) means that the popup title is derived from `id` (the former,
-#'   and still default, behaviour). A length-one character vector is expected;
+#'   and still default, behavior). A length-one character vector is expected;
 #'   a named value is allowed and reserved for future use.
 #' @param format A list of formatting options for the popup values, the output
 #'   of [tm_label_format()]. Only applicable to numeric data variables. If one

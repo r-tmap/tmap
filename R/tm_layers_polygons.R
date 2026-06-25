@@ -101,7 +101,7 @@
 #' | `blend` | Formula | Use case |
 #' | --- | --- | --- |
 #' | `"over"` | \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} | Standard alpha compositing (default) |
-#' | `"multiply"` | \eqn{S \times D} | Hillshading over colour raster; both layers darken each other |
+#' | `"multiply"` | \eqn{S \times D} | Hillshading over color raster; both layers darken each other |
 #' | `"screen"` | \eqn{1 - (1 - S)(1 - D)} | Inverse of multiply; brightens |
 #' | `"overlay"` | multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} | Boosts contrast; preserves midtones |
 #' | `"darken"` | \eqn{\min(S, D)} | Keeps the darker of the two layers per channel |

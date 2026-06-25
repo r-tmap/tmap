@@ -14,7 +14,7 @@ tm_plot_order(
 }
 \arguments{
 \item{aes}{Map variable for which the values determine the plotting order.
-Example: bubble map where the \code{"size"} aesthetic is used.
+Example: bubble map where the \code{"size"} map variable is used.
 A data variable (say population) is mapped via a continuous scale (\code{\link[=tm_scale_continuous]{tm_scale_continuous()}})
 to bubble sizes. The bubbles are plotted in order of size.
 How is determined by the other arguments. Use \code{"DATA"} to keep the same
@@ -29,7 +29,7 @@ In the bubble map example, this means that large bubbles are plotted first,
 hence at the bottom.}
 
 \item{na.order}{Where should features be plotted that have an \code{NA} value for
-(at least) one other aesthetic variable? In the (order) \code{"mix"}, at the \code{"bottom"},
+(at least) one other map variable? In the (order) \code{"mix"}, at the \code{"bottom"},
 or on \code{"top"}? In the bubble map example: if fill color is missing for some bubble,
 where should those bubbles be plotted?}
 

@@ -21,7 +21,7 @@
 #'   in as different layers (`as.layers = TRUE`)
 #' @param drop.units Logical. If the `by` argument is specified, should
 #'   non-selected spatial units be dropped? If `FALSE`, they are plotted where
-#'   mapped aesthetics are regarded as missing values. Not applicable for
+#'   mapped map variables are regarded as missing values. Not applicable for
 #'   raster shapes. By default `TRUE`.
 #' @param drop.empty.facets Logical. If the `by` argument is specified, should
 #'   empty facets be dropped? Empty facets occur when the `by`-variable contains

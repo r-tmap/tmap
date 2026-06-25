@@ -104,7 +104,7 @@ search term, this functions draws an interactive map.
 }
 \details{
 The first argument is a shape object (normally specified by \code{\link[=tm_shape]{tm_shape()}}).
-The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main
+The next arguments, from \code{fill} to \code{raster}, are the map variables from the main
 layers. The remaining arguments are related to the map layout. Any argument
 from any main layer function, such as \code{\link[=tm_polygons]{tm_polygons()}}, can be specified (see \code{...}).
 It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.

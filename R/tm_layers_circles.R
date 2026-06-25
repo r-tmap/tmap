@@ -5,7 +5,7 @@
 #' (view) mode. This is in contrast to [tm_bubbles()], where the symbol size
 #' is a fixed number of screen pixels.
 #'
-#' Supported map variables: `fill` (fill colour), `col` (border colour),
+#' Supported map variables: `fill` (fill color), `col` (border color),
 #' `size` (radius in meters), `lwd` (line width), `lty` (line type),
 #' `fill_alpha` (fill transparency), `col_alpha` (border transparency).
 #'

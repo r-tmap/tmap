@@ -394,11 +394,11 @@ When a different projection (crs) is used, a (usually) regular raster will be}
 
 \item{value.blank}{Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per map variable a value.}
 
-\item{values.var}{Default values when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
+\item{values.var}{Default values when a data variable is mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
 
 \item{values.range}{Default range for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per map variable a value.}
 
-\item{value.neutral}{Default values for when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
+\item{value.neutral}{Default values for when a data variable is mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.}
 
 \item{values.scale}{Default scales (as in object sizes) for values. See \code{values.range} of \code{\link[=tm_scale_categorical]{tm_scale_categorical()}}. A list is required with per map variable a value.}
 

@@ -422,7 +422,7 @@ the text. See details.}
 \item{hitbox}{Controls whether an invisible interaction layer with a
 larger clickable area (\"hitbox\") is added on top of the symbols.
 
-This can improve click and popup behaviour for small or densely packed
+This can improve click and popup behavior for small or densely packed
 symbols by enlarging the effective mouse interaction area.
 
 Possible values:

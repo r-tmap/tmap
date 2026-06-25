@@ -36,9 +36,9 @@
 #' @param value.na Default visual values that are used to visualize NA data values. A list is required with per map variable a value.
 #' @param value.null Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per map variable a value.
 #' @param value.blank Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per map variable a value.
-#' @param values.var Default values when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
+#' @param values.var Default values when a data variable is mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
 #' @param values.range Default range for values. See `values.range` of [tm_scale_categorical()]. A list is required with per map variable a value.
-#' @param value.neutral Default values for when a data variable to mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
+#' @param value.neutral Default values for when a data variable is mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
 #' @param values.scale Default scales (as in object sizes) for values. See `values.range` of [tm_scale_categorical()]. A list is required with per map variable a value.
 #' @param scales.var Default scale functions per map variable and type of data variable. A list is required with per map variable per data type.
 #' @param scale.misc.args Default values of scale function-specific arguments. A list is required with per scale function and optional per map variable.

@@ -3,7 +3,7 @@
 #' Determine plotting order of features.
 #' 
 #' @param aes Map variable for which the values determine the plotting order.
-#'   Example: bubble map where the `"size"` aesthetic is used.
+#'   Example: bubble map where the `"size"` map variable is used.
 #'   A data variable (say population) is mapped via a continuous scale ([tm_scale_continuous()])
 #'   to bubble sizes. The bubbles are plotted in order of size.
 #'   How is determined by the other arguments. Use `"DATA"` to keep the same
@@ -16,7 +16,7 @@
 #'   In the bubble map example, this means that large bubbles are plotted first,
 #'   hence at the bottom.
 #' @param na.order Where should features be plotted that have an `NA` value for
-#'   (at least) one other aesthetic variable? In the (order) `"mix"`, at the `"bottom"`,
+#'   (at least) one other map variable? In the (order) `"mix"`, at the `"bottom"`,
 #'   or on `"top"`? In the bubble map example: if fill color is missing for some bubble,
 #'   where should those bubbles be plotted?
 #' @param null.order Where should non-selected (aka null) features be plotted?

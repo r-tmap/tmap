@@ -73,7 +73,7 @@ in as different layers (\code{as.layers = TRUE})}
 
 \item{drop.units}{Logical. If the \code{by} argument is specified, should
 non-selected spatial units be dropped? If \code{FALSE}, they are plotted where
-mapped aesthetics are regarded as missing values. Not applicable for
+mapped map variables are regarded as missing values. Not applicable for
 raster shapes. By default \code{TRUE}.}
 
 \item{drop.empty.facets}{Logical. If the \code{by} argument is specified, should

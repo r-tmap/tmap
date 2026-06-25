@@ -737,7 +737,7 @@ opt_tm_markers = function(markers_on_top_of_text = FALSE,
 #' @param hitbox Controls whether an invisible interaction layer with a
 #'   larger clickable area (\"hitbox\") is added on top of the symbols.
 #'
-#'   This can improve click and popup behaviour for small or densely packed
+#'   This can improve click and popup behavior for small or densely packed
 #'   symbols by enlarging the effective mouse interaction area.
 #'
 #'   Possible values:

@@ -280,7 +280,7 @@ tm_lines = function(col = tm_const(),
 #' @param hitbox Controls whether an invisible interaction layer with a
 #'   larger clickable area (\"hitbox\") is added on top of the lines.
 #'
-#'   This can improve click and popup behaviour for thin or densely packed
+#'   This can improve click and popup behavior for thin or densely packed
 #'   lines by increasing the effective mouse interaction width.
 #'
 #'   Possible values:

@@ -146,7 +146,7 @@ radius is expressed in meters and the circles scale with zoom in interactive
 is a fixed number of screen pixels.
 }
 \details{
-Supported map variables: \code{fill} (fill colour), \code{col} (border colour),
+Supported map variables: \code{fill} (fill color), \code{col} (border color),
 \code{size} (radius in meters), \code{lwd} (line width), \code{lty} (line type),
 \code{fill_alpha} (fill transparency), \code{col_alpha} (border transparency).
 }

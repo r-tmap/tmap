@@ -24,7 +24,7 @@ tm_scale_bivariate(
 
 \item{values}{(generic scale argument) The visual values. For colors
 (e.g. \code{fill} or \code{col} for \code{tm_polygons()}) this is a palette name from the \code{cols4all} package (see \code{\link[cols4all:c4a]{cols4all::c4a()}})
-or vector of colors, for size (e.g. \code{size} for \code{tm_symbols()}) these are a set of sizes (if two values are specified they are interpret as range),
+or vector of colors, for size (e.g. \code{size} for \code{tm_symbols()}) these are a set of sizes (if two values are specified they are interpreted as a range),
 for symbol shapes (e.g. \code{shape} for \code{\link[=tm_symbols]{tm_symbols()}}) these are a set of symbols, etc.
 The tmap option \code{values.var} contains the default values per map variable and in some cases also per data type.}
 

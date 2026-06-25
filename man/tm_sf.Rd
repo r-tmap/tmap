@@ -223,7 +223,7 @@ value and \eqn{D} be the destination (bottom layer) RGB value, both
 normalised to \eqn{[0, 1]}.\tabular{lll}{
    \code{blend} \tab Formula \tab Use case \cr
    \code{"over"} \tab \eqn{S \cdot \alpha + D \cdot (1 - \alpha)} \tab Standard alpha compositing (default) \cr
-   \code{"multiply"} \tab \eqn{S \times D} \tab Hillshading over colour raster; both layers darken each other \cr
+   \code{"multiply"} \tab \eqn{S \times D} \tab Hillshading over color raster; both layers darken each other \cr
    \code{"screen"} \tab \eqn{1 - (1 - S)(1 - D)} \tab Inverse of multiply; brightens \cr
    \code{"overlay"} \tab multiply if \eqn{D < 0.5}, screen if \eqn{D \geq 0.5} \tab Boosts contrast; preserves midtones \cr
    \code{"darken"} \tab \eqn{\min(S, D)} \tab Keeps the darker of the two layers per channel \cr

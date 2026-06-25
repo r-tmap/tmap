@@ -5,7 +5,7 @@
 #' search term, this functions draws an interactive map.
 #'
 #' The first argument is a shape object (normally specified by [tm_shape()]).
-#' The next arguments, from `fill` to `raster`, are the aesthetics from the main
+#' The next arguments, from `fill` to `raster`, are the map variables from the main
 #' layers. The remaining arguments are related to the map layout. Any argument
 #' from any main layer function, such as [tm_polygons()], can be specified (see `...`).
 #' It is also possible to stack [`tmap-element`]s on a `qtm` plot. See examples.
