@@ -589,7 +589,7 @@ normalised to \\\[0, 1\]\\.
 |----|----|----|
 | `blend` | Formula | Use case |
 | `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
-| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
+| `"multiply"` | \\S \times D\\ | Hillshading over color raster; both layers darken each other |
 | `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
 | `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
 | `"darken"` | \\\min(S, D)\\ | Keeps the darker of the two layers per channel |

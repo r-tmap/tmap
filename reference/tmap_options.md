@@ -457,7 +457,7 @@ tmap_options_save(style)
 
 - values.var:
 
-  Default values when a data variable to mapped to a map variable, e.g.
+  Default values when a data variable is mapped to a map variable, e.g.
   a color palette. A list is required with per map variable a value.
 
 - values.range:
@@ -468,7 +468,7 @@ tmap_options_save(style)
 
 - value.neutral:
 
-  Default values for when a data variable to mapped to a map variable,
+  Default values for when a data variable is mapped to a map variable,
   e.g. a color palette. A list is required with per map variable a
   value.
 

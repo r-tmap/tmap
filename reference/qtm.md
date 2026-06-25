@@ -159,9 +159,9 @@ A
 
 The first argument is a shape object (normally specified by
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)).
-The next arguments, from `fill` to `raster`, are the aesthetics from the
-main layers. The remaining arguments are related to the map layout. Any
-argument from any main layer function, such as
+The next arguments, from `fill` to `raster`, are the map variables from
+the main layers. The remaining arguments are related to the map layout.
+Any argument from any main layer function, such as
 [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md),
 can be specified (see `...`). It is also possible to stack
 [`tmap-element`](https://r-tmap.github.io/tmap/reference/tmap-element.md)s

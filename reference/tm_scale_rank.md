@@ -47,7 +47,7 @@ tm_scale_rank(
   vector of colors, for size (e.g. `size` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
   these are a set of sizes (if two values are specified they are
-  interpret as range), for symbol shapes (e.g. `shape` for
+  interpreted as a range), for symbol shapes (e.g. `shape` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
   these are a set of symbols, etc. The tmap option `values.var` contains
   the default values per map variable and in some cases also per data

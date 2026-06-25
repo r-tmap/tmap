@@ -173,7 +173,7 @@ opt_tm_lines(lines.only = "ifany", hitbox = "auto")
   Controls whether an invisible interaction layer with a larger
   clickable area (\\hitbox\\) is added on top of the lines.
 
-  This can improve click and popup behaviour for thin or densely packed
+  This can improve click and popup behavior for thin or densely packed
   lines by increasing the effective mouse interaction width.
 
   Possible values:
@@ -339,7 +339,7 @@ normalised to \\\[0, 1\]\\.
 |----|----|----|
 | `blend` | Formula | Use case |
 | `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
-| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
+| `"multiply"` | \\S \times D\\ | Hillshading over color raster; both layers darken each other |
 | `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
 | `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
 | `"darken"` | \\\min(S, D)\\ | Keeps the darker of the two layers per channel |

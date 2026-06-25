@@ -1,7 +1,7 @@
 # Arrange small multiples in grid layout
 
 Arrange small multiples in a grid layout. Normally, small multiples are
-created by specifying multiple variables for one aesthetic or by
+created by specifying multiple variables for one map variable or by
 specifying the by argument (see
 [`tm_facets()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)).
 This function can be used to arrange custom small multiples in a grid

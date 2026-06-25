@@ -218,7 +218,7 @@ opt_tm_circles(
 
 ## Details
 
-Supported map variables: `fill` (fill colour), `col` (border colour),
+Supported map variables: `fill` (fill color), `col` (border color),
 `size` (radius in meters), `lwd` (line width), `lty` (line type),
 `fill_alpha` (fill transparency), `col_alpha` (border transparency).
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -251,7 +251,7 @@ modes are consistent by design.</p>
 <p>Blend modes control how a layer's pixels are combined with the pixels
 beneath it. For each pixel, let \(S\) be the source (top layer) RGB
 value and \(D\) be the destination (bottom layer) RGB value, both
-normalised to \([0, 1]\).</p><table class="table table"><tr><td><code>blend</code></td><td>Formula</td><td>Use case</td></tr><tr><td><code>"over"</code></td><td>\(S \cdot \alpha + D \cdot (1 - \alpha)\)</td><td>Standard alpha compositing (default)</td></tr><tr><td><code>"multiply"</code></td><td>\(S \times D\)</td><td>Hillshading over colour raster; both layers darken each other</td></tr><tr><td><code>"screen"</code></td><td>\(1 - (1 - S)(1 - D)\)</td><td>Inverse of multiply; brightens</td></tr><tr><td><code>"overlay"</code></td><td>multiply if \(D &lt; 0.5\), screen if \(D \geq 0.5\)</td><td>Boosts contrast; preserves midtones</td></tr><tr><td><code>"darken"</code></td><td>\(\min(S, D)\)</td><td>Keeps the darker of the two layers per channel</td></tr><tr><td><code>"lighten"</code></td><td>\(\max(S, D)\)</td><td>Keeps the lighter of the two layers per channel</td></tr></table><p>Requires R &gt;= 4.2 and a compatible graphics device (e.g.
+normalised to \([0, 1]\).</p><table class="table table"><tr><td><code>blend</code></td><td>Formula</td><td>Use case</td></tr><tr><td><code>"over"</code></td><td>\(S \cdot \alpha + D \cdot (1 - \alpha)\)</td><td>Standard alpha compositing (default)</td></tr><tr><td><code>"multiply"</code></td><td>\(S \times D\)</td><td>Hillshading over color raster; both layers darken each other</td></tr><tr><td><code>"screen"</code></td><td>\(1 - (1 - S)(1 - D)\)</td><td>Inverse of multiply; brightens</td></tr><tr><td><code>"overlay"</code></td><td>multiply if \(D &lt; 0.5\), screen if \(D \geq 0.5\)</td><td>Boosts contrast; preserves midtones</td></tr><tr><td><code>"darken"</code></td><td>\(\min(S, D)\)</td><td>Keeps the darker of the two layers per channel</td></tr><tr><td><code>"lighten"</code></td><td>\(\max(S, D)\)</td><td>Keeps the lighter of the two layers per channel</td></tr></table><p>Requires R &gt;= 4.2 and a compatible graphics device (e.g.
 <code>png(type = "cairo")</code>, <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">svg()</a></code>). In view mode, blending is applied via
 CSS <code>mix-blend-mode</code>. See <code><a href="https://rdrr.io/r/grid/grid.group.html" class="external-link">grid::groupGrob()</a></code> for the full list of
 supported operators.</p>

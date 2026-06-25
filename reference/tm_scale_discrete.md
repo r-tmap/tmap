@@ -54,7 +54,7 @@ tm_scale_discrete(
   this is a palette name from the `cols4all` package (see
   [`cols4all::c4a()`](https://cols4all.github.io/reference/c4a.html)) or
   vector of colors, for size (e.g. `size` for `tm_symbols`) these are a
-  set of sizes (if two values are specified they are interpret as
+  set of sizes (if two values are specified they are interpreted as a
   range), for symbol shapes (e.g. `shape` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
   these are a set of symbols, etc. The tmap option `values.var` contains

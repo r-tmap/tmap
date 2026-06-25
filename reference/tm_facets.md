@@ -104,8 +104,8 @@ tm_facets_flip(...)
 
   Logical. If the `by` argument is specified, should non-selected
   spatial units be dropped? If `FALSE`, they are plotted where mapped
-  aesthetics are regarded as missing values. Not applicable for raster
-  shapes. By default `TRUE`.
+  map variables are regarded as missing values. Not applicable for
+  raster shapes. By default `TRUE`.
 
 - drop.empty.facets:
 
