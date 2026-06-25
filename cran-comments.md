@@ -7,10 +7,15 @@
 
 0 errors | 0 warnings | 0 note
 
-## Resubmission note
+## Release notes
 
-* Precheck issue fixed
+This is a documentation-only patch release (4.4-1) that addresses a JSS
+pre-check comment: several man-page titles in `help(package = "tmap")` were
+uninformative or duplicated (e.g. `tm_check_fix` and `tmap_options` both titled
+"tmap options"). No functional code has changed.
 
 ## Reverse dependencies
 
-This release triggered a warning from tmap.glyphs '::' or ':::' import not declared from: ‘units’. This should be fixed in tmap.glpyhs (which I will do after acceptance)
+Carried forward from 4.4: tmap.glyphs triggered a warning ('::' or ':::' import
+not declared from: 'units'), which will be fixed in a tmap.glyphs update after
+acceptance.

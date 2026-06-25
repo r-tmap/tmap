@@ -94,7 +94,7 @@ s + tm_polygons(
 
 ## `.legend` arguments
 
-Each map variable also has a `.legend` argment, such as `fill.legend` in `tm_polygons`. This can be used to:
+Each map variable also has a `.legend` argument, such as `fill.legend` in `tm_polygons`. This can be used to:
 
 * set the title of the legend,
 * change the orientation of the legend (portrait or landscape),

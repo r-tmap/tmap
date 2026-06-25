@@ -1,3 +1,7 @@
+# tmap 4.4-1
+
+- Documentation-only release: improved and de-duplicated man-page titles (addressing JSS pre-check), standardized terminology ("map variable" throughout), and fixed typos in vignettes.
+
 # tmap 4.4
 
 - [!] added tm_circles (circles with fixed unit-based radii)
