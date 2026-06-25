@@ -21,7 +21,10 @@ consistent visualizations.
 - **Facets**: Layouts for splitting data into subsets for comparison.
 
 It is applied in **ggplot2** \[2\] and also in **tmap**, but slightly
-differently.
+differently. What the Grammar of Graphics and **ggplot2** call
+*aesthetics*, **tmap** calls **map variables**. Both refer to the visual
+properties (such as fill color, size, and line width) to which data
+values are mapped.
 
 ## tmap
 
@@ -29,17 +32,18 @@ differently.
 
 ## ggplot2
 
-- In ggplot2, the map variables are defined on plot level (by default),
-  but in tmap on layer level. This makes sense, since in non-spatial
-  visualizations the x and y variables, the most important ones, are
-  shared among the plot layers. However, in spatial visualizations the x
-  and y variables are not considered data-driven but rather
-  geometry-driven. The other map variables, such as fill and border
-  color, line width, and symbol shape.
-- This also applies to the scale funtions: e.g. in ggplot2, the
+- In **ggplot2**, aesthetics are defined on the plot level (by default),
+  but in **tmap** map variables are defined on the layer level. This
+  makes sense, since in non-spatial visualizations the x and y
+  aesthetics, the most important ones, are shared among the plot layers.
+  However, in spatial visualizations the x and y coordinates are not
+  considered data-driven but rather geometry-driven. The remaining map
+  variables, such as fill and border color, line width, and symbol
+  shape, naturally belong to individual layers.
+- This also applies to scales: e.g. in **ggplot2**,
   [`scale_fill_continuous()`](https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html)
-  is defined for the map variable fill for the whole plot. In tmap, the
-  scale functions are mapped 1 to 1 to the map variables per layer:
+  applies to the fill aesthetic for the whole plot. In **tmap**, scale
+  functions are specified per map variable per layer:
   `tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())`
 
 See other vignette (to do: link) that compares tmap with ggplot2 by a

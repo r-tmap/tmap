@@ -278,10 +278,10 @@ the fill color from legend 1 and the shape of legend 2 are used.
 
 ## Visual values
 
-It is possible to create custom legend by specify the visual values that
-define the legend items. There are two ways to do this: either to change
-the visual values of an existing legend via the `.legend` argument, or
-via a new manual legend added with
+It is possible to create a custom legend by specifying the visual values
+that define the legend items. There are two ways to do this: either to
+change the visual values of an existing legend via the `.legend`
+argument, or via a new manual legend added with
 [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md).
 
 ## Setting visual values

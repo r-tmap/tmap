@@ -1,5 +1,11 @@
 # Changelog
 
+## tmap 4.4-1
+
+- Documentation-only release: improved and de-duplicated man-page titles
+  (addressing JSS pre-check), standardized terminology (“map variable”
+  throughout), and fixed typos in vignettes.
+
 ## tmap 4.4
 
 CRAN release: 2026-06-14

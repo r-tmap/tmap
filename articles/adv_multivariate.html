@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,7 +136,7 @@
 <div class="section level2">
 <h2 id="multiple-map-variables">Multiple map variables<a class="anchor" aria-label="anchor" href="#multiple-map-variables"></a>
 </h2>
-<p>Usually we specify a data-driven map variable with <strong>one</strong> data variable (see <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about map variables</a>). However, in several use cases, it is useful to use a few data variables for one map variables.</p>
+<p>Usually we specify a data-driven map variable with <strong>one</strong> data variable (see <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about map variables</a>). However, in several use cases, it is useful to use a few data variables for one map variable.</p>
 <p>There are two ways to use multiple data variables for one map variable: for creating facets, and for multivariate mapping.</p>
 </div>
 <div class="section level2">
@@ -150,7 +150,7 @@
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Percentage"</span><span class="op">)</span>,</span>
 <span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-3-1.png" alt="" width="100%"></p>
-<p>A facet is create for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
+<p>A facet is created for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
