@@ -5,7 +5,7 @@
 \alias{NLD_prov}
 \alias{NLD_muni}
 \alias{NLD_dist}
-\title{Netherlands datasets}
+\title{Spatial data of the Netherlands}
 \source{
 https://www.cbs.nl/nl-nl/maatwerk/2024/11/kerncijfers-wijken-en-buurten-2022
 }

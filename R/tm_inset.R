@@ -1,4 +1,4 @@
-#' Map component: inset maps and other objects
+#' Map component: inset map
 #'
 #' Map component that adds an inset object, e.g. a mini map
 #'

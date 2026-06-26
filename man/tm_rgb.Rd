@@ -4,7 +4,7 @@
 \alias{tm_rgb}
 \alias{tm_rgba}
 \alias{opt_tm_rgb}
-\title{Map layer: rgb images}
+\title{Map layer: RGB images}
 \usage{
 tm_rgb(
   col = tm_vars(n = 3, multivariate = TRUE),
@@ -51,7 +51,7 @@ the color. \code{col} is a multivariate variable, with 3 (\code{tm_rgb}) or 4 (\
 \item{saturation}{The saturation of the rgb.}
 }
 \description{
-Map layer that an rgb image.. The used (multivariate) map variable is \code{col},
+Map layer that displays an RGB image. The used (multivariate) map variable is \code{col},
 which should be specified with 3 or 4 variables for \code{tm_rgb()} and \code{tm_rgba()} respectively.
 The first three correspond to the red, green, and blue channels. The optional
 fourth is the alpha transparency channel.

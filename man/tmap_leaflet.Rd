@@ -3,7 +3,7 @@
 \name{tmap_leaflet}
 \alias{tmap_leaflet}
 \alias{tmap_grob}
-\title{Export tmap to the format of the used graphics mode}
+\title{Export tmap to the mode's native object}
 \usage{
 tmap_leaflet(x, show = FALSE, ...)
 

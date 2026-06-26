@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_inset.R
 \name{tm_inset}
 \alias{tm_inset}
-\title{Map component: inset maps and other objects}
+\title{Map component: inset map}
 \usage{
 tm_inset(
   x = NULL,

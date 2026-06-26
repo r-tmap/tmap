@@ -5,7 +5,7 @@
 \alias{tm_legend_hide}
 \alias{tm_legend_combine}
 \alias{tm_legend_bivariate}
-\title{Legend}
+\title{Map component: scale legend}
 \usage{
 tm_legend(
   title,

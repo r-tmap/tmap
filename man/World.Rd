@@ -3,7 +3,7 @@
 \docType{data}
 \name{World}
 \alias{World}
-\title{World dataset}
+\title{Spatial data of the world}
 \source{
 NED: Natural Earth Data \url{https://www.naturalearthdata.com/}
 

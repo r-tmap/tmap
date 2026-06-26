@@ -1,6 +1,6 @@
 # tmap 4.4-1
 
-- Documentation-only release: improved and de-duplicated man-page titles (addressing JSS pre-check), standardized terminology ("map variable" throughout), and fixed typos in vignettes.
+- Documentation-only release: more informative and de-duplicated man-page titles, and terminology harmonized across the documentation for consistency with upcoming publications.
 
 # tmap 4.4
 

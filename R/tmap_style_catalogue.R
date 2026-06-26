@@ -1,6 +1,6 @@
-#' Create a style catalogue
+#' Create a style catalog
 #'
-#' Create a style catalogue for each predefined tmap style. The result is a set of png images, one for each style.
+#' Create a style catalog for each predefined tmap style. The result is a set of png images, one for each style.
 #'
 #' @param path path where the png images are stored
 #' @param styles vector of styles function names (see [tmap_style()]) for which a preview is generated. By default, a preview is generated for all loaded styles.

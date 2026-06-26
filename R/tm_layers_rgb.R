@@ -1,6 +1,6 @@
-#' Map layer: rgb images
+#' Map layer: RGB images
 #'
-#' Map layer that an rgb image.. The used (multivariate) map variable is `col`,
+#' Map layer that displays an RGB image. The used (multivariate) map variable is `col`,
 #' which should be specified with 3 or 4 variables for `tm_rgb()` and `tm_rgba()` respectively.
 #' The first three correspond to the red, green, and blue channels. The optional
 #' fourth is the alpha transparency channel.

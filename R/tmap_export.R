@@ -1,4 +1,4 @@
-#' Export tmap to the format of the used graphics mode
+#' Export tmap to the mode's native object
 #'
 #' * `tmap_grob()` returns a [`grob`][grid::grob()] object (`"plot" mode`)
 #' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).

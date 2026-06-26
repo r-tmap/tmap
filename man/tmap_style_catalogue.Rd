@@ -3,7 +3,7 @@
 \name{tmap_style_catalogue}
 \alias{tmap_style_catalogue}
 \alias{tmap_style_catalog}
-\title{Create a style catalogue}
+\title{Create a style catalog}
 \usage{
 tmap_style_catalogue(path = "./tmap_style_previews", styles = NA)
 
@@ -15,5 +15,5 @@ tmap_style_catalog(path = "./tmap_style_previews", styles = NA)
 \item{styles}{vector of styles function names (see \code{\link[=tmap_style]{tmap_style()}}) for which a preview is generated. By default, a preview is generated for all loaded styles.}
 }
 \description{
-Create a style catalogue for each predefined tmap style. The result is a set of png images, one for each style.
+Create a style catalog for each predefined tmap style. The result is a set of png images, one for each style.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_component_functions.R
 \name{tm_credits}
 \alias{tm_credits}
-\title{Map component: (credits) text}
+\title{Map component: credits}
 \usage{
 tm_credits(
   text,

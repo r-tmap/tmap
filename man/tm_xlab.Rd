@@ -3,7 +3,7 @@
 \name{tm_xlab}
 \alias{tm_xlab}
 \alias{tm_ylab}
-\title{Map: x and y labels}
+\title{Map component: axis labels}
 \usage{
 tm_xlab(text, size, color, rotation, space, fontface, fontfamily, alpha, side)
 
