@@ -9,7 +9,7 @@
 \alias{tm_chart_box}
 \alias{tm_chart_none}
 \alias{tm_chart_heatmap}
-\title{Legend charts}
+\title{Map component: scale charts}
 \usage{
 tm_chart_histogram(
   breaks,

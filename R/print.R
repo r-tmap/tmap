@@ -1,4 +1,4 @@
-#' Draw thematic map
+#' Display thematic map
 #'
 #' @param x tmap object.
 #' @param return.asp should the aspect ratio be returned?

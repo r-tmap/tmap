@@ -3,7 +3,7 @@
 \name{print.tmap}
 \alias{print.tmap}
 \alias{knit_print.tmap}
-\title{Draw thematic map}
+\title{Display thematic map}
 \usage{
 \method{print}{tmap}(
   x,
@@ -39,5 +39,5 @@
 \item{...}{passed on internally (for developers: in \code{"view"} mode, the proxy leaflet object is passed to \code{tmapLeafletInit}).}
 }
 \description{
-Draw thematic map
+Display thematic map
 }

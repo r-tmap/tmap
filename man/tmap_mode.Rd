@@ -7,7 +7,7 @@
 \alias{tmap_mode_pool}
 \alias{ttmp}
 \alias{rtmp}
-\title{Set tmap mode}
+\title{Get or set tmap mode}
 \usage{
 tmap_mode(mode = NULL, silent = FALSE)
 

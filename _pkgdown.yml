@@ -16,12 +16,10 @@ reference:
 - title: Thematic Maps
   contents:
   - tmap-package
+  - tmap-element
 - title: Create a quick plot
   contents:
   - qtm
-- title: Stacking tmap elements
-  contents:
-  - tmap-element
 - title: Specify spatial data
   contents:
   - tm_shape
@@ -68,16 +66,16 @@ reference:
   contents:
   - starts_with("tm_legend")
   - tm_add_legend
-  - tm_extra_inner_margin
 - title: Set charts for a map variable
   desc: Always use those in this form `<vv>.chart = tm_chart*()`
   contents:
   - starts_with("tm_chart")
-- title: Configure legend and component position
+- title: Position components
   contents:
   - tm_pos
   - tm_components
-- title: Set layout options
+  - tm_extra_inner_margin
+- title: Per-map options
   contents:
   - tm_layout
   - tm_options
@@ -85,7 +83,7 @@ reference:
   - tm_group
   - tm_plot
   - tm_check_fix
-- title: Set options globally for tmap
+- title: Global options
   contents:
   - tmap_options
   - tmap_style
@@ -93,9 +91,17 @@ reference:
   - tmap_mode
   - tmap_devel_mode
   - tmap_design_mode
-- title: Export a tmap object
+- title: Display and arrange
+  contents:
+  - tmap_last
+  - print.tmap
+  - tmap_arrange
+  - tmap_animation
+  - renderTmap
+- title: Export
   contents:
   - tmap_save
+  - tmap_grob
   - tmap_leaflet
 - title: Datasets included in tmap
   contents:
@@ -104,15 +110,6 @@ reference:
   - land
   - metro
   - starts_with("NLD")
-- title: Use tmap in shiny
-  contents:
-  - renderTmap
-- title: Print a tmap object
-  contents:
-  - tmap_last
-  - print.tmap
-  - tmap_animation
-  - tmap_arrange
 - title: Helper functions
   contents:
   - tm_const
