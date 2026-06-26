@@ -1,4 +1,4 @@
-# Set the design mode
+# Toggle design overlay
 
 When the so-called "design mode" is enabled, the composition of the plot
 is shown explicitly in plot mode. The used color codings is printed in

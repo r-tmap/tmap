@@ -1,6 +1,6 @@
 # Quick thematic map plot
 
-Draw a thematic map quickly. This function is a convenient wrapper of
+Display a thematic map quickly. This function is a convenient wrapper of
 the main plotting method of stacking
 [`tmap-element`](https://r-tmap.github.io/tmap/reference/tmap-element.md)s.
 Without arguments or with a search term, this functions draws an

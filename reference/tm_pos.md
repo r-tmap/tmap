@@ -114,7 +114,7 @@ upper-case.
 the available space inside the map. This is similar to the default
 positioning in tmap3.
 
-In case multiple components are draw in the same cell and the same
+In case multiple components are drawn in the same cell and the same
 position inside that cell, they are stacked (determined which the
 `stack` argument in the legend or component function). The `align.h` and
 `align.v` arguments determine how these components will be justified
@@ -126,7 +126,7 @@ column. This is the case when
 or
 [`tm_facets_stack()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
 are applied and when scales are set to free (with the `.free` argument
-of the map layer functions). In case a legends or components are draw
+of the map layer functions). In case legends or components are drawn
 row- or column wise, and the position of the legends (or components) is
 right next to the maps, these legends (or components) will be aligned
 with the maps.

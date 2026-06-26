@@ -1,4 +1,4 @@
-# Set the development mode
+# Toggle developer diagnostics
 
 When the so-called "development mode" is enabled, helpful messages and
 timings are printed in the console

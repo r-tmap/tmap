@@ -1,4 +1,4 @@
-# Constant visual value
+# Constant map variable value
 
 Specify a constant value for a map variable (e.g. a fixed fill color or
 symbol size), bypassing data-driven scaling.

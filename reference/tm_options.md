@@ -1,4 +1,4 @@
-# Map-specific tmap options
+# Per-map tmap options
 
 Set tmap options for a single map. Unlike
 [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md),

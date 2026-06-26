@@ -198,6 +198,13 @@
 
         <dt>
 
+          <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code> <code><a href="tm_rgb.html">opt_tm_rgb()</a></code>
+
+        </dt>
+        <dd>Map layer: RGB images</dd>
+
+        <dt>
+
           <code><a href="tm_text.html">tm_text()</a></code> <code><a href="tm_text.html">tm_labels()</a></code> <code><a href="tm_text.html">tm_labels_highlighted()</a></code> <code><a href="tm_text.html">opt_tm_text()</a></code> <code><a href="tm_text.html">opt_tm_labels()</a></code>
 
         </dt>
@@ -255,13 +262,6 @@
 
         </dt>
         <dd>Map layer: basemap / overlay tiles</dd>
-
-        <dt>
-
-          <code><a href="tm_rgb.html">tm_rgb()</a></code> <code><a href="tm_rgb.html">tm_rgba()</a></code> <code><a href="tm_rgb.html">opt_tm_rgb()</a></code>
-
-        </dt>
-        <dd>Map layer: RGB images</dd>
 
         <dt>
 
@@ -344,7 +344,7 @@
       </dl></div><div class="section level2">
       <h2 id="set-scale-for-a-map-variable">Set scale for a map variable<a class="anchor" aria-label="anchor" href="#set-scale-for-a-map-variable"></a></h2>
 
-      <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.scale = tm_scale*()</code></p></div>
+      <div class="section-desc"><p>Always use those in this form <code>&lt;map_variable&gt;.scale = tm_scale*()</code></p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -416,7 +416,7 @@
       </dl></div><div class="section level2">
       <h2 id="set-legend-for-a-map-variable">Set legend for a map variable<a class="anchor" aria-label="anchor" href="#set-legend-for-a-map-variable"></a></h2>
 
-      <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.legend = tm_legend*()</code></p></div>
+      <div class="section-desc"><p>Always use those in this form <code>&lt;map_variable&gt;.legend = tm_legend*()</code></p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -439,7 +439,7 @@
       </dl></div><div class="section level2">
       <h2 id="set-charts-for-a-map-variable">Set charts for a map variable<a class="anchor" aria-label="anchor" href="#set-charts-for-a-map-variable"></a></h2>
 
-      <div class="section-desc"><p>Always use those in this form <code>&lt;vv&gt;.chart = tm_chart*()</code></p></div>
+      <div class="section-desc"><p>Always use those in this form <code>&lt;map_variable&gt;.chart = tm_chart*()</code></p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -497,14 +497,14 @@
           <code><a href="tm_layout.html">tm_style()</a></code> <code><a href="tm_layout.html">tm_layout()</a></code>
 
         </dt>
-        <dd>Layout and style options</dd>
+        <dd>Per-map layout options</dd>
 
         <dt>
 
           <code><a href="tm_options.html">tm_options()</a></code>
 
         </dt>
-        <dd>Map-specific tmap options</dd>
+        <dd>Per-map tmap options</dd>
 
         <dt>
 
@@ -563,8 +563,17 @@
 
         </dt>
         <dd>Create a style catalog</dd>
+      </dl></div><div class="section level2">
+      <h2 id="modes">Modes<a class="anchor" aria-label="anchor" href="#modes"></a></h2>
 
-        <dt>
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="tmap_mode.html">tmap_mode()</a></code> <code><a href="tmap_mode.html">ttm()</a></code> <code><a href="tmap_mode.html">rtm()</a></code> <code><a href="tmap_mode.html">tmap_mode_pool()</a></code> <code><a href="tmap_mode.html">ttmp()</a></code> <code><a href="tmap_mode.html">rtmp()</a></code>
 
@@ -576,14 +585,14 @@
           <code><a href="tmap_devel_mode.html">tmap_devel_mode()</a></code>
 
         </dt>
-        <dd>Set the development mode</dd>
+        <dd>Toggle developer diagnostics</dd>
 
         <dt>
 
           <code><a href="tmap_design_mode.html">tmap_design_mode()</a></code>
 
         </dt>
-        <dd>Set the design mode</dd>
+        <dd>Toggle design overlay</dd>
       </dl></div><div class="section level2">
       <h2 id="display-and-arrange">Display and arrange<a class="anchor" aria-label="anchor" href="#display-and-arrange"></a></h2>
 
@@ -617,13 +626,6 @@
 
         <dt>
 
-          <code><a href="tmap_animation.html">tmap_animation()</a></code>
-
-        </dt>
-        <dd>Create animation</dd>
-
-        <dt>
-
           <code><a href="renderTmap.html">renderTmap()</a></code> <code><a href="renderTmap.html">tmapOutput()</a></code> <code><a href="renderTmap.html">tmapProxy()</a></code> <code><a href="renderTmap.html">tm_remove_layer()</a></code> <code><a href="renderTmap.html">renderTmapGS()</a></code> <code><a href="renderTmap.html">tmapOutputGS()</a></code> <code><a href="renderTmap.html">tmapProxyGS()</a></code>
 
         </dt>
@@ -643,7 +645,14 @@
           <code><a href="tmap_save.html">tmap_save()</a></code>
 
         </dt>
-        <dd>Save tmap</dd>
+        <dd>Save tmap to file</dd>
+
+        <dt>
+
+          <code><a href="tmap_animation.html">tmap_animation()</a></code>
+
+        </dt>
+        <dd>Save tmap animation to file</dd>
 
         <dt>
 
@@ -710,7 +719,7 @@
           <code><a href="tm_const.html">tm_const()</a></code>
 
         </dt>
-        <dd>Constant visual value</dd>
+        <dd>Constant map variable value</dd>
 
         <dt>
 

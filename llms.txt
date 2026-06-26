@@ -157,6 +157,10 @@ R.
 - [`tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
   [`opt_tm_raster()`](https://r-tmap.github.io/tmap/reference/tm_raster.md)
   : Map layer: raster
+- [`tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
+  [`tm_rgba()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
+  [`opt_tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md) :
+  Map layer: RGB images
 - [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   [`tm_labels_highlighted()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
@@ -189,10 +193,6 @@ R.
 - [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   [`tm_tiles()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   : Map layer: basemap / overlay tiles
-- [`tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
-  [`tm_rgba()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
-  [`opt_tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md) :
-  Map layer: RGB images
 - [`tm_graticules()`](https://r-tmap.github.io/tmap/reference/tm_grid.md)
   [`tm_grid()`](https://r-tmap.github.io/tmap/reference/tm_grid.md) :
   Coordinate grid / graticule lines
@@ -223,7 +223,7 @@ R.
 
 ## Set scale for a map variable
 
-Always use those in this form `<vv>.scale = tm_scale*()`
+Always use those in this form `<map_variable>.scale = tm_scale*()`
 
 - [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md) :
   Scales: automatic scale
@@ -254,7 +254,7 @@ Always use those in this form `<vv>.scale = tm_scale*()`
 
 ## Set legend for a map variable
 
-Always use those in this form `<vv>.legend = tm_legend*()`
+Always use those in this form `<map_variable>.legend = tm_legend*()`
 
 - [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
@@ -266,7 +266,7 @@ Always use those in this form `<vv>.legend = tm_legend*()`
 
 ## Set charts for a map variable
 
-Always use those in this form `<vv>.chart = tm_chart*()`
+Always use those in this form `<map_variable>.chart = tm_chart*()`
 
 - [`tm_chart_histogram()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
   [`tm_chart_bar()`](https://r-tmap.github.io/tmap/reference/tm_chart.md)
@@ -300,9 +300,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 
 - [`tm_style()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
   [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
-  : Layout and style options
+  : Per-map layout options
 - [`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md)
-  : Map-specific tmap options
+  : Per-map tmap options
 - [`tm_view()`](https://r-tmap.github.io/tmap/reference/tm_view.md) :
   View mode options
 - [`tm_group()`](https://r-tmap.github.io/tmap/reference/tm_group.md) :
@@ -325,6 +325,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 - [`tmap_style_catalogue()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
   [`tmap_style_catalog()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
   : Create a style catalog
+
+## Modes
+
 - [`tmap_mode()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
@@ -333,9 +336,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   [`rtmp()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md) : Get
   or set tmap mode
 - [`tmap_devel_mode()`](https://r-tmap.github.io/tmap/reference/tmap_devel_mode.md)
-  : Set the development mode
+  : Toggle developer diagnostics
 - [`tmap_design_mode()`](https://r-tmap.github.io/tmap/reference/tmap_design_mode.md)
-  : Set the design mode
+  : Toggle design overlay
 
 ## Display and arrange
 
@@ -348,8 +351,6 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   [`knit_print(`*`<tmap_arrange>`*`)`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
   [`print(`*`<tmap_arrange>`*`)`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
   : Arrange small multiples in grid layout
-- [`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
-  : Create animation
 - [`renderTmap()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tmapOutput()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tmapProxy()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
@@ -362,7 +363,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 ## Export
 
 - [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
-  : Save tmap
+  : Save tmap to file
+- [`tmap_animation()`](https://r-tmap.github.io/tmap/reference/tmap_animation.md)
+  : Save tmap animation to file
 - [`tmap_leaflet()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
   [`tmap_grob()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
   : Export tmap to the mode's native object
@@ -385,7 +388,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 ## Helper functions
 
 - [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md) :
-  Constant visual value
+  Constant map variable value
 - [`tm_seq()`](https://r-tmap.github.io/tmap/reference/tm_seq.md) :
   Specify a numeric sequence
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :

@@ -1,4 +1,4 @@
-# Layout and style options
+# Per-map layout options
 
 Specify the layout of the maps. `tm_layout()` is identical as
 [`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md)

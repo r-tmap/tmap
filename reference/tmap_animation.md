@@ -1,4 +1,4 @@
-# Create animation
+# Save tmap animation to file
 
 Create a gif animation or video from an animated tmap plot. First use
 [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)
