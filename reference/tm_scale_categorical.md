@@ -7,7 +7,7 @@ arguments in the layer functions (e.g. `fill.scale` in
 The functions `tm_scale_categorical()` and `tm_scale_ordinal()` are used
 for categorical data. The only difference between these functions is
 that the former assumes unordered categories whereas the latter assumes
-ordered categories. For colors (the visual variable `fill` or `col`),
+ordered categories. For colors (the map variable `fill` or `col`),
 different default color palettes are used (see the tmap option
 `values.var`).
 
@@ -66,10 +66,10 @@ tm_scale_categorical(
   vector of colors, for size (e.g. `size` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
   these are a set of sizes (if two values are specified they are
-  interpret as range), for symbol shapes (e.g. `shape` for
+  interpreted as a range), for symbol shapes (e.g. `shape` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
   these are a set of symbols, etc. The tmap option `values.var` contains
-  the default values per visual variable and in some cases also per data
+  the default values per map variable and in some cases also per data
   type.
 
 - values.repeat:
@@ -94,7 +94,7 @@ tm_scale_categorical(
 - values.scale:
 
   (generic scale argument) Scaling of the values. Only useful for
-  size-related visual variables, such as `size` of
+  size-related map variables, such as `size` of
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   and `lwd` of
   [`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md).
@@ -102,20 +102,20 @@ tm_scale_categorical(
 - value.na:
 
   (generic scale argument) Value used for missing values. See tmap
-  option `"value.na"` for defaults per visual variable.
+  option `"value.na"` for defaults per map variable.
 
 - value.null:
 
   (generic scale argument) Value used for NULL values. See tmap option
-  `"value.null"` for defaults per visual variable. Null data values
-  occur when out-of-scope features are shown (e.g. for a map of Europe
-  showing a data variable per country, the null values are applied to
-  countries outside Europe).
+  `"value.null"` for defaults per map variable. Null data values occur
+  when out-of-scope features are shown (e.g. for a map of Europe showing
+  a data variable per country, the null values are applied to countries
+  outside Europe).
 
 - value.neutral:
 
   (generic scale argument) Value that can be considered neutral. This is
-  used for legends of other visual variables of the same map layer. E.g.
+  used for legends of other map variables of the same map layer. E.g.
   when both `fill` and `size` are used for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   (using filled circles), the size legend items are filled with the
@@ -150,8 +150,8 @@ tm_scale_categorical(
 
 ## See also
 
-[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv),
-[Multivariate visual
+[Multivariate map
 variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
 [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md)

@@ -48,8 +48,8 @@ tm_popup(
 
   `NA` (default)
 
-  :   automatic: if visual variables (e.g. `fill`) are used, only those
-      are shown, otherwise all variables of the shape object are shown.
+  :   automatic: if map variables (e.g. `fill`) are used, only those are
+      shown, otherwise all variables of the shape object are shown.
 
 - title:
 
@@ -57,7 +57,7 @@ tm_popup(
   shown above the popup table). This overrules the layer argument `id`,
   analogous to how `hover` overrules `id` for hover labels. The default
   (`NA`) means that the popup title is derived from `id` (the former,
-  and still default, behaviour). A length-one character vector is
+  and still default, behavior). A length-one character vector is
   expected; a named value is allowed and reserved for future use.
 
 - format:

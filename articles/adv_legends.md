@@ -187,8 +187,8 @@ tm_shape(NLD_muni) +
 
 ## Multiple legends
 
-When there are multiple data-driven visual variables for which legends
-are produced, there are a couple of things to consider
+When there are multiple data-driven map variables for which legends are
+produced, there are a couple of things to consider
 
 ### Neutral values
 
@@ -237,13 +237,13 @@ tm_bubbles(
   fill.scale = tm_scale_continuous(values = "-matplotlib.rainbow"))
 ```
 
-This method, where visual variables are passed on via `tm_legend` will
-be covered in the section about [setting visual
+This method, where map variables are passed on via `tm_legend` will be
+covered in the section about [setting visual
 values](https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values).
 
 ### Combining legends
 
-It is also possible to combine legends, which is useful if two visual
+It is also possible to combine legends, which is useful if two map
 variables are used to plot the same data variable:
 
 ``` r
@@ -278,10 +278,10 @@ the fill color from legend 1 and the shape of legend 2 are used.
 
 ## Visual values
 
-It is possible to create custom legend by specify the visual values that
-define the legend items. There are two ways to do this: either to change
-the visual values of an existing legend via the `.legend` argument, or
-via a new manual legend added with
+It is possible to create a custom legend by specifying the visual values
+that define the legend items. There are two ways to do this: either to
+change the visual values of an existing legend via the `.legend`
+argument, or via a new manual legend added with
 [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md).
 
 ## Setting visual values

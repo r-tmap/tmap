@@ -23,7 +23,7 @@ tm_facets() is the core function, but it is recommended to use the other functio
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@ tm_facets() is the core function, but it is recommended to use the other functio
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -82,7 +82,7 @@ tm_facets() is the core function, but it is recommended to use the other functio
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -103,7 +103,7 @@ tm_facets() is the core function, but it is recommended to use the other functio
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Specify facets</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/R/tm_facets.R" class="external-link"><code>R/tm_facets.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_facets.R" class="external-link"><code>R/tm_facets.R</code></a></small>
       <div class="d-none name"><code>tm_facets.Rd</code></div>
     </div>
 
@@ -205,7 +205,7 @@ in as different layers (<code>as.layers = TRUE</code>)</p></dd>
 <dt id="arg-drop-units">drop.units<a class="anchor" aria-label="anchor" href="#arg-drop-units"></a></dt>
 <dd><p>Logical. If the <code>by</code> argument is specified, should
 non-selected spatial units be dropped? If <code>FALSE</code>, they are plotted where
-mapped aesthetics are regarded as missing values. Not applicable for
+mapped map variables are regarded as missing values. Not applicable for
 raster shapes. By default <code>TRUE</code>.</p></dd>
 
 

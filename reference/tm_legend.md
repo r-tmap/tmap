@@ -1,4 +1,4 @@
-# Legend
+# Map component: scale legend
 
 Legend specification
 

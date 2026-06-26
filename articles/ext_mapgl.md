@@ -76,8 +76,8 @@ tmap mapbox mode
 is only available for `"mapbox"` and `"maplibre"`.
 
 This map layer is the same as `tm_polygons`, but one addition: polygons
-can be extruded in 3d shape. The visual variable to control this is
-called `height`.
+can be extruded in 3d shape. The map variable to control this is called
+`height`.
 
 Below an example of population density per country:
 

@@ -1884,15 +1884,15 @@ tree(tmap_options_diff())
 ## What are the options for?
 
 All options with the name prefix `value(s)` refer to default values for
-visual variables/values. E.g. `value.const` and subitem `fill.polygons`
-is the default polygon fill color.
+map variables/values. E.g. `value.const` and subitem `fill.polygons` is
+the default polygon fill color.
 
 The `scales.var` options specify which scales are used by default to map
-data variables to visual variables. This depends on the visual variable
-and the data type. E.g. for numeric data (“num”) and the visual variable
+data variables to map variables. This depends on the map variable and
+the data type. E.g. for numeric data (“num”) and the map variable
 `size`, the `continuous` scale is used, so
 [`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md).
-For the visual variable `text` (of
+For the map variable `text` (of
 [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)) the
 scale `asis` is used, so
 [`tm_scale_asis()`](https://r-tmap.github.io/tmap/reference/tm_scale_asis.md).

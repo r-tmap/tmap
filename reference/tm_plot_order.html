@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -66,7 +66,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -87,7 +87,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Determine plotting order of features</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/R/tm_plot_order.R" class="external-link"><code>R/tm_plot_order.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_plot_order.R" class="external-link"><code>R/tm_plot_order.R</code></a></small>
       <div class="d-none name"><code>tm_plot_order.Rd</code></div>
     </div>
 
@@ -111,8 +111,8 @@
 
 
 <dl><dt id="arg-aes">aes<a class="anchor" aria-label="anchor" href="#arg-aes"></a></dt>
-<dd><p>Visual variable for which the values determine the plotting order.
-Example: bubble map where the <code>"size"</code> aesthetic is used.
+<dd><p>Map variable for which the values determine the plotting order.
+Example: bubble map where the <code>"size"</code> map variable is used.
 A data variable (say population) is mapped via a continuous scale (<code><a href="tm_scale_continuous.html">tm_scale_continuous()</a></code>)
 to bubble sizes. The bubbles are plotted in order of size.
 How is determined by the other arguments. Use <code>"DATA"</code> to keep the same
@@ -131,7 +131,7 @@ hence at the bottom.</p></dd>
 
 <dt id="arg-na-order">na.order<a class="anchor" aria-label="anchor" href="#arg-na-order"></a></dt>
 <dd><p>Where should features be plotted that have an <code>NA</code> value for
-(at least) one other aesthetic variable? In the (order) <code>"mix"</code>, at the <code>"bottom"</code>,
+(at least) one other map variable? In the (order) <code>"mix"</code>, at the <code>"bottom"</code>,
 or on <code>"top"</code>? In the bubble map example: if fill color is missing for some bubble,
 where should those bubbles be plotted?</p></dd>
 

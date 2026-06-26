@@ -20,7 +20,7 @@
   legends](https://r-tmap.github.io/tmap/articles/adv_legends.md):
 - [tmap advanced: margins and aspect
   ratio](https://r-tmap.github.io/tmap/articles/adv_margins.md):
-- [tmap advanced: multiple visual
+- [tmap advanced: multiple map
   variables](https://r-tmap.github.io/tmap/articles/adv_multivariate.md):
 - [tmap advanced:
   options](https://r-tmap.github.io/tmap/articles/adv_options.md):
@@ -46,7 +46,7 @@
   modes](https://r-tmap.github.io/tmap/articles/basics_modes.md):
 - [tmap basics:
   scales](https://r-tmap.github.io/tmap/articles/basics_scales.md):
-- [tmap basics: visual
+- [tmap basics: map
   variables](https://r-tmap.github.io/tmap/articles/basics_vv.md):
 - [tmap example: bivariate
   choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro.md):

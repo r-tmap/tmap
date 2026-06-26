@@ -1,4 +1,4 @@
-# Netherlands datasets
+# Spatial data of the Netherlands
 
 Datasets of the Netherlands for 2022 at three levels: `NLD_prov` (12)
 provinces, `NLD_muni` (345) municipalities and `NLD_dist` (3340)

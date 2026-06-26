@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>tmap basics: visual variables • tmap</title>
+<title>tmap basics: map variables • tmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="tmap basics: visual variables">
+<meta property="og:title" content="tmap basics: map variables">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -124,10 +124,10 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>tmap basics: visual variables</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>tmap basics: map variables</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/basics_vv.Rmd" class="external-link"><code>vignettes/basics_vv.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/basics_vv.Rmd" class="external-link"><code>vignettes/basics_vv.Rmd</code></a></small>
       <div class="d-none name"><code>basics_vv.Rmd</code></div>
     </div>
 
@@ -140,9 +140,9 @@
 <div class="section level3">
 <h3 id="map-layers">Map layers<a class="anchor" aria-label="anchor" href="#map-layers"></a>
 </h3>
-<p>A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A <strong>visual variable</strong>
+<p>A (thematic) map consists of one or more map layers. Each map layer has a specific set of variables that determine how the objects of that layer are drawn. A <strong>map variable</strong>
 changes the appearance of a spatial object, e.g. fill color or line width.</p>
-<p>The following table shows which visual variables are used in standard map layers.</p>
+<p>The following table shows which map variables are used in standard map layers.</p>
 <table class="table">
 <colgroup>
 <col width="19%">
@@ -150,7 +150,7 @@ changes the appearance of a spatial object, e.g. fill color or line width.</p>
 </colgroup>
 <thead><tr class="header">
 <th align="left">Map layer</th>
-<th align="left">Visual variables</th>
+<th align="left">Map variables</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -201,8 +201,8 @@ and for convenience assign it to <code>s</code>:</p>
 <div class="section level2">
 <h2 id="constant-visual-values">Constant visual values<a class="anchor" aria-label="anchor" href="#constant-visual-values"></a>
 </h2>
-<p>Each visual variable can be assigned a constant value. E.g. <code>fill = "red"</code> or <code>size = 2</code>.</p>
-<p>An example where several visual variables are specified with constant values:</p>
+<p>Each map variable can be assigned a constant value. E.g. <code>fill = "red"</code> or <code>size = 2</code>.</p>
+<p>An example where several map variables are specified with constant values:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
@@ -211,12 +211,12 @@ and for convenience assign it to <code>s</code>:</p>
 <span>    lwd <span class="op">=</span> <span class="fl">0.5</span>,        <span class="co"># line width</span></span>
 <span>    lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span>   <span class="co"># line type</span></span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/constant-1.png" alt="" width="100%"></p>
-<p>For advanced users: the default constant values are specified for combinations of visual variables and layer type. See <code>tmap_options("value.const")</code></p>
+<p>For advanced users: the default constant values are specified for combinations of map variables and layer type. See <code>tmap_options("value.const")</code></p>
 </div>
 <div class="section level2">
-<h2 id="data-driven-visual-variables">Data-driven visual variables<a class="anchor" aria-label="anchor" href="#data-driven-visual-variables"></a>
+<h2 id="data-driven-map-variables">Data-driven map variables<a class="anchor" aria-label="anchor" href="#data-driven-map-variables"></a>
 </h2>
-<p>Each visual variable argument can also be specified with a data variable (e.g., a column name):</p>
+<p>Each map variable argument can also be specified with a data variable (e.g., a column name):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"press"</span><span class="op">)</span>    <span class="co"># a column in World</span></span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/polygons-1.png" alt="" width="100%"></p>
@@ -240,13 +240,13 @@ and for convenience assign it to <code>s</code>:</p>
 <div class="section level3">
 <h3 id="scales-and-legend">Scales and legend<a class="anchor" aria-label="anchor" href="#scales-and-legend"></a>
 </h3>
-<p>For each data-driven visual variable, a scale and legend can be specified. See other vignettes.</p>
+<p>For each data-driven map variable, a scale and legend can be specified. See other vignettes.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="facets">Facets<a class="anchor" aria-label="anchor" href="#facets"></a>
 </h2>
-<p>A facet map is created by specifying two data variables (columns in <code>World</code>) to the visual variable <code>fill</code>:</p>
+<p>A facet map is created by specifying two data variables (columns in <code>World</code>) to the map variable <code>fill</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/facet-1.png" alt="" width="100%"></p>

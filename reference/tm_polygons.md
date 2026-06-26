@@ -1,9 +1,9 @@
 # Map layer: polygons
 
-Map layer that draws polygons. Supported visual variables are: `fill`
-(the fill color), `col` (the border color), `lwd` (line width), `lty`
-(line type), `fill_alpha` (fill color alpha transparency) and
-`col_alpha` (border color alpha transparency).
+Map layer that draws polygons. Supported map variables are: `fill` (the
+fill color), `col` (the border color), `lwd` (line width), `lty` (line
+type), `fill_alpha` (fill color alpha transparency) and `col_alpha`
+(border color alpha transparency).
 
 ## Usage
 
@@ -66,36 +66,36 @@ opt_tm_polygons(polygons.only = "ifany")
 
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
-  Visual variable that determines the fill color. See details. *Unit:*
+  Map variable that determines the fill color. See details. *Unit:*
   Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Visual variable that determines the color. See details. *Unit:* Color
-  – a color name, hex string.
+  Map variable that determines the color. See details. *Unit:* Color – a
+  color name, hex string.
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
-  Visual variable that determines the line width. See details. *Unit:*
-  Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
+  Map variable that determines the line width. See details. *Unit:* Base
+  R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
-  Visual variable that determines the line type. See details. *Unit:*
+  Map variable that determines the line type. See details. *Unit:*
   Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash",
   "longdash", "twodash".
 
 - fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend,
   fill_alpha.free:
 
-  Visual variable that determines the fill color transparency. See
-  details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
-  fully opaque).
+  Map variable that determines the fill color transparency. See details.
+  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
+  opaque).
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Visual variable that determines the color transparency. See details.
+  Map variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
@@ -196,12 +196,12 @@ opt_tm_polygons(polygons.only = "ifany")
 
 ## Details
 
-The visual variable arguments (e.g. `col`) can be specified with a data
+The map variable arguments (e.g. `col`) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the
 object specified in
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)),
 with a visual value (for `col`, a color is expected), or with a
-geometry-derived variable (see below). See vignette: [Visual
+geometry-derived variable (see below). See vignette: [Map
 variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 
 Multiple values can be specified: in that case facets are created. These
@@ -212,9 +212,9 @@ See vignette:
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets).
 
 - The `*.scale` arguments determine the used scale to map the data
-  values to visual variable values. These can be specified with one of
-  the available `tm_scale_*()` functions. The default is specified by
-  the tmap option
+  values to map variable values. These can be specified with one of the
+  available `tm_scale_*()` functions. The default is specified by the
+  tmap option
   ([`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md))
   `scales.var`. See \`rvignette:
   [Scales](https://r-tmap.github.io/tmap/articles/basics_scales)
@@ -242,7 +242,7 @@ See vignette:
   This only applies for a facet grid
   ([`tm_facets_grid()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)).
   For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the
-  visual variable `col`, each row of facets will have its own scale, and
+  map variable `col`, each row of facets will have its own scale, and
   therefore its own legend. For facet wraps and stacks
   ([`tm_facets_wrap()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
   and
@@ -269,10 +269,10 @@ or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
 
-### Visual variable units
+### Map variable units
 
-Every visual variable maps data values to a specific output unit.
-Knowing the unit matters when supplying constant values via
+Every map variable maps data values to a specific output unit. Knowing
+the unit matters when supplying constant values via
 [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
 output ranges via `values.range` / `values.scale` in the scale
 functions.
@@ -325,7 +325,7 @@ normalised to \\\[0, 1\]\\.
 |----|----|----|
 | `blend` | Formula | Use case |
 | `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
-| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
+| `"multiply"` | \\S \times D\\ | Hillshading over color raster; both layers darken each other |
 | `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
 | `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
 | `"darken"` | \\\min(S, D)\\ | Keeps the darker of the two layers per channel |
@@ -346,7 +346,7 @@ placed in the standard `"tile"` pane.
 
 ## See also
 
-[Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Map variables](https://r-tmap.github.io/tmap/articles/basics_vv),
 [Scales](https://r-tmap.github.io/tmap/articles/basics_scales),
 [Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
@@ -376,7 +376,7 @@ tm_shape(Africa_border) + tm_fill()
 tm_shape(Africa_border) + tm_borders()
 
 
-# specification with visual variable values
+# specification with map variable values
 tm_shape(Africa) +
   tm_polygons(fill = "limegreen", col = "purple", lwd = 2, lty = "solid", col_alpha = 0.3) +
   tm_text("name", options = opt_tm_text(remove_overlap = TRUE)) +

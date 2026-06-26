@@ -1,6 +1,6 @@
-# Draw thematic map
+# Display thematic map
 
-Draw thematic map
+Display thematic map
 
 ## Usage
 

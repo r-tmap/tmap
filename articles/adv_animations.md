@@ -97,11 +97,11 @@ tm_shape(World5) +
 ## Using a transition map variable
 
 Most map variables are *visual*, e.g. polygon fill or symbol size.
-However, tmap also facilitates *tansition* map variables. These
+However, tmap also facilitates *transition* map variables. These
 variables will alter spatial geometries in a data-driven way. The
-difference is that a visual variable will only change the appearance of
-a geometry (polygon fill color or symbol size), but a transition
-variable will change the geometry itself.
+difference is that a visual map variable only changes the appearance of
+a geometry (polygon fill color or symbol size), but a transition map
+variable changes the geometry itself.
 
 Currently, the only implementation (and popular application) of
 transition variables is the cartogram, via the extension package

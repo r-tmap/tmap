@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -127,7 +127,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: legends</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/adv_legends.Rmd" class="external-link"><code>vignettes/adv_legends.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/adv_legends.Rmd" class="external-link"><code>vignettes/adv_legends.Rmd</code></a></small>
       <div class="d-none name"><code>adv_legends.Rmd</code></div>
     </div>
 
@@ -250,7 +250,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <div class="section level2">
 <h2 id="multiple-legends">Multiple legends<a class="anchor" aria-label="anchor" href="#multiple-legends"></a>
 </h2>
-<p>When there are multiple data-driven visual variables for which legends are produced, there are a couple of things to consider</p>
+<p>When there are multiple data-driven map variables for which legends are produced, there are a couple of things to consider</p>
 <div class="section level3">
 <h3 id="neutral-values">Neutral values<a class="anchor" aria-label="anchor" href="#neutral-values"></a>
 </h3>
@@ -280,12 +280,12 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>  size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
 <span>  size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"gray70"</span><span class="op">)</span>,</span>
 <span>  fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-matplotlib.rainbow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>This method, where visual variables are passed on via <code>tm_legend</code> will be covered in the section about <a href="https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values">setting visual values</a>.</p>
+<p>This method, where map variables are passed on via <code>tm_legend</code> will be covered in the section about <a href="https://r-tmap.github.io/tmap/articles/adv_legends#setting-visual-values">setting visual values</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="combining-legends">Combining legends<a class="anchor" aria-label="anchor" href="#combining-legends"></a>
 </h3>
-<p>It is also possible to combine legends, which is useful if two visual variables are used to plot the same data variable:</p>
+<p>It is also possible to combine legends, which is useful if two map variables are used to plot the same data variable:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span></span>
@@ -309,7 +309,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <div class="section level2">
 <h2 id="visual-values">Visual values<a class="anchor" aria-label="anchor" href="#visual-values"></a>
 </h2>
-<p>It is possible to create custom legend by specify the visual values that define the legend items. There are two ways to do this: either to change the visual values of an existing legend via the <code>.legend</code> argument, or via a new manual legend added with <code><a href="../reference/tm_add_legend.html">tm_add_legend()</a></code>.</p>
+<p>It is possible to create a custom legend by specifying the visual values that define the legend items. There are two ways to do this: either to change the visual values of an existing legend via the <code>.legend</code> argument, or via a new manual legend added with <code><a href="../reference/tm_add_legend.html">tm_add_legend()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="setting-visual-values">Setting visual values<a class="anchor" aria-label="anchor" href="#setting-visual-values"></a>

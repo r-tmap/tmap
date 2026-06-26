@@ -13,7 +13,7 @@ replaces the (now deprecated) layer arguments popup.vars and popup.format.'><met
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@ replaces the (now deprecated) layer arguments popup.vars and popup.format.'><met
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -72,7 +72,7 @@ replaces the (now deprecated) layer arguments popup.vars and popup.format.'><met
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -93,7 +93,7 @@ replaces the (now deprecated) layer arguments popup.vars and popup.format.'><met
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Popup specification for interactive maps</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/R/tm_popup.R" class="external-link"><code>R/tm_popup.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_popup.R" class="external-link"><code>R/tm_popup.R</code></a></small>
       <div class="d-none name"><code>tm_popup.Rd</code></div>
     </div>
 
@@ -138,7 +138,7 @@ argument):</p><dl><dt><code>TRUE</code></dt>
 <dd><p>disable popups;</p></dd>
 
 <dt><code>NA</code> (default)</dt>
-<dd><p>automatic: if visual variables (e.g. <code>fill</code>) are
+<dd><p>automatic: if map variables (e.g. <code>fill</code>) are
 used, only those are shown, otherwise all variables of the shape
 object are shown.</p></dd>
 
@@ -151,7 +151,7 @@ object are shown.</p></dd>
 header shown above the popup table). This overrules the layer argument
 <code>id</code>, analogous to how <code>hover</code> overrules <code>id</code> for hover labels. The
 default (<code>NA</code>) means that the popup title is derived from <code>id</code> (the former,
-and still default, behaviour). A length-one character vector is expected;
+and still default, behavior). A length-one character vector is expected;
 a named value is allowed and reserved for future use.</p></dd>
 
 

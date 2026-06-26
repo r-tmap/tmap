@@ -1,4 +1,4 @@
-# Legend charts
+# Map component: scale charts
 
 Legend charts are small charts that are added to the map, usually in
 addition to legends.

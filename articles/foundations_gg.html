@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -127,7 +127,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>tmap foundations: Grammar of Graphics</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/foundations_gg.Rmd" class="external-link"><code>vignettes/foundations_gg.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/foundations_gg.Rmd" class="external-link"><code>vignettes/foundations_gg.Rmd</code></a></small>
       <div class="d-none name"><code>foundations_gg.Rmd</code></div>
     </div>
 
@@ -153,7 +153,7 @@
 <li>
 <strong>Facets</strong>: Layouts for splitting data into subsets for comparison.</li>
 </ul>
-<p>It is applied in <strong>ggplot2</strong> <span class="citation">[2]</span> and also in <strong>tmap</strong>, but slightly differently.</p>
+<p>It is applied in <strong>ggplot2</strong> <span class="citation">[2]</span> and also in <strong>tmap</strong>, but slightly differently. What the Grammar of Graphics and <strong>ggplot2</strong> call <em>aesthetics</em>, <strong>tmap</strong> calls <strong>map variables</strong>. Both refer to the visual properties (such as fill color, size, and line width) to which data values are mapped.</p>
 </div>
 <div class="section level2">
 <h2 id="tmap">tmap<a class="anchor" aria-label="anchor" href="#tmap"></a>
@@ -164,8 +164,8 @@
 <h2 id="ggplot2">ggplot2<a class="anchor" aria-label="anchor" href="#ggplot2"></a>
 </h2>
 <ul>
-<li>In ggplot2, the visual variables are defined on plot level (by default), but in tmap on layer level. This makes sense, since in non-spatial visualizations the x and y variables, the most important ones, are shared among the plot layers. However, in spatial visualizations the x and y variables are not considered data-driven but rather geometry-driven. The other visual variables, such as fill and border color, line width, and symbol shape.</li>
-<li>This also applies to the scale funtions: e.g. in ggplot2, the <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_fill_continuous()</a></code> is defined for the visual variable fill for the whole plot. In tmap, the scale functions are mapped 1 to 1 to the visual variables per layer: <code>tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())</code>
+<li>In <strong>ggplot2</strong>, aesthetics are defined on the plot level (by default), but in <strong>tmap</strong> map variables are defined on the layer level. This makes sense, since in non-spatial visualizations the x and y aesthetics, the most important ones, are shared among the plot layers. However, in spatial visualizations the x and y coordinates are not considered data-driven but rather geometry-driven. The remaining map variables, such as fill and border color, line width, and symbol shape, naturally belong to individual layers.</li>
+<li>This also applies to scales: e.g. in <strong>ggplot2</strong>, <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_fill_continuous()</a></code> applies to the fill aesthetic for the whole plot. In <strong>tmap</strong>, scale functions are specified per map variable per layer: <code>tm_polygons(fill = "my_var", fill.scale = tm_scale_continuous())</code>
 </li>
 </ul>
 <p>See other vignette (to do: link) that compares tmap with ggplot2 by a series of examples</p>

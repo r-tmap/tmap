@@ -20,9 +20,9 @@ tmapAddLayerOptions(option, id, value)
 
 - id:
 
-  name of the visual variable with layer, in the format `"x.y"`, where
-  `x` is the visual variable and `y` is the layer. It is also possible
-  to set `x` only; then it applies to all layer functions.
+  name of the map variable with layer, in the format `"x.y"`, where `x`
+  is the map variable and `y` is the layer. It is also possible to set
+  `x` only; then it applies to all layer functions.
 
 - value:
 

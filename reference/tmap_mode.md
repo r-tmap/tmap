@@ -1,4 +1,4 @@
-# Set tmap mode
+# Get or set tmap mode
 
 - `tmap_mode()` gets (no argument) or sets the current mode.
 

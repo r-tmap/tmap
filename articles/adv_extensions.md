@@ -16,11 +16,11 @@ proof-of-concept extension packages:
 
 This type of extension requires:
 
-- Specification of visual variables. For new visual variable, options
-  need to be added.
+- Specification of map variables. For new map variable, options need to
+  be added.
 - Spatial transformation function needs to be specified: e.g. should
   centroids be used?
-- The mapping between visual variables and (standard) visual or
+- The mapping between map variables and (standard) visual or
   transformation parameters.
 
 See [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs). A layer

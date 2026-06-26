@@ -18,8 +18,8 @@ tm_plot_order(
 
 - aes:
 
-  Visual variable for which the values determine the plotting order.
-  Example: bubble map where the `"size"` aesthetic is used. A data
+  Map variable for which the values determine the plotting order.
+  Example: bubble map where the `"size"` map variable is used. A data
   variable (say population) is mapped via a continuous scale
   ([`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md))
   to bubble sizes. The bubbles are plotted in order of size. How is
@@ -40,7 +40,7 @@ tm_plot_order(
 - na.order:
 
   Where should features be plotted that have an `NA` value for (at
-  least) one other aesthetic variable? In the (order) `"mix"`, at the
+  least) one other map variable? In the (order) `"mix"`, at the
   `"bottom"`, or on `"top"`? In the bubble map example: if fill color is
   missing for some bubble, where should those bubbles be plotted?
 
