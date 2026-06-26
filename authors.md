@@ -47,7 +47,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/r-tmap/tmap/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/r-tmap/tmap/blob/4.4-1/inst/CITATION)
 
 Tennekes M (2018). “tmap: Thematic Maps in R.” *Journal of Statistical
 Software*, **84**(6), 1–39.
