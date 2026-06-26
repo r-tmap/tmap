@@ -3,7 +3,7 @@
 \name{tm_style}
 \alias{tm_style}
 \alias{tm_layout}
-\title{Layout and style options}
+\title{Per-map layout options}
 \usage{
 tm_style(style, ...)
 

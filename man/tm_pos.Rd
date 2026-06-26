@@ -98,7 +98,7 @@ offset when they are drawn outside or with upper-case.
 \code{tm_pos_auto_in()} automatically determines \code{pos.h} and \code{pos.v} given the
 available space inside the map. This is similar to the default positioning in tmap3.
 
-In case multiple components are draw in the same cell and the same position
+In case multiple components are drawn in the same cell and the same position
 inside that cell, they are stacked (determined which the \code{stack} argument in
 the legend or component function). The \code{align.h} and \code{align.v} arguments
 determine how these components will be justified with each other.
@@ -106,7 +106,7 @@ determine how these components will be justified with each other.
 Note that legends and components may be different for a facet row or column.
 This is the case when \code{\link[=tm_facets_grid]{tm_facets_grid()}} or \code{\link[=tm_facets_stack]{tm_facets_stack()}} are applied
 and when scales are set to free (with the \code{.free} argument of the map layer functions).
-In case a legends or components are draw row- or column wise, and the position
+In case legends or components are drawn row- or column wise, and the position
 of the legends (or components) is right next to the maps, these legends
 (or components) will be aligned with the maps.
 }

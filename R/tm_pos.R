@@ -71,7 +71,7 @@
 #' `tm_pos_auto_in()` automatically determines `pos.h` and `pos.v` given the
 #' available space inside the map. This is similar to the default positioning in tmap3.
 #'
-#' In case multiple components are draw in the same cell and the same position
+#' In case multiple components are drawn in the same cell and the same position
 #' inside that cell, they are stacked (determined which the `stack` argument in
 #' the legend or component function). The `align.h` and `align.v` arguments
 #' determine how these components will be justified with each other.
@@ -79,7 +79,7 @@
 #' Note that legends and components may be different for a facet row or column.
 #' This is the case when [tm_facets_grid()] or [tm_facets_stack()] are applied
 #' and when scales are set to free (with the `.free` argument of the map layer functions).
-#' In case a legends or components are draw row- or column wise, and the position
+#' In case legends or components are drawn row- or column wise, and the position
 #' of the legends (or components) is right next to the maps, these legends
 #' (or components) will be aligned with the maps.
 #'

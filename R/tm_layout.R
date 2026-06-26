@@ -3,7 +3,7 @@
 # args = setdiff(intersect(names(tmap_options_mode("view", mode.specific = FALSE)),names(tmap_options_mode("plot", mode.specific = FALSE))),  "name")
 # cat(paste(args, collapse = ", "))
 # manual: tm_layout: start with scale (the options before that are tm_options only)
-#' Layout and style options
+#' Per-map layout options
 #'
 #' Specify the layout of the maps. [tm_layout()] is identical as [tm_options()] but only contain the tmap options that are directly related to the layout. [tm_style()] sets the style for the map. A style is a specified set of options (that can be changed afterwards with [tm_layout()]). These functions are used within a plot call (stacked with the `+` operator). Their counterparts [tmap_options()] and [tmap_style()] can be used to set the (layout) options globally.
 #'

@@ -98,7 +98,7 @@ of polygons (see \code{\link[=tm_polygons]{tm_polygons()}}).}
 A \code{\link{tmap-element}}
 }
 \description{
-Draw a thematic map quickly. This function is a convenient wrapper of the main
+Display a thematic map quickly. This function is a convenient wrapper of the main
 plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a
 search term, this functions draws an interactive map.
 }

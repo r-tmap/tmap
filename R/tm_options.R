@@ -1,4 +1,4 @@
-#' Map-specific tmap options
+#' Per-map tmap options
 #'
 #' Set tmap options for a single map. Unlike [tmap_options()], which sets options
 #' globally, `tm_options()` applies only to the map it is added to. [tm_layout()]

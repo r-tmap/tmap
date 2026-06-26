@@ -1,4 +1,4 @@
-#' Create animation
+#' Save tmap animation to file
 #'
 #' Create a gif animation or video from an animated tmap plot. First use [tm_animate()] or [tm_animate_fast()] to animate the plot, and then apply [tmap_animation()] to save it as a gif or video file (e.g. mp4).
 #'

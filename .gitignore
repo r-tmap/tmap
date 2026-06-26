@@ -39,10 +39,9 @@ docs
 /doc/
 /Meta/
 inst/doc
-
 tests/testthat/Rplots.pdf
-
 .DS_Store
 .positai
 .claude
 cran-comments.md
+/sandbox/

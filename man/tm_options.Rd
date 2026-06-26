@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_options.R
 \name{tm_options}
 \alias{tm_options}
-\title{Map-specific tmap options}
+\title{Per-map tmap options}
 \usage{
 tm_options(
   crs,

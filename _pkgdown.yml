@@ -31,6 +31,7 @@ reference:
   - tm_markers
   - tm_circles
   - tm_raster
+  - tm_rgb
   - tm_text
   - tm_iso
   - tm_sf
@@ -42,7 +43,6 @@ reference:
   contents:
   - tm_tiles
   - tm_basemap
-  - tm_rgb
   - tm_grid
   - tm_graticules
 - title: Add map components
@@ -57,17 +57,17 @@ reference:
   - tm_xlab
   - tm_inset
 - title: Set scale for a map variable
-  desc: Always use those in this form `<vv>.scale = tm_scale*()`
+  desc: Always use those in this form `<map_variable>.scale = tm_scale*()`
   contents:
   - tm_scale
   - starts_with("tm_scale_")
 - title: Set legend for a map variable
-  desc: Always use those in this form `<vv>.legend = tm_legend*()`
+  desc: Always use those in this form `<map_variable>.legend = tm_legend*()`
   contents:
   - starts_with("tm_legend")
   - tm_add_legend
 - title: Set charts for a map variable
-  desc: Always use those in this form `<vv>.chart = tm_chart*()`
+  desc: Always use those in this form `<map_variable>.chart = tm_chart*()`
   contents:
   - starts_with("tm_chart")
 - title: Position components
@@ -88,6 +88,8 @@ reference:
   - tmap_options
   - tmap_style
   - tmap_style_catalogue
+- title: Modes
+  contents:
   - tmap_mode
   - tmap_devel_mode
   - tmap_design_mode
@@ -96,11 +98,11 @@ reference:
   - tmap_last
   - print.tmap
   - tmap_arrange
-  - tmap_animation
   - renderTmap
 - title: Export
   contents:
   - tmap_save
+  - tmap_animation
   - tmap_grob
   - tmap_leaflet
 - title: Datasets included in tmap

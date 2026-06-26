@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_mode.R
 \name{tmap_devel_mode}
 \alias{tmap_devel_mode}
-\title{Set the development mode}
+\title{Toggle developer diagnostics}
 \usage{
 tmap_devel_mode(devel.mode)
 }

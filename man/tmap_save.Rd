@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_save.R
 \name{tmap_save}
 \alias{tmap_save}
-\title{Save tmap}
+\title{Save tmap to file}
 \usage{
 tmap_save(
   tm = NULL,

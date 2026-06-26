@@ -186,7 +186,7 @@ tmap_mode_pool = function(modes = NULL, silent = FALSE) {
 	invisible(prev_pool)
 }
 
-#' Set the design mode
+#' Toggle design overlay
 #'
 #' When the so-called "design mode" is enabled,
 #' the composition of the plot is shown explicitly in plot mode.
@@ -213,7 +213,7 @@ tmap_design_mode = function(design.mode) {
 		if (dm && getOption("tmap.mode") == "view") " (only effective in plot mode)" else "")
 }
 
-#' Set the development mode
+#' Toggle developer diagnostics
 #'
 #' When the so-called "development mode" is enabled, helpful messages and timings
 #' are printed in the console

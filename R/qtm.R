@@ -1,6 +1,6 @@
 #' Quick thematic map plot
 #'
-#' Draw a thematic map quickly. This function is a convenient wrapper of the main
+#' Display a thematic map quickly. This function is a convenient wrapper of the main
 #' plotting method of stacking [`tmap-element`]s. Without arguments or with a
 #' search term, this functions draws an interactive map.
 #'

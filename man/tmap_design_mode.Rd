@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_mode.R
 \name{tmap_design_mode}
 \alias{tmap_design_mode}
-\title{Set the design mode}
+\title{Toggle design overlay}
 \usage{
 tmap_design_mode(design.mode)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_const}
 \alias{tm_const}
-\title{Constant visual value}
+\title{Constant map variable value}
 \usage{
 tm_const()
 }

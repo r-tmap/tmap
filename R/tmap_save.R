@@ -1,4 +1,4 @@
-#' Save tmap
+#' Save tmap to file
 #'
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'

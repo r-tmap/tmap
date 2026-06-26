@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmap_animation.R
 \name{tmap_animation}
 \alias{tmap_animation}
-\title{Create animation}
+\title{Save tmap animation to file}
 \usage{
 tmap_animation(
   tm,
