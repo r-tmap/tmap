@@ -11,7 +11,7 @@ search term, this functions draws an interactive map."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@ search term, this functions draws an interactive map."><meta property="og:image"
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-basics"><li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -70,7 +70,7 @@ search term, this functions draws an interactive map."><meta property="og:image"
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -91,7 +91,7 @@ search term, this functions draws an interactive map."><meta property="og:image"
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Quick thematic map plot</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/qtm.R" class="external-link"><code>R/qtm.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/R/qtm.R" class="external-link"><code>R/qtm.R</code></a></small>
       <div class="d-none name"><code>qtm.Rd</code></div>
     </div>
 
@@ -149,11 +149,11 @@ search query (from OpenStreetMap nominatim)</p></li>
 
 
 <dt id="arg-fill-col-size-shape-lwd-lty-fill-alpha-col-alpha">fill, col, size, shape, lwd, lty, fill_alpha, col_alpha<a class="anchor" aria-label="anchor" href="#arg-fill-col-size-shape-lwd-lty-fill-alpha-col-alpha"></a></dt>
-<dd><p>Map variables.</p></dd>
+<dd><p>Visual variables.</p></dd>
 
 
 <dt id="arg-text-text-col-text-size">text, text_col, text_size<a class="anchor" aria-label="anchor" href="#arg-text-text-col-text-size"></a></dt>
-<dd><p>Map variables.</p></dd>
+<dd><p>Visual variables.</p></dd>
 
 
 <dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
@@ -220,7 +220,7 @@ See <code><a href="tmap_style.html">tmap_style()</a></code> for details.</p></dd
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>arguments associated with the map variables are passed on
+<dd><p>arguments associated with the visual variables are passed on
 to the layer functions <code><a href="tm_polygons.html">tm_polygons()</a></code>, <code><a href="tm_lines.html">tm_lines()</a></code>, <code><a href="tm_symbols.html">tm_symbols()</a></code>,
 and <code><a href="tm_text.html">tm_text()</a></code>.
 For instance, <code>fill.scale</code> is the scale specifications of the fill color
@@ -234,7 +234,7 @@ of polygons (see <code><a href="tm_polygons.html">tm_polygons()</a></code>).</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The first argument is a shape object (normally specified by <code><a href="tm_shape.html">tm_shape()</a></code>).
-The next arguments, from <code>fill</code> to <code>raster</code>, are the map variables from the main
+The next arguments, from <code>fill</code> to <code>raster</code>, are the aesthetics from the main
 layers. The remaining arguments are related to the map layout. Any argument
 from any main layer function, such as <code><a href="tm_polygons.html">tm_polygons()</a></code>, can be specified (see <code>...</code>).
 It is also possible to stack <code><a href="tmap-element.html">tmap-element</a></code>s on a <code>qtm</code> plot. See examples.</p>

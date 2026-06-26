@@ -1,6 +1,6 @@
 # Map layer: raster
 
-Map layer that draws rasters. Supported map variable is: `col` (the
+Map layer that draws rasters. Supported visual variable is: `col` (the
 color).
 
 ## Usage
@@ -32,13 +32,13 @@ opt_tm_raster(interpolate = FALSE)
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Map variable that determines the color. See details. *Unit:* Color – a
-  color name, hex string.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Map variable that determines the color transparency. See details.
+  Visual variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
@@ -82,12 +82,12 @@ opt_tm_raster(interpolate = FALSE)
 
 ## Details
 
-The map variable arguments (e.g. `col`) can be specified with a data
+The visual variable arguments (e.g. `col`) can be specified with a data
 variable name (e.g., a spatial vector attribute or a raster layer of the
 object specified in
 [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)),
 with a visual value (for `col`, a color is expected), or with a
-geometry-derived variable (see below). See vignette: [Map
+geometry-derived variable (see below). See vignette: [Visual
 variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 
 Multiple values can be specified: in that case facets are created. These
@@ -98,9 +98,9 @@ See vignette:
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets).
 
 - The `*.scale` arguments determine the used scale to map the data
-  values to map variable values. These can be specified with one of the
-  available `tm_scale_*()` functions. The default is specified by the
-  tmap option
+  values to visual variable values. These can be specified with one of
+  the available `tm_scale_*()` functions. The default is specified by
+  the tmap option
   ([`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md))
   `scales.var`. See \`rvignette:
   [Scales](https://r-tmap.github.io/tmap/articles/basics_scales)
@@ -128,7 +128,7 @@ See vignette:
   This only applies for a facet grid
   ([`tm_facets_grid()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)).
   For instance, `col.free = c(TRUE, FALSE, FALSE)` means that for the
-  map variable `col`, each row of facets will have its own scale, and
+  visual variable `col`, each row of facets will have its own scale, and
   therefore its own legend. For facet wraps and stacks
   ([`tm_facets_wrap()`](https://r-tmap.github.io/tmap/reference/tm_facets.md)
   and
@@ -155,10 +155,10 @@ or
 [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html),
 and use the resulting values instead.
 
-### Map variable units
+### Visual variable units
 
-Every map variable maps data values to a specific output unit. Knowing
-the unit matters when supplying constant values via
+Every visual variable maps data values to a specific output unit.
+Knowing the unit matters when supplying constant values via
 [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md), or
 output ranges via `values.range` / `values.scale` in the scale
 functions.
@@ -211,7 +211,7 @@ normalised to \\\[0, 1\]\\.
 |----|----|----|
 | `blend` | Formula | Use case |
 | `"over"` | \\S \cdot \alpha + D \cdot (1 - \alpha)\\ | Standard alpha compositing (default) |
-| `"multiply"` | \\S \times D\\ | Hillshading over color raster; both layers darken each other |
+| `"multiply"` | \\S \times D\\ | Hillshading over colour raster; both layers darken each other |
 | `"screen"` | \\1 - (1 - S)(1 - D)\\ | Inverse of multiply; brightens |
 | `"overlay"` | multiply if \\D \< 0.5\\, screen if \\D \geq 0.5\\ | Boosts contrast; preserves midtones |
 | `"darken"` | \\\min(S, D)\\ | Keeps the darker of the two layers per channel |

@@ -23,10 +23,10 @@ tm_add_legend(
 
 - ...:
 
-  map variables and arguments passed on to
+  visual variables and arguments passed on to
   [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md).
   By default, the argument `type` is set to `"symbols"`, which means
-  that the supported map variables are: `"fill"`, `"col"`, `"shape"`,
+  that the supported visual variables are: `"fill"`, `"col"`, `"shape"`,
   `"size"`, `"fill_alpha"`, `"col_alpha"`, `"lty"`, `"lwd"`,
   `"linejoin"`, and `"lineend"`. The number of legend items will be
   equal to the maximum number of specific values (and specified labels.)
@@ -37,7 +37,7 @@ tm_add_legend(
 
 - type:
 
-  the layer type from which the map variables (see `...`) are taken.
+  the layer type from which the visual variables (see `...`) are taken.
   Options: `"symbols"` (default), `"lines"`, `"polygons"`, and `"text"`.
 
 - title:

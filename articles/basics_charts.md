@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Each map variable (e.g. `fill` in
+Each visual variable (e.g. `fill` in
 [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md))
 has an additional `.chart` argument via which charts can be shown:
 

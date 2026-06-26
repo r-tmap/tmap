@@ -50,9 +50,9 @@ tm_scale_rgba(
 
 ## See also
 
-[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Map
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
 variables](https://r-tmap.github.io/tmap/articles/basics_vv),
-[Multivariate map
+[Multivariate visual
 variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
 [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md)
 [`stars::st_rgb()`](https://r-spatial.github.io/stars/reference/st_rgb.html)

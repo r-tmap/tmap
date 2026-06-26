@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>tmap advanced: multiple map variables • tmap</title>
+<title>tmap advanced: multiple visual variables • tmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="tmap advanced: multiple map variables">
+<meta property="og:title" content="tmap advanced: multiple visual variables">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -124,20 +124,20 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: multiple map variables</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: multiple visual variables</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/adv_multivariate.Rmd" class="external-link"><code>vignettes/adv_multivariate.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/adv_multivariate.Rmd" class="external-link"><code>vignettes/adv_multivariate.Rmd</code></a></small>
       <div class="d-none name"><code>adv_multivariate.Rmd</code></div>
     </div>
 
     
     
 <div class="section level2">
-<h2 id="multiple-map-variables">Multiple map variables<a class="anchor" aria-label="anchor" href="#multiple-map-variables"></a>
+<h2 id="multiple-visual-variables">Multiple visual variables<a class="anchor" aria-label="anchor" href="#multiple-visual-variables"></a>
 </h2>
-<p>Usually we specify a data-driven map variable with <strong>one</strong> data variable (see <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about map variables</a>). However, in several use cases, it is useful to use a few data variables for one map variable.</p>
-<p>There are two ways to use multiple data variables for one map variable: for creating facets, and for multivariate mapping.</p>
+<p>Usually we specify a data-driven visual variable with <strong>one</strong> data variable (see <a href="https://r-tmap.github.io/tmap/articles/basics_vv">vignette about visual variables</a>). However, in several use cases, it is useful to use a few data variables for one visual variables.</p>
+<p>There are two ways to use multiple data variables for one visual variable: for creating facets, and for multivariate mapping.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-facets">Creating facets<a class="anchor" aria-label="anchor" href="#creating-facets"></a>
@@ -150,7 +150,7 @@
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Percentage"</span><span class="op">)</span>,</span>
 <span>    fill.free <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-3-1.png" alt="" width="100%"></p>
-<p>A facet is created for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
+<p>A facet is create for each specified data variable. More options to select variables are available via the underlying function <code><a href="../reference/tm_vars.html">tm_vars()</a></code>. For instance, variables 12 to 18 (so columns 12 to 18, disregarding the geometry column)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
@@ -247,7 +247,7 @@ There are two</p>
 <span>    size <span class="op">=</span> <span class="st">"population"</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50000</span>, <span class="fl">100000</span>, <span class="fl">250000</span>, <span class="fl">500000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="adv_multivariate_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
-<p>The map variable <code>parts</code> (introduced in <code>tmap.glyphs</code>) is specified as multivariate map variable. It specifies the parts (slices) of the donut charts and uses this also for the <code>fill</code> color.</p>
+<p>The visual variable <code>parts</code> (introduced in <code>tmap.glyphs</code>) is specified as multivariate visual variable. It specifies the parts (slices) of the donut charts and uses this also for the <code>fill</code> color.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

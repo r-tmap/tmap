@@ -1,4 +1,4 @@
-# Map component: axis labels
+# Map: x and y labels
 
 The x and y labels for maps
 

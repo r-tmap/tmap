@@ -26,8 +26,8 @@ s = tm_shape(World, crs = "+proj=eqearth")
 
 ## Legend type
 
-Each map variable, e.g. `fill` in `tm_polygons` will by default produce
-a legend. The type of legend depends on used scale (see ). E.g.
+Each visual variable, e.g. `fill` in `tm_polygons` will by default
+produce a legend. The type of legend depends on used scale (see ). E.g.
 `tm_scale_continuous` applied to `fill` will produce a continuous color
 gradient:
 
@@ -65,7 +65,7 @@ s + tm_polygons(
 
 ## `.legend` arguments
 
-Each map variable also has a `.legend` argument, such as `fill.legend`
+Each visual variable also has a `.legend` argment, such as `fill.legend`
 in `tm_polygons`. This can be used to:
 
 - set the title of the legend,

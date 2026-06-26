@@ -33,10 +33,8 @@ tm_shape(ZH_muni) +
 
 ``` r
 
-library(tmap.mapgl)
-tmap_mode("maplibre")
-#> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
-#> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
+library(sf)
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
 
 q = function(x) {
     r = rank(x)
@@ -45,30 +43,31 @@ q = function(x) {
     r
 }
 
-World$rank_well_being = q((World$well_being / 8))
-World$rank_footprint = q(((50 - World$footprint) / 50))
-World$rank_inequality = q(((65 - World$inequality) / 65))
-World$rank_press = q(1 - ((100 - World$press) / 100))
-World$rank_gender = q(1 - World$gender)
+World$norm_well_being = q((World$well_being / 8))
+World$norm_footprint = q(((50 - World$footprint) / 50))
+World$norm_inequality = q(((65 - World$inequality) / 65))
+World$norm_press = q(1 - ((100 - World$press) / 100))
+World$norm_gender = q(1 - World$gender)
+
 
 tm_shape(World) +
-  tm_polygons(fill = "white", popup = FALSE) +
+    tm_polygons(fill = "white", popup.vars = FALSE) +
 tm_shape(World) +   
-  tm_flowers(
-    parts = 
-      tm_vars(c("rank_gender", "rank_press", "rank_footprint", 
-              "rank_well_being", "rank_inequality"), multivariate = TRUE),
-    fill.scale = tm_scale(values = "friendly5", labels = c("Gender", "Press freedom", "Footprint", "Well being", "Economic inequality")),
-    size = 1.5, 
-    popup = tm_popup(
-      vars = c("Gender" = "rank_gender", 
-             "Press freedom" = "rank_press", 
-             "Footprint" = "rank_footprint", 
-             "Well being" = "rank_well_being", 
-             "Economic inequality" =  "rank_inequality"),
-      title = "name")) + 
-tm_basemap(NULL) +
-tm_layout(bg.color = "grey90")
+    tm_flowers(parts = tm_vars(c("norm_gender", "norm_press", "norm_footprint", "norm_well_being", "norm_inequality"), multivariate = TRUE),
+               fill.scale = tm_scale(values = "friendly5"),
+               size = 1, 
+               popup = tm_popup(vars = c("Gender" = "norm_gender", "Press freedom" = "norm_press", 
+                  "Footprint" = "norm_footprint", "Well being" = "norm_well_being", "Economic inequality" =  "norm_inequality")),
+               id = "name") +
+    tm_basemap(NULL) +
+    tm_layout(bg.color = "grey90")
+#> [deprecated] The arguments `popup.vars` and `popup.format` of `tm_polygons()`
+#> are deprecated.
+#> ℹ Use `popup` with `tm_popup()` instead, e.g. `popup = tm_popup(vars = ...,
+#>   format = ...)`.
+#> This message is displayed once every 8 hours.
 #> [tip] Consider a suitable map projection, e.g. by adding `+ tm_crs("auto")`.
 #> This message is displayed once per session.
 ```
+
+![](ext_glyphs_files/figure-html/unnamed-chunk-4-1.png)

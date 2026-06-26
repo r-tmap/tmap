@@ -16,12 +16,13 @@ set a value by hand, for example:
   or a component function.
 
 This vignette collects the units used throughout the package. There are
-two groups: the **map variable units** that data values are mapped to,
-and the **layout units** used for margins, component sizes, and fonts.
+two groups: the **visual variable units** that data values are mapped
+to, and the **layout units** used for margins, component sizes, and
+fonts.
 
-## Map variable units
+## Visual variable units
 
-A map variable (`fill`, `size`, `lwd`, …) maps a data variable to an
+A visual variable (`fill`, `size`, `lwd`, …) maps a data variable to an
 output value with a specific unit. The same units apply when you supply
 a constant instead of a data variable.
 
@@ -96,8 +97,8 @@ tm_shape(World) +
 
 ### Size
 
-`size` is the one map variable whose unit depends on the layer, because
-three different things are sized in three natural units:
+`size` is the one visual variable whose unit depends on the layer,
+because three different things are sized in three natural units:
 
 - In
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md),

@@ -1,7 +1,6 @@
-# Group map components
+# Group components
 
-Control the grouping, position, and stacking of map components (legends,
-titles, scale bars, etc.).
+Group components
 
 ## Usage
 

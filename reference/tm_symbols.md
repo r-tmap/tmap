@@ -1,6 +1,6 @@
 # Map layer: symbols
 
-Map layer that draws symbols Supported map variables are: `fill` (the
+Map layer that draws symbols Supported visual variables are: `fill` (the
 fill color), `col` (the border color), `size` the symbol size, `shape`
 the symbol shape, `lwd` (line width), `lty` (line type), `fill_alpha`
 (fill color alpha transparency) and `col_alpha` (border color alpha
@@ -297,48 +297,48 @@ opt_tm_squares(
 
 - size, size.scale, size.legend, size.chart, size.free:
 
-  Map variable that determines the size. See details. *Unit:*
+  Visual variable that determines the size. See details. *Unit:*
   Typographic lines ("lines"); 1 line is approx. 1/6 inch. Controlled by
   `values.scale` and `tmap_options(values.scale = ...)`.
 
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
-  Map variable that determines the fill color. See details. *Unit:*
+  Visual variable that determines the fill color. See details. *Unit:*
   Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Map variable that determines the color. See details. *Unit:* Color – a
-  color name, hex string.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string.
 
 - shape, shape.scale, shape.legend, shape.chart, shape.free:
 
-  Map variable that determines the shape. See details. *Unit:* Integer
-  `pch` code (1-25) used as a plotting symbol. See example of
+  Visual variable that determines the shape. See details. *Unit:*
+  Integer `pch` code (1-25) used as a plotting symbol. See example of
   `tm_symbols()`
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
-  Map variable that determines the line width. See details. *Unit:* Base
-  R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
+  Visual variable that determines the line width. See details. *Unit:*
+  Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
-  Map variable that determines the line type. See details. *Unit:*
+  Visual variable that determines the line type. See details. *Unit:*
   Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash",
   "longdash", "twodash".
 
 - fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart,
   fill_alpha.free:
 
-  Map variable that determines the fill color transparency. See details.
-  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
-  opaque). the fill color alpha transparency See details.
+  Visual variable that determines the fill color transparency. See
+  details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque). the fill color alpha transparency See details.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Map variable that determines the color transparency. See details.
+  Visual variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
@@ -427,13 +427,13 @@ opt_tm_squares(
 
 - text, text.scale, text.legend, text.chart, text.free:
 
-  Map variable that determines the text. See details. *Unit:* Character
-  string.
+  Visual variable that determines the text. See details. *Unit:*
+  Character string.
 
 - fontface, fontface.scale, fontface.legend, fontface.chart,
   fontface.free:
 
-  Map variable that determines the font face. See details. *Unit:*
+  Visual variable that determines the font face. See details. *Unit:*
   "plain", "bold", "italic", or "bold.italic".
 
 - fontfamily:
@@ -443,13 +443,13 @@ opt_tm_squares(
 
 - bgcol, bgcol.scale, bgcol.legend, bgcol.chart, bgcol.free:
 
-  Map variable that determines the background color. See Details.
+  Visual variable that determines the background color. See Details.
   *Unit:* Color – a color name, hex string.
 
 - bgcol_alpha, bgcol_alpha.scale, bgcol_alpha.legend, bgcol_alpha.chart,
   bgcol_alpha.free:
 
-  Map variable that determines the background color transparency. See
+  Visual variable that determines the background color transparency. See
   Details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
   fully opaque).
 
@@ -588,7 +588,7 @@ opt_tm_squares(
   Controls whether an invisible interaction layer with a larger
   clickable area (\\hitbox\\) is added on top of the symbols.
 
-  This can improve click and popup behavior for small or densely packed
+  This can improve click and popup behaviour for small or densely packed
   symbols by enlarging the effective mouse interaction area.
 
   Possible values:
@@ -640,7 +640,7 @@ multiples, a list of these shape specification(s) should be provided.
 
 ## See also
 
-[Map variables](https://r-tmap.github.io/tmap/articles/basics_vv),
+[Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv),
 [Scales](https://r-tmap.github.io/tmap/articles/basics_scales),
 [Legends](https://r-tmap.github.io/tmap/articles/basics_legends),
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),

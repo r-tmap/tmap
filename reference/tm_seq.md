@@ -3,9 +3,9 @@
 Specify a numeric sequence, for numeric scales like
 [`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md).
 This function is needed when there is a non-linear relationship between
-the numeric data values and the map variables. E.g. to make relationship
-with the area of bubbles linear, the square root of input variables
-should be used to calculate the radius of the bubbles.
+the numeric data values and the visual variables. E.g. to make
+relationship with the area of bubbles linear, the square root of input
+variables should be used to calculate the radius of the bubbles.
 
 ## Usage
 

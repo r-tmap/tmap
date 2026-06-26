@@ -70,7 +70,7 @@ opt_tm_circles(
 
 - size, size.scale, size.legend, size.chart, size.free:
 
-  Map variable that determines the size. See details. *Unit:* Meters.
+  Visual variable that determines the size. See details. *Unit:* Meters.
   Accepts a plain numeric vector (values already in meters) or a `units`
   object from the **units** package (any linear unit, e.g.
   `units::as_units(50, "km")`), which is converted to meters
@@ -81,36 +81,36 @@ opt_tm_circles(
 
 - fill, fill.scale, fill.legend, fill.chart, fill.free:
 
-  Map variable that determines the fill color. See details. *Unit:*
+  Visual variable that determines the fill color. See details. *Unit:*
   Color – a color name, hex string.
 
 - col, col.scale, col.legend, col.chart, col.free:
 
-  Map variable that determines the color. See details. *Unit:* Color – a
-  color name, hex string.
+  Visual variable that determines the color. See details. *Unit:* Color
+  – a color name, hex string.
 
 - lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free:
 
-  Map variable that determines the line width. See details. *Unit:* Base
-  R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
+  Visual variable that determines the line width. See details. *Unit:*
+  Base R line-width units; 1 lwd is approx. 0.75 pt at 96 dpi.
 
 - lty, lty.scale, lty.legend, lty.chart, lty.free:
 
-  Map variable that determines the line type. See details. *Unit:*
+  Visual variable that determines the line type. See details. *Unit:*
   Integer (1-6) or name: "solid", "dashed", "dotted", "dotdash",
   "longdash", "twodash".
 
 - fill_alpha, fill_alpha.scale, fill_alpha.legend, fill_alpha.chart,
   fill_alpha.free:
 
-  Map variable that determines the fill color transparency. See details.
-  *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
-  opaque).
+  Visual variable that determines the fill color transparency. See
+  details. *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 =
+  fully opaque).
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
 
-  Map variable that determines the color transparency. See details.
+  Visual variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
 
@@ -218,7 +218,7 @@ opt_tm_circles(
 
 ## Details
 
-Supported map variables: `fill` (fill color), `col` (border color),
+Supported visual variables: `fill` (fill colour), `col` (border colour),
 `size` (radius in meters), `lwd` (line width), `lty` (line type),
 `fill_alpha` (fill transparency), `col_alpha` (border transparency).
 

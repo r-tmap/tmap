@@ -1,7 +1,6 @@
-# Constant visual value
+# tmap function to define a constant visual value
 
-Specify a constant value for a map variable (e.g. a fixed fill color or
-symbol size), bypassing data-driven scaling.
+tmap function to define a constant visual value
 
 ## Usage
 

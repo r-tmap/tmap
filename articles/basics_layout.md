@@ -4,7 +4,7 @@
 
 With layout we mean all aspects of how the plot looks like, except for
 
-- specifications of data-driven [map
+- specifications of data-driven [visual
   variables](https://r-tmap.github.io/tmap/articles/basics_vv).
 - the layout of
   [legends](https://r-tmap.github.io/tmap/articles/basics_legends#layout)

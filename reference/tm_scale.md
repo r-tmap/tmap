@@ -5,8 +5,8 @@ Scales in tmap are configured by the family of functions with prefix
 arguments in the layer functions (e.g. `fill.scale` in
 [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)).
 The function `tm_scale()` is a scale that is set automatically given by
-the data type (factor, numeric, and integer) and the map variable. The
-tmap option `scales.var` contains information which scale is applied
+the data type (factor, numeric, and integer) and the visual variable.
+The tmap option `scales.var` contains information which scale is applied
 when.
 
 ## Usage
@@ -23,9 +23,9 @@ tm_scale(...)
 
 ## See also
 
-[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Map
+[Scales](https://r-tmap.github.io/tmap/articles/basics_scales), [Visual
 variables](https://r-tmap.github.io/tmap/articles/basics_vv),
-[Multivariate map
+[Multivariate visual
 variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
 [`tm_scale_asis()`](https://r-tmap.github.io/tmap/reference/tm_scale_asis.md),
 [`tm_scale_ordinal()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md),

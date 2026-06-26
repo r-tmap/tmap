@@ -195,7 +195,7 @@ R.
 - [`tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
   [`tm_rgba()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
   [`opt_tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md) :
-  Map layer: RGB images
+  Map layer: rgb images
 - [`tm_graticules()`](https://r-tmap.github.io/tmap/reference/tm_grid.md)
   [`tm_grid()`](https://r-tmap.github.io/tmap/reference/tm_grid.md) :
   Coordinate grid / graticule lines
@@ -207,7 +207,7 @@ R.
   [`tm_title_out()`](https://r-tmap.github.io/tmap/reference/tm_title.md)
   : Map component: title
 - [`tm_credits()`](https://r-tmap.github.io/tmap/reference/tm_credits.md)
-  : Map component: credits
+  : Map component: (credits) text
 - [`tm_compass()`](https://r-tmap.github.io/tmap/reference/tm_compass.md)
   : Map component: compass
 - [`tm_scalebar()`](https://r-tmap.github.io/tmap/reference/tm_scalebar.md)
@@ -220,11 +220,11 @@ R.
   : Map component: mouse coordinates
 - [`tm_xlab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md)
   [`tm_ylab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md) :
-  Map component: axis labels
+  Map: x and y labels
 - [`tm_inset()`](https://r-tmap.github.io/tmap/reference/tm_inset.md) :
-  Map component: inset map
+  Map component: inset maps and other objects
 
-## Set scale for a map variable
+## Set scale for a visual variable
 
 Always use those in this form `<vv>.scale = tm_scale*()`
 
@@ -255,7 +255,7 @@ Always use those in this form `<vv>.scale = tm_scale*()`
   [`tm_scale_rgba()`](https://r-tmap.github.io/tmap/reference/tm_scale_rgb.md)
   : Scales: RGB
 
-## Set legend for a map variable
+## Set legend for a visual variable
 
 Always use those in this form `<vv>.legend = tm_legend*()`
 
@@ -263,18 +263,18 @@ Always use those in this form `<vv>.legend = tm_legend*()`
   [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_bivariate()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
-  : Map component: scale legend
+  : Legend
 - [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md)
   : Map component: manual legend
-- [`tm_extra_inner_margin()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  [`tm_place_legends_right()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  [`tm_place_legends_left()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  [`tm_place_legends_bottom()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  [`tm_place_legends_top()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  [`tm_place_legends_inside()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
-  : Layout helpers: inner margins and legend placement
+- [`tm_place_legends_right()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_left()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_bottom()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_top()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_place_legends_inside()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  [`tm_extra_inner_margin()`](https://r-tmap.github.io/tmap/reference/tm_extra_innner_margin.md)
+  : tmap layout: helper functions
 
-## Set charts for a map variable
+## Set charts for a visual variable
 
 Always use those in this form `<vv>.chart = tm_chart*()`
 
@@ -297,37 +297,36 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   [`tm_pos_auto_in()`](https://r-tmap.github.io/tmap/reference/tm_pos.md)
   : Set the position of map components
 - [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md)
-  : Group map components
+  : Group components
 
 ## Set layout options
 
 - [`tm_style()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
   [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
-  : Layout and style options
+  : Layout options
 - [`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md)
-  : Map-specific tmap options
+  : tmap options
 - [`tm_view()`](https://r-tmap.github.io/tmap/reference/tm_view.md) :
   View mode options
 - [`tm_group()`](https://r-tmap.github.io/tmap/reference/tm_group.md) :
   Layer group control
 - [`tm_plot()`](https://r-tmap.github.io/tmap/reference/tm_plot.md) :
   Plot mode options
-- [`tm_check_fix()`](https://r-tmap.github.io/tmap/reference/tm_check_fix.md)
-  : Check and fix invalid geometries
 
 ## Set options globally for tmap
 
-- [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+- [`tm_check_fix()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+  [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
   [`tmap_options_mode()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
   [`tmap_options_diff()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
   [`tmap_options_reset()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
   [`tmap_options_save()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
-  : Global tmap options
+  : tmap options
 - [`tmap_style()`](https://r-tmap.github.io/tmap/reference/tmap_style.md)
   : Set or get the default tmap style
 - [`tmap_style_catalogue()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
   [`tmap_style_catalog()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
-  : Create a style catalog
+  : Create a style catalogue
 - [`tmap_mode()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
@@ -346,12 +345,12 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   : Save tmap
 - [`tmap_leaflet()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
   [`tmap_grob()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
-  : Export tmap to the mode's native object
+  : Export tmap to the format of the used graphics mode
 
 ## Datasets included in tmap
 
-- [`World`](https://r-tmap.github.io/tmap/reference/World.md) : Spatial
-  data of the world
+- [`World`](https://r-tmap.github.io/tmap/reference/World.md) : World
+  dataset
 - [`World_rivers`](https://r-tmap.github.io/tmap/reference/World_rivers.md)
   : Spatial data of rivers
 - [`land`](https://r-tmap.github.io/tmap/reference/land.md) : Spatial
@@ -361,7 +360,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 - [`NLD_prov`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
   [`NLD_muni`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
   [`NLD_dist`](https://r-tmap.github.io/tmap/reference/Netherlands.md) :
-  Spatial data of the Netherlands
+  Netherlands datasets
 
 ## Use tmap in shiny
 
@@ -372,7 +371,9 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   [`renderTmapGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tmapOutputGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
   [`tmapProxyGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
-  : Shiny integration for tmap
+  :
+
+  Wrapper functions for using **tmap** in **shiny**
 
 ## Print a tmap object
 
@@ -391,15 +392,15 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 ## Helper functions
 
 - [`tm_const()`](https://r-tmap.github.io/tmap/reference/tm_const.md) :
-  Constant visual value
+  tmap function to define a constant visual value
 - [`tm_seq()`](https://r-tmap.github.io/tmap/reference/tm_seq.md) :
   Specify a numeric sequence
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
-  Specify variables
+  tmap function to specify variables
 - [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md) :
   Popup specification for interactive maps
 - [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md)
-  : Label formatting for scales
+  : tmap function to specify labels
 - [`tm_plot_order()`](https://r-tmap.github.io/tmap/reference/tm_plot_order.md)
   : Determine plotting order of features
 - [`theme_ps()`](https://r-tmap.github.io/tmap/reference/theme_ps.md) :
@@ -438,7 +439,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   legends](https://r-tmap.github.io/tmap/articles/adv_legends.md):
 - [tmap advanced: margins and aspect
   ratio](https://r-tmap.github.io/tmap/articles/adv_margins.md):
-- [tmap advanced: multiple map
+- [tmap advanced: multiple visual
   variables](https://r-tmap.github.io/tmap/articles/adv_multivariate.md):
 - [tmap advanced:
   options](https://r-tmap.github.io/tmap/articles/adv_options.md):
@@ -464,7 +465,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   modes](https://r-tmap.github.io/tmap/articles/basics_modes.md):
 - [tmap basics:
   scales](https://r-tmap.github.io/tmap/articles/basics_scales.md):
-- [tmap basics: map
+- [tmap basics: visual
   variables](https://r-tmap.github.io/tmap/articles/basics_vv.md):
 - [tmap example: bivariate
   choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro.md):

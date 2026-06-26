@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -127,7 +127,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>tmap foundations: units</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/foundations_units.Rmd" class="external-link"><code>vignettes/foundations_units.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/foundations_units.Rmd" class="external-link"><code>vignettes/foundations_units.Rmd</code></a></small>
       <div class="d-none name"><code>foundations_units.Rmd</code></div>
     </div>
 
@@ -142,12 +142,12 @@
 <li>an output range via <code>values.range</code> or <code>values.scale</code> in a scale function,</li>
 <li>a margin, a component size, or a font size in <code><a href="../reference/tm_layout.html">tm_layout()</a></code> or a component function.</li>
 </ul>
-<p>This vignette collects the units used throughout the package. There are two groups: the <strong>map variable units</strong> that data values are mapped to, and the <strong>layout units</strong> used for margins, component sizes, and fonts.</p>
+<p>This vignette collects the units used throughout the package. There are two groups: the <strong>visual variable units</strong> that data values are mapped to, and the <strong>layout units</strong> used for margins, component sizes, and fonts.</p>
 </div>
 <div class="section level2">
-<h2 id="map-variable-units">Map variable units<a class="anchor" aria-label="anchor" href="#map-variable-units"></a>
+<h2 id="visual-variable-units">Visual variable units<a class="anchor" aria-label="anchor" href="#visual-variable-units"></a>
 </h2>
-<p>A map variable (<code>fill</code>, <code>size</code>, <code>lwd</code>, …) maps a data variable to an output value with a specific unit. The same units apply when you supply a constant instead of a data variable.</p>
+<p>A visual variable (<code>fill</code>, <code>size</code>, <code>lwd</code>, …) maps a data variable to an output value with a specific unit. The same units apply when you supply a constant instead of a data variable.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -261,7 +261,7 @@
 <div class="section level3">
 <h3 id="size">Size<a class="anchor" aria-label="anchor" href="#size"></a>
 </h3>
-<p><code>size</code> is the one map variable whose unit depends on the layer, because three different things are sized in three natural units:</p>
+<p><code>size</code> is the one visual variable whose unit depends on the layer, because three different things are sized in three natural units:</p>
 <ul>
 <li><p>In <code><a href="../reference/tm_symbols.html">tm_symbols()</a></code>, <code><a href="../reference/tm_symbols.html">tm_bubbles()</a></code>, <code><a href="../reference/tm_symbols.html">tm_squares()</a></code>, and <code><a href="../reference/tm_symbols.html">tm_dots()</a></code>, <code>size</code> is measured in <strong>typographic lines</strong> (one line ≈ 1/6 inch). These symbols keep a fixed <em>screen</em> size, so they do not grow when you zoom in view mode. The global multiplier <code>tmap_options(values.scale = list(...))</code> rescales all symbols without changing the data mapping.</p></li>
 <li><p>In <code><a href="../reference/tm_circles.html">tm_circles()</a></code>, <code>size</code> is a <strong>geographic radius in meters</strong>. A plain number is read as meters; a <code>units</code> object is converted automatically, so <code>units::as_units(50, "km")</code> is a 50 km radius. Because the radius is geographic, circles <em>do</em> scale with zoom in view mode.</p></li>

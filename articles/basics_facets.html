@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-basics" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Basics</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-basics">
-<li><a class="dropdown-item" href="../articles/basics_vv">Map variables</a></li>
+<li><a class="dropdown-item" href="../articles/basics_vv">Visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/basics_scales">Scales</a></li>
     <li><a class="dropdown-item" href="../articles/basics_modes">Modes</a></li>
     <li><a class="dropdown-item" href="../articles/basics_facets">Facets</a></li>
@@ -97,7 +97,7 @@
     <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
     <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
     <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate visual variables</a></li>
     <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
     <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
@@ -127,7 +127,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>tmap basics: facets</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/basics_facets.Rmd" class="external-link"><code>vignettes/basics_facets.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/4.4/vignettes/basics_facets.Rmd" class="external-link"><code>vignettes/basics_facets.Rmd</code></a></small>
       <div class="d-none name"><code>basics_facets.Rmd</code></div>
     </div>
 
@@ -158,7 +158,7 @@ The groups can be defined using a categorical data variable. In the following pl
 <span><span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span><span class="st">"province"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_facets_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <p>In this example, there is <em>one facet variable</em>. For these kind of plots, and the facets are either <strong>wrapped</strong> or <strong>stacked</strong>, with <code><a href="../reference/tm_facets.html">tm_facets_wrap()</a></code> or <code><a href="../reference/tm_facets.html">tm_facets_stack()</a></code>. The general purpose function <code><a href="../reference/tm_facets.html">tm_facets()</a></code> determines the faceting type, which is in this example <code>wrap</code>.</p>
-<p>Groups can also be defined by specifying multiple data variable names for one map variable:</p>
+<p>Groups can also be defined by specifying multiple data variable names for one visual variable:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>

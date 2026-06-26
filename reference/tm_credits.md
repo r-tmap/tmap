@@ -1,4 +1,4 @@
-# Map component: credits
+# Map component: (credits) text
 
 Map component that adds a text, typically used as credits. This function
 is the same as

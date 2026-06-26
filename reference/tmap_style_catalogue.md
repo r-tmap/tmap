@@ -1,6 +1,6 @@
-# Create a style catalog
+# Create a style catalogue
 
-Create a style catalog for each predefined tmap style. The result is a
+Create a style catalogue for each predefined tmap style. The result is a
 set of png images, one for each style.
 
 ## Usage

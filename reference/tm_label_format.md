@@ -1,4 +1,4 @@
-# Label formatting for scales
+# tmap function to specify labels
 
 tmap function to specify labels used in the scale functions, e.g. via
 the argument `label.format` in

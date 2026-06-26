@@ -75,7 +75,7 @@ tm_shape(metro) +
 
 ## View mode
 
-In view mode, there are even more options. These can be obtained via
+In view mode, there are even more options. There can be obtained via
 `names(leaflet::providers)`.
 
 ``` r

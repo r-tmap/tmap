@@ -582,7 +582,7 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 - fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin,
   lineend:
 
-  map variables
+  visual variables
 
 - scale:
 

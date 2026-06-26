@@ -1,4 +1,4 @@
-# Export tmap to the mode's native object
+# Export tmap to the format of the used graphics mode
 
 - `tmap_grob()` returns a
   [`grob`](https://rdrr.io/r/grid/grid.grob.html) object (`"plot" mode`)

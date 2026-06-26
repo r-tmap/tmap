@@ -26,7 +26,7 @@ s = tm_shape(World, crs = "+proj=eqearth")
 
 ## Scales: numeric data (intervals)
 
-Each map variable, e.g. `fill` in `tm_polygons` can represent a data
+Each visual variable, e.g. `fill` in `tm_polygons` can represent a data
 variable:
 
 ``` r
