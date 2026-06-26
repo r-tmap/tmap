@@ -1,4 +1,4 @@
-# World dataset
+# Spatial data of the world
 
 World dataset, class
 [`sf`](https://r-spatial.github.io/sf/reference/sf.html)

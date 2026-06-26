@@ -195,7 +195,7 @@ R.
 - [`tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
   [`tm_rgba()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md)
   [`opt_tm_rgb()`](https://r-tmap.github.io/tmap/reference/tm_rgb.md) :
-  Map layer: rgb images
+  Map layer: RGB images
 - [`tm_graticules()`](https://r-tmap.github.io/tmap/reference/tm_grid.md)
   [`tm_grid()`](https://r-tmap.github.io/tmap/reference/tm_grid.md) :
   Coordinate grid / graticule lines
@@ -207,7 +207,7 @@ R.
   [`tm_title_out()`](https://r-tmap.github.io/tmap/reference/tm_title.md)
   : Map component: title
 - [`tm_credits()`](https://r-tmap.github.io/tmap/reference/tm_credits.md)
-  : Map component: (credits) text
+  : Map component: credits
 - [`tm_compass()`](https://r-tmap.github.io/tmap/reference/tm_compass.md)
   : Map component: compass
 - [`tm_scalebar()`](https://r-tmap.github.io/tmap/reference/tm_scalebar.md)
@@ -220,9 +220,9 @@ R.
   : Map component: mouse coordinates
 - [`tm_xlab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md)
   [`tm_ylab()`](https://r-tmap.github.io/tmap/reference/tm_xlab.md) :
-  Map: x and y labels
+  Map component: axis labels
 - [`tm_inset()`](https://r-tmap.github.io/tmap/reference/tm_inset.md) :
-  Map component: inset maps and other objects
+  Map component: inset map
 
 ## Set scale for a map variable
 
@@ -263,7 +263,7 @@ Always use those in this form `<vv>.legend = tm_legend*()`
   [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_bivariate()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
-  : Legend
+  : Map component: scale legend
 - [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md)
   : Map component: manual legend
 - [`tm_extra_inner_margin()`](https://r-tmap.github.io/tmap/reference/tm_extra_inner_margin.md)
@@ -327,7 +327,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   : Set or get the default tmap style
 - [`tmap_style_catalogue()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
   [`tmap_style_catalog()`](https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.md)
-  : Create a style catalogue
+  : Create a style catalog
 - [`tmap_mode()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`ttm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   [`rtm()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
@@ -346,12 +346,12 @@ Always use those in this form `<vv>.chart = tm_chart*()`
   : Save tmap
 - [`tmap_leaflet()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
   [`tmap_grob()`](https://r-tmap.github.io/tmap/reference/tmap_leaflet.md)
-  : Export tmap to the format of the used graphics mode
+  : Export tmap to the mode's native object
 
 ## Datasets included in tmap
 
-- [`World`](https://r-tmap.github.io/tmap/reference/World.md) : World
-  dataset
+- [`World`](https://r-tmap.github.io/tmap/reference/World.md) : Spatial
+  data of the world
 - [`World_rivers`](https://r-tmap.github.io/tmap/reference/World_rivers.md)
   : Spatial data of rivers
 - [`land`](https://r-tmap.github.io/tmap/reference/land.md) : Spatial
@@ -361,7 +361,7 @@ Always use those in this form `<vv>.chart = tm_chart*()`
 - [`NLD_prov`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
   [`NLD_muni`](https://r-tmap.github.io/tmap/reference/Netherlands.md)
   [`NLD_dist`](https://r-tmap.github.io/tmap/reference/Netherlands.md) :
-  Netherlands datasets
+  Spatial data of the Netherlands
 
 ## Use tmap in shiny
 
