@@ -35,17 +35,17 @@ tm_compass(
 \arguments{
 \item{north}{north}
 
-\item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)}
+\item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link[=tm_layout]{tm_layout()}} (which uses \code{"arrow"} for the default style)}
 
-\item{text.size}{text.size}
+\item{text.size}{Text size}
 
 \item{size}{size}
 
-\item{show.labels}{show.labels}
+\item{show.labels}{Show labels}
 
 \item{cardinal.directions}{cardinal.directions}
 
-\item{text.color}{text.color}
+\item{text.color}{Text color}
 
 \item{color.dark}{color.dark}
 

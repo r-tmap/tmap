@@ -1,6 +1,6 @@
 # tmap (development version)
 
-- fixed partial mmatching.
+- fixed partial matching.
 
 # tmap 4.4-1
 
@@ -36,10 +36,10 @@
 - [!] added `tm_insets()`: inset maps, ggplot2 plots etc. excepted
 - [!] added `tm_minimap()` for plot mode
 - improved animations (#1160)
-- tmap_overview added, which provides an overview of all map elements (layers and components)
-- tm_layout arguments limited to the useful ones
-- tm_components (was tm_comp_group) improved: now also applicable to map component functions
-- bbox added to tm_crs. Special value is "FULL" which refers to the whole earth
+- `tmap_overview()` added, which provides an overview of all map elements (layers and components)
+- `tm_layout()` arguments limited to the useful ones
+- `tm_components()` (was tm_comp_group) improved: now also applicable to map component functions
+- `bbox` added to `tm_crs()`. Special value is "FULL" which refers to the whole earth
 
 # tmap 4.1
 

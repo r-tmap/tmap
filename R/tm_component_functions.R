@@ -89,12 +89,12 @@ tm_credits = function(text, size, color, padding, fontface, fontfamily, alpha, s
 #' Map component that adds a compass
 #'
 #' @param north north
-#' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)
-#' @param text.size text.size
+#' @param type compass type, one of: `"arrow"`, `"4star"`, `"8star"`, `"radar"`, `"rose"`. The default is controlled by [tm_layout()] (which uses `"arrow"` for the default style)
+#' @param text.size Text size
 #' @param size size
-#' @param show.labels show.labels
+#' @param show.labels Show labels
 #' @param cardinal.directions cardinal.directions
-#' @param text.color text.color
+#' @param text.color Text color
 #' @param color.dark color.dark
 #' @param color.light color.light
 #' @param lwd lwd
@@ -228,10 +228,10 @@ tm_mouse_coordinates <- function(stack,
 #'
 #' Map component that adds a [minimap][leaflet::addMiniMap()] in view mode.
 #'
-#' @param server name of the provider or an URL (see \code{\link{tm_tiles}}).
+#' @param server name of the provider or an URL (see [tm_tiles()]).
 #'   By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps.
 #'   Note the latter does not happen when `server` is specified.
-#' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
+#' @param toggle should the minimap have a button to minimise it? By default `TRUE`.
 #' @inheritParams tm_title
 #' @inheritParams tm_inset
 #' @inheritDotParams leaflet::addMiniMap
