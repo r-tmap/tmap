@@ -1,3 +1,7 @@
+# tmap (development version)
+
+- fixed partial mmatching.
+
 # tmap 4.4-1
 
 - Documentation-only release: more informative and de-duplicated man-page titles, and terminology harmonized across the documentation for consistency with upcoming publications.
