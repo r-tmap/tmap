@@ -37,7 +37,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 		x <- as.character(vec)
 	} else {
 		# calculate magnitude, needed to determine digits and big number abbreviations
-		vec_fin <- unique(vec[!is.infinite(vec)])
+		vec_fin <- unique(vec[!is.infinite(vec) & !is.na(vec)])
 		frm <- gsub(" ", "", sprintf("%20.10f", abs(vec_fin)))
 		mag <- max(nchar(frm)-11)
 
@@ -104,7 +104,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 			ext <- ""
 			if (!is.na(big.num.abbr[1])) {
 				big.num.abbr <- sort(big.num.abbr, decreasing = TRUE)
-				vec_fin = vec[!is.infinite(vec)]
+				vec_fin = vec[!is.infinite(vec) & !is.na(vec)]
 				for (i in 1:length(big.num.abbr)) {
 					o <- unname(big.num.abbr[i])
 

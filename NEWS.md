@@ -1,5 +1,7 @@
-# tmap (development version)
+# tmap 4.4-2
 
+- fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
+# tmap (development version)
 - fixed partial matching.
 
 # tmap 4.4-1
