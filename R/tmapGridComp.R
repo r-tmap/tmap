@@ -8,7 +8,7 @@ gridCell = function(rows, cols, e) {
 
 process_comp_box = function(comp, sc, o) {
 	comp = within(comp, {
-		if ("frame.color" %in% comp$called) {
+		if ("frame.color" %in% comp$called_via_comp_group) {
 			frame = TRUE
 			frame.lwd = frame.lwd * sc
 		} else {
@@ -286,7 +286,7 @@ tmapGetCompGroupArgs = function(comp) {
 		if (any(frms) && (any(!frms))) grp$frame = any_legend_chart_inset
 	}
 	if (!("bg" %in%grp_called)) grp$bg = any_legend_chart_inset
-	grp$called = comp[[1]]$called
+	grp$called = comp[[1]]$called_via_comp_group
 	grp
 }
 

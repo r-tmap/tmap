@@ -1,6 +1,8 @@
 # tmap 4.4-2
 
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
+# tmap (development version)
+- fixed partial matching.
 
 # tmap 4.4-1
 
@@ -8,15 +10,15 @@
 
 # tmap 4.4
 
-- [!] added tm_circles (circles with fixed unit-based radii)
-- [!] added blend argument to all layers
-- [!] added hitbox to tm_lines and tm_symbols for view mode (so hovering and clicking also works well for small objects)
+- [!] added `tm_circles()` (circles with fixed unit-based radii)
+- [!] added `blend` argument to all layers
+- [!] added `hitbox` to `tm_lines()` and `tm_symbols()` for view mode (so hovering and clicking also works well for small objects)
 - added `tmap_mode_pool()` to restrict which modes are cycled by `ttm()` and `rtm()`, e.g. `library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`
 - shiny dispatch methods added (to allow integration for other modes)
 - added support for terra's PackedSpatX objects 
-- added support for stars_proxy when changed after evaluation
-- tm_crs() can take bbox and tmaptools::bb arguments
-- added height to tmap_arrange (for interactive modes)
+- added support for `stars_proxy` when changed after evaluation
+- `tm_crs()` can take `bbox` and `tmaptools::bb` arguments
+- added height to `tmap_arrange()` (for interactive modes)
 - fixed date/time formatting of facet labels
 - bug fixes (most importantly regarding >=1000 polygons in view mode)
 
@@ -24,30 +26,30 @@
 # tmap 4.3
 
 - [!] support for PMTiles via new and experimental package tmap.sources
-- [!] tm_text: halo, shadow and background rectangles implemented in plot and view mode
-- [!] tm_scalebar: improved measurement (using ellipsoidal distance rather than Eucledian distances in projected crs)
+- [!] `tm_text()`: halo, shadow and background rectangles implemented in plot and view mode
+- [!] `tm_scalebar()`: improved measurement (using ellipsoidal distance rather than Eucledian distances in projected crs)
 - crs handling improved: local crs accepted
-- tmap_save can also save in other modes (e.g. from tmap.mapgl)
+- `tmap_save()` can also save in other modes (e.g. from tmap.mapgl)
 - fixed many view-mode/shiny related bugs
 
 # tmap 4.2
 
 - [!] improved legend (labeling #1174 and continuous-style intervals #1175)
-- [!] added tm_insets: inset maps, ggplot2 plots etc. excepted
-- [!] added tm_minimap for plot mode
+- [!] added `tm_insets()`: inset maps, ggplot2 plots etc. excepted
+- [!] added `tm_minimap()` for plot mode
 - improved animations (#1160)
-- tmap_overview added, which provides an overview of all map elements (layers and components)
-- tm_layout arguments limited to the useful ones
-- tm_components (was tm_comp_group) improved: now also applicable to map component functions
-- bbox added to tm_crs. Special value is "FULL" which refers to the whole earth
+- `tmap_overview()` added, which provides an overview of all map elements (layers and components)
+- `tm_layout()` arguments limited to the useful ones
+- `tm_components()` (was tm_comp_group) improved: now also applicable to map component functions
+- `bbox` added to `tm_crs()`. Special value is "FULL" which refers to the whole earth
 
 # tmap 4.1
 
 This fixes a few regressions in the tmap v4 release and adds improvements.
 
 - [!] basemaps in plot mode much sharper, added `tmap_providers()` (#1041, #1042)
-- [!] tm_comp_group() added to specify grouped components (incl legends)
-- [!] added tm_animate() (main use case: cartograms)
+- [!] `tm_comp_group()` added to specify grouped components (incl legends)
+- [!] added `tm_animate()` (main use case: cartograms)
 - for the background and frame we introduce: `bg`/`bg.color` and `frame`/`frame.color`
 - `tm_remove_layer()` works again in Shiny (#1044)
 - `tm_logo()` works again in view mode (#1038).

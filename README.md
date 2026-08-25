@@ -5,7 +5,7 @@
 
 [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
+coverage](https://codecov.io/gh/r-tmap/tmap/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap)
 [![CRAN
 checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
@@ -77,7 +77,7 @@ tm_shape(World) +
     tm_polygons(fill = "HPI")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" alt="" width="100%" />
 
 This map can be enhanced in several ways. For instance:
 
@@ -91,14 +91,12 @@ tm_shape(World, crs = "+proj=robin") +
                 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" alt="" width="100%" />
 
+<!--
 ## Online tmap course
-
-3-6 June, organized jointly by
-[PRStats](https://www.prstats.org/course/visual-exploration-analysis-and-presentation-of-spatial-data-using-the-tmap-package-tmap01/)
-and
-[Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization)
+&#10;10-14 November 2025, organized jointly by [PRStats](https://www.prstats.org/course/spatial-data-visualisation-and-mapping-using-tmap-tmap02/) and [Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization-1)
+-->
 
 ## Additional Resources for Learning **tmap**
 
@@ -111,9 +109,9 @@ following resources:
 - **Official Vignettes:** A collection of vignettes at
   [r-tmap.github.io](https://r-tmap.github.io/tmap/articles/) covers
   both basic and advanced topics with examples.  
-- **Work-in-Progress Book:** *Elegant and Informative Maps with tmap* is
-  an upcoming book available at
-  [tmap.geocompx.org](https://tmap.geocompx.org/).
+- **Work-in-Progress Book:** *Spatial Data Visualization with tmap: A
+  Practical Guide to Thematic Mapping in R* is an upcoming book
+  available at [tmap.geocompx.org](https://tmap.geocompx.org/).
 
 These resources provide a solid foundation for working with **tmap** in
 R.
