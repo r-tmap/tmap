@@ -1,5 +1,15 @@
 
 
+# co.x/co.y (see tmapGridAuxPrepare.tm_aux_grid) hold one 3-column matrix per
+# grid line (x/y-normalized coordinates + a part id in column 3, #1261): flatten
+# them into separate 2-column matrices, one per part, so each part is drawn as
+# its own (disjoint) line segment instead of being bridged into the next part
+flatten_gridline_parts = function(co) {
+	unlist(lapply(co, function(m) {
+		unname(split.data.frame(m[, 1:2, drop = FALSE], m[, 3]))
+	}), recursive = FALSE)
+}
+
 grid_nonoverlap = function(x, s) {
 	n = length(x)
 	x = c(-x[1], x, 1 + (1 - x[n]))
@@ -159,8 +169,11 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 
 					lnsX_proj_res <- transform_ortho(lnsX, crs = crs_bb, tmapID = 1:length(x2))
 
-					# keeping longest grid line, however some CRS's may have MULTILINESTRING grid lines
-					lnsX_proj = to_longest_linestring(lnsX_proj_res$shp)
+					# some CRS's may split a grid line into several pieces (e.g. MULTILINESTRING
+					# grid lines near the antimeridian, #1261): cast to MULTILINESTRING with the
+					# longest part first, so it can be used to position the grid label (L1==1,
+					# see get_gridline_labels), while every part is kept for drawing
+					lnsX_proj = to_multilinestring_longest_first(lnsX_proj_res$shp)
 
 					lnsX_proj_emp = sf::st_is_empty(lnsX_proj)
 					lnsX_proj <- lnsX_proj[!lnsX_proj_emp]
@@ -171,9 +184,9 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					x2 <- x2[!lnsX_emp]
 
 					xco <- sf::st_coordinates(lnsX_proj)
-					# co.x.lns
-					co.x <- lapply(unique(xco[,3]), function(i) {
-						lco <- xco[xco[,3]==i, 1:2,drop = FALSE]
+					# co.x.lns: one item per grid line; column 3 is the part id (1 = longest part)
+					co.x <- lapply(unique(xco[,4]), function(i) {
+						lco <- xco[xco[,4]==i, c(1,2,3),drop = FALSE]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
 						lco
@@ -194,7 +207,8 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					}), crs = crs)
 					lnsY_proj_res <- transform_ortho(lnsY, crs = crs_bb, tmapID = 1:length(y2))
 
-					lnsY_proj = to_longest_linestring(lnsY_proj_res$shp)
+					# see comment above for lnsX_proj
+					lnsY_proj = to_multilinestring_longest_first(lnsY_proj_res$shp)
 
 					lnsY_proj_emp = sf::st_is_empty(lnsY_proj)
 					lnsY_proj <- lnsY_proj[!lnsY_proj_emp]
@@ -205,8 +219,9 @@ tmapGridAuxPrepare.tm_aux_grid = function(a, bs, id, o) {
 					y2 <- y2[!lnsY_emp]
 
 					yco <- sf::st_coordinates(lnsY_proj)
-					co.y <- lapply(unique(yco[,3]), function(i) {
-						lco <- yco[yco[,3]==i, 1:2,drop=FALSE]
+					# one item per grid line; column 3 is the part id (1 = longest part)
+					co.y <- lapply(unique(yco[,4]), function(i) {
+						lco <- yco[yco[,4]==i, c(1,2,3),drop=FALSE]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
 						lco
@@ -602,8 +617,8 @@ tmapGridAuxPlot.tm_aux_grid = function(a, bi, bbx, facet_row, facet_col, facet_p
 	# crop projected grid lines, and extract polylineGrob ingredients
 	if (!is.na(a$crs)) {
 		lnsList <- list(
-			if (any(selx)) sf::st_multilinestring(a$co.x) else NULL,
-			if (any(sely)) sf::st_multilinestring(a$co.y) else NULL
+			if (any(selx)) sf::st_multilinestring(flatten_gridline_parts(a$co.x)) else NULL,
+			if (any(sely)) sf::st_multilinestring(flatten_gridline_parts(a$co.y)) else NULL
 		)
 		lnsSel <- !vapply(lnsList, is.null, logical(1))
 		if (!any(lnsSel)) {
@@ -722,8 +737,10 @@ get_gridline_labels = function(lco, xax = NA, yax = NA) {
 	d = ifelse(is.na(xax), 2, 1)
 
 
+	# a grid line can consist of several parts (column 3, split by an orthographic
+	# projection, e.g. #1261); only the longest (first, i.e. part id 1) is used here
 	lns = sf::st_sf(geometry = sf::st_sfc(lapply(lco, function(l) {
-		sf::st_linestring(l)
+		sf::st_linestring(l[l[, 3] == 1, 1:2, drop = FALSE])
 	})), crs = 4326) # trick for 0-1 coordinates
 
 

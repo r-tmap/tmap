@@ -194,16 +194,27 @@ crop_lat = function(bb, crs, limit_latitude_3857 = NULL) {
 }
 
 
-to_longest_linestring = function(shp) {
+# casts each feature to a MULTILINESTRING, with its parts ordered from
+# longest to shortest. Used for graticule/grid lines, which can be split into
+# several pieces by an orthographic projection (e.g. crossing the
+# antimeridian, #1261): the longest (first) part is used to position the
+# grid label (see get_gridline_labels), while all parts are kept so the full
+# grid line can still be drawn.
+to_multilinestring_longest_first = function(shp) {
 	crs = sf::st_crs(shp)
-	if (sf::st_geometry_type(shp, by_geometry = FALSE) == "LINESTRING") {
-		shp
-	} else {
-		shp_splitted = sf_expand(shp)
-		do.call(sf::st_sfc, c(lapply(split(shp_splitted, shp_splitted$split__id), function(s) {
-			s$geometry[[which.max(sf::st_length(s))]]
-		}), list(crs = crs)))
-	}
+	tp = sf::st_geometry_type(shp)
+	geoms = mapply(function(g, t) {
+		if (t == "MULTILINESTRING" && !sf::st_is_empty(g)) {
+			prts = sf::st_cast(sf::st_sfc(g, crs = crs), "LINESTRING")
+			ord = order(sf::st_length(prts), decreasing = TRUE)
+			sf::st_multilinestring(as.list(prts)[ord])
+		} else if (t == "LINESTRING" && !sf::st_is_empty(g)) {
+			sf::st_multilinestring(list(g))
+		} else {
+			sf::st_multilinestring()
+		}
+	}, sf::st_geometry(shp), tp, SIMPLIFY = FALSE)
+	sf::st_sfc(geoms, crs = crs)
 }
 
 distances_bbox_sides = function(bbox, steps = 4) {

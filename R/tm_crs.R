@@ -126,13 +126,13 @@ to_generic_projected <- function(
 	return_as <- rlang::arg_match(return_as)
 
 	# was centroid
-	cent_coor <- sf::sf_project(
+	cent_coor <- suppressWarnings(sf::sf_project(
 		sf::st_crs(x), "EPSG:4326",
 		sf::st_bbox(x) |>
 			sf::st_as_sfc() |>
 			sf::st_centroid() |>
 			sf::st_coordinates()
-	)
+	))
 
 	# configure proj args
 	n_or_s <- ifelse(cent_coor[2] == 0, "",
