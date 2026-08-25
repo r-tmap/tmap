@@ -39,7 +39,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-tmap/tmap/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/r-tmap/tmap/graph/badge.svg)](https://app.codecov.io/gh/r-tmap/tmap)
 [![CRAN](https://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![CRAN checks](https://badges.cranchecks.info/worst/tmap.svg)](https://cran.r-project.org/web/checks/check_results_tmap.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](https://www.r-pkg.org:443/pkg/tmap)
@@ -80,7 +80,7 @@ tmap depend on other R packages, which will automatically be installed along. Ho
 
 Instructions for the libraries GEOS, GDAL and PROJ (required by **sf**): see the installation instructions of **terra** which requires the same libraries: [MacOS](https://rspatial.github.io/terra/index.html?q=installation#macos) and [Linux](https://rspatial.github.io/terra/index.html?q=installation#linux)
 
-Instructions for the libraries Abseil and OpenSS (required by **s2**): see the [installation instructions](https://r-spatial.github.io/s2/#installation).
+Instructions for the libraries Abseil and OpenSSL (required by **s2**): see the [installation instructions](https://r-spatial.github.io/s2/#installation).
 
 ## Getting started
 
