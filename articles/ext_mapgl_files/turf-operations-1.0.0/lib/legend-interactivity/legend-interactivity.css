@@ -294,3 +294,11 @@
 .mapboxgl-legend.legend-dragging .legend-gradient-middle {
     cursor: grabbing;
 }
+
+/* Zoom-based legend visibility (data-min-zoom / data-max-zoom).
+   Uses a class so it composes with the layers control, which toggles
+   inline display for layer-based show/hide. */
+.mapboxgl-legend.mapgl-legend-zoom-hidden,
+.maplibregl-legend.mapgl-legend-zoom-hidden {
+    display: none !important;
+}

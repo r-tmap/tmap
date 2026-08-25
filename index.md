@@ -83,13 +83,6 @@ tm_shape(World, crs = "+proj=robin") +
 
 ![](reference/figures/README-unnamed-chunk-5-1.png)
 
-## Online tmap course
-
-3-6 June, organized jointly by
-[PRStats](https://www.prstats.org/course/visual-exploration-analysis-and-presentation-of-spatial-data-using-the-tmap-package-tmap01/)
-and
-[Instats](https://instats.org/seminar/spatial-data-analysis-and-visualization)
-
 ## Additional Resources for Learning **tmap**
 
 For more in-depth learning on the **tmap** package, refer to the
@@ -101,9 +94,9 @@ following resources:
 - **Official Vignettes:** A collection of vignettes at
   [r-tmap.github.io](https://r-tmap.github.io/tmap/articles/) covers
   both basic and advanced topics with examples.  
-- **Work-in-Progress Book:** *Elegant and Informative Maps with tmap* is
-  an upcoming book available at
-  [tmap.geocompx.org](https://tmap.geocompx.org/).
+- **Work-in-Progress Book:** *Spatial Data Visualization with tmap: A
+  Practical Guide to Thematic Mapping in R* is an upcoming book
+  available at [tmap.geocompx.org](https://tmap.geocompx.org/).
 
 These resources provide a solid foundation for working with **tmap** in
 R.

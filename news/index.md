@@ -1,6 +1,12 @@
 # Changelog
 
+## tmap (development version)
+
+- fixed partial matching.
+
 ## tmap 4.4-1
+
+CRAN release: 2026-06-26
 
 - Documentation-only release: more informative and de-duplicated
   man-page titles, and terminology harmonized across the documentation
@@ -10,10 +16,16 @@
 
 CRAN release: 2026-06-14
 
-- \[!\] added tm_circles (circles with fixed unit-based radii)
-- \[!\] added blend argument to all layers
-- \[!\] added hitbox to tm_lines and tm_symbols for view mode (so
-  hovering and clicking also works well for small objects)
+- \[!\] added
+  [`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md)
+  (circles with fixed unit-based radii)
+- \[!\] added `blend` argument to all layers
+- \[!\] added `hitbox` to
+  [`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+  and
+  [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
+  for view mode (so hovering and clicking also works well for small
+  objects)
 - added
   [`tmap_mode_pool()`](https://r-tmap.github.io/tmap/reference/tmap_mode.md)
   to restrict which modes are cycled by
@@ -22,9 +34,14 @@ CRAN release: 2026-06-14
   e.g. [`library(tmap.mapgl); tmap_mode_pool(c("plot", "maplibre"))`](https://github.com/r-tmap/tmap.mapgl)
 - shiny dispatch methods added (to allow integration for other modes)
 - added support for terra’s PackedSpatX objects
-- added support for stars_proxy when changed after evaluation
-- tm_crs() can take bbox and tmaptools::bb arguments
-- added height to tmap_arrange (for interactive modes)
+- added support for `stars_proxy` when changed after evaluation
+- [`tm_crs()`](https://r-tmap.github.io/tmap/reference/tm_crs.md) can
+  take `bbox` and
+  [`tmaptools::bb`](https://r-tmap.github.io/tmaptools/reference/bb.html)
+  arguments
+- added height to
+  [`tmap_arrange()`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)
+  (for interactive modes)
 - fixed date/time formatting of facet labels
 - bug fixes (most importantly regarding \>=1000 polygons in view mode)
 
@@ -34,12 +51,17 @@ CRAN release: 2026-04-20
 
 - \[!\] support for PMTiles via new and experimental package
   tmap.sources
-- \[!\] tm_text: halo, shadow and background rectangles implemented in
-  plot and view mode
-- \[!\] tm_scalebar: improved measurement (using ellipsoidal distance
-  rather than Eucledian distances in projected crs)
+- \[!\]
+  [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md):
+  halo, shadow and background rectangles implemented in plot and view
+  mode
+- \[!\]
+  [`tm_scalebar()`](https://r-tmap.github.io/tmap/reference/tm_scalebar.md):
+  improved measurement (using ellipsoidal distance rather than Eucledian
+  distances in projected crs)
 - crs handling improved: local crs accepted
-- tmap_save can also save in other modes (e.g. from tmap.mapgl)
+- [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
+  can also save in other modes (e.g. from tmap.mapgl)
 - fixed many view-mode/shiny related bugs
 
 ## tmap 4.2
@@ -50,17 +72,23 @@ CRAN release: 2025-09-10
   [\#1174](https://github.com/r-tmap/tmap/issues/1174) and
   continuous-style intervals
   [\#1175](https://github.com/r-tmap/tmap/issues/1175))
-- \[!\] added tm_insets: inset maps, ggplot2 plots etc. excepted
-- \[!\] added tm_minimap for plot mode
+- \[!\] added `tm_insets()`: inset maps, ggplot2 plots etc. excepted
+- \[!\] added
+  [`tm_minimap()`](https://r-tmap.github.io/tmap/reference/tm_minimap.md)
+  for plot mode
 - improved animations
   ([\#1160](https://github.com/r-tmap/tmap/issues/1160))
-- tmap_overview added, which provides an overview of all map elements
-  (layers and components)
-- tm_layout arguments limited to the useful ones
-- tm_components (was tm_comp_group) improved: now also applicable to map
-  component functions
-- bbox added to tm_crs. Special value is “FULL” which refers to the
-  whole earth
+- [`tmap_overview()`](https://r-tmap.github.io/tmap/reference/tmap_overview.md)
+  added, which provides an overview of all map elements (layers and
+  components)
+- [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
+  arguments limited to the useful ones
+- [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md)
+  (was tm_comp_group) improved: now also applicable to map component
+  functions
+- `bbox` added to
+  [`tm_crs()`](https://r-tmap.github.io/tmap/reference/tm_crs.md).
+  Special value is “FULL” which refers to the whole earth
 
 ## tmap 4.1
 
@@ -73,9 +101,11 @@ improvements.
   [`tmap_providers()`](https://r-tmap.github.io/tmap/reference/tmap_providers.md)
   ([\#1041](https://github.com/r-tmap/tmap/issues/1041),
   [\#1042](https://github.com/r-tmap/tmap/issues/1042))
-- \[!\] tm_comp_group() added to specify grouped components (incl
+- \[!\] `tm_comp_group()` added to specify grouped components (incl
   legends)
-- \[!\] added tm_animate() (main use case: cartograms)
+- \[!\] added
+  [`tm_animate()`](https://r-tmap.github.io/tmap/reference/tm_animate.md)
+  (main use case: cartograms)
 - for the background and frame we introduce: `bg`/`bg.color` and
   `frame`/`frame.color`
 - [`tm_remove_layer()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)

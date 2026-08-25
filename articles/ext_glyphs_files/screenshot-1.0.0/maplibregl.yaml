@@ -33,6 +33,24 @@ dependencies:
     src: "htmlwidgets/lib/bezier-mode"
     script:
       - "bezier-mode.js"
+  - name: terra-draw
+    version: "1.32.2"
+    src: "htmlwidgets/lib/terra-draw-control"
+    script:
+      - "terra-draw.umd.js"
+  - name: terra-draw-maplibre-gl-adapter
+    version: "1.4.1"
+    src: "htmlwidgets/lib/terra-draw-control"
+    script:
+      - "terra-draw-maplibre-gl-adapter.umd.js"
+  - name: mapgl-terra-draw-control
+    version: "1.1.0"
+    src: "htmlwidgets/lib/terra-draw-control"
+    script:
+      - "terra-draw-curve-mode.js"
+      - "terra-draw-control.js"
+    stylesheet:
+      - "terra-draw-control.css"
   - name: maplibre-gl-geocoder
     version: 1.5.0
     src: "htmlwidgets/lib/maplibre-gl-geocoder"
@@ -99,3 +117,8 @@ dependencies:
     src: "htmlwidgets/styles"
     stylesheet:
       - "slider-control.css"
+  - name: mapgl-expressions
+    version: "1.0.0"
+    src: "htmlwidgets/lib/mapgl-expressions"
+    script:
+      - "mapgl-expressions.js"

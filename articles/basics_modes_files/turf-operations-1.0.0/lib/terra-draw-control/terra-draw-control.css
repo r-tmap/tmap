@@ -1,0 +1,47 @@
+/* Toolbar chrome for the shared Terra Draw control (terra-draw-control.js).
+   The container carries both engines' ctrl-group classes, so sizing here
+   only needs to cover the buttons themselves. */
+
+.mapgl-terradraw {
+  display: flex;
+  flex-direction: column;
+}
+
+.mapgl-terradraw.mapgl-terradraw-horizontal {
+  flex-direction: row;
+}
+
+.mapgl-terradraw .mapgl-terradraw-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #333;
+}
+
+.mapgl-terradraw .mapgl-terradraw-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mapgl-terradraw .mapgl-terradraw-button.active {
+  background: rgba(0, 0, 0, 0.1);
+  color: #4264fb;
+}
+
+.mapgl-terradraw .mapgl-terradraw-button.mapgl-terradraw-disabled {
+  color: #bbb;
+  cursor: default;
+}
+
+.mapgl-terradraw .mapgl-terradraw-button.mapgl-terradraw-disabled:hover {
+  background: transparent;
+}
+
+.mapgl-terradraw .mapgl-terradraw-button svg {
+  pointer-events: none;
+}

@@ -629,7 +629,7 @@ A symbol shape specification is one of the following three options.
     [tmap.glyphs](https://r-tmap.github.io/tmap/articles/ext_glyphs).
 
 3.  An icon specification, which can be created with
-    [`tmap_icons`](https://r-tmap.github.io/tmap/reference/tmap_icons.md).
+    [`tmap_icons()`](https://r-tmap.github.io/tmap/reference/tmap_icons.md).
 
 To specify multiple shapes (needed for the `shapes` argument), a vector
 or list of these shape specification is required. The shape

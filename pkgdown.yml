@@ -1,5 +1,5 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   adv_animations: adv_animations.html
@@ -43,7 +43,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-06-26T12:45Z
+last_built: 2026-08-25T09:27Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

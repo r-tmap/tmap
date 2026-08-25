@@ -34,7 +34,7 @@ tm_minimap(
 - server:
 
   name of the provider or an URL (see
-  [`tm_tiles`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)).
+  [`tm_tiles()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)).
   By default, it shows the same map as the basemap, and moreover, it
   will automatically change when the user switches basemaps. Note the
   latter does not happen when `server` is specified.

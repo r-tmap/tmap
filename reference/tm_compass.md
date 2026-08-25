@@ -44,12 +44,12 @@ tm_compass(
 
   compass type, one of: `"arrow"`, `"4star"`, `"8star"`, `"radar"`,
   `"rose"`. The default is controlled by
-  [`tm_layout`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
+  [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)
   (which uses `"arrow"` for the default style)
 
 - text.size:
 
-  text.size
+  Text size
 
 - size:
 
@@ -57,7 +57,7 @@ tm_compass(
 
 - show.labels:
 
-  show.labels
+  Show labels
 
 - cardinal.directions:
 
@@ -65,7 +65,7 @@ tm_compass(
 
 - text.color:
 
-  text.color
+  Text color
 
 - color.dark:
 

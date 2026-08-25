@@ -212,6 +212,19 @@ window.MapGLFlowmapPlugin = (function () {
   // is a separate IIFE and cannot reach the bindings' copy, so it carries its
   // own — keep in sync with evaluateExpression in mapboxgl.js / maplibregl.js.
   function evaluateExpression(expression, properties) {
+    // Delegate to the shared mapgl-expressions evaluator (loaded by the
+    // host widget's dependencies); the switch below is only a fallback.
+    if (window._mapglEvaluateExpression) {
+      return window._mapglEvaluateExpression(expression, properties);
+    }
+    if (!window._mapglExprMissingWarned && window.console) {
+      window._mapglExprMissingWarned = true;
+      console.warn(
+        "[mapgl] shared expression evaluator not loaded; conditional " +
+          "popup/tooltip operators are unavailable.",
+      );
+    }
+
     if (!Array.isArray(expression)) {
       return expression;
     }
@@ -257,7 +270,9 @@ window.MapGLFlowmapPlugin = (function () {
         return new Intl.NumberFormat(locale, formatOptions).format(value);
       }
       default:
-        return expression;
+        // Unknown operator in the fallback path: render nothing rather
+        // than leaking the raw array into the tooltip
+        return "";
     }
   }
 
