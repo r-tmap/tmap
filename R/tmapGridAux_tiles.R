@@ -78,7 +78,22 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 				serv = o$basemap.server[1]
 			}
 		}
-		api = NULL
+		if (is_carto_provider(serv) && !is.null(a$api)) {
+			# maptiles' built-in CartoDB provider may not (yet) know about
+			# CARTO's key requirement, so build the tile URL ourselves.
+			url = carto_url_template(carto_variant(serv))
+			if (url %in% .TMAP_GRID$maptiles_urls) {
+				tile_id = which(url == .TMAP_GRID$maptiles_urls)[1]
+			} else {
+				tile_id = length(.TMAP_GRID$maptiles_urls) + 1L
+				.TMAP_GRID$maptiles_urls = c(.TMAP_GRID$maptiles_urls, url)
+			}
+			serv = maptiles::create_provider(paste0("id_", tile_id), url = url, citation = "", sub = c("a", "b", "c", "d"))
+			api = a$api
+		} else {
+			if (is_carto_provider(serv)) message_basemaps_carto()
+			api = NULL
+		}
 	}
 
 	xs = mapply(function(b, z) {

@@ -40,7 +40,7 @@ Use \code{NULL} in \code{tm_basemap()} to disable basemaps. It can be a named ve
 
 \item{zoom}{Zoom level (only used in plot mode)}
 
-\item{api}{API key. Needed for \code{Stadia} and \code{Thunderforest} maps in plot mode, and for \code{Esri}/\code{MapTiler} basemaps in \code{"maplibre"}/\code{"mapbox"} mode (alternatively set the env var \code{ARCGIS_API_KEY} / \code{MAPTILER_API_KEY}). See details}
+\item{api}{API key. Required for \code{CartoDB} basemaps (plot and view mode), \code{Stadia}/\code{Thunderforest} maps (plot mode), and \code{Esri}/\code{MapTiler} basemaps in \code{"maplibre"}/\code{"mapbox"} mode (alternatively set the env var \code{ARCGIS_API_KEY} / \code{MAPTILER_API_KEY}). See details}
 
 \item{max.native.zoom}{Maximum native zoom level (only used in view mode).
 The minimum and maximum zoom levels are determined in \code{tm_view()}.}
@@ -68,8 +68,18 @@ tile layer as overlay layer, where the stacking order corresponds with the
 order in which this layer is called, just like other map layers.
 }
 \details{
-API keys. For Stadia and Thunderforest maps, an API key is required.
-This can be set via the argument \code{api}. Alternatively they can be stored in environment variables \code{"STADIA_MAPS"} and \code{THUNDERFOREST_MAPS} with \code{Sys.setenv}
+API keys. CARTO, Stadia and Thunderforest require an API key for their
+maps. This can be set via the argument \code{api}, e.g.
+\code{tm_basemap("CartoDB.Positron", api = "YOUR_KEY")}. For Stadia and
+Thunderforest (plot mode only), the key can alternatively be stored in the
+environment variables \code{"STADIA_MAPS"} and \code{"THUNDERFOREST_MAPS"} with
+\code{Sys.setenv()}. Without a key, CARTO basemaps still work, but are shown
+with an "API KEY REQUIRED" watermark.
+
+Advanced: for other, custom tile services that require an API key (i.e.
+not one of the providers above), \code{server} can instead be a URL template
+containing the placeholder \code{"{apikey}"}, which is substituted with \code{api},
+e.g. \code{tm_basemap("https://example.com/tiles/{z}/{x}/{y}.png?key={apikey}", api = "YOUR_KEY")}.
 
 In view mode, each layer is rendered in a Leaflet pane named \code{"tmap{zindex}"}
 (e.g., \code{"tmap401"}, \code{"tmap402"}), with base tile layers placed in the

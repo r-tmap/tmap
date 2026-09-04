@@ -220,6 +220,14 @@ message_basemaps = function(is_stadia) {
 	)
 }
 
+message_basemaps_carto = function() {
+	cli::cli_inform(
+		"{.field [basemaps]} CARTO now requires an API key for its basemaps; without one, tiles are shown with a {.str API KEY REQUIRED} watermark. Set it via {.code tm_basemap(..., api = <your key>)}.",
+		.frequency_id = "basemap_API_carto",
+		.frequency = "once"
+	)
+}
+
 message_midpoint = function(aes, scale) {
 	cli::cli_inform(
 		"{.field [{.fun {scale}}]} Variable(s) {.str {aes}} contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full range of visual values.",

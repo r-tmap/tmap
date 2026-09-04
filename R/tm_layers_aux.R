@@ -5,8 +5,18 @@
 #' tile layer as overlay layer, where the stacking order corresponds with the
 #' order in which this layer is called, just like other map layers.
 #'
-#'  API keys. For Stadia and Thunderforest maps, an API key is required.
-#'  This can be set via the argument `api`. Alternatively they can be stored in environment variables `"STADIA_MAPS"` and `THUNDERFOREST_MAPS` with `Sys.setenv`
+#'  API keys. CARTO, Stadia and Thunderforest require an API key for their
+#'  maps. This can be set via the argument `api`, e.g.
+#'  `tm_basemap("CartoDB.Positron", api = "YOUR_KEY")`. For Stadia and
+#'  Thunderforest (plot mode only), the key can alternatively be stored in the
+#'  environment variables `"STADIA_MAPS"` and `"THUNDERFOREST_MAPS"` with
+#'  `Sys.setenv()`. Without a key, CARTO basemaps still work, but are shown
+#'  with an "API KEY REQUIRED" watermark.
+#'
+#'  Advanced: for other, custom tile services that require an API key (i.e.
+#'  not one of the providers above), `server` can instead be a URL template
+#'  containing the placeholder `"{apikey}"`, which is substituted with `api`,
+#'  e.g. \code{tm_basemap("https://example.com/tiles/{z}/{x}/{y}.png?key={apikey}", api = "YOUR_KEY")}.
 #'
 #' In view mode, each layer is rendered in a Leaflet pane named `"tmap{zindex}"`
 #' (e.g., `"tmap401"`, `"tmap402"`), with base tile layers placed in the
@@ -19,7 +29,7 @@
 #'   Use `NULL` in `tm_basemap()` to disable basemaps. It can be a named vector. In that case these names will be used a group names, as alternative to the argument `group`.
 #' @param alpha Transparency level
 #' @param zoom Zoom level (only used in plot mode)
-#' @param api API key. Needed for `Stadia` and `Thunderforest` maps in plot mode, and for `Esri`/`MapTiler` basemaps in `"maplibre"`/`"mapbox"` mode (alternatively set the env var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`). See details
+#' @param api API key. Required for `CartoDB` basemaps (plot and view mode), `Stadia`/`Thunderforest` maps (plot mode), and `Esri`/`MapTiler` basemaps in `"maplibre"`/`"mapbox"` mode (alternatively set the env var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`). See details
 #' @param max.native.zoom Maximum native zoom level (only used in view mode).
 #'   The minimum and maximum zoom levels are determined in `tm_view()`.
 #' @param sub subdomain of the tile server. Only used when `server` is a url template. The

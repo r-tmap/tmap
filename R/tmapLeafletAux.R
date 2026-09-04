@@ -67,9 +67,24 @@ tmapLeafletAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, fac
 
 	for (i in 1L:k) {
 		serv = tiles$server[i]
+		opt_i = opt
 		if (serv != "") {
+			if (is_carto_provider(serv) && (serv %in% tmap_providers("view"))) {
+				if (!is.null(tiles$api)) {
+					# leaflet-providers.js may not (yet) know about CARTO's key
+					# requirement, so build the tile URL ourselves and route it
+					# through the generic URL-template branch below.
+					serv = carto_url_template(carto_variant(serv))
+					opt_i = utils::modifyList(opt, list(subdomains = "abcd"))
+				} else {
+					message_basemaps_carto()
+				}
+			}
 			if ((substr(serv, 1, 4) == "http")) {
-				lf = leaflet::addTiles(lf, urlTemplate = serv, group = groups[i], options = opt)
+				if (!is.null(tiles$api) && grepl("{apikey}", serv, fixed = TRUE)) {
+					serv = gsub("{apikey}", tiles$api, serv, fixed = TRUE)
+				}
+				lf = leaflet::addTiles(lf, urlTemplate = serv, group = groups[i], options = opt_i)
 			} else {
 				# Invalid provider: warn and fall back to the default view basemap
 				# rather than adding a broken (blank) provider layer, matching the
