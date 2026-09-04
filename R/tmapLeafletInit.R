@@ -107,6 +107,7 @@ tmapLeafletAux = function(o, q) {
 			if (length(lids)) for (lid in lids) lf = leaflet::addMapPane(lf, pane_name(lid), zIndex = lid)
 			if (length(groups_radio) > 0L || length(groups_check) > 0L) {
 				lf = leaflet::addLayersControl(lf, baseGroups = groups_radio, overlayGroups = groups_check, position = leaflet_pos(str2pos(o$control.position)), options = leaflet::layersControlOptions(collapsed = o$control.collapse))
+				lf = fix_leaflegend_hidden_container(lf)
 			}
 			lf
 		})
