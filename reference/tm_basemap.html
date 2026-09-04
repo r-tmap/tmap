@@ -152,7 +152,7 @@ Use <code>NULL</code> in <code>tm_basemap()</code> to disable basemaps. It can b
 
 
 <dt id="arg-api">api<a class="anchor" aria-label="anchor" href="#arg-api"></a></dt>
-<dd><p>API key. Needed for <code>Stadia</code> and <code>Thunderforest</code> maps in plot mode, and for <code>Esri</code>/<code>MapTiler</code> basemaps in <code>"maplibre"</code>/<code>"mapbox"</code> mode (alternatively set the env var <code>ARCGIS_API_KEY</code> / <code>MAPTILER_API_KEY</code>). See details</p></dd>
+<dd><p>API key. Required for <code>CartoDB</code> basemaps (plot and view mode), <code>Stadia</code>/<code>Thunderforest</code> maps (plot mode), and <code>Esri</code>/<code>MapTiler</code> basemaps in <code>"maplibre"</code>/<code>"mapbox"</code> mode (alternatively set the env var <code>ARCGIS_API_KEY</code> / <code>MAPTILER_API_KEY</code>). See details</p></dd>
 
 
 <dt id="arg-max-native-zoom">max.native.zoom<a class="anchor" aria-label="anchor" href="#arg-max-native-zoom"></a></dt>
@@ -186,8 +186,17 @@ groups can be switched on and off. Options: <code>"radio"</code> for radio butto
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>API keys. For Stadia and Thunderforest maps, an API key is required.
-This can be set via the argument <code>api</code>. Alternatively they can be stored in environment variables <code>"STADIA_MAPS"</code> and <code>THUNDERFOREST_MAPS</code> with <code>Sys.setenv</code></p>
+    <p>API keys. CARTO, Stadia and Thunderforest require an API key for their
+maps. This can be set via the argument <code>api</code>, e.g.
+<code>tm_basemap("CartoDB.Positron", api = "YOUR_KEY")</code>. For Stadia and
+Thunderforest (plot mode only), the key can alternatively be stored in the
+environment variables <code>"STADIA_MAPS"</code> and <code>"THUNDERFOREST_MAPS"</code> with
+<code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code>. Without a key, CARTO basemaps still work, but are shown
+with an "API KEY REQUIRED" watermark.</p>
+<p>Advanced: for other, custom tile services that require an API key (i.e.
+not one of the providers above), <code>server</code> can instead be a URL template
+containing the placeholder <code>"{apikey}"</code>, which is substituted with <code>api</code>,
+e.g. <code>tm_basemap("https://example.com/tiles/{z}/{x}/{y}.png?key={apikey}", api = "YOUR_KEY")</code>.</p>
 <p>In view mode, each layer is rendered in a Leaflet pane named <code>"tmap{zindex}"</code>
 (e.g., <code>"tmap401"</code>, <code>"tmap402"</code>), with base tile layers placed in the
 standard <code>"tile"</code> pane.</p>

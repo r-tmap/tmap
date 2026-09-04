@@ -289,7 +289,11 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the basemap on its own</span></span>
 <span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"CartoDB.Positron"</span>, zoom <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="st">"Africa"</span>, ext <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="st">"Africa"</span>, ext <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[basemaps]</span> CARTO now requires an API key for its basemaps; without one, tiles</span></span>
+<span><span class="co">#&gt; are shown with a "API KEY REQUIRED" watermark. Set it via `tm_basemap(..., api</span></span>
+<span><span class="co">#&gt; = &lt;your key&gt;)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
 <p><img src="adv_blend_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the choropleth on its own</span></span>

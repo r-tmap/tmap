@@ -2,11 +2,18 @@
 
 ## tmap (development version)
 
+- `api` in
+  [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
+  working for CARTO basemaps (API keys are required since August 2026)
+- fixed view mode legends (for `group.control = "radio"`/`"check"`) not
+  showing when the widget first renders inside a hidden container,
+  e.g. an inactive Quarto/bslib dashboard tab
+  ([\#1256](https://github.com/r-tmap/tmap/issues/1256))
 - fixed `fancy_breaks()` error (“missing value where TRUE/FALSE needed”)
   when a numeric column with `NA` uses large values that trigger the
   `big.num.abbr` abbreviation path, e.g. when formatting popups in view
   mode ([\#1259](https://github.com/r-tmap/tmap/issues/1259))
-- fixed partial matching.
+- fixed partial matching
 
 ## tmap 4.4-1
 

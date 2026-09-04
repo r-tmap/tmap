@@ -77,4 +77,8 @@ tm_shape(World) +
   ) + 
 tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter", 
   "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
+#> [basemaps] CARTO now requires an API key for its basemaps; without one, tiles
+#> are shown with a "API KEY REQUIRED" watermark. Set it via `tm_basemap(..., api
+#> = <your key>)`.
+#> This message is displayed once per session.
 ```

@@ -171,6 +171,10 @@ the basemap and the choropleth on their own:
 # the basemap on its own
 tm_basemap("CartoDB.Positron", zoom = 3) +
     tm_crs(bbox = "Africa", ext = 2)
+#> [basemaps] CARTO now requires an API key for its basemaps; without one, tiles
+#> are shown with a "API KEY REQUIRED" watermark. Set it via `tm_basemap(..., api
+#> = <your key>)`.
+#> This message is displayed once per session.
 ```
 
 ![](adv_blend_files/figure-html/unnamed-chunk-6-1.png)

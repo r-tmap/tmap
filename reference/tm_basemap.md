@@ -57,10 +57,10 @@ tm_tiles(
 
 - api:
 
-  API key. Needed for `Stadia` and `Thunderforest` maps in plot mode,
-  and for `Esri`/`MapTiler` basemaps in `"maplibre"`/`"mapbox"` mode
-  (alternatively set the env var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`).
-  See details
+  API key. Required for `CartoDB` basemaps (plot and view mode),
+  `Stadia`/`Thunderforest` maps (plot mode), and `Esri`/`MapTiler`
+  basemaps in `"maplibre"`/`"mapbox"` mode (alternatively set the env
+  var `ARCGIS_API_KEY` / `MAPTILER_API_KEY`). See details
 
 - max.native.zoom:
 
@@ -94,10 +94,20 @@ tm_tiles(
 
 ## Details
 
-API keys. For Stadia and Thunderforest maps, an API key is required.
-This can be set via the argument `api`. Alternatively they can be stored
-in environment variables `"STADIA_MAPS"` and `THUNDERFOREST_MAPS` with
-`Sys.setenv`
+API keys. CARTO, Stadia and Thunderforest require an API key for their
+maps. This can be set via the argument `api`, e.g.
+`tm_basemap("CartoDB.Positron", api = "YOUR_KEY")`. For Stadia and
+Thunderforest (plot mode only), the key can alternatively be stored in
+the environment variables `"STADIA_MAPS"` and `"THUNDERFOREST_MAPS"`
+with [`Sys.setenv()`](https://rdrr.io/r/base/Sys.setenv.html). Without a
+key, CARTO basemaps still work, but are shown with an "API KEY REQUIRED"
+watermark.
+
+Advanced: for other, custom tile services that require an API key (i.e.
+not one of the providers above), `server` can instead be a URL template
+containing the placeholder `"{apikey}"`, which is substituted with
+`api`, e.g.
+`tm_basemap("https://example.com/tiles/{z}/{x}/{y}.png?key={apikey}", api = "YOUR_KEY")`.
 
 In view mode, each layer is rendered in a Leaflet pane named
 `"tmap{zindex}"` (e.g., `"tmap401"`, `"tmap402"`), with base tile layers
