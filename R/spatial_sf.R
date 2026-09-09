@@ -76,7 +76,7 @@ tmapSubsetShp.sf = function(shp, vars) {
 
 	}
 	if ("MAP_COLORS" %in% vars) {
-		shp$MAP_COLORS = as.factor(tmaptools::map_coloring(shp, ncols = 7))
+		shp$MAP_COLORS = as.factor(do.call(tmaptools::map_coloring, c(list(shp), map_colors_spec_get())))
 	}
 
 	if (!length(vars)) {
@@ -97,7 +97,7 @@ tmapSubsetShp.sfc = function(shp, vars) {
 		s$LENGTH_ = sf::st_length(shp)
 	}
 	if ("MAP_COLORS" %in% vars) {
-		s$MAP_COLORS = as.factor(tmaptools::map_coloring(shp, ncols = 7))
+		s$MAP_COLORS = as.factor(do.call(tmaptools::map_coloring, c(list(shp), map_colors_spec_get())))
 	}
 	s
 }

@@ -513,6 +513,9 @@ step1_rearrange_facets = function(tmo, o) {
 		smeta$vars = get("used_vars", envir = .TMAP)
 		convert2density = get("c2d_vars", envir = .TMAP)
 		smvars = if (length(convert2density)) unique(c(smeta$vars, "AREA")) else smeta$vars
+		# the number of map colors follows the palette of the map variable that
+		# uses them, which is known here but not inside tmapSubsetShp
+		assign("map_colors_spec", map_colors_spec(tmg$tmls, smvars, o), envir = .TMAP)
 		shp = tmapSubsetShp(shp, smvars)
 
 		if (length(convert2density)) {

@@ -41,6 +41,9 @@ tmapVV = function(x) {
 		}
 	}
 
+	# arguments of tm_map_colors(), which travel along with the variable name
+	map_colors = attr(x, "map_colors")
+
 	isNestedL = isL && any(vapply(x, is.list, FUN.VALUE = logical(1)))
 	isSpecialL = isL && !setequal(class(x), "list")
 	isSpecialNestedL = isL && is.list(x[[1]]) &&  !setequal(class(x[[1]]), "list")
@@ -58,5 +61,5 @@ tmapVV = function(x) {
 		nms = x
 	}
 
-	structure(x, names = nms, class = cls)
+	structure(x, names = nms, class = cls, map_colors = map_colors)
 }

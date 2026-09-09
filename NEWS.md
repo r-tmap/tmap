@@ -1,5 +1,6 @@
 # tmap  (development version)
 
+- [!] added `tm_map_colors()` to configure `"MAP_COLORS"`, e.g. `tm_polygons(fill = tm_map_colors(6, permutation = 1))`. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4
 - `api` in `tm_basemap()` working for CARTO basemaps (API keys are required since August 2026)
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)

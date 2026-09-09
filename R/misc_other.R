@@ -1,6 +1,57 @@
 # similar as rlang::'%||%' but than for NA
 '%--%' = function (x, y) if (is.na(x[1])) y else x
 
+# The arguments that "MAP_COLORS" is passed on to tmaptools::map_coloring()
+# with: those given to tm_map_colors(), which travel along with the variable
+# name, plus the number of colors. Unless a number was asked for, that is the
+# number of colors the palette of the map variable provides, so that a palette
+# of three colors gives three groups rather than seven groups that have to
+# share those three colors. A number that was asked for is capped by what the
+# palette can supply, for the same reason.
+map_colors_spec = function(tmls, vars, o) {
+	if (!("MAP_COLORS" %in% vars)) return(NULL)
+
+	for (tml in tmls) {
+		for (a in tml$mapping.aes) {
+			if (!("MAP_COLORS" %in% unlist(a$value))) next
+
+			args = attr(a$value, "map_colors")
+			ncols = if (is.null(args$ncols)) NA_integer_ else args$ncols
+			args$ncols = NULL
+
+			values = a$scale$values
+			if (is.null(values) || is.na(values[1])) {
+				values = getAesOption("values.var", o, a$aes, tml$layer, cls = c("fact", "unord"))
+			}
+			if (length(values) > 1L) {
+				navail = length(values)
+			} else {
+				m = getPalMeta(as.character(values[1]))
+				navail = if (is.null(m)) NA_integer_ else if (is.na(ncols)) m$ndef else m$nmax
+			}
+			# fewer than 4 colors cannot be enough: by the four color theorem 4
+			# are needed for adjacent polygons to differ, so the palette would
+			# have to give two groups the same color
+			if (!is.na(navail) && navail < 4L) {
+				cli::cli_warn("The palette of {.field {a$aes}} has {navail} color{?s}, but {.val MAP_COLORS} needs at least 4 for adjacent polygons to get different colors.")
+				navail = 4L
+			}
+			args$ncols = if (!is.na(ncols)) {
+				if (is.na(navail)) as.integer(ncols) else as.integer(min(ncols, navail))
+			} else if (!is.na(navail)) {
+				as.integer(navail)
+			} else 7L
+			return(args)
+		}
+	}
+	NULL
+}
+
+# the arguments resolved in step 1, see map_colors_spec
+map_colors_spec_get = function() {
+	if (exists("map_colors_spec", envir = .TMAP)) get("map_colors_spec", envir = .TMAP) else NULL
+}
+
 islistof = function(x, class) {
 	is.list(x) && all(vapply(x, inherits, logical(1), what = class))
 }

@@ -44,7 +44,9 @@
 #'
 #' - `"MAP_COLORS"`, which assigns values so that adjacent features receive
 #' different values, making it particularly suitable for coloring
-#' neighbouring polygons.
+#' neighbouring polygons. Use [tm_map_colors()] to set the number of colors, to
+#' choose between the many colorings a map has, and to pass on other arguments
+#' of [tmaptools::map_coloring()].
 #'
 #' Note that geometry-derived variables do not generate a legend automatically.
 #' If a legend is required, compute the corresponding variable explicitly,
