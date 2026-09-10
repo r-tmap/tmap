@@ -2,6 +2,13 @@
 
 ## tmap (development version)
 
+- \[!\] added
+  [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)
+  to configure `"MAP_COLORS"`,
+  e.g. `tm_polygons(fill = tm_map_colors(6, permutation = 1))`. The
+  number of colors now follows the palette instead of always being 7,
+  which gave adjacent polygons the same fill when the palette had fewer
+  colors. Needs tmaptools 3.4
 - `api` in
   [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   working for CARTO basemaps (API keys are required since August 2026)

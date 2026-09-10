@@ -272,7 +272,11 @@ Currently, three geometry-derived variables are implemented:
 
 - `"MAP_COLORS"`, which assigns values so that adjacent features receive
   different values, making it particularly suitable for coloring
-  neighbouring polygons.
+  neighbouring polygons. Use
+  [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)
+  to set the number of colors, to choose between the many colorings a
+  map has, and to pass on other arguments of
+  [`tmaptools::map_coloring()`](https://r-tmap.github.io/tmaptools/reference/map_coloring.html).
 
 Note that geometry-derived variables do not generate a legend
 automatically. If a legend is required, compute the corresponding

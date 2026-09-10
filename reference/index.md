@@ -283,6 +283,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   Specify a numeric sequence
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
   Specify variables
+- [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)
+  : Color adjacent polygons differently
 - [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md) :
   Popup specification for interactive maps
 - [`tm_label_format()`](https://r-tmap.github.io/tmap/reference/tm_label_format.md)
