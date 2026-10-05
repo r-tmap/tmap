@@ -91,3 +91,15 @@ test_that("tm_graticules(labels.show = FALSE) doesn't show labels. (#795)", {
 		tm_graticules(labels.show = TRUE)
 	expect_false(identical(lab, no_lab))
 })
+
+# Opus5.5
+test_that("bboxes of global maps can be transformed (#1266, #1267)", {
+	# bbox of a Robinson world map including the earth boundary: corners lie outside the earth
+	b = sf::st_bbox(c(xmin = -17686067, ymin = -8970161, xmax = 17686067, ymax = 8970161), crs = "+proj=robin")
+	b2 = bb_transform_robust(b, crs = 4326)
+	expect_true(all(is.finite(b2)))
+	expect_true(b2[3] - b2[1] > 300)
+	expect_true(b2[4] - b2[2] > 150)
+
+	expect_identical(findZoom(c(0, 0, 0, 0)), 1L)
+})

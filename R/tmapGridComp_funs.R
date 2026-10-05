@@ -931,20 +931,27 @@ tmapGridCompPlot.tm_inset_map = function(comp, o, fH, fW) {
 	grobBG = if (getOption("tmap.design.mode")) rectGrob(gp=gpar(fill="#CAB2D6")) else NULL
 	gBG = gridCell(3L, 3L:(length(wsu) - 2L), grobBG)
 
-	vp = grid::viewport(layout.pos.row = 3L, layout.pos.col = 3L)
+	# Opus5.5: viewport with the actual inset dimensions, so step4_plot computes sizes and
+	# margins relative to the inset rather than to the whole device (as in tmapGridCompPrepare.tm_inset_tmap) (#1264)
+	vp_map = grid::viewport(width = wsu[3], height = hsu[3])
 
-	#comp$tm$o = prepreprocess_meta(comp$tm$o, vp)
 	comp$tm$o$asp = as.numeric(wsu[3]) / as.numeric(hsu[3])
 
-	#comp$tm$tmo$group1$layers$layer1$shpDT$shpTM[[1]]$bbox$x = comp$bbox
 	comp$tm$o$inset = TRUE
 	comp$tm$o$bbox = comp$bbox
 
-	g = step4_plot(comp$tm, vp, return.asp = FALSE, show = FALSE, in.shiny = FALSE, knit = FALSE, knit_opts = list(), args = list())
+	# Opus5.5: step4_plot overwrites the grid state of the main map (e.g. g, which contains the
+	# dimensions of the main map used to place the components), so it is restored afterwards (#1264)
+	grid_state = as.list(.TMAP_GRID, all.names = TRUE)
+	geo_ref = .TMAP$geo_ref
+	g = step4_plot(comp$tm, vp_map, return.asp = FALSE, show = FALSE, in.shiny = FALSE, knit = FALSE, knit_opts = list(), args = list())
+	list2env(grid_state, envir = .TMAP_GRID)
+	.TMAP$geo_ref = geo_ref
 
-	#g = gridCell(3L, 3L, grid::rectGrob(gp=gpar(fill="red")))#comp$x)
+	# Opus5.5: place the inset map in the inner cell (like tmapGridCompPlot.tm_inset_grob)
+	gMap = gridCell(3L, 3L, g)
 
-	do.call(grid::grobTree, c(list(gBG, g), list(vp = vp)))
+	do.call(grid::grobTree, c(list(gBG, gMap), list(vp = vp)))
 
 }
 

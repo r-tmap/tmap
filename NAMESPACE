@@ -583,39 +583,53 @@ import(leafsync)
 import(stats)
 import(tmaptools)
 import(units)
-importFrom(grDevices,col2rgb)
-importFrom(grDevices,colorRampPalette)
-importFrom(grDevices,colors)
-importFrom(grDevices,dev.off)
-importFrom(grDevices,dev.size)
-importFrom(grDevices,png)
-importFrom(grDevices,rgb)
-importFrom(htmlwidgets,saveWidget)
-importFrom(htmlwidgets,shinyWidgetOutput)
+importFrom(grDevices,
+  col2rgb,
+  colorRampPalette,
+  colors,
+  dev.off,
+  dev.size,
+  png,
+  rgb
+)
+importFrom(htmlwidgets,
+  saveWidget,
+  shinyWidgetOutput
+)
 importFrom(leaflet,icons)
 importFrom(methods,as)
-importFrom(rlang,expr)
-importFrom(rlang,missing_arg)
-importFrom(s2,as_s2_geography)
-importFrom(s2,s2_buffer_cells)
-importFrom(s2,s2_intersects)
-importFrom(sf,st_as_sf)
-importFrom(sf,st_crs)
-importFrom(sf,st_geometry)
-importFrom(sf,st_sf)
-importFrom(sf,st_transform)
-importFrom(stars,st_as_stars)
-importFrom(stars,st_dimensions)
-importFrom(stars,st_get_dimension_values)
-importFrom(stars,st_set_dimensions)
-importFrom(stars,st_warp)
-importFrom(utils,capture.output)
-importFrom(utils,data)
-importFrom(utils,download.file)
-importFrom(utils,getS3method)
-importFrom(utils,head)
-importFrom(utils,methods)
-importFrom(utils,setTxtProgressBar)
-importFrom(utils,str)
-importFrom(utils,tail)
-importFrom(utils,txtProgressBar)
+importFrom(rlang,
+  expr,
+  missing_arg
+)
+importFrom(s2,
+  as_s2_geography,
+  s2_buffer_cells,
+  s2_intersects
+)
+importFrom(sf,
+  st_as_sf,
+  st_crs,
+  st_geometry,
+  st_sf,
+  st_transform
+)
+importFrom(stars,
+  st_as_stars,
+  st_dimensions,
+  st_get_dimension_values,
+  st_set_dimensions,
+  st_warp
+)
+importFrom(utils,
+  capture.output,
+  data,
+  download.file,
+  getS3method,
+  head,
+  methods,
+  setTxtProgressBar,
+  str,
+  tail,
+  txtProgressBar
+)

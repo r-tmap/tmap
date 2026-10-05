@@ -6,7 +6,10 @@ findZoom = function(b) {
 
 	zoomlon = ceiling(log2(360 * 2/lon_diff))
 	zoomlat = ceiling(log2(180 * 2/lat_diff))
-	zoom = as.integer(min(zoomlon, zoomlat))
+	zoom = min(zoomlon, zoomlat)
+	# Opus5.5: a degenerate bbox results in an infinite zoom (as.integer would return NA with a warning, #1266)
+	if (!is.finite(zoom)) zoom = 1
+	as.integer(zoom)
 }
 
 

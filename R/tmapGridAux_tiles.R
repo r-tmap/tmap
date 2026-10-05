@@ -20,16 +20,33 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	isproj = !sf::st_is_longlat(crs)
 
 	bs_orig = bs
+
+	# Opus5.5: bb_transform_robust instead of transforming the bbox polygon, since corners
+	# of a (near-)global bbox can lie outside the projection domain (#1266, #1267).
+	# If nothing can be transformed, the whole world is taken.
 	if (isproj) {
 		# plain lat-lon to find zoom levels
 		bs = lapply(bs, function(b) {
-			sf::st_bbox(sf::st_transform(sf::st_as_sfc(b), crs = "EPSG:4326"))
+			bb_transform_robust(b, crs = "EPSG:4326") %||% sf::st_bbox(c(xmin = -180, ymin = -90, xmax = 180, ymax = 90), crs = 4326)
 		})
 	}
 
 	# tiles are in mercator
-	bs3857 = lapply(bs_orig, function(b) {
-		sf::st_bbox(sf::st_transform(tmaptools::bb_poly(b), crs = "EPSG:3857"))
+	# Opus5.5: derived from the lat-lon bboxes (with latitudes limited to the extent of web mercator),
+	# rather than by transforming the bboxes directly, which fails or results in (near) infinite y
+	# values when the bbox contains latitudes near the poles (#1266, #1267)
+	bs3857 = lapply(seq_along(bs), function(i) {
+		if (crs3857) {
+			b2 = bs_orig[[i]]
+		} else {
+			b = bs[[i]]
+			b[c(1, 3)] = pmin(pmax(b[c(1, 3)], -180), 180)
+			b[c(2, 4)] = pmin(pmax(b[c(2, 4)], -lat_max_3857), lat_max_3857)
+			b2 = sf::st_bbox(sf::st_transform(sf::st_as_sfc(b), crs = "EPSG:3857"))
+		}
+		b2[1:2] = pmax(b2[1:2], -ext_3857)
+		b2[3:4] = pmin(b2[3:4], ext_3857)
+		b2
 	})
 
 	bs = lapply(bs, function(b) {
@@ -124,13 +141,20 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 		m
 	}, bs3857, zs, SIMPLIFY = FALSE)
 
-	if (isproj && !crs3857) {
+	# Opus5.5: tiles are always in web mercator, so they also need to be warped for lat-lon crs's
+	# (previously only for projected crs's, so with e.g. crs 4326 the tiles were plotted unprojected)
+	if (!crs3857) {
 		if (!all(vapply(xs, is.null, FUN.VALUE = logical(1)))) {
 			message_basemaps_blurry(serv)
 			xs = mapply(function(x,b) {
 				if (is.null(x)) return(NULL)
 
 				ex = terra::ext(as.vector(b[c(1,3,2,4)]))
+				# Opus5.5: for lat-lon, the map bbox may exceed the valid range (e.g. due to inner margins),
+				# which terra::project does not accept ("area of interest not accepted"). Latitudes are
+				# limited to the extent of web mercator (tiles do not exist beyond it, and PROJ would print
+				# "webmerc: Invalid latitude" for each cell)
+				if (!isproj) ex = terra::intersect(ex, terra::ext(-180, 180, -lat_max_3857, lat_max_3857))
 				asp = (ex[2] - ex[1]) / (ex[4] - ex[3])
 
 				tot = terra::ncell(x) * 2
@@ -139,7 +163,9 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 				nr = round(tot / nc)
 
 				r = terra::rast(ex, nrows = nr, ncols = nc, crs = crs$wkt)
-				terra::project(x, r, method = "near")
+				# Opus5.5: for global maps, part of r may lie outside the projection domain (e.g. the
+				# corners of a Robinson map); terra handles this fine but floods GDAL warnings (#1266)
+				suppressWarnings(terra::project(x, r, method = "near"))
 			}, xs, bs_orig, SIMPLIFY = FALSE)
 		}
 	}

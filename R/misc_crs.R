@@ -179,6 +179,30 @@ end_of_the_world = function(crs, earth_datum) {
 
 }
 
+# Opus5.5: transform a bbox to another crs, robust for (near-)global bboxes in
+# projections with a bounded domain (e.g. Robinson or orthographic), whose corners
+# may lie outside the earth so that transforming bb_poly(bbx) returns NA (#1266, #1267).
+# A grid of points covering the bbox is transformed instead; points that cannot be
+# transformed are ignored. Returns NULL if none of the points can be transformed.
+bb_transform_robust = function(bbx, crs, n = 101L) {
+	xs = seq(bbx[1], bbx[3], length.out = n)
+	ys = seq(bbx[2], bbx[4], length.out = n)
+	pts = as.matrix(expand.grid(x = xs, y = ys))
+
+	pts2 = sf::sf_project(from = sf::st_crs(bbx), to = sf::st_crs(crs), pts = pts, keep = TRUE, warn = FALSE)
+	pts2 = pts2[is.finite(pts2[, 1]) & is.finite(pts2[, 2]), , drop = FALSE]
+
+	if (!nrow(pts2)) return(NULL)
+
+	sf::st_bbox(c(xmin = min(pts2[, 1]), ymin = min(pts2[, 2]), xmax = max(pts2[, 1]), ymax = max(pts2[, 2])), crs = sf::st_crs(crs))
+}
+
+# Opus5.5: extent of web mercator (EPSG:3857): the maximum latitude (at which the projected world is
+# square) and the corresponding maximum x and y value. Unlike the option limit_latitude_3857, which is a
+# preference for cropping maps in 3857, this is a hard limit: e.g. basemap tiles do not exist beyond it
+lat_max_3857 = 85.0511287798
+ext_3857 = 20037508.342789244
+
 crop_lat = function(bb, crs, limit_latitude_3857 = NULL) {
 	if ((crs == 3857 || crs == st_crs(3857)) && (!is.null(limit_latitude_3857) && (!identical(limit_latitude_3857, FALSE)))) {
 		crp = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = limit_latitude_3857[1], ymax = limit_latitude_3857[2]), crs = 4326)

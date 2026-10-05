@@ -915,11 +915,21 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			}
 
 			# inset map frame
-			if (length(inset_frame_ids)) {
-				sfc_bbxs = do.call(c, lapply(inset_frame_ids, function(iid) {
+			frame_ids = inset_frame_ids
+			if (length(frame_ids)) {
+				sfc_bbxs = do.call(c, lapply(frame_ids, function(iid) {
 					ic = cdt$comp[[iid]]
 					sf::st_transform(tmaptools::bb_poly(ic$bbox), crs = crs)
 				}))
+				# Opus5.5: omit frames that cannot be projected to the main crs, e.g. the
+				# bbox of a full globe in an orthographic crs, whose corners lie outside the earth (#1265)
+				is_valid = vapply(seq_along(sfc_bbxs), function(j) {
+					!sf::st_is_empty(sfc_bbxs[j]) && all(is.finite(sf::st_bbox(sfc_bbxs[j])))
+				}, FUN.VALUE = logical(1))
+				sfc_bbxs = sfc_bbxs[is_valid]
+				frame_ids = frame_ids[is_valid]
+			}
+			if (length(frame_ids)) {
 
 				collect_properties = function(comps, props) {
 					res = lapply(props, function(p) {
@@ -931,9 +941,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					res
 				}
 
-				prp = collect_properties(cdt$comp[inset_frame_ids],
+				prp = collect_properties(cdt$comp[frame_ids],
 										 c("box_frame", "box_frame.color", "box_frame.alpha", "box_frame.lwd", "box_frame.lty", "box_bg", "box_bg.color", "box_bg.alpha"))
-				calld = lapply(cdt$comp[inset_frame_ids], function(cmp) cmp$called)
+				calld = lapply(cdt$comp[frame_ids], function(cmp) cmp$called)
 
 				prp$box_frame[vapply(calld, function(cl) "box_frame.color" %in% cl, FUN.VALUE = logical(1))] = TRUE
 				prp$box_bg[vapply(calld, function(cl) "box_bg.color" %in% cl, FUN.VALUE = logical(1))] = TRUE
@@ -1063,6 +1073,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 						crs_i = o_i$crs_step4
 					}
 					o_i$outer.bg = FALSE
+					# Opus5.5: no outer margins around inset maps; the inset component has its own margins (#1264)
+					o_i$outer.margins = c(0, 0, 0, 0)
 					o_i$frame = comp$main_frame
 					o_i$frame.color = comp$main_frame.color
 					o_i$frame.alpha = comp$main_frame.alpha
