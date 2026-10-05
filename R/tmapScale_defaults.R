@@ -832,7 +832,9 @@ tmapSeq = function(s, n = NULL) {
 	if (is.null(s$values)) s["values"] = list(NULL)
 	with(s, {
 		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
-		r = seq(from = from, to = to, length.out = n) ^ p
+		# Opus5.5: for a single value, take the end value rather than the start value (often 0, e.g. for sizes,
+		# so that the symbols would be invisible) (#1255)
+		r = if (n == 1L) to ^ p else seq(from = from, to = to, length.out = n) ^ p
 	})
 }
 

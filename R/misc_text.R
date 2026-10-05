@@ -25,6 +25,15 @@ text_width_npc = function(txt, space = TRUE, to_height = FALSE) {
 	}
 }
 
+# Opus5.5: width in inches of (multi-line) text at the given cex. Measuring at the actual cex is more accurate
+# than scaling the width at cex = 1, e.g. pdf devices use different font metrics for small font sizes (#1243).
+# Base graphics are used rather than grid, because grid unit conversion before the map is drawn would start a
+# new (blank) page
+text_width_inch_cex = function(txt, cex, fontface = NULL, fontfamily = NULL) {
+	if (cex == 0) return(0)
+	graphics::strwidth(txt, units = "inch", cex = cex, family = fontfamily, font = fontface2nr(fontface))
+}
+
 text_width_inch = function(txt, space = TRUE) {
 	brks = attr(txt, "brks")
 	if (is.null(brks)) {

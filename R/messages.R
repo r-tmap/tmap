@@ -12,6 +12,15 @@ message_reg = function(id) {
 	NULL
 }
 
+# Opus5.5: #1215
+message_style_reset = function(style, opts) {
+	cli::cli_inform(c(
+		"{.field [tm_style]} {.code tm_style({.str {style}})} resets all options, so the following options, which are set before it, are ignored: {.code {opts}}",
+		i = "Call {.fun tm_style} before {.fun tm_layout} (and other functions that set options, such as {.fun tm_crs})."
+	))
+	NULL
+}
+
 message_comp_scale = function() {
 	if (!message_thrown("comp_scale")) {
 		cli::cli_inform(c(

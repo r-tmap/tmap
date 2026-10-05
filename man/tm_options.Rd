@@ -358,7 +358,8 @@ When a different projection (crs) is used, a (usually) regular raster will be}
 
 \item{value.const}{Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per map variable a value.}
 
-\item{value.na}{Default visual values that are used to visualize NA data values. A list is required with per map variable a value.}
+\item{value.na}{Default visual values that are used to visualize NA data values. A list is required with per map variable a value.
+Color palettes from \strong{cols4all} have their own color for NA values, which is used instead of the default value (also when a style sets its own value). However, values that are set by the user, via \code{tmap_options()} or \code{\link[=tm_options]{tm_options()}}, or saved in a style via \code{\link[=tmap_options_save]{tmap_options_save()}}, are used instead of the NA color of the palette.}
 
 \item{value.null}{Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per map variable a value.}
 

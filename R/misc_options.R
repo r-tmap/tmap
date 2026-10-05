@@ -57,7 +57,48 @@ complete_value_list = function(x, o) {
 
 	aes_o_not_x = setdiff(aes_o, aes_x)
 
-	c(x, o[aes_o %in% aes_o_not_x])
+	res = c(x, o[aes_o %in% aes_o_not_x])
+
+	# Opus5.5: keep track of the user-specified values (see value_list_set_user), also of the values from o
+	# that are not overwritten by x (#1201)
+	user_o = attr(o, "user")
+	user = union(attr(x, "user"), user_o[gsub("\\..*", "", user_o) %in% aes_o_not_x])
+	if (length(user)) attr(res, "user") = user
+	res
+}
+
+# Opus5.5: mark the values of a value list option (e.g. value.na) that are specified by the user, e.g. via
+# tmap_options(value.na = list(fill = "yellow")), as opposed to the values of the tmap defaults and the
+# built-in styles. These are stored as the attribute "user" (names of the list items). If old (the previous
+# option value) is specified, only the items that are changed are marked; this is used when a complete list of
+# options is loaded, e.g. tmap_options(opts), which may also contain values that have not been changed (#1201)
+value_list_set_user = function(o, x, opt = "value.na", old = NULL) {
+	nms = names(x)
+	if (is.null(nms)) nms = rep("", length(x))
+	if (!is.null(old)) {
+		nms = nms[vapply(seq_along(x), function(i) {
+			nms[i] == "" || !identical(unname(x[[i]]), unname(old[[nms[i]]]))
+		}, FUN.VALUE = logical(1))]
+	}
+	attr(o[[opt]], "user") = union(attr(o[[opt]], "user"), nms)
+	o
+}
+
+# Opus5.5: is the value of value list option (e.g. value.na) for aes and layer user-specified? The list item
+# is looked up in the same way as getAesOption does (#1201)
+value_list_is_user = function(o, aes, layer, opt = "value.na") {
+	y = o[[opt]]
+	user = attr(y, "user")
+	if (is.null(user) || !is.list(y)) return(FALSE)
+	al = paste(aes, layer, sep = ".")
+	key = if (any(al %in% names(y))) {
+		al[al %in% names(y)][1]
+	} else if (aes %in% names(y)) {
+		aes
+	} else {
+		""
+	}
+	key %in% user
 }
 
 

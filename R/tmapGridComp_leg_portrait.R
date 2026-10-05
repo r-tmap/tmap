@@ -111,6 +111,11 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 		xlabS = if (comp$xlab == "") 0 else comp$xlab.size * number_text_lines(comp$xlab)
 		xlabP = comp$xlab.padding[c(3,1)] * xlabS * o$lin
 		xlabH = xlabS * o$lin
+		# Opus5.5: height of the rotated label (#1203)
+		if (xlabH != 0 && !is.null(comp$xlab.rot) && (comp$xlab.rot %% 180) != 0) {
+			xlabW = graphics::strwidth(comp$xlab, units = "inch", cex = comp$xlab.size, family = comp$xlab.fontfamily, font = fontface2nr(comp$xlab.fontface))
+			xlabH = rotated_text_dims(xlabW, xlabH, comp$xlab.rot)[2]
+		}
 
 	} else {
 		xlabP = c(0, 0)
@@ -235,6 +240,10 @@ tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 
 	if (comp$type == "bivariate") {
 		txtRowW = ifelse(comp$ylab == "", 0, graphics::strwidth(comp$ylab, units = "inch", cex = comp$ylab.size, family = comp$ylab.fontfamily, font = fontface2nr(comp$ylab.fontface)))
+		# Opus5.5: width of the rotated label (#1203)
+		if (txtRowW != 0 && !is.null(comp$ylab.rot) && (comp$ylab.rot %% 180) != 0) {
+			txtRowW = rotated_text_dims(txtRowW, comp$ylab.size * number_text_lines(comp$ylab) * o$lin, comp$ylab.rot)[1]
+		}
 
 		margRowW = ifelse(txtRowW == 0, 0, item_text.margin * comp$ylab.size * o$lin)
 	}
@@ -303,6 +312,30 @@ add_user_specified_values = function(gp, usr) {
 
 
 
+# Opus5.5: helper functions for the axis labels of bivariate legends (#1203)
+# dimensions (width, height) of the bounding box of text with width w and height h rotated by rot degrees
+rotated_text_dims = function(w, h, rot) {
+	r = rot * pi / 180
+	c(abs(w * cos(r)) + abs(h * sin(r)), abs(w * sin(r)) + abs(h * cos(r)))
+}
+
+get_lab_align = function(align) {
+	if (is.null(align) || is.na(align[1]) || !(align[1] %in% c("left", "center", "centre", "right"))) {
+		"left"
+	} else if (align[1] == "centre") {
+		"center"
+	} else {
+		align[1]
+	}
+}
+
+lab_align_x = function(just, padding, lineIn) {
+	switch(just,
+		   left = grid::unit(padding[2] * lineIn, units = "inch"),
+		   right = grid::unit(1, "npc") - grid::unit(padding[4] * lineIn, units = "inch"),
+		   grid::unit(0.5, "npc"))
+}
+
 #' @export
 tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
@@ -355,26 +388,31 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 	if (comp$type == "bivariate") {
 		if (comp$ylab != "") {
-			# ignoring just for now, assuming "left"
 			ylabS = comp$ylab.size * comp$scale
+			# Opus5.5: ylab.align (left, center, right) is applied for horizontal labels; rotated labels are
+			# centered, both horizontally and vertically (#1203)
+			ylab.rot = if (is.null(comp$ylab.rot)) 0 else comp$ylab.rot
+			ylab.just = if (ylab.rot %% 180 != 0) "center" else get_lab_align(comp$ylab.align)
 			grYlab = gridCell(comp$item_ids[1:m], 3,
 							  grid::textGrob(comp$ylab,
-							  			   rot = comp$ylab.rot,
-							  			   x = grid::unit(comp$ylab.padding[2] * ylabS * o$lin, units = "inch"),
-							  			   just = "left",
+							  			   rot = ylab.rot,
+							  			   x = lab_align_x(ylab.just, comp$ylab.padding, ylabS * o$lin),
+							  			   just = ylab.just,
 							  			   gp = grid::gpar(col = comp$ylab.color, cex = ylabS, fontface = comp$ylab.fontface, fontfamily = comp$ylab.fontfamily)))
 		} else {
 			grYlab = NULL
 		}
 
 		if (comp$xlab != "") {
-			# ignoring just for now, assuming "left"
 			xlabS = comp$xlab.size * comp$scale
+			# Opus5.5: xlab.align (left, center, right) relative to the item columns (#1203)
+			xlab.rot = if (is.null(comp$xlab.rot)) 0 else comp$xlab.rot
+			xlab.just = if (xlab.rot %% 180 != 0) "center" else get_lab_align(comp$xlab.align)
 			grXlab = gridCell(comp$item_ids[m] + 4, 7:(6+n),
 							  grid::textGrob(comp$xlab,
-							  			   rot = comp$xlab.rot,
-							  			   x = grid::unit(comp$xlab.padding[2] * xlabS * o$lin, units = "inch"),
-							  			   just = "left",
+							  			   rot = xlab.rot,
+							  			   x = lab_align_x(xlab.just, comp$xlab.padding, xlabS * o$lin),
+							  			   just = xlab.just,
 							  			   gp = grid::gpar(col = comp$xlab.color, cex = xlabS, fontface = comp$xlab.fontface, fontfamily = comp$xlab.fontfamily))
 							  )
 		} else {

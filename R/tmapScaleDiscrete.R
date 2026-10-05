@@ -31,6 +31,9 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 
 		if (!is.na(ticks[1])) {
 			if (!all(u %in% ticks)) stop("Values have been found for which no ticks have been specified", call. = FALSE)
+		} else if (length(u) == 1L) {
+			# Opus5.5: a single value: pretty() rarely contains it (e.g. 12345), so use the value itself as tick (#1255)
+			ticks = u
 		} else {
 			for (n in c(1, 2, 3, 5, 10, 15, 20, 30, 50)) {
 				ticks_candidate = pretty(rng, n = n)
@@ -62,7 +65,10 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 				if (show.messages) message_midpoint(aes, "tm_scale_discrete")
 				midpoint = 0
 			} else {
-				if ((n %% 2) == 1) {
+				if (n == 1L) {
+					# Opus5.5: single tick (#1255)
+					midpoint = ticks[1]
+				} else if ((n %% 2) == 1) {
 					# number of classes is odd, so take middle class (average of those breaks)
 					midpoint <- mean.default(ticks[c((n+1) / 2, (n+3) / 2)])
 				} else {

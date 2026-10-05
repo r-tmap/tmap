@@ -269,6 +269,37 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   layerId = layerId,
 										   className = leg_className)
 
+	} else if (cmp$type == "text") {
+		# Opus5.5: text legend items (e.g. for tm_text(size = <var>)), drawn as svg text symbols (#1226)
+		n = length(lab)
+		gp = lapply(cmp$gp[c("text", "cex", "col", "col_alpha", "fontfamily")], rep_len, length.out = n)
+
+		cex = ifelse(is.na(gp$cex), 1, gp$cex)
+		col = ifelse(is.na(gp$col), "#000000", substr(gp$col, 1, 7))
+		alpha = ifelse(is.na(gp$col_alpha), 1, gp$col_alpha)
+		fontfamily = if (is.na(gp$fontfamily[1])) NULL else gp$fontfamily[1]
+
+		fontSize = round(cex * 12) # same as in tmapLeafletDataPlot.tm_data_text
+		widths = ceiling(fontSize * 0.6 * nchar(gp$text)) + 2
+		heights = ceiling(fontSize * 1.2) + 2
+
+		symbols = lapply(seq_len(n), function(i) {
+			leaflegend::makeSymbolText(text = gp$text[i], width = widths[i], height = heights[i],
+									   color = col[i], fillColor = col[i], opacity = alpha[i], fillOpacity = alpha[i],
+									   fontSize = fontSize[i], fontFamily = fontfamily)
+		})
+
+		lf %>% leaflegend::addLegendImage(symbols,
+										  group = group,
+										  labels = lab,
+										  width = widths,
+										  height = heights,
+										  position = legpos,
+										  orientation = orientation,
+										  labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",
+										  title = title,
+										  layerId = layerId,
+										  className = leg_className)
 	} else {
 		vary = if ("fill" %in% cmp$varying) "fill" else if ("col" %in% cmp$varying) "col" else NA
 

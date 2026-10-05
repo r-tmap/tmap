@@ -75,6 +75,7 @@ step1_rearrange = function(tmel, knit_opts) {
 
 	is_opt = sapply(oth, inherits, "tm_options")
 	crs_opt_called = FALSE
+	opts_called = character() # Opus5.5: options set so far, to detect options reset by a later tm_style() (#1215)
 	if (any(is_opt)) for (id in which(is_opt)) {
 		o2 = oth[[id]]
 
@@ -98,10 +99,15 @@ step1_rearrange = function(tmel, knit_opts) {
 
 		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
 			check_style(o2$style)
+			# Opus5.5: tm_style() resets all options, so options set before are ignored (#1215)
+			if (length(opts_called)) message_style_reset(o2$style, opts_called)
 			o = tmap_options_mode(style = o2$style, mode.specific = FALSE)
 			o2$style = NULL
 		}
 		o = complete_options(o2, o)
+		# Opus5.5: user-specified value.na is used instead of the na-color of a cols4all palette (#1201)
+		if ("value.na" %in% names(o2)) o = value_list_set_user(o, o2$value.na)
+		opts_called = union(opts_called, setdiff(o2$calls, c("style", "called_from")))
 	}
 	o = preprocess_meta_step1(o, knit_opts)
 

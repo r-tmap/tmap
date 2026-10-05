@@ -59,8 +59,9 @@ get_scale_defaults = function(scale, o, aes, layer, cls, ct = NULL) {
 			m = if (aes %in% c("col", "fill")) getPalMeta(as.character(values[1])) else NULL
 			ona = getAesOption("value.na", o, aes, layer, cls = cls)
 
-			# take option value.na instead of cols4all palette na-color in these two cases:
-			if (is.null(m) || substr(ona, 8, 9) == "00") {
+			# take option value.na instead of cols4all palette na-color in these three cases:
+			# no cols4all palette, transparent option value, or option value specified by the user (#1201)
+			if (is.null(m) || substr(ona, 8, 9) == "00" || value_list_is_user(o, aes, layer)) {
 				ona
 			} else{
 				getPalNA(as.character(values[1]))

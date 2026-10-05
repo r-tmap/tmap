@@ -659,19 +659,21 @@ wrapText = function(txt, nlines) {
 tmapGridCompWidth_text = function(comp, o) {
 	textS = if (comp$text == "") 0 else comp$size #* o$scale
 	textP = comp$padding[c(2,4)] * textS * o$lin
-	textW = textS * graphics::strwidth(comp$text, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+	# Opus5.5: text width measured at the actual font size, rather than scaling the width at cex = 1,
+	# which is inaccurate for small font sizes, e.g. in pdf (#1243)
+	textW = text_width_inch_cex(comp$text, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily)
 
 
 	if (!is.na(comp$width)) {
 		textPgs = strsplit(comp$text, "\n")[[1]]
 		text2 = do.call(paste, c(lapply(textPgs, function(p) {
-			textW = textS * graphics::strwidth(p, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+			textW = text_width_inch_cex(p, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily)
 			w = sum(textP[1], textW, textP[2])
 			nlines = round(w / (comp$width * textS * o$lin))
 			wrapText(p, nlines)
 		}), list(sep = "\n")))
 
-		textW2 = textS * graphics::strwidth(text2, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+		textW2 = text_width_inch_cex(text2, cex = textS, fontface = comp$fontface, fontfamily = comp$fontfamily)
 		wsu2 = c(textP[1], textW2, textP[2])
 		ws = sum(textP[1], textW2, textP[2])
 		comp$text = text2

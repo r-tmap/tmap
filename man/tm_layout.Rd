@@ -65,7 +65,10 @@ tm_layout(
 )
 }
 \arguments{
-\item{style}{name of the style}
+\item{style}{name of the style. Note that \code{tm_style()} resets all options
+(to the ones of the specified style), so options set before it, e.g. via
+\code{tm_layout()}, are ignored. Therefore, call \code{tm_style()} before
+\code{tm_layout()} and other functions that set options.}
 
 \item{...}{List of tmap options to be set, or option names (characters) to be returned (see details)}
 

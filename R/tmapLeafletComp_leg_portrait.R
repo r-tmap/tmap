@@ -78,6 +78,9 @@ tmapLeaflet_legend_comp = function(comp, o) {
 			"none"
 		} else if ("tm_data_lines" %in% mfun) {
 			"lines"
+		} else if ("tm_data_text" %in% mfun) {
+			# Opus5.5: legend items are text symbols, e.g. varying in size (#1226)
+			"text"
 		} else {
 			"symbols"
 		}

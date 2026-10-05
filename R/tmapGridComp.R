@@ -375,8 +375,9 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		}
 	}
 
-	offsetIn.h = component.offset.h * o$lin# + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
-	offsetIn.v = component.offset.v * o$lin#+ (o$frame.lwd * o$scale / 144)
+	# Opus5.5: offset and stack_margin are scaled by the global scale, like the other margins (#1244)
+	offsetIn.h = component.offset.h * o$lin * o$scale# + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
+	offsetIn.v = component.offset.v * o$lin * o$scale#+ (o$frame.lwd * o$scale / 144)
 
 	stack_margin = grp$stack_margin
 	if (!is.null(names(stack_margin)) && all(c("combined", "apart") %in% names(stack_margin))) {
@@ -391,8 +392,8 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 		stack_margin[1] = 0
 	}
 
-	marginInH = stack_margin[1] * o$lin
-	marginInV = stack_margin[2] * o$lin
+	marginInH = stack_margin[1] * o$lin * o$scale
+	marginInV = stack_margin[2] * o$lin * o$scale
 
 	marginInTotH = (n - 1L) * marginInH
 	marginInTotV = (n - 1L) * marginInV

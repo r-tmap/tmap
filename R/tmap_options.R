@@ -34,6 +34,7 @@
 #' @param animation.dpi Output dpi for animations
 #' @param value.const Default visual value constants e.g. the default fill color for `tm_shape(World) + tm_polygons()`. A list is required with per map variable a value.
 #' @param value.na Default visual values that are used to visualize NA data values. A list is required with per map variable a value.
+#'   Color palettes from **cols4all** have their own color for NA values, which is used instead of the default value (also when a style sets its own value). However, values that are set by the user, via `tmap_options()` or [tm_options()], or saved in a style via [tmap_options_save()], are used instead of the NA color of the palette.
 #' @param value.null Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per map variable a value.
 #' @param value.blank Default visual values that correspond to blank. For color these are `"#00000000"` meaning transparent. A list is required with per map variable a value.
 #' @param values.var Default values when a data variable is mapped to a map variable, e.g. a color palette. A list is required with per map variable a value.
@@ -374,6 +375,7 @@ tmap_options = function(..., crs, facet.max, facet_levels.max, free.scales, rast
 
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
 	set_new_style = FALSE
+	is_option_list = FALSE
 
 	#lst = list(...)
 	if (length(args) >= 1 && is.null(names(args[1]))) {
@@ -382,6 +384,7 @@ tmap_options = function(..., crs, facet.max, facet_levels.max, free.scales, rast
 			if (length(args) > 1 && show.warnings) warning("Only the first argument is used; the other arguments are ignored.")
 			## case 1: option list is given
 			args = arg
+			is_option_list = TRUE # Opus5.5: see value.na below
 
 			style_attr = attr(args, "style")
 			if (!is.null(style_attr)) {
@@ -469,6 +472,9 @@ tmap_options = function(..., crs, facet.max, facet_levels.max, free.scales, rast
 		}
 		backup = o[names(args)]
 		o[names(args)] = complete_options(args, backup) # needed to impute position and value(s) args
+
+		# Opus5.5: user-specified value.na is used instead of the na-color of a cols4all palette (#1201)
+		if ("value.na" %in% names(args)) o = value_list_set_user(o, args$value.na, old = if (is_option_list) backup$value.na else NULL)
 
 
 		options(tmap.style=sty_new)

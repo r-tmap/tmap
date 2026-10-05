@@ -259,6 +259,8 @@ tm_components("A", position = tm_pos_in("left", "top", align.h = "right"), frame
 
 ## Frame and background color and alpha
 
+The frame and background belong to the group, not to the individual components: they are drawn around the whole group (or around each component in case `frame_combine = FALSE`). They can be specified via `tm_components()`, but also via the arguments of the component functions themselves (e.g. `tm_legend(frame = FALSE)`), which are passed on to the group. Note that this means that the frame and background are not part of the component itself; e.g. the frame around a chart cannot be removed via `ggplot2` theme settings, but only via these arguments.
+
 ```{r, fig.height = 6}
 tm_shape(NLD_muni) +
   tm_polygons("grey75", col = "grey90") +

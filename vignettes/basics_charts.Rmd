@@ -155,3 +155,21 @@ tm_shape(World) +
       ))
     )
 ```
+
+## Frame and background
+
+The frame and background around a chart are drawn by tmap, not by ggplot2: they belong to the group of map components that the chart is part of (see [vignette about grouping of components](https://r-tmap.github.io/tmap/articles/adv_comp_group)). Therefore, they cannot be changed with ggplot2 code, such as `theme(plot.background = element_rect(colour = NA))` via `extra.ggplot2`. Instead, use the `frame` and `bg` arguments of the chart function:
+
+```{r, fig.height = 5}
+tm_shape(World) +
+  tm_polygons(
+    fill = "life_exp",
+    fill.legend = tm_legend_hide(),
+    fill.chart = tm_chart_histogram(
+      position = tm_pos_in("left", "bottom"),
+      frame = FALSE,
+      bg.color = "#FFC067")) +
+tm_crs("auto")
+```
+
+These arguments are passed on to the group, so they apply to all components in it. Alternatively, they can be set for all charts at once with `tm_components("tm_chart", frame = FALSE, bg.color = "#FFC067")`.
