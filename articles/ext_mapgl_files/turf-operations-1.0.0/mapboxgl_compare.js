@@ -1,3 +1,64 @@
+// A map created in a hidden container (an inactive tab, a Quarto dashboard
+// page, a closed conditionalPanel) has zero size, so its initial bounds are
+// fitted to a 0x0 viewport. Refit once the container gets a real size.
+// Camera changes made while hidden clear map._mapglInitialFit, so they win.
+function _mapglRefitWhenShown(map, container) {
+  if (typeof ResizeObserver === "undefined") return;
+  if (container.clientWidth > 0 && container.clientHeight > 0) return;
+  const observer = new ResizeObserver(function () {
+    if (container.clientWidth === 0 || container.clientHeight === 0) return;
+    observer.disconnect();
+    const fit = map._mapglInitialFit;
+    if (!fit) return;
+    map.resize();
+    map.fitBounds(fit.bounds, Object.assign({}, fit.options, { animate: false }));
+  });
+  observer.observe(container);
+  map.once("remove", function () {
+    observer.disconnect();
+  });
+}
+
+// Layer state for a compare-side map, in the shape the compare proxy uses.
+function _mapglCompareLayerState(map) {
+  if (!window._mapglLayerState) window._mapglLayerState = {};
+  const mapId = map.getContainer().id;
+  const s =
+    window._mapglLayerState[mapId] || (window._mapglLayerState[mapId] = {});
+  ["filters", "paintProperties", "layoutProperties", "tooltips", "popups", "legends"]
+    .forEach(function (key) {
+      if (!s[key]) s[key] = {};
+    });
+  return s;
+}
+
+// Set a layout or paint property and record it for replay after a style
+// change. Used by init-time set_*_property() and the compare proxy.
+function _mapglCompareSetLayoutProperty(map, layerId, name, value) {
+  map.setLayoutProperty(layerId, name, value);
+  const state = _mapglCompareLayerState(map);
+  if (!state.layoutProperties[layerId]) state.layoutProperties[layerId] = {};
+  state.layoutProperties[layerId][name] = value;
+}
+
+function _mapglCompareSetPaintProperty(map, layerId, name, value) {
+  // Keep the hover branch of a property built with hover options
+  const hover = ["boolean", ["feature-state", "hover"], false];
+  const current = map.getPaintProperty(layerId, name);
+  if (
+    Array.isArray(current) &&
+    current[0] === "case" &&
+    JSON.stringify(current[1]) === JSON.stringify(hover)
+  ) {
+    map.setPaintProperty(layerId, name, ["case", current[1], current[2], value]);
+  } else {
+    map.setPaintProperty(layerId, name, value);
+  }
+  const state = _mapglCompareLayerState(map);
+  if (!state.paintProperties[layerId]) state.paintProperties[layerId] = {};
+  state.paintProperties[layerId][name] = value;
+}
+
 function evaluateExpression(expression, properties) {
   // Full evaluator (conditionals, math, ramps, ...) lives in the shared
   // mapgl-expressions dependency; the switch below is only a minimal
@@ -611,22 +672,6 @@ HTMLWidgets.widget({
           return;
         }
 
-        // Register PMTiles source type if available
-        if (
-          typeof MapboxPmTilesSource !== "undefined" &&
-          typeof pmtiles !== "undefined"
-        ) {
-          try {
-            mapboxgl.Style.setSourceType(
-              PMTILES_SOURCE_TYPE,
-              MapboxPmTilesSource,
-            );
-            console.log("PMTiles support enabled for Mapbox GL JS Compare");
-          } catch (e) {
-            console.warn("Failed to register PMTiles source type:", e);
-          }
-        }
-
         // Set position relative on container to properly contain absolutely positioned maps
         el.style.position = "relative";
 
@@ -674,7 +719,7 @@ HTMLWidgets.widget({
         }
 
         compareMaps = compareMapsData.map(function (mapData, index) {
-          return new mapboxgl.Map({
+          const syncedMap = new mapboxgl.Map({
             container: containerIds[index],
             style: mapData.style,
             center: mapData.center,
@@ -685,10 +730,25 @@ HTMLWidgets.widget({
             accessToken: mapData.access_token,
             ...mapData.additional_params,
           });
+
+          const _params = mapData.additional_params || {};
+          syncedMap._mapglInitialFit = _params.bounds
+            ? { bounds: _params.bounds, options: _params.fitBoundsOptions }
+            : null;
+          _mapglRefitWhenShown(syncedMap, syncedMap.getContainer());
+
+          return syncedMap;
         });
 
         beforeMap = compareMaps[0];
         afterMap = compareMaps[1];
+
+        // Draw donut cluster images on demand
+        if (window._mapglClusterDonut) {
+          compareMaps.forEach(function (compareMap) {
+            window._mapglClusterDonut.attach(compareMap);
+          });
+        }
 
         // Resolve a side name ("before", "after", or "mapN") to its map.
         // An out-of-range "mapN" returns undefined so callers no-op rather
@@ -1038,7 +1098,7 @@ HTMLWidgets.widget({
                   });
                   map.addSource(message.source.id, sourceConfig);
                 } else {
-                  // Handle custom source types (like pmtile-source)
+                  // Handle custom source types
                   const sourceConfig = { type: message.source.type };
 
                   // Copy all properties except id
@@ -1299,29 +1359,42 @@ HTMLWidgets.widget({
                   // Note: legends are not tied to specific layers, so we don't clear them here
                 }
               } else if (message.type === "fit_bounds") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.fitBounds(message.bounds, message.options);
               } else if (message.type === "fly_to") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.flyTo(message.options);
               } else if (message.type === "ease_to") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.easeTo(message.options);
               } else if (message.type === "set_center") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.setCenter(message.center);
               } else if (message.type === "set_zoom") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.setZoom(message.zoom);
               } else if (message.type === "jump_to") {
+                compareMaps.forEach(function (m) {
+                  m._mapglInitialFit = null;
+                });
                 map.jumpTo(message.options);
               } else if (message.type === "set_layout_property") {
-                map.setLayoutProperty(
+                _mapglCompareSetLayoutProperty(
+                  map,
                   message.layer,
                   message.name,
                   message.value,
                 );
-                // Track layout property state for layer restoration
-                if (!layerState.layoutProperties[message.layer]) {
-                  layerState.layoutProperties[message.layer] = {};
-                }
-                layerState.layoutProperties[message.layer][message.name] =
-                  message.value;
               } else if (message.type === "set_flowmap_filter") {
                 if (window.MapGLFlowmapPlugin) {
                   window.MapGLFlowmapPlugin.setFilter(
@@ -1339,42 +1412,12 @@ HTMLWidgets.widget({
                   );
                 }
               } else if (message.type === "set_paint_property") {
-                const layerId = message.layer;
-                const propertyName = message.name;
-                const newValue = message.value;
-
-                // Check if the layer has hover options
-                const layerStyle = map
-                  .getStyle()
-                  .layers.find((layer) => layer.id === layerId);
-                const currentPaintProperty = map.getPaintProperty(
-                  layerId,
-                  propertyName,
+                _mapglCompareSetPaintProperty(
+                  map,
+                  message.layer,
+                  message.name,
+                  message.value,
                 );
-
-                if (
-                  currentPaintProperty &&
-                  Array.isArray(currentPaintProperty) &&
-                  currentPaintProperty[0] === "case"
-                ) {
-                  // This property has hover options, so we need to preserve them
-                  const hoverValue = currentPaintProperty[2];
-                  const newPaintProperty = [
-                    "case",
-                    ["boolean", ["feature-state", "hover"], false],
-                    hoverValue,
-                    newValue,
-                  ];
-                  map.setPaintProperty(layerId, propertyName, newPaintProperty);
-                } else {
-                  // No hover options, just set the new value directly
-                  map.setPaintProperty(layerId, propertyName, newValue);
-                }
-                // Track paint property state for layer restoration
-                if (!layerState.paintProperties[layerId]) {
-                  layerState.paintProperties[layerId] = {};
-                }
-                layerState.paintProperties[layerId][propertyName] = newValue;
               } else if (message.type === "add_legend") {
                 if (!message.add) {
                   const existingLegends = document.querySelectorAll(
@@ -2709,11 +2752,21 @@ HTMLWidgets.widget({
                 map.addSource(source.id, sourceConfig);
               } else if (source.type === "geojson") {
                 const geojsonData = source.data;
-                map.addSource(source.id, {
+                const sourceOptions = {
                   type: "geojson",
                   data: geojsonData,
                   generateId: true,
-                });
+                };
+
+                // Pass through extra options (cluster, clusterRadius,
+                // clusterMaxZoom, clusterProperties, ...) like the main widget
+                for (const [key, value] of Object.entries(source)) {
+                  if (!["id", "type", "data", "generateId"].includes(key)) {
+                    sourceOptions[key] = value;
+                  }
+                }
+
+                map.addSource(source.id, sourceOptions);
               } else if (source.type === "raster") {
                 if (source.url) {
                   map.addSource(source.id, {
@@ -2789,6 +2842,14 @@ HTMLWidgets.widget({
                 }
                 if (layer.maxzoom) {
                   layerConfig["maxzoom"] = layer.maxzoom;
+                }
+
+                if (layer.filter) {
+                  layerConfig["filter"] = layer.filter;
+                }
+
+                if (layer.metadata) {
+                  layerConfig["metadata"] = layer.metadata;
                 }
 
                 if (layer.before_id) {
@@ -2967,6 +3028,16 @@ HTMLWidgets.widget({
 
           if (mapData.fitBounds) {
             map.fitBounds(mapData.fitBounds.bounds, mapData.fitBounds.options);
+            map._mapglInitialFit = mapData.fitBounds;
+          }
+          if (
+            mapData.flyTo ||
+            mapData.easeTo ||
+            mapData.setCenter ||
+            mapData.setZoom ||
+            mapData.jumpTo
+          ) {
+            map._mapglInitialFit = null;
           }
           if (mapData.flyTo) {
             map.flyTo(mapData.flyTo);
@@ -2980,6 +3051,29 @@ HTMLWidgets.widget({
           if (mapData.setZoom) {
             map.setZoom(mapData.setZoom);
           }
+
+          // Apply set_filter() / set_layout_property() / set_paint_property()
+          const _setFilter = function (map, layerId, filter) {
+            map.setFilter(layerId, filter);
+            _mapglCompareLayerState(map).filters[layerId] = filter;
+          };
+          [
+            [mapData.setFilter, _setFilter, "filter"],
+            [mapData.setLayoutProperty, _mapglCompareSetLayoutProperty],
+            [mapData.setPaintProperty, _mapglCompareSetPaintProperty],
+          ].forEach(function ([calls, apply, valueKey]) {
+            (calls || []).forEach(function (call) {
+              if (!map.getLayer(call.layer)) {
+                console.warn(`mapgl: layer "${call.layer}" not found.`);
+                return;
+              }
+              if (valueKey) {
+                apply(map, call.layer, call[valueKey]);
+              } else {
+                apply(map, call.layer, call.name, call.value);
+              }
+            });
+          });
 
           // Apply moveLayer operations if provided
           if (mapData.moveLayer) {

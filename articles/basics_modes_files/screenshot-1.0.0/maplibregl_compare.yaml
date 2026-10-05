@@ -95,3 +95,8 @@ dependencies:
     src: "htmlwidgets/lib/mapgl-expressions"
     script:
       - "mapgl-expressions.js"
+  - name: mapgl-cluster-donut
+    version: "1.0.0"
+    src: "htmlwidgets/lib/mapgl-cluster-donut"
+    script:
+      - "cluster-donut.js"

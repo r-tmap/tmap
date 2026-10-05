@@ -454,28 +454,12 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
         interactiveState.filterColumn = filterColumn;
     });
 
-    // Store original colors for each item
-    var originalColors = {};
-
     // Add click handlers to each item
     items.forEach(function (item, idx) {
         var displayValue = item.getAttribute("data-value") || String(displayValues[idx]);
         item.setAttribute("data-value", displayValue);
         item.setAttribute("data-index", idx);
         item.setAttribute("data-enabled", "true");
-
-        // Store original color - try multiple selectors for different patch types
-        var colorSpan = item.querySelector(".legend-color") ||
-                        item.querySelector(".legend-shape-svg") ||
-                        item.querySelector(".legend-shape-custom");
-        if (colorSpan) {
-            originalColors[idx] = colorSpan.style.backgroundColor ||
-                                  colorSpan.getAttribute("fill") ||
-                                  config.colors[idx];
-        } else {
-            // Fallback to config colors
-            originalColors[idx] = config.colors[idx];
-        }
 
         item.addEventListener("click", function (e) {
             e.preventDefault();
@@ -486,18 +470,13 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
 
             item.setAttribute("data-enabled", String(newState));
 
+            // Disabled opacity/grayscale is handled by the shared CSS. Leave
+            // patch paints untouched: an SVG background colors its rectangular
+            // viewport, not its polygon/path, and corrupts hex/custom patches.
             if (newState) {
                 enabledIndices.add(idx);
-                // Restore original color
-                if (colorSpan) {
-                    colorSpan.style.backgroundColor = originalColors[idx];
-                }
             } else {
                 enabledIndices.delete(idx);
-                // Grey out
-                if (colorSpan) {
-                    colorSpan.style.backgroundColor = "#cccccc";
-                }
             }
 
             // Apply filter to all associated layers
@@ -550,14 +529,8 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
 
     // Add reset button
     addResetButton(legendElement, function () {
-        items.forEach(function (item, i) {
+        items.forEach(function (item) {
             item.setAttribute("data-enabled", "true");
-            var colorSpan = item.querySelector(".legend-color") ||
-                            item.querySelector(".legend-shape-svg") ||
-                            item.querySelector(".legend-shape-custom");
-            if (colorSpan && originalColors[i] !== undefined) {
-                colorSpan.style.backgroundColor = originalColors[i];
-            }
         });
         enabledIndices.clear();
         for (var i = 0; i < numCategories; i++) {

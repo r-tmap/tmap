@@ -600,10 +600,13 @@ function _mapglEnsureLayerState(map) {
   return s;
 }
 
+// A user (set_filter) filter replaces the base (layer-initial) filter,
+// and a user filter of null clears it. Legend and slider filters compose.
 function _mapglComposeAndApplyFilter(map, layerId) {
   const state = _mapglEnsureLayerState(map);
   const stack = state.filterStack[layerId] || {};
-  const active = [stack.base, stack.user, stack.legend, stack.slider].filter(
+  const primary = "user" in stack ? stack.user : stack.base;
+  const active = [primary, stack.legend, stack.slider].filter(
     (f) => f != null,
   );
   const composed =
@@ -616,6 +619,55 @@ function _mapglComposeAndApplyFilter(map, layerId) {
 
 window._mapglEnsureLayerState = _mapglEnsureLayerState;
 window._mapglComposeFilter = _mapglComposeAndApplyFilter;
+
+// A map created in a hidden container (an inactive tab, a Quarto dashboard
+// page, a closed conditionalPanel) has zero size, so its initial bounds are
+// fitted to a 0x0 viewport. Refit once the container gets a real size.
+// Camera changes made while hidden clear map._mapglInitialFit, so they win.
+function _mapglRefitWhenShown(map, container) {
+  if (typeof ResizeObserver === "undefined") return;
+  if (container.clientWidth > 0 && container.clientHeight > 0) return;
+  const observer = new ResizeObserver(function () {
+    if (container.clientWidth === 0 || container.clientHeight === 0) return;
+    observer.disconnect();
+    const fit = map._mapglInitialFit;
+    if (!fit) return;
+    map.resize();
+    map.fitBounds(fit.bounds, Object.assign({}, fit.options, { animate: false }));
+  });
+  observer.observe(container);
+  map.once("remove", function () {
+    observer.disconnect();
+  });
+}
+
+// Set a layout or paint property and record it in the shared layer state
+// so it can be replayed after a style change. Used by init-time
+// set_layout_property()/set_paint_property() and the proxy handler.
+function _mapglSetLayoutProperty(map, layerId, name, value) {
+  map.setLayoutProperty(layerId, name, value);
+  const state = _mapglEnsureLayerState(map);
+  if (!state.layoutProperties[layerId]) state.layoutProperties[layerId] = {};
+  state.layoutProperties[layerId][name] = value;
+}
+
+function _mapglSetPaintProperty(map, layerId, name, value) {
+  // Keep the hover branch of a property built with hover options
+  const hover = ["boolean", ["feature-state", "hover"], false];
+  const current = map.getPaintProperty(layerId, name);
+  if (
+    Array.isArray(current) &&
+    current[0] === "case" &&
+    JSON.stringify(current[1]) === JSON.stringify(hover)
+  ) {
+    map.setPaintProperty(layerId, name, ["case", current[1], current[2], value]);
+  } else {
+    map.setPaintProperty(layerId, name, value);
+  }
+  const state = _mapglEnsureLayerState(map);
+  if (!state.paintProperties[layerId]) state.paintProperties[layerId] = {};
+  state.paintProperties[layerId][name] = value;
+}
 
 // Measurement functionality
 function createMeasurementBox(map) {
@@ -1964,6 +2016,17 @@ HTMLWidgets.widget({
         map.controls = [];
         map._initialStyleLoaded = false;
 
+        const _params = x.additional_params || {};
+        map._mapglInitialFit = _params.bounds
+          ? { bounds: _params.bounds, options: _params.fitBoundsOptions }
+          : null;
+        _mapglRefitWhenShown(map, el);
+
+        // Draw donut cluster images on demand
+        if (window._mapglClusterDonut) {
+          window._mapglClusterDonut.attach(map);
+        }
+
         map.on("style.load", async function () {
           // Store basemap layer IDs before user layers are added
           if (!map._basemapLayerIds) {
@@ -2219,6 +2282,10 @@ HTMLWidgets.widget({
                 layerConfig["filter"] = layer.filter;
               }
 
+              if (layer.metadata) {
+                layerConfig["metadata"] = layer.metadata;
+              }
+
               if (layer.before_id) {
                 map.addLayer(layerConfig, layer.before_id);
               } else {
@@ -2420,10 +2487,27 @@ HTMLWidgets.widget({
 
           // Apply setFilter if provided
           if (x.setFilter) {
+            const _s = _mapglEnsureLayerState(map);
             x.setFilter.forEach(function (filter) {
-              map.setFilter(filter.layer, filter.filter);
+              _s.filterStack[filter.layer] = _s.filterStack[filter.layer] || {};
+              _s.filterStack[filter.layer].user = filter.filter || null;
+              _mapglComposeAndApplyFilter(map, filter.layer);
             });
           }
+
+          // Apply set_layout_property() / set_paint_property() calls
+          [
+            [x.setLayoutProperty, _mapglSetLayoutProperty],
+            [x.setPaintProperty, _mapglSetPaintProperty],
+          ].forEach(function ([calls, setProperty]) {
+            (calls || []).forEach(function (call) {
+              if (!map.getLayer(call.layer)) {
+                console.warn(`mapgl: layer "${call.layer}" not found.`);
+                return;
+              }
+              setProperty(map, call.layer, call.name, call.value);
+            });
+          });
 
           // Apply moveLayer operations if provided
           if (x.moveLayer) {
@@ -2453,6 +2537,10 @@ HTMLWidgets.widget({
 
           if (x.fitBounds) {
             map.fitBounds(x.fitBounds.bounds, x.fitBounds.options);
+            map._mapglInitialFit = x.fitBounds;
+          }
+          if (x.flyTo || x.easeTo || x.setCenter || x.setZoom || x.jumpTo) {
+            map._mapglInitialFit = null;
           }
           if (x.flyTo) {
             map.flyTo(x.flyTo);
@@ -3470,8 +3558,8 @@ if (HTMLWidgets.shinyMode) {
         });
       }
       if (message.type === "set_filter") {
-        // Route through the filter registry so `user` composes with
-        // base/legend/slider slots.
+        // Route through the filter registry so `user` replaces the base
+        // filter and composes with legend/slider slots.
         layerState.filterStack[message.layer] =
           layerState.filterStack[message.layer] || {};
         layerState.filterStack[message.layer].user = message.filter || null;
@@ -3875,25 +3963,30 @@ if (HTMLWidgets.shinyMode) {
           // Note: legends are not tied to specific layers, so we don't clear them here
         }
       } else if (message.type === "fit_bounds") {
+        map._mapglInitialFit = null;
         map.fitBounds(message.bounds, message.options);
       } else if (message.type === "fly_to") {
+        map._mapglInitialFit = null;
         map.flyTo(message.options);
       } else if (message.type === "ease_to") {
+        map._mapglInitialFit = null;
         map.easeTo(message.options);
       } else if (message.type === "set_center") {
+        map._mapglInitialFit = null;
         map.setCenter(message.center);
       } else if (message.type === "set_zoom") {
+        map._mapglInitialFit = null;
         map.setZoom(message.zoom);
       } else if (message.type === "jump_to") {
+        map._mapglInitialFit = null;
         map.jumpTo(message.options);
       } else if (message.type === "set_layout_property") {
-        map.setLayoutProperty(message.layer, message.name, message.value);
-        // Track layout property state for layer restoration
-        if (!layerState.layoutProperties[message.layer]) {
-          layerState.layoutProperties[message.layer] = {};
-        }
-        layerState.layoutProperties[message.layer][message.name] =
-          message.value;
+        _mapglSetLayoutProperty(
+          map,
+          message.layer,
+          message.name,
+          message.value,
+        );
       } else if (message.type === "set_flowmap_filter") {
         if (window.MapGLFlowmapPlugin) {
           window.MapGLFlowmapPlugin.setFilter(map, message.id, message.filter);
@@ -3907,42 +4000,7 @@ if (HTMLWidgets.shinyMode) {
           );
         }
       } else if (message.type === "set_paint_property") {
-        const layerId = message.layer;
-        const propertyName = message.name;
-        const newValue = message.value;
-
-        // Check if the layer has hover options
-        const layerStyle = map
-          .getStyle()
-          .layers.find((layer) => layer.id === layerId);
-        const currentPaintProperty = map.getPaintProperty(
-          layerId,
-          propertyName,
-        );
-
-        if (
-          currentPaintProperty &&
-          Array.isArray(currentPaintProperty) &&
-          currentPaintProperty[0] === "case"
-        ) {
-          // This property has hover options, so we need to preserve them
-          const hoverValue = currentPaintProperty[2];
-          const newPaintProperty = [
-            "case",
-            ["boolean", ["feature-state", "hover"], false],
-            hoverValue,
-            newValue,
-          ];
-          map.setPaintProperty(layerId, propertyName, newPaintProperty);
-        } else {
-          // No hover options, just set the new value directly
-          map.setPaintProperty(layerId, propertyName, newValue);
-        }
-        // Track paint property state for layer restoration
-        if (!layerState.paintProperties[layerId]) {
-          layerState.paintProperties[layerId] = {};
-        }
-        layerState.paintProperties[layerId][propertyName] = newValue;
+        _mapglSetPaintProperty(map, message.layer, message.name, message.value);
       } else if (message.type === "query_rendered_features") {
         // Query rendered features
         let queryOptions = {};

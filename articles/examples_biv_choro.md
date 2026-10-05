@@ -160,7 +160,7 @@ tm_crs("auto")
 One inconvenience is that the origin of the palettes plotted above (with
 [`c4a_plot()`](https://cols4all.github.io/reference/c4a_plot.html)) is
 top left, but the origin of a bivariate color legend in tmap is bottom
-right. Therefore, the diagonal prefixes need to be the other way round.
+left. Therefore, the diagonal prefixes need to be the other way round.
 
 ### Using custom bivariate palettes in tmap
 

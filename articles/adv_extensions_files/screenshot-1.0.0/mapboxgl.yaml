@@ -1,8 +1,8 @@
 dependencies:
   - name: mapbox-gl-js
-    version: "3.24.0"
+    version: "3.31.0"
     src:
-      href: "https://api.mapbox.com/mapbox-gl-js/v3.24.0"
+      href: "https://api.mapbox.com/mapbox-gl-js/v3.31.0"
     script:
       - "mapbox-gl.js"
     stylesheet:
@@ -66,16 +66,6 @@ dependencies:
     src: "htmlwidgets/lib/mapbox-gl-globe-minimap"
     script:
       - "bundle.js"
-  - name: pmtiles
-    version: 4.4.0
-    src: "htmlwidgets/lib/pmtiles"
-    script:
-      - "pmtiles.js"
-  - name: mapbox-pmtiles
-    version: 1.1.0
-    src: "htmlwidgets/lib/mapbox-pmtiles"
-    script:
-      - "pmtiles-source-optimized-v2.js"
   - name: turf
     version: "7.3.0"
     src: "htmlwidgets/lib/turf"
@@ -118,3 +108,8 @@ dependencies:
     src: "htmlwidgets/lib/mapgl-expressions"
     script:
       - "mapgl-expressions.js"
+  - name: mapgl-cluster-donut
+    version: "1.0.0"
+    src: "htmlwidgets/lib/mapgl-cluster-donut"
+    script:
+      - "cluster-donut.js"
