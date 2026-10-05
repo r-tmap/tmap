@@ -200,6 +200,7 @@
 <span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tm_compass"</span>, <span class="st">"tm_scalebar"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_components_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <p>In this case, all map components that are legends and credits are placed top left. Furthermore, the map component group frame obtains a light gray background.
+The frame and background are properties of the group rather than of the individual components. They can also be set in the component functions, e.g. <code>tm_credits(bg.color = "grey95")</code>; these arguments are passed on to the group.
 The compass and scalebar are positioned left bottom.</p>
 <p>More options regarding positioning, stacking, and alignment of components are explained in detail in the <a href="https://r-tmap.github.io/tmap/articles/adv_comp_group">vignette about grouping of components</a></p>
 </div>

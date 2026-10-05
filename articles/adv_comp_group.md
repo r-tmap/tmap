@@ -141,9 +141,6 @@ even though they have a different `group_id`.
 tm2 + 
   tm_components("A", position = tm_pos_in("right", "bottom")) +
   tm_components("B", position = tm_pos_in("right", "bottom"))
-#> [plot mode] legend/component: Some components or legends are too "high" and are
-#> therefore rescaled.
-#> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
 ```
 
 ![](adv_comp_group_files/figure-html/unnamed-chunk-10-1.png)
@@ -298,6 +295,16 @@ tm_components("A", position = tm_pos_in("left", "top", align.h = "right"), frame
 ![](adv_comp_group_files/figure-html/unnamed-chunk-17-1.png)
 
 ### Frame and background color and alpha
+
+The frame and background belong to the group, not to the individual
+components: they are drawn around the whole group (or around each
+component in case `frame_combine = FALSE`). They can be specified via
+[`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md),
+but also via the arguments of the component functions themselves
+(e.g. `tm_legend(frame = FALSE)`), which are passed on to the group.
+Note that this means that the frame and background are not part of the
+component itself; e.g. the frame around a chart cannot be removed via
+`ggplot2` theme settings, but only via these arguments.
 
 ``` r
 

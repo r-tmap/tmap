@@ -162,7 +162,10 @@
 
 
 <dl><dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
-<dd><p>name of the style</p></dd>
+<dd><p>name of the style. Note that <code>tm_style()</code> resets all options
+(to the ones of the specified style), so options set before it, e.g. via
+<code>tm_layout()</code>, are ignored. Therefore, call <code>tm_style()</code> before
+<code>tm_layout()</code> and other functions that set options.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

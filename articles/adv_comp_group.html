@@ -212,10 +212,7 @@ In this example components of A and B have the same position and are therefore g
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tm2</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">[plot mode]</span> legend/component: Some components or legends are too <span style="color: #0000BB;">"high"</span> and are</span></span>
-<span><span class="co">#&gt; therefore rescaled.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_comp_group_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
 </div>
 </div>
@@ -337,6 +334,7 @@ This can be set for each component individually, or, in case it is the same for 
 <div class="section level3">
 <h3 id="frame-and-background-color-and-alpha">Frame and background color and alpha<a class="anchor" aria-label="anchor" href="#frame-and-background-color-and-alpha"></a>
 </h3>
+<p>The frame and background belong to the group, not to the individual components: they are drawn around the whole group (or around each component in case <code>frame_combine = FALSE</code>). They can be specified via <code><a href="../reference/tm_components.html">tm_components()</a></code>, but also via the arguments of the component functions themselves (e.g. <code>tm_legend(frame = FALSE)</code>), which are passed on to the group. Note that this means that the frame and background are not part of the component itself; e.g. the frame around a chart cannot be removed via <code>ggplot2</code> theme settings, but only via these arguments.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey75"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>

@@ -442,7 +442,13 @@ tmap_options_save(style)
 - value.na:
 
   Default visual values that are used to visualize NA data values. A
-  list is required with per map variable a value.
+  list is required with per map variable a value. Color palettes from
+  **cols4all** have their own color for NA values, which is used instead
+  of the default value (also when a style sets its own value). However,
+  values that are set by the user, via `tmap_options()` or
+  [`tm_options()`](https://r-tmap.github.io/tmap/reference/tm_options.md),
+  or saved in a style via `tmap_options_save()`, are used instead of the
+  NA color of the palette.
 
 - value.null:
 

@@ -79,7 +79,10 @@ tm_layout(
 
 - style:
 
-  name of the style
+  name of the style. Note that `tm_style()` resets all options (to the
+  ones of the specified style), so options set before it, e.g. via
+  `tm_layout()`, are ignored. Therefore, call `tm_style()` before
+  `tm_layout()` and other functions that set options.
 
 - ...:
 

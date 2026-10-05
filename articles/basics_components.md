@@ -103,7 +103,11 @@ tm_components(c("tm_compass", "tm_scalebar"), position = c("left", "bottom"))
 
 In this case, all map components that are legends and credits are placed
 top left. Furthermore, the map component group frame obtains a light
-gray background. The compass and scalebar are positioned left bottom.
+gray background. The frame and background are properties of the group
+rather than of the individual components. They can also be set in the
+component functions, e.g. `tm_credits(bg.color = "grey95")`; these
+arguments are passed on to the group. The compass and scalebar are
+positioned left bottom.
 
 More options regarding positioning, stacking, and alignment of
 components are explained in detail in the [vignette about grouping of
