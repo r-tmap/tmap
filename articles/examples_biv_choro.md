@@ -27,8 +27,8 @@ economic and gender inequality.
 tm_shape(World) +
     tm_polygons(fill = tm_vars(c("gender", "inequality"), multivariate = TRUE)) +
 tm_crs("auto")
-#> bivariate legend Labels abbreviated by the first two letters, e.g.: "20 - 29"
-#> => "2".
+#> bivariate legend Labels abbreviated by the lower bound, e.g.: "20 - 29" =>
+#> "20".
 #> This message is displayed once per session.
 ```
 

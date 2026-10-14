@@ -21,7 +21,7 @@ tmap_save(
   insets_vp = NULL,
   add.titles = TRUE,
   in.iframe = FALSE,
-  selfcontained = !in.iframe,
+  selfcontained = TRUE,
   verbose = NULL,
   ...
 )
@@ -115,13 +115,9 @@ tmap_save(
 
 - in.iframe:
 
-  should an interactive map be saved as an iframe? If so, two HTML files
-  will be saved; one small parent HTML file with the iframe container,
-  and one large child HTML file with the actual widget. See
-  [`widgetframe::saveWidgetframe()`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html)
-  for details. By default `FALSE`, which means that one large HTML file
-  is saved (see
-  [saveWidget()](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html)).
+  Deprecated and ignored. Saving an interactive map as an iframe relied
+  on the **widgetframe** package, which is no longer supported because
+  of a known security vulnerability.
 
 - selfcontained:
 
@@ -144,9 +140,7 @@ tmap_save(
 
   additional arguments passed on to the underlying output function (see
   Details). For interactive (html) maps these are passed to
-  [`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html)
-  or
-  [`widgetframe::saveWidgetframe()`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html).
+  [`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html).
   For static maps they are passed to the graphic device; the most useful
   are:
 
@@ -197,13 +191,11 @@ the filename, invisibly, if export is successful.
 
 Extra arguments (`...`) are passed on to the function that writes the
 output. For interactive (html) maps this is
-[`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html),
-or
-[`widgetframe::saveWidgetframe()`](https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html)
-when `in.iframe = TRUE`. For static maps it is the graphic device: the
-function supplied to `device`, or, when `device = NULL`, the default
-device for the file extension:
-[`grDevices::pdf()`](https://rdrr.io/r/grDevices/pdf.html) (`"pdf"`),
+[`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html).
+For static maps it is the graphic device: the function supplied to
+`device`, or, when `device = NULL`, the default device for the file
+extension: [`grDevices::pdf()`](https://rdrr.io/r/grDevices/pdf.html)
+(`"pdf"`),
 [`grDevices::postscript()`](https://rdrr.io/r/grDevices/postscript.html)
 (`"eps"`), [`grDevices::svg()`](https://rdrr.io/r/grDevices/cairo.html)
 (`"svg"`), [`grDevices::png()`](https://rdrr.io/r/grDevices/png.html)

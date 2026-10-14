@@ -98,6 +98,11 @@
 <li>fixed view mode legends (for <code>group.control = "radio"</code>/<code>"check"</code>) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (<a href="https://github.com/r-tmap/tmap/issues/1256" class="external-link">#1256</a>)</li>
 <li>fixed <code>fancy_breaks()</code> error (“missing value where TRUE/FALSE needed”) when a numeric column with <code>NA</code> uses large values that trigger the <code>big.num.abbr</code> abbreviation path, e.g. when formatting popups in view mode (<a href="https://github.com/r-tmap/tmap/issues/1259" class="external-link">#1259</a>)</li>
 <li>fixed partial matching</li>
+<li>
+<code><a href="../reference/tmap_save.html">tmap_save()</a></code>: argument <code>in.iframe</code> deprecated (and ignored), and <strong>widgetframe</strong> removed from Suggests because of a known security vulnerability (<a href="https://github.com/r-tmap/tmap/issues/1268" class="external-link">#1268</a>)</li>
+<li>
+<code><a href="../reference/tmap_save.html">tmap_save()</a></code> now shows the underlying error when saving an interactive map fails (e.g. missing pandoc for <code>selfcontained = TRUE</code>)</li>
+<li>bivariate legend: column labels of intervals are abbreviated by their lower bound if it fits (e.g. “10 - 40” =&gt; “10” instead of “1”), and no message about abbreviated labels when the labels are not shortened (e.g. “L”, “M”, “H”)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.4-1" id="tmap-44-1">tmap 4.4-1<a class="anchor" aria-label="anchor" href="#tmap-44-1"></a></h2><p class="text-muted">CRAN release: 2026-06-26</p>

@@ -21,6 +21,17 @@
   `big.num.abbr` abbreviation path, e.g. when formatting popups in view
   mode ([\#1259](https://github.com/r-tmap/tmap/issues/1259))
 - fixed partial matching
+- [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md):
+  argument `in.iframe` deprecated (and ignored), and **widgetframe**
+  removed from Suggests because of a known security vulnerability
+  ([\#1268](https://github.com/r-tmap/tmap/issues/1268))
+- [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
+  now shows the underlying error when saving an interactive map fails
+  (e.g. missing pandoc for `selfcontained = TRUE`)
+- bivariate legend: column labels of intervals are abbreviated by their
+  lower bound if it fits (e.g. “10 - 40” =\> “10” instead of “1”), and
+  no message about abbreviated labels when the labels are not shortened
+  (e.g. “L”, “M”, “H”)
 
 ## tmap 4.4-1
 

@@ -411,7 +411,7 @@ tm_layout(frame = FALSE)
 # bivariate scale
 tm_shape(World) +
   tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
-#> bivariate legend Labels abbreviated by the first two letters, e.g.: "2.0 - 2.9"
-#> => "2".
+#> bivariate legend Labels abbreviated by the first letter, e.g.: "2.0 - 2.9" =>
+#> "2".
 #> This message is displayed once per session.
 ```

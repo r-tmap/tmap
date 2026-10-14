@@ -112,7 +112,7 @@
 <span>  insets_vp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  add.titles <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  in.iframe <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  selfcontained <span class="op">=</span> <span class="op">!</span><span class="va">in.iframe</span>,</span>
+<span>  selfcontained <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -195,11 +195,9 @@ viewports should be equal to the number of tmap objects specified with <code>ins
 
 
 <dt id="arg-in-iframe">in.iframe<a class="anchor" aria-label="anchor" href="#arg-in-iframe"></a></dt>
-<dd><p>should an interactive map be saved as an iframe?
-If so, two HTML files will be saved; one small parent HTML file with the
-iframe container, and one large child HTML file with the actual widget.
-See <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe()</a></code> for details. By default <code>FALSE</code>,
-which means that one large HTML file is saved (see <a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget()</a>).</p></dd>
+<dd><p>Deprecated and ignored. Saving an interactive map as an
+iframe relied on the <strong>widgetframe</strong> package, which is no longer supported
+because of a known security vulnerability.</p></dd>
 
 
 <dt id="arg-selfcontained">selfcontained<a class="anchor" aria-label="anchor" href="#arg-selfcontained"></a></dt>
@@ -219,7 +217,7 @@ usually take more space then the map resources.</p></dd>
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>additional arguments passed on to the underlying output function
 (see Details). For interactive (html) maps these are passed to
-<code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code> or <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe()</a></code>. For static
+<code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code>. For static
 maps they are passed to the graphic device; the most useful are:</p><dl><dt><code>colormodel</code> (pdf, eps)</dt>
 <dd><p>Color model of the output. The default is
 <code>"srgb"</code>; use <code>colormodel = "cmyk"</code> for print workflows that require
@@ -264,8 +262,8 @@ build without cairo support <code>antialias</code> is ignored for those formats.
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Extra arguments (<code>...</code>) are passed on to the function that writes the
-output. For interactive (html) maps this is <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code>, or
-<code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">widgetframe::saveWidgetframe()</a></code> when <code>in.iframe = TRUE</code>. For static maps it
+output. For interactive (html) maps this is <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">htmlwidgets::saveWidget()</a></code>.
+For static maps it
 is the graphic device: the function supplied to <code>device</code>, or, when
 <code>device = NULL</code>, the default device for the file extension:
 <code><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">grDevices::pdf()</a></code> (<code>"pdf"</code>), <code><a href="https://rdrr.io/r/grDevices/postscript.html" class="external-link">grDevices::postscript()</a></code> (<code>"eps"</code>),
