@@ -432,19 +432,29 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 		colLabels = comp$labels[(m+1L):(n+m)]
 
-		# easy solution: take first letter. Alternatives: rotation, ...
-		colLabs = substr(colLabels, 1, 1)
-		if (anyDuplicated(colLabs)) {
-			colLabs = substr(colLabels, 1, 2)
-			if (anyDuplicated(colLabs)) {
-				cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}. However, there are duplicated abbreviations.", .frequency_id = "biv_leg1",
-								.frequency = "once")
-			} else {
-				cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}.", .frequency_id = "biv_leg2",
-								.frequency = "once")
-			}
+		# interval labels (e.g. "10 - 40"): take the lower bound, provided it fits
+		# (the first letter would give misleading labels such as "1" for "10 - 40")
+		lowerB = sub("^\\s*(\\S+).*$", "\\1", colLabels)
+		is_num = !anyNA(suppressWarnings(as.numeric(gsub(",", "", lowerB))))
+		lowerW = graphics::strwidth(lowerB, units = "inch", cex = textS / scale_labels, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		fits = all(lowerW < grid::convertUnit(wsu[7], unitTo = "inch", valueOnly = TRUE))
+		if (is_num && fits && !anyDuplicated(lowerB)) {
+			colLabs = lowerB
+			letters_txt = "lower bound"
 		} else {
-			cli::cli_inform("{.field bivariate legend} Labels abbreviated by the first two letters, e.g.: {.str {colLabels[1]}} => {.str {colLabs[1]}}.", .frequency_id = "biv_leg2",
+			# easy solution: take first letter. Alternatives: rotation, ...
+			colLabs = substr(colLabels, 1, 1)
+			letters_txt = "first letter"
+			if (anyDuplicated(colLabs)) {
+				colLabs = substr(colLabels, 1, 2)
+				letters_txt = "first two letters"
+			}
+		}
+		# only inform when labels are actually shortened (e.g. not for "L", "M", "H")
+		abbr = which(colLabs != colLabels)
+		if (length(abbr)) {
+			dup_txt = if (anyDuplicated(colLabs)) " However, there are duplicated abbreviations." else ""
+			cli::cli_inform("{.field bivariate legend} Labels abbreviated by the {letters_txt}, e.g.: {.str {colLabels[abbr[1]]}} => {.str {colLabs[abbr[1]]}}.{dup_txt}", .frequency_id = "biv_leg",
 							.frequency = "once")
 		}
 

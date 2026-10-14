@@ -19,7 +19,7 @@ tmap_save(
   insets_vp = NULL,
   add.titles = TRUE,
   in.iframe = FALSE,
-  selfcontained = !in.iframe,
+  selfcontained = TRUE,
   verbose = NULL,
   ...
 )
@@ -73,11 +73,9 @@ viewports should be equal to the number of tmap objects specified with \code{ins
 
 \item{add.titles}{add titles to leaflet object.}
 
-\item{in.iframe}{should an interactive map be saved as an iframe?
-If so, two HTML files will be saved; one small parent HTML file with the
-iframe container, and one large child HTML file with the actual widget.
-See \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}} for details. By default \code{FALSE},
-which means that one large HTML file is saved (see \link[htmlwidgets:saveWidget]{saveWidget()}).}
+\item{in.iframe}{Deprecated and ignored. Saving an interactive map as an
+iframe relied on the \strong{widgetframe} package, which is no longer supported
+because of a known security vulnerability.}
 
 \item{selfcontained}{when an interactive map is saved, should the resources
 (e.g. JavaScript libraries) be contained in the HTML file? If \code{FALSE}, they
@@ -91,7 +89,7 @@ usually take more space then the map resources.}
 
 \item{...}{additional arguments passed on to the underlying output function
 (see Details). For interactive (html) maps these are passed to
-\code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}} or \code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}}. For static
+\code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}. For static
 maps they are passed to the graphic device; the most useful are:
 \describe{
 \item{\code{colormodel} (pdf, eps)}{Color model of the output. The default is
@@ -123,8 +121,8 @@ Save tmap to a file. This can be either a static plot (e.g. png) or an interacti
 }
 \details{
 Extra arguments (\code{...}) are passed on to the function that writes the
-output. For interactive (html) maps this is \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}, or
-\code{\link[widgetframe:saveWidgetframe]{widgetframe::saveWidgetframe()}} when \code{in.iframe = TRUE}. For static maps it
+output. For interactive (html) maps this is \code{\link[htmlwidgets:saveWidget]{htmlwidgets::saveWidget()}}.
+For static maps it
 is the graphic device: the function supplied to \code{device}, or, when
 \code{device = NULL}, the default device for the file extension:
 \code{\link[grDevices:pdf]{grDevices::pdf()}} (\code{"pdf"}), \code{\link[grDevices:postscript]{grDevices::postscript()}} (\code{"eps"}),

@@ -251,8 +251,8 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		x2 = na.omit(x)
 		tooLow = (x2 < min(breaks))
 		tooHigh = (x2 > max(breaks))
-		if (any(tooLow) && show.warnings) warning("Values have found that are less than the lowest break. They are assigned to the lowest interval", call. = FALSE)
-		if (any(tooHigh) && show.warnings) warning("Values have found that are higher than the highest break. They are assigned to the highest interval", call. = FALSE)
+		if (any(tooLow) && show.warnings) warning("Values have been found that are less than the lowest break. They are assigned to the lowest interval", call. = FALSE)
+		if (any(tooHigh) && show.warnings) warning("Values have been found that are higher than the highest break. They are assigned to the highest interval", call. = FALSE)
 
 		q <- list(var=x,
 				  brks=breaks)

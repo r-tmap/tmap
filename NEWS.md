@@ -5,6 +5,9 @@
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
 - fixed partial matching
+- `tmap_save()`: argument `in.iframe` deprecated (and ignored), and **widgetframe** removed from Suggests because of a known security vulnerability (#1268)
+- `tmap_save()` now shows the underlying error when saving an interactive map fails (e.g. missing pandoc for `selfcontained = TRUE`)
+- bivariate legend: column labels of intervals are abbreviated by their lower bound if it fits (e.g. "10 - 40" => "10" instead of "1"), and no message about abbreviated labels when the labels are not shortened (e.g. "L", "M", "H")
 
 # tmap 4.4-1
 

@@ -4,8 +4,8 @@
 #'
 #' @details
 #'   Extra arguments (`...`) are passed on to the function that writes the
-#'   output. For interactive (html) maps this is [htmlwidgets::saveWidget()], or
-#'   [widgetframe::saveWidgetframe()] when `in.iframe = TRUE`. For static maps it
+#'   output. For interactive (html) maps this is [htmlwidgets::saveWidget()].
+#'   For static maps it
 #'   is the graphic device: the function supplied to `device`, or, when
 #'   `device = NULL`, the default device for the file extension:
 #'   [grDevices::pdf()] (`"pdf"`), [grDevices::postscript()] (`"eps"`),
@@ -56,11 +56,9 @@
 #'   of [`viewport`][grid::viewport()]s of multiple inset maps. The number of
 #'   viewports should be equal to the number of tmap objects specified with `insets_tm`.
 #' @param add.titles add titles to leaflet object.
-#' @param in.iframe should an interactive map be saved as an iframe?
-#'   If so, two HTML files will be saved; one small parent HTML file with the
-#'   iframe container, and one large child HTML file with the actual widget.
-#'   See [widgetframe::saveWidgetframe()] for details. By default `FALSE`,
-#'   which means that one large HTML file is saved (see [saveWidget()][htmlwidgets::saveWidget()]).
+#' @param in.iframe Deprecated and ignored. Saving an interactive map as an
+#'   iframe relied on the **widgetframe** package, which is no longer supported
+#'   because of a known security vulnerability.
 #' @param selfcontained when an interactive map is saved, should the resources
 #'   (e.g. JavaScript libraries) be contained in the HTML file? If `FALSE`, they
 #'   are placed in an adjacent directory (see also [htmlwidgets::saveWidget()]).
@@ -71,7 +69,7 @@
 #'    (see [tmap_options()])
 #' @param ... additional arguments passed on to the underlying output function
 #'   (see Details). For interactive (html) maps these are passed to
-#'   [htmlwidgets::saveWidget()] or [widgetframe::saveWidgetframe()]. For static
+#'   [htmlwidgets::saveWidget()]. For static
 #'   maps they are passed to the graphic device; the most useful are:
 #'   \describe{
 #'     \item{`colormodel` (pdf, eps)}{Color model of the output. The default is
@@ -101,10 +99,11 @@
 #' @export
 tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, units = NA,
 					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL,
-					 insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
+					 insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = TRUE, verbose = NULL, ...) {
 	.tmapOptions = get("tmapOptions", envir = .TMAP)
 	show.warnings =.tmapOptions$show.warnings
 	if (!missing(verbose) && show.warnings) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
+	if (!missing(in.iframe) && isTRUE(in.iframe) && show.warnings) warning("The argument in.iframe is deprecated and ignored, since the widgetframe package (used to save iframes) has a known security vulnerability. The map is saved as a regular HTML file.", call. = FALSE)
 
 
 
@@ -181,14 +180,11 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 			wd_new = dirname(filename)
 			base_filename = basename(filename)
 			setwd(wd_new)
-			if (in.iframe) {
-				rlang::check_installed("widgetframe", reason = "for option in.frame.")
-				widgetframe::saveWidgetframe(lf, file=base_filename, selfcontained = selfcontained, ...)
-			} else {
-				htmlwidgets::saveWidget(lf, file=base_filename, selfcontained = selfcontained, ...)
-			}
+			htmlwidgets::saveWidget(lf, file=base_filename, selfcontained = selfcontained, ...)
 		}, error = function(e) {
-			stop("Unable to save the interactive map. Note that saving interactive small multiples is not supported yet. The error message from htmlwidgets::saveWidget is ", call. = FALSE)
+			stop("Unable to save the interactive map. The error message from htmlwidgets::saveWidget is: ", conditionMessage(e),
+				 if (selfcontained) " Alternatively, use selfcontained = FALSE." else "",
+				 " Note that saving interactive small multiples is not supported yet.", call. = FALSE)
 		})
 
 		options(tmap.mode=tmap.mode)
