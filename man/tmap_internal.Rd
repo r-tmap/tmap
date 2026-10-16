@@ -3,7 +3,8 @@
 %   R/tmapChart.R, R/tmapGpar.R, R/tmapGridComp.R, R/tmapGridComp_charts.R,
 %   R/tmapOnLoad.R, R/tmapScaleAsIs.R, R/tmapScaleBivariate.R,
 %   R/tmapScaleCategorical.R, R/tmapScaleIntervals.R, R/tmapScaleRank.R,
-%   R/tmapScale_.R, R/tmapScale_defaults.R, R/tmapTrans.R
+%   R/tmapScale_.R, R/tmapScale_defaults.R, R/tmapScale_pattern.R,
+%   R/tmapTrans.R
 \name{toTitleCase}
 \alias{toTitleCase}
 \alias{tmap_internal}
@@ -183,6 +184,33 @@
 \alias{tmapValuesScale_skip}
 \alias{tmapValuesColorize_skip}
 \alias{tmapValuesCVV_skip}
+\alias{tmapValuesCheck_pattern}
+\alias{tmapValuesScale_pattern}
+\alias{tmapValuesColorize_pattern}
+\alias{tmapValuesCheck_pattern_col}
+\alias{tmapValuesIsDiv_pattern_col}
+\alias{tmapValuesRange_pattern_col}
+\alias{tmapValuesVV_pattern_col}
+\alias{tmapValuesCVV_pattern_col}
+\alias{tmapValuesSubmit_pattern_col}
+\alias{tmapValuesScale_pattern_col}
+\alias{tmapValuesColorize_pattern_col}
+\alias{tmapValuesCheck_pattern_size}
+\alias{tmapValuesIsDiv_pattern_size}
+\alias{tmapValuesRange_pattern_size}
+\alias{tmapValuesVV_pattern_size}
+\alias{tmapValuesCVV_pattern_size}
+\alias{tmapValuesSubmit_pattern_size}
+\alias{tmapValuesScale_pattern_size}
+\alias{tmapValuesColorize_pattern_size}
+\alias{tmapValuesCheck_pattern_density}
+\alias{tmapValuesIsDiv_pattern_density}
+\alias{tmapValuesRange_pattern_density}
+\alias{tmapValuesVV_pattern_density}
+\alias{tmapValuesCVV_pattern_density}
+\alias{tmapValuesSubmit_pattern_density}
+\alias{tmapValuesScale_pattern_density}
+\alias{tmapValuesColorize_pattern_density}
 \alias{tmapTransCentroid}
 \alias{tmapTransRaster}
 \alias{tmapTransPolygons}
@@ -224,6 +252,7 @@ tmapGpar(
   size = NULL,
   fill_alpha = NULL,
   col_alpha = NULL,
+  pattern = NULL,
   lty = NULL,
   lwd = NULL,
   linejoin = NULL,
@@ -736,6 +765,60 @@ tmapValuesColorize_skip(x, pc)
 
 tmapValuesCVV_skip(x, value.na, n, range, scale, rep, o)
 
+tmapValuesCheck_pattern(x, is_var = TRUE)
+
+tmapValuesScale_pattern(x, scale)
+
+tmapValuesColorize_pattern(x, pc)
+
+tmapValuesCheck_pattern_col(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_col(x)
+
+tmapValuesRange_pattern_col(x, n, isdiv)
+
+tmapValuesVV_pattern_col(...)
+
+tmapValuesCVV_pattern_col(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_col(x, args)
+
+tmapValuesScale_pattern_col(x, scale)
+
+tmapValuesColorize_pattern_col(x, pc)
+
+tmapValuesCheck_pattern_size(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_size(x)
+
+tmapValuesRange_pattern_size(x, n, isdiv)
+
+tmapValuesVV_pattern_size(...)
+
+tmapValuesCVV_pattern_size(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_size(x, args)
+
+tmapValuesScale_pattern_size(x, scale)
+
+tmapValuesColorize_pattern_size(x, pc)
+
+tmapValuesCheck_pattern_density(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_density(x)
+
+tmapValuesRange_pattern_density(x, n, isdiv)
+
+tmapValuesVV_pattern_density(...)
+
+tmapValuesCVV_pattern_density(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_density(x, args)
+
+tmapValuesScale_pattern_density(x, scale)
+
+tmapValuesColorize_pattern_density(x, pc)
+
 tmapTransCentroid(
   shpTM,
   xmod = NULL,
@@ -757,7 +840,7 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 
 \item{subclass}{subclass}
 
-\item{fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin, lineend}{map variables}
+\item{fill, col, shape, size, fill_alpha, col_alpha, pattern, lty, lwd, linejoin, lineend}{map variables}
 
 \item{scale}{scale}
 

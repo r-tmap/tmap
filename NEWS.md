@@ -1,12 +1,14 @@
 # tmap  (development version)
 
 - [!] added `tm_map_colors()` to configure `"MAP_COLORS"`, e.g. `tm_polygons(fill = tm_map_colors(6, permutation = 1))`. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4
+- `tm_text(col = "auto")` (and `tm_labels()`): black or white text depending on the color underneath (the fill of the polygon layer below, the label background, or the map background), as in tmap v3
 - `api` in `tm_basemap()` working for CARTO basemaps (API keys are required since August 2026)
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
 - fixed partial matching
 - `tmap_save()`: argument `in.iframe` deprecated (and ignored), and **widgetframe** removed from Suggests because of a known security vulnerability (#1268)
 - `tmap_save()` now shows the underlying error when saving an interactive map fails (e.g. missing pandoc for `selfcontained = TRUE`)
+- bivariate legend: the legend is widened when `xlab` is wider than the item columns (it used to run outside the legend frame)
 - bivariate legend: column labels of intervals are abbreviated by their lower bound if it fits (e.g. "10 - 40" => "10" instead of "1"), and no message about abbreviated labels when the labels are not shortened (e.g. "L", "M", "H")
 
 # tmap 4.4-1

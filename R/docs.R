@@ -128,6 +128,10 @@
 			   col_alpha = "color transparency",
 			   lwd = "line width",
 			   lty = "line type",
+			   pattern = "fill pattern",
+			   pattern_col = "pattern color",
+			   pattern_size = "line width or dot size of the pattern",
+			   pattern_density = "pattern density",
 			   size = "size",
 			   text = "text",
 			   fontface = "font face")

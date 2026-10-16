@@ -246,7 +246,7 @@ opt_tm_labels(
 
 \item{size, size.scale, size.legend, size.chart, size.free}{Map variable that determines the size. See details. \emph{Unit:} Multiplier of the base font size. \code{size = 1} renders at the default font size, which is 12 pt in plot mode (\code{par("ps")}) and 12 px in view mode (consistent by design). \code{size = 1.5} renders at 18 pt / px, etc.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string.}
+\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines the color. See details. \emph{Unit:} Color -- a color name, hex string. Use \code{col = "auto"} for black or white text, whichever contrasts best with the color underneath: the fill of the polygon layer below (same \code{\link[=tm_shape]{tm_shape()}}, matched per feature), the label background (\code{bgcol}), or otherwise the map background.}
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
@@ -398,6 +398,10 @@ functions.\tabular{lll}{
    \code{size} (text, labels) \tab multiplier \tab 1 = 12 pt (plot) / 12 px (view) \cr
    \code{lwd} \tab lwd \tab base R units; 1 lwd approx. 0.75 pt at 96 dpi \cr
    \code{lty} \tab -- \tab integer 1-6 or name ("solid", "dashed", ...) \cr
+   \code{pattern} \tab -- \tab pattern type ("none", "hatch", "crosshatch", "dots", "noise") \cr
+   \code{pattern_col} \tab color \tab name, hex, or palette string \cr
+   \code{pattern_size} \tab lwd \tab line width or dot size of the pattern elements \cr
+   \code{pattern_density} \tab proportion 0-1 \tab 0 = no pattern, 1 = densest \cr
    \code{shape} \tab -- \tab integer \code{pch} 1-25 or single character \cr
    \code{angle} \tab degrees \tab 0-360, clockwise from north \cr
    \code{fontface} \tab -- \tab "plain", "bold", "italic", "bold.italic" \cr

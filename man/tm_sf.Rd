@@ -184,6 +184,10 @@ functions.\tabular{lll}{
    \code{size} (text, labels) \tab multiplier \tab 1 = 12 pt (plot) / 12 px (view) \cr
    \code{lwd} \tab lwd \tab base R units; 1 lwd approx. 0.75 pt at 96 dpi \cr
    \code{lty} \tab -- \tab integer 1-6 or name ("solid", "dashed", ...) \cr
+   \code{pattern} \tab -- \tab pattern type ("none", "hatch", "crosshatch", "dots", "noise") \cr
+   \code{pattern_col} \tab color \tab name, hex, or palette string \cr
+   \code{pattern_size} \tab lwd \tab line width or dot size of the pattern elements \cr
+   \code{pattern_density} \tab proportion 0-1 \tab 0 = no pattern, 1 = densest \cr
    \code{shape} \tab -- \tab integer \code{pch} 1-25 or single character \cr
    \code{angle} \tab degrees \tab 0-360, clockwise from north \cr
    \code{fontface} \tab -- \tab "plain", "bold", "italic", "bold.italic" \cr

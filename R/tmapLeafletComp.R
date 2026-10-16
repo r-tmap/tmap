@@ -147,6 +147,14 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 	legpos = leaflet_pos(cmp$position)
 
+	# to do: pattern legends (see sandbox/patterns_plan.md step 6)
+	if (any(startsWith(cmp$varying, "pattern"))) {
+		cli::cli_inform("{.field [view mode]} pattern legends are not supported yet",
+						.frequency_id = "pattern_legend_view",
+						.frequency = "once")
+		return(lf)
+	}
+
 	lf2 = if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
 		lf

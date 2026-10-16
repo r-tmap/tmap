@@ -1,4 +1,4 @@
-#' @param fill,col,shape,size,fill_alpha,col_alpha,lty,lwd,linejoin,lineend map variables
+#' @param fill,col,shape,size,fill_alpha,col_alpha,pattern,lty,lwd,linejoin,lineend map variables
 #' @param ... args
 #' @export
 #' @rdname tmap_internal
@@ -8,7 +8,7 @@ tmapGpar = function(fill = NULL,
 					size = NULL,
 					fill_alpha = NULL,
 					col_alpha = NULL,
-					#pattern = NULL,
+					pattern = NULL,
 					lty = NULL,
 					lwd = NULL,
 					linejoin = NULL,

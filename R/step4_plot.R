@@ -259,6 +259,9 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	empt = vapply(tmx, is.null, logical(1))
 	tmx = tmx[!empt]
 
+	# text color "auto"
+	tmx = resolve_auto_text_col(tmx, o)
+
 
 	any_data_layer = (length(tmx) > 0L)
 
@@ -382,7 +385,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	}
 
 	cdt = if (any_data_layer) {
-		cdt_legs = step4_plot_collect_legends(tmx)
+		cdt_legs = step4_plot_collect_legends(tmx, o)
 		cdt_crts = step4_plot_collect_charts(tmx)
 		data.table::rbindlist(list(cdt_legs, cdt_crts, cdt_cmp))
 	} else {

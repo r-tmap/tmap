@@ -2,7 +2,9 @@
 #'
 #' Map layer that draws polygons. Supported map variables are: `fill` (the fill color),
 #' `col` (the border color), `lwd` (line width), `lty` (line type),
-#' `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
+#' `fill_alpha` (fill color alpha transparency), `col_alpha` (border color alpha transparency)
+#' `pattern` (fill pattern drawn on top of the fill color), `pattern_col` (pattern color),
+#' `pattern_size` (line width or dot size of the pattern) and `pattern_density` (density of the pattern).
 #'
 #' The map variable arguments (e.g. `col`) can be specified with a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
@@ -69,6 +71,10 @@
 #' | `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
 #' | `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
 #' | `lty` | -- | integer 1-6 or name ("solid", "dashed", ...) |
+#' | `pattern` | -- | pattern type ("none", "hatch", "crosshatch", "dots", "noise") |
+#' | `pattern_col` | color | name, hex, or palette string |
+#' | `pattern_size` | lwd | line width or dot size of the pattern elements |
+#' | `pattern_density` | proportion 0-1 | 0 = no pattern, 1 = densest |
 #' | `shape` | -- | integer `pch` 1-25 or single character |
 #' | `angle` | degrees | 0-360, clockwise from north |
 #' | `fontface` | -- | "plain", "bold", "italic", "bold.italic" |
@@ -125,6 +131,10 @@
 #' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")` `r .doc_unit("lty")`
 #' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r .doc_vv("fill_alpha")` `r .doc_unit("fill_alpha")`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
+#' @param pattern,pattern.scale,pattern.legend,pattern.chart,pattern.free `r .doc_vv("pattern")` `r .doc_unit("pattern")`
+#' @param pattern_col,pattern_col.scale,pattern_col.legend,pattern_col.chart,pattern_col.free `r .doc_vv("pattern_col")` `r .doc_unit("pattern_col")`
+#' @param pattern_size,pattern_size.scale,pattern_size.legend,pattern_size.chart,pattern_size.free `r .doc_vv("pattern_size")` `r .doc_unit("pattern_size")`
+#' @param pattern_density,pattern_density.scale,pattern_density.legend,pattern_density.chart,pattern_density.free `r .doc_vv("pattern_density")` `r .doc_unit("pattern_density")`
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
@@ -197,6 +207,26 @@ tm_polygons = function(fill = tm_const(),
 					   col_alpha.legend = tm_legend(),
 					   col_alpha.chart = tm_chart_none(),
 					   col_alpha.free = NA,
+					   pattern = tm_const(),
+					   pattern.scale = tm_scale(),
+					   pattern.legend = tm_legend(),
+					   pattern.chart = tm_chart_none(),
+					   pattern.free = NA,
+					   pattern_col = tm_const(),
+					   pattern_col.scale = tm_scale(),
+					   pattern_col.legend = tm_legend(),
+					   pattern_col.chart = tm_chart_none(),
+					   pattern_col.free = NA,
+					   pattern_size = tm_const(),
+					   pattern_size.scale = tm_scale(),
+					   pattern_size.legend = tm_legend(),
+					   pattern_size.chart = tm_chart_none(),
+					   pattern_size.free = NA,
+					   pattern_density = tm_const(),
+					   pattern_density.scale = tm_scale(),
+					   pattern_density.legend = tm_legend(),
+					   pattern_density.chart = tm_chart_none(),
+					   pattern_density.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
 					   plot.order = tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
@@ -425,7 +455,31 @@ tm_polygons = function(fill = tm_const(),
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
 						   					  chart = col_alpha.chart,
-						   					  free = col_alpha.free)),
+						   					  free = col_alpha.free),
+						   pattern = tmapScale(aes = "pattern",
+						   					value = pattern,
+						   					scale = pattern.scale,
+						   					legend = pattern.legend,
+						   					chart = pattern.chart,
+						   					free = pattern.free),
+						   pattern_col = tmapScale(aes = "pattern_col",
+						   				value = pattern_col,
+						   				scale = pattern_col.scale,
+						   				legend = pattern_col.legend,
+						   				chart = pattern_col.chart,
+						   				free = pattern_col.free),
+						   pattern_size = tmapScale(aes = "pattern_size",
+						   				value = pattern_size,
+						   				scale = pattern_size.scale,
+						   				legend = pattern_size.legend,
+						   				chart = pattern_size.chart,
+						   				free = pattern_size.free),
+						   pattern_density = tmapScale(aes = "pattern_density",
+						   				value = pattern_density,
+						   				scale = pattern_density.scale,
+						   				legend = pattern_density.legend,
+						   				chart = pattern_density.chart,
+						   				free = pattern_density.free)),
 
 		gpar = tmapGpar(fill = "__fill",
 						col = "__col",
@@ -433,7 +487,10 @@ tm_polygons = function(fill = tm_const(),
 						size = NA,
 						fill_alpha = "__fill_alpha",
 						col_alpha = "__col_alpha",
-						pattern = "fill",
+						pattern = "__pattern",
+						pattern_col = "__pattern_col",
+						pattern_size = "__pattern_size",
+						pattern_density = "__pattern_density",
 						lty = "__lty",
 						lwd = "__lwd",
 						linejoin = linejoin,

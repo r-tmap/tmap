@@ -24,7 +24,7 @@ step4_plot_collect_charts = function(tmx) {
 	crts
 }
 
-step4_plot_collect_legends = function(tmx) {
+step4_plot_collect_legends = function(tmx, o = NULL) {
 	# collect legends
 	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), legend = list())
 
@@ -150,6 +150,9 @@ step4_plot_collect_legends = function(tmx) {
 							if (icon_scale > 1 && legnm == "size") {
 								gp$size = gp$size * icon_scale
 							}
+
+							# text color "auto": contrast with the legend item background
+							gp = legend_auto_text_col(gp, o)
 
 							leleg$gp = gp
 							leleg$vneutral = NULL

@@ -107,8 +107,13 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 
 			if (!aes$bypass_vars) {
+				# text color "auto" is resolved in step 4 (contrast with the underlying fill)
+				is_auto = (nm == "col") & ("text" %in% layer) & (val1 %in% "auto")
+				val1_a = val1
+				if (any(is_auto)) val1 = val1[!is_auto]
+
 				check_fun = paste0("tmapValuesCheck_", nm)
-				check = do.call(check_fun, list(x = val1, is_var = TRUE))
+				check = if (length(val1)) do.call(check_fun, list(x = val1, is_var = TRUE)) else TRUE
 				if (!check) {
 					# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
 					info = attr(check, "info")
@@ -121,8 +126,14 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 					)
 				}
 
-				val1 = do.call(sfun, list(x = val1, scale = o$scale))
-				val1 = do.call(cfun, list(x = val1, pc = o$pc))
+				if (length(val1)) {
+					val1 = do.call(sfun, list(x = val1, scale = o$scale))
+					val1 = do.call(cfun, list(x = val1, pc = o$pc))
+				}
+				if (any(is_auto)) {
+					val1_a[!is_auto] = val1
+					val1 = val1_a
+				}
 			} else {
 # 				sc = aes$scale
 #

@@ -265,6 +265,15 @@ tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 	n = switch(comp$position$align.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
 
 	if (comp$type == "bivariate") {
+		# the xlab is placed below the item columns: if it is wider, extend the
+		# legend on the right-hand side (the xlab cell also spans the columns right of the items)
+		xlabExtra = if (comp$xlab == "" || (!is.null(comp$xlab.rot) && (comp$xlab.rot %% 180) != 0)) {
+			0
+		} else {
+			xlabW = graphics::strwidth(comp$xlab, units = "inch", cex = comp$xlab.size, family = comp$xlab.fontfamily, font = fontface2nr(comp$xlab.fontface)) +
+				sum(comp$xlab.padding[c(2,4)]) * comp$xlab.size * o$lin
+			max(0, xlabW - item_widths_max * ni * textS * o$lin)
+		}
 		wsu = grid::unit(c(marW[1],
 						   n[1],
 						   txtRowW,
@@ -273,7 +282,8 @@ tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 						   item_text.margin * textS * o$lin,
 						   rep(item_widths_max * textS * o$lin, ni),
 						   n[2],
-						   marW[2]), units = c("inch", "null", rep("inch", 4+ni), "null", "inch"))
+						   marW[2] + xlabExtra), units = c("inch", "null", rep("inch", 4+ni), "null", "inch"))
+		comp$xlabExtra = xlabExtra
 		comp$flexCol = 5 #column that will shrink if the null columns will otherwise be sizes < 0. (happens if legend.width < minimal width)
 		Win = if (is.na(comp$width)) sum(as.numeric(wsu)[c(1, 3:(6+ni), 8+ni)]) else comp$width * textS * o$lin
 
@@ -408,7 +418,8 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 			# Opus5.5: xlab.align (left, center, right) relative to the item columns (#1203)
 			xlab.rot = if (is.null(comp$xlab.rot)) 0 else comp$xlab.rot
 			xlab.just = if (xlab.rot %% 180 != 0) "center" else get_lab_align(comp$xlab.align)
-			grXlab = gridCell(comp$item_ids[m] + 4, 7:(6+n),
+			xlabCols = if (isTRUE(comp$xlabExtra > 0)) 7:(8+n) else 7:(6+n)
+			grXlab = gridCell(comp$item_ids[m] + 4, xlabCols,
 							  grid::textGrob(comp$xlab,
 							  			   rot = xlab.rot,
 							  			   x = lab_align_x(xlab.just, comp$xlab.padding, xlabS * o$lin),

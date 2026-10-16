@@ -5,7 +5,7 @@
 #'
 #' @param text,text.scale,text.legend,text.chart,text.free `r .doc_vv("text")` `r .doc_unit("text")`
 #' @param size,size.scale,size.legend,size.chart,size.free `r .doc_vv("size")` `r .doc_unit("size.text")`
-#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")` `r .doc_unit("col")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")` `r .doc_unit("col")` Use `col = "auto"` for black or white text, whichever contrasts best with the color underneath: the fill of the polygon layer below (same [tm_shape()], matched per feature), the label background (`bgcol`), or otherwise the map background.
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
 #' @param fontface,fontface.scale,fontface.legend,fontface.chart,fontface.free `r .doc_vv("fontface")` `r .doc_unit("fontface")`
 #' @param fontfamily The font family. See [gpar()][grid::gpar()] for details.
