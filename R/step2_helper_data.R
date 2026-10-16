@@ -107,8 +107,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 
 			if (!aes$bypass_vars) {
-				# text color "auto" is resolved in step 4 (contrast with the underlying fill)
-				is_auto = (nm == "col") & ("text" %in% layer) & (val1 %in% "auto")
+				# text color and pattern color "auto" are resolved in step 4 (contrast with the underlying fill)
+				is_auto = ((nm == "col" & "text" %in% layer) | nm == "pattern_col") & (val1 %in% "auto")
 				val1_a = val1
 				if (any(is_auto)) val1 = val1[!is_auto]
 

@@ -151,8 +151,8 @@ step4_plot_collect_legends = function(tmx, o = NULL) {
 								gp$size = gp$size * icon_scale
 							}
 
-							# text color "auto": contrast with the legend item background
-							gp = legend_auto_text_col(gp, o)
+							# text color and pattern color "auto": contrast with the legend item background
+							gp = legend_auto_col(gp, o)
 
 							leleg$gp = gp
 							leleg$vneutral = NULL

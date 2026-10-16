@@ -259,8 +259,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 	empt = vapply(tmx, is.null, logical(1))
 	tmx = tmx[!empt]
 
-	# text color "auto"
-	tmx = resolve_auto_text_col(tmx, o)
+	# text color and pattern color "auto"
+	tmx = resolve_auto_col(tmx, o)
 
 
 	any_data_layer = (length(tmx) > 0L)
