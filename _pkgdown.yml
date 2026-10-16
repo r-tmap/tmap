@@ -116,6 +116,7 @@ reference:
   contents:
   - tm_const
   - tm_seq
+  - tm_patterns
   - tm_vars
   - tm_map_colors
   - tm_popup

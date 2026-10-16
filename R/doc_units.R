@@ -47,10 +47,10 @@
 			" \"dotdash\", \"longdash\", \"twodash\"."
 		),
 		pattern     = paste0(
-			"Pattern type: \"none\", \"hatch\", \"crosshatch\", \"dots\", or \"noise\".",
-			" The pattern is drawn on top of the fill color."
+			"Pattern type or shortcut, e.g. \"hatch\", \"dots\", \"bricks\", or a pattern",
+			" specified with `tm_patterns()`. The pattern is drawn on top of the fill color."
 		),
-		pattern_col = "Color -- a color name, hex string. By default the polygon border color.",
+		pattern_col = "Color -- a color name, hex string. By default the polygon border color. Use `\"auto\"` for dark gray or white, whichever contrasts most with the fill color.",
 		pattern_size = "Base R line-width units (lwd) for line patterns; for dot patterns it sets the dot size.",
 		pattern_density = "Proportion -- numeric 0-1 (0 = no pattern, 1 = densest pattern).",
 		shape       = "Integer `pch` code (1-25) used as a plotting symbol. See example of `tm_symbols()`",

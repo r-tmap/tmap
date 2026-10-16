@@ -71,7 +71,7 @@
 #' | `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
 #' | `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
 #' | `lty` | -- | integer 1-6 or name ("solid", "dashed", ...) |
-#' | `pattern` | -- | pattern type ("none", "hatch", "crosshatch", "dots", "noise") |
+#' | `pattern` | -- | pattern type, e.g. "hatch", "dots", "bricks"; see [tm_patterns()] |
 #' | `pattern_col` | color | name, hex, or palette string |
 #' | `pattern_size` | lwd | line width or dot size of the pattern elements |
 #' | `pattern_density` | proportion 0-1 | 0 = no pattern, 1 = densest |

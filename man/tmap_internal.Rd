@@ -185,6 +185,11 @@
 \alias{tmapValuesColorize_skip}
 \alias{tmapValuesCVV_skip}
 \alias{tmapValuesCheck_pattern}
+\alias{tmapValuesIsDiv_pattern}
+\alias{tmapValuesRange_pattern}
+\alias{tmapValuesVV_pattern}
+\alias{tmapValuesCVV_pattern}
+\alias{tmapValuesSubmit_pattern}
 \alias{tmapValuesScale_pattern}
 \alias{tmapValuesColorize_pattern}
 \alias{tmapValuesCheck_pattern_col}
@@ -766,6 +771,28 @@ tmapValuesColorize_skip(x, pc)
 tmapValuesCVV_skip(x, value.na, n, range, scale, rep, o)
 
 tmapValuesCheck_pattern(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern(x)
+
+tmapValuesRange_pattern(x, n, isdiv)
+
+tmapValuesVV_pattern(
+  x,
+  value.na,
+  isdiv,
+  n,
+  dvalues,
+  are_breaks,
+  midpoint,
+  range,
+  scale,
+  rep,
+  o
+)
+
+tmapValuesCVV_pattern(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern(x, args)
 
 tmapValuesScale_pattern(x, scale)
 

@@ -93,9 +93,9 @@ opt_tm_polygons(polygons.only = "ifany")
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
-\item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Map variable that determines the fill pattern. See details. \emph{Unit:} Pattern type: "none", "hatch", "crosshatch", "dots", or "noise". The pattern is drawn on top of the fill color.}
+\item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Map variable that determines the fill pattern. See details. \emph{Unit:} Pattern type or shortcut, e.g. "hatch", "dots", "bricks", or a pattern specified with \code{tm_patterns()}. The pattern is drawn on top of the fill color.}
 
-\item{pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart, pattern_col.free}{Map variable that determines the pattern color. See details. \emph{Unit:} Color -- a color name, hex string. By default the polygon border color.}
+\item{pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart, pattern_col.free}{Map variable that determines the pattern color. See details. \emph{Unit:} Color -- a color name, hex string. By default the polygon border color. Use \code{"auto"} for dark gray or white, whichever contrasts most with the fill color.}
 
 \item{pattern_size, pattern_size.scale, pattern_size.legend, pattern_size.chart, pattern_size.free}{Map variable that determines the line width or dot size of the pattern. See details. \emph{Unit:} Base R line-width units (lwd) for line patterns; for dot patterns it sets the dot size.}
 
@@ -222,7 +222,7 @@ functions.\tabular{lll}{
    \code{size} (text, labels) \tab multiplier \tab 1 = 12 pt (plot) / 12 px (view) \cr
    \code{lwd} \tab lwd \tab base R units; 1 lwd approx. 0.75 pt at 96 dpi \cr
    \code{lty} \tab -- \tab integer 1-6 or name ("solid", "dashed", ...) \cr
-   \code{pattern} \tab -- \tab pattern type ("none", "hatch", "crosshatch", "dots", "noise") \cr
+   \code{pattern} \tab -- \tab pattern type, e.g. "hatch", "dots", "bricks"; see \code{\link[=tm_patterns]{tm_patterns()}} \cr
    \code{pattern_col} \tab color \tab name, hex, or palette string \cr
    \code{pattern_size} \tab lwd \tab line width or dot size of the pattern elements \cr
    \code{pattern_density} \tab proportion 0-1 \tab 0 = no pattern, 1 = densest \cr

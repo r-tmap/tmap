@@ -1,5 +1,5 @@
 # Map variables for fill patterns:
-# - pattern: the pattern type (to do: full set of value functions, see sandbox/patterns_plan.md step 2)
+# - pattern: the pattern motif (see tm_patterns())
 # - pattern_col: ink color (reuses the col functions)
 # - pattern_size: line width or dot size (reuses the lwd functions)
 # - pattern_density: density of the pattern elements, 0-1 (reuses the fill_alpha functions)
@@ -9,16 +9,48 @@
 #' @export
 #' @rdname tmap_internal
 tmapValuesCheck_pattern = function(x, is_var = TRUE) {
-	if (is.character(x) && all(x %in% c("none", "hatch", "crosshatch", "dots", "noise"))) {
+	if (pattern_valid(x)) {
 		TRUE
 	} else {
-		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a pattern type (\"none\", \"hatch\", \"crosshatch\", \"dots\", or \"noise\")." else "  Values should be pattern types (\"none\", \"hatch\", \"crosshatch\", \"dots\", or \"noise\")."})
+		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a pattern (see {.fun tm_patterns})." else "  Values should be patterns: pattern types or {.fun tm_patterns} specifications."})
 	}
 }
 
 #' @export
 #' @rdname tmap_internal
-tmapValuesScale_pattern = function(x, scale) x
+tmapValuesIsDiv_pattern = function(x) {
+	FALSE
+}
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesRange_pattern = function(x, n, isdiv) {
+	c(0, 1)
+}
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesVV_pattern = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+	x = pattern_norm(x)
+	if (length(x) < n && length(x) > 1) {
+		cli::cli_warn("{.field [pattern]} the number of patterns ({length(x)}) is smaller than the number of classes ({n}), so patterns are recycled")
+	}
+	list(vvalues = rep(unname(x), length.out = n), value.neutral = unname(x[1]), value.na = pattern_norm(value.na))
+}
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesCVV_pattern = function(x, value.na, n, range, scale, rep, o) {
+	tmapValuesVV_pattern(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesSubmit_pattern = function(x, args) x
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesScale_pattern = function(x, scale) pattern_norm(x)
 
 #' @export
 #' @rdname tmap_internal
