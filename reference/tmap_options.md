@@ -1973,6 +1973,10 @@ if (requireNamespace("lobstr")) {
 #> │ ├─bgcol: "#00000000"
 #> │ ├─lwd: 1
 #> │ ├─lty: "solid"
+#> │ ├─pattern: "none"
+#> │ ├─pattern_col: "grey25"
+#> │ ├─pattern_size: 1
+#> │ ├─pattern_density: 0.5
 #> │ ├─text: "Abc"
 #> │ ├─text.labels: ""
 #> │ ├─fontface: <NULL>
@@ -2001,6 +2005,10 @@ if (requireNamespace("lobstr")) {
 #> │ ├─col.raster: "#00000000"
 #> │ ├─bgcol: "grey75"
 #> │ ├─lty: "solid"
+#> │ ├─pattern: "none"
+#> │ ├─pattern_col: "grey75"
+#> │ ├─pattern_size: 1
+#> │ ├─pattern_density: 0
 #> │ ├─text: "Unknown"
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 1
@@ -2015,6 +2023,10 @@ if (requireNamespace("lobstr")) {
 #> │ ├─bgcol: "grey95"
 #> │ ├─lty: "solid"
 #> │ ├─lwd: 1
+#> │ ├─pattern: "none"
+#> │ ├─pattern_col: "grey95"
+#> │ ├─pattern_size: 1
+#> │ ├─pattern_density: 0
 #> │ ├─text: ""
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 1
@@ -2036,6 +2048,10 @@ if (requireNamespace("lobstr")) {
 #> │ ├─bgcol: "#00000000"
 #> │ ├─lty: "blank"
 #> │ ├─lwd: NA
+#> │ ├─pattern: "none"
+#> │ ├─pattern_col: "#00000000"
+#> │ ├─pattern_size: NA
+#> │ ├─pattern_density: 0
 #> │ ├─text: ""
 #> │ ├─fontface: <NULL>
 #> │ ├─fill_alpha: 0
@@ -2082,6 +2098,20 @@ if (requireNamespace("lobstr")) {
 #> │ │ └─power: "sqrt"
 #> │ ├─lwd<dbl [2]>: 0, 3
 #> │ ├─lty<chr [5]>: "dashed", "dotted", "dotdash", "longdash", "twodash"
+#> │ ├─pattern: <list>
+#> │ │ ├─unord<chr [14]>: "hatch", "dots", "hatch_down", "bricks", "hatch_horizo...", "waves", "hatch_vertical", "hexagons", "crosshatch", "stipple", ...
+#> │ │ ├─ord<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ │ ├─seq<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ │ └─div<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ ├─pattern_col: <list>
+#> │ │ ├─seq: "-hcl.blues3"
+#> │ │ ├─div: "pu_gn_div"
+#> │ │ ├─unord: "cols4all.line7"
+#> │ │ ├─ord: "-hcl.blues3"
+#> │ │ ├─cyc: "tol.rainbow_pu_rd"
+#> │ │ └─biv: "pu_gn_bivs"
+#> │ ├─pattern_size<dbl [2]>: 0, 3
+#> │ ├─pattern_density<dbl [2]>: 0.1, 1
 #> │ ├─text<chr [26]>: "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ...
 #> │ ├─fontface<chr [3]>: "plain", "italic", "bold"
 #> │ ├─fill_alpha<dbl [2]>: 0.25, 1
@@ -2105,10 +2135,17 @@ if (requireNamespace("lobstr")) {
 #> │ ├─col_alpha: NA
 #> │ ├─shape: NA
 #> │ ├─angle: NA
-#> │ └─num<dbl [2]>: 0, 1
+#> │ ├─num<dbl [2]>: 0, 1
+#> │ ├─pattern: NA
+#> │ ├─pattern_col: NA
+#> │ ├─pattern_size<dbl [2]>: 0, 1
+#> │ └─pattern_density: NA
 #> ├─value.neutral: <list>
 #> │ ├─size: 0.75
 #> │ ├─lwd: 2
+#> │ ├─pattern: "none"
+#> │ ├─pattern_size: 1
+#> │ ├─pattern_density: 0.5
 #> │ ├─lty: "solid"
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
@@ -2153,6 +2190,29 @@ if (requireNamespace("lobstr")) {
 #> │ │ ├─num: "intervals"
 #> │ │ ├─datetime: "intervals"
 #> │ │ └─date: "intervals"
+#> │ ├─pattern: <list>
+#> │ │ ├─fact: "categorical"
+#> │ │ ├─num: "intervals"
+#> │ │ ├─int: "intervals"
+#> │ │ ├─datetime: "intervals"
+#> │ │ └─date: "intervals"
+#> │ ├─pattern_col: <list>
+#> │ │ ├─fact: "categorical"
+#> │ │ ├─num: "intervals"
+#> │ │ ├─int: "discrete"
+#> │ │ ├─datetime: "intervals"
+#> │ │ └─date: "intervals"
+#> │ ├─pattern_size: <list>
+#> │ │ ├─fact: "categorical"
+#> │ │ ├─num: "continuous"
+#> │ │ ├─int: "discrete"
+#> │ │ ├─datetime: "intervals"
+#> │ │ └─date: "intervals"
+#> │ ├─pattern_density: <list>
+#> │ │ ├─fact: "categorical"
+#> │ │ ├─num: "intervals"
+#> │ │ ├─datetime: "continuous"
+#> │ │ └─date: "continuous"
 #> │ ├─shape: <list>
 #> │ │ ├─fact: "categorical"
 #> │ │ ├─num: "intervals"

@@ -258,7 +258,12 @@ opt_tm_labels(
 - col, col.scale, col.legend, col.chart, col.free:
 
   Map variable that determines the color. See details. *Unit:* Color – a
-  color name, hex string.
+  color name, hex string. Use `col = "auto"` for black or white text,
+  whichever contrasts best with the color underneath: the fill of the
+  polygon layer below (same
+  [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md),
+  matched per feature), the label background (`bgcol`), or otherwise the
+  map background.
 
 - col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart,
   col_alpha.free:
@@ -555,6 +560,10 @@ functions.
 | `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
 | `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
 | `lty` | – | integer 1-6 or name ("solid", "dashed", ...) |
+| `pattern` | – | pattern type, e.g. "hatch", "dots", "bricks"; see [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md) |
+| `pattern_col` | color | name, hex, or palette string |
+| `pattern_size` | lwd | line width or dot size of the pattern elements |
+| `pattern_density` | proportion 0-1 | 0 = no pattern, 1 = densest |
 | `shape` | – | integer `pch` 1-25 or single character |
 | `angle` | degrees | 0-360, clockwise from north |
 | `fontface` | – | "plain", "bold", "italic", "bold.italic" |

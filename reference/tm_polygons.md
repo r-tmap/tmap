@@ -2,8 +2,11 @@
 
 Map layer that draws polygons. Supported map variables are: `fill` (the
 fill color), `col` (the border color), `lwd` (line width), `lty` (line
-type), `fill_alpha` (fill color alpha transparency) and `col_alpha`
-(border color alpha transparency).
+type), `fill_alpha` (fill color alpha transparency), `col_alpha` (border
+color alpha transparency) `pattern` (fill pattern drawn on top of the
+fill color), `pattern_col` (pattern color), `pattern_size` (line width
+or dot size of the pattern) and `pattern_density` (density of the
+pattern).
 
 ## Usage
 
@@ -39,6 +42,26 @@ tm_polygons(
   col_alpha.legend = tm_legend(),
   col_alpha.chart = tm_chart_none(),
   col_alpha.free = NA,
+  pattern = tm_const(),
+  pattern.scale = tm_scale(),
+  pattern.legend = tm_legend(),
+  pattern.chart = tm_chart_none(),
+  pattern.free = NA,
+  pattern_col = tm_const(),
+  pattern_col.scale = tm_scale(),
+  pattern_col.legend = tm_legend(),
+  pattern_col.chart = tm_chart_none(),
+  pattern_col.free = NA,
+  pattern_size = tm_const(),
+  pattern_size.scale = tm_scale(),
+  pattern_size.legend = tm_legend(),
+  pattern_size.chart = tm_chart_none(),
+  pattern_size.free = NA,
+  pattern_density = tm_const(),
+  pattern_density.scale = tm_scale(),
+  pattern_density.legend = tm_legend(),
+  pattern_density.chart = tm_chart_none(),
+  pattern_density.free = NA,
   linejoin = "round",
   lineend = "round",
   plot.order = tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
@@ -98,6 +121,35 @@ opt_tm_polygons(polygons.only = "ifany")
   Map variable that determines the color transparency. See details.
   *Unit:* Proportion – numeric 0-1 (0 = fully transparent, 1 = fully
   opaque).
+
+- pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free:
+
+  Map variable that determines the fill pattern. See details. *Unit:*
+  Pattern type or shortcut, e.g. "hatch", "dots", "bricks", or a pattern
+  specified with
+  [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md).
+  The pattern is drawn on top of the fill color.
+
+- pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart,
+  pattern_col.free:
+
+  Map variable that determines the pattern color. See details. *Unit:*
+  Color – a color name, hex string. By default the polygon border color.
+  Use `"auto"` for dark gray or white, whichever contrasts most with the
+  fill color.
+
+- pattern_size, pattern_size.scale, pattern_size.legend,
+  pattern_size.chart, pattern_size.free:
+
+  Map variable that determines the line width or dot size of the
+  pattern. See details. *Unit:* Base R line-width units (lwd) for line
+  patterns; for dot patterns it sets the dot size.
+
+- pattern_density, pattern_density.scale, pattern_density.legend,
+  pattern_density.chart, pattern_density.free:
+
+  Map variable that determines the pattern density. See details. *Unit:*
+  Proportion – numeric 0-1 (0 = no pattern, 1 = densest pattern).
 
 - linejoin, lineend:
 
@@ -291,6 +343,10 @@ functions.
 | `size` (text, labels) | multiplier | 1 = 12 pt (plot) / 12 px (view) |
 | `lwd` | lwd | base R units; 1 lwd approx. 0.75 pt at 96 dpi |
 | `lty` | – | integer 1-6 or name ("solid", "dashed", ...) |
+| `pattern` | – | pattern type, e.g. "hatch", "dots", "bricks"; see [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md) |
+| `pattern_col` | color | name, hex, or palette string |
+| `pattern_size` | lwd | line width or dot size of the pattern elements |
+| `pattern_density` | proportion 0-1 | 0 = no pattern, 1 = densest |
 | `shape` | – | integer `pch` 1-25 or single character |
 | `angle` | degrees | 0-360, clockwise from north |
 | `fontface` | – | "plain", "bold", "italic", "bold.italic" |

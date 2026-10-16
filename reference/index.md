@@ -281,6 +281,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   Constant map variable value
 - [`tm_seq()`](https://r-tmap.github.io/tmap/reference/tm_seq.md) :
   Specify a numeric sequence
+- [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md)
+  : Specify fill patterns
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
   Specify variables
 - [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)

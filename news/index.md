@@ -9,6 +9,11 @@
   number of colors now follows the palette instead of always being 7,
   which gave adjacent polygons the same fill when the palette had fewer
   colors. Needs tmaptools 3.4
+- `tm_text(col = "auto")` (and
+  [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)):
+  black or white text depending on the color underneath (the fill of the
+  polygon layer below, the label background, or the map background), as
+  in tmap v3
 - `api` in
   [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   working for CARTO basemaps (API keys are required since August 2026)
@@ -28,6 +33,8 @@
 - [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
   now shows the underlying error when saving an interactive map fails
   (e.g. missing pandoc for `selfcontained = TRUE`)
+- bivariate legend: the legend is widened when `xlab` is wider than the
+  item columns (it used to run outside the legend frame)
 - bivariate legend: column labels of intervals are abbreviated by their
   lower bound if it fits (e.g. “10 - 40” =\> “10” instead of “1”), and
   no message about abbreviated labels when the labels are not shortened

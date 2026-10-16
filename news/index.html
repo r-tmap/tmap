@@ -94,6 +94,8 @@
 <h2 class="pkg-version" data-toc-text="development version" id="tmap-development-version">tmap (development version)<a class="anchor" aria-label="anchor" href="#tmap-development-version"></a></h2>
 <ul><li>[!] added <code><a href="../reference/tm_map_colors.html">tm_map_colors()</a></code> to configure <code>"MAP_COLORS"</code>, e.g. <code>tm_polygons(fill = tm_map_colors(6, permutation = 1))</code>. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4</li>
 <li>
+<code>tm_text(col = "auto")</code> (and <code><a href="../reference/tm_text.html">tm_labels()</a></code>): black or white text depending on the color underneath (the fill of the polygon layer below, the label background, or the map background), as in tmap v3</li>
+<li>
 <code>api</code> in <code><a href="../reference/tm_basemap.html">tm_basemap()</a></code> working for CARTO basemaps (API keys are required since August 2026)</li>
 <li>fixed view mode legends (for <code>group.control = "radio"</code>/<code>"check"</code>) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (<a href="https://github.com/r-tmap/tmap/issues/1256" class="external-link">#1256</a>)</li>
 <li>fixed <code>fancy_breaks()</code> error (“missing value where TRUE/FALSE needed”) when a numeric column with <code>NA</code> uses large values that trigger the <code>big.num.abbr</code> abbreviation path, e.g. when formatting popups in view mode (<a href="https://github.com/r-tmap/tmap/issues/1259" class="external-link">#1259</a>)</li>
@@ -102,6 +104,7 @@
 <code><a href="../reference/tmap_save.html">tmap_save()</a></code>: argument <code>in.iframe</code> deprecated (and ignored), and <strong>widgetframe</strong> removed from Suggests because of a known security vulnerability (<a href="https://github.com/r-tmap/tmap/issues/1268" class="external-link">#1268</a>)</li>
 <li>
 <code><a href="../reference/tmap_save.html">tmap_save()</a></code> now shows the underlying error when saving an interactive map fails (e.g. missing pandoc for <code>selfcontained = TRUE</code>)</li>
+<li>bivariate legend: the legend is widened when <code>xlab</code> is wider than the item columns (it used to run outside the legend frame)</li>
 <li>bivariate legend: column labels of intervals are abbreviated by their lower bound if it fits (e.g. “10 - 40” =&gt; “10” instead of “1”), and no message about abbreviated labels when the labels are not shortened (e.g. “L”, “M”, “H”)</li>
 </ul></div>
     <div class="section level2">

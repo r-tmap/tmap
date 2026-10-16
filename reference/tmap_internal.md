@@ -40,6 +40,7 @@ tmapGpar(
   size = NULL,
   fill_alpha = NULL,
   col_alpha = NULL,
+  pattern = NULL,
   lty = NULL,
   lwd = NULL,
   linejoin = NULL,
@@ -552,6 +553,82 @@ tmapValuesColorize_skip(x, pc)
 
 tmapValuesCVV_skip(x, value.na, n, range, scale, rep, o)
 
+tmapValuesCheck_pattern(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern(x)
+
+tmapValuesRange_pattern(x, n, isdiv)
+
+tmapValuesVV_pattern(
+  x,
+  value.na,
+  isdiv,
+  n,
+  dvalues,
+  are_breaks,
+  midpoint,
+  range,
+  scale,
+  rep,
+  o
+)
+
+tmapValuesCVV_pattern(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern(x, args)
+
+tmapValuesScale_pattern(x, scale)
+
+tmapValuesColorize_pattern(x, pc)
+
+tmapValuesCheck_pattern_col(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_col(x)
+
+tmapValuesRange_pattern_col(x, n, isdiv)
+
+tmapValuesVV_pattern_col(...)
+
+tmapValuesCVV_pattern_col(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_col(x, args)
+
+tmapValuesScale_pattern_col(x, scale)
+
+tmapValuesColorize_pattern_col(x, pc)
+
+tmapValuesCheck_pattern_size(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_size(x)
+
+tmapValuesRange_pattern_size(x, n, isdiv)
+
+tmapValuesVV_pattern_size(...)
+
+tmapValuesCVV_pattern_size(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_size(x, args)
+
+tmapValuesScale_pattern_size(x, scale)
+
+tmapValuesColorize_pattern_size(x, pc)
+
+tmapValuesCheck_pattern_density(x, is_var = TRUE)
+
+tmapValuesIsDiv_pattern_density(x)
+
+tmapValuesRange_pattern_density(x, n, isdiv)
+
+tmapValuesVV_pattern_density(...)
+
+tmapValuesCVV_pattern_density(x, value.na, n, range, scale, rep, o)
+
+tmapValuesSubmit_pattern_density(x, args)
+
+tmapValuesScale_pattern_density(x, scale)
+
+tmapValuesColorize_pattern_density(x, pc)
+
 tmapTransCentroid(
   shpTM,
   xmod = NULL,
@@ -579,8 +656,8 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 
   subclass
 
-- fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin,
-  lineend:
+- fill, col, shape, size, fill_alpha, col_alpha, pattern, lty, lwd,
+  linejoin, lineend:
 
   map variables
 

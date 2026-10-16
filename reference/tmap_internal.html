@@ -87,7 +87,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal methods for tmap extensions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_add_legend.R" class="external-link"><code>R/tm_add_legend.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_element.R" class="external-link"><code>R/tm_element.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tmapChart.R" class="external-link"><code>R/tmapChart.R</code></a>, and 12 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_add_legend.R" class="external-link"><code>R/tm_add_legend.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_element.R" class="external-link"><code>R/tm_element.R</code></a>, <a href="https://github.com/r-tmap/tmap/blob/master/R/tmapChart.R" class="external-link"><code>R/tmapChart.R</code></a>, and 13 more</small>
       <div class="d-none name"><code>tmap_internal.Rd</code></div>
     </div>
 
@@ -132,6 +132,7 @@
 <span>  size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill_alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  col_alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lty <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lwd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  linejoin <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -644,6 +645,82 @@
 <span></span>
 <span><span class="fu">tmapValuesCVV_skip</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">tmapValuesCheck_pattern</span><span class="op">(</span><span class="va">x</span>, is_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesIsDiv_pattern</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesRange_pattern</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, <span class="va">isdiv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesVV_pattern</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">value.na</span>,</span>
+<span>  <span class="va">isdiv</span>,</span>
+<span>  <span class="va">n</span>,</span>
+<span>  <span class="va">dvalues</span>,</span>
+<span>  <span class="va">are_breaks</span>,</span>
+<span>  <span class="va">midpoint</span>,</span>
+<span>  <span class="va">range</span>,</span>
+<span>  <span class="va">scale</span>,</span>
+<span>  <span class="va">rep</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCVV_pattern</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesSubmit_pattern</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesScale_pattern</span><span class="op">(</span><span class="va">x</span>, <span class="va">scale</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesColorize_pattern</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCheck_pattern_col</span><span class="op">(</span><span class="va">x</span>, is_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesIsDiv_pattern_col</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesRange_pattern_col</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, <span class="va">isdiv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesVV_pattern_col</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCVV_pattern_col</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesSubmit_pattern_col</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesScale_pattern_col</span><span class="op">(</span><span class="va">x</span>, <span class="va">scale</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesColorize_pattern_col</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCheck_pattern_size</span><span class="op">(</span><span class="va">x</span>, is_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesIsDiv_pattern_size</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesRange_pattern_size</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, <span class="va">isdiv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesVV_pattern_size</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCVV_pattern_size</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesSubmit_pattern_size</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesScale_pattern_size</span><span class="op">(</span><span class="va">x</span>, <span class="va">scale</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesColorize_pattern_size</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCheck_pattern_density</span><span class="op">(</span><span class="va">x</span>, is_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesIsDiv_pattern_density</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesRange_pattern_density</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, <span class="va">isdiv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesVV_pattern_density</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesCVV_pattern_density</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesSubmit_pattern_density</span><span class="op">(</span><span class="va">x</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesScale_pattern_density</span><span class="op">(</span><span class="va">x</span>, <span class="va">scale</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapValuesColorize_pattern_density</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">tmapTransCentroid</span><span class="op">(</span></span>
 <span>  <span class="va">shpTM</span>,</span>
 <span>  xmod <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -673,7 +750,7 @@
 <dd><p>subclass</p></dd>
 
 
-<dt id="arg-fill-col-shape-size-fill-alpha-col-alpha-lty-lwd-linejoin-lineend">fill, col, shape, size, fill_alpha, col_alpha, lty, lwd, linejoin, lineend<a class="anchor" aria-label="anchor" href="#arg-fill-col-shape-size-fill-alpha-col-alpha-lty-lwd-linejoin-lineend"></a></dt>
+<dt id="arg-fill-col-shape-size-fill-alpha-col-alpha-pattern-lty-lwd-linejoin-lineend">fill, col, shape, size, fill_alpha, col_alpha, pattern, lty, lwd, linejoin, lineend<a class="anchor" aria-label="anchor" href="#arg-fill-col-shape-size-fill-alpha-col-alpha-pattern-lty-lwd-linejoin-lineend"></a></dt>
 <dd><p>map variables</p></dd>
 
 
