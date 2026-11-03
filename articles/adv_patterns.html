@@ -352,7 +352,7 @@
 <div class="section level2">
 <h2 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
 </h2>
-<p>In view mode, patterns keep the same size on the screen when zooming, like the symbols of <code><a href="../reference/tm_symbols.html">tm_bubbles()</a></code>. With <code>opt_tm_polygons(pattern.zoom = TRUE)</code>, patterns stick to the map instead, and are enlarged when zooming in, like the circles of <code><a href="../reference/tm_circles.html">tm_circles()</a></code>:</p>
+<p>In view mode, patterns keep the same size on the screen when zooming, like the symbols of <code><a href="../reference/tm_symbols.html">tm_bubbles()</a></code>. With <code>opt_tm_polygons(pattern.zoom = TRUE)</code>, patterns stick to the map instead, and are enlarged when zooming in, like the circles of <code><a href="../reference/tm_circles.html">tm_circles()</a></code>. The patterns in the legend are zoomed as well, so that they keep matching the map (when zoomed in far, the legend items may be too small to show the pattern):</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>

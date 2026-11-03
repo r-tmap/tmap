@@ -295,7 +295,10 @@ like the symbols of
 [`tm_bubbles()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md).
 With `opt_tm_polygons(pattern.zoom = TRUE)`, patterns stick to the map
 instead, and are enlarged when zooming in, like the circles of
-[`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md):
+[`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md).
+The patterns in the legend are zoomed as well, so that they keep
+matching the map (when zoomed in far, the legend items may be too small
+to show the pattern):
 
 ``` r
 

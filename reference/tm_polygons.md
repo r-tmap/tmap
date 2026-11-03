@@ -128,7 +128,12 @@ opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
   Pattern type or shortcut, e.g. "hatch", "dots", "bricks", or a pattern
   specified with
   [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md).
-  The pattern is drawn on top of the fill color.
+  The pattern is drawn on top of the fill color. The available patterns
+  are shown with
+  [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md).
+  In view mode, patterns keep the same size on the screen when zooming;
+  to let them zoom with the map, use
+  `options = opt_tm_polygons(pattern.zoom = TRUE)`.
 
 - pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart,
   pattern_col.free:
