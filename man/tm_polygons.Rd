@@ -93,7 +93,7 @@ opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details. \emph{Unit:} Proportion -- numeric 0-1 (0 = fully transparent, 1 = fully opaque).}
 
-\item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Map variable that determines the fill pattern. See details. \emph{Unit:} Pattern type or shortcut, e.g. "hatch", "dots", "bricks", or a pattern specified with \code{tm_patterns()}. The pattern is drawn on top of the fill color.}
+\item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Map variable that determines the fill pattern. See details. \emph{Unit:} Pattern type or shortcut, e.g. "hatch", "dots", "bricks", or a pattern specified with \code{tm_patterns()}. The pattern is drawn on top of the fill color. The available patterns are shown with \code{\link[=tmap_show_values]{tmap_show_values()}}. In view mode, patterns keep the same size on the screen when zooming; to let them zoom with the map, use \code{options = opt_tm_polygons(pattern.zoom = TRUE)}.}
 
 \item{pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart, pattern_col.free}{Map variable that determines the pattern color. See details. \emph{Unit:} Color -- a color name, hex string. By default the polygon border color. Use \code{"auto"} for dark gray or white, whichever contrasts most with the fill color.}
 

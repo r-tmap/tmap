@@ -203,7 +203,7 @@ tm_shape(World) +
 
 ## View mode
 
-In view mode, patterns keep the same size on the screen when zooming, like the symbols of `tm_bubbles()`. With `opt_tm_polygons(pattern.zoom = TRUE)`, patterns stick to the map instead, and are enlarged when zooming in, like the circles of `tm_circles()`:
+In view mode, patterns keep the same size on the screen when zooming, like the symbols of `tm_bubbles()`. With `opt_tm_polygons(pattern.zoom = TRUE)`, patterns stick to the map instead, and are enlarged when zooming in, like the circles of `tm_circles()`. The patterns in the legend are zoomed as well, so that they keep matching the map (when zoomed in far, the legend items may be too small to show the pattern):
 
 ```{r, eval = FALSE}
 tmap_mode("view")

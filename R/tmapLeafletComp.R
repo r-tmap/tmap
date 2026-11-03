@@ -284,7 +284,18 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 							   border = gp$col[i], border_alpha = gp$col_alpha[i], lwd = gp$lwd[i],
 							   scale = o$scale, px = px)
 		}, character(1))
-		lf %>% leaflegend::addLegendImage(images,
+		# with pattern.zoom, the patterns of the swatches zoom with the map: the PNG images are
+		# replaced by inline SVG swatches that use zooming SVG patterns (see leaflet_add_pattern_defs)
+		zpat = if (isTRUE(cmp$layer_args$pattern.zoom)) {
+			gpz = list(pattern = gp$pattern,
+					   pattern_col = ifelse(is.na(gp$pattern_col), "grey25", gp$pattern_col),
+					   pattern_size = ifelse(is.na(gp$pattern_size), 1, gp$pattern_size),
+					   pattern_density = ifelse(is.na(gp$pattern_density), 0.8, gp$pattern_density))
+			suffix = substr(rlang::hash(list(Sys.time(), layerId, lab)), 1, 8)
+			leaflet_pattern_ids(gpz, n, o, zoom = TRUE, suffix = suffix)
+		}
+		cls = if (is.null(zpat)) leg_className else paste(leg_className, paste0("tmap-pattern-legend-", suffix))
+		lf = lf %>% leaflegend::addLegendImage(images,
 										  group = group,
 										  labels = lab,
 										  width = px,
@@ -294,7 +305,14 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										  labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",
 										  title = title,
 										  layerId = layerId,
-										  className = leg_className)
+										  className = cls)
+		if (!is.null(zpat)) {
+			lf = lf %>%
+				leaflet_add_pattern_defs(zpat$defs, zoom = unique(stats::na.omit(zpat$ids))) %>%
+				leaflet_pattern_legend_swatches(paste0("tmap-pattern-legend-", suffix), ids = zpat$ids,
+												gp = gp, px = px)
+		}
+		lf
 	} else if (cmp$type == "text") {
 		# Opus5.5: text legend items (e.g. for tm_text(size = <var>)), drawn as svg text symbols (#1226)
 		n = length(lab)
@@ -423,4 +441,45 @@ tmapLeafletComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pa
 
 	assign_lf(lf, facet_row, facet_col, facet_page)
 	NULL
+}
+
+
+# Replace the PNG swatches of a pattern legend (the legend control with class cls) by inline SVG
+# swatches: fill, pattern (fill = "url(#id)", so that zooming patterns are updated), and border
+leaflet_pattern_legend_swatches = function(lf, cls, ids, gp, px) {
+	hex = function(x) {
+		ifelse(is.na(x), "none", substr(grDevices::rgb(t(grDevices::col2rgb(x)), maxColorValue = 255), 1, 7))
+	}
+	num = function(x, d) ifelse(is.na(x), d, x)
+	items = lapply(seq_along(ids), function(i) {
+		list(id = if (is.na(ids[i])) "" else ids[i],
+			 fill = hex(gp$fill[i]), fill_alpha = num(gp$fill_alpha[i], 1),
+			 col = hex(gp$col[i]), col_alpha = num(gp$col_alpha[i], 1), lwd = num(gp$lwd[i], 1))
+	})
+	htmlwidgets::onRender(lf, "function(el, x, data) {
+		var leg = el.querySelector('.' + data.cls);
+		if (!leg) return;
+		var imgs = leg.querySelectorAll('img');
+		var ns = 'http://www.w3.org/2000/svg';
+		var rect = function(attrs) {
+			var r = document.createElementNS(ns, 'rect');
+			for (var k in attrs) r.setAttribute(k, attrs[k]);
+			return r;
+		};
+		[].concat(data.items).forEach(function(it, i) {
+			var img = imgs[i];
+			if (!img) return;
+			var s = data.px, w = it.lwd;
+			var svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('width', s);
+			svg.setAttribute('height', s);
+			svg.setAttribute('style', img.getAttribute('style') || '');
+			var box = {x: w / 2, y: w / 2, width: s - w, height: s - w};
+			svg.appendChild(rect(Object.assign({fill: it.fill, 'fill-opacity': it.fill_alpha}, box)));
+			if (it.id) svg.appendChild(rect(Object.assign({fill: 'url(#' + it.id + ')'}, box)));
+			svg.appendChild(rect(Object.assign({fill: 'none', stroke: it.col, 'stroke-opacity': it.col_alpha,
+				'stroke-width': w}, box)));
+			img.parentNode.replaceChild(svg, img);
+		});
+	}", data = list(cls = cls, items = items, px = px))
 }

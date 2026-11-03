@@ -131,7 +131,7 @@
 #' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")` `r .doc_unit("lty")`
 #' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r .doc_vv("fill_alpha")` `r .doc_unit("fill_alpha")`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")` `r .doc_unit("col_alpha")`
-#' @param pattern,pattern.scale,pattern.legend,pattern.chart,pattern.free `r .doc_vv("pattern")` `r .doc_unit("pattern")`
+#' @param pattern,pattern.scale,pattern.legend,pattern.chart,pattern.free `r .doc_vv("pattern")` `r .doc_unit("pattern")` The available patterns are shown with [tmap_show_values()]. In view mode, patterns keep the same size on the screen when zooming; to let them zoom with the map, use `options = opt_tm_polygons(pattern.zoom = TRUE)`.
 #' @param pattern_col,pattern_col.scale,pattern_col.legend,pattern_col.chart,pattern_col.free `r .doc_vv("pattern_col")` `r .doc_unit("pattern_col")`
 #' @param pattern_size,pattern_size.scale,pattern_size.legend,pattern_size.chart,pattern_size.free `r .doc_vv("pattern_size")` `r .doc_unit("pattern_size")`
 #' @param pattern_density,pattern_density.scale,pattern_density.legend,pattern_density.chart,pattern_density.free `r .doc_vv("pattern_density")` `r .doc_unit("pattern_density")`
