@@ -105,6 +105,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -156,7 +157,7 @@ changes the appearance of a spatial object, e.g. fill color or line width.</p>
 <tr class="odd">
 <td align="left"><code>tm_polygons</code></td>
 <td align="left">
-<code>fill</code> (fill color), <code>fill_alpha</code> (fill transparency), <br><code>col</code> (border color), <code>col_alpha</code> (border color transparency) <br><code>lwd</code> (border line width), <code>lty</code> (border line type)</td>
+<code>fill</code> (fill color), <code>fill_alpha</code> (fill transparency), <br><code>col</code> (border color), <code>col_alpha</code> (border color transparency) <br><code>lwd</code> (border line width), <code>lty</code> (border line type) <br><code>pattern</code> (fill pattern), <code>pattern_col</code>, <code>pattern_size</code>, <code>pattern_density</code> (see <a href="https://r-tmap.github.io/tmap/articles/adv_patterns">fill patterns</a>)</td>
 </tr>
 <tr class="even">
 <td align="left"><code>tm_symbols</code></td>
@@ -212,16 +213,25 @@ and for convenience assign it to <code>s</code>:</p>
 <span>    lty <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span>   <span class="co"># line type</span></span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/constant-1.png" alt="" width="100%"></p>
 <p>For advanced users: the default constant values are specified for combinations of map variables and layer type. See <code>tmap_options("value.const")</code></p>
+<div class="section level3">
+<h3 id="available-values">Available values<a class="anchor" aria-label="anchor" href="#available-values"></a>
+</h3>
+<p>Colors can be specified by name (e.g. <code>"red"</code>), hex code (e.g. <code>"#ffce00"</code>), or, for data-driven map variables, as palette name from the <strong>cols4all</strong> package (see <code><a href="https://cols4all.github.io/reference/c4a_gui.html" class="external-link">cols4all::c4a_gui()</a></code>). For the other categorical map variables, <code><a href="../reference/tmap_show_values.html">tmap_show_values()</a></code> shows the available values, each labeled with the code to specify it. For instance, the symbol shapes:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_show_values.html">tmap_show_values</a></span><span class="op">(</span><span class="st">"shape"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basics_vv_files/figure-html/show_shapes-1.png" alt="" width="100%"></p>
+<p>Likewise, <code>tmap_show_values("lty")</code> shows the line types, <code>tmap_show_values("fontface")</code> the font faces, and <code>tmap_show_values("pattern")</code> the fill patterns (see the <a href="https://r-tmap.github.io/tmap/articles/adv_patterns">vignette about fill patterns</a>).</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="data-driven-map-variables">Data-driven map variables<a class="anchor" aria-label="anchor" href="#data-driven-map-variables"></a>
 </h2>
 <p>Each map variable argument can also be specified with a data variable (e.g., a column name):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"press"</span><span class="op">)</span>    <span class="co"># a column in World</span></span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/polygons-1.png" alt="" width="100%"></p>
 <p>Another example, where a data-driven symbol layer is drawn on top of a polygon layer</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span>   <span class="co"># constant fill color </span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop_est"</span>,     <span class="co"># data variable, mapped to symbol size</span></span>
@@ -232,7 +242,7 @@ and for convenience assign it to <code>s</code>:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Set the tmap option `component.autoscale = FALSE` to disable rescaling.</span></span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/symbols-1.png" alt="" width="100%"></p>
 <p>In the following example a data-driven text layer is plotted.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"economy"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span></span></code></pre></div>
@@ -247,11 +257,11 @@ and for convenience assign it to <code>s</code>:</p>
 <h2 id="facets">Facets<a class="anchor" aria-label="anchor" href="#facets"></a>
 </h2>
 <p>A facet map is created by specifying two data variables (columns in <code>World</code>) to the map variable <code>fill</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="basics_vv_files/figure-html/facet-1.png" alt="" width="100%"></p>
 <p>Improve the titles and remove (duplicate) legend titles</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"well_being"</span>, <span class="st">"life_exp"</span><span class="op">)</span>,</span>

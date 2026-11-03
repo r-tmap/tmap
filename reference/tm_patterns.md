@@ -24,7 +24,7 @@ tm_patterns(
 
 - type:
 
-  Pattern type or shortcut. See details.
+  Pattern type, shortcut, or pattern set. See details.
 
 - angle:
 
@@ -35,9 +35,9 @@ tm_patterns(
 - random:
 
   Randomness of the placement of dots, circles, or crosses, between 0
-  (regular grid) and 1 (maximal random displacement within the grid
-  cell). Elements do not clump, since each grid cell contains one
-  element.
+  (regular grid) and 1 (displacement of up to half a grid cell). Each
+  grid cell contains one element, so elements are spread evenly,
+  although they may touch at high densities.
 
 - length:
 
@@ -79,6 +79,26 @@ Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
 `"crosshatch_diagonal"` (crosshatch with angle 45), and `"stipple"`
 (dots with `random = 0.7`).
 
+Pattern sets, which are used like color palettes:
+
+|  |  |  |
+|----|----|----|
+| Set | Patterns | Use |
+| `"mixed"` | 14: hatch, dots, hatch_down, bricks, waves, ... | default; patterns that differ most |
+| `"classic"` | 8: hatches in four directions, crosshatches, dots, dashes | the classic black-and-white look |
+| `"lines"` | 10: hatches, waves, zigzag, dashes, herringbone, crosshatches | line patterns only |
+| `"shapes"` | 6: dots, bricks, circles, hexagons, crosses, noise | no line patterns, e.g. to combine with a hatched layer |
+
+Used as `values` of a scale, the first `n` patterns are taken. A `"-"`
+prefix reverses the order. With `tm_patterns()`, a set is expanded to
+all its patterns, which can be subsetted, e.g.
+`tm_patterns("classic")[c(1, 3, 5)]`.
+
+The patterns are shown with
+[`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md):
+all types and shortcuts with `tmap_show_values("pattern")`, and a set
+with e.g. `tmap_show_values("pattern", values = "classic")`.
+
 The spacing between the pattern elements is determined by the map
 variable `pattern_density`, the line width or dot size by
 `pattern_size`, and the color by `pattern_col`. The parameters `length`
@@ -87,7 +107,8 @@ scaled with the density.
 
 ## See also
 
-[`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+[`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md),
+[`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md)
 
 ## Examples
 
@@ -101,7 +122,8 @@ tm_patterns(c("dots", "stipple", "bricks"))
 # as values of a scale
 tm_shape(World) +
   tm_polygons(pattern = "economy",
-    pattern.scale = tm_scale_categorical(values = tm_patterns(c("hatch", "dots", "bricks"))))
+    pattern.scale = tm_scale_categorical(
+      values = tm_patterns(c("hatch", "dots", "bricks"))))
 #> Warning: [pattern] the number of patterns (3) is smaller than the number of classes (7),
 #> so patterns are recycled
 ```

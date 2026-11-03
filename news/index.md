@@ -2,6 +2,31 @@
 
 ## tmap (development version)
 
+- \[!\] added fill patterns for polygons
+  ([\#1135](https://github.com/r-tmap/tmap/issues/1135)): new map
+  variables `pattern`, `pattern_col`, `pattern_size`, and
+  `pattern_density` in
+  [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md)
+  and
+  [`tm_fill()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md),
+  with
+  [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md)
+  to specify patterns (12 pattern types plus shortcuts, e.g. `"hatch"`,
+  `"dots"`, `"bricks"`) and pattern sets `"mixed"`, `"classic"`,
+  `"lines"`, and `"shapes"`. Supported in plot mode (including legends)
+  and view mode, where `opt_tm_polygons(pattern.zoom = TRUE)` lets
+  patterns zoom with the map. See the new article on fill patterns
+- `pattern_col = "auto"`: dark gray or white pattern color, whichever
+  contrasts most with the fill color
+- fixed: the global `scale`
+  ([`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md),
+  [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md))
+  was also applied to data-driven transparency values (`fill_alpha`,
+  `col_alpha`, `bgcol_alpha`) in some scales, so that e.g. `scale = 0.5`
+  limited the opacity to 0.5
+- [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md):
+  draws the available values of the categorical map variables `pattern`,
+  `shape`, `lty`, and `fontface`
 - \[!\] added
   [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)
   to configure `"MAP_COLORS"`,

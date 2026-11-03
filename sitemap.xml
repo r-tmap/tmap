@@ -12,6 +12,7 @@
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_margins.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_multivariate.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_options.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/adv_patterns.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_positions.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_shiny.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/basics_basemaps.html</loc></url>
@@ -141,6 +142,7 @@
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_overview.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_providers.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_save.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/reference/tmap_show_values.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_style.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_style_catalogue.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tmap_tip.html</loc></url>

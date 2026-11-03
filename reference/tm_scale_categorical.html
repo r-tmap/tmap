@@ -88,6 +88,7 @@ palettes are used (see the tmap option values.var)."><meta property="og:image" c
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -162,7 +163,7 @@ palettes are used (see the tmap option <code>values.var</code>).</p>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
-<dd><p>(generic scale argument) The visual values. For colors (e.g. <code>fill</code> or <code>col</code> for <code><a href="tm_polygons.html">tm_polygons()</a></code>) this is a palette name from the <code>cols4all</code> package (see <code><a href="https://cols4all.github.io/reference/c4a.html" class="external-link">cols4all::c4a()</a></code>) or vector of colors, for size (e.g. <code>size</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. <code>shape</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of symbols, etc. The tmap option <code>values.var</code> contains the default values per map variable and in some cases also per data type.</p></dd>
+<dd><p>(generic scale argument) The visual values. For colors (e.g. <code>fill</code> or <code>col</code> for <code><a href="tm_polygons.html">tm_polygons()</a></code>) this is a palette name from the <code>cols4all</code> package (see <code><a href="https://cols4all.github.io/reference/c4a.html" class="external-link">cols4all::c4a()</a></code>) or vector of colors, for size (e.g. <code>size</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. <code>shape</code> for <code><a href="tm_symbols.html">tm_symbols()</a></code>) these are a set of symbols, for fill patterns (<code>pattern</code> for <code><a href="tm_polygons.html">tm_polygons()</a></code>) pattern types or a pattern set (see <code><a href="tm_patterns.html">tm_patterns()</a></code>), etc. The available values of the categorical map variables <code>pattern</code>, <code>shape</code>, <code>lty</code>, and <code>fontface</code> are shown with <code><a href="tmap_show_values.html">tmap_show_values()</a></code>. The tmap option <code>values.var</code> contains the default values per map variable and in some cases also per data type.</p></dd>
 
 
 <dt id="arg-values-repeat">values.repeat<a class="anchor" aria-label="anchor" href="#arg-values-repeat"></a></dt>

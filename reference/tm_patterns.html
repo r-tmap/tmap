@@ -82,6 +82,7 @@ as well as a list of tm_patterns() calls."><meta property="og:image" content="ht
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -123,7 +124,7 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 
 
 <dl><dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Pattern type or shortcut. See details.</p></dd>
+<dd><p>Pattern type, shortcut, or pattern set. See details.</p></dd>
 
 
 <dt id="arg-angle">angle<a class="anchor" aria-label="anchor" href="#arg-angle"></a></dt>
@@ -131,7 +132,7 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 
 
 <dt id="arg-random">random<a class="anchor" aria-label="anchor" href="#arg-random"></a></dt>
-<dd><p>Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (maximal random displacement within the grid cell). Elements do not clump, since each grid cell contains one element.</p></dd>
+<dd><p>Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.</p></dd>
 
 
 <dt id="arg-length">length<a class="anchor" aria-label="anchor" href="#arg-length"></a></dt>
@@ -151,6 +152,11 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
     <p>Pattern types:</p><table class="table table"><tr><td>Type</td><td>Parameters</td></tr><tr><td><code>"none"</code></td><td>–</td></tr><tr><td><code>"hatch"</code></td><td><code>angle</code> (default 45)</td></tr><tr><td><code>"crosshatch"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"dots"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"dashes"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 0.5)</td></tr><tr><td><code>"bricks"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"herringbone"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"hexagons"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"waves"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"zigzag"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"circles"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"crosses"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"noise"</code></td><td>–</td></tr></table><p>Shortcuts: <code>"hatch_up"</code> (same as <code>"hatch"</code>), <code>"hatch_down"</code> (angle 135),
 <code>"hatch_horizontal"</code> (angle 0), <code>"hatch_vertical"</code> (angle 90),
 <code>"crosshatch_diagonal"</code> (crosshatch with angle 45), and <code>"stipple"</code> (dots with <code>random = 0.7</code>).</p>
+<p>Pattern sets, which are used like color palettes:</p><table class="table table"><tr><td>Set</td><td>Patterns</td><td>Use</td></tr><tr><td><code>"mixed"</code></td><td>14: hatch, dots, hatch_down, bricks, waves, ...</td><td>default; patterns that differ most</td></tr><tr><td><code>"classic"</code></td><td>8: hatches in four directions, crosshatches, dots, dashes</td><td>the classic black-and-white look</td></tr><tr><td><code>"lines"</code></td><td>10: hatches, waves, zigzag, dashes, herringbone, crosshatches</td><td>line patterns only</td></tr><tr><td><code>"shapes"</code></td><td>6: dots, bricks, circles, hexagons, crosses, noise</td><td>no line patterns, e.g. to combine with a hatched layer</td></tr></table><p>Used as <code>values</code> of a scale, the first <code>n</code> patterns are taken. A <code>"-"</code> prefix reverses the order.
+With <code>tm_patterns()</code>, a set is expanded to all its patterns, which can be subsetted, e.g.
+<code>tm_patterns("classic")[c(1, 3, 5)]</code>.</p>
+<p>The patterns are shown with <code><a href="tmap_show_values.html">tmap_show_values()</a></code>: all types and shortcuts with
+<code>tmap_show_values("pattern")</code>, and a set with e.g. <code>tmap_show_values("pattern", values = "classic")</code>.</p>
 <p>The spacing between the pattern elements is determined by the map variable
 <code>pattern_density</code>, the line width or dot size by <code>pattern_size</code>, and the color by <code>pattern_col</code>.
 The parameters <code>length</code> and <code>amplitude</code> are relative to that spacing, so the whole
@@ -158,7 +164,7 @@ motif is scaled with the density.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="tm_polygons.html">tm_polygons()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="tm_polygons.html">tm_polygons()</a></code>, <code><a href="tmap_show_values.html">tmap_show_values()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -172,7 +178,8 @@ motif is scaled with the density.</p>
 <span class="r-in"><span><span class="co"># as values of a scale</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"economy"</span>,</span></span>
-<span class="r-in"><span>    pattern.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">tm_patterns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hatch"</span>, <span class="st">"dots"</span>, <span class="st">"bricks"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    pattern.scale <span class="op">=</span> <span class="fu"><a href="tm_scale_categorical.html">tm_scale_categorical</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      values <span class="op">=</span> <span class="fu">tm_patterns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hatch"</span>, <span class="st">"dots"</span>, <span class="st">"bricks"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #00BB00;">[pattern]</span> the number of patterns (3) is smaller than the number of classes (7),</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> so patterns are recycled</span>
 <span class="r-plt img"><img src="tm_patterns-1.png" alt="" width="700" height="433"></span>

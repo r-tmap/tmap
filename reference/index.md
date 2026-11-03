@@ -283,6 +283,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   Specify a numeric sequence
 - [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md)
   : Specify fill patterns
+- [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md)
+  : Show the available values of categorical map variables
 - [`tm_vars()`](https://r-tmap.github.io/tmap/reference/tm_vars.md) :
   Specify variables
 - [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)

@@ -24,6 +24,8 @@
   variables](https://r-tmap.github.io/tmap/articles/adv_multivariate.md):
 - [tmap advanced:
   options](https://r-tmap.github.io/tmap/articles/adv_options.md):
+- [tmap advanced: fill
+  patterns](https://r-tmap.github.io/tmap/articles/adv_patterns.md):
 - [tmap advanced: positioning of
   components](https://r-tmap.github.io/tmap/articles/adv_positions.md):
 - [tmap advanced:

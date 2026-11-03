@@ -68,9 +68,15 @@ tm_scale_categorical(
   these are a set of sizes (if two values are specified they are
   interpreted as a range), for symbol shapes (e.g. `shape` for
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md))
-  these are a set of symbols, etc. The tmap option `values.var` contains
-  the default values per map variable and in some cases also per data
-  type.
+  these are a set of symbols, for fill patterns (`pattern` for
+  [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md))
+  pattern types or a pattern set (see
+  [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md)),
+  etc. The available values of the categorical map variables `pattern`,
+  `shape`, `lty`, and `fontface` are shown with
+  [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md).
+  The tmap option `values.var` contains the default values per map
+  variable and in some cases also per data type.
 
 - values.repeat:
 

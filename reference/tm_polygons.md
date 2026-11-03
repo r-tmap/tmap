@@ -82,7 +82,7 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany")
+opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
 ```
 
 ## Arguments
@@ -245,6 +245,17 @@ opt_tm_polygons(polygons.only = "ifany")
   [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md))
   be plotted? By default `"ifany"`, which means `TRUE` in case a
   geometry collection is specified.
+
+- pattern.zoom:
+
+  In view mode, should patterns (see `pattern`) zoom with the map? By
+  default (`FALSE`), patterns keep the same size on the screen, like
+  [`tm_bubbles()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md).
+  With `TRUE`, they stick to the map and are enlarged when zooming in,
+  like
+  [`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md);
+  at the initial zoom level, they look the same. Useful for e.g. dot
+  density patterns. In plot mode, this has no effect.
 
 ## Details
 
@@ -470,4 +481,10 @@ tm_shape(World) +
 #> bivariate legend Labels abbreviated by the first letter, e.g.: "2.0 - 2.9" =>
 #> "2".
 #> This message is displayed once per session.
+
+
+# fill patterns on top of the fill color (see also tm_patterns())
+tm_shape(Africa) +
+  tm_polygons(fill = "well_being", pattern = "income_grp",
+    pattern.scale = tm_scale_categorical(values = "classic"))
 ```

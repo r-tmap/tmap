@@ -64,6 +64,29 @@ For advanced users: the default constant values are specified for
 combinations of map variables and layer type. See
 `tmap_options("value.const")`
 
+### Available values
+
+Colors can be specified by name (e.g. `"red"`), hex code
+(e.g. `"#ffce00"`), or, for data-driven map variables, as palette name
+from the **cols4all** package (see
+[`cols4all::c4a_gui()`](https://cols4all.github.io/reference/c4a_gui.html)).
+For the other categorical map variables,
+[`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md)
+shows the available values, each labeled with the code to specify it.
+For instance, the symbol shapes:
+
+``` r
+
+tmap_show_values("shape")
+```
+
+![](basics_vv_files/figure-html/show_shapes-1.png)
+
+Likewise, `tmap_show_values("lty")` shows the line types,
+`tmap_show_values("fontface")` the font faces, and
+`tmap_show_values("pattern")` the fill patterns (see the [vignette about
+fill patterns](https://r-tmap.github.io/tmap/articles/adv_patterns)).
+
 ## Data-driven map variables
 
 Each map variable argument can also be specified with a data variable

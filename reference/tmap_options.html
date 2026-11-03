@@ -74,6 +74,7 @@
     <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -1870,7 +1871,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern: <span style="color: #0000BB;">"none"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_col: <span style="color: #0000BB;">"grey25"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_size: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_density: <span style="color: #0000BB;">0.5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_density: <span style="color: #0000BB;">0.8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─text: <span style="color: #0000BB;">"Abc"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─text.labels: <span style="color: #0000BB;">""</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fontface: &lt;NULL&gt;</span>
@@ -1992,11 +1993,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ │ └─power: <span style="color: #0000BB;">"sqrt"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd&lt;dbl [2]&gt;: <span style="color: #0000BB;">0, 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lty&lt;chr [5]&gt;: <span style="color: #0000BB;">"dashed", "dotted", "dotdash", "longdash", "twodash"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern: <span style="color: #555555;">&lt;list&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ │ ├─unord&lt;chr [14]&gt;: <span style="color: #0000BB;">"hatch", "dots", "hatch_down", "bricks", "hatch_horizo...", "waves", "hatch_vertical", "hexagons", "crosshatch", "stipple", ...</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ │ ├─ord&lt;chr [5]&gt;: <span style="color: #0000BB;">"none", "dashes", "hatch", "bricks", "crosshatch"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ │ ├─seq&lt;chr [5]&gt;: <span style="color: #0000BB;">"none", "dashes", "hatch", "bricks", "crosshatch"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ │ └─div&lt;chr [5]&gt;: <span style="color: #0000BB;">"none", "dashes", "hatch", "bricks", "crosshatch"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern: <span style="color: #0000BB;">"mixed"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_col: <span style="color: #555555;">&lt;list&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ │ ├─seq: <span style="color: #0000BB;">"-hcl.blues3"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ │ ├─div: <span style="color: #0000BB;">"pu_gn_div"</span></span>
@@ -2039,7 +2036,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd: <span style="color: #0000BB;">2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern: <span style="color: #0000BB;">"none"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_size: <span style="color: #0000BB;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_density: <span style="color: #0000BB;">0.5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_density: <span style="color: #0000BB;">0.8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lty: <span style="color: #0000BB;">"solid"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fill_alpha: <span style="color: #0000BB;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─col_alpha: <span style="color: #0000BB;">1</span></span>
@@ -2367,8 +2364,8 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.only: <span style="color: #0000BB;">FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.absolute_fontsize: <span style="color: #0000BB;">14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.settings.portrait: <span style="color: #555555;">&lt;list&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.height&lt;dbl [6]&gt;: <span style="color: #0000BB;">1.2, 1, 3, 1.2, 1.2, 1.2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.width&lt;dbl [6]&gt;: <span style="color: #0000BB;">1.2, 1, 1.2, 1.2, 3, 1.2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.height&lt;dbl [7]&gt;: <span style="color: #0000BB;">1.2, 1, 3, 1.2, 1.2, 1.2, 1.6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.width&lt;dbl [7]&gt;: <span style="color: #0000BB;">1.2, 1, 1.2, 1.2, 3, 1.2, 1.6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.r: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.space&lt;dbl [6]&gt;: <span style="color: #0000BB;">0.2, 0.2, 0, 0.2, 0.2, 0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.na.height&lt;dbl [6]&gt;: <span style="color: #0000BB;">NA, NA, 1.2, NA, NA, NA</span></span>
@@ -2395,8 +2392,8 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─margins&lt;dbl [4]&gt;: <span style="color: #0000BB;">0.4, 0.4, 0.4, 0.4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─item_text.margin&lt;dbl [2]&gt;: <span style="color: #0000BB;">0.5, 0.25</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─legend.settings.landscape: <span style="color: #555555;">&lt;list&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.height&lt;dbl [5]&gt;: <span style="color: #0000BB;">1, 1, 1.2, 1, 1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.width&lt;dbl [5]&gt;: <span style="color: #0000BB;">6, 3, 6, 6, 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.height&lt;dbl [6]&gt;: <span style="color: #0000BB;">1, 1, 1.2, 1, 1, 1.6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.width&lt;dbl [6]&gt;: <span style="color: #0000BB;">6, 3, 6, 6, 6, 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.r: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.space&lt;dbl [5]&gt;: <span style="color: #0000BB;">0.2, 0.3, 0, 0.2, 0.2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─item.na.height&lt;dbl [5]&gt;: <span style="color: #0000BB;">NA, NA, 2, NA, NA</span></span>

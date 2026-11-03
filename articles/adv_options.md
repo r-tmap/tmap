@@ -83,7 +83,7 @@ tree(opt)
 #> │ ├─pattern: "none"
 #> │ ├─pattern_col: "grey25"
 #> │ ├─pattern_size: 1
-#> │ ├─pattern_density: 0.5
+#> │ ├─pattern_density: 0.8
 #> │ ├─text: "Abc"
 #> │ ├─text.labels: ""
 #> │ ├─fontface: <NULL>
@@ -205,11 +205,7 @@ tree(opt)
 #> │ │ └─power: "sqrt"
 #> │ ├─lwd<dbl [2]>: 0, 3
 #> │ ├─lty<chr [5]>: "dashed", "dotted", "dotdash", "longdash", "twodash"
-#> │ ├─pattern: <list>
-#> │ │ ├─unord<chr [14]>: "hatch", "dots", "hatch_down", "bricks", "hatch_horizo...", "waves", "hatch_vertical", "hexagons", "crosshatch", "stipple", ...
-#> │ │ ├─ord<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ ├─seq<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ └─div<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ ├─pattern: "mixed"
 #> │ ├─pattern_col: <list>
 #> │ │ ├─seq: "-hcl.blues3"
 #> │ │ ├─div: "pu_gn_div"
@@ -252,7 +248,7 @@ tree(opt)
 #> │ ├─lwd: 2
 #> │ ├─pattern: "none"
 #> │ ├─pattern_size: 1
-#> │ ├─pattern_density: 0.5
+#> │ ├─pattern_density: 0.8
 #> │ ├─lty: "solid"
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
@@ -580,8 +576,8 @@ tree(opt)
 #> ├─legend.only: FALSE
 #> ├─legend.absolute_fontsize: 14
 #> ├─legend.settings.portrait: <list>
-#> │ ├─item.height<dbl [6]>: 1.2, 1, 3, 1.2, 1.2, 1.2
-#> │ ├─item.width<dbl [6]>: 1.2, 1, 1.2, 1.2, 3, 1.2
+#> │ ├─item.height<dbl [7]>: 1.2, 1, 3, 1.2, 1.2, 1.2, 1.6
+#> │ ├─item.width<dbl [7]>: 1.2, 1, 1.2, 1.2, 3, 1.2, 1.6
 #> │ ├─item.r: NA
 #> │ ├─item.space<dbl [6]>: 0.2, 0.2, 0, 0.2, 0.2, 0
 #> │ ├─item.na.height<dbl [6]>: NA, NA, 1.2, NA, NA, NA
@@ -608,8 +604,8 @@ tree(opt)
 #> │ ├─margins<dbl [4]>: 0.4, 0.4, 0.4, 0.4
 #> │ └─item_text.margin<dbl [2]>: 0.5, 0.25
 #> ├─legend.settings.landscape: <list>
-#> │ ├─item.height<dbl [5]>: 1, 1, 1.2, 1, 1
-#> │ ├─item.width<dbl [5]>: 6, 3, 6, 6, 6
+#> │ ├─item.height<dbl [6]>: 1, 1, 1.2, 1, 1, 1.6
+#> │ ├─item.width<dbl [6]>: 6, 3, 6, 6, 6, 6
 #> │ ├─item.r: NA
 #> │ ├─item.space<dbl [5]>: 0.2, 0.3, 0, 0.2, 0.2
 #> │ ├─item.na.height<dbl [5]>: NA, NA, 2, NA, NA
@@ -1004,7 +1000,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─pattern: "none"
 #> │ ├─pattern_col: "grey25"
 #> │ ├─pattern_size: 1
-#> │ ├─pattern_density: 0.5
+#> │ ├─pattern_density: 0.8
 #> │ ├─text: "Abc"
 #> │ ├─text.labels: ""
 #> │ ├─fontface: <NULL>
@@ -1126,11 +1122,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ │ └─power: "sqrt"
 #> │ ├─lwd<dbl [2]>: 0, 3
 #> │ ├─lty<chr [5]>: "dashed", "dotted", "dotdash", "longdash", "twodash"
-#> │ ├─pattern: <list>
-#> │ │ ├─unord<chr [14]>: "hatch", "dots", "hatch_down", "bricks", "hatch_horizo...", "waves", "hatch_vertical", "hexagons", "crosshatch", "stipple", ...
-#> │ │ ├─ord<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ ├─seq<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ └─div<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ ├─pattern: "mixed"
 #> │ ├─pattern_col: <list>
 #> │ │ ├─seq: "-hcl.blues3"
 #> │ │ ├─div: "pu_gn_div"
@@ -1173,7 +1165,7 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─lwd: 2
 #> │ ├─pattern: "none"
 #> │ ├─pattern_size: 1
-#> │ ├─pattern_density: 0.5
+#> │ ├─pattern_density: 0.8
 #> │ ├─lty: "solid"
 #> │ ├─fill_alpha: 1
 #> │ ├─col_alpha: 1
@@ -1499,8 +1491,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> ├─legend.only: FALSE
 #> ├─legend.absolute_fontsize: 14
 #> ├─legend.settings.portrait: <list>
-#> │ ├─item.height<dbl [6]>: 1.2, 1, 3, 1.2, 1.2, 1.2
-#> │ ├─item.width<dbl [6]>: 1.2, 1, 1.2, 1.2, 3, 1.2
+#> │ ├─item.height<dbl [7]>: 1.2, 1, 3, 1.2, 1.2, 1.2, 1.6
+#> │ ├─item.width<dbl [7]>: 1.2, 1, 1.2, 1.2, 3, 1.2, 1.6
 #> │ ├─item.r: NA
 #> │ ├─item.space<dbl [6]>: 0.2, 0.2, 0, 0.2, 0.2, 0
 #> │ ├─item.na.height<dbl [6]>: NA, NA, 1.2, NA, NA, NA
@@ -1527,8 +1519,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─margins<dbl [4]>: 0.4, 0.4, 0.4, 0.4
 #> │ └─item_text.margin<dbl [2]>: 0.5, 0.25
 #> ├─legend.settings.landscape: <list>
-#> │ ├─item.height<dbl [5]>: 1, 1, 1.2, 1, 1
-#> │ ├─item.width<dbl [5]>: 6, 3, 6, 6, 6
+#> │ ├─item.height<dbl [6]>: 1, 1, 1.2, 1, 1, 1.6
+#> │ ├─item.width<dbl [6]>: 6, 3, 6, 6, 6, 6
 #> │ ├─item.r: NA
 #> │ ├─item.space<dbl [5]>: 0.2, 0.3, 0, 0.2, 0.2
 #> │ ├─item.na.height<dbl [5]>: NA, NA, 2, NA, NA
@@ -1896,7 +1888,7 @@ tree(tmap_options_diff())
 #> │ ├─lty: "solid"
 #> │ ├─pattern: "none"
 #> │ ├─pattern_size: 1
-#> │ ├─pattern_density: 0.5
+#> │ ├─pattern_density: 0.8
 #> │ ├─text: "Abc"
 #> │ ├─text.labels: ""
 #> │ ├─fontface: <NULL>
@@ -1990,11 +1982,7 @@ tree(tmap_options_diff())
 #> │ │ └─power: "sqrt"
 #> │ ├─lwd<dbl [2]>: 0, 3
 #> │ ├─lty<chr [5]>: "dashed", "dotted", "dotdash", "longdash", "twodash"
-#> │ ├─pattern: <list>
-#> │ │ ├─unord<chr [14]>: "hatch", "dots", "hatch_down", "bricks", "hatch_horizo...", "waves", "hatch_vertical", "hexagons", "crosshatch", "stipple", ...
-#> │ │ ├─ord<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ ├─seq<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
-#> │ │ └─div<chr [5]>: "none", "dashes", "hatch", "bricks", "crosshatch"
+#> │ ├─pattern: "mixed"
 #> │ ├─pattern_col: <list>
 #> │ │ ├─seq: "-hcl.blues3"
 #> │ │ ├─div: "pu_gn_div"
