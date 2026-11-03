@@ -12,7 +12,12 @@ tmapValuesCheck_pattern = function(x, is_var = TRUE) {
 	if (pattern_valid(x)) {
 		TRUE
 	} else {
-		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a pattern (see {.fun tm_patterns})." else "  Values should be patterns: pattern types or {.fun tm_patterns} specifications."})
+		info = if (is_var) {
+			" Variable should be a data variable name or a pattern (see {.fun tm_patterns})."
+		} else {
+			"  Values should be patterns: pattern types or {.fun tm_patterns} specifications."
+		}
+		structure(FALSE, info = info)
 	}
 }
 
@@ -30,18 +35,23 @@ tmapValuesRange_pattern = function(x, n, isdiv) {
 
 #' @export
 #' @rdname tmap_internal
-tmapValuesVV_pattern = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
+tmapValuesVV_pattern = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale,
+								rep, o) {
+	if (length(x) == 1L && pattern_is_set(x)) x = pattern_set(x, n)
 	x = pattern_norm(x)
 	if (length(x) < n && length(x) > 1) {
-		cli::cli_warn("{.field [pattern]} the number of patterns ({length(x)}) is smaller than the number of classes ({n}), so patterns are recycled")
+		cli::cli_warn(paste("{.field [pattern]} the number of patterns ({length(x)}) is smaller than",
+							"the number of classes ({n}), so patterns are recycled"))
 	}
-	list(vvalues = rep(unname(x), length.out = n), value.neutral = unname(x[1]), value.na = pattern_norm(value.na))
+	list(vvalues = rep(unname(x), length.out = n), value.neutral = unname(x[1]),
+		 value.na = pattern_norm(value.na))
 }
 
 #' @export
 #' @rdname tmap_internal
 tmapValuesCVV_pattern = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_pattern(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_pattern(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA,
+		are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 #' @export
@@ -55,6 +65,17 @@ tmapValuesScale_pattern = function(x, scale) pattern_norm(x)
 #' @export
 #' @rdname tmap_internal
 tmapValuesColorize_pattern = function(x, pc) x
+
+# message when missing values get the same pattern as a class (e.g. "none" for both)
+message_pattern_na = function(value.na, values) {
+	if (isTRUE(value.na %in% values)) {
+		cli::cli_inform(c(paste("{.field [pattern]} missing values have the same pattern",
+								"({.val {value.na}}) as one of the classes."),
+						  i = paste("Use {.arg value.na} in the scale to distinguish them, e.g.",
+						  		  "{.code tm_scale_intervals(value.na = \"noise\")}.")),
+						.frequency = "once", .frequency_id = "pattern_na")
+	}
+}
 
 # pattern_col
 
@@ -117,7 +138,8 @@ tmapValuesVV_pattern_size = function(...) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesCVV_pattern_size = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_pattern_size(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_pattern_size(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA,
+		are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 #' @export
@@ -136,7 +158,9 @@ tmapValuesColorize_pattern_size = function(x, pc) x
 
 #' @export
 #' @rdname tmap_internal
-tmapValuesCheck_pattern_density = function(x, is_var = TRUE) tmapValuesCheck_fill_alpha(x, is_var = is_var)
+tmapValuesCheck_pattern_density = function(x, is_var = TRUE) {
+	tmapValuesCheck_fill_alpha(x, is_var = is_var)
+}
 
 #' @export
 #' @rdname tmap_internal
@@ -155,7 +179,8 @@ tmapValuesVV_pattern_density = function(...) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesCVV_pattern_density = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_pattern_density(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_pattern_density(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA,
+		are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 #' @export

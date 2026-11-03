@@ -44,7 +44,7 @@ tmapScaleBivariate = function(x1, x2, scale, legend, chart, o, aes, layer, layer
 		check_values(layer, aes, values)
 
 		fun_getBVV = paste0("tmapValuesBVV_", aes)
-		VV = do.call(fun_getBVV, list(x = values, value.na = value.na, m = n1, n = n2, scale = values.scale * o$scale, rep = values.repeat, o = o))
+		VV = do.call(fun_getBVV, list(x = values, value.na = value.na, m = n1, n = n2, scale = values.scale * values_scale_o(aes, o), rep = values.repeat, o = o))
 
 		vvalues = VV$vvalues
 		value.na = VV$value.na

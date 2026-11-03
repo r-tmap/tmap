@@ -118,11 +118,17 @@ step4_plot_collect_legends = function(tmx, o = NULL) {
 									bvars2 = names(lclone)[substr(names(lclone), 1, 2) == "by"]
 
 									bvars_int = intersect(bvars, bvars2)
-									if (!length(bvars_int)) {
-										lclone$vneutral[1]
-									} else  {
-										lclone[bval, on = bvars_int]$vneutral
+									lc = if (!length(bvars_int)) lclone[1] else lclone[bval, on = bvars_int]
+
+									# legends of pattern_col, pattern_size, and pattern_density: show the first
+									# pattern of the pattern legend (the neutral pattern is "none")
+									pvars_h = c("pattern_col", "pattern_size", "pattern_density")
+									if (lname == "pattern" && legnm %in% pvars_h) {
+										vv = lc$legend[[1]]$vvalues
+										vv = vv[!is.na(vv) & vv != "none"]
+										if (length(vv)) return(vv[1])
 									}
+									lc$vneutral
 								}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
 
 
@@ -131,6 +137,27 @@ step4_plot_collect_legends = function(tmx, o = NULL) {
 									for (jj in gpid) gp[[jj]] = nvalues[[j]]
 								}
 
+							}
+
+							# other legends (e.g. fill) do not show a pattern when the pattern varies
+							# (in pattern itself, or in pattern_col, pattern_size, or pattern_density):
+							# it has its own legend
+							pvars = c("pattern", "pattern_col", "pattern_size", "pattern_density")
+							if (!(legnm %in% pvars) && any(pvars %in% names(legs2))) gp$pattern = "none"
+
+							# legends of pattern_col, pattern_size, and pattern_density without a
+							# pattern are not shown
+							no_pattern = is.character(gp$pattern) &&
+								all(is.na(gp$pattern) | gp$pattern == "none")
+							if (legnm %in% pvars[-1] && no_pattern) {
+								cli::cli_inform(c(paste("{.field [pattern]} {.arg {legnm}} has no effect, since no",
+														"{.arg pattern} is specified (the default is {.str none}):",
+														"there is no pattern on the map, and therefore no legend."),
+												  i = "Specify a pattern, e.g. {.code pattern = \"dots\"}."),
+												.frequency = "once",
+												.frequency_id = paste0("pattern_legend_", legnm))
+								legs_aes$legend[[k]] = list(NULL)
+								next
 							}
 
 							leleg = legs_aes$legend[[k]]

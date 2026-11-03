@@ -206,7 +206,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			nvv = o$continuous.nclass_per_legend_break
 
 
-			VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
+			VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
 
 			vv = VV$vvalues
 			value.na = VV$value.na
@@ -221,7 +221,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (is.numeric(values)) {
 				values = tm_seq(values[1], values[length(values)], power = "lin")
 			}
-			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * o$scale)
+			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * values_scale_o(aes, o))
 
 			vals = VV$x
 			if (is.na(value.neutral)) value.neutral = VV$neutral
@@ -290,7 +290,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		nbrks_cont <- length(b_t)
 
 		if (vnum) {
-			vvalues = transform_values(b_t, limits_t, values.range, values$power, values.scale * o$scale, include.neutral = FALSE)
+			vvalues = transform_values(b_t, limits_t, values.range, values$power, values.scale * values_scale_o(aes, o), include.neutral = FALSE)
 		} else {
 			id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 

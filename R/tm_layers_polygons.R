@@ -540,10 +540,11 @@ tm_borders = function(col = tm_const(), ...) {
 }
 
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
+#' @param pattern.zoom In view mode, should patterns (see `pattern`) zoom with the map? By default (`FALSE`), patterns keep the same size on the screen, like [tm_bubbles()]. With `TRUE`, they stick to the map and are enlarged when zooming in, like [tm_circles()]; at the initial zoom level, they look the same. Useful for e.g. dot density patterns. In plot mode, this has no effect.
 #' @rdname tm_polygons
 #' @export
-opt_tm_polygons = function(polygons.only = "ifany") {
+opt_tm_polygons = function(polygons.only = "ifany", pattern.zoom = FALSE) {
 	list(trans.args = list(polygons.only = polygons.only),
-		 mapping.args = list())
+		 mapping.args = list(pattern.zoom = pattern.zoom))
 }
 

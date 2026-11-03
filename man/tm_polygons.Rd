@@ -78,7 +78,7 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany")
+opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
 }
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Map variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string.}
@@ -154,6 +154,8 @@ no blending. See the "Layer blending" section for the supported values.}
 \item{...}{to catch deprecated arguments from version < 4.0}
 
 \item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
+
+\item{pattern.zoom}{In view mode, should patterns (see \code{pattern}) zoom with the map? By default (\code{FALSE}), patterns keep the same size on the screen, like \code{\link[=tm_bubbles]{tm_bubbles()}}. With \code{TRUE}, they stick to the map and are enlarged when zooming in, like \code{\link[=tm_circles]{tm_circles()}}; at the initial zoom level, they look the same. Useful for e.g. dot density patterns. In plot mode, this has no effect.}
 }
 \description{
 Map layer that draws polygons. Supported map variables are: \code{fill} (the fill color),
@@ -327,6 +329,11 @@ tm_layout(frame = FALSE)
 # bivariate scale
 tm_shape(World) +
 	tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
+
+# fill patterns on top of the fill color (see also tm_patterns())
+tm_shape(Africa) +
+  tm_polygons(fill = "well_being", pattern = "income_grp",
+    pattern.scale = tm_scale_categorical(values = "classic"))
 }
 \seealso{
 \href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth (World)}, \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{Choropleth (Netherlands)}, \href{https://r-tmap.github.io/tmap/articles/examples_biv_choro}{Bivariate choropleth}, \href{https://r-tmap.github.io/tmap/articles/examples_gridmaps}{Gridmap}

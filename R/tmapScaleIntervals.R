@@ -64,7 +64,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	# map variable processing
 	with(scale, {
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
 
 		vvalues = VV$vvalues
 		value.na = VV$value.na
@@ -101,6 +101,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		}
 
 		if (anyNA) {
+			if (aes == "pattern") message_pattern_na(value.na, vvalues)
 			vals[isna] = value.na
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}

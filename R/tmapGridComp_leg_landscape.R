@@ -113,7 +113,7 @@ tmapGridCompWidth.tm_legend_landscape = function(comp, o) {
 		shps = rep(comp$gpar$shape, length.out = nlev)
 		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1), labelW)
 		comp$stretch = if (!is.na(comp$width)) "padding" else "none"
-	} else if (comp$type %in% c("rect", "lines")) {
+	} else if (comp$type %in% c("rect", "pattern", "lines")) {
 		item_widths = pmax(rep(width, nlev), labelW)
 		if (comp$na.show) item_widths[nlev] = widthNA
 		comp$stretch = if (!is.na(comp$width)) "items" else "none"
@@ -424,6 +424,9 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 		grItems = c(grItems1, grItems2)
 
 
+	} else if (comp$type == "pattern") {
+		items = legend_pattern_items(gp, nlev, comp, o)
+		grItems = mapply(function(id, grb) gridCell(6, id, grb), comp$item_ids, items, SIMPLIFY = FALSE)
 	} else if (comp$type == "rect") {
 		#gps = split_gp(gp, n = nlev)
 

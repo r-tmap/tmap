@@ -10,6 +10,8 @@ add_to_gt = function(gt, grb, row, col) {
 
 
 get_legend_option = function(x, type) {
+	# pattern legends are rect legends with patterns: use the rect settings if there are no pattern settings
+	if (type == "pattern" && !("pattern" %in% names(x))) type = "rect"
 	if (length(x) == 1 || (!type %in% names(x))) x else if (is.list(x)) x[[type]] else x[type]
 }
 
@@ -208,6 +210,7 @@ rescale_gp = function(gp, scale, skip = character()) {
 	if ("lwd" %in% names(gp) && (!"lwd" %in% skip)) gp$lwd = gp$lwd * scale
 	if ("size" %in% names(gp) && (!"size" %in% skip)) gp$size = gp$size * sqrt(scale)
 	if ("cex" %in% names(gp) && (!"cex" %in% skip)) gp$cex = gp$cex * sqrt(scale)
+	if (is.numeric(gp$pattern_size) && (!"pattern_size" %in% skip)) gp$pattern_size = gp$pattern_size * scale
 	gp
 }
 

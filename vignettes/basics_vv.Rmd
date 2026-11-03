@@ -62,7 +62,7 @@ The following table shows which map variables are used in standard map layers.
 
 |Map layer		|Map variables				|
 |:--------------|:--------------------------------------------------------------|
-|`tm_polygons`	|`fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width), `lty` (border line type)	|
+|`tm_polygons`	|`fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width), `lty` (border line type) <br> `pattern` (fill pattern), `pattern_col`, `pattern_size`, `pattern_density` (see [fill patterns](https://r-tmap.github.io/tmap/articles/adv_patterns))	|
 |`tm_symbols` |`size`, `shape` <br> `fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width) `lty` (border line type) |
 |`tm_lines`		|`col` (border color), `col_alpha` (border color transparency) <br> `lwd` (line width) `lty` (line type) |
 |`tm_raster`	|`col` (color),	`col_alpha` (transparency)							|
@@ -101,6 +101,16 @@ s +
 ```
 
 For advanced users: the default constant values are specified for combinations of map variables and layer type. See `tmap_options("value.const")`
+
+### Available values
+
+Colors can be specified by name (e.g. `"red"`), hex code (e.g. `"#ffce00"`), or, for data-driven map variables, as palette name from the **cols4all** package (see `cols4all::c4a_gui()`). For the other categorical map variables, `tmap_show_values()` shows the available values, each labeled with the code to specify it. For instance, the symbol shapes:
+
+```{r show_shapes, fig.height = 1.6}
+tmap_show_values("shape")
+```
+
+Likewise, `tmap_show_values("lty")` shows the line types, `tmap_show_values("fontface")` the font faces, and `tmap_show_values("pattern")` the fill patterns (see the [vignette about fill patterns](https://r-tmap.github.io/tmap/articles/adv_patterns)).
 
 
 

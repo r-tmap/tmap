@@ -170,6 +170,7 @@ get_prefix_opt = function(prefix, class, o) {
 # (partly) named vector: get 1st name match or otherwise 1st non-named argument
 # used in tm_scale_continuous, but similar function should exists for options? (todo: check)
 get_vector_id = function(x, id) {
+	if (identical(id, "pattern") && !("pattern" %in% names(x))) id = "rect"
 	if (is.null(names(x))) {
 		x[1]
 	} else if (id %in% names(x)) {

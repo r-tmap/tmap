@@ -159,6 +159,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 		}
 
 		if (anyNA) {
+			if (aes == "pattern") message_pattern_na(value.na, values)
 			vals[isna] = value.na
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}

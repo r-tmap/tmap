@@ -36,3 +36,8 @@ tm_layout(frame = FALSE)
 # bivariate scale
 tm_shape(World) +
 	tm_polygons(tm_vars(c("inequality", "well_being"), multivariate = TRUE))
+
+# fill patterns on top of the fill color (see also tm_patterns())
+tm_shape(Africa) +
+  tm_polygons(fill = "well_being", pattern = "income_grp",
+    pattern.scale = tm_scale_categorical(values = "classic"))

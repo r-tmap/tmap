@@ -16,6 +16,8 @@ tmapGridCompPrepare.tm_legend_portrait = function(comp, o) {
 			"lines"
 		} else if ("tm_data_text" %in% mfun) {
 			"text"
+		} else if (is.character(gp$pattern) && any(!is.na(gp$pattern) & gp$pattern != "none")) {
+			"pattern"
 		} else {
 			"rect"
 		}
@@ -87,7 +89,7 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 		shps = rep(comp$gpar$shape, length.out = nlev)
 		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev) * ifelse(shps > 999, comp$layer_args$icon.scale, 1))
 		comp$stretch = if (!is.na(comp$height)) "padding" else "none"
-	} else if (comp$type %in% c("rect", "lines", "bivariate")) {
+	} else if (comp$type %in% c("rect", "pattern", "lines", "bivariate")) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "items" else "none"
@@ -667,6 +669,9 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 		grItems = c(grItems1, grItems2)
 
 
+	} else if (comp$type == "pattern") {
+		items = legend_pattern_items(gp, nlev, comp, o)
+		grItems = mapply(function(id, grb) gridCell(id, 3, grb), comp$item_ids, items, SIMPLIFY = FALSE)
 	} else if (comp$type == "rect") {
 		#gps = split_gp(gp, n = nlev)
 

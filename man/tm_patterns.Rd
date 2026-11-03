@@ -13,11 +13,11 @@ tm_patterns(
 )
 }
 \arguments{
-\item{type}{Pattern type or shortcut. See details.}
+\item{type}{Pattern type, shortcut, or pattern set. See details.}
 
 \item{angle}{Angle of the motif in degrees, counter-clockwise from horizontal. For \code{"hatch"}, 0 means horizontal lines and 45 lines from lower left to upper right.}
 
-\item{random}{Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (maximal random displacement within the grid cell). Elements do not clump, since each grid cell contains one element.}
+\item{random}{Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.}
 
 \item{length}{Length of dashes, bricks, or herringbone blocks, relative to the spacing.}
 
@@ -56,6 +56,22 @@ Shortcuts: \code{"hatch_up"} (same as \code{"hatch"}), \code{"hatch_down"} (angl
 \code{"hatch_horizontal"} (angle 0), \code{"hatch_vertical"} (angle 90),
 \code{"crosshatch_diagonal"} (crosshatch with angle 45), and \code{"stipple"} (dots with \code{random = 0.7}).
 
+Pattern sets, which are used like color palettes:\tabular{lll}{
+   Set \tab Patterns \tab Use \cr
+   \code{"mixed"} \tab 14: hatch, dots, hatch_down, bricks, waves, ... \tab default; patterns that differ most \cr
+   \code{"classic"} \tab 8: hatches in four directions, crosshatches, dots, dashes \tab the classic black-and-white look \cr
+   \code{"lines"} \tab 10: hatches, waves, zigzag, dashes, herringbone, crosshatches \tab line patterns only \cr
+   \code{"shapes"} \tab 6: dots, bricks, circles, hexagons, crosses, noise \tab no line patterns, e.g. to combine with a hatched layer \cr
+}
+
+
+Used as \code{values} of a scale, the first \code{n} patterns are taken. A \code{"-"} prefix reverses the order.
+With \code{tm_patterns()}, a set is expanded to all its patterns, which can be subsetted, e.g.
+\code{tm_patterns("classic")[c(1, 3, 5)]}.
+
+The patterns are shown with \code{\link[=tmap_show_values]{tmap_show_values()}}: all types and shortcuts with
+\code{tmap_show_values("pattern")}, and a set with e.g. \code{tmap_show_values("pattern", values = "classic")}.
+
 The spacing between the pattern elements is determined by the map variable
 \code{pattern_density}, the line width or dot size by \code{pattern_size}, and the color by \code{pattern_col}.
 The parameters \code{length} and \code{amplitude} are relative to that spacing, so the whole
@@ -68,8 +84,9 @@ tm_patterns(c("dots", "stipple", "bricks"))
 # as values of a scale
 tm_shape(World) +
 	tm_polygons(pattern = "economy",
-		pattern.scale = tm_scale_categorical(values = tm_patterns(c("hatch", "dots", "bricks"))))
+		pattern.scale = tm_scale_categorical(
+			values = tm_patterns(c("hatch", "dots", "bricks"))))
 }
 \seealso{
-\code{\link[=tm_polygons]{tm_polygons()}}
+\code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tmap_show_values]{tmap_show_values()}}
 }

@@ -147,14 +147,6 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 
 	legpos = leaflet_pos(cmp$position)
 
-	# to do: pattern legends (see sandbox/patterns_plan.md step 6)
-	if (any(startsWith(cmp$varying, "pattern"))) {
-		cli::cli_inform("{.field [view mode]} pattern legends are not supported yet",
-						.frequency_id = "pattern_legend_view",
-						.frequency = "once")
-		return(lf)
-	}
-
 	lf2 = if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
 		lf
@@ -277,6 +269,32 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										   layerId = layerId,
 										   className = leg_className)
 
+	} else if (cmp$type == "pattern") {
+		# legend items are PNG images of the swatches: fill, pattern, and border
+		n = length(lab)
+		gpvars = c("fill", "fill_alpha", "col", "col_alpha", "lwd",
+				   "pattern", "pattern_col", "pattern_size", "pattern_density")
+		gp = lapply(cmp$gp[gpvars], function(x) {
+			rep_len(if (is.null(x) || all(is.na(x))) NA else x, n)
+		})
+		px = 24
+		images = vapply(seq_len(n), function(i) {
+			pattern_swatch_png(gp$pattern[i], density = gp$pattern_density[i], size = gp$pattern_size[i],
+							   col = gp$pattern_col[i], fill = gp$fill[i], fill_alpha = gp$fill_alpha[i],
+							   border = gp$col[i], border_alpha = gp$col_alpha[i], lwd = gp$lwd[i],
+							   scale = o$scale, px = px)
+		}, character(1))
+		lf %>% leaflegend::addLegendImage(images,
+										  group = group,
+										  labels = lab,
+										  width = px,
+										  height = px,
+										  position = legpos,
+										  orientation = orientation,
+										  labelStyle = "font-size: 14px; vertical-align: middle; margin: 0px;",
+										  title = title,
+										  layerId = layerId,
+										  className = leg_className)
 	} else if (cmp$type == "text") {
 		# Opus5.5: text legend items (e.g. for tm_text(size = <var>)), drawn as svg text symbols (#1226)
 		n = length(lab)

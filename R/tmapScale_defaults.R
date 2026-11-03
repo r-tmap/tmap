@@ -107,9 +107,8 @@ tmapValuesCheck_lwd = function(x, is_var = TRUE) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesCheck_lty = function(x, is_var = TRUE) {
-	if (all(x %in% c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")) ||
-		(is.numeric(x) && all(x %in% 0:6)) ||
-		(all(grepl("^[1-9A-F]{1,8}$", x)))) {
+	if ((is.numeric(x) && all(x %in% 0:6)) ||
+		all(x %in% c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash") | grepl("^([1-9A-F]{2}){1,4}$", x))) {
 		TRUE
 	} else {
 		structure(FALSE, info = {if (is_var) " Variable should be a data variable name or a line type (see documentation of graphics::par - lty)." else "  Values should be a line type (see documentation of graphics::par - lty). numeric."})
@@ -1105,4 +1104,11 @@ tmapValuesColorize_skip = function(x, pc) x
 #' @rdname tmap_internal
 tmapValuesCVV_skip = function(x, value.na, n, range, scale, rep, o) {
 	tmapValuesVV_shape(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+}
+
+# Factor of the global scale (o$scale) applied to the values of a map variable. Sizes and line
+# widths are scaled; alpha transparency and pattern density are fractions, and are not scaled
+# (the pattern spacing itself is scaled, see pattern_spacing).
+values_scale_o = function(aes, o) {
+	if (aes %in% c("fill_alpha", "col_alpha", "bgcol_alpha", "pattern_density")) 1 else o$scale
 }

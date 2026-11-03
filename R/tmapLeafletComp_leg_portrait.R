@@ -81,6 +81,8 @@ tmapLeaflet_legend_comp = function(comp, o) {
 		} else if ("tm_data_text" %in% mfun) {
 			# Opus5.5: legend items are text symbols, e.g. varying in size (#1226)
 			"text"
+		} else if (is.character(gp$pattern) && any(!is.na(gp$pattern) & gp$pattern != "none")) {
+			"pattern"
 		} else {
 			"symbols"
 		}

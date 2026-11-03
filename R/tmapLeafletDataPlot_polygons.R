@@ -61,6 +61,8 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
+	gp_pat = list(pattern = gp$pattern, pattern_col = gp$pattern_col,
+				  pattern_size = gp$pattern_size, pattern_density = gp$pattern_density)
 	gp = gp_to_lpar(gp, mfun = "Polygons", rename_prop = FALSE)
 
 	interactive = (!is.null(pdt) || !is.null(hdt))
@@ -68,6 +70,17 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 	opt = leaflet::pathOptions(interactive = interactive, pane = pane)
 
 	o$use_WebGL = impute_webgl(o$use_WebGL, dt, supported = c("fill", "col"), checkif = list(lty = "solid"), type = "polygons", hover = !is.null(hdt), popup = !is.null(pdt), crs_class = o$crs_leaflet$crsClass)
+
+	# patterns are drawn as SVG patterns, which are not supported by WebGL
+	pattern.zoom = isTRUE(a$pattern.zoom)
+	pat = leaflet_pattern_ids(gp_pat, length(shp), o, zoom = pattern.zoom, suffix = if (pattern.zoom) {
+		substr(rlang::hash(list(Sys.time(), facet_row, facet_col, facet_page, pane)), 1, 8)
+	} else NULL)
+	if (!is.null(pat) && isTRUE(o$use_WebGL)) {
+		cli::cli_inform("{.field [view mode]} WebGL is not used for polygons with patterns",
+						.frequency = "once", .frequency_id = "pattern_webgl")
+	}
+	if (!is.null(pat)) o$use_WebGL = FALSE
 
 	if (o$use_WebGL) {
 		idt = rep({if (is.null(idt))dt$tmapID__[1] else idt[1]}, 2) |>
@@ -94,8 +107,24 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 			submit_labels("polygons", pane, group)
 
+		lf = lf %>%
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups)
+
+		if (!is.null(pat)) {
+			# patterns on top of the fill (not interactive, so popups and hover labels of the
+			# polygons below still work), and the borders on top of the patterns
+			opt2 = leaflet::pathOptions(interactive = FALSE, pane = pane)
+			sel = which(!is.na(pat$ids))
+			zoom_ids = if (pattern.zoom) unique(na.omit(pat$ids)) else character()
+			lf = lf %>%
+				leaflet_add_pattern_defs(pat$defs, zoom = zoom_ids) %>%
+				leaflet::addPolygons(data = shp[sel], fillColor = sprintf("url(#%s)", pat$ids[sel]),
+									 fillOpacity = 1, stroke = FALSE, options = opt2, group = group) %>%
+				leaflet::addPolygons(data = shp, color = gp$col, opacity = gp$col_alpha, fill = FALSE,
+									 weight = gp$lwd, dashArray = gp$lty, options = opt2, group = group)
+		}
+
 		lf %>%
-			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups) %>%
 			blend_lf(a$blend, pane) %>%
 			assign_lf(facet_row, facet_col, facet_page)
 	}
@@ -113,4 +142,80 @@ tmapLeafletDataPlot.tm_data_fill = function(a, shpTM, dt, pdt, popup.format, hdt
 #' @rdname tmapGridLeaflet
 tmapLeafletDataPlot.tm_data_borders = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
 	NextMethod()
+}
+
+
+# SVG pattern ids per feature (NA: no pattern) and the SVG <pattern> definitions, from the pattern
+# map variables (gp elements pattern, pattern_col, pattern_size, pattern_density). Ids are derived
+# from the pattern definitions, so equal patterns share an id (also across maps on one page).
+# Zooming patterns (zoom = TRUE) depend on the zoom level of a map, so their ids get a suffix
+# that is unique per map.
+leaflet_pattern_ids = function(gp, n, o, zoom = FALSE, suffix = NULL) {
+	unresolved = function(x) is.null(x) || (is.character(x) && any(startsWith(x, "__"), na.rm = TRUE))
+	if (unresolved(gp$pattern) || all(is.na(gp$pattern) | gp$pattern == "none")) return(NULL)
+	pdt = data.frame(pattern = rep_len(gp$pattern, n),
+					 col = rep_len(if (unresolved(gp$pattern_col)) "grey25" else gp$pattern_col, n),
+					 size = rep_len(if (unresolved(gp$pattern_size)) 1 else gp$pattern_size, n),
+					 density = rep_len(if (unresolved(gp$pattern_density)) 0.8 else gp$pattern_density, n),
+					 stringsAsFactors = FALSE)
+	key = do.call(paste, c(unname(as.list(pdt)), sep = "|"))
+	ukey = unique(key)
+	hashes = vapply(ukey, function(k) substr(rlang::hash(k), 1, 12), character(1), USE.NAMES = FALSE)
+	uids = paste0("tmap-pattern-", hashes,
+				  if (zoom) paste0("-z", suffix) else "")
+	updt = pdt[match(ukey, key), , drop = FALSE]
+	defs = mapply(function(p, col, size, density, id) {
+		if (is.na(p) || p == "none" || is.na(density)) return(NA_character_)
+		x = pattern_svg(p, density = density, size = size, col = col, id = id, scale = o$scale)
+		if (is.null(x)) NA_character_ else x
+	}, updt$pattern, updt$col, updt$size, updt$density, uids, USE.NAMES = FALSE)
+	ids = uids[match(key, ukey)]
+	ids[is.na(defs[match(key, ukey)])] = NA_character_
+	defs = defs[!is.na(defs)]
+	if (!length(defs)) return(NULL)
+	list(ids = ids, defs = defs)
+}
+
+# Add SVG pattern definitions to the page: a hidden <svg> with <defs> in the map container.
+# Leaflet sets the fill of paths to the fillColor, so fillColor = "url(#id)" refers to them.
+# The patterns use userSpaceOnUse units (screen pixels), so they keep their size when zooming.
+# Zooming patterns (ids in zoom) get a patternTransform that is updated after each zoom: a scale
+# factor relative to the initial zoom level, and a translation that anchors the pattern to a fixed
+# location (the initial map center), so that the pattern sticks to the map.
+leaflet_add_pattern_defs = function(lf, defs, zoom = character()) {
+	htmlwidgets::onRender(lf, "function(el, x, data) {
+		var map = this;
+		var svg = el.querySelector('svg.tmap-pattern-defs');
+		if (!svg) {
+			svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			svg.setAttribute('class', 'tmap-pattern-defs');
+			svg.setAttribute('width', '0');
+			svg.setAttribute('height', '0');
+			svg.style.position = 'absolute';
+			svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'defs'));
+			el.appendChild(svg);
+		}
+		var defs = svg.querySelector('defs');
+		[].concat(data.defs).forEach(function(d) {
+			var tmp = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			tmp.innerHTML = d;
+			var p = tmp.firstChild;
+			if (p && !document.getElementById(p.id)) defs.appendChild(p);
+		});
+		var zoomIds = [].concat(data.zoom || []);
+		if (zoomIds.length) {
+			var z0 = map.getZoom();
+			var anchor = map.getCenter();
+			var update = function() {
+				var s = Math.pow(2, map.getZoom() - z0);
+				var p = map.latLngToLayerPoint(anchor);
+				zoomIds.forEach(function(id) {
+					var pat = document.getElementById(id);
+					if (pat) pat.setAttribute('patternTransform', 'translate(' + p.x + ',' + p.y + ') scale(' + s + ')');
+				});
+			};
+			map.on('zoomend viewreset moveend', update);
+			update();
+		}
+	}", data = list(defs = as.list(defs), zoom = as.list(zoom)))
 }

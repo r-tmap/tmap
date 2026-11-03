@@ -4,6 +4,7 @@ S3method("+",tmap)
 S3method(format,tmap_patterns)
 S3method(knitr::knit_print,tmap)
 S3method(knitr::knit_print,tmap_arrange)
+S3method(makeContent,tmap_pattern_area)
 S3method(print,tm_element)
 S3method(print,tm_popup)
 S3method(print,tm_shape)
@@ -597,6 +598,7 @@ export(tmap_overview)
 export(tmap_provider_credits)
 export(tmap_providers)
 export(tmap_save)
+export(tmap_show_values)
 export(tmap_style)
 export(tmap_style_catalog)
 export(tmap_style_catalogue)
@@ -627,6 +629,7 @@ importFrom(grDevices,
   png,
   rgb
 )
+importFrom(grid,makeContent)
 importFrom(htmlwidgets,
   saveWidget,
   shinyWidgetOutput
