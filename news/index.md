@@ -29,6 +29,10 @@
   now use the constant color of the layer
 - fixed: the global `scale` was applied to data-driven transparency in
   some scales
+- fixed: patterns ran outside the polygons on graphics devices without
+  support for clipping paths, e.g. the Windows device in RStudio
+  ([\#1135](https://github.com/r-tmap/tmap/issues/1135)); patterns are
+  then clipped geometrically
 - [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md):
   draws the available values of the categorical map variables `pattern`,
   `shape`, `lty`, and `fontface`

@@ -102,6 +102,7 @@
 <li>added <code><a href="../reference/tm_legend.html">tm_legend_cross()</a></code> (a grid legend of two map variables) and <code>tm_legend(dot.value)</code> (units per dot in dot density maps)</li>
 <li>other legends that borrow the color of a categorical <code>fill</code> or <code>col</code> now use the constant color of the layer</li>
 <li>fixed: the global <code>scale</code> was applied to data-driven transparency in some scales</li>
+<li>fixed: patterns ran outside the polygons on graphics devices without support for clipping paths, e.g. the Windows device in RStudio (<a href="https://github.com/r-tmap/tmap/issues/1135" class="external-link">#1135</a>); patterns are then clipped geometrically</li>
 <li>
 <code><a href="../reference/tmap_show_values.html">tmap_show_values()</a></code>: draws the available values of the categorical map variables <code>pattern</code>, <code>shape</code>, <code>lty</code>, and <code>fontface</code>
 </li>

@@ -5,6 +5,32 @@ Internal methods for tmap extensions
 ## Usage
 
 ``` r
+pattern_png(
+  spec,
+  density,
+  size = 1,
+  col = "grey25",
+  scale = 1,
+  line_in = 0.2,
+  alpha = 1,
+  dpi = 96,
+  bg = NA
+)
+
+pattern_swatch_png(
+  spec,
+  density,
+  size = 1,
+  col = "grey25",
+  fill = NA,
+  fill_alpha = 1,
+  border = NA,
+  border_alpha = 1,
+  lwd = 1,
+  scale = 1,
+  px = 24
+)
+
 toTitleCase(x)
 
 tm_element(..., subclass = NULL)
@@ -53,6 +79,8 @@ tmapTpar(...)
 tmapGetCompGroupArgs(comp)
 
 lwd_to_mm(value, unit = "bigpts")
+
+pattern_density_round(d, step = 0.02)
 
 .TMAP
 
@@ -648,6 +676,15 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 
 ## Arguments
 
+- scale:
+
+  scale
+
+- fill, col, shape, size, fill_alpha, col_alpha, pattern, lty, lwd,
+  linejoin, lineend:
+
+  map variables
+
 - ...:
 
   args
@@ -655,15 +692,6 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 - subclass:
 
   subclass
-
-- fill, col, shape, size, fill_alpha, col_alpha, pattern, lty, lwd,
-  linejoin, lineend:
-
-  map variables
-
-- scale:
-
-  scale
 
 - args:
 
