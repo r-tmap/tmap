@@ -188,7 +188,8 @@ tm_check_fix = function() {
 
 
 #' @rdname tm_layout
-#' @param style name of the style. Note that `tm_style()` resets all options
+#' @param style name of the style, see [tmap_style()]. Styles can be combined, e.g.
+#'   `c("cobalt", "v4.4")`. Note that `tm_style()` resets all options
 #'   (to the ones of the specified style), so options set before it, e.g. via
 #'   `tm_layout()`, are ignored. Therefore, call `tm_style()` before
 #'   `tm_layout()` and other functions that set options.
@@ -199,7 +200,7 @@ tm_style = function(style, ...) {
 
 	check_style(style)
 
-	args$style = style
+	args$style = style_join(style)
 	args$called_from = "tm_style"
 	do.call(tm_options, args)
 }

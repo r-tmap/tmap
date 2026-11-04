@@ -93,6 +93,10 @@ step4_plot_collect_legends = function(tmx, o = NULL) {
 					l
 				}, legs2, names(legs2), SIMPLIFY = FALSE)
 
+				# cross legends (tm_legend_cross): the legend of the crossed map variable is attached to the
+				# cross legend, and not shown itself
+				legs2b = legend_cross_attach(legs2b)
+
 				copy_neutral = (length(legs) > 1)
 
 				legs3 = mapply(function(legs_aes, legnm, i) {
@@ -181,7 +185,15 @@ step4_plot_collect_legends = function(tmx, o = NULL) {
 							# text color and pattern color "auto": contrast with the legend item background
 							gp = legend_auto_col(gp, o)
 
+							# cross legend: a grid of the items of this map variable (rows) and of the crossed
+							# map variable (columns)
+							if (!is.null(leleg$cross_legend)) leleg = legend_cross(leleg, gp, tml$gp, legnm)
+
 							leleg$gp = gp
+							if (!is.null(leleg$cross_gp)) {
+								leleg$gp = leleg$cross_gp
+								leleg$cross_gp = NULL
+							}
 							leleg$vneutral = NULL
 							leleg$vvalues = NULL
 

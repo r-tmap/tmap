@@ -57,15 +57,15 @@
 #' | `"none"` | -- |
 #' | `"hatch"` | `angle` (default 45) |
 #' | `"crosshatch"` | `angle` (default 0) |
-#' | `"dots"` | `random` (default 0) |
+#' | `"dots"` | `random` (default 0), `seed` (default 1) |
 #' | `"dashes"` | `angle` (default 0), `length` (default 0.5) |
 #' | `"bricks"` | `angle` (default 0), `length` (default 2) |
 #' | `"herringbone"` | `angle` (default 0), `length` (default 2) |
 #' | `"hexagons"` | `angle` (default 0) |
 #' | `"waves"` | `angle` (default 0), `amplitude` (default 0.25) |
 #' | `"zigzag"` | `angle` (default 0), `amplitude` (default 0.25) |
-#' | `"circles"` | `random` (default 0) |
-#' | `"crosses"` | `random` (default 0) |
+#' | `"circles"` | `random` (default 0), `seed` (default 1) |
+#' | `"crosses"` | `random` (default 0), `seed` (default 1) |
 #' | `"noise"` | -- |
 #'
 #' Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
@@ -98,13 +98,16 @@
 #' @param random Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
 #' @param length Length of dashes, bricks, or herringbone blocks, relative to the spacing.
 #' @param amplitude Amplitude of waves and zigzag lines, relative to the spacing.
+#' @param seed Seed (a positive integer) of the random placement of dots, circles, or crosses (with `random > 0`).
+#'   Patterns with different seeds have elements at different positions, which is useful when several dot
+#'   patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.
 #' @return A character vector of class `tmap_patterns` with one pattern specification per element.
 #' @example ./examples/tm_patterns.R
 #' @seealso [tm_polygons()], [tmap_show_values()]
 #' @export
-tm_patterns = function(type = "hatch", angle = NA, random = NA, length = NA, amplitude = NA) {
+tm_patterns = function(type = "hatch", angle = NA, random = NA, length = NA, amplitude = NA, seed = NA) {
 	type = pattern_expand_sets(type)
-	args = list(angle = angle, random = random, length = length, amplitude = amplitude)
+	args = list(angle = angle, random = random, length = length, amplitude = amplitude, seed = seed)
 	n = max(base::length(type), vapply(args, base::length, integer(1)))
 	nms = if (base::length(type) == n) names(type) else NULL
 	type = rep_len(type, n)
@@ -144,13 +147,17 @@ pattern_spec = function(type, pars = list(), warn = FALSE) {
 					   call = NULL)
 	}
 	def = .pattern_types[[type]]
-	unused = setdiff(names(pars), names(def))
+	# seed: optional parameter of the randomly placed elements; only part of the specification when not 1
+	extra = if (type %in% c("dots", "circles", "crosses")) "seed" else character()
+	seed = pars$seed
+	unused = setdiff(names(pars), c(names(def), extra))
 	if (warn && length(unused)) {
 		cli::cli_warn("Pattern type {.val {type}} does not use {.arg {unused}}",
 					  .frequency = "regularly", .frequency_id = paste0("pattern_unused_", type))
 	}
 	pars = c(pars[intersect(names(pars), names(def))], def[setdiff(names(def), names(pars))])
 	pars = pars[names(def)]
+	if (length(extra) && !is.null(seed) && !is.na(seed) && seed != 1) pars$seed = round(seed)
 	if (!length(pars)) return(type)
 	vals = vapply(pars, function(p) as.character(signif(as.numeric(p), 6)), character(1))
 	paste0(type, "(", paste(names(pars), vals, sep = "=", collapse = ","), ")")

@@ -327,9 +327,11 @@ tmapValuesRange_lty = function(x, n, isdiv) {
 #' @export
 #' @rdname tmap_internal
 tmapValuesRange_size = function(x, n, isdiv) {
-	#print(c(.5/n, 1 - .5/n))
-#	c(.5/n, 1 - .5/n)
-	c(0, 1)
+	# automatic range of numeric values: when the sequence starts at 0, the classes (n > 1) get the values k/n of the
+	# curve, so that the first class is not 0; otherwise (and for continuous scales, n = NA), the full curve
+	if (is.na(n) || n <= 1) return(c(0, 1))
+	from = if (inherits(x, "tmapSeq")) x$from else if (is.numeric(x) && length(x) != n) x[1] else NA
+	if (!is.na(from) && from == 0) c(1 / n, 1) else c(0, 1)
 }
 
 #' @export
@@ -541,14 +543,9 @@ tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		if (is.numeric(x)) {
 			x = tm_seq(x[1], x[length(x)], power = "lin")
 		}
-
-		if (range[1] !=0 || range[2] != 1) {
-			p = if (is.numeric(x$power)) x$power else switch(x$power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
-			x$from = range[1] ^ (1/p)
-			x$to = range[2] ^ (1/p)
-		}
-		tmapSeq(x, n)
-
+		# values.range is relative: the part of the curve that is used
+		check_values_range(range)
+		tmapSeq(x, n, range = range)
 	}
 	value.neutral = vvalues[round((n+1)/2)]
 	list(vvalues = vvalues * scale, value.neutral = value.neutral * scale, value.na = value.na * scale)
@@ -803,12 +800,26 @@ tmapValuesColorize_angle = function(x, pc) x
 
 #' Specify a numeric sequence
 #'
-#' Specify a numeric sequence, for numeric scales like [tm_scale_continuous()]. This function is needed when there is a non-linear relationship between the numeric data values and the map variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
+#' Specify a numeric sequence of visual values, for numeric scales like [tm_scale_continuous()] and
+#' [tm_scale_intervals()]. The sequence runs from `from` to `to`, and `power` determines the shape of the curve in
+#' between. This is needed when there is a non-linear relationship between the numeric data values and the map
+#' variables. E.g. to make the area of bubbles proportional to the data values, the diameters of the bubbles
+#' should be proportional to the square root of the data values (`power = "sqrt"`). See also
+#' [tm_scale_continuous_area()].
 #'
-#' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting `power` to `"sqrt_perceptual"`
+#' The visual values are interpolated in the space where they are proportional to the data: for `power = 0.5`,
+#' the squares of the values (the areas) are interpolated linearly. So, the visual value at position `t` (from
+#' 0 to 1) is `(from^(1/power) + t * (to^(1/power) - from^(1/power)))^power`. Note that `from` and `to` are the
+#' first and last visual values themselves (before tmap 4.5, they were raised to the power `power`).
 #'
-#' @param from,to The numeric range, default 0 and 1 respectively
-#' @param power The power component, a number or or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`, `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
+#' The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method
+#' to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead
+#' of 0.5, or by setting `power` to `"sqrt_perceptual"`.
+#'
+#' @param from,to The first and last visual value, default 0 and 1 respectively. Both should be non-negative
+#'   when `power` is not 1.
+#' @param power The power component, a number or or one of `"lin"`, `"sqrt"`, `"sqrt_perceptual"`,
+#'   `"quadratic"`, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.
 #' @export
 tm_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
 	if (length(power) > 1) power = power[1]
@@ -821,45 +832,54 @@ norm_vector = function(x, rng) {
 }
 
 scale_vector = function(x, new_rng) {
-	(x + new_rng[1]) * diff(new_rng)
+	new_rng[1] + x * diff(new_rng)
+}
+
+# values.range of numeric map variables is relative (since tmap 4.5); before, it was used as absolute range
+check_values_range = function(range) {
+	if (any(range < 0 | range > 1)) {
+		cli::cli_inform(c("{.arg values.range} should be between 0 and 1: it is the part of the {.arg values} that is used.",
+						  i = "To specify the range of visual values, use {.arg values}, e.g. {.code values = tm_seq({range[1]}, {range[2]}, power = \"sqrt\")} for {.arg size}."),
+						.frequency = "regularly", .frequency_id = "values_range")
+	}
+}
+
+seq_power = function(power) {
+	if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
+}
+
+# visual values of a tm_seq at positions t (from 0 to 1): interpolated in the space where the visual values are
+# proportional to the data (e.g. areas for power = 0.5)
+seq_values = function(s, t) {
+	p = seq_power(s$power)
+	if (p == 1) return(s$from + t * (s$to - s$from))
+	a = s$from ^ (1 / p)
+	b = s$to ^ (1 / p)
+	(a + t * (b - a)) ^ p
 }
 
 #' @export
 #' @rdname tmap_internal
-tmapSeq = function(s, n = NULL) {
-	if (is.null(n) && is.null(s$values)) stop("One of n or s$values should be provided")
-	if (is.null(s$values)) s["values"] = list(NULL)
-	with(s, {
-		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
-		# Opus5.5: for a single value, take the end value rather than the start value (often 0, e.g. for sizes,
-		# so that the symbols would be invisible) (#1255)
-		r = if (n == 1L) to ^ p else seq(from = from, to = to, length.out = n) ^ p
-	})
+tmapSeq = function(s, n, range = c(0, 1)) {
+	# Opus5.5: for a single value, take the end value rather than the start value (often 0, e.g. for sizes,
+	# so that the symbols would be invisible) (#1255)
+	t = if (n == 1L) range[2] else seq(range[1], range[2], length.out = n)
+	seq_values(s, t)
 }
 
 #' @export
 #' @rdname tmap_internal
-transform_values = function(x, lim, rng, power, scale, include.neutral = TRUE) {
-	p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
-	if (p != 1) rng = rng ^ (1/p)
+transform_values = function(x, lim, rng, values, scale, include.neutral = TRUE) {
+	# values: a tm_seq (or, for backward compatibility, a power)
+	if (!inherits(values, "tmapSeq")) values = tm_seq(0, 1, power = values)
 
-	x2 = norm_vector(x, lim)
-	x3 = if (rng[1] != 0 || rng[2] != 1) scale_vector(x2, rng) else x2
-
-	if (include.neutral) neutral = mean(rng)
-	if (p != 1) {
-		x3 = x3 ^ p
-		if (include.neutral) neutral = neutral ^ p
-	}
-	x4 = x3 * scale
-	if (include.neutral) neutral = neutral * scale
-
-	if (include.neutral) {
-		list(x = x4,
-			 neutral = neutral)
-	} else {
-		x4
-	}
+	# positions on the curve; values.range (rng) is relative: the part of the curve that is used
+	check_values_range(rng)
+	t = scale_vector(norm_vector(x, lim), rng)
+	x3 = seq_values(values, t)
+	if (!include.neutral) return(x3 * scale)
+	list(x = x3 * scale,
+		 neutral = seq_values(values, mean(rng)) * scale)
 }
 
 

@@ -11,13 +11,27 @@ tm_seq(
 )
 }
 \arguments{
-\item{from, to}{The numeric range, default 0 and 1 respectively}
+\item{from, to}{The first and last visual value, default 0 and 1 respectively. Both should be non-negative
+when \code{power} is not 1.}
 
-\item{power}{The power component, a number or or one of \code{"lin"}, \code{"sqrt"}, \code{"sqrt_perceptual"}, \code{"quadratic"}, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.}
+\item{power}{The power component, a number or or one of \code{"lin"}, \code{"sqrt"}, \code{"sqrt_perceptual"},
+\code{"quadratic"}, which correspond to 1, 0.5, 0.5716, 2 respectively. See details.}
 }
 \description{
-Specify a numeric sequence, for numeric scales like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}}. This function is needed when there is a non-linear relationship between the numeric data values and the map variables. E.g. to make relationship with the area of bubbles linear, the square root of input variables should be used to calculate the radius of the bubbles.
+Specify a numeric sequence of visual values, for numeric scales like \code{\link[=tm_scale_continuous]{tm_scale_continuous()}} and
+\code{\link[=tm_scale_intervals]{tm_scale_intervals()}}. The sequence runs from \code{from} to \code{to}, and \code{power} determines the shape of the curve in
+between. This is needed when there is a non-linear relationship between the numeric data values and the map
+variables. E.g. to make the area of bubbles proportional to the data values, the diameters of the bubbles
+should be proportional to the square root of the data values (\code{power = "sqrt"}). See also
+\code{\link[=tm_scale_continuous_area]{tm_scale_continuous_area()}}.
 }
 \details{
-The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead of 0.5, or by setting \code{power} to \code{"sqrt_perceptual"}
+The visual values are interpolated in the space where they are proportional to the data: for \code{power = 0.5},
+the squares of the values (the areas) are interpolated linearly. So, the visual value at position \code{t} (from
+0 to 1) is \code{(from^(1/power) + t * (to^(1/power) - from^(1/power)))^power}. Note that \code{from} and \code{to} are the
+first and last visual values themselves (before tmap 4.5, they were raised to the power \code{power}).
+
+The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method
+to compensate this for symbols. This compensation is obtained by using the power exponent of 0.5716 instead
+of 0.5, or by setting \code{power} to \code{"sqrt_perceptual"}.
 }

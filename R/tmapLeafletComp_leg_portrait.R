@@ -56,7 +56,7 @@ tmapLeaflet_legend_comp = function(comp, o) {
 	}
 
 	within(comp, {
-		if ("biv" %in% names(attributes(gp$fill))) {
+		if ("biv" %in% names(attributes(gp$fill)) && !isTRUE(comp$is_cross)) {
 			warning("Bivariate legend not implemented for view mode", call. = FALSE)
 			show = FALSE
 		}
@@ -70,7 +70,9 @@ tmapLeaflet_legend_comp = function(comp, o) {
 			varying = setdiff(varying, "col")
 			gp$col = gp$col[1]
 		}
-		type = if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
+		type = if (isTRUE(comp$is_cross)) {
+			"cross"
+		} else if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
 				   (!is.na(gp$col[1]) && any(nchar(gp$col) > 50)) || (!is.na(gp$col_alpha[1]) && any(nchar(gp$col_alpha) > 50))) {
 			"gradient"
 

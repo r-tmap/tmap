@@ -177,6 +177,8 @@ navbar:
           href: articles/examples_choro_NLD
         - text: Bubble map
           href: articles/examples_bubble
+        - text: Dot density map
+          href: articles/examples_dot_density
         - text: Raster map
           href: articles/examples_raster
         - text: Topographic map (Africa)

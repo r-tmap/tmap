@@ -66,3 +66,37 @@ test_that("user-specified value.na overrules the na color of the palette, a styl
 	o3 = complete_options(list(value.na = list(fill = "grey60")), o2)
 	expect_identical(get_scale_defaults(sc, o3, "fill", "polygons", "num")$value.na, pal_na)
 })
+
+test_that("tm_scale_continuous_area and _volume map proportionally", {
+	x = c(0, 100, 400, 2500, 10000)
+	o = tmap_options_mode("plot", mode.specific = FALSE)
+	leg = modifyList(tm_legend(), list(reverse = FALSE, na.show = NA))
+	vals = function(aes, s) {
+		tmapScaleContinuous(x, s, leg, tm_chart_none(), o, aes, "polygons", list(), sortRev = NULL,
+							bypass_ord = FALSE, submit_legend = FALSE)$vals
+	}
+	expect_equal(vals("size", tm_scale_continuous_area()), (x / 1e4) ^ 0.5)
+	expect_equal(vals("pattern_density", tm_scale_continuous_area()), (x / 1e4) ^ 0.5)
+	expect_equal(vals("size", tm_scale_continuous_area(perceptual = TRUE)), (x / 1e4) ^ 0.5716)
+	expect_equal(vals("size", tm_scale_continuous_area(perceptual = 0.8)), (x / 1e4) ^ 0.625)
+	expect_equal(vals("size", tm_scale_continuous_volume()), (x / 1e4) ^ (1/3))
+	expect_equal(vals("size", tm_scale_continuous_volume(perceptual = TRUE)), (x / 1e4) ^ (4/9))
+	expect_equal(vals("size", tm_scale_continuous_volume(values = c(0, 2))), 2 * (x / 1e4) ^ (1/3))
+	expect_error(vals("fill", tm_scale_continuous_area()), "color map variable")
+	expect_error(tm_scale_continuous_area(trans = "log"), "trans")
+	expect_error(tm_scale_continuous_volume(perceptual = 2), "perception exponent")
+})
+
+test_that("the range of values is used by tm_scale_continuous", {
+	x = c(0, 100, 400, 2500, 10000)
+	o = tmap_options_mode("plot", mode.specific = FALSE)
+	leg = modifyList(tm_legend(), list(reverse = FALSE, na.show = NA))
+	vals = function(aes, s) {
+		tmapScaleContinuous(x, s, leg, tm_chart_none(), o, aes, "polygons", list(), sortRev = NULL,
+							bypass_ord = FALSE, submit_legend = FALSE)$vals
+	}
+	expect_equal(vals("lwd", tm_scale_continuous(values = c(0.5, 4))), 0.5 + 3.5 * x / 1e4)
+	expect_equal(vals("lwd", tm_scale_continuous(values = tm_seq(0.5, 1))), 0.5 + 0.5 * x / 1e4)
+	# values.range is relative: the default lwd values are 0 to 3
+	expect_equal(vals("lwd", tm_scale_continuous(values.range = c(0.5, 1))), 1.5 + 1.5 * x / 1e4)
+})

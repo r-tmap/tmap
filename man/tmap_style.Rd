@@ -11,7 +11,9 @@ tmap_style(style)
 and also shows all available styles. When the style is specified,\code{tmap_style()}
 sets the style accordingly. Note that in that case, all tmap options (see \code{\link[=tmap_options]{tmap_options()}})
 will be reset according to the style definition.
-See \code{\link[=tm_layout]{tm_layout()}} for predefined styles, and \code{tmap_style_catalogue()} for creating a catalogue.}
+See \code{\link[=tm_layout]{tm_layout()}} for predefined styles, and \code{tmap_style_catalogue()} for creating a catalogue.
+Styles can be combined, e.g. \code{c("cobalt", "v4.4")}, where the options of later styles
+take precedence. See details for the styles of previous tmap versions.}
 }
 \value{
 The style before changing
@@ -30,6 +32,17 @@ After loading a style, the options that defined this style
 (i.e. the difference with the default \code{"white"} style) can be obtained by \code{\link[=tmap_options_diff]{tmap_options_diff()}}.
 
 The documentation of \code{\link[=tmap_options]{tmap_options()}} (details and the examples) shows how to create a new style.
+
+For backward compatibility, there are also styles of previous tmap versions:
+\itemize{
+\item \code{"v4.4"}: the numeric scales of tmap 4.0 to 4.4. In tmap 4.5, these scales were made consistent: the
+classes of a numeric map variable that starts at 0 (such as \code{size} and \code{lwd}) no longer start at 0, and
+continuous scales use the same values as the other scales (so data-driven line widths range from 0 to 3
+instead of from 0 to 1). This style reproduces the maps of tmap 4.0 to 4.4. It can be combined with other
+styles, e.g. \code{tm_style(c("cobalt", "v4.4"))}.
+\item \code{"v3"} and \code{"<style>_v3"}, e.g. \code{"cobalt_v3"}: the styles of tmap 3, which also include the numeric scales
+of \code{"v4.4"}.
+}
 }
 \examples{
 tmap_style()
@@ -49,6 +62,16 @@ tm_shape(World) + tm_polygons("HPI")
 tmap_style("cobalt_v3")
 
 tm_shape(World) + tm_polygons("HPI")
+
+# the numeric scales of tmap 4.0 to 4.4 (here: thinner data-driven line widths)
+tmap_style("white")
+
+tm_shape(World_rivers) + tm_lines(lwd = "strokelwd")
+
+tm_shape(World_rivers) + tm_lines(lwd = "strokelwd") + tm_style("v4.4")
+
+# styles can be combined
+tm_shape(World_rivers) + tm_lines(lwd = "strokelwd") + tm_style(c("cobalt", "v4.4"))
 }
 \seealso{
 \itemize{

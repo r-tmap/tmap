@@ -670,9 +670,9 @@ tmapValuesColorize_xmod(x, pc)
 
 tmapValuesColorize_angle(x, pc)
 
-tmapSeq(s, n = NULL)
+tmapSeq(s, n, range = c(0, 1))
 
-transform_values(x, lim, rng, power, scale, include.neutral = TRUE)
+transform_values(x, lim, rng, values, scale, include.neutral = TRUE)
 
 tmapValuesCVV_fill(x, value.na, n, range, scale, rep, o)
 

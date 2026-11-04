@@ -150,6 +150,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 	lf2 = if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
 		lf
+	} else if (cmp$type == "cross") {
+		# cross legend (tm_legend_cross): an html table of swatches
+		lf %>% leaflet::addControl(html = leaflet_cross_legend_html(cmp, o), position = legpos,
+								   className = leg_className, layerId = layerId)
 	} else if (cmp$type == "gradient") {
 		breaks_show =  ("is_discrete" %in% names(cmp)) && cmp$is_discrete
 
@@ -295,6 +299,18 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 			leaflet_pattern_ids(gpz, n, o, zoom = TRUE, suffix = suffix)
 		}
 		cls = if (is.null(zpat)) leg_className else paste(leg_className, paste0("tmap-pattern-legend-", suffix))
+		# dot density legend: a note with the number of units per dot, updated after zooming
+		dot_info = cmp[["dot_info"]]
+		if (!is.null(dot_info) && !legend_dot_pattern(cmp$gp)) {
+			message_legend_dot_value("the pattern is not a (constant) dot pattern")
+			dot_info = NULL
+		} else if (is.null(dot_info) && !is.null(cmp[["dot.value"]]) && !isFALSE(cmp[["dot.value"]])) {
+			message_legend_dot_value()
+		}
+		if (!is.null(dot_info)) {
+			dot_cls = paste0("tmap-dot-legend-", substr(rlang::hash(list(Sys.time(), layerId, lab, "dot")), 1, 8))
+			cls = paste(cls, dot_cls)
+		}
 		lf = lf %>% leaflegend::addLegendImage(images,
 										  group = group,
 										  labels = lab,
@@ -308,9 +324,13 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 										  className = cls)
 		if (!is.null(zpat)) {
 			lf = lf %>%
-				leaflet_add_pattern_defs(zpat$defs, zoom = unique(stats::na.omit(zpat$ids))) %>%
+				leaflet_add_pattern_defs(zpat$defs, zoom = unique(stats::na.omit(zpat$ids)),
+										 zoom_size = !isFALSE(cmp$layer_args$pattern.zoom.size)) %>%
 				leaflet_pattern_legend_swatches(paste0("tmap-pattern-legend-", suffix), ids = zpat$ids,
 												gp = gp, px = px)
+		}
+		if (!is.null(dot_info)) {
+			lf = leaflet_dot_note(lf, dot_cls, dot_info, scale = o$scale, zoom = isTRUE(cmp$layer_args$pattern.zoom))
 		}
 		lf
 	} else if (cmp$type == "text") {

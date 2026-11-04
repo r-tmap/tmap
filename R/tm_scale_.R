@@ -76,7 +76,7 @@ tm_scale_ordinal = function(n.max = 30,
 #' @param n.max Maximum number of categories (factor levels). In case there are more, they are grouped into `n.max` groups.
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for `tm_polygons()`) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for `tm_symbols()`) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. `shape` for [tm_symbols()]) these are a set of symbols, for fill patterns (`pattern` for [tm_polygons()]) pattern types or a pattern set (see [tm_patterns()]), etc. The available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface` are shown with [tmap_show_values()]. The tmap option `values.var` contains the default values per map variable and in some cases also per data type.
 #' @param values.repeat (generic scale argument) Should the values be repeated in case there are more categories?
-#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"gray50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
+#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"gray50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). For numeric map variables, such as `size` and `lwd`, it is also the part of the `values` that is used: e.g. `c(0.5, 1)` for line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA` (automatic), color palettes may use a part of their colors depending on the number of classes, and the classes of numeric map variables of which the values start at 0 get the values k/n (k = 1, ..., n) of the full range, so that the first class is not 0. Default values can be set via the tmap option `values.range`.
 #' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related map variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
 #' @param value.na (generic scale argument) Value used for missing values. See tmap option `"value.na"` for defaults per map variable.
 #' @param value.null (generic scale argument) Value used for NULL values. See tmap option `"value.null"` for defaults per map variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).
@@ -124,7 +124,7 @@ tm_scale_categorical = function(n.max = 30,
 #' @param as.count Should the data variable be processed as a count variable? For instance, if `style = "pretty"`, `n = 2`, and the value range of the variable is 0 to 10, then the column classes for `as.count = TRUE` are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for `as.count = FALSE` they are 0 to 5; 5 to 10. Only applicable if `style` is `"pretty"`, `"fixed"`, or `"log10_pretty"`. By default `FALSE`.
 #' @inheritParams tm_scale_categorical
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for [tm_polygons()]) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for `tm_symbols`) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. `shape` for `tm_symbols`) these are a set of symbols, for fill patterns (`pattern` for [tm_polygons()]) pattern types or a pattern set (see [tm_patterns()]), etc. The available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface` are shown with [tmap_show_values()]. The tmap option `values.var` contains the default values per map variable and in some cases also per data type.
-#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"gray25"` to `"gray75"`), and `0, 0.5` means that only colors are used from black to middle grey (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
+#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"gray25"` to `"gray75"`), and `0, 0.5` means that only colors are used from black to middle grey (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). For numeric map variables, such as `size` and `lwd`, it is also the part of the `values` that is used: e.g. `c(0.5, 1)` for line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA` (automatic), color palettes may use a part of their colors depending on the number of classes, and the classes of numeric map variables of which the values start at 0 get the values k/n (k = 1, ..., n) of the full range, so that the first class is not 0. Default values can be set via the tmap option `values.range`.
 #' @param labels (generic scale argument) Labels
 #' @param label.na (generic scale argument) Label for missing values
 #' @param label.null (generic scale argument) Label for null (out-of-scope) values
@@ -165,7 +165,7 @@ tm_scale_intervals = function(n = 5,
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for [tm_polygons()]) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for `tm_symbols`) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. `shape` for [tm_symbols()]) these are a set of symbols, for fill patterns (`pattern` for [tm_polygons()]) pattern types or a pattern set (see [tm_patterns()]), etc. The available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface` are shown with [tmap_show_values()]. The tmap option `values.var` contains the default values per map variable and in some cases also per data type.
 #' @param values.repeat (generic scale argument) Should the values be repeated in case there are more categories?
-#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle grey (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
+#' @param values.range (generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle grey (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). For numeric map variables, such as `size` and `lwd`, it is also the part of the `values` that is used: e.g. `c(0.5, 1)` for line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA` (automatic), color palettes may use a part of their colors depending on the number of classes, and the classes of numeric map variables of which the values start at 0 get the values k/n (k = 1, ..., n) of the full range, so that the first class is not 0. Default values can be set via the tmap option `values.range`.
 #' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related map variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
 #' @param value.na (generic scale argument) Value used for missing values. See tmap option `"value.na"` for defaults per map variable.
 #' @param value.null (generic scale argument) Value used for NULL values. See tmap option `"value.null"` for defaults per map variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).
@@ -209,7 +209,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to `NA`, which means that the value that corresponds to the middle color class (see `style`) is mapped to the middle color. If it is specified for sequential color palettes (e.g. `"Blues"`), then this color palette will be treated as a diverging color palette.
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for [tm_polygons()]) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for [tm_symbols()]) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. `shape` for [tm_symbols()]) these are a set of symbols, for fill patterns (`pattern` for [tm_polygons()]) pattern types or a pattern set (see [tm_patterns()]), etc. The available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface` are shown with [tmap_show_values()]. The tmap option `values.var` contains the default values per map variable and in some cases also per data type.
 #' @param values.repeat (generic scale argument) Should the values be repeated in case there are more categories?
-#' @param values.range (generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
+#' @param values.range (generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). For numeric map variables, such as `size` and `lwd`, it is also the part of the `values` that is used: e.g. `c(0.5, 1)` for line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA` (automatic), color palettes may use a part of their colors depending on the number of classes, and the classes of numeric map variables of which the values start at 0 get the values k/n (k = 1, ..., n) of the full range, so that the first class is not 0. Default values can be set via the tmap option `values.range`.
 #' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related map variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
 #' @param value.na (generic scale argument) Value used for missing values. See tmap option `"value.na"` for defaults per map variable.
 #' @param value.null (generic scale argument) Value used for NULL values. See tmap option `"value.null"` for defaults per map variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).
@@ -258,7 +258,7 @@ tm_scale_continuous = function(n = NULL,
 #' @param ticks Tick values. If not specified, it is determined automatically with `n`
 #' @param values (generic scale argument) The visual values. For colors (e.g. `fill` or `col` for [tm_polygons()]) this is a palette name from the `cols4all` package (see [cols4all::c4a()]) or vector of colors, for size (e.g. `size` for [tm_symbols()]) these are a set of sizes (if two values are specified they are interpreted as a range), for symbol shapes (e.g. `shape` for [tm_symbols()]) these are a set of symbols, for fill patterns (`pattern` for [tm_polygons()]) pattern types or a pattern set (see [tm_patterns()]), etc. The available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface` are shown with [tmap_show_values()]. The tmap option `values.var` contains the default values per map variable and in some cases also per data type.
 #' @param values.repeat (generic scale argument) Should the values be repeated in case there are more categories?
-#' @param values.range (generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option `values.range`.
+#' @param values.range (generic scale argument) Range of the values, especially useful for color palettes. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as `c(0, 1)`. For instance, when a gray scale is used for color (from black to white), `c(0,1)` means that all colors are used, `0.25, 0.75` means that only colors from dark gray to light gray are used (more precisely `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are used from black to middle gray (`"grey50"`). When only one number is specified, this is interpreted as the second number (where the first is set to 0). For numeric map variables, such as `size` and `lwd`, it is also the part of the `values` that is used: e.g. `c(0.5, 1)` for line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA` (automatic), color palettes may use a part of their colors depending on the number of classes, and the classes of numeric map variables of which the values start at 0 get the values k/n (k = 1, ..., n) of the full range, so that the first class is not 0. Default values can be set via the tmap option `values.range`.
 #' @param values.scale (generic scale argument) Scaling of the values. Only useful for size-related map variables, such as `size` of [tm_symbols()] and `lwd` of [tm_lines()].
 #' @param value.na (generic scale argument) Value used for missing values. See tmap option `"value.na"` for defaults per map variable.
 #' @param value.null (generic scale argument) Value used for NULL values. See tmap option `"value.null"` for defaults per map variable. Null data values occur when out-of-scope features are shown (e.g. for a map of Europe showing a data variable per country, the null values are applied to countries outside Europe).
@@ -327,6 +327,117 @@ tm_scale_continuous_log1p = function(...) {
 #' @rdname tm_scale_continuous
 tm_scale_continuous_sqrt = function(...) {
 	tm_scale_continuous(trans = "sqrt", ...)
+}
+
+#' Scales: continuous scales proportional to area or volume
+#'
+#' Continuous scales for symbols and patterns that are perceived as areas or volumes, so that the
+#' area or volume, rather than the diameter, is proportional to the data value.
+#' `tm_scale_continuous_area()` is used for symbols that are perceived as areas, such as the
+#' `size` of circles and squares in [tm_symbols()], and for the `pattern_density` of dot
+#' patterns (see [tm_patterns()]), for which the number of dots per area is proportional to
+#' the data value. `tm_scale_continuous_volume()` is used for symbols that are perceived as volumes,
+#' such as spheres and cubes.
+#'
+#' A visual value grows in a number of dimensions `d`: a line width and a
+#' transparency in one dimension, the area of a symbol and the number of dots per area of a dot
+#' pattern in two dimensions, and the volume of a sphere in three dimensions. To make the
+#' amount that grows proportional to the data, the visual value (e.g. the diameter of a symbol)
+#' is proportional to the data value to the power `1/d`. The limits start at 0, so a data value
+#' of 0 corresponds to a visual value of 0, and twice the data value to twice the area or
+#' volume.
+#'
+#' | Scale | Dimensions | Power | Typical use |
+#' |---|---|---|---|
+#' | [tm_scale_continuous()] | 1 | 1 | `lwd`, transparency, density of line patterns |
+#' | `tm_scale_continuous_area()` | 2 | 1/2 | symbol `size`, density of dot patterns |
+#' | `tm_scale_continuous_volume()` | 3 | 1/3 | symbols that look like spheres or cubes |
+#'
+#' Note that the default scale for `size` ([tm_scale_continuous()]) already maps to the area, since
+#' the default `values` of `size` are `tm_seq(0, 1, power = "sqrt")`.
+#'
+#' These scales should not be confused with [tm_scale_continuous_sqrt()]: that function
+#' transforms the data values, whereas the functions documented here determine how the
+#' (untransformed) data values are mapped to visual values. For `size`,
+#' `tm_scale_continuous_sqrt()` takes the square root twice (once of the data, and once by
+#' the default values of `size`), so that the area is not proportional to the data value.
+#'
+#' @section Perceptual scaling:
+#' Areas and volumes are not perceived proportionally: larger symbols are perceived as
+#' smaller than they are. In psychophysics, this is described by a power law: the perceived
+#' magnitude is proportional to the actual magnitude to the power `e`, the perception
+#' exponent, with `e < 1`. This can be compensated for by using the power `1 / (d * e)`
+#' instead of `1 / d`. With `perceptual = TRUE`, the following perception exponents are used:
+#'
+#' * area: `e = 0.875`, which gives the power 0.5716. This is the compensation that was derived
+#'   by Flannery (1971) in experiments with graduated circles, and which is also available via
+#'   `tm_seq(power = "sqrt_perceptual")`.
+#' * volume: `e = 0.75`, which gives the power `(1/3) / 0.75 = 0.444`. This value is tentative:
+#'   it is not established by empirical studies on map symbols. It is derived as follows. Ekman
+#'   and Junge (1961) found that the perceived volumes of real objects are proportional
+#'   to their volumes (`e` close to 1), but that for perspective drawings of cubes and spheres
+#'   `e` is about 0.75. They concluded that the volume of a drawing is largely judged by its
+#'   area. The power 0.444 follows from this exponent in the same way as
+#'   Flannery's power follows from the exponent for areas.
+#'
+#' A number can also be specified for `perceptual`, which is then used as the perception
+#' exponent `e` (between 0 and 1, where 1 means no compensation). Note that this is not the
+#' power itself: e.g. `perceptual = 0.8` for areas gives the power `0.5 / 0.8 = 0.625`. To
+#' specify the power directly, use [tm_scale_continuous()] with
+#' `values = tm_seq(0, 1, power = <power>)`.
+#'
+#' @param ... arguments passed on to [tm_scale_continuous()], except `trans` (the data values
+#'   are not transformed). If `values` is specified, it should be the range of the visual
+#'   values, e.g. `c(0, 2)`: by default `c(0, 1)`.
+#' @param perceptual should the perception of areas or volumes be compensated for? Either a
+#'   logical, or a number: the perception exponent (see section 'Perceptual scaling').
+#'   By default `FALSE`.
+#' @references
+#' Flannery, J. J. (1971). The relative effectiveness of some common graduated point symbols in
+#' the presentation of quantitative data. *Canadian Cartographer*, 8(2), 96-109.
+#'
+#' Ekman, G., & Junge, K. (1961). Psychophysical relations in visual perception of length, area
+#' and volume. *Scandinavian Journal of Psychology*, 2(1), 1-10.
+#' @example ./examples/tm_scale_continuous_area.R
+#' @seealso [tm_scale_continuous()], [tm_seq()], `r .doc_see_also_scales()`
+#' @export
+#' @rdname tm_scale_continuous_area
+tm_scale_continuous_area = function(..., perceptual = FALSE) {
+	tm_scale_continuous_dim(d = 2L, perceptual = perceptual, ...)
+}
+
+#' @export
+#' @rdname tm_scale_continuous_area
+tm_scale_continuous_volume = function(..., perceptual = FALSE) {
+	tm_scale_continuous_dim(d = 3L, perceptual = perceptual, ...)
+}
+
+tm_scale_continuous_dim = function(d, perceptual, ..., values = c(0, 1)) {
+	fun = if (d == 2L) "tm_scale_continuous_area" else "tm_scale_continuous_volume"
+	if ("trans" %in% names(list(...))) {
+		cli::cli_abort("{.fun {fun}}: {.arg trans} cannot be used, since the data values are not
+					   transformed", call = NULL)
+	}
+	if (!is.numeric(values) || length(values) != 2L || any(values < 0)) {
+		cli::cli_abort("{.fun {fun}}: {.arg values} should be two non-negative numbers: the range of
+					   the visual values", call = NULL)
+	}
+	e = if (isFALSE(perceptual)) {
+		1
+	} else if (isTRUE(perceptual)) {
+		# area: Flannery (1971), whose power 0.5716 corresponds to e = 0.5 / 0.5716 = 0.875;
+		# volume: Ekman & Junge (1961), tentative
+		if (d == 2L) 0.5 / 0.5716 else 0.75
+	} else if (is.numeric(perceptual) && length(perceptual) == 1L && perceptual > 0 && perceptual <= 1) {
+		perceptual
+	} else {
+		cli::cli_abort("{.fun {fun}}: {.arg perceptual} should be {.code TRUE}, {.code FALSE}, or
+					   a number between 0 and 1 (the perception exponent)", call = NULL)
+	}
+	p = 1 / (d * e)
+	x = tm_scale_continuous(values = tm_seq(values[1], values[2], power = p), ...)
+	x$dimensions = d
+	x
 }
 
 #' @export

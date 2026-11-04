@@ -128,6 +128,12 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 
 		sfun = paste0("tmapValuesScale_", aes)
 		cfun = paste0("tmapValuesColorize_", aes)
+		if (identical(value.neutral, NA) && aes %in% c("fill", "col", "bgcol")) {
+			# colors: the neutral value (used in other legends, e.g. of size or pattern) is the
+			# constant value of the layer (e.g. grey85 for polygon fills), rather than the color of
+			# one of the categories, which would suggest a relation with that category
+			value.neutral = getAesOption("value.const", o, aes, layer)
+		}
 		if (identical(value.neutral, NA)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 		mfun = paste0("tmapValuesSubmit_", aes)

@@ -2,7 +2,10 @@ update_scale_args = function(scaleName, args, aes, o) {
 	if (scaleName %in% names(o$scale.misc.args)) {
 		def = o$scale.misc.args[[scaleName]]
 		for (nam in names(def)) {
-			if (is.null(args[[nam]])) args[[nam]] = getAesValue(def[[nam]], aes)
+			# values: the scale argument is NA by default (scale specific default values, e.g. in the "v4.4" style)
+			if (is.null(args[[nam]]) || (nam == "values" && identical(args[[nam]], NA))) {
+				args[[nam]] = getAesValue(def[[nam]], aes)
+			}
 		}
 	}
 	args
@@ -45,9 +48,16 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		if (length(x1) > 1) warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
 
+	# units of the data (e.g. 1/km^2), used for the dot value of dot density legends
+	x1_units = if (inherits(x1, "units")) units::deparse_unit(x1) else NULL
 	x1 = without_units(x1)
 
 	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	if (!is.null(scale$dimensions) && aes %in% c("fill", "col", "bgcol", "pattern_col")) {
+		fun = if (scale$dimensions == 2L) "tm_scale_continuous_area" else "tm_scale_continuous_volume"
+		cli::cli_abort("{.fun {fun}} cannot be used for the color map variable {.arg {aes}}: colors are not
+					   proportional to the data values", call = NULL)
+	}
 
 	scale = get_scale_defaults(scale, o, aes, layer, cls)
 
@@ -165,7 +175,8 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
+			# n = NA for numeric values: continuous scales use the full curve
+			values.range = do.call(fun_range, args = list(x = values, n = if (vnum) NA else n, isdiv = udiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
@@ -221,10 +232,16 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			if (is.numeric(values)) {
 				values = tm_seq(values[1], values[length(values)], power = "lin")
 			}
-			VV = transform_values(x_t, limits_t, values.range, values$power, values.scale * values_scale_o(aes, o))
+			VV = transform_values(x_t, limits_t, values.range, values, values.scale * values_scale_o(aes, o))
 
 			vals = VV$x
 			if (is.na(value.neutral)) value.neutral = VV$neutral
+		}
+
+		# dot density legends: the number of units per dot (see the legend argument dot.value)
+		dot_info = if (aes == "pattern_density" && vnum && !is.null(legend$dot.value) && !isFALSE(legend$dot.value)) {
+			legend_dot_info(legend, values, values.range, values.scale * values_scale_o(aes, o), limits, trans,
+							x1_units, layer)
 		}
 
 		isna = is.na(vals)
@@ -290,7 +307,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		nbrks_cont <- length(b_t)
 
 		if (vnum) {
-			vvalues = transform_values(b_t, limits_t, values.range, values$power, values.scale * values_scale_o(aes, o), include.neutral = FALSE)
+			vvalues = transform_values(b_t, limits_t, values.range, values, values.scale * values_scale_o(aes, o), include.neutral = FALSE)
 		} else {
 			id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 
@@ -380,6 +397,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			tr = tr
 			limits = limits
 			layer_args = layer_args
+			dot_info = dot_info
 		})
 
 

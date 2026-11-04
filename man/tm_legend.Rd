@@ -4,6 +4,7 @@
 \alias{tm_legend}
 \alias{tm_legend_hide}
 \alias{tm_legend_combine}
+\alias{tm_legend_cross}
 \alias{tm_legend_bivariate}
 \title{Map component: scale legend}
 \usage{
@@ -53,12 +54,16 @@ tm_legend(
   ticks.lwd,
   margins,
   item_text.margin,
+  dot.value,
+  dot.unit,
   ...
 )
 
 tm_legend_hide()
 
 tm_legend_combine(variable)
+
+tm_legend_cross(variable, title = "", xlab = NA, ylab = NA, ...)
 
 tm_legend_bivariate(
   xlab,
@@ -83,7 +88,7 @@ tm_legend_bivariate(
 )
 }
 \arguments{
-\item{title}{Legend title}
+\item{title}{Legend title. For \code{tm_legend_cross()}, the title of the cross legend (by default none).}
 
 \item{show}{Show legend?}
 
@@ -173,13 +178,28 @@ tm_legend_bivariate(
 
 \item{item_text.margin}{The margin of the space between item and text of the legend.}
 
+\item{dot.value}{For dot density maps: a note below the legend items that shows how many units one dot
+represents, e.g. \code{"1 dot \\u2248 {n} inhabitants"}, where \code{{n}} is replaced by the number. \code{TRUE} shows
+\code{"1 dot \\u2248 {n}"}. Only for the legend of \code{pattern_density} of \code{\link[=tm_polygons]{tm_polygons()}} with a dot pattern
+(\code{"dots"}, \code{"stipple"}, \code{"circles"}, or \code{"crosses"}) and a scale for which the number of dots is
+proportional to the data values, i.e. \code{\link[=tm_scale_continuous_area]{tm_scale_continuous_area()}}. The number depends on the map scale:
+it is computed at the center of the map when the map is drawn, and in view mode it is updated after
+zooming. The note is not shown when the area scale varies too much across the map (use an equal-area
+projection for small-scale maps).}
+
+\item{dot.unit}{The area unit of the data values (per area), e.g. \code{"km2"}, \code{"ha"}, or \code{"mi2"}. By default,
+it is taken from the units of the data variable (see the \strong{units} package), and otherwise \code{"km2"}.}
+
 \item{...}{visual values, e.g. \code{col}, \code{fill}, \code{lwd}, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)}
 
-\item{variable}{visual (or transformation) variable to combine the legend with: e.g. \code{"fill"} or \code{"size"}}
+\item{variable}{visual (or transformation) variable to combine (\code{tm_legend_combine()}) or cross
+(\code{tm_legend_cross()}) the legend with: e.g. \code{"fill"} or \code{"size"}}
 
-\item{xlab}{label for the x dimension (rows)}
+\item{xlab}{label for the x dimension (rows). For \code{tm_legend_cross()}, the label of the columns, by default the title
+of the legend of \code{variable}.}
 
-\item{ylab}{label for the y dimension (columns)}
+\item{ylab}{label for the y dimension (columns). For \code{tm_legend_cross()}, the label of the rows, by default the title
+of the legend of the map variable itself.}
 
 \item{xlab.color}{The color of the xlab of the legend.}
 
@@ -218,6 +238,17 @@ A tm_legend component
 }
 \description{
 Legend specification
+}
+\details{
+\code{tm_legend_cross()} crosses the legend of a map variable with the legend of another map variable
+(\code{variable}) of the same layer: the legend items are placed in a grid, with the items of the map variable in
+the rows and the items of \code{variable} in the columns, such that each cell shows a combination of both. It is
+meant for two map variables of different data variables that can be combined in one symbol, such as \code{fill}
+and \code{pattern} of \code{\link[=tm_polygons]{tm_polygons()}}: e.g. \code{pattern.legend = tm_legend_cross("fill")}. The legend of \code{variable}
+is not shown. Both legends should consist of separate items (so not a continuous color gradient). In
+contrast, \code{\link[=tm_legend_combine]{tm_legend_combine()}} merges the legends of two map variables of the same data variable into one
+list of items. The labels of the columns are rotated when they do not fit. The cross legend is portrait
+only.
 }
 \examples{
 # Example using different settings from tm_legend()

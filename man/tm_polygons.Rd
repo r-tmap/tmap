@@ -78,7 +78,11 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
+opt_tm_polygons(
+  polygons.only = "ifany",
+  pattern.zoom = FALSE,
+  pattern.zoom.size = TRUE
+)
 }
 \arguments{
 \item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Map variable that determines the fill color. See details. \emph{Unit:} Color -- a color name, hex string.}
@@ -156,6 +160,8 @@ no blending. See the "Layer blending" section for the supported values.}
 \item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
 \item{pattern.zoom}{In view mode, should patterns (see \code{pattern}) zoom with the map? By default (\code{FALSE}), patterns keep the same size on the screen, like \code{\link[=tm_bubbles]{tm_bubbles()}}. With \code{TRUE}, they stick to the map and are enlarged when zooming in, like \code{\link[=tm_circles]{tm_circles()}}; at the initial zoom level, they look the same. Useful for e.g. dot density patterns. In plot mode, this has no effect.}
+
+\item{pattern.zoom.size}{Only used when \code{pattern.zoom = TRUE}: should the line widths and dot sizes of the patterns zoom as well (\code{TRUE}, default), or only the spacing between the pattern elements (\code{FALSE}), so that lines and dots keep the same size on the screen?}
 }
 \description{
 Map layer that draws polygons. Supported map variables are: \code{fill} (the fill color),

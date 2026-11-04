@@ -73,7 +73,10 @@ tmapGridCompHeight.tm_legend_landscape = function(comp, o) {
 	marH = comp$margins[c(3,1)] * textS * o$lin
 
 
-	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(comp$item_text.margin, 1) * textS * o$lin,marH[2])
+	# note below the labels (e.g. the dot value of dot density legends)
+	noteH = if (legend_note(comp) == "") NULL else c(0.5, 1) * textS * o$lin
+
+	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(comp$item_text.margin, 1) * textS * o$lin, noteH, marH[2])
 
 	Hin = if (is.na(comp$height)) sum(hsinch) else comp$height * textS * o$lin
 
@@ -171,6 +174,14 @@ tmapGridCompWidth.tm_legend_landscape = function(comp, o) {
 		corrW = 0
 	}
 
+	# note below the labels (e.g. the dot value of dot density legends): extend the legend if needed
+	note = legend_note(comp)
+	if (note != "") {
+		noteW = graphics::strwidth(note, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		itemsW = corrW + sum(items_all) * textS * o$lin
+		if (noteW > itemsW) marW[2] = marW[2] + (noteW - itemsW)
+	}
+
 	ws = c(marW[1], corrW, items_all * textS * o$lin, marW[2])
 
 
@@ -248,6 +259,16 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 
 	textW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 	scale_labels = max(textW / grid::convertUnit(wsu[comp$item_ids], unitTo = "inch", valueOnly = TRUE), 1)
+
+	# note below the labels (e.g. the dot value of dot density legends)
+	note = if (is.null(comp$note)) "" else comp$note
+	grNote = if (note == "") NULL else {
+		noteW = graphics::strwidth(note, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+		noteCols = 3:(length(wsu) - 1)
+		availW = sum(grid::convertWidth(wsu[noteCols], "inch", valueOnly = TRUE))
+		gridCell(10, noteCols, grid::textGrob(note, x = 0, just = "left",
+						gp = grid::gpar(col = comp$text.color, cex = textS * min(1, availW / noteW), fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha)))
+	}
 
 	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(comp$labels[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS/scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), (1L:nlev)[comp$labels_select], comp$item_ids[comp$labels_select], SIMPLIFY = FALSE)
 
@@ -532,7 +553,7 @@ tmapGridCompPlot.tm_legend_landscape = function(comp, o, fH, fW) {
 	}
 
 
-	g = do.call(grid::grobTree, c(list(grobBG, grTitle), grText, grItems, grTicks, grDesign, list(vp = vp)))
+	g = do.call(grid::grobTree, c(list(grobBG, grTitle, grNote), grText, grItems, grTicks, grDesign, list(vp = vp)))
 
 	g
 

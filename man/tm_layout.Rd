@@ -65,7 +65,8 @@ tm_layout(
 )
 }
 \arguments{
-\item{style}{name of the style. Note that \code{tm_style()} resets all options
+\item{style}{name of the style, see \code{\link[=tmap_style]{tmap_style()}}. Styles can be combined, e.g.
+\code{c("cobalt", "v4.4")}. Note that \code{tm_style()} resets all options
 (to the ones of the specified style), so options set before it, e.g. via
 \code{tm_layout()}, are ignored. Therefore, call \code{tm_style()} before
 \code{tm_layout()} and other functions that set options.}

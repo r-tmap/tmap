@@ -13,11 +13,23 @@
 #'
 #' The documentation of [tmap_options()] (details and the examples) shows how to create a new style.
 #'
+#' For backward compatibility, there are also styles of previous tmap versions:
+#'
+#' * `"v4.4"`: the numeric scales of tmap 4.0 to 4.4. In tmap 4.5, these scales were made consistent: the
+#'   classes of a numeric map variable that starts at 0 (such as `size` and `lwd`) no longer start at 0, and
+#'   continuous scales use the same values as the other scales (so data-driven line widths range from 0 to 3
+#'   instead of from 0 to 1). This style reproduces the maps of tmap 4.0 to 4.4. It can be combined with other
+#'   styles, e.g. `tm_style(c("cobalt", "v4.4"))`.
+#' * `"v3"` and `"<style>_v3"`, e.g. `"cobalt_v3"`: the styles of tmap 3, which also include the numeric scales
+#'   of `"v4.4"`.
+#'
 #' @param style Name of the style. When omitted, `tmap_style()` returns the current style
 #'   and also shows all available styles. When the style is specified,`tmap_style()`
 #'   sets the style accordingly. Note that in that case, all tmap options (see [tmap_options()])
 #'   will be reset according to the style definition.
 #'   See [tm_layout()] for predefined styles, and `tmap_style_catalogue()` for creating a catalogue.
+#'   Styles can be combined, e.g. `c("cobalt", "v4.4")`, where the options of later styles
+#'   take precedence. See details for the styles of previous tmap versions.
 #' @return The style before changing
 #' @seealso
 #' * [tmap_options()] for tmap options
@@ -32,16 +44,16 @@ tmap_style = function(style) {
 	if (missing(style) && show.messages) {
 		message("current tmap style is ", style_names(current.style))
 		message("other available styles are: ", print_text_vector(get_style_names(current.style, v3 = "no")))
-		message("tmap v3 styles: ", print_text_vector(get_style_names(current.style, v3 = "only")))
+		message("styles of previous tmap versions: ", print_text_vector(get_style_names(current.style, v3 = "only")))
 	} else {
 		.tmapOptions = .TMAP$defaultTmapOptions
 		check_style(style)
+		style = style_join(style)
 		options(tmap.style=style)
 		if (style == "white") {
 			.tmapOptions = .TMAP$defaultTmapOptions
 		} else {
-			styleOptions = get("tmapStyles", envir = .TMAP)[[style]]
-			.tmapOptions = complete_options(styleOptions, .tmapOptions)
+			.tmapOptions = style_options(style, .tmapOptions)
 			attr(.tmapOptions, "style") = style
 		}
 
@@ -50,7 +62,7 @@ tmap_style = function(style) {
 		if (show.messages) {
 			message("style set to ", style_names(style))
 			message("other available styles are: ", print_text_vector(get_style_names(style, v3 = "no")))
-			message("tmap v3 styles: ", print_text_vector(get_style_names(style, v3 = "only")))
+			message("styles of previous tmap versions: ", print_text_vector(get_style_names(style, v3 = "only")))
 		}
 	}
 	invisible(current.style)
@@ -68,6 +80,7 @@ style_names = function(x) {
 	x2 = paste0("\"", x, "\"")
 	x2[x2 == "\"white\""] = "\"white\" (tmap default)"
 	x2[x2 == "\"v3\""] = "\"v3\" (tmap v3 default)"
+	x2[x2 == "\"v4.4\""] = "\"v4.4\" (numeric scales of tmap 4.0-4.4)"
 	x2
 }
 
@@ -86,7 +99,8 @@ get_style_names = function(except_style = NULL, remove_grey = TRUE, v3 = "yes") 
 		}
 	}
 
-	is_v3 = substr(styles, nchar(styles) - 1, nchar(styles)) == "v3"
+	# styles of previous versions
+	is_v3 = substr(styles, nchar(styles) - 1, nchar(styles)) == "v3" | styles == "v4.4"
 
 	if (v3 == "no") {
 		styles = styles[!is_v3]
@@ -102,8 +116,28 @@ get_style_names = function(except_style = NULL, remove_grey = TRUE, v3 = "yes") 
 
 check_style = function(style) {
 	styles = get_style_names(remove_grey = FALSE)
-	if (!style %in% styles) {
-		stop("style \"" , style, "\" unknown. The available styles are: ",
-			 print_text_vector(get_style_names()), call. = FALSE)
+	for (st in style_split(style)) {
+		if (!st %in% styles) {
+			stop("style \"" , st, "\" unknown. The available styles are: ",
+				 print_text_vector(get_style_names()), call. = FALSE)
+		}
 	}
+}
+
+# styles can be combined, as a vector, e.g. c("cobalt", "v4.4"), or as one string, "cobalt+v4.4"
+style_split = function(style) {
+	unlist(strsplit(style, "+", fixed = TRUE), use.names = FALSE)
+}
+
+style_join = function(style) {
+	paste(style_split(style), collapse = "+")
+}
+
+# apply the options of (combined) styles to the options o; the options of later styles take precedence
+style_options = function(style, o) {
+	styles = get("tmapStyles", envir = .TMAP)
+	for (st in style_split(style)) {
+		if (st != "white") o = complete_options(styles[[st]], o)
+	}
+	o
 }

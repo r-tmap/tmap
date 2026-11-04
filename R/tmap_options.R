@@ -506,8 +506,7 @@ tmap_options_mode = function(mode = NA, style = NULL, mode.specific = TRUE, defa
 
 		if (!is.null(style)) {
 			check_style(style)
-			s = get("tmapStyles", envir = .TMAP)[[style]]
-			o = complete_options(s, o)
+			o = style_options(style, o)
 		}
 	}
 

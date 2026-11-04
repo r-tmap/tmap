@@ -183,7 +183,7 @@ message_scale_interval_value0 = function(aes, values, layer) {
 
 
 	cli::cli_inform(
-		"{.field [layer {layer}, tm_scale_intervals()]} By default the value of the map variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25). Or alternatively, use {.fun tm_scale_continuous}.",
+		"{.field [layer {layer}, tm_scale_intervals()]} The value of the map variable {.code {aes}} for the first interval is 0. Consider {.code {suggestion}} (or another lower bound number than 0.25), or the automatic {.code values.range = NA}. Or alternatively, use {.fun tm_scale_continuous}.",
 		.frequency_id = "size0"
 	)
 }

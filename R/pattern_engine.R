@@ -97,13 +97,13 @@ pattern_geom = function(spec, s, lwd = 1) {
 	}
 
 	# regular or jittered grid of elements: one per cell of s x s; random tiles span 8 x 8 cells
-	grid_points = function(random, s) {
+	grid_points = function(random, s, seed = 1) {
 		k = if (random > 0) 8L else 1L
 		xy = expand.grid(i = seq_len(k) - 1L, j = seq_len(k) - 1L)
 		jit = random * s / 2
 		n = nrow(xy)
-		list(x = (xy$i + 0.5) * s + (2 * pattern_rand(n, 1) - 1) * jit,
-			 y = (xy$j + 0.5) * s + (2 * pattern_rand(n, 2) - 1) * jit,
+		list(x = (xy$i + 0.5) * s + (2 * pattern_rand(n, 2 * seed - 1) - 1) * jit,
+			 y = (xy$j + 0.5) * s + (2 * pattern_rand(n, 2 * seed) - 1) * jit,
 			 w = k * s, h = k * s)
 	}
 
@@ -118,7 +118,7 @@ pattern_geom = function(spec, s, lwd = 1) {
 		dots = ,
 		circles = ,
 		crosses = {
-			gp = grid_points(a$random, s)
+			gp = grid_points(a$random, s, seed = if (is.null(a$seed)) 1 else a$seed)
 			if (p$type == "crosses") {
 				d = 0.25 * s
 				geom(gp$w, gp$h, elems = rbind(seg(gp$x - d, gp$y, gp$x + d, gp$y),
@@ -243,9 +243,22 @@ pattern_tile_segs = function(g) {
 
 # Primitives to draw a single tile (SVG pattern, PNG): the continuous lines within the tile, and the
 # elements of the tile and its neighbors (parts outside the tile are clipped by the tile region)
-pattern_tile_prims = function(g) {
-	list(segs = rbind(pattern_tile_segs(g), pattern_shift9(g$elems, g$w, g$h)),
-		 circles = pattern_shift9(g$circles, g$w, g$h))
+pattern_tile_prims = function(g, margin = 0) {
+	# only the elements of the neighboring tiles that reach into the tile (margin: half of the line width)
+	elems = pattern_shift9(g$elems, g$w, g$h)
+	if (!is.null(elems) && nrow(elems)) {
+		keep = pmax(elems[, "x0"], elems[, "x1"]) >= -margin & pmin(elems[, "x0"], elems[, "x1"]) <= g$w + margin &
+			pmax(elems[, "y0"], elems[, "y1"]) >= -margin & pmin(elems[, "y0"], elems[, "y1"]) <= g$h + margin
+		elems = elems[keep, , drop = FALSE]
+	}
+	circles = pattern_shift9(g$circles, g$w, g$h)
+	if (!is.null(circles) && nrow(circles)) {
+		r = circles$r + margin
+		keep = circles$x + r >= 0 & circles$x - r <= g$w & circles$y + r >= 0 & circles$y - r <= g$h
+		circles = circles[keep, , drop = FALSE]
+	}
+	list(segs = rbind(pattern_tile_segs(g), elems),
+		 circles = circles)
 }
 
 # Primitives covering the areas bboxes (matrix with columns xmin, ymin, xmax, ymax; inches), with
@@ -385,14 +398,14 @@ makeContent.tmap_pattern_area = function(x) {
 
 # SVG <pattern> element (view mode). Units: CSS pixels (96 per inch)
 pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-pattern", scale = 1,
-						line_in = 0.2, alpha = 1, dpi = 96) {
+						line_in = 0.2, alpha = 1, dpi = 96, bg = NA, bg_alpha = 1) {
 	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size)
 	if (is.null(g)) return(NULL)
 	f = function(x) format(round(x * dpi, 3), scientific = FALSE, trim = TRUE)
 	colh = substr(grDevices::rgb(t(grDevices::col2rgb(col)), maxColorValue = 255), 1, 7)
 	opa = alpha * grDevices::col2rgb(col, alpha = TRUE)[4] / 255
 	lw = size * dpi / 96
-	pr = pattern_tile_prims(g)
+	pr = pattern_tile_prims(g, margin = size / 96 / 2)
 	els = character()
 	if (!is.null(pr$segs) && nrow(pr$segs)) {
 		m = pr$segs
@@ -405,8 +418,15 @@ pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-patte
 		els = c(els, paste0('<circle cx="', f(cc$x), '" cy="', f(g$h - cc$y), '" r="', f(cc$r), '"',
 							fill, '/>'))
 	}
+	# background (the fill color of the feature), so that fill and pattern can be drawn as one path
+	bgrect = if (is.null(bg) || is.na(bg)) "" else {
+		bgh = substr(grDevices::rgb(t(grDevices::col2rgb(bg)), maxColorValue = 255), 1, 7)
+		bgo = (if (is.na(bg_alpha)) 1 else bg_alpha) * grDevices::col2rgb(bg, alpha = TRUE)[4] / 255
+		paste0('<rect width="', f(g$w), '" height="', f(g$h), '" fill="', bgh, '" fill-opacity="', bgo,
+			   '" stroke="none"/>')
+	}
 	paste0('<pattern id="', id, '" patternUnits="userSpaceOnUse" width="', f(g$w),
-		   '" height="', f(g$h), '">',
+		   '" height="', f(g$h), '">', bgrect,
 		   '<g stroke="', colh, '" stroke-width="', lw, '" stroke-opacity="', opa,
 		   '" fill="none" fill-opacity="', opa, '" stroke-linecap="butt">',
 		   paste(els, collapse = ""), '</g></pattern>')
@@ -434,7 +454,7 @@ pattern_png = function(spec, density, size = 1, col = "grey25", scale = 1, line_
 									  height = grid::unit(g$h, "in")))
 	sx = (wpx / dpi) / g$w
 	sy = (hpx / dpi) / g$h
-	pr = pattern_tile_prims(g)
+	pr = pattern_tile_prims(g, margin = size / 96 / 2)
 	if (!is.null(pr$segs)) pr$segs = pr$segs * rep(c(sx, sy, sx, sy), each = nrow(pr$segs))
 	if (!is.null(pr$circles)) {
 		pr$circles$x = pr$circles$x * sx

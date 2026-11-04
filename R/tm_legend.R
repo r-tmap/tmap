@@ -2,7 +2,7 @@
 #'
 #' Legend specification
 #'
-#' @param title Legend title
+#' @param title Legend title. For `tm_legend_cross()`, the title of the cross legend (by default none).
 #' @param show Show legend?
 #' @param orientation Orientation of the legend: `"portrait"` or `"landscape"`
 #' @param reverse Should the legend items be reversed?
@@ -39,8 +39,19 @@
 #' @param ticks.lwd `r .doc_opt("legend.ticks.lwd")`
 #' @param margins `r .doc_opt("legend.margins")`
 #' @param item_text.margin `r .doc_opt("legend.item_text.margin")`
+#' @param dot.value For dot density maps: a note below the legend items that shows how many units one dot
+#'   represents, e.g. `"1 dot \u2248 {n} inhabitants"`, where `{n}` is replaced by the number. `TRUE` shows
+#'   `"1 dot \u2248 {n}"`. Only for the legend of `pattern_density` of [tm_polygons()] with a dot pattern
+#'   (`"dots"`, `"stipple"`, `"circles"`, or `"crosses"`) and a scale for which the number of dots is
+#'   proportional to the data values, i.e. [tm_scale_continuous_area()]. The number depends on the map scale:
+#'   it is computed at the center of the map when the map is drawn, and in view mode it is updated after
+#'   zooming. The note is not shown when the area scale varies too much across the map (use an equal-area
+#'   projection for small-scale maps).
+#' @param dot.unit The area unit of the data values (per area), e.g. `"km2"`, `"ha"`, or `"mi2"`. By default,
+#'   it is taken from the units of the data variable (see the **units** package), and otherwise `"km2"`.
 #' @param ... visual values, e.g. `col`, `fill`, `lwd`, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)
-#' @param variable visual (or transformation) variable to combine the legend with: e.g. `"fill"` or `"size"`
+#' @param variable visual (or transformation) variable to combine (`tm_legend_combine()`) or cross
+#'   (`tm_legend_cross()`) the legend with: e.g. `"fill"` or `"size"`
 #' @seealso `r .doc_see_also_legend(advanced = TRUE, biv = TRUE)` `r .doc_see_also_comp()`
 #' @return A tm_legend component
 #' @export
@@ -90,6 +101,8 @@ tm_legend = function(title,
 					 ticks.lwd,
 					 margins,
 					 item_text.margin,
+					 dot.value,
+					 dot.unit,
 					 ...) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())
 	args$called = names(args)
@@ -117,8 +130,31 @@ tm_legend_combine = function(variable) {
 }
 
 #' @rdname tm_legend
-#' @param xlab label for the x dimension (rows)
-#' @param ylab label for the y dimension (columns)
+#' @details `tm_legend_cross()` crosses the legend of a map variable with the legend of another map variable
+#'   (`variable`) of the same layer: the legend items are placed in a grid, with the items of the map variable in
+#'   the rows and the items of `variable` in the columns, such that each cell shows a combination of both. It is
+#'   meant for two map variables of different data variables that can be combined in one symbol, such as `fill`
+#'   and `pattern` of [tm_polygons()]: e.g. `pattern.legend = tm_legend_cross("fill")`. The legend of `variable`
+#'   is not shown. Both legends should consist of separate items (so not a continuous color gradient). In
+#'   contrast, [tm_legend_combine()] merges the legends of two map variables of the same data variable into one
+#'   list of items. The labels of the columns are rotated when they do not fit. The cross legend is portrait
+#'   only.
+#' @export
+tm_legend_cross = function(variable, title = "", xlab = NA, ylab = NA, ...) {
+	leg = do.call(tm_legend, list(...))
+	leg$cross = variable
+	leg$cross_title = title
+	leg$cross_xlab = xlab
+	leg$cross_ylab = ylab
+	leg$orientation = "portrait"
+	leg
+}
+
+#' @rdname tm_legend
+#' @param xlab label for the x dimension (rows). For `tm_legend_cross()`, the label of the columns, by default the title
+#'   of the legend of `variable`.
+#' @param ylab label for the y dimension (columns). For `tm_legend_cross()`, the label of the rows, by default the title
+#'   of the legend of the map variable itself.
 #' @param xlab.color `r .doc_opt("legend.xlab.color")`
 #' @param xlab.size `r .doc_opt("legend.xlab.size")`
 #' @param xlab.rot `r .doc_opt("legend.xlab.rot")`

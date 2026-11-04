@@ -462,6 +462,15 @@ tmapGridComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page,
 			#po(bb, bbw, bbox_nb, oldIn, bb_facet, newIn, totW, cmp$Win, margins, newIn_without_margins, cmp$Win)
 			#po(cmp$cpi)
 		}
+
+		# dot density legend: the number of units per dot depends on the map scale
+		if (!is.null(cmp[["dot_info"]])) {
+			bbox_nb = attr(bbox, "borrow")
+			bb_facet = if (is.null(bbox_nb)) sum(colsIn) else sum(g$colsIn[g$cols_facet_ids[bbox_nb$col]])
+			cmp$note = legend_dot_note(cmp, bb, bb_facet, o)
+		} else if (!is.null(cmp[["dot.value"]]) && !isFALSE(cmp[["dot.value"]])) {
+			message_legend_dot_value()
+		}
 		cmp
 	}, comp, bbox, SIMPLIFY = FALSE)
 

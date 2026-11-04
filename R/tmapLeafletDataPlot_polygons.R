@@ -73,9 +73,10 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 
 	# patterns are drawn as SVG patterns, which are not supported by WebGL
 	pattern.zoom = isTRUE(a$pattern.zoom)
+	# the fill color is the background of the pattern, so that fill and pattern are drawn as one path
 	pat = leaflet_pattern_ids(gp_pat, length(shp), o, zoom = pattern.zoom, suffix = if (pattern.zoom) {
 		substr(rlang::hash(list(Sys.time(), facet_row, facet_col, facet_page, pane)), 1, 8)
-	} else NULL)
+	} else NULL, bg = gp$fill, bg_alpha = gp$fill_alpha)
 	if (!is.null(pat) && isTRUE(o$use_WebGL)) {
 		cli::cli_inform("{.field [view mode]} WebGL is not used for polygons with patterns",
 						.frequency = "once", .frequency_id = "pattern_webgl")
@@ -107,22 +108,23 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		idt = (if (is.null(idt))dt$tmapID__ else idt) |>
 			submit_labels("polygons", pane, group)
 
-		lf = lf %>%
-			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = gp$fill, fillOpacity = gp$fill_alpha, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups)
-
+		fillColor = gp$fill
+		fillOpacity = gp$fill_alpha
 		if (!is.null(pat)) {
-			# patterns on top of the fill (not interactive, so popups and hover labels of the
-			# polygons below still work), and the borders on top of the patterns
-			opt2 = leaflet::pathOptions(interactive = FALSE, pane = pane)
-			sel = which(!is.na(pat$ids))
+			# features with a pattern are filled with the SVG pattern, which contains the fill color as
+			# background (fill opacity included)
+			n = length(shp)
+			has_pat = !is.na(pat$ids)
+			fillColor = ifelse(has_pat, sprintf("url(#%s)", pat$ids), rep_len(fillColor, n))
+			fillOpacity = ifelse(has_pat, 1, rep_len(fillOpacity, n))
 			zoom_ids = if (pattern.zoom) unique(na.omit(pat$ids)) else character()
 			lf = lf %>%
-				leaflet_add_pattern_defs(pat$defs, zoom = zoom_ids) %>%
-				leaflet::addPolygons(data = shp[sel], fillColor = sprintf("url(#%s)", pat$ids[sel]),
-									 fillOpacity = 1, stroke = FALSE, options = opt2, group = group) %>%
-				leaflet::addPolygons(data = shp, color = gp$col, opacity = gp$col_alpha, fill = FALSE,
-									 weight = gp$lwd, dashArray = gp$lty, options = opt2, group = group)
+				leaflet_add_pattern_defs(pat$defs, zoom = zoom_ids,
+										 zoom_size = !isFALSE(a$pattern.zoom.size))
 		}
+
+		lf = lf %>%
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = fillColor, fillOpacity = fillOpacity, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups)
 
 		lf %>%
 			blend_lf(a$blend, pane) %>%
@@ -150,25 +152,32 @@ tmapLeafletDataPlot.tm_data_borders = function(a, shpTM, dt, pdt, popup.format, 
 # from the pattern definitions, so equal patterns share an id (also across maps on one page).
 # Zooming patterns (zoom = TRUE) depend on the zoom level of a map, so their ids get a suffix
 # that is unique per map.
-leaflet_pattern_ids = function(gp, n, o, zoom = FALSE, suffix = NULL) {
+leaflet_pattern_ids = function(gp, n, o, zoom = FALSE, suffix = NULL, bg = NULL, bg_alpha = NULL) {
 	unresolved = function(x) is.null(x) || (is.character(x) && any(startsWith(x, "__"), na.rm = TRUE))
 	if (unresolved(gp$pattern) || all(is.na(gp$pattern) | gp$pattern == "none")) return(NULL)
 	pdt = data.frame(pattern = rep_len(gp$pattern, n),
 					 col = rep_len(if (unresolved(gp$pattern_col)) "grey25" else gp$pattern_col, n),
 					 size = rep_len(if (unresolved(gp$pattern_size)) 1 else gp$pattern_size, n),
 					 density = rep_len(if (unresolved(gp$pattern_density)) 0.8 else gp$pattern_density, n),
+					 bg = rep_len(if (is.null(bg)) NA_character_ else as.character(bg), n),
+					 bg_alpha = rep_len(if (is.null(bg_alpha)) 1 else bg_alpha, n),
 					 stringsAsFactors = FALSE)
+	# densities are rounded (in steps of 2% on a log scale), so that features with almost the same density share
+	# a pattern definition (e.g. dot density maps, where each feature has its own density): this limits the
+	# number of pattern definitions, at the cost of an error of at most 1% in the density
+	pdt$density = pattern_density_round(pdt$density)
 	key = do.call(paste, c(unname(as.list(pdt)), sep = "|"))
 	ukey = unique(key)
 	hashes = vapply(ukey, function(k) substr(rlang::hash(k), 1, 12), character(1), USE.NAMES = FALSE)
 	uids = paste0("tmap-pattern-", hashes,
 				  if (zoom) paste0("-z", suffix) else "")
 	updt = pdt[match(ukey, key), , drop = FALSE]
-	defs = mapply(function(p, col, size, density, id) {
+	defs = mapply(function(p, col, size, density, bg, bg_alpha, id) {
 		if (is.na(p) || p == "none" || is.na(density)) return(NA_character_)
-		x = pattern_svg(p, density = density, size = size, col = col, id = id, scale = o$scale)
+		x = pattern_svg(p, density = density, size = size, col = col, id = id, scale = o$scale, bg = bg,
+						bg_alpha = bg_alpha)
 		if (is.null(x)) NA_character_ else x
-	}, updt$pattern, updt$col, updt$size, updt$density, uids, USE.NAMES = FALSE)
+	}, updt$pattern, updt$col, updt$size, updt$density, updt$bg, updt$bg_alpha, uids, USE.NAMES = FALSE)
 	ids = uids[match(key, ukey)]
 	ids[is.na(defs[match(key, ukey)])] = NA_character_
 	defs = defs[!is.na(defs)]
@@ -182,7 +191,9 @@ leaflet_pattern_ids = function(gp, n, o, zoom = FALSE, suffix = NULL) {
 # Zooming patterns (ids in zoom) get a patternTransform that is updated after each zoom: a scale
 # factor relative to the initial zoom level, and a translation that anchors the pattern to a fixed
 # location (the initial map center), so that the pattern sticks to the map.
-leaflet_add_pattern_defs = function(lf, defs, zoom = character()) {
+# With zoom_size = FALSE, the line widths and dot sizes of zooming patterns are kept constant (on
+# the screen): only the spacing between pattern elements zooms.
+leaflet_add_pattern_defs = function(lf, defs, zoom = character(), zoom_size = TRUE) {
 	htmlwidgets::onRender(lf, "function(el, x, data) {
 		var map = this;
 		var svg = el.querySelector('svg.tmap-pattern-defs');
@@ -211,11 +222,32 @@ leaflet_add_pattern_defs = function(lf, defs, zoom = character()) {
 				var p = map.latLngToLayerPoint(anchor);
 				zoomIds.forEach(function(id) {
 					var pat = document.getElementById(id);
-					if (pat) pat.setAttribute('patternTransform', 'translate(' + p.x + ',' + p.y + ') scale(' + s + ')');
+					if (!pat) return;
+					pat.setAttribute('patternTransform', 'translate(' + p.x + ',' + p.y + ') scale(' + s + ')');
+					if (!data.zoom_size) {
+						// compensate the scale factor for the line width and the radius of dots
+						var g = pat.querySelector('g');
+						if (g) {
+							if (!g.dataset.sw) g.dataset.sw = g.getAttribute('stroke-width');
+							g.setAttribute('stroke-width', g.dataset.sw / s);
+						}
+						pat.querySelectorAll('circle').forEach(function(c) {
+							if (c.getAttribute('fill') === 'none') return;
+							if (!c.dataset.r) c.dataset.r = c.getAttribute('r');
+							c.setAttribute('r', c.dataset.r / s);
+						});
+					}
 				});
 			};
 			map.on('zoomend viewreset moveend', update);
 			update();
 		}
-	}", data = list(defs = as.list(defs), zoom = as.list(zoom)))
+	}", data = list(defs = as.list(defs), zoom = as.list(zoom), zoom_size = zoom_size))
+}
+
+# Round pattern densities in steps of 2% on a log scale (view mode)
+pattern_density_round = function(d, step = 0.02) {
+	ok = !is.na(d) & d > 0
+	d[ok] = signif(exp(round(log(d[ok]) / step) * step), 4)
+	d
 }

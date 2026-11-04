@@ -9,7 +9,8 @@ tm_patterns(
   angle = NA,
   random = NA,
   length = NA,
-  amplitude = NA
+  amplitude = NA,
+  seed = NA
 )
 }
 \arguments{
@@ -22,6 +23,10 @@ tm_patterns(
 \item{length}{Length of dashes, bricks, or herringbone blocks, relative to the spacing.}
 
 \item{amplitude}{Amplitude of waves and zigzag lines, relative to the spacing.}
+
+\item{seed}{Seed (a positive integer) of the random placement of dots, circles, or crosses (with \code{random > 0}).
+Patterns with different seeds have elements at different positions, which is useful when several dot
+patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.}
 }
 \value{
 A character vector of class \code{tmap_patterns} with one pattern specification per element.
@@ -39,15 +44,15 @@ Pattern types:\tabular{ll}{
    \code{"none"} \tab -- \cr
    \code{"hatch"} \tab \code{angle} (default 45) \cr
    \code{"crosshatch"} \tab \code{angle} (default 0) \cr
-   \code{"dots"} \tab \code{random} (default 0) \cr
+   \code{"dots"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"dashes"} \tab \code{angle} (default 0), \code{length} (default 0.5) \cr
    \code{"bricks"} \tab \code{angle} (default 0), \code{length} (default 2) \cr
    \code{"herringbone"} \tab \code{angle} (default 0), \code{length} (default 2) \cr
    \code{"hexagons"} \tab \code{angle} (default 0) \cr
    \code{"waves"} \tab \code{angle} (default 0), \code{amplitude} (default 0.25) \cr
    \code{"zigzag"} \tab \code{angle} (default 0), \code{amplitude} (default 0.25) \cr
-   \code{"circles"} \tab \code{random} (default 0) \cr
-   \code{"crosses"} \tab \code{random} (default 0) \cr
+   \code{"circles"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
+   \code{"crosses"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"noise"} \tab -- \cr
 }
 

@@ -177,10 +177,10 @@
 						  ymod = c(0, 1),
 						  angle = c(0, 360),
 						  num = c(0, 1)),
-		values.range = list(fill = NA, col = NA, size = c(0, 1), lwd = c(0, 1),
+		values.range = list(fill = NA, col = NA, size = NA, lwd = NA,
 							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
 							col_alpha = NA, shape = NA, angle = NA, num = c(0,1),
-							pattern = NA, pattern_col = NA, pattern_size = c(0, 1), pattern_density = NA), # NA = automatic, NULL is not applicable
+							pattern = NA, pattern_col = NA, pattern_size = NA, pattern_density = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 pattern = "none",
@@ -703,7 +703,24 @@
 	specified = character()
 )
 
+# options to reproduce the numeric scales of tmap 4.0 to 4.4 (style "v4.4", also used in the v3 styles):
+# - continuous scales: values from 0 to 1 for the map variables with other default values (lwd and transparency)
+# - classes (intervals, discrete, categorical) of size and lwd: the full sequence, so the first class gets 0
+.v4.4_values = list(lwd = c(0, 1), fill_alpha = c(0, 1), col_alpha = c(0, 1), bgcol_alpha = c(0, 1), NA)
+.v4.4_options = list(
+	values.range = list(size = c(0, 1), lwd = c(0, 1), area = c(0, 1)),
+	scale.misc.args = list(continuous = list(values = .v4.4_values),
+						   continuous_log = list(values = .v4.4_values),
+						   continuous_log2 = list(values = .v4.4_values),
+						   continuous_log10 = list(values = .v4.4_values),
+						   continuous_log1p = list(values = .v4.4_values),
+						   continuous_sqrt = list(values = .v4.4_values),
+						   continuous_pseudo_log = list(values = .v4.4_values),
+						   rank = list(values = .v4.4_values))
+)
+
 styles = list(
+	v4.4 = .v4.4_options,
 	v3 = list(
 		modes = list(view = list(legend.bg.alpha = 0.8)),
 		value.na = list(
@@ -922,6 +939,9 @@ styles = list(
 					  basemap.server = "Stadia.StamenWatercolor")
 )
 
+# the v3 styles also use the numeric scales of tmap 4.0 to 4.4 (e.g. thin data-driven line widths, as in v3)
+styles$v3 = c(styles$v3, .v4.4_options)
+
 .defaultTmapStyles = list(
 	gray = styles$gray,
 	grey = styles$grey,
@@ -932,6 +952,7 @@ styles = list(
 	bw = styles$bw,
 	classic = styles$classic,
 	watercolor = styles$watercolor,
+	v4.4 = styles$v4.4,
 	v3 = styles$v3,
 	gray_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$gray))], styles$gray),
 	grey_v3 = c(styles$v3[setdiff(names(styles$v3), names(styles$grey))], styles$grey),

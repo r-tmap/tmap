@@ -58,6 +58,12 @@ tmapGridCompPrepare.tm_legend_portrait = function(comp, o) {
 		}
 
 
+		# cross legends: the cells have the size of pattern legend items
+		if (isTRUE(comp$is_cross)) {
+			item.height[["bivariate"]] = get_legend_option(item.height, "pattern")
+			item.width[["bivariate"]] = get_legend_option(item.width, "pattern")
+		}
+
 		gpar = gp_to_gpar(gp, o = o, type = comp$type)
 	})
 }
@@ -92,6 +98,12 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 	} else if (comp$type %in% c("rect", "pattern", "lines", "bivariate")) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
+		# cross legends: rotated column labels
+		if (isTRUE(comp$is_cross) && legend_cross_rotate(comp, textS, o)) {
+			m = attr(comp$gp$fill, "m")
+			colW = graphics::strwidth(comp$labels[-seq_len(m)], units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+			item_heights[nlev] = max(colW) / (textS * o$lin) + 0.25
+		}
 		comp$stretch = if (!is.na(comp$height)) "items" else "none"
 	} else if (comp$type == "gradient") {
 		item_heights = rep(height, nlev)
@@ -120,8 +132,11 @@ tmapGridCompHeight.tm_legend_portrait = function(comp, o) {
 		}
 
 	} else {
-		xlabP = c(0, 0)
-		xlabH = 0
+		# note below the items (e.g. the dot value of dot density legends), in the place of the xlab
+		note = legend_note(comp)
+		xlabS = if (note == "") 0 else textS * number_text_lines(note)
+		xlabP = c(0.5, 0) * xlabS * o$lin
+		xlabH = xlabS * o$lin
 	}
 
 
@@ -256,7 +271,10 @@ tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 		iW = graphics::strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + item_text.margin) * textS * o$lin
 	}
 
-	colW = max(tW, iW)
+	note = if (comp$type == "bivariate") "" else legend_note(comp)
+	nW = if (note == "") 0 else graphics::strwidth(note, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+
+	colW = max(tW, iW, nW)
 
 	if (comp$type == "bivariate") {
 		txtW = colW - (item_widths_max * ni + item_text.margin) * textS * o$lin
@@ -433,7 +451,15 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 		}
 
 	} else {
-		grXlab = NULL
+		# note below the items (e.g. the dot value of dot density legends)
+		note = if (is.null(comp$note)) "" else comp$note
+		grXlab = if (note == "") NULL else {
+			noteW = graphics::strwidth(note, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+			availW = sum(grid::convertWidth(wsu[3:5], "inch", valueOnly = TRUE))
+			gridCell(comp$item_ids[nlev] + 2, 3:5,
+					 grid::textGrob(note, x = 0, just = "left",
+					 			   gp = grid::gpar(col = comp$text.color, cex = textS * min(1, availW / noteW), fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha)))
+		}
 		grYlab = NULL
 	}
 
@@ -444,6 +470,12 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 		grText1 = mapply(function(i, id) gridCell(id, 5, grid::textGrob(comp$labels[i], x = 0, just = "left", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), m:1L, comp$item_ids[1L:m], SIMPLIFY = FALSE)
 
 		colLabels = comp$labels[(m+1L):(n+m)]
+
+		if (isTRUE(comp$is_cross)) {
+			# cross legends: full column labels, rotated when they do not fit
+			rot = legend_cross_rotate(comp, textS, o)
+			grText2 = mapply(function(i, j) gridCell(comp$item_ids[m+1], j, grid::textGrob(colLabels[i], x = 0.5, y = if (rot) grid::unit(1, "npc") - grid::unit(0.25 * textS * o$lin, "inch") else 0.5, rot = if (rot) 90 else 0, just = if (rot) "right" else "center", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), 1L:n, 7:(6+n), SIMPLIFY = FALSE)
+		} else {
 
 		# interval labels (e.g. "10 - 40"): take the lower bound, provided it fits
 		# (the first letter would give misleading labels such as "1" for "10 - 40")
@@ -474,6 +506,7 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 
 		grText2 = mapply(function(i, j, id) gridCell(comp$item_ids[m+1], j, grid::textGrob(colLabs[i], x = 0.5, just = "center", gp = grid::gpar(col = comp$text.color, cex = textS / scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily, alpha = comp$text.alpha))), 1L:n, 7:(6+n), comp$item_ids[1L:n], SIMPLIFY = FALSE)
+		}
 
 		grText = c(grText1, grText2)
 	} else {
@@ -781,7 +814,13 @@ tmapGridCompPlot.tm_legend_portrait = function(comp, o, fH, fW) {
 
 		ind = expand.grid(row = comp$item_ids[m:1], col = 7:(6+n))
 
-		grItems = mapply(function(i, j, gpari) gridCell(i, j, rndrectGrob(gp = gpari, r = comp$item.r)), ind$row, ind$col, gpars, SIMPLIFY = FALSE)
+		if (isTRUE(comp$is_cross)) {
+			# cross legends: fill, pattern, and border per cell
+			items = legend_pattern_items(gp, n*m, comp, o)
+			grItems = mapply(function(i, j, grb) gridCell(i, j, grb), ind$row, ind$col, items, SIMPLIFY = FALSE)
+		} else {
+			grItems = mapply(function(i, j, gpari) gridCell(i, j, rndrectGrob(gp = gpari, r = comp$item.r)), ind$row, ind$col, gpars, SIMPLIFY = FALSE)
+		}
 	}
 
 
