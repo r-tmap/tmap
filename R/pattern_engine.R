@@ -336,11 +336,59 @@ pattern_prims_grob = function(pr, col = "grey25", lwd = 1, alpha = 1) {
 #
 # @param line_in height of a line in inches (o$lin); NA: computed at drawing time from the
 #   current font size
+# @param clip_sf the geometry (sfc) of which clip is the grob (in the native units of the viewport); used to
+#   clip the pattern geometrically on devices that do not support clipping paths
 pattern_area_grob = function(clip, spec, density, size = 1, col = "grey25", scale = 1, alpha = 1,
-							 line_in = NA, name = NULL) {
+							 line_in = NA, name = NULL, clip_sf = NULL) {
 	pspec = list(spec = spec, density = density, size = size, col = col, scale = scale,
 				 alpha = alpha, line_in = line_in)
-	grid::gTree(clip = clip, pspec = pspec, name = name, cl = "tmap_pattern_area")
+	grid::gTree(clip = clip, clip_sf = clip_sf, pspec = pspec, name = name, cl = "tmap_pattern_area")
+}
+
+# Does the current graphics device support clipping paths? Devices that do not support them (e.g. the
+# windows() device, also as backend of the RStudio graphics device) may report FALSE or NA (unknown),
+# and would ignore the clipping path, so that patterns run outside the polygons (#1135). In that case,
+# the pattern is clipped geometrically. The option tmap.pattern.clip ("path" or "geometry") overrides this.
+pattern_clip_paths = function() {
+	opt = getOption("tmap.pattern.clip")
+	if (!is.null(opt)) return(identical(opt, "path"))
+	caps = tryCatch(grDevices::dev.capabilities("clippingPaths")$clippingPaths, error = function(e) NA)
+	isTRUE(caps)
+}
+
+# Clip the primitives (inches) geometrically by the geometry clip_sf (native units of the current viewport):
+# line segments are intersected with the polygons, and elements are kept when their center lies within them
+pattern_clip_geometry = function(pr, clip_sf) {
+	# native units -> inches (linear)
+	x0 = grid::convertX(grid::unit(0, "native"), "inch", valueOnly = TRUE)
+	x1 = grid::convertX(grid::unit(1, "native"), "inch", valueOnly = TRUE)
+	y0 = grid::convertY(grid::unit(0, "native"), "inch", valueOnly = TRUE)
+	y1 = grid::convertY(grid::unit(1, "native"), "inch", valueOnly = TRUE)
+	geom = sf::st_set_crs(sf::st_geometry(clip_sf), NA)
+	geom = geom * matrix(c(x1 - x0, 0, 0, y1 - y0), 2) + c(x0, y0)
+	poly = suppressWarnings(sf::st_union(sf::st_make_valid(geom)))
+
+	if (!is.null(pr$segs) && nrow(pr$segs)) {
+		m = pr$segs
+		lines = sf::st_sfc(sf::st_multilinestring(lapply(seq_len(nrow(m)), function(i) {
+			matrix(m[i, c("x0", "x1", "y0", "y1")], 2)
+		})))
+		inter = suppressWarnings(sf::st_intersection(lines, poly))
+		crds = if (length(inter)) sf::st_coordinates(inter) else NULL
+		pr$segs = if (is.null(crds) || !nrow(crds)) NULL else {
+			# consecutive points of the same line part form segments
+			lid = if ("L2" %in% colnames(crds)) paste(crds[, "L1"], crds[, "L2"]) else crds[, "L1"]
+			k = which(lid[-1] == lid[-nrow(crds)])
+			cbind(x0 = crds[k, "X"], y0 = crds[k, "Y"], x1 = crds[k + 1, "X"], y1 = crds[k + 1, "Y"])
+		}
+	}
+	if (!is.null(pr$circles) && nrow(pr$circles)) {
+		cc = pr$circles
+		pts = sf::st_sfc(lapply(seq_len(nrow(cc)), function(i) sf::st_point(c(cc$x[i], cc$y[i]))))
+		inside = lengths(sf::st_intersects(pts, poly)) > 0
+		pr$circles = cc[inside, , drop = FALSE]
+	}
+	pr
 }
 
 # Bounding boxes (inches) of the clipping grob: one per ring for path/polygon grobs (as created by
@@ -391,7 +439,16 @@ makeContent.tmap_pattern_area = function(x) {
 	}
 
 	cvp = grid::current.viewport()
-	vp = grid::viewport(xscale = cvp$xscale, yscale = cvp$yscale, clip = cl)
+	if (pattern_clip_paths()) {
+		vp = grid::viewport(xscale = cvp$xscale, yscale = cvp$yscale, clip = cl)
+	} else {
+		# no support for clipping paths: clip geometrically (map), or by the viewport (legend items,
+		# which are clipped by a rectangle filling the viewport)
+		if (!is.null(x$clip_sf)) {
+			pr = tryCatch(pattern_clip_geometry(pr, x$clip_sf), error = function(e) pr)
+		}
+		vp = grid::viewport(xscale = cvp$xscale, yscale = cvp$yscale, clip = "on")
+	}
 	prims = pattern_prims_grob(pr, col = ps$col, lwd = ps$size, alpha = ps$alpha)
 	grid::setChildren(x, grid::gList(grid::gTree(children = prims, vp = vp)))
 }
@@ -434,6 +491,8 @@ pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-patte
 
 # PNG file of one tile (web modes, legend swatches). Cached in the session temp directory.
 # The tile size is rounded to whole pixels (the geometry is stretched slightly) to avoid seams.
+#' @export
+#' @rdname tmap_internal
 pattern_png = function(spec, density, size = 1, col = "grey25", scale = 1, line_in = 0.2, alpha = 1,
 						dpi = 96, bg = NA) {
 	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size)
@@ -480,6 +539,8 @@ pattern_css = function(...) {
 # PNG file of a legend swatch (view mode): fill, pattern, and border, px x px pixels at 96 dpi,
 # so that the pattern has the same size as on the map (CSS pixels). Cached in the session temp
 # directory.
+#' @export
+#' @rdname tmap_internal
 pattern_swatch_png = function(spec, density, size = 1, col = "grey25", fill = NA, fill_alpha = 1,
 							  border = NA, border_alpha = 1, lwd = 1, scale = 1, px = 24) {
 	na1 = function(x, d) if (is.null(x) || is.na(x)) d else x

@@ -232,3 +232,27 @@ test_that("seed of random dot patterns", {
 	expect_false(isTRUE(all.equal(g1$circles$x, g2$circles$x)))
 	expect_warning(tm_patterns("hatch", seed = 2), "does not use")
 })
+
+# Opus5.5
+test_that("patterns are clipped geometrically on devices without clipping paths (#1135)", {
+	skip_on_cran()
+	pdf(NULL)
+	on.exit(dev.off())
+	op = options(tmap.pattern.clip = "geometry")
+	on.exit(options(op), add = TRUE)
+	expect_false(pattern_clip_paths())
+	expect_no_error(print(tm_shape(World) + tm_polygons(pattern = "economy")))
+	expect_no_error(print(tm_shape(World) + tm_polygons(pattern = "dots", pattern_density = "HPI")))
+
+	# the segments of a hatch pattern lie within the polygon
+	sq = sf::st_sfc(sf::st_polygon(list(rbind(c(0, 0), c(1, 0), c(1, 1), c(0, 1), c(0, 0)))))
+	grid::grid.newpage()
+	grid::pushViewport(grid::viewport(xscale = c(-1, 2), yscale = c(-1, 2), width = grid::unit(3, "in"),
+									  height = grid::unit(3, "in")))
+	g = pattern_geom("hatch", 0.1)
+	pr = pattern_area_prims(g, matrix(c(0, 0, 3, 3), ncol = 4))
+	pr2 = pattern_clip_geometry(pr, sq)
+	x = grid::convertX(grid::unit(c(0, 1), "native"), "inch", valueOnly = TRUE)
+	expect_true(all(pr2$segs[, c("x0", "x1")] >= x[1] - 1e-6 & pr2$segs[, c("x0", "x1")] <= x[2] + 1e-6))
+	expect_lt(nrow(pr2$segs), nrow(pr$segs))
+})

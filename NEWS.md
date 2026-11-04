@@ -7,6 +7,7 @@
 - added `tm_legend_cross()` (a grid legend of two map variables) and `tm_legend(dot.value)` (units per dot in dot density maps)
 - other legends that borrow the color of a categorical `fill` or `col` now use the constant color of the layer
 - fixed: the global `scale` was applied to data-driven transparency in some scales
+- fixed: patterns ran outside the polygons on graphics devices without support for clipping paths, e.g. the Windows device in RStudio (#1135); patterns are then clipped geometrically
 - `tmap_show_values()`: draws the available values of the categorical map variables `pattern`, `shape`, `lty`, and `fontface`
 - [!] added `tm_map_colors()` to configure `"MAP_COLORS"`, e.g. `tm_polygons(fill = tm_map_colors(6, permutation = 1))`. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4
 - `tm_text(col = "auto")` (and `tm_labels()`): black or white text depending on the color underneath (the fill of the polygon layer below, the label background, or the map background), as in tmap v3

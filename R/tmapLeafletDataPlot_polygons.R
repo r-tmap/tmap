@@ -245,7 +245,9 @@ leaflet_add_pattern_defs = function(lf, defs, zoom = character(), zoom_size = TR
 	}", data = list(defs = as.list(defs), zoom = as.list(zoom), zoom_size = zoom_size))
 }
 
-# Round pattern densities in steps of 2% on a log scale (view mode)
+# Round pattern densities in steps of 2% on a log scale (view mode; also used by tmap.mapgl)
+#' @export
+#' @rdname tmap_internal
 pattern_density_round = function(d, step = 0.02) {
 	ok = !is.na(d) & d > 0
 	d[ok] = signif(exp(round(log(d[ok]) / step) * step), 4)

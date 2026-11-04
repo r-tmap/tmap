@@ -102,7 +102,8 @@ pattern_grobs = function(shp, gp, o, id) {
 		r = grps[[k]]
 		clip = sf::st_as_grob(shp[r$i], gp = grid::gpar())
 		pattern_area_grob(clip, r$pattern[1], density = r$density[1], size = r$size[1], col = r$col[1],
-						  scale = scale, line_in = o$lin, name = paste0("polygon_patterns_", id, "_", k))
+						  scale = scale, line_in = o$lin, name = paste0("polygon_patterns_", id, "_", k),
+						  clip_sf = shp[r$i])
 	})
 	grbs = grbs[!vapply(grbs, is.null, logical(1))]
 	if (!length(grbs)) return(NULL)
@@ -110,17 +111,10 @@ pattern_grobs = function(shp, gp, o, id) {
 }
 
 # Does the current graphics device support clipping paths (needed for patterns)? Warn once if not.
+# Patterns can be drawn on all devices: with clipping paths if supported, and otherwise clipped
+# geometrically (see pattern_clip_paths())
 pattern_device_support = function() {
-	caps = tryCatch(grDevices::dev.capabilities("clippingPaths")$clippingPaths,
-					error = function(e) NA)
-	ok = is.null(caps) || is.na(caps) || isTRUE(caps)
-	if (!ok) {
-		cli::cli_warn(paste("{.field [pattern]} the graphics device does not support clipping paths,",
-							"so patterns are not drawn. Use a device such as {.fn png}, {.fn svg},",
-							"or {.fn pdf} (R >= 4.1)."),
-					  .frequency = "regularly", .frequency_id = "pattern_device")
-	}
-	ok
+	TRUE
 }
 
 # Legend items of pattern legends (portrait and landscape): fill, pattern, and border, per item.
