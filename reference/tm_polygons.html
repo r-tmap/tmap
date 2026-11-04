@@ -48,6 +48,7 @@ pattern_size (line width or dot size of the pattern) and pattern_density (densit
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -181,7 +182,11 @@ pattern_size (line width or dot size of the pattern) and pattern_density (densit
 <span></span>
 <span><span class="fu">tm_borders</span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="tm_const.html">tm_const</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_polygons</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span>, pattern.zoom <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_polygons</span><span class="op">(</span></span>
+<span>  polygons.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  pattern.zoom <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  pattern.zoom.size <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -312,6 +317,10 @@ no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 <dt id="arg-pattern-zoom">pattern.zoom<a class="anchor" aria-label="anchor" href="#arg-pattern-zoom"></a></dt>
 <dd><p>In view mode, should patterns (see <code>pattern</code>) zoom with the map? By default (<code>FALSE</code>), patterns keep the same size on the screen, like <code><a href="tm_symbols.html">tm_bubbles()</a></code>. With <code>TRUE</code>, they stick to the map and are enlarged when zooming in, like <code><a href="tm_circles.html">tm_circles()</a></code>; at the initial zoom level, they look the same. Useful for e.g. dot density patterns. In plot mode, this has no effect.</p></dd>
+
+
+<dt id="arg-pattern-zoom-size">pattern.zoom.size<a class="anchor" aria-label="anchor" href="#arg-pattern-zoom-size"></a></dt>
+<dd><p>Only used when <code>pattern.zoom = TRUE</code>: should the line widths and dot sizes of the patterns zoom as well (<code>TRUE</code>, default), or only the spacing between the pattern elements (<code>FALSE</code>), so that lines and dots keep the same size on the screen?</p></dd>
 
 </dl></div>
     <div class="section level2">

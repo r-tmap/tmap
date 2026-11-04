@@ -65,6 +65,7 @@
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -306,6 +307,42 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <p><img src="adv_legends_files/figure-html/unnamed-chunk-20-1.png" alt="" width="100%"></p>
 <p>Two legends can be combined if and only if the number of legend items are the same. The graphical properties are then merged. So in this case the fill color from legend 1 and the shape of legend 2 are used.</p>
 </div>
+<div class="section level3">
+<h3 id="crossing-legends">Crossing legends<a class="anchor" aria-label="anchor" href="#crossing-legends"></a>
+</h3>
+<p>When two map variables of a layer are used for two different data variables, their legends can be crossed with <code><a href="../reference/tm_legend.html">tm_legend_cross()</a></code>. The result is a grid, with the items of one map variable in the rows and the items of the other map variable in the columns, so that each combination is shown. In this example, the fill color shows the continent and the fill pattern (see the <a href="https://r-tmap.github.io/tmap/articles/adv_patterns">vignette about fill patterns</a>) the income group:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">World2</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op"><a href="https://rspatial.github.io/terra/reference/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antarctica"</span>, <span class="st">"Seven seas (open ocean)"</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">World2</span><span class="op">$</span><span class="va">continent</span> <span class="op">=</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/factors.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="va">World2</span><span class="op">$</span><span class="va">continent</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World2</span>, crs <span class="op">=</span> <span class="st">"+proj=eqearth"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"continent"</span>,</span>
+<span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Continent"</span><span class="op">)</span>,</span>
+<span>    pattern <span class="op">=</span> <span class="st">"income_grp"</span>,</span>
+<span>    pattern.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_cross</a></span><span class="op">(</span><span class="st">"fill"</span>, ylab <span class="op">=</span> <span class="st">"Income group"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%"></p>
+<p>The legend of the crossed map variable (here <code>fill</code>) is not shown. The labels of the rows and columns are by default the titles of the two legends; they can be changed with <code>ylab</code> and <code>xlab</code>. The column labels are rotated when they do not fit. Crossing is only possible when both legends consist of separate items, so for instance not with a continuous color gradient.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="dot-density-legends">Dot density legends<a class="anchor" aria-label="anchor" href="#dot-density-legends"></a>
+</h2>
+<p>In a dot density map, each dot represents a number of units, such as inhabitants. This number is shown below the legend items with the legend argument <code>dot.value</code>, where <code>{n}</code> is replaced by the number:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">utrecht</span> <span class="op">=</span> <span class="va">NLD_dist</span><span class="op">[</span><span class="va">NLD_dist</span><span class="op">$</span><span class="va">province</span> <span class="op">==</span> <span class="st">"Utrecht"</span>, <span class="op">]</span></span>
+<span><span class="va">utrecht</span><span class="op">$</span><span class="va">pop_dens</span> <span class="op">=</span> <span class="va">utrecht</span><span class="op">$</span><span class="va">population</span> <span class="op">/</span> <span class="va">utrecht</span><span class="op">$</span><span class="va">area</span> <span class="co"># units: 1/km^2</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">utrecht</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"white"</span>, col <span class="op">=</span> <span class="st">"grey50"</span>, lwd <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>    pattern <span class="op">=</span> <span class="st">"stipple"</span>, pattern_size <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>    pattern_density <span class="op">=</span> <span class="st">"pop_dens"</span>,</span>
+<span>    pattern_density.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    pattern_density.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Inhabitants per km2"</span>,</span>
+<span>      dot.value <span class="op">=</span> <span class="st">"1 dot \u2248 {n} inhabitants"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%"></p>
+<p>The number depends on the map scale, so it is computed when the map is drawn. It requires a dot pattern and a scale for which the number of dots is proportional to the data, <code><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area()</a></code>. See the <a href="https://r-tmap.github.io/tmap/articles/examples_dot_density">dot density map example</a> for more.</p>
 </div>
 <div class="section level2">
 <h2 id="visual-values">Visual values<a class="anchor" aria-label="anchor" href="#visual-values"></a>
@@ -316,20 +353,20 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <h2 id="setting-visual-values">Setting visual values<a class="anchor" aria-label="anchor" href="#setting-visual-values"></a>
 </h2>
 <p>Suppose, for whatever reason, we would like to change some of the visual values used in the legend symbols. For instance, instead of solid circle lines, thick dotted lines. In that case, we can simply pass on the corresponding visual values <code>lwd</code> and <code>lty</code> to <code><a href="../reference/tm_legend.html">tm_legend()</a></code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"economy"</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Economy"</span>, </span>
 <span>      lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="manual-legends">Manual legends<a class="anchor" aria-label="anchor" href="#manual-legends"></a>
 </h2>
 <p>A new manual legend is created with <code><a href="../reference/tm_add_legend.html">tm_add_legend()</a></code>. For each item, a label and the visual values are specified, and in addition, a legend title.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_add_legend.html">tm_add_legend</a></span><span class="op">(</span></span>
@@ -338,7 +375,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    shape <span class="op">=</span> <span class="fl">22</span>, </span>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, </span>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%"></p>
 <p>There are four legend types, specified via the <code>type</code> argument:</p>
 <ul>
 <li>
@@ -350,7 +387,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <li>
 <code>"text"</code> where text is annotated.</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span><span class="fu"><a href="../reference/tm_add_legend.html">tm_add_legend</a></span><span class="op">(</span></span>
@@ -376,9 +413,9 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.5</span><span class="op">)</span>,</span>
 <span>    text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"purple"</span>, <span class="st">"blue"</span><span class="op">)</span>, </span>
 <span>    labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-25-1.png" alt="" width="100%"></p>
 <p>For symbols shapes (<code>shape</code>) are the following numbers are pre-defined:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">atlantic_grid</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">-</span><span class="fl">51</span><span class="op">:</span><span class="op">-</span><span class="fl">47</span>, y <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">atlantic_grid</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
 <span></span>
@@ -391,14 +428,14 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>    col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>    shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_asis.html">tm_scale_asis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"id"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-26-1.png" alt="" width="100%"></p>
 <p>It is also possible to use images or grob objects.</p>
 </div>
 <div class="section level2">
 <h2 id="layout">Layout<a class="anchor" aria-label="anchor" href="#layout"></a>
 </h2>
 <p>There are quite some arguments in <code><a href="../reference/tm_legend.html">tm_legend()</a></code> that can be used to tweak the layout. For instance broader color boxes:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -411,9 +448,9 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>        item.space <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>        item.na.space <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>        title.align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-25-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-27-1.png" alt="" width="100%"></p>
 <p>Another example is to configure the legend in ggplot2 style.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -430,10 +467,10 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>      ticks.col <span class="op">=</span> <span class="st">"white"</span>, </span>
 <span>      col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>frame <span class="op">=</span> <span class="cn">FALSE</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-26-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-28-1.png" alt="" width="100%"></p>
 <p>The <code>ticks</code> argument defines a dashed line. Each list item is a dash, the first between 0 and 0.1 of the color box width, and the second between 0.9 and 1.</p>
 <p>The numbers can also be larger than 1. In that case, the tick is drawn in the small margin between color box and label.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"HPI"</span>,</span>
@@ -451,7 +488,7 @@ How intervals are closed is configured with <code>interval.closure</code>.</p>
 <span>      ticks.col <span class="op">=</span> <span class="st">"red"</span>, </span>
 <span>      col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>frame <span class="op">=</span> <span class="cn">FALSE</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="adv_legends_files/figure-html/unnamed-chunk-27-1.png" alt="" width="100%"></p>
+<p><img src="adv_legends_files/figure-html/unnamed-chunk-29-1.png" alt="" width="100%"></p>
 <p>So the first dash <code>c(0, 0.5)</code> is drawn in the first half of the color box, and the second dash <code>c(1, 1.5)</code> in the first half of the margin.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

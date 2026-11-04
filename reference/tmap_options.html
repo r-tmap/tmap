@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -2017,8 +2018,8 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─values.range: <span style="color: #555555;">&lt;list&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fill: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─col: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size&lt;dbl [2]&gt;: <span style="color: #0000BB;">0, 1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd&lt;dbl [2]&gt;: <span style="color: #0000BB;">0, 1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size: <span style="color: #0000BB;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lwd: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─lty: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─text: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─fontface: <span style="color: #0000BB;">NA</span></span>
@@ -2029,7 +2030,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─num&lt;dbl [2]&gt;: <span style="color: #0000BB;">0, 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_col: <span style="color: #0000BB;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_size&lt;dbl [2]&gt;: <span style="color: #0000BB;">0, 1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─pattern_size: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ └─pattern_density: <span style="color: #0000BB;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├─value.neutral: <span style="color: #555555;">&lt;list&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │ ├─size: <span style="color: #0000BB;">0.75</span></span>
@@ -2758,7 +2759,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"white"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "white" (tmap default)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"footprint"</span><span class="op">)</span></span></span>
@@ -2767,7 +2768,7 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 <span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"fancy"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "fancy"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"footprint"</span><span class="op">)</span></span></span>

@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -163,7 +164,8 @@
 
 
 <dl><dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
-<dd><p>name of the style. Note that <code>tm_style()</code> resets all options
+<dd><p>name of the style, see <code><a href="tmap_style.html">tmap_style()</a></code>. Styles can be combined, e.g.
+<code>c("cobalt", "v4.4")</code>. Note that <code>tm_style()</code> resets all options
 (to the ones of the specified style), so options set before it, e.g. via
 <code>tm_layout()</code>, are ignored. Therefore, call <code>tm_style()</code> before
 <code>tm_layout()</code> and other functions that set options.</p></dd>

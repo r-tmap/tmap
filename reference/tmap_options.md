@@ -2122,8 +2122,8 @@ if (requireNamespace("lobstr")) {
 #> ├─values.range: <list>
 #> │ ├─fill: NA
 #> │ ├─col: NA
-#> │ ├─size<dbl [2]>: 0, 1
-#> │ ├─lwd<dbl [2]>: 0, 1
+#> │ ├─size: NA
+#> │ ├─lwd: NA
 #> │ ├─lty: NA
 #> │ ├─text: NA
 #> │ ├─fontface: NA
@@ -2134,7 +2134,7 @@ if (requireNamespace("lobstr")) {
 #> │ ├─num<dbl [2]>: 0, 1
 #> │ ├─pattern: NA
 #> │ ├─pattern_col: NA
-#> │ ├─pattern_size<dbl [2]>: 0, 1
+#> │ ├─pattern_size: NA
 #> │ └─pattern_density: NA
 #> ├─value.neutral: <list>
 #> │ ├─size: 0.75
@@ -2863,7 +2863,7 @@ tmap_options_save("fancy")
 tmap_style("white")
 #> style set to "white" (tmap default)
 #> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"
-#> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
+#> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
 
 tm_shape(World) +
   tm_polygons("footprint")
@@ -2872,7 +2872,7 @@ tm_shape(World) +
 tmap_style("fancy")
 #> style set to "fancy"
 #> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor"
-#> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
+#> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
 
 tm_shape(World) +
   tm_polygons("footprint")

@@ -16,7 +16,8 @@ tm_patterns(
   angle = NA,
   random = NA,
   length = NA,
-  amplitude = NA
+  amplitude = NA,
+  seed = NA
 )
 ```
 
@@ -48,6 +49,14 @@ tm_patterns(
 
   Amplitude of waves and zigzag lines, relative to the spacing.
 
+- seed:
+
+  Seed (a positive integer) of the random placement of dots, circles, or
+  crosses (with `random > 0`). Patterns with different seeds have
+  elements at different positions, which is useful when several dot
+  patterns are drawn on top of each other, e.g. a dot density map with
+  one layer per category. By default 1.
+
 ## Value
 
 A character vector of class `tmap_patterns` with one pattern
@@ -63,15 +72,15 @@ Pattern types:
 | `"none"`        | –                                               |
 | `"hatch"`       | `angle` (default 45)                            |
 | `"crosshatch"`  | `angle` (default 0)                             |
-| `"dots"`        | `random` (default 0)                            |
+| `"dots"`        | `random` (default 0), `seed` (default 1)        |
 | `"dashes"`      | `angle` (default 0), `length` (default 0.5)     |
 | `"bricks"`      | `angle` (default 0), `length` (default 2)       |
 | `"herringbone"` | `angle` (default 0), `length` (default 2)       |
 | `"hexagons"`    | `angle` (default 0)                             |
 | `"waves"`       | `angle` (default 0), `amplitude` (default 0.25) |
 | `"zigzag"`      | `angle` (default 0), `amplitude` (default 0.25) |
-| `"circles"`     | `random` (default 0)                            |
-| `"crosses"`     | `random` (default 0)                            |
+| `"circles"`     | `random` (default 0), `seed` (default 1)        |
+| `"crosses"`     | `random` (default 0), `seed` (default 1)        |
 | `"noise"`       | –                                               |
 
 Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),

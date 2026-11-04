@@ -129,8 +129,14 @@ tm_scale_continuous_pseudo_log(..., base = exp(1), sigma = 1)
   `"grey25"` to `"grey75"`), and `0, 0.5` means that only colors are
   used from black to middle gray (`"grey50"`). When only one number is
   specified, this is interpreted as the second number (where the first
-  is set to 0). Default values can be set via the tmap option
-  `values.range`.
+  is set to 0). For numeric map variables, such as `size` and `lwd`, it
+  is also the part of the `values` that is used: e.g. `c(0.5, 1)` for
+  line widths from 0 to 3 gives line widths from 1.5 to 3. When `NA`
+  (automatic), color palettes may use a part of their colors depending
+  on the number of classes, and the classes of numeric map variables of
+  which the values start at 0 get the values k/n (k = 1, ..., n) of the
+  full range, so that the first class is not 0. Default values can be
+  set via the tmap option `values.range`.
 
 - values.scale:
 

@@ -276,6 +276,71 @@ Two legends can be combined if and only if the number of legend items
 are the same. The graphical properties are then merged. So in this case
 the fill color from legend 1 and the shape of legend 2 are used.
 
+### Crossing legends
+
+When two map variables of a layer are used for two different data
+variables, their legends can be crossed with
+[`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md).
+The result is a grid, with the items of one map variable in the rows and
+the items of the other map variable in the columns, so that each
+combination is shown. In this example, the fill color shows the
+continent and the fill pattern (see the [vignette about fill
+patterns](https://r-tmap.github.io/tmap/articles/adv_patterns)) the
+income group:
+
+``` r
+
+World2 = World[!(World$continent %in% c("Antarctica", "Seven seas (open ocean)")), ]
+World2$continent = droplevels(World2$continent)
+
+tm_shape(World2, crs = "+proj=eqearth") +
+  tm_polygons(
+    fill = "continent",
+    fill.legend = tm_legend("Continent"),
+    pattern = "income_grp",
+    pattern.legend = tm_legend_cross("fill", ylab = "Income group"))
+```
+
+![](adv_legends_files/figure-html/unnamed-chunk-21-1.png)
+
+The legend of the crossed map variable (here `fill`) is not shown. The
+labels of the rows and columns are by default the titles of the two
+legends; they can be changed with `ylab` and `xlab`. The column labels
+are rotated when they do not fit. Crossing is only possible when both
+legends consist of separate items, so for instance not with a continuous
+color gradient.
+
+## Dot density legends
+
+In a dot density map, each dot represents a number of units, such as
+inhabitants. This number is shown below the legend items with the legend
+argument `dot.value`, where `{n}` is replaced by the number:
+
+``` r
+
+utrecht = NLD_dist[NLD_dist$province == "Utrecht", ]
+utrecht$pop_dens = utrecht$population / utrecht$area # units: 1/km^2
+
+tm_shape(utrecht) +
+  tm_polygons(
+    fill = "white", col = "grey50", lwd = 0.7,
+    pattern = "stipple", pattern_size = 1.2,
+    pattern_density = "pop_dens",
+    pattern_density.scale = tm_scale_continuous_area(limits = c(0, 10000)),
+    pattern_density.legend = tm_legend("Inhabitants per km2",
+      dot.value = "1 dot \u2248 {n} inhabitants"))
+```
+
+![](adv_legends_files/figure-html/unnamed-chunk-22-1.png)
+
+The number depends on the map scale, so it is computed when the map is
+drawn. It requires a dot pattern and a scale for which the number of
+dots is proportional to the data,
+[`tm_scale_continuous_area()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md).
+See the [dot density map
+example](https://r-tmap.github.io/tmap/articles/examples_dot_density)
+for more.
+
 ## Visual values
 
 It is possible to create a custom legend by specifying the visual values
@@ -302,7 +367,7 @@ s +
       lwd = 2, lty = "dotted"))
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-21-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-23-1.png)
 
 ## Manual legends
 
@@ -323,7 +388,7 @@ s +
     labels = c("Small", "Medium", "Large"))
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-22-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-24-1.png)
 
 There are four legend types, specified via the `type` argument:
 
@@ -365,7 +430,7 @@ tm_add_legend(
     labels = LETTERS[1:3])
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-23-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-25-1.png)
 
 For symbols shapes (`shape`) are the following numbers are pre-defined:
 
@@ -385,7 +450,7 @@ tm_shape(x, bbox = tmaptools::bb(x, ext = 1.2)) +
   tm_text("id", ymod = -2)
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-24-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-26-1.png)
 
 It is also possible to use images or grob objects.
 
@@ -411,7 +476,7 @@ s +
         title.align = "center"))
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-25-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-27-1.png)
 
 Another example is to configure the legend in ggplot2 style.
 
@@ -435,7 +500,7 @@ s +
 tm_layout(frame = FALSE, outer.margins = 0)
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-26-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-28-1.png)
 
 The `ticks` argument defines a dashed line. Each list item is a dash,
 the first between 0 and 0.1 of the color box width, and the second
@@ -465,7 +530,7 @@ s +
 tm_layout(frame = FALSE, outer.margins = 0)
 ```
 
-![](adv_legends_files/figure-html/unnamed-chunk-27-1.png)
+![](adv_legends_files/figure-html/unnamed-chunk-29-1.png)
 
 So the first dash `c(0, 0.5)` is drawn in the first half of the color
 box, and the second dash `c(1, 1.5)` in the first half of the margin.

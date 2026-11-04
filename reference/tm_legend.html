@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -144,12 +145,16 @@
 <span>  <span class="va">ticks.lwd</span>,</span>
 <span>  <span class="va">margins</span>,</span>
 <span>  <span class="va">item_text.margin</span>,</span>
+<span>  <span class="va">dot.value</span>,</span>
+<span>  <span class="va">dot.unit</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_legend_hide</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_legend_combine</span><span class="op">(</span><span class="va">variable</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_legend_cross</span><span class="op">(</span><span class="va">variable</span>, title <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="cn">NA</span>, ylab <span class="op">=</span> <span class="cn">NA</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tm_legend_bivariate</span><span class="op">(</span></span>
 <span>  <span class="va">xlab</span>,</span>
@@ -179,7 +184,7 @@
 
 
 <dl><dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>Legend title</p></dd>
+<dd><p>Legend title. For <code>tm_legend_cross()</code>, the title of the cross legend (by default none).</p></dd>
 
 
 <dt id="arg-show">show<a class="anchor" aria-label="anchor" href="#arg-show"></a></dt>
@@ -358,20 +363,39 @@
 <dd><p>The margin of the space between item and text of the legend.</p></dd>
 
 
+<dt id="arg-dot-value">dot.value<a class="anchor" aria-label="anchor" href="#arg-dot-value"></a></dt>
+<dd><p>For dot density maps: a note below the legend items that shows how many units one dot
+represents, e.g. <code>"1 dot \u2248 {n} inhabitants"</code>, where <code>{n}</code> is replaced by the number. <code>TRUE</code> shows
+<code>"1 dot \u2248 {n}"</code>. Only for the legend of <code>pattern_density</code> of <code><a href="tm_polygons.html">tm_polygons()</a></code> with a dot pattern
+(<code>"dots"</code>, <code>"stipple"</code>, <code>"circles"</code>, or <code>"crosses"</code>) and a scale for which the number of dots is
+proportional to the data values, i.e. <code><a href="tm_scale_continuous_area.html">tm_scale_continuous_area()</a></code>. The number depends on the map scale:
+it is computed at the center of the map when the map is drawn, and in view mode it is updated after
+zooming. The note is not shown when the area scale varies too much across the map (use an equal-area
+projection for small-scale maps).</p></dd>
+
+
+<dt id="arg-dot-unit">dot.unit<a class="anchor" aria-label="anchor" href="#arg-dot-unit"></a></dt>
+<dd><p>The area unit of the data values (per area), e.g. <code>"km2"</code>, <code>"ha"</code>, or <code>"mi2"</code>. By default,
+it is taken from the units of the data variable (see the <strong>units</strong> package), and otherwise <code>"km2"</code>.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>visual values, e.g. <code>col</code>, <code>fill</code>, <code>lwd</code>, can be specified. If so, they overrule the default visual values, which are determined by the drawn map objects (e.g. polygons)</p></dd>
 
 
 <dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
-<dd><p>visual (or transformation) variable to combine the legend with: e.g. <code>"fill"</code> or <code>"size"</code></p></dd>
+<dd><p>visual (or transformation) variable to combine (<code>tm_legend_combine()</code>) or cross
+(<code>tm_legend_cross()</code>) the legend with: e.g. <code>"fill"</code> or <code>"size"</code></p></dd>
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
-<dd><p>label for the x dimension (rows)</p></dd>
+<dd><p>label for the x dimension (rows). For <code>tm_legend_cross()</code>, the label of the columns, by default the title
+of the legend of <code>variable</code>.</p></dd>
 
 
 <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
-<dd><p>label for the y dimension (columns)</p></dd>
+<dd><p>label for the y dimension (columns). For <code>tm_legend_cross()</code>, the label of the rows, by default the title
+of the legend of the map variable itself.</p></dd>
 
 
 <dt id="arg-xlab-color">xlab.color<a class="anchor" aria-label="anchor" href="#arg-xlab-color"></a></dt>
@@ -441,6 +465,18 @@
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tm_legend component</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>tm_legend_cross()</code> crosses the legend of a map variable with the legend of another map variable
+(<code>variable</code>) of the same layer: the legend items are placed in a grid, with the items of the map variable in
+the rows and the items of <code>variable</code> in the columns, such that each cell shows a combination of both. It is
+meant for two map variables of different data variables that can be combined in one symbol, such as <code>fill</code>
+and <code>pattern</code> of <code><a href="tm_polygons.html">tm_polygons()</a></code>: e.g. <code>pattern.legend = tm_legend_cross("fill")</code>. The legend of <code>variable</code>
+is not shown. Both legends should consist of separate items (so not a continuous color gradient). In
+contrast, <code>tm_legend_combine()</code> merges the legends of two map variables of the same data variable into one
+list of items. The labels of the columns are rotated when they do not fit. The cross legend is portrait
+only.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

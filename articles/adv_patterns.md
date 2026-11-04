@@ -171,19 +171,36 @@ the legend is needed to see which group is higher. For an ordered
 variable, the density of a single pattern (`pattern_density`) conveys
 the order better; see the dot density example below.
 
+The two legends can also be crossed into one legend with
+[`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md):
+a grid with the patterns in the rows and the colors in the columns, so
+that each combination is shown:
+
+``` r
+
+tm_shape(World2, crs = "+proj=eqearth") +
+  tm_polygons(fill = "continent",
+              fill.legend = tm_legend("Continent"),
+              pattern = "income_grp",
+              pattern.legend = tm_legend_cross("fill",
+                                               ylab = "Income group"))
+```
+
+![](adv_patterns_files/figure-html/unnamed-chunk-12-1.png)
+
 ## Example: reliability of estimates
 
 A typical use case is a map of estimates, where the estimates that are
 less reliable are marked with a pattern. Statistical agencies often do
 this for small areas, where an estimate is based on few observations. In
 this example, the share of high incomes is shown for the districts of
-two provinces of the Netherlands. Districts with fewer than 1000
-inhabitants are hatched; for some of them, the estimate is not published
-at all (missing values).
+the three provinces of the North Netherlands (Groningen, Friesland, and
+Drenthe). Districts with fewer than 1000 inhabitants are hatched; for
+some of them, the estimate is not published at all (missing values).
 
 ``` r
 
-north = NLD_dist[NLD_dist$province %in% c("Groningen", "Drenthe"), ]
+north = NLD_dist[NLD_dist$province %in% c("Groningen", "Fryslan", "Drenthe"), ]
 north$reliability = cut(north$population, breaks = c(-Inf, 1000, Inf),
                         right = FALSE,
                         labels = c("Low (< 1000 inhabitants)", "Sufficient"))
@@ -201,7 +218,7 @@ tm_shape(north) +
               col = "grey60", lwd = 0.5)
 ```
 
-![](adv_patterns_files/figure-html/unnamed-chunk-12-1.png)
+![](adv_patterns_files/figure-html/unnamed-chunk-13-1.png)
 
 The eye averages a pattern with the fill color underneath. Dark lines
 make an area look darker, and white lines make it look lighter, although
@@ -225,25 +242,46 @@ At density 1, there is one dot per square of a quarter text line wide.
 Since the spacing between dots is inversely proportional to the density,
 the number of dots per area is proportional to the *square* of the
 density. So, to make the number of dots proportional to a data variable,
-such as the population density, use a square root scale that starts at
-0, with values from 0 to 1:
+such as the population density, the density should be proportional to
+the square root of the data values. This is what
+[`tm_scale_continuous_area()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md)
+does: the limits start at 0, and the values range from 0 to 1 by a
+square root. It is the same scale that makes the area of bubbles
+proportional to the data:
 
 ``` r
 
 utrecht = NLD_dist[NLD_dist$province == "Utrecht", ]
-utrecht$pop_dens = utrecht$population / as.numeric(utrecht$area)
+utrecht$pop_dens = utrecht$population / utrecht$area
 
-tm_shape(utrecht) +
-  tm_polygons(fill = "white", col = "grey80", lwd = 0.5,
+dotmap = tm_shape(utrecht) +
+  tm_polygons(fill = "white", col = "grey45", lwd = 0.8,
               pattern = "stipple", pattern_size = 1.2, pattern_col = "grey10",
               pattern_density = "pop_dens",
-              pattern_density.scale = tm_scale_continuous_sqrt(
-                limits = c(0, 10000), values = c(0, 1),
+              pattern_density.scale = tm_scale_continuous_area(
+                limits = c(0, 10000),
                 ticks = c(500, 2500, 5000, 10000)),
-              pattern_density.legend = tm_legend("Inhabitants per km2"))
+              pattern_density.legend = tm_legend(
+                "Inhabitants per km2",
+                dot.value = "1 dot \u2248 {n} inhabitants"))
+dotmap
 ```
 
-![](adv_patterns_files/figure-html/unnamed-chunk-13-1.png)
+![](adv_patterns_files/figure-html/unnamed-chunk-14-1.png)
+
+The interactive version (zoom in to see the number of inhabitants per
+dot change):
+
+``` r
+
+tmap_mode("view")
+dotmap
+```
+
+``` r
+
+tmap_mode("plot")
+```
 
 Each dot represents the same number of inhabitants: the upper limit
 (here 10,000 inhabitants per km²) times the map area of one dot square
@@ -252,8 +290,22 @@ is 0.05 inch times the `scale` (see
 [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md));
 in the map above, with scale 0.75, it is 0.0375 inch. So the number of
 inhabitants per dot depends on the map scale, and therefore on the size
-of the plot. Note that the dots are spread evenly within each district:
-they do not show where people live within a district.
+of the plot.
+
+The legend argument `dot.value` shows this number below the legend
+items, where `{n}` is replaced by the number. It is computed at the
+center of the map when the map is drawn, and in view mode, it is updated
+after zooming. The area unit of the data values (here km²) is taken from
+the units of the data variable (`population / area` has the units
+1/km²); otherwise, it can be specified with `dot.unit`. The number is
+not shown when the area scale varies too much across the map, such as
+for a world map in a projection that is not equal-area.
+
+Note that the dots are spread evenly within each district: they do not
+show where people live within a district. See the [dot density map
+example](https://r-tmap.github.io/tmap/articles/examples_dot_density)
+for a dot density map of the whole Netherlands, also with dots colored
+by income class.
 
 ## Black and white maps
 
@@ -266,7 +318,7 @@ tm_shape(World) +
               pattern.scale = tm_scale_categorical(values = "classic"))
 ```
 
-![](adv_patterns_files/figure-html/unnamed-chunk-14-1.png)
+![](adv_patterns_files/figure-html/unnamed-chunk-16-1.png)
 
 ## Legends
 
@@ -277,7 +329,10 @@ be changed with `item.height` and `item.width` in
 [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md).
 When the same data variable is used for `fill` and `pattern`, the
 legends can be combined with
-[`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md):
+[`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+(for different data variables, see
+[`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+in the example with two categorical variables above):
 
 ``` r
 
@@ -286,7 +341,7 @@ tm_shape(World) +
               pattern.legend = tm_legend_combine("fill"))
 ```
 
-![](adv_patterns_files/figure-html/unnamed-chunk-15-1.png)
+![](adv_patterns_files/figure-html/unnamed-chunk-17-1.png)
 
 ## View mode
 

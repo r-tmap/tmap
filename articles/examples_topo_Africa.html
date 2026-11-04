@@ -65,6 +65,7 @@
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -168,7 +169,7 @@
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"red"</span>, shape <span class="op">=</span> <span class="st">"pop2020"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
 <span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span>,</span>
-<span>      values.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span>      values <span class="op">=</span> <span class="fu"><a href="../reference/tm_seq.html">tm_seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">2</span>, power <span class="op">=</span> <span class="st">"sqrt"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Population in 2020"</span><span class="op">)</span>,</span>
 <span>    shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
@@ -230,7 +231,7 @@ We’ll use <code>is.main</code> for the the spatial object <code>Africa</code> 
 <span>  <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"red"</span>, shape <span class="op">=</span> <span class="st">"pop2020"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>,</span>
 <span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>
 <span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span>,</span>
-<span>      values.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span>      values <span class="op">=</span> <span class="fu"><a href="../reference/tm_seq.html">tm_seq</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">2</span>, power <span class="op">=</span> <span class="st">"sqrt"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Population in 2020"</span><span class="op">)</span>,</span>
 <span>    shape.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span></span>

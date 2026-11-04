@@ -46,6 +46,7 @@ The default style (i.e. when loading the package) is "white".'><meta property="o
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -119,7 +120,9 @@ The default style (i.e. when loading the package) is <code>"white"</code>.</p>
 and also shows all available styles. When the style is specified,<code>tmap_style()</code>
 sets the style accordingly. Note that in that case, all tmap options (see <code><a href="tmap_options.html">tmap_options()</a></code>)
 will be reset according to the style definition.
-See <code><a href="tm_layout.html">tm_layout()</a></code> for predefined styles, and <code><a href="tmap_style_catalogue.html">tmap_style_catalogue()</a></code> for creating a catalogue.</p></dd>
+See <code><a href="tm_layout.html">tm_layout()</a></code> for predefined styles, and <code><a href="tmap_style_catalogue.html">tmap_style_catalogue()</a></code> for creating a catalogue.
+Styles can be combined, e.g. <code>c("cobalt", "v4.4")</code>, where the options of later styles
+take precedence. See details for the styles of previous tmap versions.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -133,7 +136,14 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <p>After loading a style, the options that defined this style
 (i.e. the difference with the default <code>"white"</code> style) can be obtained by <code><a href="tmap_options.html">tmap_options_diff()</a></code>.</p>
 <p>The documentation of <code><a href="tmap_options.html">tmap_options()</a></code> (details and the examples) shows how to create a new style.</p>
-    </div>
+<p>For backward compatibility, there are also styles of previous tmap versions:</p><ul><li><p><code>"v4.4"</code>: the numeric scales of tmap 4.0 to 4.4. In tmap 4.5, these scales were made consistent: the
+classes of a numeric map variable that starts at 0 (such as <code>size</code> and <code>lwd</code>) no longer start at 0, and
+continuous scales use the same values as the other scales (so data-driven line widths range from 0 to 3
+instead of from 0 to 1). This style reproduces the maps of tmap 4.0 to 4.4. It can be combined with other
+styles, e.g. <code>tm_style(c("cobalt", "v4.4"))</code>.</p></li>
+<li><p><code>"v3"</code> and <code>"&lt;style&gt;_v3"</code>, e.g. <code>"cobalt_v3"</code>: the styles of tmap 3, which also include the numeric scales
+of <code>"v4.4"</code>.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
@@ -147,7 +157,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "white" (tmap default)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-1.png" alt="" width="700" height="433"></span>
@@ -155,7 +165,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-2.png" alt="" width="700" height="433"></span>
@@ -165,7 +175,7 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"v3"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "v3" (tmap v3 default)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-3.png" alt="" width="700" height="433"></span>
@@ -173,10 +183,26 @@ whereas <code>tmap_style()</code> sets the style globally.</p>
 <span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt_v3"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "cobalt_v3"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap v3 styles: "v3" (tmap v3 default), "gray_v3", "natural_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the numeric scales of tmap 4.0 to 4.4 (here: thinner data-driven line widths)</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"white"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> style set to "white" (tmap default)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_rivers</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_lines.html">tm_lines</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="st">"strokelwd"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="tmap_style-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_rivers</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_lines.html">tm_lines</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="st">"strokelwd"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"v4.4"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="tmap_style-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># styles can be combined</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_rivers</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_lines.html">tm_lines</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="st">"strokelwd"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cobalt"</span>, <span class="st">"v4.4"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="tmap_style-7.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -58,6 +58,8 @@
   (Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD.md):
 - [tmap example: choropleth
   (World)](https://r-tmap.github.io/tmap/articles/examples_choro_World.md):
+- [tmap example: dot density
+  map](https://r-tmap.github.io/tmap/articles/examples_dot_density.md):
 - [tmap example:
   gridmaps](https://r-tmap.github.io/tmap/articles/examples_gridmaps.md):
 - [tmap example:

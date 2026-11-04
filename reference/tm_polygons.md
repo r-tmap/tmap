@@ -82,7 +82,11 @@ tm_fill(...)
 
 tm_borders(col = tm_const(), ...)
 
-opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
+opt_tm_polygons(
+  polygons.only = "ifany",
+  pattern.zoom = FALSE,
+  pattern.zoom.size = TRUE
+)
 ```
 
 ## Arguments
@@ -261,6 +265,13 @@ opt_tm_polygons(polygons.only = "ifany", pattern.zoom = FALSE)
   [`tm_circles()`](https://r-tmap.github.io/tmap/reference/tm_circles.md);
   at the initial zoom level, they look the same. Useful for e.g. dot
   density patterns. In plot mode, this has no effect.
+
+- pattern.zoom.size:
+
+  Only used when `pattern.zoom = TRUE`: should the line widths and dot
+  sizes of the patterns zoom as well (`TRUE`, default), or only the
+  spacing between the pattern elements (`FALSE`), so that lines and dots
+  keep the same size on the screen?
 
 ## Details
 

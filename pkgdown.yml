@@ -30,6 +30,7 @@ articles:
   examples_bubble: examples_bubble.html
   examples_choro_NLD: examples_choro_NLD.html
   examples_choro_World: examples_choro_World.html
+  examples_dot_density: examples_dot_density.html
   examples_gridmaps: examples_gridmaps.html
   examples_raster: examples_raster.html
   examples_terrain: examples_terrain.html
@@ -44,7 +45,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-11-03T10:32Z
+last_built: 2026-11-04T15:20Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

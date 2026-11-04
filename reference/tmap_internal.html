@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -546,9 +547,9 @@
 <span></span>
 <span><span class="fu">tmapValuesColorize_angle</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapSeq</span><span class="op">(</span><span class="va">s</span>, n <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">tmapSeq</span><span class="op">(</span><span class="va">s</span>, <span class="va">n</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">transform_values</span><span class="op">(</span><span class="va">x</span>, <span class="va">lim</span>, <span class="va">rng</span>, <span class="va">power</span>, <span class="va">scale</span>, include.neutral <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">transform_values</span><span class="op">(</span><span class="va">x</span>, <span class="va">lim</span>, <span class="va">rng</span>, <span class="va">values</span>, <span class="va">scale</span>, include.neutral <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapValuesCVV_fill</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>

@@ -29,6 +29,7 @@
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_bubble.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_choro_NLD.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_choro_World.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/examples_dot_density.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_gridmaps.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_raster.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/examples_terrain.html</loc></url>
@@ -101,6 +102,7 @@
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_bivariate.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_categorical.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_continuous.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_discrete.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_intervals.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_scale_rank.html</loc></url>

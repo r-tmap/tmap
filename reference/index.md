@@ -132,6 +132,9 @@ Always use those in this form `<map_variable>.scale = tm_scale*()`
   [`tm_scale_continuous_sqrt()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
   [`tm_scale_continuous_pseudo_log()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md)
   : Scales: continuous scale
+- [`tm_scale_continuous_area()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md)
+  [`tm_scale_continuous_volume()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md)
+  : Scales: continuous scales proportional to area or volume
 - [`tm_scale_discrete()`](https://r-tmap.github.io/tmap/reference/tm_scale_discrete.md)
   : Scales: discrete scale
 - [`tm_scale_intervals()`](https://r-tmap.github.io/tmap/reference/tm_scale_intervals.md)
@@ -149,6 +152,7 @@ Always use those in this form `<map_variable>.legend = tm_legend*()`
 - [`tm_legend()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_hide()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_combine()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
+  [`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   [`tm_legend_bivariate()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   : Map component: scale legend
 - [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md)

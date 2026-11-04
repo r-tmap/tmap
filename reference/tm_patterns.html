@@ -48,6 +48,7 @@ as well as a list of tm_patterns() calls."><meta property="og:image" content="ht
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
@@ -115,7 +116,8 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 <span>  angle <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  random <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  length <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  amplitude <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  amplitude <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -142,6 +144,12 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 <dt id="arg-amplitude">amplitude<a class="anchor" aria-label="anchor" href="#arg-amplitude"></a></dt>
 <dd><p>Amplitude of waves and zigzag lines, relative to the spacing.</p></dd>
 
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Seed (a positive integer) of the random placement of dots, circles, or crosses (with <code>random &gt; 0</code>).
+Patterns with different seeds have elements at different positions, which is useful when several dot
+patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -149,7 +157,7 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Pattern types:</p><table class="table table"><tr><td>Type</td><td>Parameters</td></tr><tr><td><code>"none"</code></td><td>–</td></tr><tr><td><code>"hatch"</code></td><td><code>angle</code> (default 45)</td></tr><tr><td><code>"crosshatch"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"dots"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"dashes"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 0.5)</td></tr><tr><td><code>"bricks"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"herringbone"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"hexagons"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"waves"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"zigzag"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"circles"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"crosses"</code></td><td><code>random</code> (default 0)</td></tr><tr><td><code>"noise"</code></td><td>–</td></tr></table><p>Shortcuts: <code>"hatch_up"</code> (same as <code>"hatch"</code>), <code>"hatch_down"</code> (angle 135),
+    <p>Pattern types:</p><table class="table table"><tr><td>Type</td><td>Parameters</td></tr><tr><td><code>"none"</code></td><td>–</td></tr><tr><td><code>"hatch"</code></td><td><code>angle</code> (default 45)</td></tr><tr><td><code>"crosshatch"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"dots"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"dashes"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 0.5)</td></tr><tr><td><code>"bricks"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"herringbone"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"hexagons"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"waves"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"zigzag"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"circles"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"crosses"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"noise"</code></td><td>–</td></tr></table><p>Shortcuts: <code>"hatch_up"</code> (same as <code>"hatch"</code>), <code>"hatch_down"</code> (angle 135),
 <code>"hatch_horizontal"</code> (angle 0), <code>"hatch_vertical"</code> (angle 90),
 <code>"crosshatch_diagonal"</code> (crosshatch with angle 45), and <code>"stipple"</code> (dots with <code>random = 0.7</code>).</p>
 <p>Pattern sets, which are used like color palettes:</p><table class="table table"><tr><td>Set</td><td>Patterns</td><td>Use</td></tr><tr><td><code>"mixed"</code></td><td>14: hatch, dots, hatch_down, bricks, waves, ...</td><td>default; patterns that differ most</td></tr><tr><td><code>"classic"</code></td><td>8: hatches in four directions, crosshatches, dots, dashes</td><td>the classic black-and-white look</td></tr><tr><td><code>"lines"</code></td><td>10: hatches, waves, zigzag, dashes, herringbone, crosshatches</td><td>line patterns only</td></tr><tr><td><code>"shapes"</code></td><td>6: dots, bricks, circles, hexagons, crosses, noise</td><td>no line patterns, e.g. to combine with a hatched layer</td></tr></table><p>Used as <code>values</code> of a scale, the first <code>n</code> patterns are taken. A <code>"-"</code> prefix reverses the order.
