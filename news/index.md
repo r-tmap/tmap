@@ -21,6 +21,9 @@
   the first and last visual values. Use `tm_style("v4.4")` to reproduce
   maps of tmap 4.0 to 4.4
 - styles can be combined, e.g. `tm_style(c("cobalt", "v4.4"))`
+- added the pattern type `"terrain"`: a texture of random relief
+  (highlights and shadows), of which `pattern_density` is the strength,
+  e.g. to show uncertainty (the rougher, the less certain)
 - added
   [`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
   (a grid legend of two map variables) and `tm_legend(dot.value)` (units

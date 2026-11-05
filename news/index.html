@@ -99,6 +99,7 @@
 <li>[!] numeric scales made consistent: e.g. continuous <code>lwd</code> now also ranges from 0 to 3, classes of <code>size</code> and <code>lwd</code> no longer start at 0, <code>values.range</code> is relative (as documented), and <code><a href="../reference/tm_seq.html">tm_seq()</a></code> takes the first and last visual values. Use <code>tm_style("v4.4")</code> to reproduce maps of tmap 4.0 to 4.4</li>
 <li>styles can be combined, e.g. <code>tm_style(c("cobalt", "v4.4"))</code>
 </li>
+<li>added the pattern type <code>"terrain"</code>: a texture of random relief (highlights and shadows), of which <code>pattern_density</code> is the strength, e.g. to show uncertainty (the rougher, the less certain)</li>
 <li>added <code><a href="../reference/tm_legend.html">tm_legend_cross()</a></code> (a grid legend of two map variables) and <code>tm_legend(dot.value)</code> (units per dot in dot density maps)</li>
 <li>other legends that borrow the color of a categorical <code>fill</code> or <code>col</code> now use the constant color of the layer</li>
 <li>fixed: the global <code>scale</code> was applied to data-driven transparency in some scales</li>

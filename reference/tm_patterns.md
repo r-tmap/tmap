@@ -17,6 +17,7 @@ tm_patterns(
   random = NA,
   length = NA,
   amplitude = NA,
+  grain = NA,
   seed = NA
 )
 ```
@@ -49,13 +50,26 @@ tm_patterns(
 
   Amplitude of waves and zigzag lines, relative to the spacing.
 
+- grain:
+
+  Size of the relief of `"terrain"`: the largest wavelength, relative to
+  the spacing at density 1 (which is 1/20 inch by default, see the
+  `scale` argument of
+  [`tm_layout()`](https://r-tmap.github.io/tmap/reference/tm_layout.md)).
+  By default 1. The relief cannot be finer than the resolution allows
+  (wavelengths of at least 3 pixels), so smaller values only have an
+  effect at high resolutions, e.g.
+  [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md)
+  with 300 dpi.
+
 - seed:
 
   Seed (a positive integer) of the random placement of dots, circles, or
-  crosses (with `random > 0`). Patterns with different seeds have
-  elements at different positions, which is useful when several dot
-  patterns are drawn on top of each other, e.g. a dot density map with
-  one layer per category. By default 1.
+  crosses (with `random > 0`), and of the relief of `"terrain"`.
+  Patterns with different seeds have elements at different positions,
+  which is useful when several dot patterns are drawn on top of each
+  other, e.g. a dot density map with one layer per category. By default
+  1.
 
 ## Value
 
@@ -82,6 +96,7 @@ Pattern types:
 | `"circles"`     | `random` (default 0), `seed` (default 1)        |
 | `"crosses"`     | `random` (default 0), `seed` (default 1)        |
 | `"noise"`       | –                                               |
+| `"terrain"`     | `grain` (default 1), `seed` (default 1)         |
 
 Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
 `"hatch_horizontal"` (angle 0), `"hatch_vertical"` (angle 90),
@@ -113,6 +128,16 @@ variable `pattern_density`, the line width or dot size by
 `pattern_size`, and the color by `pattern_col`. The parameters `length`
 and `amplitude` are relative to that spacing, so the whole motif is
 scaled with the density.
+
+The pattern type `"terrain"` is a texture rather than a motif: random
+relief, shaded with light from the northwest, which looks like rough
+terrain. It is drawn as highlights (white) and shadows (`pattern_col`)
+on top of the fill color, which cancel out roughly, so the average color
+does not change much. Its strength is determined by `pattern_density`
+(between 0, no texture, and 1), which makes it suitable for showing
+uncertainty: the rougher, the less certain. `pattern_size` is not used.
+In plot mode, it requires a graphics device that supports clipping
+paths.
 
 ## See also
 

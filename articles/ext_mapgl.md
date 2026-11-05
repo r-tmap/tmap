@@ -88,9 +88,6 @@ tmap_mode("maplibre")
 #> "mapbox" -> "maplibre"
 tm_shape(World) +
     tm_polygons_3d(height = "pop_est_dens", fill = "continent")
-#> Warning: Fill-extrusion layers may have rendering artifacts in globe
-#> projection. Consider using projection = "mercator" in maplibre() for better
-#> performance. See https://github.com/maplibre/maplibre-gl-js/issues/5025
 ```
 
 Note that this is a toy simple example that does not take high
@@ -116,7 +113,4 @@ tm_shape(NLD_dist) +
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
     fill.legend = tm_legend("Univeristy degree")) +
 tm_maplibre(pitch = 45)
-#> Warning: Fill-extrusion layers may have rendering artifacts in globe
-#> projection. Consider using projection = "mercator" in maplibre() for better
-#> performance. See https://github.com/maplibre/maplibre-gl-js/issues/5025
 ```
