@@ -76,6 +76,8 @@ legend_cross = function(leg, gp, gp_layer, legnm) {
 	leg$title = if (empty(leg$cross_title)) "" else leg$cross_title
 	leg$cross_gp = gp2
 	leg$is_cross = TRUE
+	# the map variables of the rows and columns (used by extensions, e.g. interactive legends in tmap.mapgl)
+	leg$cross_vars = c(rows = legnm, cols = cross)
 	leg
 }
 
