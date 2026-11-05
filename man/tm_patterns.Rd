@@ -10,6 +10,7 @@ tm_patterns(
   random = NA,
   length = NA,
   amplitude = NA,
+  grain = NA,
   seed = NA
 )
 }
@@ -24,7 +25,13 @@ tm_patterns(
 
 \item{amplitude}{Amplitude of waves and zigzag lines, relative to the spacing.}
 
-\item{seed}{Seed (a positive integer) of the random placement of dots, circles, or crosses (with \code{random > 0}).
+\item{grain}{Size of the relief of \code{"terrain"}: the largest wavelength, relative to the spacing at density 1
+(which is 1/20 inch by default, see the \code{scale} argument of \code{\link[=tm_layout]{tm_layout()}}). By default 1. The relief cannot
+be finer than the resolution allows (wavelengths of at least 3 pixels), so smaller values only have an
+effect at high resolutions, e.g. \code{\link[=tmap_save]{tmap_save()}} with 300 dpi.}
+
+\item{seed}{Seed (a positive integer) of the random placement of dots, circles, or crosses (with \code{random > 0}),
+and of the relief of \code{"terrain"}.
 Patterns with different seeds have elements at different positions, which is useful when several dot
 patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.}
 }
@@ -54,6 +61,7 @@ Pattern types:\tabular{ll}{
    \code{"circles"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"crosses"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"noise"} \tab -- \cr
+   \code{"terrain"} \tab \code{grain} (default 1), \code{seed} (default 1) \cr
 }
 
 
@@ -81,6 +89,13 @@ The spacing between the pattern elements is determined by the map variable
 \code{pattern_density}, the line width or dot size by \code{pattern_size}, and the color by \code{pattern_col}.
 The parameters \code{length} and \code{amplitude} are relative to that spacing, so the whole
 motif is scaled with the density.
+
+The pattern type \code{"terrain"} is a texture rather than a motif: random relief, shaded with light
+from the northwest, which looks like rough terrain. It is drawn as highlights (white) and shadows
+(\code{pattern_col}) on top of the fill color, which cancel out roughly, so the average color does not
+change much. Its strength is determined by \code{pattern_density} (between 0, no texture, and 1), which
+makes it suitable for showing uncertainty: the rougher, the less certain. \code{pattern_size} is not used.
+In plot mode, it requires a graphics device that supports clipping paths.
 }
 \examples{
 tm_patterns("hatch", angle = c(0, 45, 90, 135))

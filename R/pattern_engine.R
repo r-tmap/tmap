@@ -6,6 +6,10 @@
 # - a grob clipped by the outline of polygons (plot mode)
 # - an SVG <pattern> (view mode)
 # - a PNG file or data URI (web modes, legend swatches)
+#
+# Most patterns consist of vector primitives (lines and circles). The "terrain" pattern is a raster texture
+# instead: random relief, shaded with light from the northwest, drawn as semi-transparent highlights (white)
+# and shadows (pattern_col) on top of the fill color. Its strength is set by the density.
 
 # Spacing between pattern elements (inches): 1/4 line at density 1, scaled by o$scale.
 # Below density 0.05 no pattern is drawn (NA)
@@ -38,21 +42,23 @@ pattern_rand = function(n, seed = 1) {
 # @param spec pattern specification string, e.g. "hatch(angle=45)"
 # @param s spacing between pattern elements (inches)
 # @param lwd line width (lwd units, 1/96 inch); dots have a diameter of 3 * lwd / 96 inches
+# @param density the density (only used by "terrain", for which it is the strength of the texture)
 # @return list with tile width w and height h (inches), and the primitives (inches):
 #   - segs: matrix (x0, y0, x1, y1) of continuous lines, which may extend beyond the tile;
 #     only the part within the tile belongs to it
 #   - elems: matrix (x0, y0, x1, y1) of line elements (e.g. crosses) and
 #   - circles: data.frame(x, y, r, filled) of circle elements (dots, circles);
 #     elements belong to the tile in which their center lies
+#   - raster: the specification of a raster texture (see pattern_raster()), which fills the whole tile
 #   NULL for "none" or when s is NA
-pattern_geom = function(spec, s, lwd = 1) {
+pattern_geom = function(spec, s, lwd = 1, density = NA) {
 	p = pattern_parse(pattern_norm(spec))
 	if (p$type == "none" || is.na(s)) return(NULL)
 	a = p$pars
 	lw_in = lwd / 96
 
-	geom = function(w, h, segs = NULL, elems = NULL, circles = NULL) {
-		list(w = w, h = h, segs = segs, elems = elems, circles = circles)
+	geom = function(w, h, segs = NULL, elems = NULL, circles = NULL, raster = NULL) {
+		list(w = w, h = h, segs = segs, elems = elems, circles = circles, raster = raster)
 	}
 	seg = function(x0, y0, x1, y1) {
 		n = max(length(x0), length(y0), length(x1), length(y1))
@@ -128,6 +134,15 @@ pattern_geom = function(spec, s, lwd = 1) {
 				geom(gp$w, gp$h, circles = data.frame(x = gp$x, y = gp$y, r = r,
 													  filled = (p$type == "dots")))
 			}
+		},
+		terrain = {
+			# the spacing at density 1 (s * density) is the unit of the grain; the tile (at least 1 inch) contains
+			# many grains, so that the repetition is hardly visible
+			u = if (is.na(density)) s else s * density
+			lmax = a$grain * u
+			w = max(1, 8 * lmax)
+			geom(w, w, raster = list(strength = if (is.na(density)) 0.8 else min(density, 1), lmax = lmax,
+									 seed = if (is.null(a$seed)) 1 else a$seed))
 		},
 		noise = {
 			# fine speckle: 4 dots of random size per cell of s x s, 8 x 8 cells
@@ -286,7 +301,70 @@ pattern_area_prims = function(g, bboxes) {
 		circles$x = circles$x + rep(off$dx, each = nc)
 		circles$y = circles$y + rep(off$dy, each = nc)
 	}
-	list(segs = segs, circles = circles)
+	raster = if (!is.null(g$raster)) c(g$raster, list(w = g$w, h = g$h, off = off))
+	list(segs = segs, circles = circles, raster = raster)
+}
+
+# Shading of the terrain texture: a matrix of n x n pixels, which repeats seamlessly, with values in [-1, 1]
+# (< 0 shadow, > 0 highlight). Random noise (via the FFT, so it is periodic) with wavelengths up to lmax pixels,
+# shaded as relief with light from the northwest. Cached per session.
+pattern_terrain_shade = function(n, lmax, seed = 1) {
+	key = paste("terrain", n, signif(lmax, 4), seed)
+	if (!is.null(.TMAP$pattern_cache[[key]])) return(.TMAP$pattern_cache[[key]])
+	k = c(0:floor(n / 2), if (n > 2) -(ceiling(n / 2) - 1):-1)
+	K = sqrt(outer(k^2, k^2, "+"))
+	# wavelengths between lmax / 4 and lmax, so that the size of the relief follows lmax, but not smaller than
+	# 3 pixels: finer relief cannot be shown at this resolution, and a narrower band would give streaks
+	kmax = min(4 * n / lmax, n / 3)
+	kmin = min(n / lmax, kmax / 2.5)
+	wgt = ifelse(K >= kmin & K <= kmax & K > 0, K^-2, 0)
+	# no waves along the axes: these change the mean of rows (or columns) of the shading, which would show as
+	# horizontal (or vertical) bands, since the tiles repeat them across the map
+	wgt[1, ] = 0
+	wgt[, 1] = 0
+	# random numbers with the given seed (the state of the global RNG is restored)
+	has_seed = exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+	if (has_seed) old_seed = get(".Random.seed", envir = globalenv(), inherits = FALSE)
+	on.exit(if (has_seed) assign(".Random.seed", old_seed, envir = globalenv()) else rm(".Random.seed", envir = globalenv()))
+	set.seed(seed)
+	z = matrix(complex(real = stats::rnorm(n * n), imaginary = stats::rnorm(n * n)), n) * wgt
+	# shading: the slope in the direction of the light (from the northwest), computed exactly in the frequency
+	# domain (finite differences would favor diagonal waves near the pixel size). Rows are y (from top to bottom),
+	# so highlights are where the height increases to the right and downwards
+	kx = matrix(k, n, n, byrow = TRUE)
+	ky = matrix(k, n, n)
+	v = Re(stats::fft(z * 1i * (kx + ky), inverse = TRUE))
+	q = stats::quantile(abs(v), 0.98, names = FALSE)
+	v = if (q > 0) pmax(pmin(v / q, 1), -1) else v * 0
+	if (is.null(.TMAP$pattern_cache)) .TMAP$pattern_cache = list()
+	.TMAP$pattern_cache[[key]] = v
+	v
+}
+
+# Raster image (matrix of colors, see grDevices::as.raster()) of a raster texture r (from pattern_geom())
+# for a tile of wpx x hpx pixels at dpi pixels per inch: highlights in white and shadows in col
+pattern_raster = function(r, wpx, hpx, dpi, col = "grey25", alpha = 1) {
+	n = max(wpx, hpx)
+	v = pattern_terrain_shade(n, r$lmax * dpi, seed = r$seed)[seq_len(hpx), seq_len(wpx), drop = FALSE]
+	a = pmin(1, abs(v) * r$strength * alpha * grDevices::col2rgb(col, alpha = TRUE)[4] / 255)
+	cs = grDevices::col2rgb(col)
+	img = ifelse(v > 0,
+				 grDevices::rgb(1, 1, 1, a),
+				 grDevices::rgb(cs[1] / 255, cs[2] / 255, cs[3] / 255, a))
+	grDevices::as.raster(matrix(img, hpx, wpx))
+}
+
+# Pixels per inch of the current device (for raster textures): the dpi of tmap_save(), 200 for vector devices
+# (pdf, svg, ...), and otherwise the resolution reported by the device. Some devices (e.g. png(type = "quartz"))
+# report 72 regardless of their resolution, so it is at least 144.
+pattern_device_dpi = function() {
+	d = .TMAP$device_dpi
+	if (!is.null(d) && identical(d$dev, grDevices::dev.cur())) return(d$dpi)
+	dev = names(grDevices::dev.cur())
+	if (any(startsWith(dev, c("pdf", "cairo_pdf", "postscript", "cairo_ps", "svg", "devSVG", "xfig", "pictex")))) return(200)
+	r = tryCatch(graphics::par("cra")[2] / graphics::par("cin")[2], error = function(e) NA)
+	if (is.na(r) || !is.finite(r)) return(144)
+	min(max(r, 144), 600)
 }
 
 # Grob of primitives (inches, relative to the current viewport). Each kind of primitive is drawn
@@ -322,6 +400,25 @@ pattern_prims_grob = function(pr, col = "grey25", lwd = 1, alpha = 1) {
 			gp = grid::gpar(fill = NA, col = col, lwd = lwd, alpha = alpha)
 			grobs = c(grobs, list(circ_path(cc[!cc$filled, ], 24L, gp, "evenodd")))
 		}
+	}
+	rr = pr$raster
+	if (!is.null(rr) && nrow(rr$off)) {
+		dpi = pattern_device_dpi()
+		wpx = max(1L, round(rr$w * dpi))
+		hpx = max(1L, round(rr$h * dpi))
+		img = pattern_raster(rr, wpx, hpx, dpi, col = col, alpha = alpha)
+		# the tiles are aligned to the pixels of the device (whole pixels, and shifted by the position of the viewport
+		# on the device), since seams between semi-transparent tiles would be visible
+		loc = tryCatch(grid::deviceLoc(grid::unit(0, "npc"), grid::unit(0, "npc"), valueOnly = TRUE),
+					   error = function(e) list(x = 0, y = 0))
+		fx = (loc$x * dpi) %% 1
+		fy = (loc$y * dpi) %% 1
+		tw = wpx / dpi
+		th = hpx / dpi
+		grobs = c(grobs, list(grid::rasterGrob(img, x = grid::unit(round(rr$off$dx / rr$w) * tw - fx / dpi, "in"),
+											   y = grid::unit(round(rr$off$dy / rr$h) * th - fy / dpi, "in"),
+											   width = grid::unit(tw, "in"), height = grid::unit(th, "in"),
+											   just = c("left", "bottom"), interpolate = FALSE)))
 	}
 	do.call(grid::gList, grobs)
 }
@@ -418,7 +515,7 @@ makeContent.tmap_pattern_area = function(x) {
 		grid::convertHeight(grid::unit(1, "lines"), "inch", valueOnly = TRUE)
 	} else ps$line_in
 	s = pattern_spacing(ps$density, scale = ps$scale, line_in = line_in)
-	g = pattern_geom(ps$spec, s, lwd = ps$size)
+	g = pattern_geom(ps$spec, s, lwd = ps$size, density = ps$density)
 	if (is.null(g)) return(grid::setChildren(x, grid::gList()))
 
 	cl = x$clip
@@ -446,6 +543,12 @@ makeContent.tmap_pattern_area = function(x) {
 		# which are clipped by a rectangle filling the viewport)
 		if (!is.null(x$clip_sf)) {
 			pr = tryCatch(pattern_clip_geometry(pr, x$clip_sf), error = function(e) pr)
+			# raster textures cannot be clipped geometrically
+			if (!is.null(pr$raster)) {
+				cli::cli_warn("The pattern type {.val terrain} requires a graphics device that supports clipping paths (e.g. png() with type = \"cairo\", pdf(), or ragg::agg_png()), so it is not drawn",
+							  .frequency = "once", .frequency_id = "pattern_terrain_clip")
+				pr$raster = NULL
+			}
 		}
 		vp = grid::viewport(xscale = cvp$xscale, yscale = cvp$yscale, clip = "on")
 	}
@@ -456,7 +559,7 @@ makeContent.tmap_pattern_area = function(x) {
 # SVG <pattern> element (view mode). Units: CSS pixels (96 per inch)
 pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-pattern", scale = 1,
 						line_in = 0.2, alpha = 1, dpi = 96, bg = NA, bg_alpha = 1) {
-	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size)
+	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size, density = density)
 	if (is.null(g)) return(NULL)
 	f = function(x) format(round(x * dpi, 3), scientific = FALSE, trim = TRUE)
 	colh = substr(grDevices::rgb(t(grDevices::col2rgb(col)), maxColorValue = 255), 1, 7)
@@ -474,6 +577,13 @@ pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-patte
 		fill = ifelse(cc$filled, paste0(' fill="', colh, '" stroke="none"'), ' fill="none"')
 		els = c(els, paste0('<circle cx="', f(cc$x), '" cy="', f(g$h - cc$y), '" r="', f(cc$r), '"',
 							fill, '/>'))
+	}
+	if (!is.null(g$raster)) {
+		# raster texture: a PNG tile at twice the resolution (sharp on high resolution screens)
+		uri = pattern_data_uri(spec, density = density, size = size, col = col, scale = scale, line_in = line_in,
+							   alpha = alpha, dpi = 2 * dpi)
+		els = c(els, paste0('<image href="', uri, '" x="0" y="0" width="', f(g$w), '" height="', f(g$h),
+							'" preserveAspectRatio="none"/>'))
 	}
 	# background (the fill color of the feature), so that fill and pattern can be drawn as one path
 	bgrect = if (is.null(bg) || is.na(bg)) "" else {
@@ -495,7 +605,7 @@ pattern_svg = function(spec, density, size = 1, col = "grey25", id = "tmap-patte
 #' @rdname tmap_internal
 pattern_png = function(spec, density, size = 1, col = "grey25", scale = 1, line_in = 0.2, alpha = 1,
 						dpi = 96, bg = NA) {
-	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size)
+	g = pattern_geom(spec, pattern_spacing(density, scale = scale, line_in = line_in), lwd = size, density = density)
 	if (is.null(g)) return(NULL)
 	key = rlang::hash(list(spec, density, size, col, scale, line_in, alpha, dpi, bg))
 	file = file.path(tempdir(), paste0("tmap_pattern_", key, ".png"))
@@ -511,6 +621,11 @@ pattern_png = function(spec, density, size = 1, col = "grey25", scale = 1, line_
 	grid::pushViewport(grid::viewport(x = 0, y = 0, just = c("left", "bottom"),
 									  width = grid::unit(g$w, "in"),
 									  height = grid::unit(g$h, "in")))
+	if (!is.null(g$raster)) {
+		grid::grid.raster(pattern_raster(g$raster, wpx, hpx, dpi, col = col, alpha = alpha),
+						  x = 0, y = 0, width = 1, height = 1, just = c("left", "bottom"), interpolate = FALSE)
+		return(file)
+	}
 	sx = (wpx / dpi) / g$w
 	sy = (hpx / dpi) / g$h
 	pr = pattern_tile_prims(g, margin = size / 96 / 2)

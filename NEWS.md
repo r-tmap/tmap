@@ -4,6 +4,7 @@
 - [!] added `tm_scale_continuous_area()` and `tm_scale_continuous_volume()` (with `perceptual`)
 - [!] numeric scales made consistent: e.g. continuous `lwd` now also ranges from 0 to 3, classes of `size` and `lwd` no longer start at 0, `values.range` is relative (as documented), and `tm_seq()` takes the first and last visual values. Use `tm_style("v4.4")` to reproduce maps of tmap 4.0 to 4.4
 - styles can be combined, e.g. `tm_style(c("cobalt", "v4.4"))`
+- added the pattern type `"terrain"`: a texture of random relief (highlights and shadows), of which `pattern_density` is the strength, e.g. to show uncertainty (the rougher, the less certain)
 - added `tm_legend_cross()` (a grid legend of two map variables) and `tm_legend(dot.value)` (units per dot in dot density maps)
 - other legends that borrow the color of a categorical `fill` or `col` now use the constant color of the layer
 - fixed: the global `scale` was applied to data-driven transparency in some scales

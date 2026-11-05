@@ -14,7 +14,8 @@
 	zigzag = list(angle = 0, amplitude = 0.25),
 	circles = list(random = 0),
 	crosses = list(random = 0),
-	noise = list())
+	noise = list(),
+	terrain = list(grain = 1))
 
 # Shortcuts: pattern types with specific parameter values
 .pattern_shortcuts = list(
@@ -67,6 +68,7 @@
 #' | `"circles"` | `random` (default 0), `seed` (default 1) |
 #' | `"crosses"` | `random` (default 0), `seed` (default 1) |
 #' | `"noise"` | -- |
+#' | `"terrain"` | `grain` (default 1), `seed` (default 1) |
 #'
 #' Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
 #' `"hatch_horizontal"` (angle 0), `"hatch_vertical"` (angle 90),
@@ -93,21 +95,33 @@
 #' The parameters `length` and `amplitude` are relative to that spacing, so the whole
 #' motif is scaled with the density.
 #'
+#' The pattern type `"terrain"` is a texture rather than a motif: random relief, shaded with light
+#' from the northwest, which looks like rough terrain. It is drawn as highlights (white) and shadows
+#' (`pattern_col`) on top of the fill color, which cancel out roughly, so the average color does not
+#' change much. Its strength is determined by `pattern_density` (between 0, no texture, and 1), which
+#' makes it suitable for showing uncertainty: the rougher, the less certain. `pattern_size` is not used.
+#' In plot mode, it requires a graphics device that supports clipping paths.
+#'
 #' @param type Pattern type, shortcut, or pattern set. See details.
 #' @param angle Angle of the motif in degrees, counter-clockwise from horizontal. For `"hatch"`, 0 means horizontal lines and 45 lines from lower left to upper right.
 #' @param random Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
 #' @param length Length of dashes, bricks, or herringbone blocks, relative to the spacing.
 #' @param amplitude Amplitude of waves and zigzag lines, relative to the spacing.
-#' @param seed Seed (a positive integer) of the random placement of dots, circles, or crosses (with `random > 0`).
+#' @param grain Size of the relief of `"terrain"`: the largest wavelength, relative to the spacing at density 1
+#'   (which is 1/20 inch by default, see the `scale` argument of [tm_layout()]). By default 1. The relief cannot
+#'   be finer than the resolution allows (wavelengths of at least 3 pixels), so smaller values only have an
+#'   effect at high resolutions, e.g. [tmap_save()] with 300 dpi.
+#' @param seed Seed (a positive integer) of the random placement of dots, circles, or crosses (with `random > 0`),
+#'   and of the relief of `"terrain"`.
 #'   Patterns with different seeds have elements at different positions, which is useful when several dot
 #'   patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.
 #' @return A character vector of class `tmap_patterns` with one pattern specification per element.
 #' @example ./examples/tm_patterns.R
 #' @seealso [tm_polygons()], [tmap_show_values()]
 #' @export
-tm_patterns = function(type = "hatch", angle = NA, random = NA, length = NA, amplitude = NA, seed = NA) {
+tm_patterns = function(type = "hatch", angle = NA, random = NA, length = NA, amplitude = NA, grain = NA, seed = NA) {
 	type = pattern_expand_sets(type)
-	args = list(angle = angle, random = random, length = length, amplitude = amplitude, seed = seed)
+	args = list(angle = angle, random = random, length = length, amplitude = amplitude, grain = grain, seed = seed)
 	n = max(base::length(type), vapply(args, base::length, integer(1)))
 	nms = if (base::length(type) == n) names(type) else NULL
 	type = rep_len(type, n)
@@ -148,7 +162,7 @@ pattern_spec = function(type, pars = list(), warn = FALSE) {
 	}
 	def = .pattern_types[[type]]
 	# seed: optional parameter of the randomly placed elements; only part of the specification when not 1
-	extra = if (type %in% c("dots", "circles", "crosses")) "seed" else character()
+	extra = if (type %in% c("dots", "circles", "crosses", "terrain")) "seed" else character()
 	seed = pars$seed
 	unused = setdiff(names(pars), c(names(def), extra))
 	if (warn && length(unused)) {
