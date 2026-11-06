@@ -11,27 +11,39 @@ tm_patterns(
   length = NA,
   amplitude = NA,
   grain = NA,
+  levels = NA,
+  contrast = NA,
   seed = NA
 )
 }
 \arguments{
 \item{type}{Pattern type, shortcut, or pattern set. See details.}
 
-\item{angle}{Angle of the motif in degrees, counter-clockwise from horizontal. For \code{"hatch"}, 0 means horizontal lines and 45 lines from lower left to upper right.}
+\item{angle}{Angle of the motif in degrees, counter-clockwise from horizontal. For \code{"hatch"}, 0 means horizontal lines and 45 lines from lower left to upper right. For \code{"sketch"}, the direction of the pencil strokes.}
 
-\item{random}{Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.}
+\item{random}{Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
+For \code{"mottle"}, the randomness of the shades of the patches, between 0 (the shades follow smooth noise, so
+neighboring patches differ by one shade) and 1 (each patch has a random shade).}
 
 \item{length}{Length of dashes, bricks, or herringbone blocks, relative to the spacing.}
 
 \item{amplitude}{Amplitude of waves and zigzag lines, relative to the spacing.}
 
 \item{grain}{Size of the relief of \code{"terrain"}: the largest wavelength, relative to the spacing at density 1
-(which is 1/20 inch by default, see the \code{scale} argument of \code{\link[=tm_layout]{tm_layout()}}). By default 1. The relief cannot
+(which is 1/20 inch by default, see the \code{scale} argument of \code{\link[=tm_layout]{tm_layout()}}). By default 1. For \code{"mottle"},
+the size of the patches (the largest are 12 times as large as the relief of \code{"terrain"}), and for
+\code{"sketch"}, the width of the pencil strokes (about half the spacing at density 1). The relief cannot
 be finer than the resolution allows (wavelengths of at least 3 pixels), so smaller values only have an
 effect at high resolutions, e.g. \code{\link[=tmap_save]{tmap_save()}} with 300 dpi.}
 
+\item{levels}{Number of shades of \code{"mottle"}, by default 5: the fill color, two darker, and two brighter
+shades (with an even number, the fill color itself is not one of them).}
+
+\item{contrast}{Contrast of \code{"mottle"}: a factor for the differences between the shades, by default 1 (at
+full strength, the darkest shade is 40\% \code{pattern_col} over the fill color, and the brightest 20\% white).}
+
 \item{seed}{Seed (a positive integer) of the random placement of dots, circles, or crosses (with \code{random > 0}),
-and of the relief of \code{"terrain"}.
+and of the textures \code{"terrain"}, \code{"mottle"}, and \code{"sketch"}.
 Patterns with different seeds have elements at different positions, which is useful when several dot
 patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.}
 }
@@ -62,6 +74,8 @@ Pattern types:\tabular{ll}{
    \code{"crosses"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"noise"} \tab -- \cr
    \code{"terrain"} \tab \code{grain} (default 1), \code{seed} (default 1) \cr
+   \code{"mottle"} \tab \code{grain} (default 1), \code{levels} (default 5), \code{contrast} (default 1), \code{random} (default 0), \code{seed} (default 1) \cr
+   \code{"sketch"} \tab \code{angle} (default 45), \code{grain} (default 1), \code{seed} (default 1) \cr
 }
 
 
@@ -95,7 +109,22 @@ from the northwest, which looks like rough terrain. It is drawn as highlights (w
 (\code{pattern_col}) on top of the fill color, which cancel out roughly, so the average color does not
 change much. Its strength is determined by \code{pattern_density} (between 0, no texture, and 1), which
 makes it suitable for showing uncertainty: the rougher, the less certain. \code{pattern_size} is not used.
-In plot mode, it requires a graphics device that supports clipping paths.
+
+Two other textures are meant to show uncertainty about the fill color rather than about heights:
+\itemize{
+\item \code{"mottle"} looks like a surface that is painted poorly: large patches with sharp edges, painted in a
+few (\code{levels}) shades that are slightly darker (\code{pattern_col}) or brighter (white) than the intended
+color. As for \code{"terrain"}, \code{pattern_density} is the strength, and \code{contrast} scales the differences between
+the shades. By default, the shades follow smooth noise, so a patch only borders on patches of the next
+darker or brighter shade, which may look like a density surface or elevation. With \code{random = 1}, each
+patch gets a random shade, so that any shades can be neighbors.
+\item \code{"sketch"} looks like a sketchy pencil drawing: the fill color is only applied in pencil strokes,
+with white paper in between. \code{pattern_density} determines how much of the paper is visible, from
+0 (fully colored) to 1 (about two thirds paper). \code{pattern_col} and \code{pattern_size} are not used.
+Since the paper is drawn on top of the fill, it is always white, regardless of the background.
+}
+
+In plot mode, these textures require a graphics device that supports clipping paths.
 }
 \examples{
 tm_patterns("hatch", angle = c(0, 45, 90, 135))

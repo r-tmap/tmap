@@ -249,7 +249,7 @@ tmap_save = function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, uni
 	folder = dirname(filename)
 	if (!dir.exists(folder)) dir.create(folder, recursive = TRUE)
 	dev(filename = filename, width = width, height = height, ...)
-	# the resolution of the device, for raster textures (pattern "terrain"), since not all devices report it
+	# the resolution of the device, for raster textures (patterns "terrain", "mottle", and "sketch"), since not all devices report it
 	.TMAP$device_dpi = if (ext %in% c("png", "jpg", "jpeg", "bmp", "tiff")) list(dev = grDevices::dev.cur(), dpi = dpi)
 
 	on.exit(capture.output({

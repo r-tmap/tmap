@@ -7,9 +7,10 @@
 # - an SVG <pattern> (view mode)
 # - a PNG file or data URI (web modes, legend swatches)
 #
-# Most patterns consist of vector primitives (lines and circles). The "terrain" pattern is a raster texture
-# instead: random relief, shaded with light from the northwest, drawn as semi-transparent highlights (white)
-# and shadows (pattern_col) on top of the fill color. Its strength is set by the density.
+# Most patterns consist of vector primitives (lines and circles). The patterns "terrain", "mottle", and "sketch"
+# are raster textures instead (see pattern_texture()), drawn on top of the fill color: "terrain" (random relief)
+# and "mottle" (blotches) as semi-transparent highlights (white) and shadows (pattern_col), and "sketch" as
+# white paper between pencil strokes. Their strength is set by the density.
 
 # Spacing between pattern elements (inches): 1/4 line at density 1, scaled by o$scale.
 # Below density 0.05 no pattern is drawn (NA)
@@ -42,7 +43,7 @@ pattern_rand = function(n, seed = 1) {
 # @param spec pattern specification string, e.g. "hatch(angle=45)"
 # @param s spacing between pattern elements (inches)
 # @param lwd line width (lwd units, 1/96 inch); dots have a diameter of 3 * lwd / 96 inches
-# @param density the density (only used by "terrain", for which it is the strength of the texture)
+# @param density the density (only used by the raster textures, for which it is the strength)
 # @return list with tile width w and height h (inches), and the primitives (inches):
 #   - segs: matrix (x0, y0, x1, y1) of continuous lines, which may extend beyond the tile;
 #     only the part within the tile belongs to it
@@ -135,13 +136,20 @@ pattern_geom = function(spec, s, lwd = 1, density = NA) {
 													  filled = (p$type == "dots")))
 			}
 		},
-		terrain = {
-			# the spacing at density 1 (s * density) is the unit of the grain; the tile (at least 1 inch) contains
-			# many grains, so that the repetition is hardly visible
+		terrain = ,
+		sketch = ,
+		mottle = {
+			# the spacing at density 1 (s * density) is the unit of the grain; the tile (at least 1 inch, 2 inches for
+			# the larger features of "mottle" and "sketch") contains many grains, so that the repetition is hardly visible.
+			# The patches of "mottle" are much larger: up to 12 spacings (0.6 inch by default); its tile is 3 to 6 inches
 			u = if (is.na(density)) s else s * density
-			lmax = a$grain * u
-			w = max(1, 8 * lmax)
-			geom(w, w, raster = list(strength = if (is.na(density)) 0.8 else min(density, 1), lmax = lmax,
+			lmax = a$grain * u * (if (p$type == "mottle") 12 else 1)
+			w = switch(p$type, terrain = max(1, 8 * lmax), sketch = max(2, 16 * lmax), mottle = min(max(3, 8 * lmax), 6))
+			geom(w, w, raster = list(kind = p$type, strength = if (is.na(density)) 0.8 else min(density, 1), lmax = lmax,
+									 angle = if (is.null(a$angle)) 0 else a$angle,
+									 levels = if (is.null(a$levels)) 5 else a$levels,
+									 contrast = if (is.null(a$contrast)) 1 else a$contrast,
+									 random = if (is.null(a$random)) 0 else a$random,
 									 seed = if (is.null(a$seed)) 1 else a$seed))
 		},
 		noise = {
@@ -305,47 +313,187 @@ pattern_area_prims = function(g, bboxes) {
 	list(segs = segs, circles = circles, raster = raster)
 }
 
-# Shading of the terrain texture: a matrix of n x n pixels, which repeats seamlessly, with values in [-1, 1]
-# (< 0 shadow, > 0 highlight). Random noise (via the FFT, so it is periodic) with wavelengths up to lmax pixels,
-# shaded as relief with light from the northwest. Cached per session.
-pattern_terrain_shade = function(n, lmax, seed = 1) {
-	key = paste("terrain", n, signif(lmax, 4), seed)
-	if (!is.null(.TMAP$pattern_cache[[key]])) return(.TMAP$pattern_cache[[key]])
-	k = c(0:floor(n / 2), if (n > 2) -(ceiling(n / 2) - 1):-1)
-	K = sqrt(outer(k^2, k^2, "+"))
-	# wavelengths between lmax / 4 and lmax, so that the size of the relief follows lmax, but not smaller than
-	# 3 pixels: finer relief cannot be shown at this resolution, and a narrower band would give streaks
-	kmax = min(4 * n / lmax, n / 3)
-	kmin = min(n / lmax, kmax / 2.5)
-	wgt = ifelse(K >= kmin & K <= kmax & K > 0, K^-2, 0)
-	# no waves along the axes: these change the mean of rows (or columns) of the shading, which would show as
-	# horizontal (or vertical) bands, since the tiles repeat them across the map
-	wgt[1, ] = 0
-	wgt[, 1] = 0
-	# random numbers with the given seed (the state of the global RNG is restored)
+# Periodic random noise: an n x n matrix (which repeats seamlessly) of the inverse FFT of complex Gaussian noise
+# with amplitudes wgt (an n x n matrix in the frequency domain, see pattern_freq()), multiplied by mult (e.g. to
+# take a derivative). The state of the global RNG is restored.
+pattern_fft_noise = function(wgt, seed = 1, mult = 1) {
+	n = nrow(wgt)
 	has_seed = exists(".Random.seed", envir = globalenv(), inherits = FALSE)
 	if (has_seed) old_seed = get(".Random.seed", envir = globalenv(), inherits = FALSE)
 	on.exit(if (has_seed) assign(".Random.seed", old_seed, envir = globalenv()) else rm(".Random.seed", envir = globalenv()))
 	set.seed(seed)
 	z = matrix(complex(real = stats::rnorm(n * n), imaginary = stats::rnorm(n * n)), n) * wgt
-	# shading: the slope in the direction of the light (from the northwest), computed exactly in the frequency
-	# domain (finite differences would favor diagonal waves near the pixel size). Rows are y (from top to bottom),
-	# so highlights are where the height increases to the right and downwards
-	kx = matrix(k, n, n, byrow = TRUE)
-	ky = matrix(k, n, n)
-	v = Re(stats::fft(z * 1i * (kx + ky), inverse = TRUE))
-	q = stats::quantile(abs(v), 0.98, names = FALSE)
-	v = if (q > 0) pmax(pmin(v / q, 1), -1) else v * 0
+	Re(stats::fft(z * mult, inverse = TRUE))
+}
+
+# Frequencies (cycles per tile) of an n x n tile: kx along columns (x), ky along rows (y, from top to bottom),
+# and the radial frequency K
+pattern_freq = function(n) {
+	k = c(0:floor(n / 2), if (n > 2) -(ceiling(n / 2) - 1):-1)
+	list(kx = matrix(k, n, n, byrow = TRUE), ky = matrix(k, n, n), K = sqrt(outer(k^2, k^2, "+")))
+}
+
+# Bilinear interpolation of a periodic m x m matrix to n x n (n >= m)
+pattern_upsample = function(x, n) {
+	m = nrow(x)
+	if (m == n) return(x)
+	p = (seq_len(n) - 1) * m / n
+	i0 = floor(p)
+	f = p - i0
+	i1 = (i0 + 1) %% m
+	A = matrix(0, n, m)
+	A[cbind(seq_len(n), i0 + 1)] = 1 - f
+	A[cbind(seq_len(n), i1 + 1)] = A[cbind(seq_len(n), i1 + 1)] + f
+	A %*% x %*% t(A)
+}
+
+# Scale x by its q-quantile of absolute values, and clamp to [-1, 1]
+pattern_norm1 = function(x, q = 0.98) {
+	qx = stats::quantile(abs(x), q, names = FALSE)
+	if (qx > 0) pmax(pmin(x / qx, 1), -1) else x * 0
+}
+
+# Raster textures: a matrix of n x n pixels, which repeats seamlessly, with wavelengths up to lmax pixels. Cached
+# per session.
+# - "terrain": random relief, shaded with light from the northwest; values in [-1, 1] (< 0 shadow, > 0 highlight)
+# - "mottle": patches of paint in a few (levels) shades with sharp edges: smooth noise (wavelengths of lmax / 4 to
+#   lmax, with most variation in the large ones), divided into levels classes of equal area. Values in [-1, 1]
+#   (< 0 darker, > 0 brighter), one per shade. Since the classes follow the noise, a patch only borders on patches
+#   of the next shades (like contour lines). With random > 0, the patches are cells instead (a Voronoi diagram
+#   of jittered grid points, of which the borders are warped by noise), of which a fraction random gets a random
+#   shade, and the others the shade of the noise at their center, so that neighbors can have any shade
+# - "sketch": pencil strokes in the direction angle (degrees), of which the width is about lmax / 2 and the length
+#   about 6 times lmax, with varying pressure and a fine grain; values are roughly standard normal: the paper
+#   is visible where the value is below a threshold (see pattern_raster())
+pattern_texture = function(kind, n, lmax, seed = 1, angle = 0, levels = 5, random = 0) {
+	key = paste(kind, n, signif(lmax, 4), seed, if (kind == "sketch") angle, if (kind == "mottle") paste(levels, random))
+	if (!is.null(.TMAP$pattern_cache[[key]])) return(.TMAP$pattern_cache[[key]])
+	f = pattern_freq(n)
+	K = f$K
+	# no waves along the axes: these change the mean of rows (or columns), which would show as horizontal (or
+	# vertical) bands, since the tiles repeat them across the map
+	no_axes = function(w) {
+		w[1, ] = 0
+		w[, 1] = 0
+		w
+	}
+	v = switch(kind,
+		terrain = {
+			# wavelengths between lmax / 4 and lmax, so that the size of the relief follows lmax, but not smaller than
+			# 3 pixels: finer relief cannot be shown at this resolution, and a narrower band would give streaks
+			kmax = min(4 * n / lmax, n / 3)
+			kmin = min(n / lmax, kmax / 2.5)
+			wgt = no_axes(ifelse(K >= kmin & K <= kmax & K > 0, K^-2, 0))
+			# shading: the slope in the direction of the light (from the northwest), computed exactly in the frequency
+			# domain (finite differences would favor diagonal waves near the pixel size). Highlights are where the
+			# height increases to the right and downwards (rows are from top to bottom)
+			pattern_norm1(pattern_fft_noise(wgt, seed, mult = 1i * (f$kx + f$ky)))
+		},
+		mottle = {
+			# the smooth noise is computed at a lower resolution m (about 32 pixels per lmax), and interpolated
+			# (bilinear, periodic), so that large patches are cheap; the classes are computed at full resolution, so
+			# the edges are sharp
+			m = min(n, max(16L, ceiling(32 * n / lmax)))
+			fm = pattern_freq(m)
+			kmax = min(4 * n / lmax, m / 3)
+			kmin = min(n / lmax, kmax / 2.5)
+			wgt = no_axes(ifelse(fm$K >= kmin & fm$K <= kmax & fm$K > 0, fm$K^-1.5, 0))
+			v = pattern_upsample(pattern_fft_noise(wgt, seed), n)
+			lev = max(2, round(levels))
+			cls = findInterval(v, stats::quantile(v, seq_len(lev - 1) / lev, names = FALSE)) + 1L
+			if (random > 0) cls = pattern_cells(cls, n, lmax, lev, random, seed)
+			matrix(seq(-1, 1, length.out = lev)[cls], n)
+		},
+		sketch = {
+			# strokes: waves across the direction of the strokes with a wavelength of about lmax (at least 3 pixels), and
+			# hardly any along it, so they are long and thin
+			r = angle * pi / 180
+			kpar = f$kx * cos(r) - f$ky * sin(r)
+			kperp = f$kx * sin(r) + f$ky * cos(r)
+			k0 = min(n / lmax, n / 3)
+			wgt = no_axes(exp(-((abs(kperp) - k0) / (0.35 * k0))^2 - (kpar / (k0 / 6))^2))
+			strokes = pattern_fft_noise(wgt, seed)
+			# pressure: large patches with more or fewer strokes
+			kp = n / (5 * lmax)
+			wp = no_axes(ifelse(K > 0, exp(-(K / kp)^2), 0))
+			pressure = pattern_fft_noise(wp, seed + 1000)
+			# grain of the paper: (almost) single pixels
+			grain = pattern_fft_noise(no_axes(ifelse(K > n / 4, 1, 0)), seed + 2000)
+			z = function(x) (x - mean(x)) / max(stats::sd(x), 1e-12)
+			v = z(strokes) + 0.5 * z(pressure) + 0.35 * z(grain)
+			z(v)
+		})
 	if (is.null(.TMAP$pattern_cache)) .TMAP$pattern_cache = list()
 	.TMAP$pattern_cache[[key]] = v
 	v
 }
 
+# Random patches for "mottle" (see pattern_texture()): a Voronoi diagram of a jittered grid of G x G points (a
+# spacing of about lmax / 3 pixels, periodic), of which the borders are warped by smooth noise, so that the patches
+# are irregular. Each cell gets a random shade (with probability random), or otherwise the class (of cls, an n x n
+# matrix of classes 1 to lev) at its center. Neighboring cells with the same shade merge, so that the patches
+# differ in size. Returns an n x n matrix of classes.
+pattern_cells = function(cls, n, lmax, lev, random, seed = 1) {
+	G = max(2L, round(3 * n / lmax))
+	gp = n / G
+	ng = G * G
+	# jittered grid points (cell k = j * G + i + 1, i along x); the jitter is limited, so that the nearest point is
+	# always one of the 3 x 3 neighboring grid cells
+	fx = 0.1 + 0.8 * pattern_rand(ng, 2 * seed + 11)
+	fy = 0.1 + 0.8 * pattern_rand(ng, 2 * seed + 12)
+	i0 = rep(0:(G - 1), G)
+	j0 = rep(0:(G - 1), each = G)
+	cen = cls[cbind(floor((j0 + fy) * gp) %% n + 1, floor((i0 + fx) * gp) %% n + 1)]
+	rs = pmin(lev, floor(pattern_rand(ng, 2 * seed + 13) * lev) + 1)
+	shade = ifelse(pattern_rand(ng, 2 * seed + 14) < random, rs, cen)
+	# warp: smooth noise with wavelengths between 1 and 3 grid spacings, of up to about half a spacing
+	mw = min(n, max(16L, 8L * G))
+	K = pattern_freq(mw)$K
+	wgt = ifelse(K >= G / 3 & K <= G, 1, 0)
+	wgt[1, ] = 0
+	wgt[, 1] = 0
+	warp = function(sd) {
+		x = pattern_upsample(pattern_fft_noise(wgt, sd), n)
+		x / max(stats::sd(x), 1e-12) * 0.18 * gp
+	}
+	X = matrix(seq_len(n) - 0.5, n, n, byrow = TRUE) + warp(seed + 3000)
+	Y = matrix(seq_len(n) - 0.5, n, n) + warp(seed + 4000)
+	ci = floor(X / gp)
+	cj = floor(Y / gp)
+	best = matrix(Inf, n, n)
+	lab = matrix(1L, n, n)
+	for (di in -1:1) for (dj in -1:1) {
+		ii = ci + di
+		jj = cj + dj
+		k = (jj %% G) * G + (ii %% G) + 1L
+		d = (X - (ii + fx[k]) * gp)^2 + (Y - (jj + fy[k]) * gp)^2
+		upd = d < best
+		best[upd] = d[upd]
+		lab[upd] = k[upd]
+	}
+	matrix(shade[lab], n)
+}
+
 # Raster image (matrix of colors, see grDevices::as.raster()) of a raster texture r (from pattern_geom())
-# for a tile of wpx x hpx pixels at dpi pixels per inch: highlights in white and shadows in col
+# for a tile of wpx x hpx pixels at dpi pixels per inch:
+# - "terrain" and "mottle": highlights in white and shadows in col, of which the opacity is the strength. For
+#   "mottle", the shades differ subtly: the highlights are weaker than the shadows, since white quickly
+#   washes out the fill color; contrast multiplies both
+# - "sketch": the paper (white) where there are no pencil strokes; the strength is the fraction of paper,
+#   from 0 (solid fill) to 0.65 (strength 1)
 pattern_raster = function(r, wpx, hpx, dpi, col = "grey25", alpha = 1) {
 	n = max(wpx, hpx)
-	v = pattern_terrain_shade(n, r$lmax * dpi, seed = r$seed)[seq_len(hpx), seq_len(wpx), drop = FALSE]
+	kind = if (is.null(r$kind)) "terrain" else r$kind
+	v = pattern_texture(kind, n, r$lmax * dpi, seed = r$seed, angle = r$angle,
+						levels = if (is.null(r$levels)) 5 else r$levels,
+						random = if (is.null(r$random)) 0 else r$random)[seq_len(hpx), seq_len(wpx), drop = FALSE]
+	if (kind == "sketch") {
+		# the threshold below which the paper is visible, with a soft edge of a few pixels
+		t = stats::qnorm(0.65 * min(r$strength, 1))
+		a = pmin(1, pmax(0, (t - v) / 0.3 + 0.5)) * alpha
+		return(grDevices::as.raster(matrix(grDevices::rgb(1, 1, 1, a), hpx, wpx)))
+	}
+	if (kind == "mottle") v = v * ifelse(v > 0, 0.2, 0.4) * (if (is.null(r$contrast)) 1 else r$contrast)
 	a = pmin(1, abs(v) * r$strength * alpha * grDevices::col2rgb(col, alpha = TRUE)[4] / 255)
 	cs = grDevices::col2rgb(col)
 	img = ifelse(v > 0,
@@ -545,8 +693,8 @@ makeContent.tmap_pattern_area = function(x) {
 			pr = tryCatch(pattern_clip_geometry(pr, x$clip_sf), error = function(e) pr)
 			# raster textures cannot be clipped geometrically
 			if (!is.null(pr$raster)) {
-				cli::cli_warn("The pattern type {.val terrain} requires a graphics device that supports clipping paths (e.g. png() with type = \"cairo\", pdf(), or ragg::agg_png()), so it is not drawn",
-							  .frequency = "once", .frequency_id = "pattern_terrain_clip")
+				cli::cli_warn("The pattern type {.val {pr$raster$kind}} requires a graphics device that supports clipping paths (e.g. png() with type = \"cairo\", pdf(), or ragg::agg_png()), so it is not drawn",
+							  .frequency = "once", .frequency_id = paste0("pattern_raster_clip_", pr$raster$kind))
 				pr$raster = NULL
 			}
 		}

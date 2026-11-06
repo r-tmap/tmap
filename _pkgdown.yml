@@ -243,3 +243,5 @@ navbar:
           href: articles/adv_blend
         - text: Fill patterns
           href: articles/adv_patterns
+        - text: Textures for uncertainty
+          href: articles/adv_textures
