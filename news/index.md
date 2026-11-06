@@ -3,12 +3,36 @@
 ## tmap (development version)
 
 - \[!\] added fill patterns for polygons
-  ([\#1135](https://github.com/r-tmap/tmap/issues/1135)): map variables
-  `pattern`, `pattern_col`, `pattern_size`, and `pattern_density`,
-  specified with
-  [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md),
-  in plot and view mode. See the new articles on fill patterns and dot
-  density maps
+  ([\#1135](https://github.com/r-tmap/tmap/issues/1135)), in plot and
+  view mode: map variables `pattern`, `pattern_col`, `pattern_size`, and
+  `pattern_density`, specified with
+  [`tm_patterns()`](https://r-tmap.github.io/tmap/reference/tm_patterns.md).
+  There are two kinds of patterns:
+  - motifs: `"hatch"`, `"crosshatch"`, `"dots"`, `"dashes"`, `"bricks"`,
+    `"herringbone"`, `"hexagons"`, `"waves"`, `"zigzag"`, `"circles"`,
+    `"crosses"`, and `"noise"` (and shortcuts such as `"stipple"`),
+    mainly for categorical variables, with pattern sets (`"mixed"`,
+    `"classic"`, `"lines"`, `"shapes"`) used like palettes; with
+    `"stipple"` and
+    [`tm_scale_continuous_area()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md),
+    `pattern_density` gives dot density maps, of which
+    `tm_legend(dot.value)` shows the number of units per dot
+  - textures, of which `pattern_density` is the strength, to show
+    uncertainty: `"terrain"` (random relief: uncertain heights),
+    `"mottle"` (poorly painted patches in a few slightly darker and
+    brighter shades: uncertain colors; with `levels`, `contrast`, and
+    `random`), and `"sketch"` (a sketchy pencil drawing: preliminary
+    colors)
+  - on graphics devices without support for clipping paths, e.g. the
+    Windows device in RStudio, motifs are clipped geometrically
+    (textures are not drawn)
+  - [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md)
+    draws the available patterns and pattern sets (and the values of the
+    other categorical map variables `shape`, `lty`, and `fontface`)
+  - [`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md):
+    a grid legend of two map variables, e.g. pattern and fill
+  - see the new articles on fill patterns, textures for uncertainty, and
+    dot density maps
 - \[!\] added
   [`tm_scale_continuous_area()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous_area.md)
   and
@@ -21,24 +45,10 @@
   the first and last visual values. Use `tm_style("v4.4")` to reproduce
   maps of tmap 4.0 to 4.4
 - styles can be combined, e.g. `tm_style(c("cobalt", "v4.4"))`
-- added the pattern type `"terrain"`: a texture of random relief
-  (highlights and shadows), of which `pattern_density` is the strength,
-  e.g. to show uncertainty (the rougher, the less certain)
-- added
-  [`tm_legend_cross()`](https://r-tmap.github.io/tmap/reference/tm_legend.md)
-  (a grid legend of two map variables) and `tm_legend(dot.value)` (units
-  per dot in dot density maps)
 - other legends that borrow the color of a categorical `fill` or `col`
   now use the constant color of the layer
 - fixed: the global `scale` was applied to data-driven transparency in
   some scales
-- fixed: patterns ran outside the polygons on graphics devices without
-  support for clipping paths, e.g. the Windows device in RStudio
-  ([\#1135](https://github.com/r-tmap/tmap/issues/1135)); patterns are
-  then clipped geometrically
-- [`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md):
-  draws the available values of the categorical map variables `pattern`,
-  `shape`, `lty`, and `fontface`
 - \[!\] added
   [`tm_map_colors()`](https://r-tmap.github.io/tmap/reference/tm_map_colors.md)
   to configure `"MAP_COLORS"`,

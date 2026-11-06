@@ -1,3 +1,21 @@
+// Mapbox GL JS recognizes a PMTiles source by parsing its URL with `new URL()`,
+// and its PMTiles provider fetches from a web worker; both need an absolute URL.
+// Resolve relative paths such as "tiles/data.pmtiles" against the page.
+function _mapglAbsolutePmtilesUrl(url) {
+  if (
+    typeof url === "string" &&
+    /\.pmtiles([?#]|$)/.test(url) &&
+    !/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(url)
+  ) {
+    try {
+      return new URL(url, window.location.href).href;
+    } catch (e) {
+      return url;
+    }
+  }
+  return url;
+}
+
 // A map created in a hidden container (an inactive tab, a Quarto dashboard
 // page, a closed conditionalPanel) has zero size, so its initial bounds are
 // fitted to a 0x0 viewport. Refit once the container gets a real size.
@@ -965,6 +983,8 @@ HTMLWidgets.widget({
                 map.setFilter(message.layer, message.filter);
                 // Track filter state for layer restoration
                 layerState.filters[message.layer] = message.filter;
+              } else if (message.type === "add_model") {
+                addCompareModel(map, message.modelId, message.url);
               } else if (message.type === "add_source") {
                 if (message.source.type === "vector") {
                   const sourceConfig = {
@@ -972,7 +992,7 @@ HTMLWidgets.widget({
                   };
                   // Add url or tiles
                   if (message.source.url) {
-                    sourceConfig.url = message.source.url;
+                    sourceConfig.url = _mapglAbsolutePmtilesUrl(message.source.url);
                   }
                   if (message.source.tiles) {
                     sourceConfig.tiles = message.source.tiles;
@@ -1018,7 +1038,7 @@ HTMLWidgets.widget({
                     tileSize: message.source.tileSize,
                   };
                   if (message.source.url) {
-                    sourceConfig.url = message.source.url;
+                    sourceConfig.url = _mapglAbsolutePmtilesUrl(message.source.url);
                   } else if (message.source.tiles) {
                     sourceConfig.tiles = message.source.tiles;
                   }
@@ -2655,6 +2675,32 @@ HTMLWidgets.widget({
           }
         }
 
+        // 3D models live in the style, so setStyle() drops them. Every model
+        // added to a map is kept on the map and registered again on each
+        // style change; addModel() ignores a repeat of the same id and URL.
+        function addCompareModel(map, id, url) {
+          if (!map._mapglModels) {
+            map._mapglModels = {};
+          }
+          map._mapglModels[id] = url;
+          map.addModel(id, url);
+        }
+
+        function restoreCompareModels(map, initialModels) {
+          if (!map._mapglModels) {
+            map._mapglModels = {};
+          }
+          // A proxy-added model with the same id replaces the initial one
+          (initialModels || []).forEach(function (model) {
+            if (!(model.id in map._mapglModels)) {
+              map._mapglModels[model.id] = model.url;
+            }
+          });
+          for (const id in map._mapglModels) {
+            map.addModel(id, map._mapglModels[id]);
+          }
+        }
+
         function applyMapModifications(map, mapData) {
           // Initialize controls array if it doesn't exist
           if (!map.controls) {
@@ -2732,6 +2778,10 @@ HTMLWidgets.widget({
             });
           }
 
+          // Register 3D models used by model layers. This also runs after
+          // set_style(), so models come back before preserved layers do.
+          restoreCompareModels(map, mapData.models);
+
           // Add sources if provided
           if (mapData.sources) {
             mapData.sources.forEach(function (source) {
@@ -2741,13 +2791,20 @@ HTMLWidgets.widget({
                 };
                 // Add url or tiles
                 if (source.url) {
-                  sourceConfig.url = source.url;
+                  sourceConfig.url = _mapglAbsolutePmtilesUrl(source.url);
                 }
                 if (source.tiles) {
                   sourceConfig.tiles = source.tiles;
                 }
                 if (source.promoteId) {
                   sourceConfig.promoteId = source.promoteId;
+                }
+                // Pass through any other options (provider, minzoom, maxzoom, ...)
+                // like the main widget does
+                for (const [key, value] of Object.entries(source)) {
+                  if (!["id", "type", "url", "tiles", "promoteId"].includes(key)) {
+                    sourceConfig[key] = value;
+                  }
                 }
                 map.addSource(source.id, sourceConfig);
               } else if (source.type === "geojson") {
@@ -2768,28 +2825,37 @@ HTMLWidgets.widget({
 
                 map.addSource(source.id, sourceOptions);
               } else if (source.type === "raster") {
-                if (source.url) {
-                  map.addSource(source.id, {
+                if (source.url || source.tiles) {
+                  const rasterOptions = {
                     type: "raster",
-                    url: source.url,
                     tileSize: source.tileSize,
                     maxzoom: source.maxzoom,
-                  });
-                } else if (source.tiles) {
-                  map.addSource(source.id, {
-                    type: "raster",
-                    tiles: source.tiles,
-                    tileSize: source.tileSize,
-                    maxzoom: source.maxzoom,
-                  });
+                  };
+                  if (source.url) {
+                    rasterOptions.url = _mapglAbsolutePmtilesUrl(source.url);
+                  } else {
+                    rasterOptions.tiles = source.tiles;
+                  }
+                  // Pass through any other options (provider, minzoom, ...)
+                  for (const [key, value] of Object.entries(source)) {
+                    if (!["id", "type", "url", "tiles", "tileSize", "maxzoom"].includes(key)) {
+                      rasterOptions[key] = value;
+                    }
+                  }
+                  map.addSource(source.id, rasterOptions);
                 }
               } else if (source.type === "raster-dem") {
-                map.addSource(source.id, {
+                // Only pass maxzoom when set: an undefined maxzoom overrides the
+                // TileJSON value and leaves terrain without elevation data.
+                const demOptions = {
                   type: "raster-dem",
                   url: source.url,
                   tileSize: source.tileSize,
-                  maxzoom: source.maxzoom,
-                });
+                };
+                if (source.maxzoom != null) {
+                  demOptions.maxzoom = source.maxzoom;
+                }
+                map.addSource(source.id, demOptions);
               } else if (source.type === "image") {
                 map.addSource(source.id, {
                   type: "image",

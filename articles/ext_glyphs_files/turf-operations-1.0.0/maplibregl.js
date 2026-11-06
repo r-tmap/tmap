@@ -2219,12 +2219,17 @@ HTMLWidgets.widget({
                   });
                 }
               } else if (source.type === "raster-dem") {
-                map.addSource(source.id, {
+                // Only pass maxzoom when set: an undefined maxzoom overrides the
+                // TileJSON value and leaves terrain without elevation data.
+                const demOptions = {
                   type: "raster-dem",
                   url: source.url,
                   tileSize: source.tileSize,
-                  maxzoom: source.maxzoom,
-                });
+                };
+                if (source.maxzoom != null) {
+                  demOptions.maxzoom = source.maxzoom;
+                }
+                map.addSource(source.id, demOptions);
               } else if (source.type === "image") {
                 map.addSource(source.id, {
                   type: "image",

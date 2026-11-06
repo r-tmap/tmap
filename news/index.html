@@ -76,6 +76,7 @@
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
     <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -94,19 +95,22 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tmap-development-version">tmap (development version)<a class="anchor" aria-label="anchor" href="#tmap-development-version"></a></h2>
-<ul><li>[!] added fill patterns for polygons (<a href="https://github.com/r-tmap/tmap/issues/1135" class="external-link">#1135</a>): map variables <code>pattern</code>, <code>pattern_col</code>, <code>pattern_size</code>, and <code>pattern_density</code>, specified with <code><a href="../reference/tm_patterns.html">tm_patterns()</a></code>, in plot and view mode. See the new articles on fill patterns and dot density maps</li>
+<ul><li>[!] added fill patterns for polygons (<a href="https://github.com/r-tmap/tmap/issues/1135" class="external-link">#1135</a>), in plot and view mode: map variables <code>pattern</code>, <code>pattern_col</code>, <code>pattern_size</code>, and <code>pattern_density</code>, specified with <code><a href="../reference/tm_patterns.html">tm_patterns()</a></code>. There are two kinds of patterns:
+<ul><li>motifs: <code>"hatch"</code>, <code>"crosshatch"</code>, <code>"dots"</code>, <code>"dashes"</code>, <code>"bricks"</code>, <code>"herringbone"</code>, <code>"hexagons"</code>, <code>"waves"</code>, <code>"zigzag"</code>, <code>"circles"</code>, <code>"crosses"</code>, and <code>"noise"</code> (and shortcuts such as <code>"stipple"</code>), mainly for categorical variables, with pattern sets (<code>"mixed"</code>, <code>"classic"</code>, <code>"lines"</code>, <code>"shapes"</code>) used like palettes; with <code>"stipple"</code> and <code><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area()</a></code>, <code>pattern_density</code> gives dot density maps, of which <code>tm_legend(dot.value)</code> shows the number of units per dot</li>
+<li>textures, of which <code>pattern_density</code> is the strength, to show uncertainty: <code>"terrain"</code> (random relief: uncertain heights), <code>"mottle"</code> (poorly painted patches in a few slightly darker and brighter shades: uncertain colors; with <code>levels</code>, <code>contrast</code>, and <code>random</code>), and <code>"sketch"</code> (a sketchy pencil drawing: preliminary colors)</li>
+<li>on graphics devices without support for clipping paths, e.g. the Windows device in RStudio, motifs are clipped geometrically (textures are not drawn)</li>
+<li>
+<code><a href="../reference/tmap_show_values.html">tmap_show_values()</a></code> draws the available patterns and pattern sets (and the values of the other categorical map variables <code>shape</code>, <code>lty</code>, and <code>fontface</code>)</li>
+<li>
+<code><a href="../reference/tm_legend.html">tm_legend_cross()</a></code>: a grid legend of two map variables, e.g. pattern and fill</li>
+<li>see the new articles on fill patterns, textures for uncertainty, and dot density maps</li>
+</ul></li>
 <li>[!] added <code><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area()</a></code> and <code><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_volume()</a></code> (with <code>perceptual</code>)</li>
 <li>[!] numeric scales made consistent: e.g. continuous <code>lwd</code> now also ranges from 0 to 3, classes of <code>size</code> and <code>lwd</code> no longer start at 0, <code>values.range</code> is relative (as documented), and <code><a href="../reference/tm_seq.html">tm_seq()</a></code> takes the first and last visual values. Use <code>tm_style("v4.4")</code> to reproduce maps of tmap 4.0 to 4.4</li>
 <li>styles can be combined, e.g. <code>tm_style(c("cobalt", "v4.4"))</code>
 </li>
-<li>added the pattern type <code>"terrain"</code>: a texture of random relief (highlights and shadows), of which <code>pattern_density</code> is the strength, e.g. to show uncertainty (the rougher, the less certain)</li>
-<li>added <code><a href="../reference/tm_legend.html">tm_legend_cross()</a></code> (a grid legend of two map variables) and <code>tm_legend(dot.value)</code> (units per dot in dot density maps)</li>
 <li>other legends that borrow the color of a categorical <code>fill</code> or <code>col</code> now use the constant color of the layer</li>
 <li>fixed: the global <code>scale</code> was applied to data-driven transparency in some scales</li>
-<li>fixed: patterns ran outside the polygons on graphics devices without support for clipping paths, e.g. the Windows device in RStudio (<a href="https://github.com/r-tmap/tmap/issues/1135" class="external-link">#1135</a>); patterns are then clipped geometrically</li>
-<li>
-<code><a href="../reference/tmap_show_values.html">tmap_show_values()</a></code>: draws the available values of the categorical map variables <code>pattern</code>, <code>shape</code>, <code>lty</code>, and <code>fontface</code>
-</li>
 <li>[!] added <code><a href="../reference/tm_map_colors.html">tm_map_colors()</a></code> to configure <code>"MAP_COLORS"</code>, e.g. <code>tm_polygons(fill = tm_map_colors(6, permutation = 1))</code>. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4</li>
 <li>
 <code>tm_text(col = "auto")</code> (and <code><a href="../reference/tm_text.html">tm_labels()</a></code>): black or white text depending on the color underneath (the fill of the polygon layer below, the label background, or the map background), as in tmap v3</li>

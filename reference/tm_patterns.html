@@ -84,6 +84,7 @@ as well as a list of tm_patterns() calls."><meta property="og:image" content="ht
     <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
     <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -118,6 +119,8 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 <span>  length <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  amplitude <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  grain <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  levels <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  contrast <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -131,11 +134,13 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 
 
 <dt id="arg-angle">angle<a class="anchor" aria-label="anchor" href="#arg-angle"></a></dt>
-<dd><p>Angle of the motif in degrees, counter-clockwise from horizontal. For <code>"hatch"</code>, 0 means horizontal lines and 45 lines from lower left to upper right.</p></dd>
+<dd><p>Angle of the motif in degrees, counter-clockwise from horizontal. For <code>"hatch"</code>, 0 means horizontal lines and 45 lines from lower left to upper right. For <code>"sketch"</code>, the direction of the pencil strokes.</p></dd>
 
 
 <dt id="arg-random">random<a class="anchor" aria-label="anchor" href="#arg-random"></a></dt>
-<dd><p>Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.</p></dd>
+<dd><p>Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
+For <code>"mottle"</code>, the randomness of the shades of the patches, between 0 (the shades follow smooth noise, so
+neighboring patches differ by one shade) and 1 (each patch has a random shade).</p></dd>
 
 
 <dt id="arg-length">length<a class="anchor" aria-label="anchor" href="#arg-length"></a></dt>
@@ -148,14 +153,26 @@ as well as a list of <code>tm_patterns()</code> calls.</p>
 
 <dt id="arg-grain">grain<a class="anchor" aria-label="anchor" href="#arg-grain"></a></dt>
 <dd><p>Size of the relief of <code>"terrain"</code>: the largest wavelength, relative to the spacing at density 1
-(which is 1/20 inch by default, see the <code>scale</code> argument of <code><a href="tm_layout.html">tm_layout()</a></code>). By default 1. The relief cannot
+(which is 1/20 inch by default, see the <code>scale</code> argument of <code><a href="tm_layout.html">tm_layout()</a></code>). By default 1. For <code>"mottle"</code>,
+the size of the patches (the largest are 12 times as large as the relief of <code>"terrain"</code>), and for
+<code>"sketch"</code>, the width of the pencil strokes (about half the spacing at density 1). The relief cannot
 be finer than the resolution allows (wavelengths of at least 3 pixels), so smaller values only have an
 effect at high resolutions, e.g. <code><a href="tmap_save.html">tmap_save()</a></code> with 300 dpi.</p></dd>
 
 
+<dt id="arg-levels">levels<a class="anchor" aria-label="anchor" href="#arg-levels"></a></dt>
+<dd><p>Number of shades of <code>"mottle"</code>, by default 5: the fill color, two darker, and two brighter
+shades (with an even number, the fill color itself is not one of them).</p></dd>
+
+
+<dt id="arg-contrast">contrast<a class="anchor" aria-label="anchor" href="#arg-contrast"></a></dt>
+<dd><p>Contrast of <code>"mottle"</code>: a factor for the differences between the shades, by default 1 (at
+full strength, the darkest shade is 40% <code>pattern_col</code> over the fill color, and the brightest 20% white).</p></dd>
+
+
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Seed (a positive integer) of the random placement of dots, circles, or crosses (with <code>random &gt; 0</code>),
-and of the relief of <code>"terrain"</code>.
+and of the textures <code>"terrain"</code>, <code>"mottle"</code>, and <code>"sketch"</code>.
 Patterns with different seeds have elements at different positions, which is useful when several dot
 patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.</p></dd>
 
@@ -166,7 +183,7 @@ patterns are drawn on top of each other, e.g. a dot density map with one layer p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Pattern types:</p><table class="table table"><tr><td>Type</td><td>Parameters</td></tr><tr><td><code>"none"</code></td><td>–</td></tr><tr><td><code>"hatch"</code></td><td><code>angle</code> (default 45)</td></tr><tr><td><code>"crosshatch"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"dots"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"dashes"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 0.5)</td></tr><tr><td><code>"bricks"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"herringbone"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"hexagons"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"waves"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"zigzag"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"circles"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"crosses"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"noise"</code></td><td>–</td></tr><tr><td><code>"terrain"</code></td><td><code>grain</code> (default 1), <code>seed</code> (default 1)</td></tr></table><p>Shortcuts: <code>"hatch_up"</code> (same as <code>"hatch"</code>), <code>"hatch_down"</code> (angle 135),
+    <p>Pattern types:</p><table class="table table"><tr><td>Type</td><td>Parameters</td></tr><tr><td><code>"none"</code></td><td>–</td></tr><tr><td><code>"hatch"</code></td><td><code>angle</code> (default 45)</td></tr><tr><td><code>"crosshatch"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"dots"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"dashes"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 0.5)</td></tr><tr><td><code>"bricks"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"herringbone"</code></td><td><code>angle</code> (default 0), <code>length</code> (default 2)</td></tr><tr><td><code>"hexagons"</code></td><td><code>angle</code> (default 0)</td></tr><tr><td><code>"waves"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"zigzag"</code></td><td><code>angle</code> (default 0), <code>amplitude</code> (default 0.25)</td></tr><tr><td><code>"circles"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"crosses"</code></td><td><code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"noise"</code></td><td>–</td></tr><tr><td><code>"terrain"</code></td><td><code>grain</code> (default 1), <code>seed</code> (default 1)</td></tr><tr><td><code>"mottle"</code></td><td><code>grain</code> (default 1), <code>levels</code> (default 5), <code>contrast</code> (default 1), <code>random</code> (default 0), <code>seed</code> (default 1)</td></tr><tr><td><code>"sketch"</code></td><td><code>angle</code> (default 45), <code>grain</code> (default 1), <code>seed</code> (default 1)</td></tr></table><p>Shortcuts: <code>"hatch_up"</code> (same as <code>"hatch"</code>), <code>"hatch_down"</code> (angle 135),
 <code>"hatch_horizontal"</code> (angle 0), <code>"hatch_vertical"</code> (angle 90),
 <code>"crosshatch_diagonal"</code> (crosshatch with angle 45), and <code>"stipple"</code> (dots with <code>random = 0.7</code>).</p>
 <p>Pattern sets, which are used like color palettes:</p><table class="table table"><tr><td>Set</td><td>Patterns</td><td>Use</td></tr><tr><td><code>"mixed"</code></td><td>14: hatch, dots, hatch_down, bricks, waves, ...</td><td>default; patterns that differ most</td></tr><tr><td><code>"classic"</code></td><td>8: hatches in four directions, crosshatches, dots, dashes</td><td>the classic black-and-white look</td></tr><tr><td><code>"lines"</code></td><td>10: hatches, waves, zigzag, dashes, herringbone, crosshatches</td><td>line patterns only</td></tr><tr><td><code>"shapes"</code></td><td>6: dots, bricks, circles, hexagons, crosses, noise</td><td>no line patterns, e.g. to combine with a hatched layer</td></tr></table><p>Used as <code>values</code> of a scale, the first <code>n</code> patterns are taken. A <code>"-"</code> prefix reverses the order.
@@ -182,8 +199,18 @@ motif is scaled with the density.</p>
 from the northwest, which looks like rough terrain. It is drawn as highlights (white) and shadows
 (<code>pattern_col</code>) on top of the fill color, which cancel out roughly, so the average color does not
 change much. Its strength is determined by <code>pattern_density</code> (between 0, no texture, and 1), which
-makes it suitable for showing uncertainty: the rougher, the less certain. <code>pattern_size</code> is not used.
-In plot mode, it requires a graphics device that supports clipping paths.</p>
+makes it suitable for showing uncertainty: the rougher, the less certain. <code>pattern_size</code> is not used.</p>
+<p>Two other textures are meant to show uncertainty about the fill color rather than about heights:</p><ul><li><p><code>"mottle"</code> looks like a surface that is painted poorly: large patches with sharp edges, painted in a
+few (<code>levels</code>) shades that are slightly darker (<code>pattern_col</code>) or brighter (white) than the intended
+color. As for <code>"terrain"</code>, <code>pattern_density</code> is the strength, and <code>contrast</code> scales the differences between
+the shades. By default, the shades follow smooth noise, so a patch only borders on patches of the next
+darker or brighter shade, which may look like a density surface or elevation. With <code>random = 1</code>, each
+patch gets a random shade, so that any shades can be neighbors.</p></li>
+<li><p><code>"sketch"</code> looks like a sketchy pencil drawing: the fill color is only applied in pencil strokes,
+with white paper in between. <code>pattern_density</code> determines how much of the paper is visible, from
+0 (fully colored) to 1 (about two thirds paper). <code>pattern_col</code> and <code>pattern_size</code> are not used.
+Since the paper is drawn on top of the fill, it is always white, regardless of the background.</p></li>
+</ul><p>In plot mode, these textures require a graphics device that supports clipping paths.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
