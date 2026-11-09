@@ -16,6 +16,7 @@ articles:
   adv_patterns: adv_patterns.html
   adv_positions: adv_positions.html
   adv_shiny: adv_shiny.html
+  adv_textures: adv_textures.html
   basics_basemaps: basics_basemaps.html
   basics_charts: basics_charts.html
   basics_components: basics_components.html
@@ -45,7 +46,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-11-06T10:26Z
+last_built: 2026-11-09T10:04Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

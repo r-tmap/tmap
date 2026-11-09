@@ -78,7 +78,7 @@ tm_layout(bg.color = "skyblue",
   earth_boundary = TRUE,
   frame = FALSE,
   space.color = "white")
-#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is FALSE
+#> Linking to GEOS 3.14.1, GDAL 3.12.2, PROJ 9.7.1; sf_use_s2() is FALSE
 ```
 
 ![](basics_layout_files/figure-html/unnamed-chunk-6-1.png)

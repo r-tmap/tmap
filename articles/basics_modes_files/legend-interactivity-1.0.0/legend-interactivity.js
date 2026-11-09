@@ -1545,12 +1545,27 @@ function initializeLegendManager(map, container) {
         return changed;
     }
 
+    // Distance from the container's bottom edge to the top of the map's own controls in a bottom corner
+    // (the Mapbox logo, the attribution, a scale bar), so legends can sit above them instead of covering them
+    function cornerControlsHeight(corner, containerRect) {
+        var nodes = container.querySelectorAll(
+            '.mapboxgl-ctrl-' + corner + ', .maplibregl-ctrl-' + corner
+        );
+        var h = 0;
+        for (var i = 0; i < nodes.length; i++) {
+            var r = nodes[i].getBoundingClientRect();
+            if (r.height > 0 && r.width > 0) {
+                h = Math.max(h, containerRect.bottom - r.top);
+            }
+        }
+        return h;
+    }
+
     function repositionLegends(legends) {
         var containerRect = container.getBoundingClientRect();
         var groups = {};
         legends.forEach(function (legend) {
             if (legend.classList.contains('mapgl-legend-zoom-hidden')) return;
-            if (legend.dataset.manualPosition === 'true') return;
             if (legend.dataset.mapglUserMoved === 'true') return;
             if (window.getComputedStyle(legend).display === 'none') return;
             for (var i = 0; i < CORNERS.length; i++) {
@@ -1561,14 +1576,28 @@ function initializeLegendManager(map, container) {
             }
         });
         Object.keys(groups).forEach(function (corner) {
-            var stack = groups[corner];
+            // A legend with explicit margin_* values stays exactly where it was placed. If it is the
+            // first legend in its corner it also anchors that corner's stack; otherwise it is left out.
+            var stack = groups[corner].filter(function (legend, i) {
+                return i === 0 || legend.dataset.manualPosition !== 'true';
+            });
             var isTop = corner.indexOf('top') === 0;
             var prevRect = null;
             stack.forEach(function (legend, i) {
                 if (i === 0) {
-                    // First legend keeps its CSS corner position
-                    legend.style.top = '';
-                    legend.style.bottom = '';
+                    if (legend.dataset.manualPosition !== 'true') {
+                        // First legend keeps its CSS corner position, raised above the map's own
+                        // controls in a bottom corner
+                        legend.style.top = '';
+                        legend.style.bottom = '';
+                        if (!isTop) {
+                            var cssBottom = parseFloat(window.getComputedStyle(legend).bottom) || 0;
+                            var clear = cornerControlsHeight(corner, containerRect);
+                            if (clear > 0 && clear + 6 > cssBottom) {
+                                legend.style.bottom = clear + 6 + 'px';
+                            }
+                        }
+                    }
                 } else if (isTop) {
                     // Stack downward: the element's own margin provides the gap
                     legend.style.bottom = '';

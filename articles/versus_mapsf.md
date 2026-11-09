@@ -159,7 +159,7 @@ with geometric manipulation in `sf`:
 ``` r
 
 library(sf)
-#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.4.0; sf_use_s2() is TRUE
+#> Linking to GEOS 3.14.1, GDAL 3.12.2, PROJ 9.7.1; sf_use_s2() is TRUE
 shadows = st_set_crs(st_geometry(NLD_muni) + c(2000, -2000), st_crs(NLD_muni))
 
 tm_shape(shadows) +

@@ -30,6 +30,8 @@
   components](https://r-tmap.github.io/tmap/articles/adv_positions.md):
 - [tmap advanced:
   options](https://r-tmap.github.io/tmap/articles/adv_shiny.md):
+- [tmap advanced: textures for
+  uncertainty](https://r-tmap.github.io/tmap/articles/adv_textures.md):
 - [tmap basics:
   basemaps](https://r-tmap.github.io/tmap/articles/basics_basemaps.md):
 - [tmap basics:
