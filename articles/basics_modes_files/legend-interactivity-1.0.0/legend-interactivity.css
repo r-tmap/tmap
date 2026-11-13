@@ -13,12 +13,86 @@
     border-radius: 4px;
 }
 
+/* With only_button = TRUE, keep room for the button so it never covers a
+   patch or label. This only widens legends whose longest entry, not the
+   title, sets the width. */
+.mapboxgl-legend[data-only-button="true"][data-legend-type="categorical"] .legend-item {
+    padding-right: 44px;
+}
+
 .mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item:hover {
     background-color: rgba(0, 0, 0, 0.08);
 }
 
+/* Press and hold to isolate: the entry fills from left to right while held.
+   The fill waits 120ms so an ordinary click doesn't flash it, and finishes
+   at 500ms, when the hold isolates the entry. */
+.mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item {
+    position: relative;
+    isolation: isolate;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 4px;
+    background: var(--mapgl-legend-text, currentColor);
+    opacity: 0.2;
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+}
+
+.mapboxgl-legend[data-interactive="true"][data-legend-type="categorical"] .legend-item.legend-holding::before {
+    transform: scaleX(1);
+    transition: transform 380ms linear 120ms;
+}
+
+/* "only" button: appears at the right of an entry on hover or keyboard focus */
+.legend-only-btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1px 7px;
+    font-family: inherit;
+    font-size: 10px;
+    line-height: 1.4;
+    color: var(--mapgl-legend-text, inherit);
+    background: var(--mapgl-legend-solid-bg, #fff);
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+}
+
+@media (hover: hover) {
+    .legend-item:hover .legend-only-btn {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.legend-item:focus-within .legend-only-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.legend-only-btn:hover {
+    border-color: var(--mapgl-legend-text, currentColor);
+}
+
 /* Disabled category styling */
-.mapboxgl-legend[data-interactive="true"] .legend-item[data-enabled="false"] {
+/* Fade the patch and label, not the whole entry, so a hidden entry's "only"
+   button stays at full strength. */
+.mapboxgl-legend[data-interactive="true"] .legend-item[data-enabled="false"] > :not(.legend-only-btn) {
     opacity: 0.5;
 }
 

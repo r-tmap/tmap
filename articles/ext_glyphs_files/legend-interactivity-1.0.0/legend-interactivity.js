@@ -454,81 +454,55 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
         interactiveState.filterColumn = filterColumn;
     });
 
-    // Add click handlers to each item
-    items.forEach(function (item, idx) {
-        var displayValue = item.getAttribute("data-value") || String(displayValues[idx]);
-        item.setAttribute("data-value", displayValue);
-        item.setAttribute("data-index", idx);
-        item.setAttribute("data-enabled", "true");
-
-        item.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var currentlyEnabled = item.getAttribute("data-enabled") === "true";
-            var newState = !currentlyEnabled;
-
-            item.setAttribute("data-enabled", String(newState));
-
-            // Disabled opacity/grayscale is handled by the shared CSS. Leave
-            // patch paints untouched: an SVG background colors its rectangular
-            // viewport, not its polygon/path, and corrupts hex/custom patches.
-            if (newState) {
-                enabledIndices.add(idx);
+    // Push the enabled set to the layer filters, the reset button and Shiny.
+    function applyEnabled() {
+        layerIds.forEach(function(lid) {
+            var interactiveState = layerState.interactiveFilters[lid];
+            if (breaks && breaks.length > 0) {
+                applyRangeBasedCategoricalFilter(
+                    map,
+                    mapId,
+                    lid,
+                    filterColumn,
+                    enabledIndices,
+                    breaks,
+                    interactiveState.originalFilter
+                );
             } else {
-                enabledIndices.delete(idx);
-            }
-
-            // Apply filter to all associated layers
-            layerIds.forEach(function(lid) {
-                var interactiveState = layerState.interactiveFilters[lid];
-                if (breaks && breaks.length > 0) {
-                    applyRangeBasedCategoricalFilter(
-                        map,
-                        mapId,
-                        lid,
-                        filterColumn,
-                        enabledIndices,
-                        breaks,
-                        interactiveState.originalFilter
-                    );
-                } else {
-                    applyCategoricalFilter(
-                        map,
-                        mapId,
-                        lid,
-                        filterColumn,
-                        enabledIndices,
-                        filterValues,
-                        interactiveState.originalFilter
-                    );
-                }
-            });
-
-            // Update reset button visibility
-            updateResetButton(legendElement, enabledIndices.size < numCategories);
-
-            // Send to Shiny if applicable
-            if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
-                // Get enabled filter values for Shiny
-                var enabledFilterValues = [];
-                enabledIndices.forEach(function(i) {
-                    enabledFilterValues.push(filterValues[i]);
-                });
-                Shiny.setInputValue(mapId + "_legend_filter", {
-                    legendId: config.legendId,
-                    layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
-                    type: "categorical",
-                    column: filterColumn,
-                    enabledValues: enabledFilterValues,
-                    timestamp: Date.now()
-                });
+                applyCategoricalFilter(
+                    map,
+                    mapId,
+                    lid,
+                    filterColumn,
+                    enabledIndices,
+                    filterValues,
+                    interactiveState.originalFilter
+                );
             }
         });
-    });
 
-    // Add reset button
-    addResetButton(legendElement, function () {
+        updateResetButton(legendElement, enabledIndices.size < numCategories);
+        updateOnlyButtons();
+
+        // Send to Shiny if applicable
+        if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
+            // Get enabled filter values for Shiny
+            var enabledFilterValues = [];
+            enabledIndices.forEach(function(i) {
+                enabledFilterValues.push(filterValues[i]);
+            });
+            Shiny.setInputValue(mapId + "_legend_filter", {
+                legendId: config.legendId,
+                layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
+                type: "categorical",
+                column: filterColumn,
+                enabledValues: enabledFilterValues,
+                timestamp: Date.now()
+            });
+        }
+    }
+
+    function resetAll() {
         items.forEach(function (item) {
             item.setAttribute("data-enabled", "true");
         });
@@ -557,6 +531,7 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
         });
 
         updateResetButton(legendElement, false);
+        updateOnlyButtons();
 
         // Send to Shiny
         if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
@@ -569,7 +544,190 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
                 timestamp: Date.now()
             });
         }
+    }
+
+    // Show only one category. Isolating the category that is already the
+    // only one showing brings every category back.
+    function isolate(idx) {
+        if (enabledIndices.size === 1 && enabledIndices.has(idx)) {
+            resetAll();
+            return;
+        }
+        enabledIndices.clear();
+        enabledIndices.add(idx);
+        items.forEach(function (item, i) {
+            item.setAttribute("data-enabled", String(i === idx));
+        });
+        applyEnabled();
+    }
+
+    // Optional "only" buttons (only_button = TRUE): shown on hover or keyboard focus. Their pill takes the
+    // legend's own background color so it stays readable over long labels.
+    var onlyButtons = [];
+    function updateOnlyButtons() {
+        onlyButtons.forEach(function (btn, i) {
+            if (!btn) return;
+            var alone = enabledIndices.size === 1 && enabledIndices.has(i);
+            btn.textContent = alone ? "all" : "only";
+            btn.setAttribute("title", alone
+                ? "Show all categories"
+                : "Show only " + displayValues[i] + " (or press and hold the entry)");
+        });
+    }
+    if (config.onlyButton && legendElement.setAttribute) {
+        legendElement.setAttribute("data-only-button", "true");
+    }
+    // Label colors are set on .legend-text, not the entry, so pass the label
+    // color along for the button text and the hold fill.
+    if (legendElement.style && legendElement.style.setProperty) {
+        var legendBg = solidColor(legendElement, "backgroundColor");
+        if (legendBg) legendElement.style.setProperty("--mapgl-legend-solid-bg", legendBg);
+        var label = legendElement.querySelector(".legend-text");
+        var labelColor = label && solidColor(label, "color");
+        if (labelColor) legendElement.style.setProperty("--mapgl-legend-text", labelColor);
+    }
+
+    // Press and hold an entry to show only that category; a short click
+    // still toggles it. Moving the pointer cancels the hold.
+    var HOLD_MS = 500;
+    var LATE_MS = 150;
+    var MOVE_TOLERANCE = 6;
+    // Same clock as pointer event timeStamps
+    function now() {
+        return (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    }
+    var hold = null;
+    var suppressClick = false;
+
+    function cancelHold() {
+        if (!hold) return;
+        clearTimeout(hold.timer);
+        if (hold.item.classList) hold.item.classList.remove("legend-holding");
+        hold = null;
+    }
+
+    // Add click handlers to each item
+    items.forEach(function (item, idx) {
+        var displayValue = item.getAttribute("data-value") || String(displayValues[idx]);
+        item.setAttribute("data-value", displayValue);
+        item.setAttribute("data-index", idx);
+        item.setAttribute("data-enabled", "true");
+
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // The click that ends a completed hold is not a toggle.
+            if (suppressClick) {
+                suppressClick = false;
+                return;
+            }
+
+            var currentlyEnabled = item.getAttribute("data-enabled") === "true";
+            var newState = !currentlyEnabled;
+
+            item.setAttribute("data-enabled", String(newState));
+
+            // Disabled opacity/grayscale is handled by the shared CSS. Leave
+            // patch paints untouched: an SVG background colors its rectangular
+            // viewport, not its polygon/path, and corrupts hex/custom patches.
+            if (newState) {
+                enabledIndices.add(idx);
+            } else {
+                enabledIndices.delete(idx);
+            }
+
+            applyEnabled();
+        });
+
+        item.addEventListener("pointerdown", function (e) {
+            suppressClick = false;
+            if (e.pointerType === "mouse" && e.button !== 0) return;
+            if (e.target && e.target.closest && e.target.closest(".legend-only-btn")) return;
+            cancelHold();
+            var down = now();
+            hold = {
+                item: item,
+                x: e.clientX,
+                y: e.clientY,
+                down: down,
+                timer: setTimeout(function () {
+                    // A busy page can run this timer after the button was
+                    // already released. If it is running late, let the
+                    // release decide from the actual press length.
+                    if (now() - down > HOLD_MS + LATE_MS) {
+                        hold.late = true;
+                        return;
+                    }
+                    cancelHold();
+                    suppressClick = true;
+                    isolate(idx);
+                }, HOLD_MS)
+            };
+            if (item.classList) item.classList.add("legend-holding");
+        });
+        item.addEventListener("pointerup", function (e) {
+            if (hold && hold.late && hold.item === item) {
+                var held = (e.timeStamp || now()) - hold.down;
+                cancelHold();
+                if (held >= HOLD_MS) {
+                    suppressClick = true;
+                    isolate(idx);
+                }
+                return;
+            }
+            cancelHold();
+        });
+        item.addEventListener("pointermove", function (e) {
+            if (hold && Math.abs(e.clientX - hold.x) + Math.abs(e.clientY - hold.y) > MOVE_TOLERANCE) {
+                cancelHold();
+            }
+        });
+        ["pointerleave", "pointercancel"].forEach(function (type) {
+            item.addEventListener(type, cancelHold);
+        });
+        // A long press on a touch screen would otherwise open a context menu.
+        item.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        var btn = null;
+        if (config.onlyButton && typeof document.createElement === "function" && typeof item.appendChild === "function") {
+            btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "legend-only-btn";
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                isolate(idx);
+            });
+            item.appendChild(btn);
+        }
+        onlyButtons.push(btn);
     });
+    updateOnlyButtons();
+
+    // Add reset button
+    addResetButton(legendElement, resetAll);
+}
+
+/**
+ * A computed color with any transparency removed, or null if the element has
+ * none (used for the "only" button pill and the hold fill).
+ */
+function solidColor(el, property) {
+    if (typeof window.getComputedStyle !== "function") return null;
+    var value;
+    try {
+        value = window.getComputedStyle(el)[property];
+    } catch (e) {
+        return null;
+    }
+    var m = /rgba?\(([^)]+)\)/.exec(value || "");
+    if (!m) return null;
+    var parts = m[1].split(",").map(function (p) { return parseFloat(p); });
+    if (parts.length === 4 && parts[3] === 0) return null;
+    return "rgb(" + parts[0] + ", " + parts[1] + ", " + parts[2] + ")";
 }
 
 /**

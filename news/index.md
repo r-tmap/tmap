@@ -73,6 +73,11 @@
   `big.num.abbr` abbreviation path, e.g. when formatting popups in view
   mode ([\#1259](https://github.com/r-tmap/tmap/issues/1259))
 - fixed partial matching
+- view mode: the legend of
+  `tm_scale_intervals(label.style = "continuous")` shows one solid block
+  per class (equal size, as in plot mode) with the breaks labeled at the
+  block boundaries, also in landscape orientation (it used to be a
+  blended gradient with the breaks placed by value)
 - [`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md):
   argument `in.iframe` deprecated (and ignored), and **widgetframe**
   removed from Suggests because of a known security vulnerability

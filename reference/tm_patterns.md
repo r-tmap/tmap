@@ -43,8 +43,9 @@ tm_patterns(
   grid cell contains one element, so elements are spread evenly,
   although they may touch at high densities. For `"mottle"`, the
   randomness of the shades of the patches, between 0 (the shades follow
-  smooth noise, so neighboring patches differ by one shade) and 1 (each
-  patch has a random shade).
+  smooth noise, so neighboring patches differ by one shade, which may
+  look like a smooth surface across polygon borders) and 1 (each patch
+  has a random shade; the default).
 
 - length:
 
@@ -117,7 +118,7 @@ Pattern types:
 | `"crosses"` | `random` (default 0), `seed` (default 1) |
 | `"noise"` | – |
 | `"terrain"` | `grain` (default 1), `seed` (default 1) |
-| `"mottle"` | `grain` (default 1), `levels` (default 5), `contrast` (default 1), `random` (default 0), `seed` (default 1) |
+| `"mottle"` | `grain` (default 1), `levels` (default 5), `contrast` (default 1), `random` (default 1), `seed` (default 1) |
 | `"sketch"` | `angle` (default 45), `grain` (default 1), `seed` (default 1) |
 
 Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
