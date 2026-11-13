@@ -18,6 +18,7 @@
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
 - fixed partial matching
+- view mode: the legend of `tm_scale_intervals(label.style = "continuous")` shows one solid block per class (equal size, as in plot mode) with the breaks labeled at the block boundaries, also in landscape orientation (it used to be a blended gradient with the breaks placed by value)
 - `tmap_save()`: argument `in.iframe` deprecated (and ignored), and **widgetframe** removed from Suggests because of a known security vulnerability (#1268)
 - `tmap_save()` now shows the underlying error when saving an interactive map fails (e.g. missing pandoc for `selfcontained = TRUE`)
 - bivariate legend: the legend is widened when `xlab` is wider than the item columns (it used to run outside the legend frame)

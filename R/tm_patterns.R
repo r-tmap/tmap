@@ -16,7 +16,7 @@
 	crosses = list(random = 0),
 	noise = list(),
 	terrain = list(grain = 1),
-	mottle = list(grain = 1, levels = 5, contrast = 1, random = 0),
+	mottle = list(grain = 1, levels = 5, contrast = 1, random = 1),
 	sketch = list(angle = 45, grain = 1))
 
 # Shortcuts: pattern types with specific parameter values
@@ -71,7 +71,7 @@
 #' | `"crosses"` | `random` (default 0), `seed` (default 1) |
 #' | `"noise"` | -- |
 #' | `"terrain"` | `grain` (default 1), `seed` (default 1) |
-#' | `"mottle"` | `grain` (default 1), `levels` (default 5), `contrast` (default 1), `random` (default 0), `seed` (default 1) |
+#' | `"mottle"` | `grain` (default 1), `levels` (default 5), `contrast` (default 1), `random` (default 1), `seed` (default 1) |
 #' | `"sketch"` | `angle` (default 45), `grain` (default 1), `seed` (default 1) |
 #'
 #' Shortcuts: `"hatch_up"` (same as `"hatch"`), `"hatch_down"` (angle 135),
@@ -123,7 +123,8 @@
 #' @param angle Angle of the motif in degrees, counter-clockwise from horizontal. For `"hatch"`, 0 means horizontal lines and 45 lines from lower left to upper right. For `"sketch"`, the direction of the pencil strokes.
 #' @param random Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
 #'   For `"mottle"`, the randomness of the shades of the patches, between 0 (the shades follow smooth noise, so
-#'   neighboring patches differ by one shade) and 1 (each patch has a random shade).
+#'   neighboring patches differ by one shade, which may look like a smooth surface across polygon borders) and 1
+#'   (each patch has a random shade; the default).
 #' @param length Length of dashes, bricks, or herringbone blocks, relative to the spacing.
 #' @param amplitude Amplitude of waves and zigzag lines, relative to the spacing.
 #' @param grain Size of the relief of `"terrain"`: the largest wavelength, relative to the spacing at density 1

@@ -154,6 +154,10 @@ tmapLeaflet_legend = function(cmp, lf, o, orientation) {
 		# cross legend (tm_legend_cross): an html table of swatches
 		lf %>% leaflet::addControl(html = leaflet_cross_legend_html(cmp, o), position = legpos,
 								   className = leg_className, layerId = layerId)
+	} else if (cmp$type == "gradient" && isTRUE(cmp$is_discrete)) {
+		# tm_scale_intervals with label.style = "continuous": discrete colour blocks with labeled breaks
+		leaflet_intervals_legend(cmp, lf, title = title, group = group, position = legpos,
+								 orientation = orientation, layerId = layerId, className = leg_className)
 	} else if (cmp$type == "gradient") {
 		breaks_show =  ("is_discrete" %in% names(cmp)) && cmp$is_discrete
 

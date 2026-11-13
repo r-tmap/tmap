@@ -23,7 +23,8 @@ tm_patterns(
 
 \item{random}{Randomness of the placement of dots, circles, or crosses, between 0 (regular grid) and 1 (displacement of up to half a grid cell). Each grid cell contains one element, so elements are spread evenly, although they may touch at high densities.
 For \code{"mottle"}, the randomness of the shades of the patches, between 0 (the shades follow smooth noise, so
-neighboring patches differ by one shade) and 1 (each patch has a random shade).}
+neighboring patches differ by one shade, which may look like a smooth surface across polygon borders) and 1
+(each patch has a random shade; the default).}
 
 \item{length}{Length of dashes, bricks, or herringbone blocks, relative to the spacing.}
 
@@ -74,7 +75,7 @@ Pattern types:\tabular{ll}{
    \code{"crosses"} \tab \code{random} (default 0), \code{seed} (default 1) \cr
    \code{"noise"} \tab -- \cr
    \code{"terrain"} \tab \code{grain} (default 1), \code{seed} (default 1) \cr
-   \code{"mottle"} \tab \code{grain} (default 1), \code{levels} (default 5), \code{contrast} (default 1), \code{random} (default 0), \code{seed} (default 1) \cr
+   \code{"mottle"} \tab \code{grain} (default 1), \code{levels} (default 5), \code{contrast} (default 1), \code{random} (default 1), \code{seed} (default 1) \cr
    \code{"sketch"} \tab \code{angle} (default 45), \code{grain} (default 1), \code{seed} (default 1) \cr
 }
 
