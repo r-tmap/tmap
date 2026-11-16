@@ -105,6 +105,8 @@ tree(opt)
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 1
 #> ├─value.na: <list>
 #> │ ├─fill: "grey75"
@@ -122,7 +124,9 @@ tree(opt)
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─col_alpha.raster: 0
-#> │ └─angle: 0
+#> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ └─priority: 0
 #> ├─value.null: <list>
 #> │ ├─fill: "grey95"
 #> │ ├─col: "grey95"
@@ -148,6 +152,8 @@ tree(opt)
 #> │ ├─size.dots: 0.3
 #> │ ├─size: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 0
 #> ├─value.blank: <list>
 #> │ ├─fill: "#00000000"
@@ -165,6 +171,8 @@ tree(opt)
 #> │ ├─col_alpha: 0
 #> │ ├─bgcol_alpha: 0
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 0
 #> ├─values.var: <list>
 #> │ ├─fill: <list>
@@ -225,6 +233,8 @@ tree(opt)
 #> │ ├─xmod<dbl [2]>: 0, 1
 #> │ ├─ymod<dbl [2]>: 0, 1
 #> │ ├─angle<dbl [2]>: 0, 360
+#> │ ├─short<chr [26]>: "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ...
+#> │ ├─priority<dbl [2]>: 0, 1
 #> │ └─num<dbl [2]>: 0, 1
 #> ├─values.range: <list>
 #> │ ├─fill: NA
@@ -242,7 +252,9 @@ tree(opt)
 #> │ ├─pattern: NA
 #> │ ├─pattern_col: NA
 #> │ ├─pattern_size: NA
-#> │ └─pattern_density: NA
+#> │ ├─pattern_density: NA
+#> │ ├─short: NA
+#> │ └─priority: NA
 #> ├─value.neutral: <list>
 #> │ ├─size: 0.75
 #> │ ├─lwd: 2
@@ -256,6 +268,8 @@ tree(opt)
 #> │ ├─text: "Abc"
 #> │ ├─fontface: "plain"
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 1
 #> ├─values.scale: <list>
 #> │ ├─1
@@ -356,6 +370,12 @@ tree(opt)
 #> │ │ ├─fact: "asis"
 #> │ │ └─num: "asis"
 #> │ ├─text: <list>
+#> │ │ ├─fact: "asis"
+#> │ │ └─num: "asis"
+#> │ ├─short: <list>
+#> │ │ ├─fact: "asis"
+#> │ │ └─num: "asis"
+#> │ ├─priority: <list>
 #> │ │ ├─fact: "asis"
 #> │ │ └─num: "asis"
 #> │ └─fontface: <list>
@@ -1022,6 +1042,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 1
 #> ├─value.na: <list>
 #> │ ├─fill: "grey75"
@@ -1039,7 +1061,9 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─col_alpha.raster: 0
-#> │ └─angle: 0
+#> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ └─priority: 0
 #> ├─value.null: <list>
 #> │ ├─fill: "grey95"
 #> │ ├─col: "grey95"
@@ -1065,6 +1089,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─size.dots: 0.3
 #> │ ├─size: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 0
 #> ├─value.blank: <list>
 #> │ ├─fill: "#00000000"
@@ -1082,6 +1108,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─col_alpha: 0
 #> │ ├─bgcol_alpha: 0
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 0
 #> ├─values.var: <list>
 #> │ ├─fill: <list>
@@ -1142,6 +1170,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─xmod<dbl [2]>: 0, 1
 #> │ ├─ymod<dbl [2]>: 0, 1
 #> │ ├─angle<dbl [2]>: 0, 360
+#> │ ├─short<chr [26]>: "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ...
+#> │ ├─priority<dbl [2]>: 0, 1
 #> │ └─num<dbl [2]>: 0, 1
 #> ├─values.range: <list>
 #> │ ├─fill: NA
@@ -1159,7 +1189,9 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─pattern: NA
 #> │ ├─pattern_col: NA
 #> │ ├─pattern_size: NA
-#> │ └─pattern_density: NA
+#> │ ├─pattern_density: NA
+#> │ ├─short: NA
+#> │ └─priority: NA
 #> ├─value.neutral: <list>
 #> │ ├─size: 0.75
 #> │ ├─lwd: 2
@@ -1173,6 +1205,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ ├─text: "Abc"
 #> │ ├─fontface: "plain"
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 1
 #> ├─values.scale: <list>
 #> │ ├─1
@@ -1273,6 +1307,12 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> │ │ ├─fact: "asis"
 #> │ │ └─num: "asis"
 #> │ ├─text: <list>
+#> │ │ ├─fact: "asis"
+#> │ │ └─num: "asis"
+#> │ ├─short: <list>
+#> │ │ ├─fact: "asis"
+#> │ │ └─num: "asis"
+#> │ ├─priority: <list>
 #> │ │ ├─fact: "asis"
 #> │ │ └─num: "asis"
 #> │ └─fontface: <list>
@@ -1910,6 +1950,8 @@ tree(tmap_options_diff())
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 1
 #> ├─value.na: <list>
 #> │ ├─fill: "grey60"
@@ -1927,7 +1969,9 @@ tree(tmap_options_diff())
 #> │ ├─col_alpha: 1
 #> │ ├─bgcol_alpha: 1
 #> │ ├─col_alpha.raster: 0
-#> │ └─angle: 0
+#> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ └─priority: 0
 #> ├─value.null: <list>
 #> │ ├─fill: "grey40"
 #> │ ├─col: "grey40"
@@ -1953,6 +1997,8 @@ tree(tmap_options_diff())
 #> │ ├─size.dots: 0.3
 #> │ ├─size: 1
 #> │ ├─angle: 0
+#> │ ├─short: ""
+#> │ ├─priority: 0
 #> │ └─num: 0
 #> ├─values.var: <list>
 #> │ ├─fill: <list>
@@ -2002,6 +2048,8 @@ tree(tmap_options_diff())
 #> │ ├─xmod<dbl [2]>: 0, 1
 #> │ ├─ymod<dbl [2]>: 0, 1
 #> │ ├─angle<dbl [2]>: 0, 360
+#> │ ├─short<chr [26]>: "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ...
+#> │ ├─priority<dbl [2]>: 0, 1
 #> │ └─num<dbl [2]>: 0, 1
 #> ├─bg.color: "#002240"
 #> ├─outer.bg: TRUE

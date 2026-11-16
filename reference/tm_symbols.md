@@ -533,21 +533,29 @@ opt_tm_squares(
 - point.label:
 
   logical that determines whether the labels are placed automatically.
-  By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the
-  number of labels is less than 500 (otherwise it will be too slow).
+  By default `FALSE` for `tm_text`. For `tm_labels`, deprecated: use
+  `placement` (see
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)).
 
 - point.label.gap:
 
-  numeric that determines the gap between the point and label
+  numeric that determines the gap between the point and label. For
+  `tm_labels`, deprecated: use the `gap` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md).
 
 - point.label.method:
 
   the optimization method, either `"SANN"` for simulated annealing (the
-  default) or `"GA"` for a genetic algorithm.
+  default) or `"GA"` for a genetic algorithm. For `tm_labels`,
+  deprecated: use the `method` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md).
 
 - remove_overlap:
 
-  logical that determines whether the overlapping labels are removed
+  logical that determines whether the overlapping labels are removed.
+  For `tm_labels`, deprecated: labels that do not fit are dropped by
+  default (see `fallback` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)).
 
 - dots.just:
 

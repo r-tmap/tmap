@@ -8,6 +8,7 @@
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_ggplot2.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_groups.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_inset_maps.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/articles/adv_labels.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_legends.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_margins.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/articles/adv_multivariate.html</loc></url>
@@ -83,6 +84,7 @@
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_iso.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_label_format.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_layout.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/reference/tm_leader.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_legend.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_lines.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_logo.html</loc></url>
@@ -91,6 +93,7 @@
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_mouse_coordinates.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_options.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_patterns.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap/reference/tm_placement.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_plot.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_plot_order.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap/reference/tm_polygons.html</loc></url>

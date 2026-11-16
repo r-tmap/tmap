@@ -16,6 +16,8 @@
   only)](https://r-tmap.github.io/tmap/articles/adv_groups.md):
 - [tmap advanced: inset maps and
   minimaps](https://r-tmap.github.io/tmap/articles/adv_inset_maps.md):
+- [tmap advanced: label
+  placement](https://r-tmap.github.io/tmap/articles/adv_labels.md):
 - [tmap advanced:
   legends](https://r-tmap.github.io/tmap/articles/adv_legends.md):
 - [tmap advanced: margins and aspect

@@ -79,6 +79,7 @@
     <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
     <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
     <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -221,6 +222,8 @@
 <span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  group.control <span class="op">=</span> <span class="st">"check"</span>,</span>
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_labels</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  short <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  priority <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -333,7 +336,9 @@
 <span>  point.label <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  point.label.gap <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  point.label.method <span class="op">=</span> <span class="st">"SANN"</span>,</span>
-<span>  remove_overlap <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  remove_overlap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  placement <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>  leader <span class="op">=</span> <span class="fu"><a href="tm_leader.html">tm_leader</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -425,6 +430,14 @@ no blending. See the "Layer blending" section for the supported values.</p></dd>
 <dd><p>to catch deprecated arguments from version &lt; 4.0</p></dd>
 
 
+<dt id="arg-short">short<a class="anchor" aria-label="anchor" href="#arg-short"></a></dt>
+<dd><p>(<code>tm_labels()</code> only) name of the data variable with short texts, e.g. abbreviations, used by the <code>"abbreviate"</code> step of <code><a href="tm_placement.html">tm_placement()</a></code> for labels that do not fit.</p></dd>
+
+
+<dt id="arg-priority">priority<a class="anchor" aria-label="anchor" href="#arg-priority"></a></dt>
+<dd><p>(<code>tm_labels()</code> only) name of the data variable that determines the priority of the labels: labels with a higher priority are placed first (and therefore get the best positions, and are dropped last). By default, the priority is determined by the geometry: the area for polygons and the text size for points.</p></dd>
+
+
 <dt id="arg-points-only">points_only<a class="anchor" aria-label="anchor" href="#arg-points-only"></a></dt>
 <dd><p>should only point geometries of the shape object (defined in <code><a href="tm_shape.html">tm_shape()</a></code>) be plotted? By default <code>"ifany"</code>, which means <code>TRUE</code> in case a geometry collection is specified.</p></dd>
 
@@ -498,19 +511,27 @@ no blending. See the "Layer blending" section for the supported values.</p></dd>
 
 
 <dt id="arg-point-label">point.label<a class="anchor" aria-label="anchor" href="#arg-point-label"></a></dt>
-<dd><p>logical that determines whether the labels are placed automatically. By default <code>FALSE</code> for <code>tm_text</code>, and <code>TRUE</code> for <code>tm_labels</code> if the number of labels is less than 500 (otherwise it will be too slow).</p></dd>
+<dd><p>logical that determines whether the labels are placed automatically. By default <code>FALSE</code> for <code>tm_text</code>. For <code>tm_labels</code>, deprecated: use <code>placement</code> (see <code><a href="tm_placement.html">tm_placement()</a></code>).</p></dd>
 
 
 <dt id="arg-point-label-gap">point.label.gap<a class="anchor" aria-label="anchor" href="#arg-point-label-gap"></a></dt>
-<dd><p>numeric that determines the gap between the point and label</p></dd>
+<dd><p>numeric that determines the gap between the point and label. For <code>tm_labels</code>, deprecated: use the <code>gap</code> of <code><a href="tm_placement.html">tm_placement()</a></code>.</p></dd>
 
 
 <dt id="arg-point-label-method">point.label.method<a class="anchor" aria-label="anchor" href="#arg-point-label-method"></a></dt>
-<dd><p>the optimization method, either <code>"SANN"</code> for simulated annealing (the default) or <code>"GA"</code> for a genetic algorithm.</p></dd>
+<dd><p>the optimization method, either <code>"SANN"</code> for simulated annealing (the default) or <code>"GA"</code> for a genetic algorithm. For <code>tm_labels</code>, deprecated: use the <code>method</code> of <code><a href="tm_placement.html">tm_placement()</a></code>.</p></dd>
 
 
 <dt id="arg-remove-overlap">remove_overlap<a class="anchor" aria-label="anchor" href="#arg-remove-overlap"></a></dt>
-<dd><p>logical that determines whether the overlapping labels are removed</p></dd>
+<dd><p>logical that determines whether the overlapping labels are removed. For <code>tm_labels</code>, deprecated: labels that do not fit are dropped by default (see <code>fallback</code> of <code><a href="tm_placement.html">tm_placement()</a></code>).</p></dd>
+
+
+<dt id="arg-placement">placement<a class="anchor" aria-label="anchor" href="#arg-placement"></a></dt>
+<dd><p>how labels are placed (<code>tm_labels()</code> only): a <code><a href="tm_placement.html">tm_placement()</a></code> object or a preset: <code>"auto"</code> (default), <code>"inside"</code>, <code>"callout"</code>, or <code>"none"</code>. See <code><a href="tm_placement.html">tm_placement()</a></code>. Currently implemented for polygons in plot mode; in view mode, polygon labels are placed at the center of the largest inscribed circle.</p></dd>
+
+
+<dt id="arg-leader">leader<a class="anchor" aria-label="anchor" href="#arg-leader"></a></dt>
+<dd><p>leader lines of labels that are moved outside (<code>tm_labels()</code> only): a <code><a href="tm_leader.html">tm_leader()</a></code> object, or <code>FALSE</code> to omit them.</p></dd>
 
 </dl></div>
     <div class="section level2">

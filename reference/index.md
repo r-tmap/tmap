@@ -57,6 +57,10 @@
   [`opt_tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   [`opt_tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   : Map layer: text
+- [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)
+  : Label placement: how labels find a spot
+- [`tm_leader()`](https://r-tmap.github.io/tmap/reference/tm_leader.md)
+  : Leader lines of labels
 - [`tm_iso()`](https://r-tmap.github.io/tmap/reference/tm_iso.md) : Map
   layer: iso (contour)
 - [`tm_sf()`](https://r-tmap.github.io/tmap/reference/tm_sf.md)

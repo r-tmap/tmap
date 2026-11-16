@@ -160,6 +160,10 @@ R.
   [`opt_tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   [`opt_tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   : Map layer: text
+- [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)
+  : Label placement: how labels find a spot
+- [`tm_leader()`](https://r-tmap.github.io/tmap/reference/tm_leader.md)
+  : Leader lines of labels
 - [`tm_iso()`](https://r-tmap.github.io/tmap/reference/tm_iso.md) : Map
   layer: iso (contour)
 - [`tm_sf()`](https://r-tmap.github.io/tmap/reference/tm_sf.md)
@@ -434,6 +438,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   only)](https://r-tmap.github.io/tmap/articles/adv_groups.md):
 - [tmap advanced: inset maps and
   minimaps](https://r-tmap.github.io/tmap/articles/adv_inset_maps.md):
+- [tmap advanced: label
+  placement](https://r-tmap.github.io/tmap/articles/adv_labels.md):
 - [tmap advanced:
   legends](https://r-tmap.github.io/tmap/articles/adv_legends.md):
 - [tmap advanced: margins and aspect

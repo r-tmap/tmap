@@ -581,6 +581,38 @@ tmapValuesColorize_skip(x, pc)
 
 tmapValuesCVV_skip(x, value.na, n, range, scale, rep, o)
 
+tmapValuesCheck_short(...)
+
+tmapValuesIsDiv_short(...)
+
+tmapValuesRange_short(...)
+
+tmapValuesVV_short(...)
+
+tmapValuesSubmit_short(...)
+
+tmapValuesScale_short(...)
+
+tmapValuesColorize_short(...)
+
+tmapValuesCVV_short(...)
+
+tmapValuesCheck_priority(...)
+
+tmapValuesIsDiv_priority(...)
+
+tmapValuesRange_priority(...)
+
+tmapValuesVV_priority(...)
+
+tmapValuesSubmit_priority(...)
+
+tmapValuesScale_priority(...)
+
+tmapValuesColorize_priority(...)
+
+tmapValuesCVV_priority(...)
+
 tmapValuesCheck_pattern(x, is_var = TRUE)
 
 tmapValuesIsDiv_pattern(x)

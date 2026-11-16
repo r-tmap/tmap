@@ -9,6 +9,7 @@ articles:
   adv_ggplot2: adv_ggplot2.html
   adv_groups: adv_groups.html
   adv_inset_maps: adv_inset_maps.html
+  adv_labels: adv_labels.html
   adv_legends: adv_legends.html
   adv_margins: adv_margins.html
   adv_multivariate: adv_multivariate.html
@@ -46,7 +47,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-11-13T12:24Z
+last_built: 2026-11-16T19:49Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

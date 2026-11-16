@@ -83,7 +83,7 @@ tmap_animation(
 - ...:
 
   arguments passed on to
-  [`av::av_encode_video()`](https://docs.ropensci.org/av//reference/encoding.html)
+  [`av::av_encode_video()`](https://docs.ropensci.org/av/reference/encoding.html)
 
 ## Note
 

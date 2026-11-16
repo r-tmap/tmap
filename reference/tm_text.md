@@ -125,6 +125,8 @@ tm_labels(
   group = NA,
   group.control = "check",
   options = opt_tm_labels(),
+  short = NA,
+  priority = NA,
   ...
 )
 
@@ -237,7 +239,9 @@ opt_tm_labels(
   point.label = NA,
   point.label.gap = 0.4,
   point.label.method = "SANN",
-  remove_overlap = FALSE
+  remove_overlap = FALSE,
+  placement = "auto",
+  leader = tm_leader()
 )
 ```
 
@@ -348,6 +352,21 @@ opt_tm_labels(
 
   to catch deprecated arguments from version \< 4.0
 
+- short:
+
+  (`tm_labels()` only) name of the data variable with short texts, e.g.
+  abbreviations, used by the `"abbreviate"` step of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)
+  for labels that do not fit.
+
+- priority:
+
+  (`tm_labels()` only) name of the data variable that determines the
+  priority of the labels: labels with a higher priority are placed first
+  (and therefore get the best positions, and are dropped last). By
+  default, the priority is determined by the geometry: the area for
+  polygons and the text size for points.
+
 - points_only:
 
   should only point geometries of the shape object (defined in
@@ -447,21 +466,45 @@ opt_tm_labels(
 - point.label:
 
   logical that determines whether the labels are placed automatically.
-  By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the
-  number of labels is less than 500 (otherwise it will be too slow).
+  By default `FALSE` for `tm_text`. For `tm_labels`, deprecated: use
+  `placement` (see
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)).
 
 - point.label.gap:
 
-  numeric that determines the gap between the point and label
+  numeric that determines the gap between the point and label. For
+  `tm_labels`, deprecated: use the `gap` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md).
 
 - point.label.method:
 
   the optimization method, either `"SANN"` for simulated annealing (the
-  default) or `"GA"` for a genetic algorithm.
+  default) or `"GA"` for a genetic algorithm. For `tm_labels`,
+  deprecated: use the `method` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md).
 
 - remove_overlap:
 
-  logical that determines whether the overlapping labels are removed
+  logical that determines whether the overlapping labels are removed.
+  For `tm_labels`, deprecated: labels that do not fit are dropped by
+  default (see `fallback` of
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)).
+
+- placement:
+
+  how labels are placed (`tm_labels()` only): a
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md)
+  object or a preset: `"auto"` (default), `"inside"`, `"callout"`, or
+  `"none"`. See
+  [`tm_placement()`](https://r-tmap.github.io/tmap/reference/tm_placement.md).
+  Currently implemented for polygons in plot mode; in view mode, polygon
+  labels are placed at the center of the largest inscribed circle.
+
+- leader:
+
+  leader lines of labels that are moved outside (`tm_labels()` only): a
+  [`tm_leader()`](https://r-tmap.github.io/tmap/reference/tm_leader.md)
+  object, or `FALSE` to omit them.
 
 ## Details
 
