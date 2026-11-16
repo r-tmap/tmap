@@ -403,13 +403,13 @@ the text. See details.}
 
 \item{clustering}{in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either \code{FALSE} (default), \code{TRUE}, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
-\item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}, and \code{TRUE} for \code{tm_labels} if the number of labels is less than 500 (otherwise it will be too slow).}
+\item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}. For \code{tm_labels}, deprecated: use \code{placement} (see \code{\link[=tm_placement]{tm_placement()}}).}
 
-\item{point.label.gap}{numeric that determines the gap between the point and label}
+\item{point.label.gap}{numeric that determines the gap between the point and label. For \code{tm_labels}, deprecated: use the \code{gap} of \code{\link[=tm_placement]{tm_placement()}}.}
 
-\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
+\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm. For \code{tm_labels}, deprecated: use the \code{method} of \code{\link[=tm_placement]{tm_placement()}}.}
 
-\item{remove_overlap}{logical that determines whether the overlapping labels are removed}
+\item{remove_overlap}{logical that determines whether the overlapping labels are removed. For \code{tm_labels}, deprecated: labels that do not fit are dropped by default (see \code{fallback} of \code{\link[=tm_placement]{tm_placement()}}).}
 
 \item{dots.just}{justification of the text relative to the point coordinates. Either one of the following values: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}, or a vector of two values where first value specifies horizontal and the second value vertical justification. Besides the mentioned values, also numeric values between 0 and 1 can be used. 0 means left justification for the first value and bottom justification for the second value. Note that in view mode, only one value is used.}
 

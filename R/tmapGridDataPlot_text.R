@@ -83,6 +83,99 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 
 	gp = gp_to_gpar(gp, sel = "col", o = o, type = "text")
 
+	grbLeader = NULL
+
+	# label placement (tm_labels, see tm_placement): polygons, and points (method "greedy")
+	if (!is.null(a$placement) && !cp$expanded && n > 0L) {
+		is_poly = if ("poly" %in% names(dt)) !vapply(dt$poly, is.null, logical(1)) else rep(FALSE, n)
+		is_line = "angle" %in% names(dt) && ("prop_angle" %in% names(shpTM))
+		pmode = if (any(is_poly)) {
+			"polygons"
+		} else if (!is_line && a$placement$method == "greedy") {
+			"points"
+		} else "none"
+		if (pmode == "none" && !is_line) {
+			# point labels with the optimization of car::pointLabel
+			a$point.label.method = a$placement$method
+			a$point.label.gap = a$placement$gap
+		}
+		ids = if (pmode == "polygons") which(is_poly) else if (pmode == "points") seq_len(n) else integer(0)
+		lab_short = if ("short" %in% names(dt)) as.character(dt$short) else rep(NA_character_, n)
+		lab_short[!is.na(lab_short) & !nzchar(lab_short)] = NA
+		lab_prio = if ("priority" %in% names(dt) && length(unique(dt$priority)) > 1L) as.numeric(dt$priority) else NULL
+		if (length(ids)) {
+			a$point.label = FALSE
+			just = c(0.5, 0.5)
+			gp$cex = rep_len(gp$cex, n)
+			angle = rep_len(angle, n)
+			gps_m = split_gp(gp, n)
+			measure = function(txt, i) {
+				g = grid::textGrob(label = txt, gp = gps_m[[ids[i]]])
+				pad = 0.25 * lineIn * gps_m[[ids[i]]]$cex
+				c((convertWidth(grobWidth(g), "inch", valueOnly = TRUE) + pad) * xIn,
+				  (convertHeight(grobHeight(g), "inch", valueOnly = TRUE) + pad) * yIn)
+			}
+			pl = if (pmode == "polygons") {
+				placement_polygons(a$placement, polys = dt$poly[ids], anchors = coords[ids, 1:2, drop = FALSE],
+								   radii = dt$poly_r[ids], text = text[ids], measure = function(txt, i) measure(txt, i),
+								   bbx = bbx, line = lineIn * yIn, short = lab_short[ids], priority = lab_prio[ids])
+			} else {
+				placement_points(a$placement, anchors = coords[ids, 1:2, drop = FALSE], text = text[ids],
+								 measure = function(txt, i) measure(txt, i), bbx = bbx, line = lineIn * yIn,
+								 short = lab_short[ids], priority = lab_prio[ids], cex = gp$cex[ids])
+			}
+
+			# leader lines of moved labels
+			if (any(pl$moved) && !isFALSE(a$leader)) {
+				ld = a$leader
+				if (is.null(ld)) ld = tm_leader()
+				im = which(pl$moved)
+				L = pl$leader[im, , drop = FALSE]
+				len = sqrt((L[, 3] - L[, 1])^2 + (L[, 4] - L[, 2])^2)
+				show = len >= ld$min.length * lineIn * yIn
+				im = im[show]
+				L = L[show, , drop = FALSE]
+				if (length(im)) {
+					lcol = if (is.na(ld$col)) rep_len(gp$col, n)[ids[im]] else ld$col
+					if (ld$type == "elbow") {
+						# a short horizontal segment at the label (if the leader ends at its left or right edge)
+						wbox = vapply(im, function(i) measure(pl$text[i], i)[1], numeric(1))
+						dxs = L[, 3] - pl$x[im]
+						side = ifelse(abs(abs(dxs) - wbox / 2) < 1e-9 * max(1, abs(dxs)), sign(dxs), 0)
+						ex = L[, 3] + side * 0.5 * lineIn * xIn
+						xs = rbind(L[, 1], ex, L[, 3])
+						ys = rbind(L[, 2], L[, 4], L[, 4])
+						grbLeader = grid::polylineGrob(x = grid::unit(as.vector(xs), "native"), y = grid::unit(as.vector(ys), "native"),
+													   id = rep(seq_along(im), each = 3),
+													   gp = grid::gpar(col = lcol, lwd = ld$lwd * o$scale_down, lty = ld$lty))
+					} else {
+						grbLeader = grid::segmentsGrob(x0 = grid::unit(L[, 1], "native"), y0 = grid::unit(L[, 2], "native"),
+													   x1 = grid::unit(L[, 3], "native"), y1 = grid::unit(L[, 4], "native"),
+													   gp = grid::gpar(col = lcol, lwd = ld$lwd * o$scale_down, lty = ld$lty))
+					}
+				}
+			}
+
+			coords[ids, 1] = pl$x
+			coords[ids, 2] = pl$y
+			text[ids] = pl$text
+			gp$cex[ids] = gp$cex[ids] * pl$cex
+			if (pmode == "polygons") angle[ids] = pl$angle
+
+			keep = rep(TRUE, n)
+			keep[ids] = pl$keep
+			if (!all(keep)) {
+				coords = coords[keep, , drop = FALSE]
+				text = text[keep]
+				angle = angle[keep]
+				bgcol = rep_len(bgcol, n)[keep]
+				bgcol_alpha = rep_len(bgcol_alpha, n)[keep]
+				gp = structure(lapply(unclass(gp), function(x) if (length(x) == n) x[keep] else x), class = "gpar")
+				n = sum(keep)
+			}
+		}
+	}
+
 	with_bg = any(bgcol_alpha != 0)
 	with_shadow_halo = a$shadow || a$halo
 
@@ -271,6 +364,8 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 		grb = grid::grobTree(gList(grobText))
 	}
 
+
+	if (!is.null(grbLeader)) grb = grid::grobTree(grbLeader, grb)
 
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]

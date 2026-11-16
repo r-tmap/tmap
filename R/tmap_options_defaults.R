@@ -85,6 +85,8 @@
 						   col_alpha = 1,
 						   bgcol_alpha = 1,
 						   angle = 0,
+						   short = "",
+						   priority = 0,
 						   num = 1),
 		value.na = list(
 			fill = "grey75",
@@ -102,7 +104,9 @@
 			col_alpha = 1,
 			bgcol_alpha = 1,
 			col_alpha.raster = 0,
-			angle = 0
+			angle = 0,
+			short = "",
+			priority = 0
 		),
 		value.null = list(
 			fill = "grey95",
@@ -129,6 +133,8 @@
 			size.dots = .3,
 			size = 1,
 			angle = 0,
+			short = "",
+			priority = 0,
 			num = 0
 		),
 		value.blank = list(
@@ -147,6 +153,8 @@
 			col_alpha = 0,
 			bgcol_alpha = 0,
 			angle = 0,
+			short = "",
+			priority = 0,
 			num = 0
 		),
 		values.var = list(fill = list(seq = "-hcl.blues3", div = "pu_gn_div",
@@ -176,11 +184,14 @@
 						  xmod = c(0, 1),
 						  ymod = c(0, 1),
 						  angle = c(0, 360),
+						  short = LETTERS,
+						  priority = c(0, 1),
 						  num = c(0, 1)),
 		values.range = list(fill = NA, col = NA, size = NA, lwd = NA,
 							lty = NA, text = NA, fontface = NA, fill_alpha = NA,
 							col_alpha = NA, shape = NA, angle = NA, num = c(0,1),
-							pattern = NA, pattern_col = NA, pattern_size = NA, pattern_density = NA), # NA = automatic, NULL is not applicable
+							pattern = NA, pattern_col = NA, pattern_size = NA, pattern_density = NA,
+							short = NA, priority = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 0.75,
 							 lwd = 2,
 							 pattern = "none",
@@ -193,6 +204,8 @@
 							 text = "Abc",
 							 fontface = "plain",
 							 angle = 0,
+							 short = "",
+							 priority = 0,
 							 num = 1),
 		values.scale = list(
 			1,
@@ -222,6 +235,8 @@
 						  ymod = list(fact = "asis", num = "asis"),
 						  angle = list(fact = "asis", num = "asis"),
 						  text = list(fact = "asis", num = "asis"),
+						  short = list(fact = "asis", num = "asis"),
+						  priority = list(fact = "asis", num = "asis"),
 						  fontface = list(fact = "categorical", num = "categorical", datetime = "categorical", date = "categorical")),
 
 		scale.misc.args = list(continuous = list(n = c(fill = 5, col = 5, 5), outliers.trunc = c(FALSE, FALSE), trans = "identity", limits = list(fill = NA, col = NA, 0)),

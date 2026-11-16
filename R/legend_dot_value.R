@@ -32,7 +32,7 @@ legend_dot_info = function(legend, values, values.range, values.scale, limits, t
 		f
 	} else 1
 
-	text = if (isTRUE(legend$dot.value)) "1 dot ≈ {n}" else as.character(legend$dot.value)
+	text = if (isTRUE(legend$dot.value)) "1 dot \u2248 {n}" else as.character(legend$dot.value)
 	d_max = values.scale * values$to * sqrt(values.range[2])
 	list(text = text, K = limits[2] * per_km2 / d_max^2)
 }
@@ -90,14 +90,24 @@ legend_dot_note = function(cmp, bb, bb_facet, o) {
 	if (as$ratio > 1.2) return(fail("the area scale varies too much across the map; use an equal-area projection"))
 	s1 = 0.25 * o$lin * o$scale * (o$scale_down %||% 1)
 	n = cmp[["dot_info"]]$K * s1^2 * as$area
-	gsub("{n}", format_dot_value(n), cmp[["dot_info"]]$text, fixed = TRUE)
+	device_safe_text(gsub("{n}", format_dot_value(n), cmp[["dot_info"]]$text, fixed = TRUE))
 }
 
 # The note of a legend (before the map is drawn, a placeholder of the dot value is used to reserve space)
 legend_note = function(comp) {
 	if (!is.null(comp$note)) return(comp$note)
-	if (!is.null(comp[["dot_info"]])) return(gsub("{n}", "000,000", comp[["dot_info"]]$text, fixed = TRUE))
+	if (!is.null(comp[["dot_info"]])) return(device_safe_text(gsub("{n}", "000,000", comp[["dot_info"]]$text, fixed = TRUE)))
 	""
+}
+
+# Text for devices with a single-byte encoding (pdf(), postscript()), which cannot draw characters such as
+# U+2248 (in R CMD check this is even an error): "\u2248" becomes "~", other characters outside Latin-1 are
+# transliterated to ASCII
+device_safe_text = function(x) {
+	if (!(names(grDevices::dev.cur()) %in% c("pdf", "postscript", "xfig", "pictex")) || !grepl("[^ -~]", x)) return(x)
+	x = gsub("\u2248", "~", x, fixed = TRUE)
+	if (!is.na(iconv(x, "UTF-8", "latin1"))) return(x)
+	iconv(x, "UTF-8", "ASCII//TRANSLIT", sub = "?")
 }
 
 # The note of a dot density legend in view mode (leaflet). The spacing of the dots at density 1 is a quarter of

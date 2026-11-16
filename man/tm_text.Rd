@@ -126,6 +126,8 @@ tm_labels(
   group = NA,
   group.control = "check",
   options = opt_tm_labels(),
+  short = NA,
+  priority = NA,
   ...
 )
 
@@ -238,7 +240,9 @@ opt_tm_labels(
   point.label = NA,
   point.label.gap = 0.4,
   point.label.method = "SANN",
-  remove_overlap = FALSE
+  remove_overlap = FALSE,
+  placement = "auto",
+  leader = tm_leader()
 )
 }
 \arguments{
@@ -290,6 +294,10 @@ no blending. See the "Layer blending" section for the supported values.}
 
 \item{...}{to catch deprecated arguments from version < 4.0}
 
+\item{short}{(\code{tm_labels()} only) name of the data variable with short texts, e.g. abbreviations, used by the \code{"abbreviate"} step of \code{\link[=tm_placement]{tm_placement()}} for labels that do not fit.}
+
+\item{priority}{(\code{tm_labels()} only) name of the data variable that determines the priority of the labels: labels with a higher priority are placed first (and therefore get the best positions, and are dropped last). By default, the priority is determined by the geometry: the area for polygons and the text size for points.}
+
 \item{points_only}{should only point geometries of the shape object (defined in \code{\link[=tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
 \item{point_per}{specification of how spatial points are mapped when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a spatial point for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
@@ -326,13 +334,17 @@ no blending. See the "Layer blending" section for the supported values.}
 
 \item{clustering}{in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either \code{FALSE} (default), \code{TRUE}, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
-\item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}, and \code{TRUE} for \code{tm_labels} if the number of labels is less than 500 (otherwise it will be too slow).}
+\item{point.label}{logical that determines whether the labels are placed automatically. By default \code{FALSE} for \code{tm_text}. For \code{tm_labels}, deprecated: use \code{placement} (see \code{\link[=tm_placement]{tm_placement()}}).}
 
-\item{point.label.gap}{numeric that determines the gap between the point and label}
+\item{point.label.gap}{numeric that determines the gap between the point and label. For \code{tm_labels}, deprecated: use the \code{gap} of \code{\link[=tm_placement]{tm_placement()}}.}
 
-\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm.}
+\item{point.label.method}{the optimization method, either \code{"SANN"} for simulated annealing (the default) or \code{"GA"} for a genetic algorithm. For \code{tm_labels}, deprecated: use the \code{method} of \code{\link[=tm_placement]{tm_placement()}}.}
 
-\item{remove_overlap}{logical that determines whether the overlapping labels are removed}
+\item{remove_overlap}{logical that determines whether the overlapping labels are removed. For \code{tm_labels}, deprecated: labels that do not fit are dropped by default (see \code{fallback} of \code{\link[=tm_placement]{tm_placement()}}).}
+
+\item{placement}{how labels are placed (\code{tm_labels()} only): a \code{\link[=tm_placement]{tm_placement()}} object or a preset: \code{"auto"} (default), \code{"inside"}, \code{"callout"}, or \code{"none"}. See \code{\link[=tm_placement]{tm_placement()}}. Currently implemented for polygons in plot mode; in view mode, polygon labels are placed at the center of the largest inscribed circle.}
+
+\item{leader}{leader lines of labels that are moved outside (\code{tm_labels()} only): a \code{\link[=tm_leader]{tm_leader()}} object, or \code{FALSE} to omit them.}
 }
 \description{
 Map layer that draws symbols Supported map variables are: \code{text}

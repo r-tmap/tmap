@@ -1132,3 +1132,68 @@ tmapValuesCVV_skip = function(x, value.na, n, range, scale, rep, o) {
 values_scale_o = function(aes, o) {
 	if (aes %in% c("fill_alpha", "col_alpha", "bgcol_alpha", "pattern_density")) 1 else o$scale
 }
+
+# Map variables of label placement (tm_labels): short (as text) and priority (numeric, as angle)
+#' @export
+#' @rdname tmap_internal
+tmapValuesCheck_short = function(...) tmapValuesCheck_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesIsDiv_short = function(...) tmapValuesIsDiv_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesRange_short = function(...) tmapValuesRange_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesVV_short = function(...) tmapValuesVV_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesSubmit_short = function(...) tmapValuesSubmit_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesScale_short = function(...) tmapValuesScale_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesColorize_short = function(...) tmapValuesColorize_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesCVV_short = function(...) tmapValuesCVV_text(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesCheck_priority = function(...) tmapValuesCheck_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesIsDiv_priority = function(...) tmapValuesIsDiv_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesRange_priority = function(...) tmapValuesRange_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesVV_priority = function(...) tmapValuesVV_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesSubmit_priority = function(...) tmapValuesSubmit_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesScale_priority = function(...) tmapValuesScale_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesColorize_priority = function(...) tmapValuesColorize_angle(...)
+
+#' @export
+#' @rdname tmap_internal
+tmapValuesCVV_priority = function(...) tmapValuesCVV_angle(...)

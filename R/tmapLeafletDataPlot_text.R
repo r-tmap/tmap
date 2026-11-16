@@ -74,6 +74,10 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 	# 			 ifelse(gpl$text.just == "bottom", "top", "center"))))
 	direction = "right"
 
+	# label placement (tm_labels): polygon labels are centered on the center of the largest inscribed circle
+	is_poly = if ("poly" %in% names(dt)) !vapply(dt$poly, is.null, logical(1)) else FALSE
+	if (!is.null(a$placement) && any(is_poly)) direction = "center"
+
 
 	# apply xmod and ymod
 	delta = delta_per_lineheight(bbx)
@@ -141,11 +145,57 @@ tmapLeafletDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt
 											clusterId = cidt)
 		}
 	}
+	# label placement (tm_labels): hide overlapping labels after each zoom/pan, in the order of priority
+	# (option D: the collision of labels is resolved by the renderer)
+	if (!is.null(a$placement) && utils::tail(a$placement$fallback, 1) == "drop" && is.null(clusterOpts) && length(text) > 1L) {
+		prio = if ("priority" %in% names(dt) && length(unique(dt$priority)) > 1L) {
+			as.numeric(dt$priority[shpTM_match])
+		} else if (any(is_poly) && !cp$expanded) {
+			vapply(dt$poly, function(p) if (is.null(p)) 0 else as.numeric(sf::st_area(p)), numeric(1))
+		} else {
+			rep_len(gp$cex, length(text))
+		}
+		lf = leaflet_label_collision(lf, ids = as.character(idt), priority = prio)
+	}
+
 	assign_lf(lf, facet_row, facet_col, facet_page)
 
-
-
 	NULL
+}
+
+# Label collision in view mode (leaflet): after each zoom and pan, labels are shown in the order of priority, and
+# labels that overlap with a label shown before are hidden. Labels reappear when there is space (e.g. after zooming
+# in).
+leaflet_label_collision = function(lf, ids, priority) {
+	htmlwidgets::onRender(lf, "function(el, x, data) {
+		var map = this;
+		var ids = [].concat(data.ids);
+		var prio = [].concat(data.prio);
+		var order = ids.map(function(d, i) { return i; }).sort(function(a, b) { return prio[b] - prio[a]; });
+		var update = function() {
+			var placed = [];
+			order.forEach(function(i) {
+				var lyr = map.layerManager.getLayer('marker', ids[i]);
+				if (!lyr || !map.hasLayer(lyr) || !lyr.getTooltip) return;
+				var tt = lyr.getTooltip();
+				var elm = tt && tt.getElement();
+				if (!elm) return;
+				elm.style.visibility = '';
+				var r = elm.getBoundingClientRect();
+				if (r.width === 0 && r.height === 0) return;
+				var hit = placed.some(function(p) {
+					return r.left < p.right && r.right > p.left && r.top < p.bottom && r.bottom > p.top;
+				});
+				if (hit) {
+					elm.style.visibility = 'hidden';
+				} else {
+					placed.push(r);
+				}
+			});
+		};
+		map.on('zoomend moveend overlayadd overlayremove', update);
+		map.whenReady(function() { setTimeout(update, 0); });
+	}", data = list(ids = ids, prio = priority))
 }
 
 

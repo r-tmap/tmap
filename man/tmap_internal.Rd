@@ -187,6 +187,22 @@
 \alias{tmapValuesScale_skip}
 \alias{tmapValuesColorize_skip}
 \alias{tmapValuesCVV_skip}
+\alias{tmapValuesCheck_short}
+\alias{tmapValuesIsDiv_short}
+\alias{tmapValuesRange_short}
+\alias{tmapValuesVV_short}
+\alias{tmapValuesSubmit_short}
+\alias{tmapValuesScale_short}
+\alias{tmapValuesColorize_short}
+\alias{tmapValuesCVV_short}
+\alias{tmapValuesCheck_priority}
+\alias{tmapValuesIsDiv_priority}
+\alias{tmapValuesRange_priority}
+\alias{tmapValuesVV_priority}
+\alias{tmapValuesSubmit_priority}
+\alias{tmapValuesScale_priority}
+\alias{tmapValuesColorize_priority}
+\alias{tmapValuesCVV_priority}
 \alias{tmapValuesCheck_pattern}
 \alias{tmapValuesIsDiv_pattern}
 \alias{tmapValuesRange_pattern}
@@ -800,6 +816,38 @@ tmapValuesScale_skip(x, scale)
 tmapValuesColorize_skip(x, pc)
 
 tmapValuesCVV_skip(x, value.na, n, range, scale, rep, o)
+
+tmapValuesCheck_short(...)
+
+tmapValuesIsDiv_short(...)
+
+tmapValuesRange_short(...)
+
+tmapValuesVV_short(...)
+
+tmapValuesSubmit_short(...)
+
+tmapValuesScale_short(...)
+
+tmapValuesColorize_short(...)
+
+tmapValuesCVV_short(...)
+
+tmapValuesCheck_priority(...)
+
+tmapValuesIsDiv_priority(...)
+
+tmapValuesRange_priority(...)
+
+tmapValuesVV_priority(...)
+
+tmapValuesSubmit_priority(...)
+
+tmapValuesScale_priority(...)
+
+tmapValuesColorize_priority(...)
+
+tmapValuesCVV_priority(...)
 
 tmapValuesCheck_pattern(x, is_var = TRUE)
 

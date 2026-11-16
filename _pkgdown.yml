@@ -33,6 +33,8 @@ reference:
   - tm_raster
   - tm_rgb
   - tm_text
+  - tm_placement
+  - tm_leader
   - tm_iso
   - tm_sf
 - title: Specify facets and animations
@@ -245,3 +247,5 @@ navbar:
           href: articles/adv_patterns
         - text: Textures for uncertainty
           href: articles/adv_textures
+        - text: Label placement
+          href: articles/adv_labels

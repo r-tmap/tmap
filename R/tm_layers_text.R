@@ -23,6 +23,8 @@
 #' @inheritParams tm_polygons
 #' @seealso `r .doc_see_also_layers("terrain")`
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
+#' @param short (`tm_labels()` only) name of the data variable with short texts, e.g. abbreviations, used by the `"abbreviate"` step of [tm_placement()] for labels that do not fit.
+#' @param priority (`tm_labels()` only) name of the data variable that determines the priority of the labels: labels with a higher priority are placed first (and therefore get the best positions, and are dropped last). By default, the priority is determined by the geometry: the area for polygons and the text size for points.
 #' @param ... to catch deprecated arguments from version < 4.0
 #' @example ./examples/tm_text.R
 #' @seealso `r .doc_see_also_layers("text")`
@@ -396,11 +398,28 @@ tm_labels = function(text = tm_const(),
 					group = NA,
 					group.control = "check",
 					options = opt_tm_labels(),
+					short = NA,
+					priority = NA,
 					...) {
 	args = c(as.list(environment()), list(...))
+	args$short = NULL
+	args$priority = NULL
 	tm = do.call(tm_text, args)
 	tm[[1]]$layer = c("labels", "text")
+	tm[[1]]$mapping.aes = c(tm[[1]]$mapping.aes, labels_placement_aes(short, priority))
 	tm
+}
+
+# Data variables of label placement (tm_labels): short (abbreviated texts) and priority. They are passed on as map
+# variables with an as-is scale and without legend, so that they are available in the plotting step (dt$short and
+# dt$priority).
+labels_placement_aes = function(short, priority) {
+	vv = function(aes, x) {
+		value = if (length(x) == 1L && is.na(x)) tm_const() else x
+		tmapScale(aes = aes, value = value, scale = tm_scale_asis(), legend = tm_legend_hide(), chart = tm_chart_none(),
+				  free = NA)
+	}
+	list(short = vv("short", short), priority = vv("priority", priority))
 }
 
 
@@ -488,10 +507,12 @@ tm_labels_highlighted = function(text = tm_const(),
 #' @param bg.border.col Color of the borders
 #' @param bg.border.lwd Line width of the borders
 #' @param clustering in interactive modes (e.g. \code{"view"} mode), should clustering be applied at lower zoom levels? Either `FALSE` (default), `TRUE`, or a mode specific specification, e.g. for \code{"view"} mode \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
-#' @param point.label logical that determines whether the labels are placed automatically. By default `FALSE` for `tm_text`, and `TRUE` for `tm_labels` if the number of labels is less than 500 (otherwise it will be too slow).
-#' @param point.label.gap numeric that determines the gap between the point and label
-#' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm.
-#' @param remove_overlap logical that determines whether the overlapping labels are removed
+#' @param point.label logical that determines whether the labels are placed automatically. By default `FALSE` for `tm_text`. For `tm_labels`, deprecated: use `placement` (see [tm_placement()]).
+#' @param point.label.gap numeric that determines the gap between the point and label. For `tm_labels`, deprecated: use the `gap` of [tm_placement()].
+#' @param point.label.method the optimization method, either `"SANN"` for simulated annealing (the default) or `"GA"` for a genetic algorithm. For `tm_labels`, deprecated: use the `method` of [tm_placement()].
+#' @param remove_overlap logical that determines whether the overlapping labels are removed. For `tm_labels`, deprecated: labels that do not fit are dropped by default (see `fallback` of [tm_placement()]).
+#' @param placement how labels are placed (`tm_labels()` only): a [tm_placement()] object or a preset: `"auto"` (default), `"inside"`, `"callout"`, or `"none"`. See [tm_placement()]. Currently implemented for polygons in plot mode; in view mode, polygon labels are placed at the center of the largest inscribed circle.
+#' @param leader leader lines of labels that are moved outside (`tm_labels()` only): a [tm_leader()] object, or `FALSE` to omit them.
 #' @rdname tm_text
 #' @export
 opt_tm_text = function(points_only = "ifany",
@@ -572,7 +593,25 @@ opt_tm_labels = function(points_only = "ifany",
 						 point.label = NA,
 						 point.label.gap = 0.4,
 						 point.label.method = "SANN",
-						 remove_overlap = FALSE) {
+						 remove_overlap = FALSE,
+						 placement = "auto",
+						 leader = tm_leader()) {
+	placement = placement_resolve(placement)
+	# deprecated (tmap 4.5): point label options, now part of tm_placement()
+	dep = c(point.label = !missing(point.label), point.label.gap = !missing(point.label.gap),
+			point.label.method = !missing(point.label.method), remove_overlap = !missing(remove_overlap))
+	if (any(dep)) {
+		cli::cli_inform(c("{.fun opt_tm_labels}: {.arg {names(dep)[dep]}} {?is/are} deprecated as of tmap 4.5.",
+						  i = "Use {.code placement = tm_placement(gap, method, fallback)} instead; see {.fun tm_placement}."),
+						.frequency = "regularly", .frequency_id = "opt_tm_labels_point_label")
+		if (isFALSE(point.label)) placement = NULL
+		if (!is.null(placement)) {
+			if (dep["point.label.gap"]) placement$gap = point.label.gap
+			if (dep["point.label.method"]) placement$method = point.label.method
+			if (isTRUE(remove_overlap)) placement$fallback[length(placement$fallback)] = "drop"
+		}
+		remove_overlap = FALSE
+	}
 	if (!is.logical(shadow)) {
 		cli::cli_warn("{.fun opt_tm_labels} {.arg shadow} should be {.code TRUE} or {.code FALSE}. Please use shadow.col to specify a color")
 		shadow.col = shadow
@@ -582,7 +621,8 @@ opt_tm_labels = function(points_only = "ifany",
 	list(trans.args = list(points_only = points_only,
 						   point_per = point_per,
 						   on_surface = on_surface,
-						   along_lines = along_lines),
+						   along_lines = along_lines,
+						   placement = placement),
 		 mapping.args = list(shadow = shadow,
 		 					shadow.col = shadow.col,
 		 					shadow.offset.x = shadow.offset.x,
@@ -602,5 +642,7 @@ opt_tm_labels = function(points_only = "ifany",
 		 					point.label = point.label,
 		 					point.label.gap = point.label.gap,
 		 					point.label.method = point.label.method,
-		 					remove_overlap = remove_overlap))
+		 					remove_overlap = remove_overlap,
+		 					placement = placement,
+		 					leader = leader))
 }

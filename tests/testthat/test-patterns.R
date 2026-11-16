@@ -161,11 +161,11 @@ test_that("dot value of dot density legends", {
 							bypass_ord = FALSE, submit_legend = FALSE)
 	expect_equal(r$legend$dot_info$K, 10000)
 
-	# the note is drawn below the legend items
+	# the note is drawn below the legend items (on pdf devices, "\u2248" is drawn as "~")
 	txt = grob_texts(dotmap(tm_legend(dot.value = "1 dot ≈ {n} inhabitants")))
-	expect_true(any(grepl("^1 dot ≈ [0-9,]+ inhabitants$", txt)))
+	expect_true(any(grepl("^1 dot (\u2248|~) [0-9,]+ inhabitants$", txt)))
 	txt = grob_texts(dotmap(tm_legend(dot.value = TRUE, orientation = "landscape")))
-	expect_true(any(grepl("^1 dot ≈ [0-9,]+$", txt)))
+	expect_true(any(grepl("^1 dot (\u2248|~) [0-9,]+$", txt)))
 
 	# not proportional: no note, but a message
 	expect_message(txt <- grob_texts(dotmap(tm_legend(dot.value = TRUE), scale = tm_scale_continuous())),

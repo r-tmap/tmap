@@ -172,7 +172,17 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 							})
 						}
 					}
-					if (length(ids_poly)) {
+					if (length(ids_poly) && !is.null(args$placement) && args$point_per != "segment") {
+						# label placement (tm_labels): anchor at the center of the largest inscribed circle; the
+						# polygons and radii are passed on to the plotting step (prop_ vectors)
+						pa = placement_poly_anchor(shp[ids_poly])
+						prop_poly = vector("list", length(shp))
+						prop_poly[ids_poly] = lapply(shp[ids_poly], function(p) p)
+						prop_poly_r = rep(NA_real_, length(shp))
+						prop_poly_r[ids_poly] = pa$r
+						shp[ids_poly] = pa$shp
+						rm(pa)
+					} else if (length(ids_poly)) {
 						ctds = suppressWarnings({
 							sf::st_centroid(shp[ids_poly], of_largest_polygon = (args$point_per == "largest"))
 						})
