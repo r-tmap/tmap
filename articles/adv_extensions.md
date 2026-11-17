@@ -2,31 +2,27 @@
 
 ## Introduction
 
-tmap is designed to be extended. A map is built from layers, map
-variables, scales, components, and modes, and each of these building
-blocks can be added by another package. This article gives an overview:
-the existing extension packages, the ways in which tmap can be extended,
-and how to get started.
+tmap is designed to be extended. This article gives an overview of the
+existing extension packages, the ways in which tmap can be extended, and
+how to get started.
 
 ## Extension packages
 
 The following packages extend tmap. Together with tmap and the color
 palette package **cols4all**, they are called the *tmapverse*.
 
-| package | what it adds | type of extension |
+| package | what it adds | extends |
 |----|----|----|
-| [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) | the modes `"maplibre"` and `"mapbox"`, 3D polygons, and components such as a geocoder | modes, layers, map variables, components |
-| [**tmap.glyphs**](https://r-tmap.github.io/tmap.glyphs/) | glyphs: donuts, pies, and flowers | layers, scales, map variables |
-| [**tmap.cartogram**](https://r-tmap.github.io/tmap.cartogram/) | contiguous, non-contiguous, and Dorling cartograms | layers (spatial transformations) |
+| [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) | the modes `"maplibre"` and `"mapbox"`, 3D polygons, and components such as a geocoder | modes, layers, components |
+| [**tmap.glyphs**](https://r-tmap.github.io/tmap.glyphs/) | glyphs: donuts, pies, and flowers | layers, scales |
+| [**tmap.cartogram**](https://r-tmap.github.io/tmap.cartogram/) | contiguous, non-contiguous, and Dorling cartograms | layers |
 | [**tmap.networks**](https://r-tmap.github.io/tmap.networks/) | networks: **sfnetworks** and **spatstat** `linnet` objects, edges and nodes | spatial data classes, layers |
 | [**tmap.sources**](https://github.com/r-tmap/tmap.sources) | remote and tiled data sources, such as PMTiles and Overture Maps | spatial data classes |
-| [**cols4all**](https://cols4all.github.io/cols4all-R/) | the color palettes used by tmap | palettes |
 
 The articles in the menu *Extensions* show these packages in action. An
 extension package does not have to be attached: its layer functions can
 also be called directly,
 e.g. [`tmap.glyphs::tm_donuts()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_donuts.html).
-
 The function
 [`tmap_overview()`](https://r-tmap.github.io/tmap/reference/tmap_overview.md)
 shows which layers and components are available in which mode, and from
@@ -34,23 +30,34 @@ which package they come.
 
 ## Ways to extend tmap
 
-| extension | what to write | example |
-|----|----|----|
-| [map layer](#map-layers) | a layer function that returns a [`tm_element()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md), and optionally a plotting method per mode | `tm_donuts()` (**tmap.glyphs**) |
-| [spatial transformation](#spatial-transformations) | a function that transforms the geometries of a layer, e.g. based on a data variable | [`tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html) (**tmap.cartogram**) |
-| [map variable](#map-variables) | default values and a few `tmapValues*_<variable>()` functions | `height` (**tmap.mapgl**) |
-| [scale](#scales) | `tm_scale_<name>()` and the function that applies it | `tm_scale_composition()` (**tmap.glyphs**) |
-| [spatial data class](#spatial-data-classes) | methods that convert the object into geometries and data | `sfnetwork` (**tmap.networks**) |
-| [mode](#modes) | functions that initialize, draw, and show the map | `"maplibre"` (**tmap.mapgl**) |
-| [map component](#map-components) | a component function and drawing methods per mode | `tm_geocoder()` (**tmap.mapgl**) |
-| [options, styles, and basemaps](#options-styles-and-basemaps) | [`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md), [`tmapSubmitBasemapEquivalents()`](https://r-tmap.github.io/tmap/reference/tmapSubmitBasemapEquivalents.md) | styles of **tmap.mapgl** |
-| [palettes](#palettes) | palettes registered in **cols4all** | [`cols4all::c4a_load()`](https://cols4all.github.io/reference/c4a_data.html) |
+A map is made in three steps: spatial data are read, drawn as layers,
+and shown by a graphics engine (the mode). Each step can be extended:
+
+1.  [**Map layers**](#map-layers): what is drawn. A new layer may come
+    with new map variables and a spatial transformation,
+    e.g. `tm_donuts()` (**tmap.glyphs**) and
+    [`tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html)
+    (**tmap.cartogram**).
+2.  [**Spatial data classes**](#spatial-data-classes): what can be
+    drawn, e.g. `sfnetwork` objects (**tmap.networks**).
+3.  [**Modes**](#modes): where it is drawn, e.g. `"maplibre"`
+    (**tmap.mapgl**).
+
+Two other building blocks can also be extended:
+
+4.  [**Map components**](#map-components): elements outside the data
+    layers, e.g. `tm_geocoder()` (**tmap.mapgl**).
+5.  [**Scales**](#scales): how data values are mapped to visual values,
+    e.g. `tm_scale_composition()` (**tmap.glyphs**). This is rarely
+    needed, and the most difficult one.
 
 The functions that are needed for extensions are exported and documented
 as internal functions,
 e.g. [`?tmapScale`](https://r-tmap.github.io/tmap/reference/tmap_internal.md).
 
-## Example: a spike map layer
+## Map layers
+
+### Example: a spike map layer
 
 The easiest way to create a new layer is to derive it from an existing
 one. As an example, we create a layer for *spike maps*: maps with a
@@ -138,7 +145,7 @@ Since there is no plotting method for `"spikes"`, the plotting method of
 `"lines"` is used. Therefore, the new layer works in all modes,
 including view mode and the modes of **tmap.mapgl**. A layer that needs
 its own drawing, such as the donuts of **tmap.glyphs**, has a plotting
-method per mode (see [map layers](#map-layers)).
+method per mode (see [plotting methods](#plotting-methods)).
 
 In a package, the transformation function is exported, and the layer
 function gets the arguments of
@@ -146,7 +153,13 @@ function gets the arguments of
 explicitly, with documentation, as in
 [`tmap.cartogram::tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html).
 
-## Map layers
+In a package, the transformation function is exported, and the layer
+function gets the arguments of
+[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+explicitly, with documentation, as in
+[`tmap.cartogram::tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html).
+
+### The layer element
 
 A layer function returns a list
 ([`tm_element_list()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md))
@@ -164,6 +177,18 @@ The most important fields are:
 | `mapping.args` | other arguments for the plotting methods |
 | `plot.order`, `zindex`, `group`, `popup.*`, `hover`, `id` | as in the standard layers |
 
+### Spatial transformations
+
+A spatial transformation function changes the geometries before they are
+drawn. It is called with the geometries (`shpTM`), the values of the map
+variables of `trans.aes`, the plotting order, and `trans.args`, as in
+the spike map example. It returns a list with the new geometries
+(`shp`), their IDs (`tmapID`), and the bounding box (`bbox`). tmap
+applies the transformation per facet, and reprojects the result to the
+crs of the map.
+
+### Plotting methods
+
 The layer is drawn by the plotting method of each mode:
 [`tmapGridDataPlot()`](https://r-tmap.github.io/tmap/reference/tmapGridLeaflet.md)
 (plot mode),
@@ -180,26 +205,17 @@ of the layer it is derived from is used. The methods for the modes of
 `@exportS3Method tmap.mapgl::tmapMaplibreDataPlot`, so that
 **tmap.mapgl** is only needed when it is installed.
 
-## Spatial transformations
+### New map variables
 
-A spatial transformation function changes the geometries before they are
-drawn. It is called with the geometries (`shpTM`), the values of the map
-variables of `trans.aes`, the plotting order, and `trans.args`, as in
-the spike map example above. It returns a list with the new geometries
-(`shp`), their IDs (`tmapID`), and the bounding box (`bbox`). tmap
-applies the transformation per facet, and reprojects the result to the
-crs of the map.
-
-## Map variables
-
-A new map variable, such as `height` for 3D polygons in **tmap.mapgl**,
-needs:
+A layer may need a map variable that tmap does not have, such as
+`height` for 3D polygons in **tmap.mapgl**. A new map variable needs:
 
 - default values, submitted with
   [`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md)
-  when the package is loaded: the constant value (`value.const`), the
-  values for missing data (`value.na`), the default palettes or ranges
-  (`values.var`, `values.range`), and the default scales (`scales.var`);
+  in the `.onLoad()` function of the package: the constant value
+  (`value.const`), the values for missing data (`value.na`), the default
+  palettes or ranges (`values.var`, `values.range`), and the default
+  scales (`scales.var`);
 - functions named `tmapValues<Type>_<variable>()`, which are called by
   name: `Check` (are the visual values valid?), `IsDiv` (are they
   diverging?), `Range`, `Scale` (apply the global `scale`), `Colorize`
@@ -210,22 +226,6 @@ The functions of an existing map variable can often be reused,
 e.g. `tmapValuesCheck_height = tmap::tmapValuesCheck_size`. Use
 `tmap_options("value.const")` to see the defaults of the existing map
 variables.
-
-## Scales
-
-A scale consists of two functions:
-
-- `tm_scale_<name>()`, which returns the scale arguments as a list with
-  class `c("tm_scale_<name>", "tm_scale", "list")` and the element
-  `FUN`, the name of the function that applies the scale;
-- that function, e.g. `tmapScaleComposition()`, which maps the data
-  values to visual values, and creates the legend and chart.
-
-The scale functions of tmap, such as
-[`tmapScaleIntervals()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md),
-are a good starting point. See
-[`tmap.glyphs::tm_scale_composition()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_scale_composition.html)
-for an example.
 
 ## Spatial data classes
 
@@ -247,14 +247,19 @@ spatial data class is supported via S3 methods:
 
 **tmap.networks** (classes `sfnetwork` and `linnet`) and
 **tmap.sources** (data sources specified by a character string) are
-examples.
+examples. A new data class often comes with a layer for it,
+e.g. `tm_network()`.
 
 ## Modes
 
 A mode is a graphics engine, such as **grid** (plot mode) and
-**leaflet** (view mode). A new mode is registered with
-`tmapSubmitOptions(options = list(modes = list(<mode> = list(name = "<Name>", ...))))`,
-where `<Name>` is used in the names of the functions of the mode,
+**leaflet** (view mode). This is the most extensive type of extension;
+**tmap.mapgl** is the reference implementation.
+
+A new mode is registered with
+`tmapSubmitOptions(options = list(modes = list(<mode> = list(name = "<Name>", ...))))`
+in the `.onLoad()` function of the package. The list contains the
+options of the mode, and `<Name>` is used in the names of its functions,
 e.g. `tmapMaplibreInit()`:
 
 - initialization and output: `Init`, `Shape` (per facet), `Overlay`,
@@ -272,8 +277,17 @@ e.g. `tmapMaplibreInit()`:
   and
   [`tmapProxyGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md).
 
-This is the most extensive type of extension. **tmap.mapgl** is the
-reference implementation.
+Two other things make a new mode fit in with the existing ones:
+
+- styles: with the argument `styleOptions` of
+  [`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md),
+  a style such as `"cobalt"` gets options for the new mode, e.g. a dark
+  basemap;
+- basemaps: different modes have different basemaps.
+  [`tmapSubmitBasemapEquivalents()`](https://r-tmap.github.io/tmap/reference/tmapSubmitBasemapEquivalents.md)
+  declares which basemaps are similar across modes (e.g. light gray,
+  dark, or satellite), so that a map can be shown in another mode with a
+  similar basemap.
 
 ## Map components
 
@@ -286,27 +300,26 @@ which it is available. Components are positioned and grouped by tmap
 (see [component
 layout](https://r-tmap.github.io/tmap/articles/adv_positions)).
 
-## Options, styles, and basemaps
+## Scales
 
-[`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md)
-adds options, e.g. the defaults of new map variables or modes, and with
-`styleOptions` the options of a style for a mode, such as the basemap of
-the style `"cobalt"` in maplibre mode. It is called in the `.onLoad()`
-function of the package.
+A scale determines how data values are mapped to visual values, and what
+the legend looks like. A new scale is rarely needed: the existing scales
+cover most data types, and their arguments are flexible. It is also the
+most difficult extension, since a scale has to handle all map variables,
+missing values, legends, and charts. A scale consists of two functions:
 
-Different modes have different basemaps.
-[`tmapSubmitBasemapEquivalents()`](https://r-tmap.github.io/tmap/reference/tmapSubmitBasemapEquivalents.md)
-declares which basemaps are similar across modes (e.g. light gray, dark,
-or satellite), so that a map can be shown in another mode with a similar
-basemap.
+- `tm_scale_<name>()`, which returns the scale arguments as a list with
+  class `c("tm_scale_<name>", "tm_scale", "list")` and the element
+  `FUN`, the name of the function that applies the scale;
+- that function, e.g. `tmapScaleComposition()`, which maps the data
+  values to visual values, and creates the legend and chart.
 
-## Palettes
-
-The palettes of tmap come from **cols4all**. New palettes can be added
-with
-[`cols4all::c4a_load()`](https://cols4all.github.io/reference/c4a_data.html),
-after which they can be used in tmap by their name, just like the other
-palettes.
+The scale functions of tmap, such as
+[`tmapScaleIntervals()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md),
+are a good starting point. See
+[`tmap.glyphs::tm_scale_composition()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_scale_composition.html)
+for an example: a scale for the composition of a glyph, which is used
+together with a new layer.
 
 ## Ideas
 
