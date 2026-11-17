@@ -1,0 +1,120 @@
+# tmap example: interactive map
+
+``` r
+
+library(tmap)
+```
+
+An interactive map lets the reader explore the data: zoom in, click on
+features for details, and switch between layers. In tmap, the same code
+makes a static or an interactive map; only the mode differs (see the
+article on
+[modes](https://r-tmap.github.io/tmap/articles/basics_modes)). This
+example shows the features that make an interactive map useful.
+
+``` r
+
+tmap_mode("view")
+```
+
+## A first map
+
+A choropleth of the Happy Planet Index, with the default basemaps:
+
+``` r
+
+tm_shape(World) +
+  tm_polygons(fill = "HPI", fill.scale = tm_scale_intervals(values = "pu_gn"))
+```
+
+Hover over a country to see its name, and click on it to see the values.
+The layer control at the top left switches between the basemaps.
+
+## Popups, groups, and basemaps
+
+The next map adds:
+
+- **popups** with
+  [`tm_popup()`](https://r-tmap.github.io/tmap/reference/tm_popup.md):
+  which variables are shown, with which labels and number format;
+- a **second map variable**: life expectancy. The two choropleths are in
+  separate layer groups. With `group.control = "radio"`, only one of
+  them is shown at a time;
+- **metropolitan areas**, as bubbles with labels, in a third group that
+  can be switched on and off. Labels that overlap are hidden, in the
+  order of `priority`, and appear when zooming in;
+- a single basemap (with several basemaps, these would also be radio
+  buttons), and a **minimap**.
+
+``` r
+
+tm_basemap("Esri.WorldGrayCanvas") +
+tm_shape(World) +
+  tm_polygons(
+    fill = "HPI",
+    fill.scale = tm_scale_intervals(values = "pu_gn"),
+    fill.legend = tm_legend("Happy Planet Index"),
+    fill_alpha = 0.8,
+    id = "name",
+    popup = tm_popup(
+      vars = c("Happy Planet Index" = "HPI", "Life expectancy" = "life_exp",
+               "Well-being" = "well_being", "Ecological footprint" = "footprint"),
+      format = tm_label_format(digits = 1)),
+    group = "Happy Planet Index", group.control = "radio") +
+  tm_polygons(
+    fill = "life_exp",
+    fill.scale = tm_scale_intervals(values = "brewer.blues"),
+    fill.legend = tm_legend("Life expectancy"),
+    fill_alpha = 0.8,
+    id = "name",
+    group = "Life expectancy", group.control = "radio") +
+tm_shape(metro) +
+  tm_bubbles(
+    size = "pop2020",
+    size.scale = tm_scale_continuous_area(),
+    size.legend = tm_legend("Population 2020"),
+    fill = "gold", col = "grey30",
+    id = "name",
+    popup = tm_popup(vars = c("Population 2020" = "pop2020", "Population 1990" = "pop1990")),
+    group = "Metropolitan areas") +
+  tm_labels("name", priority = "pop2020", group = "Metropolitan areas") +
+tm_minimap()
+```
+
+The `id` is the name that is shown when hovering over a feature, and the
+title of the popup. See the article on [layer
+groups](https://r-tmap.github.io/tmap/articles/adv_groups) for more
+about groups, e.g. to show layers only at certain zoom levels.
+
+## Other interactive modes
+
+The extension package
+[**tmap.mapgl**](https://r-tmap.github.io/tmap/articles/ext_mapgl) adds
+the modes `"maplibre"` and `"mapbox"`, which use vector graphics and
+WebGL. They are faster for large data, and support 3D polygons and other
+projections. The code above also works in these modes:
+
+``` r
+
+library(tmap.mapgl)
+tmap_mode("maplibre")
+```
+
+## Sharing the map
+
+An interactive map is saved as a stand-alone HTML file with
+[`tmap_save()`](https://r-tmap.github.io/tmap/reference/tmap_save.md),
+which can be shared or put on a website:
+
+``` r
+
+map = tm_shape(World) + tm_polygons("HPI")
+tmap_save(map, "world_hpi.html")
+```
+
+In **shiny** apps, interactive maps are made with
+[`renderTmap()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+and
+[`tmapOutput()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+(see the article on [shiny
+integration](https://r-tmap.github.io/tmap/articles/adv_shiny)).

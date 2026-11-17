@@ -101,5 +101,7 @@ tm_view(
 
 ## See also
 
-[Modes](https://r-tmap.github.io/tmap/articles/basics_modes) [Layer
+[Modes](https://r-tmap.github.io/tmap/articles/basics_modes),
+[Interactive
+map](https://r-tmap.github.io/tmap/articles/examples_interactive) [Layer
 groups (view mode)](https://r-tmap.github.io/tmap/articles/adv_groups)

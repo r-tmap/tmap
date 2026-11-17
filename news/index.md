@@ -60,6 +60,17 @@
 - fixed:
   [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   dropped most polygon labels when a basemap was shown
+- [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md):
+  polygons that cross the map frame are labeled at the center of their
+  visible part
+- fixed: river names with accents in `World_rivers`, e.g. “Senegal” (was
+  “Sngal”)
+- fixed: `point_per = "largest"` in
+  [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md) and
+  [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  gave an error for lines
+- view mode: a single basemap is no longer a radio button when data
+  layers use `group.control = "radio"` (it hid the data layers)
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not
   showing when the widget first renders inside a hidden container,
   e.g. an inactive Quarto/bslib dashboard tab

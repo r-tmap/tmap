@@ -24,4 +24,6 @@ tm_plot(use_gradient, limit_latitude_3857)
 
 ## See also
 
-[Modes](https://r-tmap.github.io/tmap/articles/basics_modes)
+[Modes](https://r-tmap.github.io/tmap/articles/basics_modes),
+[Interactive
+map](https://r-tmap.github.io/tmap/articles/examples_interactive)

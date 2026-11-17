@@ -64,10 +64,18 @@
   map](https://r-tmap.github.io/tmap/articles/examples_dot_density.md):
 - [tmap example:
   gridmaps](https://r-tmap.github.io/tmap/articles/examples_gridmaps.md):
+- [tmap example: interactive
+  map](https://r-tmap.github.io/tmap/articles/examples_interactive.md):
+- [tmap example: line
+  map](https://r-tmap.github.io/tmap/articles/examples_lines.md):
 - [tmap example:
   rasters](https://r-tmap.github.io/tmap/articles/examples_raster.md):
+- [tmap example: reference
+  map](https://r-tmap.github.io/tmap/articles/examples_reference.md):
 - [tmap example: terrain
   map](https://r-tmap.github.io/tmap/articles/examples_terrain.md):
+- [tmap example: change over
+  time](https://r-tmap.github.io/tmap/articles/examples_time.md):
 - [tmap example: topographic map
   (Africa)](https://r-tmap.github.io/tmap/articles/examples_topo_Africa.md):
 - [tmap extensions:

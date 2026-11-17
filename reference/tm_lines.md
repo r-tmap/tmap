@@ -374,6 +374,8 @@ placed in the standard `"tile"` pane.
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
 [Units](https://r-tmap.github.io/tmap/articles/foundations_units),
 [Layer blending](https://r-tmap.github.io/tmap/articles/adv_blend),
+[Line map
+(rivers)](https://r-tmap.github.io/tmap/articles/examples_lines),
 [Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)
 
 ## Examples

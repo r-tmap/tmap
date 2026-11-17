@@ -179,6 +179,8 @@ The animation can still be saved via
 
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
 [Animations](https://r-tmap.github.io/tmap/articles/adv_animations),
+[Change over
+time](https://r-tmap.github.io/tmap/articles/examples_time),
 [Gridmap](https://r-tmap.github.io/tmap/articles/examples_gridmaps)
 
 ## Examples

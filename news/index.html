@@ -52,7 +52,8 @@
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-examples" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Examples</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-examples"><li><a class="dropdown-item" href="../articles/examples_reference">Reference map (Europe)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
@@ -60,6 +61,9 @@
     <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_lines">Line map (rivers)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_time">Change over time</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_interactive">Interactive map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
   </ul></li>
@@ -122,6 +126,11 @@
 <li>layers of extension packages also work when the package is not attached, e.g. <code><a href="https://r-tmap.github.io/tmap.glyphs/reference/tm_donuts.html">tmap.glyphs::tm_donuts()</a></code>
 </li>
 <li>fixed: <code><a href="../reference/tm_text.html">tm_labels()</a></code> dropped most polygon labels when a basemap was shown</li>
+<li>
+<code><a href="../reference/tm_text.html">tm_labels()</a></code>: polygons that cross the map frame are labeled at the center of their visible part</li>
+<li>fixed: river names with accents in <code>World_rivers</code>, e.g. “Senegal” (was “Sngal”)</li>
+<li>fixed: <code>point_per = "largest"</code> in <code><a href="../reference/tm_text.html">tm_text()</a></code> and <code><a href="../reference/tm_text.html">tm_labels()</a></code> gave an error for lines</li>
+<li>view mode: a single basemap is no longer a radio button when data layers use <code>group.control = "radio"</code> (it hid the data layers)</li>
 <li>fixed view mode legends (for <code>group.control = "radio"</code>/<code>"check"</code>) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (<a href="https://github.com/r-tmap/tmap/issues/1256" class="external-link">#1256</a>)</li>
 <li>fixed <code>fancy_breaks()</code> error (“missing value where TRUE/FALSE needed”) when a numeric column with <code>NA</code> uses large values that trigger the <code>big.num.abbr</code> abbreviation path, e.g. when formatting popups in view mode (<a href="https://github.com/r-tmap/tmap/issues/1259" class="external-link">#1259</a>)</li>
 <li>fixed partial matching</li>
