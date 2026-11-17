@@ -336,6 +336,8 @@ tmap_options(
   set_view,
   set_zoom_limits,
   use_circle_markers,
+  hover.text.size,
+  smooth_factor,
   leaflet.options,
   title = NULL,
   main.title = NULL,
@@ -1859,6 +1861,21 @@ tmap_options_save(style)
   The former is faster, the latter can support any symbol since it is
   based on icons
 
+- hover.text.size:
+
+  font size of the hover labels (the texts that are shown when hovering
+  over a feature, see the argument `hover` of the layer functions), in
+  pixels, e.g. `16`. Also a CSS font size can be specified, e.g.
+  `"1.2em"`. By default (`NA`), the size of leaflet is used.
+
+- smooth_factor:
+
+  how much polygons and lines are simplified at each zoom level (see
+  [addPolygons()](https://rstudio.github.io/leaflet/reference/map-layers.html)).
+  More means better performance and smoother look, and less means more
+  accurate representation. By default 1. Use a lower value, e.g. `0.1`,
+  when large polygons look broken when zoomed in.
+
 - leaflet.options:
 
   options passed on to
@@ -1946,6 +1963,8 @@ if (requireNamespace("lobstr")) {
 #> │   ├─qtm.minimap: FALSE
 #> │   ├─qtm.mouse_coordinates: TRUE
 #> │   ├─use_circle_markers: TRUE
+#> │   ├─hover.text.size: NA
+#> │   ├─smooth_factor: 1
 #> │   └─leaflet.options: <list>
 #> ├─crs: NA
 #> ├─bbox: <NULL>

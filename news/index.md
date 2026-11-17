@@ -69,6 +69,14 @@
   [`tm_text()`](https://r-tmap.github.io/tmap/reference/tm_text.md) and
   [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   gave an error for lines
+- fixed: mode-specific options, e.g. `use_circle_markers`, could not be
+  set or retrieved with
+  [`tmap_options()`](https://r-tmap.github.io/tmap/reference/tmap_options.md)
+- view mode: `tm_view(smooth_factor)` for the simplification of polygons
+  and lines when zooming
+  ([\#727](https://github.com/r-tmap/tmap/issues/727))
+- view mode: `tm_view(hover.text.size)` sets the font size of hover
+  labels ([\#1193](https://github.com/r-tmap/tmap/issues/1193))
 - view mode: a single basemap is no longer a radio button when data
   layers use `group.control = "radio"` (it hid the data layers)
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not

@@ -53,6 +53,8 @@ tree(opt)
 #> │   ├─qtm.minimap: FALSE
 #> │   ├─qtm.mouse_coordinates: TRUE
 #> │   ├─use_circle_markers: TRUE
+#> │   ├─hover.text.size: NA
+#> │   ├─smooth_factor: 1
 #> │   └─leaflet.options: <list>
 #> ├─crs: NA
 #> ├─bbox: <NULL>
@@ -986,6 +988,8 @@ tree(tmap_options_mode("view"))
 #> ├─qtm.minimap: FALSE
 #> ├─qtm.mouse_coordinates: TRUE
 #> ├─use_circle_markers: TRUE
+#> ├─hover.text.size: NA
+#> ├─smooth_factor: 1
 #> └─leaflet.options: <list>
 
 # all options
@@ -1889,6 +1893,8 @@ tree(tmap_options_mode("view", mode.specific = FALSE))
 #> ├─set_view: NA
 #> ├─set_zoom_limits: NA
 #> ├─use_circle_markers: TRUE
+#> ├─hover.text.size: NA
+#> ├─smooth_factor: 1
 #> └─leaflet.options: <list>
 ```
 

@@ -122,6 +122,8 @@
 <span>  <span class="va">set_view</span>,</span>
 <span>  <span class="va">set_zoom_limits</span>,</span>
 <span>  <span class="va">use_circle_markers</span>,</span>
+<span>  <span class="va">hover.text.size</span>,</span>
+<span>  <span class="va">smooth_factor</span>,</span>
 <span>  <span class="va">leaflet.options</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -176,6 +178,14 @@ zoom levels (see <a href="https://rstudio.github.io/leaflet/reference/map-option
 
 <dt id="arg-use-circle-markers">use_circle_markers<a class="anchor" aria-label="anchor" href="#arg-use-circle-markers"></a></dt>
 <dd><p>If <code>TRUE</code> (default) circle shaped symbols (e.g. <code><a href="tm_symbols.html">tm_dots()</a></code> and <code><a href="tm_symbols.html">tm_symbols()</a></code>) will be rendered as <a href="https://rstudio.github.io/leaflet/reference/map-layers.html" class="external-link">addCircleMarkers()</a> instead of <a href="https://rstudio.github.io/leaflet/reference/map-layers.html" class="external-link">addMarkers()</a>. The former is faster, the latter can support any symbol since it is based on icons</p></dd>
+
+
+<dt id="arg-hover-text-size">hover.text.size<a class="anchor" aria-label="anchor" href="#arg-hover-text-size"></a></dt>
+<dd><p>font size of the hover labels (the texts that are shown when hovering over a feature, see the argument <code>hover</code> of the layer functions), in pixels, e.g. <code>16</code>. Also a CSS font size can be specified, e.g. <code>"1.2em"</code>. By default (<code>NA</code>), the size of leaflet is used.</p></dd>
+
+
+<dt id="arg-smooth-factor">smooth_factor<a class="anchor" aria-label="anchor" href="#arg-smooth-factor"></a></dt>
+<dd><p>how much polygons and lines are simplified at each zoom level (see <a href="https://rstudio.github.io/leaflet/reference/map-layers.html" class="external-link">addPolygons()</a>). More means better performance and smoother look, and less means more accurate representation. By default 1. Use a lower value, e.g. <code>0.1</code>, when large polygons look broken when zoomed in.</p></dd>
 
 
 <dt id="arg-leaflet-options">leaflet.options<a class="anchor" aria-label="anchor" href="#arg-leaflet-options"></a></dt>
