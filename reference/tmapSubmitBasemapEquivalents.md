@@ -24,3 +24,8 @@ tmapSubmitBasemapEquivalents(equivalents, replace = FALSE)
   if `TRUE`, replace the whole registry; otherwise the entries are
   merged by concept name (existing names are overwritten), so repeated
   submissions are idempotent and multiple extensions compose.
+
+## See also
+
+vignette: [Extending
+tmap](https://r-tmap.github.io/tmap/articles/adv_extensions)

@@ -508,7 +508,7 @@ tm_components("A", position = tm_pos_in("left", "top"), frame_combine = T, frame
 Recall that the `align.h` and `align.v` arguments of
 [`tm_pos()`](https://r-tmap.github.io/tmap/reference/tm_pos.md) specify
 the alignment of the components (see [`align.h` and
-`align.v`](#align.h-and-align.v)). This can be set for each component
+`align.v`](#align-h-and-align-v)). This can be set for each component
 individually, or, in case it is the same for all components inside
 [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md).
 

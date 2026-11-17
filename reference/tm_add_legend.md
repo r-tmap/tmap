@@ -84,8 +84,7 @@ tm_add_legend(
 
 [Legends
 (advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
-[Positioning of
-components](https://r-tmap.github.io/tmap/articles/adv_positions)
+[Component layout](https://r-tmap.github.io/tmap/articles/adv_positions)
 
 ## Examples
 

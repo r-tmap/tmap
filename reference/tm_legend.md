@@ -117,11 +117,10 @@ tm_legend_bivariate(
   coordinates. The first is `"left"`, `"center"` or `"right"` (or upper
   case, meaning tighter to the map frame), the second `"top"`,
   `"center"` or `"bottom"`. Numeric values are also supported, where 0,
-  0 means left bottom and 1, 1 right top. See also vignette:
-  [Positioning of
-  components](https://r-tmap.github.io/tmap/articles/adv_positions). In
-  case multiple components should be combined (stacked), use `group_id`
-  and specify `component` in
+  0 means left bottom and 1, 1 right top. See also vignette: [Component
+  layout](https://r-tmap.github.io/tmap/articles/adv_positions). In case
+  multiple components should be combined (stacked), use `group_id` and
+  specify `component` in
   [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md).
 
 - group_id:
@@ -453,15 +452,13 @@ not fit. The cross legend is portrait only.
 
 [Legends
 (advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
-[Positioning of
-components](https://r-tmap.github.io/tmap/articles/adv_positions),
+[Component
+layout](https://r-tmap.github.io/tmap/articles/adv_positions),
 [Bivariate
 choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro)
 [Components](https://r-tmap.github.io/tmap/articles/basics_components),
-[Positioning of
-components](https://r-tmap.github.io/tmap/articles/adv_positions),
-[Grouping of
-components](https://r-tmap.github.io/tmap/articles/adv_comp_group),
+[Component
+layout](https://r-tmap.github.io/tmap/articles/adv_positions),
 [Choropleth
 (Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD)
 

@@ -186,7 +186,13 @@ clipping paths.
 ## See also
 
 [`tm_polygons()`](https://r-tmap.github.io/tmap/reference/tm_polygons.md),
-[`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md)
+[`tmap_show_values()`](https://r-tmap.github.io/tmap/reference/tmap_show_values.md),
+vignette: [Fill
+patterns](https://r-tmap.github.io/tmap/articles/adv_patterns),
+[Textures for
+uncertainty](https://r-tmap.github.io/tmap/articles/adv_textures), [Dot
+density
+map](https://r-tmap.github.io/tmap/articles/examples_dot_density)
 
 ## Examples
 

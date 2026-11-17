@@ -121,8 +121,8 @@ variables](https://r-tmap.github.io/tmap/articles/adv_multivariate)
 [Legends
 (advanced)](https://r-tmap.github.io/tmap/articles/adv_legends),
 [Components](https://r-tmap.github.io/tmap/articles/basics_components),
-[Positioning of
-components](https://r-tmap.github.io/tmap/articles/adv_positions),
+[Component
+layout](https://r-tmap.github.io/tmap/articles/adv_positions),
 [Bivariate
 choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro)
 [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md)

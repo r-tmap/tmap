@@ -215,8 +215,8 @@ backwards compatible, some things may not work as expected.
 - The arguments of layer functions such as
   [`tm_symbols()`](https://r-tmap.github.io/tmap/reference/tm_symbols.md)
   have been reorganized. [Visual
-  variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html)
-  are used with explicit
+  variables](https://r-tmap.github.io/tmap/articles/basics_vv) are used
+  with explicit
   [scales](https://r-tmap.github.io/tmap/articles/basics_scales),
   [legends](https://r-tmap.github.io/tmap/articles/basics_legends), and
   [charts](https://r-tmap.github.io/tmap/articles/basics_charts).

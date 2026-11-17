@@ -679,6 +679,7 @@ placed in the standard `"tile"` pane.
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
 [Units](https://r-tmap.github.io/tmap/articles/foundations_units),
 [Layer blending](https://r-tmap.github.io/tmap/articles/adv_blend),
+[Label placement](https://r-tmap.github.io/tmap/articles/adv_labels),
 [Topographic map
 (Africa)](https://r-tmap.github.io/tmap/articles/examples_topo_Africa),
 [Terrain map](https://r-tmap.github.io/tmap/articles/examples_terrain)

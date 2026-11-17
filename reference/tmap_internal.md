@@ -744,3 +744,8 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 - plot.order:
 
   plot.order
+
+## See also
+
+vignette: [Extending
+tmap](https://r-tmap.github.io/tmap/articles/adv_extensions)

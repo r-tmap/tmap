@@ -124,7 +124,9 @@ create space if needed.
 
 ## See also
 
-[`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+[`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md),
+vignette: [Label
+placement](https://r-tmap.github.io/tmap/articles/adv_labels)
 
 ## Examples
 

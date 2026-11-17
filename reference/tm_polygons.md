@@ -439,12 +439,17 @@ placed in the standard `"tile"` pane.
 [Facets](https://r-tmap.github.io/tmap/articles/basics_facets),
 [Units](https://r-tmap.github.io/tmap/articles/foundations_units),
 [Layer blending](https://r-tmap.github.io/tmap/articles/adv_blend),
+[Fill patterns](https://r-tmap.github.io/tmap/articles/adv_patterns),
 [Choropleth
 (World)](https://r-tmap.github.io/tmap/articles/examples_choro_World),
 [Choropleth
 (Netherlands)](https://r-tmap.github.io/tmap/articles/examples_choro_NLD),
 [Bivariate
 choropleth](https://r-tmap.github.io/tmap/articles/examples_biv_choro),
+[Dot density
+map](https://r-tmap.github.io/tmap/articles/examples_dot_density),
+[Textures for
+uncertainty](https://r-tmap.github.io/tmap/articles/adv_textures),
 [Gridmap](https://r-tmap.github.io/tmap/articles/examples_gridmaps)
 
 ## Examples

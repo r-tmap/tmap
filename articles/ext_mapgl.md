@@ -13,7 +13,7 @@ latter is an open source fork of the former before it went from open to
 closed source.
 
 An API key is required to use `"mapbox"` (free for personal use, see
-[instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key)),
+[instructions](https://r-tmap.github.io/tmap.mapgl/#mapbox-api-key)),
 but `"maplibre"` is (as the name suggests) free for any use.
 
 Note that *tmap.mapgl* is a bridge between the R packages *mapgl* and
@@ -56,8 +56,7 @@ map
 ## mapbox
 
 For `"mapbox"` an API key is required, which is free for personal use.
-See
-[instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key).
+See [instructions](https://r-tmap.github.io/tmap.mapgl/#mapbox-api-key).
 
 ``` r
 
