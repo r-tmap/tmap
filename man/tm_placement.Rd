@@ -87,7 +87,8 @@ tm_shape(Africa, crs = "+proj=robin") +
 tm_shape(Africa, crs = "+proj=robin") +
 	tm_polygons("HPI", fill.legend = tm_legend_hide()) +
 	tm_labels("name", size = 0.6,
-		options = opt_tm_labels(placement = tm_placement(fallback = c("wrap", "rotate", "overlap"))))
+		options = opt_tm_labels(placement = tm_placement(
+			fallback = c("wrap", "rotate", "overlap"))))
 
 # moved labels in a column, with elbow-shaped gray leader lines
 tm_shape(Africa, crs = "+proj=robin") +

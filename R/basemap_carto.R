@@ -37,7 +37,7 @@ carto_url_template = function(variant) {
 extra_providers = list(
 	Esri.WorldDarkGrayCanvas = list(
 		url = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}.jpg",
-		credits = "Tiles © Esri - Esri, DeLorme, NAVTEQ",
+		credits = "Tiles \u00a9 Esri - Esri, DeLorme, NAVTEQ",
 		max_zoom = 16L)
 )
 
