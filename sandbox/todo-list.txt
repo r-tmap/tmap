@@ -1,6 +1,0 @@
-to do list:
-
-* reverse palettes with "-"
-* scale_down marginal legends 
-* (filter + colorNULL) + drop.units
-

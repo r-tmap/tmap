@@ -143,7 +143,7 @@
 #'   patterns are drawn on top of each other, e.g. a dot density map with one layer per category. By default 1.
 #' @return A character vector of class `tmap_patterns` with one pattern specification per element.
 #' @example ./examples/tm_patterns.R
-#' @seealso [tm_polygons()], [tmap_show_values()]
+#' @seealso [tm_polygons()], [tmap_show_values()], `r .doc_see_vig(c("adv_patterns", "adv_textures", "examples_dot_density"))`
 #' @export
 tm_patterns = function(type = "hatch", angle = NA, random = NA, length = NA, amplitude = NA, grain = NA, levels = NA,
 						contrast = NA, seed = NA) {

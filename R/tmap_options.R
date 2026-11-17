@@ -636,6 +636,7 @@ tmap_options_save <- function(style) {
 #'
 #' @param options list of options
 #' @param styleOptions list of lists of options, each with a style name
+#' @seealso `r .doc_see_vig("adv_extensions")`
 #' @export
 #' @keywords internal
 tmapSubmitOptions = function(options = NULL, styleOptions = NULL) {

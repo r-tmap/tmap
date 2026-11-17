@@ -5,6 +5,7 @@
 #' @param ... arguments
 #' @param subclass subclass
 #' @export
+#' @seealso `r .doc_see_vig("adv_extensions")`
 #' @name tmap_internal
 #' @keywords internal
 tm_element = function(..., subclass = NULL) {

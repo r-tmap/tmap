@@ -66,5 +66,5 @@ list with formatting options
 tmap function to specify labels used in the scale functions, e.g. via the argument \code{label.format} in \code{\link[=tm_scale_intervals]{tm_scale_intervals()}}.
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/adv_legends}{Legends (advanced)}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Positioning of components}
+\href{https://r-tmap.github.io/tmap/articles/adv_legends}{Legends (advanced)}, \href{https://r-tmap.github.io/tmap/articles/adv_positions}{Component layout}
 }

@@ -32,5 +32,5 @@ Specifies the leader lines that connect labels to their features, used by \code{
 moved outside (the \code{"move"} step of \code{\link[=tm_placement]{tm_placement()}}). Plot mode only.
 }
 \seealso{
-\code{\link[=tm_placement]{tm_placement()}}, \code{\link[=tm_labels]{tm_labels()}}
+\code{\link[=tm_placement]{tm_placement()}}, \code{\link[=tm_labels]{tm_labels()}}, vignette: \href{https://r-tmap.github.io/tmap/articles/adv_labels}{Label placement}
 }

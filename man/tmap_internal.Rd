@@ -963,4 +963,7 @@ tmapTransLines(shpTM, ord__, plot.order, args, scale)
 \description{
 Internal methods for tmap extensions
 }
+\seealso{
+vignette: \href{https://r-tmap.github.io/tmap/articles/adv_extensions}{Extending tmap}
+}
 \keyword{internal}

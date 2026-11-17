@@ -81,7 +81,7 @@ tmap v4 is a major release and has been rewritten from scratch. It contains tons
 
 ### New syntax
 
-* The arguments of layer functions such as `tm_symbols()` have been reorganized. [Visual variables](https://r-tmap.github.io/tmap/articles/01_basics_vv.html) are used with explicit [scales](https://r-tmap.github.io/tmap/articles/basics_scales), [legends](https://r-tmap.github.io/tmap/articles/basics_legends), and [charts](https://r-tmap.github.io/tmap/articles/basics_charts).
+* The arguments of layer functions such as `tm_symbols()` have been reorganized. [Visual variables](https://r-tmap.github.io/tmap/articles/basics_vv) are used with explicit [scales](https://r-tmap.github.io/tmap/articles/basics_scales), [legends](https://r-tmap.github.io/tmap/articles/basics_legends), and [charts](https://r-tmap.github.io/tmap/articles/basics_charts).
 * The names of visual variables are consistent across standard map layer functions. For vector data, `fill` is the visual variable for fill color and `col` for border color.
 * New [vignettes](https://r-tmap.github.io/tmap/index.html) available to explain how to upgrade your code to tmap v4.
 

@@ -29,6 +29,7 @@
 #' @param replace if `TRUE`, replace the whole registry; otherwise the entries
 #'   are merged by concept name (existing names are overwritten), so repeated
 #'   submissions are idempotent and multiple extensions compose.
+#' @seealso `r .doc_see_vig("adv_extensions")`
 #' @export
 #' @keywords internal
 tmapSubmitBasemapEquivalents = function(equivalents, replace = FALSE) {

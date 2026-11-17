@@ -45,3 +45,12 @@ tests/testthat/Rplots.pdf
 .claude
 cran-comments.md
 /sandbox/
+
+# local files (not to be committed)
+CRAN-SUBMISSION
+Rplots.pdf
+revdep/
+vignettes/fig/
+vignettes/man/
+vignettes/world.png
+tests/*.html

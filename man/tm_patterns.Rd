@@ -138,5 +138,5 @@ tm_shape(World) +
 			values = tm_patterns(c("hatch", "dots", "bricks"))))
 }
 \seealso{
-\code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tmap_show_values]{tmap_show_values()}}
+\code{\link[=tm_polygons]{tm_polygons()}}, \code{\link[=tmap_show_values]{tmap_show_values()}}, vignette: \href{https://r-tmap.github.io/tmap/articles/adv_patterns}{Fill patterns}, \href{https://r-tmap.github.io/tmap/articles/adv_textures}{Textures for uncertainty}, \href{https://r-tmap.github.io/tmap/articles/examples_dot_density}{Dot density map}
 }

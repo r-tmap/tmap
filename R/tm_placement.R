@@ -46,7 +46,7 @@
 #'   at the first position that is free; `"SANN"` (simulated annealing) and `"GA"` (genetic algorithm) use the
 #'   optimization of `car::pointLabel()` (as in tmap 4.0-4.4), in which case `fallback` is not used for points.
 #' @return A `tm_placement` object.
-#' @seealso [tm_labels()]
+#' @seealso [tm_labels()], `r .doc_see_vig("adv_labels")`
 #' @example ./examples/tm_placement.R
 #' @export
 tm_placement = function(fallback = c("wrap", "rotate", "shrink", "move", "drop"),
@@ -103,7 +103,7 @@ print.tm_placement = function(x, ...) {
 #' @param min.length minimum distance (in line heights) between a label and its feature for which a leader line
 #'   is drawn.
 #' @return A `tm_leader` object.
-#' @seealso [tm_placement()], [tm_labels()]
+#' @seealso [tm_placement()], [tm_labels()], `r .doc_see_vig("adv_labels")`
 #' @export
 tm_leader = function(col = NA, lwd = 1, lty = "solid", type = "straight", min.length = 0.5) {
 	type = match.arg(type, c("straight", "elbow"))

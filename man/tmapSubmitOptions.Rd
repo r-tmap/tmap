@@ -14,4 +14,7 @@ tmapSubmitOptions(options = NULL, styleOptions = NULL)
 \description{
 Internal method for submitting options
 }
+\seealso{
+vignette: \href{https://r-tmap.github.io/tmap/articles/adv_extensions}{Extending tmap}
+}
 \keyword{internal}

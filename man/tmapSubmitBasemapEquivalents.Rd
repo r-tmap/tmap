@@ -20,4 +20,7 @@ Used by tmap mode extensions to declare which basemap providers are visually
 equivalent across modes. This lets a basemap be approximated when a map is
 reproduced in a different mode, instead of falling back to the mode default.
 }
+\seealso{
+vignette: \href{https://r-tmap.github.io/tmap/articles/adv_extensions}{Extending tmap}
+}
 \keyword{internal}

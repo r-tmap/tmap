@@ -98,5 +98,5 @@ tm_shape(Africa, crs = "+proj=robin") +
 	tm_layout(inner.margins = c(0.02, 0.1, 0.02, 0.1))
 }
 \seealso{
-\code{\link[=tm_labels]{tm_labels()}}
+\code{\link[=tm_labels]{tm_labels()}}, vignette: \href{https://r-tmap.github.io/tmap/articles/adv_labels}{Label placement}
 }

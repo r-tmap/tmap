@@ -160,6 +160,7 @@
 	examples_choro_World = "Choropleth (World)",
 	examples_choro_NLD   = "Choropleth (Netherlands)",
 	examples_bubble      = "Bubble map",
+	examples_dot_density = "Dot density map",
 	examples_raster      = "Raster map",
 	examples_topo_Africa = "Topographic map (Africa)",
 	examples_terrain     = "Terrain map",
@@ -178,13 +179,15 @@
 	adv_shiny            = "Shiny integration",
 	adv_ggplot2          = "ggplot2 integration",
 	adv_multivariate     = "Multivariate map variables",
-	adv_positions        = "Positioning of components",
-	adv_comp_group       = "Grouping of components",
+	adv_positions        = "Component layout",
 	adv_options          = "Options and styles",
 	adv_margins          = "Margins and aspect ratio",
 	adv_groups           = "Layer groups (view mode)",
 	adv_extensions       = "Extending tmap",
-	adv_blend            = "Layer blending"
+	adv_blend            = "Layer blending",
+	adv_labels           = "Label placement",
+	adv_patterns         = "Fill patterns",
+	adv_textures         = "Textures for uncertainty"
 )
 
 # Build a comma-separated list of markdown links from vignette slugs
@@ -201,10 +204,10 @@
 	common = c("basics_vv", "basics_scales", "basics_legends", "basics_facets", "foundations_units", "adv_blend")
 	# layer-specific examples — review/adjust these mappings to taste
 	examples = switch(layer,
-					  polygons = c("examples_choro_World", "examples_choro_NLD", "examples_biv_choro", "examples_gridmaps"),
+					  polygons = c("adv_patterns", "examples_choro_World", "examples_choro_NLD", "examples_biv_choro", "examples_dot_density", "adv_textures", "examples_gridmaps"),
 					  symbols  = c("examples_bubble", "examples_terrain"),
 					  lines = "examples_terrain",
-					  text = c("examples_topo_Africa", "examples_terrain"),
+					  text = c("adv_labels", "examples_topo_Africa", "examples_terrain"),
 					  raster   = c("examples_raster", "examples_terrain"),
 					  character(0)  # default: common links only (lines, text, ...)
 	)
@@ -217,7 +220,7 @@
 }
 
 .doc_see_also_comp = function() {
-	.doc_links(c("basics_components", "adv_positions", "adv_comp_group", "examples_choro_NLD"))
+	.doc_links(c("basics_components", "adv_positions", "examples_choro_NLD"))
 }
 
 .doc_see_also_scales = function() {
