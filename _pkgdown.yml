@@ -133,7 +133,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, basics, advanced, example, extensions, background, news]
+    left:  [reference, basics, background, example, advanced, extensions, news]
   components:
     home: ~
     basics:
@@ -159,6 +159,57 @@ navbar:
           href: articles/basics_layout
         - text: Exporting
           href: articles/basics_exporting
+
+    background:
+      text: Background
+      menu:
+        - text: Foundations
+        - text: Grammar of Graphics
+          href: articles/foundations_gg
+        - text: Map projections (CRS)
+          href: articles/foundations_crs
+        - text: Units
+          href: articles/foundations_units
+        - text: -------
+        - text: Comparison
+        - text: tmap vs ggplot2
+          href: articles/versus_ggplot2
+        - text: tmap vs mapview
+          href: articles/versus_mapview
+        - text: tmap vs mapsf
+          href: articles/versus_mapsf
+
+    example:
+      text: Examples
+      menu:
+        - text: Reference map (Europe)
+          href: articles/examples_reference
+        - text: Choropleth (World)
+          href: articles/examples_choro_World
+        - text: Choropleth (Netherlands)
+          href: articles/examples_choro_NLD
+        - text: Bivariate choropleth
+          href: articles/examples_biv_choro
+        - text: Bubble map
+          href: articles/examples_bubble
+        - text: Dot density map
+          href: articles/examples_dot_density
+        - text: Uncertainty map (textures)
+          href: articles/adv_textures
+        - text: Gridmap
+          href: articles/examples_gridmaps
+        - text: Raster map
+          href: articles/examples_raster
+        - text: Line map (rivers)
+          href: articles/examples_lines
+        - text: Change over time
+          href: articles/examples_time
+        - text: Interactive map
+          href: articles/examples_interactive
+        - text: Topographic map (Africa)
+          href: articles/examples_topo_Africa
+        - text: Terrain map
+          href: articles/examples_terrain
 
     advanced:
       text: Advanced
@@ -195,38 +246,6 @@ navbar:
         - text: ggplot2 integration
           href: articles/adv_ggplot2
 
-    example:
-      text: Examples
-      menu:
-        - text: Reference map (Europe)
-          href: articles/examples_reference
-        - text: Choropleth (World)
-          href: articles/examples_choro_World
-        - text: Choropleth (Netherlands)
-          href: articles/examples_choro_NLD
-        - text: Bivariate choropleth
-          href: articles/examples_biv_choro
-        - text: Bubble map
-          href: articles/examples_bubble
-        - text: Dot density map
-          href: articles/examples_dot_density
-        - text: Uncertainty map (textures)
-          href: articles/adv_textures
-        - text: Gridmap
-          href: articles/examples_gridmaps
-        - text: Raster map
-          href: articles/examples_raster
-        - text: Line map (rivers)
-          href: articles/examples_lines
-        - text: Change over time
-          href: articles/examples_time
-        - text: Interactive map
-          href: articles/examples_interactive
-        - text: Topographic map (Africa)
-          href: articles/examples_topo_Africa
-        - text: Terrain map
-          href: articles/examples_terrain
-
     extensions:
       text: Extensions
       menu:
@@ -242,25 +261,6 @@ navbar:
           href: articles/ext_glyphs
         - text: tmap.networks
           href: articles/ext_networks
-
-    background:
-      text: Background
-      menu:
-        - text: Foundations
-        - text: Grammar of Graphics
-          href: articles/foundations_gg
-        - text: Map projections (CRS)
-          href: articles/foundations_crs
-        - text: Units
-          href: articles/foundations_units
-        - text: -------
-        - text: Comparison
-        - text: tmap vs ggplot2
-          href: articles/versus_ggplot2
-        - text: tmap vs mapview
-          href: articles/versus_mapview
-        - text: tmap vs mapsf
-          href: articles/versus_mapsf
 
 redirects:
   - ["articles/adv_comp_group.html", "articles/adv_positions.html"]
