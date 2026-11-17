@@ -143,6 +143,7 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 								  options     = leaflet::pathOptions(interactive = TRUE, pane = pane),
 								  group       = group,
 								  label       = hdt,
+								  labelOptions = leaflet_hover_options(o),
 								  popup       = popups)
 	}
 
@@ -189,7 +190,7 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 											 clusterId = cidt,
 											 radius = vis_radius,
 											 options = opt,
-											 group = group, label = hdt, popup = popups) |>
+											 group = group, label = hdt, labelOptions = leaflet_hover_options(o), popup = popups) |>
 				assign_lf(facet_row, facet_col, facet_page)
 
 		} else {
@@ -304,6 +305,7 @@ tmapLeafletDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, 
 									group = group,
 									layerId = idt_grps[[i]],
 									label = marker_label[[i]],
+									labelOptions = leaflet_hover_options(o),
 									clusterOptions = clusterOpts,
 									clusterId = cidt,
 									popup = marker_popup[[i]],

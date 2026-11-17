@@ -175,3 +175,11 @@ tmapLeafletGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 tmapLeafletGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
 	NULL
 }
+
+# label options of the hover labels (see the option hover.text.size); NULL means the leaflet defaults
+leaflet_hover_options = function(o) {
+	sz = o$hover.text.size
+	if (is.null(sz) || length(sz) != 1L || is.na(sz)) return(NULL)
+	if (is.numeric(sz)) sz = paste0(sz, "px")
+	leaflet::labelOptions(textsize = sz)
+}

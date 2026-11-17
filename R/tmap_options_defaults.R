@@ -26,6 +26,8 @@
 					 			qtm.minimap = FALSE,
 					 			qtm.mouse_coordinates = TRUE,
 					 			use_circle_markers = TRUE,
+					 			hover.text.size = NA,
+					 			smooth_factor = 1,
 					 			leaflet.options = list())),
 
 		crs = NA,

@@ -15,6 +15,8 @@ tm_view(
   set_view,
   set_zoom_limits,
   use_circle_markers,
+  hover.text.size,
+  smooth_factor,
   leaflet.options,
   ...
 )
@@ -46,6 +48,10 @@ Only applicable if \code{bbox} is not specified}
 zoom levels (see \link[leaflet:tileOptions]{tileOptions()}).}
 
 \item{use_circle_markers}{If \code{TRUE} (default) circle shaped symbols (e.g. \code{tm_dots()} and \code{tm_symbols()}) will be rendered as \link[leaflet:addCircleMarkers]{addCircleMarkers()} instead of \link[leaflet:addMarkers]{addMarkers()}. The former is faster, the latter can support any symbol since it is based on icons}
+
+\item{hover.text.size}{font size of the hover labels (the texts that are shown when hovering over a feature, see the argument \code{hover} of the layer functions), in pixels, e.g. \code{16}. Also a CSS font size can be specified, e.g. \code{"1.2em"}. By default (\code{NA}), the size of leaflet is used.}
+
+\item{smooth_factor}{how much polygons and lines are simplified at each zoom level (see \link[leaflet:addPolygons]{addPolygons()}). More means better performance and smoother look, and less means more accurate representation. By default 1. Use a lower value, e.g. \code{0.1}, when large polygons look broken when zoomed in.}
 
 \item{leaflet.options}{options passed on to
 \link[leaflet:leafletOptions]{leafletOptions()}}

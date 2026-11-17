@@ -18,6 +18,9 @@
 - `tm_labels()`: polygons that cross the map frame are labeled at the center of their visible part
 - fixed: river names with accents in `World_rivers`, e.g. "Senegal" (was "Sngal")
 - fixed: `point_per = "largest"` in `tm_text()` and `tm_labels()` gave an error for lines
+- fixed: mode-specific options, e.g. `use_circle_markers`, could not be set or retrieved with `tmap_options()`
+- view mode: `tm_view(smooth_factor)` for the simplification of polygons and lines when zooming (#727)
+- view mode: `tm_view(hover.text.size)` sets the font size of hover labels (#1193)
 - view mode: a single basemap is no longer a radio button when data layers use `group.control = "radio"` (it hid the data layers)
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)

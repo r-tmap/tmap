@@ -124,7 +124,7 @@ tmapLeafletDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format,
 		}
 
 		lf = lf %>%
-			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, color = gp$col, opacity = gp$col_alpha, fillColor = fillColor, fillOpacity = fillOpacity, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups)
+			leaflet::addPolygons(data = shp, layerId = idt, label = hdt, labelOptions = leaflet_hover_options(o), smoothFactor = o$smooth_factor %||% 1, color = gp$col, opacity = gp$col_alpha, fillColor = fillColor, fillOpacity = fillOpacity, weight = gp$lwd, options = opt, group = group, dashArray = gp$lty, popup = popups)
 
 		lf %>%
 			blend_lf(a$blend, pane) %>%
