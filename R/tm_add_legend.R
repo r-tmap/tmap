@@ -69,10 +69,10 @@ tmapAddedLegend = function(comp, o) {
 	l = update_l(o = o, l = comp, v = "", mfun = paste0("tm_data_", comp$type), unm = "", active = FALSE)
 
 	fun = paste0("tm_", comp$type)
-	if (!exists(fun)) {
+	if (!is.function(tmap_fun(fun)) && !exists(fun)) {
 		stop(paste0("type \"", comp$type, "\" not supported because tm_", comp$type,  " not found"), call. = FALSE)
 	}
-	res = do.call(fun, args = list())
+	res = do.call(tmap_fun(fun), args = list())
 	gp = res[[1]]$gpar
 
 	for (gpi in names(gp)) {

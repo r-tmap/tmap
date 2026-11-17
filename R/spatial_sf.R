@@ -1,11 +1,15 @@
 #' @export
 tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
+	props = list(...)
 	if (is.na(sf::st_crs(shp))) {
 		shp2 = shp
 	} else {
+		crs0 = sf::st_crs(shp)
+		tmapID0 = tmapID
 		res = transform_ortho(shp, crs, tmapID)
 		shp2 = res$shp
 		tmapID = res$tmapID
+		props = reproject_props(props, crs0 = crs0, crs = crs, tmapID0 = tmapID0, tmapID = tmapID)
 	}
 
 	if (!is.null(bbox$x)) {
@@ -15,7 +19,50 @@ tmapReproject.sfc = function(shp, tmapID, bbox = NULL, ..., crs) {
 			bbox = list(x = do.call(tmaptools::bb, c(bbox, list(projection = crs))))
 		}
 	}
-	shapeTM(shp = shp2, tmapID = tmapID, bbox = bbox, ...)
+	do.call(shapeTM, c(list(shp = shp2, tmapID = tmapID, bbox = bbox), props))
+}
+
+# The prop_ vectors (see tmapTransCentroid) are determined in the crs of step 3. When the plotting crs (step 4)
+# is different, e.g. because of a basemap, the polygons and radii of label placement are reprojected as well,
+# and features that are removed by the reprojection (orthographic projections) are removed from the prop_ vectors.
+reproject_props = function(props, crs0, crs, tmapID0, tmapID) {
+	isp = substr(names(props), 1, 5) == "prop_"
+	if (!any(isp)) return(props)
+	n0 = length(tmapID0)
+	if (!identical(tmapID, tmapID0)) {
+		idx = match(tmapID, tmapID0)
+		for (p in names(props)[isp]) {
+			if (length(props[[p]]) == n0) props[[p]] = props[[p]][idx]
+		}
+	}
+	if (!is.null(props$prop_poly)) {
+		ip = which(!vapply(props$prop_poly, is.null, logical(1)))
+		if (length(ip)) {
+			polys = sf::st_sfc(props$prop_poly[ip], crs = crs0)
+			polys2 = tryCatch(suppressWarnings(sf::st_transform(polys, crs)), error = function(e) NULL)
+			if (is.null(polys2)) {
+				props$prop_poly[ip] = list(NULL)
+			} else {
+				props$prop_poly[ip] = lapply(polys2, function(p) p)
+				if (!is.null(props$prop_poly_r)) {
+					# local scale factor of the reprojection
+					a = suppressWarnings(sf::st_point_on_surface(polys))
+					r = props$prop_poly_r[ip]
+					co = sf::st_coordinates(a)[, 1:2, drop = FALSE]
+					dx = sf::st_sfc(lapply(seq_len(nrow(co)), function(i) sf::st_point(co[i, ] + c(r[i], 0))), crs = crs0)
+					dy = sf::st_sfc(lapply(seq_len(nrow(co)), function(i) sf::st_point(co[i, ] + c(0, r[i]))), crs = crs0)
+					tr = function(x) sf::st_coordinates(suppressWarnings(sf::st_transform(x, crs)))[, 1:2, drop = FALSE]
+					co2 = tr(a)
+					rx = sqrt(rowSums((tr(dx) - co2)^2))
+					ry = sqrt(rowSums((tr(dy) - co2)^2))
+					r2 = pmin(rx, ry)
+					r2[!is.finite(r2)] = 0
+					props$prop_poly_r[ip] = r2
+				}
+			}
+		}
+	}
+	props
 }
 
 #' @export

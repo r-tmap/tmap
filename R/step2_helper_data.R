@@ -80,7 +80,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 							   sortRev = NA,
 							   bypass_ord = TRUE,
 							   submit_legend = TRUE)
-				dtl[, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), .SDcols = "value"]
+				dtl[, c(varname, legname, crtname) := do.call(tmap_fun(._f), c(unname(.SD), arglist)), .SDcols = "value"]
 
 				list(val = paste(dtl[[varname]], collapse = "__"),
 					 legnr = dtl$legnr_1[1],
@@ -113,7 +113,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				if (any(is_auto)) val1 = val1[!is_auto]
 
 				check_fun = paste0("tmapValuesCheck_", nm)
-				check = if (length(val1)) do.call(check_fun, list(x = val1, is_var = TRUE)) else TRUE
+				check = if (length(val1)) do.call(tmap_fun(check_fun), list(x = val1, is_var = TRUE)) else TRUE
 				if (!check) {
 					# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
 					info = attr(check, "info")
@@ -127,8 +127,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				}
 
 				if (length(val1)) {
-					val1 = do.call(sfun, list(x = val1, scale = o$scale))
-					val1 = do.call(cfun, list(x = val1, pc = o$pc))
+					val1 = do.call(tmap_fun(sfun), list(x = val1, scale = o$scale))
+					val1 = do.call(tmap_fun(cfun), list(x = val1, pc = o$pc))
 				}
 				if (any(is_auto)) {
 					val1_a[!is_auto] = val1
@@ -183,8 +183,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 				# also needed for drop.units later on
 				cls = data_class(dtl[[unm]])
 				value.null = getAesOption("value.null", o, nm, layer, cls = cls)
-				value.null = do.call(sfun, list(x = value.null, scale = o$scale))
-				value.null = do.call(cfun, list(x = value.null, pc = o$pc))
+				value.null = do.call(tmap_fun(sfun), list(x = value.null, scale = o$scale))
+				value.null = do.call(tmap_fun(cfun), list(x = value.null, pc = o$pc))
 
 				# todo: combine these:
 				dtl[sel__==FALSE, (unm) := value.null]
@@ -341,7 +341,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 				if (._f != "tmapScaleAuto") {
 					# number of variables needed
-					fnames = names(formals(._f))
+					fnames = names(formals(tmap_fun(._f)))
 					fnvar =  which(fnames == "scale") - 1L
 					if (fnames[1] != "...") {
 						if (fnvar > length(v)) {
@@ -358,8 +358,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 				value.null = if ("value.null" %in% names(s) && !is.na(s$value.null)) s$value.null else {
 					vn = getAesOption("value.null", o, nm, layer, cls = cls)
-					vn = do.call(sfun, list(x = vn, scale = o$scale))
-					do.call(cfun, list(x = vn, pc = o$pc))
+					vn = do.call(tmap_fun(sfun), list(x = vn, scale = o$scale))
+					do.call(tmap_fun(cfun), list(x = vn, pc = o$pc))
 				}
 
 				arglist = list(scale = s, legend = l, chart = crt, o = o, aes = nm,
@@ -378,15 +378,15 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, group, glid, mfun, args
 
 					if (is.na(value.null)) cli::cli_abort("{.code value.null} not implemented for map variable {unm}")
 					if (bypass_ord) {
-						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, legname, crtname) := do.call(tmap_fun(._f), c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
-						dtl[sel__ == TRUE, c(varname, ordname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[sel__ == TRUE, c(varname, ordname, legname, crtname) := do.call(tmap_fun(._f), c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				} else {
 					if (bypass_ord) {
-						dtl[, c(varname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[, c(varname, legname, crtname) := do.call(tmap_fun(._f), c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					} else {
-						dtl[, c(varname, ordname, legname, crtname) := do.call(._f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+						dtl[, c(varname, ordname, legname, crtname) := do.call(tmap_fun(._f), c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				}
 				if (!q$drop.units) {

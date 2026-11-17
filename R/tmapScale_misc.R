@@ -1,7 +1,7 @@
 check_values = function(layer, aes, values) {
 	fun_check = paste0("tmapValuesCheck_", aes)
 
-	are_valid = do.call(fun_check, args = list(x = values, is_var = FALSE))
+	are_valid = do.call(tmap_fun(fun_check), args = list(x = values, is_var = FALSE))
 	if (!are_valid) {
 		info = attr(are_valid, "info")
 		cli::cli_abort(c(

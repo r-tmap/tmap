@@ -66,7 +66,8 @@ The following table shows which map variables are used in standard map layers.
 |`tm_symbols` |`size`, `shape` <br> `fill` (fill color), `fill_alpha` (fill transparency), <br> `col` (border color), `col_alpha` (border color transparency) <br> `lwd` (border line width) `lty` (border line type) |
 |`tm_lines`		|`col` (border color), `col_alpha` (border color transparency) <br> `lwd` (line width) `lty` (line type) |
 |`tm_raster`	|`col` (color),	`col_alpha` (transparency)							|
-|`tm_text`	|`text` (the text itself), `size` (font size), <br> `col` (border color), `col_alpha` (border color transparency) <br> `fontface` (font face), `fontfamily` (font family) |
+|`tm_text`	|`text` (the text itself), `size` (font size), <br> `col` (text color), `col_alpha` (text transparency) <br> `fontface` (font face), `fontfamily` (font family) <br> `bgcol` (background color), `bgcol_alpha` (background transparency) <br> `xmod`, `ymod` (offsets), `angle` (rotation) |
+|`tm_labels`	|as `tm_text`, plus the data variables `short` (short texts) and `priority` (see [label placement](https://r-tmap.github.io/tmap/articles/adv_labels)) |
 
 ## About the example data
 
@@ -81,7 +82,7 @@ We specify this object with `tm_shape`
 and for convenience assign it to `s`: 
 
 ```{r shape}
-s <- tm_shape(World, crs = "+proj=eqearth")
+s = tm_shape(World, crs = "+proj=eqearth")
 
 ```
 

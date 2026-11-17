@@ -31,3 +31,16 @@ carto_variant = function(serv) {
 carto_url_template = function(variant) {
 	sprintf("https://{s}.basemaps.cartocdn.com/%s/{z}/{x}/{y}{r}.png?key={apikey}", variant)
 }
+
+# Basemap providers that are not (yet) available in leaflet-providers (view mode) and maptiles (plot mode), and
+# therefore added by tmap. The URL template has the file extension, which maptiles needs to read the tiles.
+extra_providers = list(
+	Esri.WorldDarkGrayCanvas = list(
+		url = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}.jpg",
+		credits = "Tiles © Esri - Esri, DeLorme, NAVTEQ",
+		max_zoom = 16L)
+)
+
+is_extra_provider = function(serv) {
+	serv %in% names(extra_providers)
+}

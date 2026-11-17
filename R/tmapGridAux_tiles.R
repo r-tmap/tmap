@@ -61,6 +61,8 @@ tmapGridAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	}
 
 	serv = a$server[1]
+	# providers added by tmap (see extra_providers)
+	if (is_extra_provider(serv)) serv = extra_providers[[serv]]$url
 
 	if (substr(serv, 1, 4) == "http") {
 		if (serv %in% .TMAP_GRID$maptiles_urls) {

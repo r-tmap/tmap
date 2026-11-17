@@ -561,3 +561,18 @@ get_method_classes <- function(generic) {
 	sub(paste0("^", generic, "\\."), "", meths[!grepl("\\.default$", meths)])
 }
 
+
+# Find a function by name, also in the namespaces of extension packages (e.g. tmap.glyphs) that are loaded but not
+# attached, such as when a layer function is called with tmap.glyphs::tm_donuts(). Internally, tmap calls many
+# functions by name, e.g. "tmapValuesScale_<map variable>" and "tmapScale<scale>". If the function is not found, the
+# name is returned, so that do.call() gives the usual error. Functions that are found from the tmap namespace (also
+# those of attached packages) are returned by name as well, which keeps calls (and error messages) short.
+tmap_fun = function(fun) {
+	if (!is.character(fun) || length(fun) != 1L) return(fun)
+	if (exists(fun, envir = asNamespace("tmap"), mode = "function")) return(fun)
+	for (ns in loadedNamespaces()) {
+		f = get0(fun, envir = asNamespace(ns), mode = "function", inherits = FALSE)
+		if (!is.null(f)) return(f)
+	}
+	fun
+}

@@ -28,8 +28,8 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 
 	sc = o$scale * scale$values.scale
 
-	x2 = do.call(sfun, list(x = x1, scale = sc))
-	values = do.call(cfun, list(x = x2, pc = o$pc))
+	x2 = do.call(tmap_fun(sfun), list(x = x1, scale = sc))
+	values = do.call(tmap_fun(cfun), list(x = x2, pc = o$pc))
 
 	vneutral = if (is.na(scale$value.neutral)) {
 		vna = getAesOption("value.neutral", o, aes, layer)
@@ -41,7 +41,7 @@ tmapScaleAsIs = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 	}
 
 
-	legend$vneutral = do.call(sfun, list(x = do.call(cfun, list(x = vneutral, pc = o$pc)), scale = o$scale))
+	legend$vneutral = do.call(tmap_fun(sfun), list(x = do.call(tmap_fun(cfun), list(x = vneutral, pc = o$pc)), scale = o$scale))
 
 	if (submit_legend) {
 		if (bypass_ord) {

@@ -27,7 +27,7 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 			vec <- c(vec, vec - 1L, vec + 1L) # needed for: {1, 2, ... 9}
 			digits <- 0
 		}
-		x <- do.call(fun, list(vec))
+		x <- do.call(tmap_fun(fun), list(vec))
 		if (as.count) {
 			x1 <- x[1:(n-1)]
 			x2 <- x[(n+2):(2*n)]
@@ -89,15 +89,15 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 
 				vec_fin = unique(vec[!is.infinite(vec)])
 				vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
-				xtmp = do.call(fun, list(vec_fin2))
+				xtmp = do.call(tmap_fun(fun), list(vec_fin2))
 				while (anyDuplicated(na.omit(xtmp))) {
 					digits = digits + 1
 					vec_fin2 = c(vec_fin, vec_fin[-1] - 10^-digits)
-					xtmp = do.call(fun, list(vec_fin2))
+					xtmp = do.call(tmap_fun(fun), list(vec_fin2))
 				}
 			}
 			vec = c(vec, head(vec, -1) - 10^-digits, tail(vec, 1))
-			x <- do.call(fun, list(vec))
+			x <- do.call(tmap_fun(fun), list(vec))
 		} else if (!scientific || as.count) {
 
 			# check whether big number abbrevations should be used

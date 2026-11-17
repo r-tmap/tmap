@@ -46,7 +46,7 @@ tmap_providers = function(mode, credits = FALSE, as.list = credits) {
 	if (missing(mode)) mode = getOption("tmap.mode")
 	gs = tmap_graphics_name(mode)
 	fun = paste0("tmap", gs, "Providers")
-	x = do.call(fun, list(credits = credits))
+	x = do.call(tmap_fun(fun), list(credits = credits))
 	if (as.list) {
 		x
 	} else {

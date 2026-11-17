@@ -57,6 +57,9 @@ resolve_auto_text_col = function(tmx, o) {
 
 			dt[ida, "col" := contrast_text_col(under)]
 			dt[, c("fill__auto", "fill_alpha__auto") := NULL]
+			# labels that are moved outside their polygon (tm_labels) get a color that contrasts with the background
+			dt[, "col_auto__" := FALSE]
+			dt[ida, "col_auto__" := TRUE]
 
 			lys[[i]]$mapping_dt = dt
 		}
@@ -167,4 +170,15 @@ legend_auto_col = function(gp, o) {
 		gp$pattern_col = pcol
 	}
 	gp
+}
+
+# text color "auto" of labels that are moved outside their polygons (tm_labels): black or white, depending on the
+# map background (and the label background bgcol)
+auto_text_col_bg = function(o, bgcol = NA, bgcol_alpha = 1) {
+	bg = if (isTRUE(o$bg) && valid_colors(o$bg.color)) o$bg.color else "white"
+	n = max(length(bgcol), length(bgcol_alpha))
+	under = matrix(col2rgb(bg), nrow = 3, ncol = n)
+	bgcol = rep_len(bgcol, n)
+	bgcol[is.na(bgcol)] = "#00000000"
+	contrast_text_col(blend_rgb(bgcol, rep_len(bgcol_alpha, n), under))
 }

@@ -46,7 +46,7 @@ tmap_options(scale = 0.75)
 
 There are two modes included in **tmap**: `"plot"` for static mapping and `"view"` for interactive mapping. See [introduction](https://r-tmap.github.io/tmap/articles/basics_modes). The `"view"` mode uses the JavaScript library Leaflet as backend.
 
-The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. The latter is a open source fork of the former before it went from open to closed source. 
+The extension package [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. The latter is an open source fork of the former before it went from open to closed source. 
 
 An API key is required to use `"mapbox"` (free for personal use, see [instructions](https://r-tmap.github.io/tmap.mapgl/articles/mapbox#getting-and-using-the-api-key)), but `"maplibre"` is (as the name suggests) free for any use.
 
@@ -89,11 +89,22 @@ map
 ![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
 
 
+## Labels
+
+Labels made with `tm_labels()` are placed by MapLibre and Mapbox: labels that overlap are hidden, in the order of `priority`, and they reappear when zooming in. Point labels are placed at one of the positions around the point (see the article on [label placement](https://r-tmap.github.io/tmap/articles/adv_labels)).
+
+```{r, fig.height = 5.5}
+tmap_mode("maplibre")
+tm_shape(metro) +
+  tm_dots() +
+  tm_labels("name", priority = "pop2020")
+```
+
 ## 3d polygons
 
 **tmap.mapgl** also features a new layer type, `tm_polygons_3d`, which is only available for `"mapbox"` and `"maplibre"`.
 
-This map layer is the same as `tm_polygons`, but one addition: polygons can be extruded in 3d shape. The map variable to control this is called `height`.
+This map layer is the same as `tm_polygons`, with one addition: polygons can be extruded in 3d shape. The map variable to control this is called `height`.
 
 Below an example of population density per country:
 
@@ -118,6 +129,6 @@ tm_shape(NLD_dist) +
   tm_polygons_3d(height = "pop_dens",
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-    fill.legend = tm_legend("Univeristy degree")) +
+    fill.legend = tm_legend("University degree")) +
 tm_maplibre(pitch = 45)
 ```

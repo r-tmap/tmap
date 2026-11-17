@@ -59,7 +59,7 @@ There are two ways to use multiple data variables for one map variable: for crea
 
 ## Creating facets
 
-Recall from the [vigentte about facets](https://r-tmap.github.io/tmap/articles/03_basics_facets)
+Recall from the [vignette about facets](https://r-tmap.github.io/tmap/articles/basics_facets):
 
 ```{r, fig.height = 5}
 tm_shape(NLD_muni) +
@@ -77,22 +77,6 @@ tm_shape(NLD_muni) +
     fill = tm_vars(12:18))
 ```
 
-Or the first 3 variables:
-
-```{r, fig.height = 8}
-tm_shape(NLD_muni) +
-  tm_polygons(
-    fill = tm_vars(n = 3))
-```
-
-1. For creating facets. This is the standard way.
-2. For multivariate mapping.
-
-These cases can be divived into two g
-Before going through these cases, there is one important 
-There are two
-
-
 ## Multivariate mapping
 
 There are (at least) two use cases:
@@ -105,7 +89,7 @@ tif = system.file("tif/L7_ETMs.tif", package = "stars")
 (L7 = read_stars(tif))
 ```
 
-Note that the channels are included in the dimenison `"band"`. We can use the argument `dimvalues` to select them:
+Note that the channels are included in the dimension `"band"`. We can use the argument `dimvalues` to select them:
 
 ```{r, fig.height = 6}
 tm_shape(L7) +
@@ -127,7 +111,7 @@ tm_shape(L7split) +
 
 ### Glyphs
 
-Glyph are small charts plotted as symbols. See the [extention package [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs).
+Glyphs are small charts plotted as symbols. See the extension package [**tmap.glyphs**](https://r-tmap.github.io/tmap.glyphs/).
 
 ```{r, fig.height = 6}
 library(tmap.glyphs)

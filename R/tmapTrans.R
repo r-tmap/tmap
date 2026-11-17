@@ -22,7 +22,7 @@ do_trans = function(tdt, FUN, shpDT, plot.order, args, scale) {
 
 		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
 
-		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args, scale = scale)))
+		res = do.call(tmap_fun(FUN), c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args, scale = scale)))
 	}
 	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
 	list(shpDT)

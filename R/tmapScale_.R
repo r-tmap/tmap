@@ -194,19 +194,19 @@ tmapScaleAuto = function(x1, scale, legend, chart, o, aes, layer, layer_args, so
 
 	tm_scalefun = paste0("tm_scale_", sc)
 
-	scale = scale[names(scale) %in% names(formals(tm_scalefun))]
+	scale = scale[names(scale) %in% names(formals(tmap_fun(tm_scalefun)))]
 
-	scale_new = do.call(tm_scalefun, args = scale)
+	scale_new = do.call(tmap_fun(tm_scalefun), args = scale)
 
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
 
 	if (sc == "bivariate") {
-		do.call(FUN, list(x1 = x1, x2 = args[[1]], scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend))
+		do.call(tmap_fun(FUN), list(x1 = x1, x2 = args[[1]], scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend))
 	} else if (sc == "multi_continuous") {
-		do.call(FUN, c(list(x1 = x1), args, list(scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend)))
+		do.call(tmap_fun(FUN), c(list(x1 = x1), args, list(scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev = sortRev, bypass_ord = bypass_ord, submit_legend = submit_legend)))
 	} else {
-		do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
+		do.call(tmap_fun(FUN), list(x1 = x1, scale = scale_new, legend = legend, chart = chart, o = o, aes = aes, layer = layer, layer_args = layer_args, sortRev, bypass_ord, submit_legend))
 	}
 
 }

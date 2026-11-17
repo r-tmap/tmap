@@ -176,7 +176,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
 			# n = NA for numeric values: continuous scales use the full curve
-			values.range = do.call(fun_range, args = list(x = values, n = if (vnum) NA else n, isdiv = udiv))
+			values.range = do.call(tmap_fun(fun_range), args = list(x = values, n = if (vnum) NA else n, isdiv = udiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
@@ -185,7 +185,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 
-		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+		isdiv = !is.null(midpoint) || do.call(tmap_fun(fun_isdiv), args = list(x = values))
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
@@ -217,14 +217,14 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 			nvv = o$continuous.nclass_per_legend_break
 
 
-			VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
+			VV = do.call(tmap_fun(fun_getVV), list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
 
 			vv = VV$vvalues
 			value.na = VV$value.na
 
 			sfun = paste0("tmapValuesScale_", aes)
 			cfun = paste0("tmapValuesColorize_", aes)
-			if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+			if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(tmap_fun(sfun), list(x = do.call(tmap_fun(cfun), list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 			ids = classInt::findCols(q)
 			vals = vv[ids]
@@ -408,7 +408,7 @@ tmapScaleContinuous = function(x1, scale, legend, chart, o, aes, layer, layer_ar
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
 
-		chart = do.call(chartFun, list(chart,
+		chart = do.call(tmap_fun(chartFun), list(chart,
 									   bin_colors = NULL,
 									   breaks_def = chart$breaks,
 									   na.show = na.show,

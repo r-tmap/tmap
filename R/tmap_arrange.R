@@ -125,7 +125,7 @@ print_tmap_arrange = function(tms, knit = FALSE, show = TRUE, add.titles = TRUE,
 
 	fun = paste0("tmap", gs, "Arrange")
 
-	do.call(fun, list(tms = tms, nx = nx, ncol = ncol, nrow = nrow, opts = opts, knit = knit, show = show, args = args, options = options))
+	do.call(tmap_fun(fun), list(tms = tms, nx = nx, ncol = ncol, nrow = nrow, opts = opts, knit = knit, show = show, args = args, options = options))
 
 }
 

@@ -133,7 +133,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, basics, foundations, example, comparison, extensions, advanced, news]
+    left:  [reference, basics, advanced, example, extensions, background, news]
   components:
     home: ~
     basics:
@@ -160,15 +160,40 @@ navbar:
         - text: Exporting
           href: articles/basics_exporting
 
-    foundations:
-      text: Foundations
+    advanced:
+      text: Advanced
       menu:
-        - text: Grammar of Graphics
-          href: articles/foundations_gg
-        - text: Map projections (CRS)
-          href: articles/foundations_crs
-        - text: Units
-          href: articles/foundations_units
+        - text: Layers
+        - text: Label placement
+          href: articles/adv_labels
+        - text: Fill patterns
+          href: articles/adv_patterns
+        - text: Multivariate map variables
+          href: articles/adv_multivariate
+        - text: Layer blending
+          href: articles/adv_blend
+        - text: -------
+        - text: Layout
+        - text: Legends
+          href: articles/adv_legends
+        - text: Component layout
+          href: articles/adv_positions
+        - text: Inset maps
+          href: articles/adv_inset_maps
+        - text: Margins and aspect ratio (plot mode)
+          href: articles/adv_margins
+        - text: Options and styles
+          href: articles/adv_options
+        - text: -------
+        - text: Interactive and output
+        - text: Layer groups (view mode)
+          href: articles/adv_groups
+        - text: Animations
+          href: articles/adv_animations
+        - text: shiny integration
+          href: articles/adv_shiny
+        - text: ggplot2 integration
+          href: articles/adv_ggplot2
 
     example:
       text: Examples
@@ -177,34 +202,30 @@ navbar:
           href: articles/examples_choro_World
         - text: Choropleth (Netherlands)
           href: articles/examples_choro_NLD
+        - text: Bivariate choropleth
+          href: articles/examples_biv_choro
         - text: Bubble map
           href: articles/examples_bubble
         - text: Dot density map
           href: articles/examples_dot_density
+        - text: Uncertainty map (textures)
+          href: articles/adv_textures
+        - text: Gridmap
+          href: articles/examples_gridmaps
         - text: Raster map
           href: articles/examples_raster
         - text: Topographic map (Africa)
           href: articles/examples_topo_Africa
         - text: Terrain map
           href: articles/examples_terrain
-        - text: Gridmap
-          href: articles/examples_gridmaps
-        - text: Bivariate choropleth
-          href: articles/examples_biv_choro
-
-    comparison:
-      text: Comparison
-      menu:
-        - text: tmap vs ggplot2
-          href: articles/versus_ggplot2
-        - text: tmap vs mapview
-          href: articles/versus_mapview
-        - text: tmap vs mapsf
-          href: articles/versus_mapsf
 
     extensions:
       text: Extensions
       menu:
+        - text: Extending tmap
+          href: articles/adv_extensions
+        - text: -------
+        - text: Extension packages
         - text: tmap.mapgl
           href: articles/ext_mapgl
         - text: tmap.cartogram
@@ -214,38 +235,24 @@ navbar:
         - text: tmap.networks
           href: articles/ext_networks
 
-    advanced:
-      text: Advanced
+    background:
+      text: Background
       menu:
-        - text: Legends
-          href: articles/adv_legends
-        - text: Inset maps
-          href: articles/adv_inset_maps
-        - text: Animations
-          href: articles/adv_animations
-        - text: shiny integration
-          href: articles/adv_shiny
-        - text: ggplot2 integration
-          href: articles/adv_ggplot2
-        - text: Multivariate map variables
-          href: articles/adv_multivariate
-        - text: Positioning of components
-          href: articles/adv_positions
-        - text: Grouping of components
-          href: articles/adv_comp_group
-        - text: Options and styles
-          href: articles/adv_options
-        - text: Margins and aspect ratio (plot mode)
-          href: articles/adv_margins
-        - text: Layer groups (view mode)
-          href: articles/adv_groups
-        - text: Extending tmap
-          href: articles/adv_extensions
-        - text: Layer blending
-          href: articles/adv_blend
-        - text: Fill patterns
-          href: articles/adv_patterns
-        - text: Textures for uncertainty
-          href: articles/adv_textures
-        - text: Label placement
-          href: articles/adv_labels
+        - text: Foundations
+        - text: Grammar of Graphics
+          href: articles/foundations_gg
+        - text: Map projections (CRS)
+          href: articles/foundations_crs
+        - text: Units
+          href: articles/foundations_units
+        - text: -------
+        - text: Comparison
+        - text: tmap vs ggplot2
+          href: articles/versus_ggplot2
+        - text: tmap vs mapview
+          href: articles/versus_mapview
+        - text: tmap vs mapsf
+          href: articles/versus_mapsf
+
+redirects:
+  - ["articles/adv_comp_group.html", "articles/adv_positions.html"]

@@ -116,12 +116,12 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = FALSE))
+			values.range = do.call(tmap_fun(fun_range), args = list(x = values, n = n, isdiv = FALSE))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
 		fun_getCVV = paste0("tmapValuesCVV_", aes)
-		VV = do.call(fun_getCVV, list(x = values, value.na = value.na, n = n, range = values.range, scale = values.scale, rep = values.repeat, o = o))
+		VV = do.call(tmap_fun(fun_getCVV), list(x = values, value.na = value.na, n = n, range = values.range, scale = values.scale, rep = values.repeat, o = o))
 
 		values = VV$vvalues
 		value.na = VV$value.na
@@ -134,12 +134,12 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 			# one of the categories, which would suggest a relation with that category
 			value.neutral = getAesOption("value.const", o, aes, layer)
 		}
-		if (identical(value.neutral, NA)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+		if (identical(value.neutral, NA)) value.neutral = VV$value.neutral else value.neutral = do.call(tmap_fun(sfun), list(x = do.call(tmap_fun(cfun), list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 		mfun = paste0("tmapValuesSubmit_", aes)
-		values = do.call(mfun, list(x = values, args = layer_args))
-		value.na = do.call(mfun, list(x = value.na, args = layer_args))
-		value.neutral = do.call(mfun, list(x = value.neutral, args = layer_args))
+		values = do.call(tmap_fun(mfun), list(x = values, args = layer_args))
+		value.na = do.call(tmap_fun(mfun), list(x = value.na, args = layer_args))
+		value.neutral = do.call(tmap_fun(mfun), list(x = value.neutral, args = layer_args))
 
 
 		# legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
@@ -212,7 +212,7 @@ tmapScaleCategorical = function(x1, scale, legend, chart, o, aes, layer, layer_a
 
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
-		chart = do.call(chartFun, list(chart,
+		chart = do.call(tmap_fun(chartFun), list(chart,
 									   bin_colors = values,
 									   breaks_def = NULL,
 									   na.show = na.show,

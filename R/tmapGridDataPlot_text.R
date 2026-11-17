@@ -125,6 +125,15 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 								 short = lab_short[ids], priority = lab_prio[ids], cex = gp$cex[ids])
 			}
 
+			# moved labels with text color "auto": contrast with the background instead of the polygon fill
+			if (any(pl$moved) && "col_auto__" %in% names(dt)) {
+				ia = which(pl$moved & dt$col_auto__[ids])
+				if (length(ia)) {
+					gp$col = rep_len(gp$col, n)
+					gp$col[ids[ia]] = auto_text_col_bg(o, rep_len(bgcol, n)[ids[ia]], rep_len(bgcol_alpha, n)[ids[ia]])
+				}
+			}
+
 			# leader lines of moved labels
 			if (any(pl$moved) && !isFALSE(a$leader)) {
 				ld = a$leader

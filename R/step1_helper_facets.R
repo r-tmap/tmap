@@ -254,8 +254,8 @@ step1_rearrange_facets = function(tmo, o) {
 						update_grp_vars(lev = flvar)
 						add_used_vars(vars)
 					} else {
-						mfun = paste0("tmapValuesSubmit_", aes)
-						if (exists(mfun)) {
+						mfun = tmap_fun(paste0("tmapValuesSubmit_", aes))
+						if (is.function(mfun) || exists(mfun)) {
 							value = do.call(mfun, list(x = value, args = args))
 						}
 						nvars = length(value)
@@ -277,7 +277,8 @@ step1_rearrange_facets = function(tmo, o) {
 		tmg$tmls = lapply(tmg$tmls, function(tml) {
 			within(tml, {
 				mapping.fun = paste0("tm_data_", layer)
-				if (!(mapping.fun[1] %in% get_method_classes(paste0("tmap", gs, "DataPlot")))) {
+				if (!any(mapping.fun %in% get_method_classes(paste0("tmap", gs, "DataPlot")))) {
+					# a layer is available if there is a plotting method for it or for one of the layers it is derived from, e.g. c("spikes", "lines")
 
 					mode = getOption("tmap.mode")
 
@@ -285,7 +286,7 @@ step1_rearrange_facets = function(tmo, o) {
 					gss = vapply(modes, tmap_graphics_name, FUN.VALUE = character(1))
 
 					exs = vapply(1L:length(modes), function(i) {
-						mapping.fun[1] %in% get_method_classes(paste0("tmap", gss[i], "DataPlot"))
+						any(mapping.fun %in% get_method_classes(paste0("tmap", gss[i], "DataPlot")))
 					}, FUN.VALUE = logical(1))
 					modes2 = modes[exs]
 

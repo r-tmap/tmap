@@ -1,10 +1,10 @@
 tmapLeafletProviders = function(credits) {
 	if (credits) {
 		x = leaflet::providers.details
-		lapply(x, function(xi) {
+		c(lapply(x, function(xi) {
 			xi$options$attribution
-		})
+		}), lapply(extra_providers, "[[", "credits"))
 	} else {
-		leaflet::providers
+		c(leaflet::providers, as.list(stats::setNames(names(extra_providers), names(extra_providers))))
 	}
 }

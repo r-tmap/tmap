@@ -73,7 +73,7 @@ tmap_providers()
 
 Tip: `.tmap_providers` contains the same information, but stored as an environment, which is convenient with auto-completion (e.g. RStudio); type `.tmap_providers$` and the list of options will appear.
 
-Note: for Thunderforest and Stadia, a (free for personal use) API key is required.
+Note: for Thunderforest, Stadia, and CARTO, an API key is required (free for personal use), which is set with the argument `api` of `tm_basemap()`.
 
 
 See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
@@ -81,7 +81,7 @@ See [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
 ```{r, fig.height = 3.5}
 tm_shape(metro) +
 	tm_bubbles(size = "pop2020") +
-	tm_basemap("CartoDB.PositronNoLabels")
+	tm_basemap("Esri.WorldGrayCanvas")
 ```
 
 

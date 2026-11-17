@@ -59,19 +59,19 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 	if (!is.null(scale$return)) return(scale$return)
 
 	# data-type dependent processing
-	scale = do.call(fun, list(scale = scale, x1 = x1, aes = aes, layer = layer, show.messages = show.messages, show.warnings = show.warnings))
+	scale = do.call(tmap_fun(fun), list(scale = scale, x1 = x1, aes = aes, layer = layer, show.messages = show.messages, show.warnings = show.warnings))
 
 	# map variable processing
 	with(scale, {
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
+		VV = do.call(tmap_fun(fun_getVV), list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), are_breaks = TRUE, rep = values.repeat, o = o))
 
 		vvalues = VV$vvalues
 		value.na = VV$value.na
 
 		sfun = paste0("tmapValuesScale_", aes)
 		cfun = paste0("tmapValuesColorize_", aes)
-		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(tmap_fun(sfun), list(x = do.call(tmap_fun(cfun), list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 		# check for size[1] = 0
 		if (aes %in% c("size", "lwd")) {
@@ -81,9 +81,9 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 		}
 
 		mfun = paste0("tmapValuesSubmit_", aes)
-		vvalues = do.call(mfun, list(x = vvalues, args = layer_args))
-		value.na = do.call(mfun, list(x = value.na, args = layer_args))
-		value.neutral = do.call(mfun, list(x = value.neutral, args = layer_args))
+		vvalues = do.call(tmap_fun(mfun), list(x = vvalues, args = layer_args))
+		value.na = do.call(tmap_fun(mfun), list(x = value.na, args = layer_args))
+		value.neutral = do.call(tmap_fun(mfun), list(x = value.neutral, args = layer_args))
 
 
 		ids = classInt::findCols(q)
@@ -220,7 +220,7 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 			chartArgs$breaks_def = chart$breaks
 		}
 
-		chart = do.call(chartFun, chartArgs)
+		chart = do.call(tmap_fun(chartFun), chartArgs)
 
 		if (submit_legend) {
 			if (bypass_ord) {
@@ -286,7 +286,7 @@ interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
+			values.range = do.call(tmap_fun(fun_range), args = list(x = values, n = n, isdiv = udiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
@@ -294,7 +294,7 @@ interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 
-		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+		isdiv = !is.null(midpoint) || do.call(tmap_fun(fun_isdiv), args = list(x = values))
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
@@ -368,7 +368,7 @@ interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
+			values.range = do.call(tmap_fun(fun_range), args = list(x = values, n = n, isdiv = udiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
@@ -376,7 +376,7 @@ interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings
 
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 
-		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+		isdiv = !is.null(midpoint) || do.call(tmap_fun(fun_isdiv), args = list(x = values))
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {

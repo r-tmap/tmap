@@ -882,7 +882,7 @@ styles = list(
 				  legend.bg.color = "#002240",
 				  chart.text.color = "white",
 				  chart.title.color = "white",
-				  basemap.server = "CartoDB.DarkMatter",
+				  basemap.server = "Esri.WorldDarkGrayCanvas",
 				  basemap.alpha = .5),
 	albatross = list(bg.color = "#00007F",
 					 outer.bg = TRUE,

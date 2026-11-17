@@ -118,3 +118,23 @@ test_that("tm_labels accepts short and priority, and deprecated options", {
 	expect_equal(suppressMessages(opt_tm_labels(point.label.gap = 1))$mapping.args$placement$gap, 1)
 	expect_null(suppressMessages(opt_tm_labels(point.label = FALSE))$mapping.args$placement)
 })
+
+test_that("moved labels with col = 'auto' contrast with the background", {
+	expect_equal(auto_text_col_bg(list(bg = TRUE, bg.color = "white")), "#000000")
+	expect_equal(auto_text_col_bg(list(bg = TRUE, bg.color = "black")), "#FFFFFF")
+	expect_equal(auto_text_col_bg(list(bg = TRUE, bg.color = "white"), bgcol = c(NA, "navy"), bgcol_alpha = 1), c("#000000", "#FFFFFF"))
+})
+
+test_that("polygons of label placement are reprojected to the plotting crs", {
+	polys = sf::st_geometry(NLD_prov)
+	props = list(prop_poly = lapply(polys, function(p) p), prop_poly_r = rep(10000, length(polys)))
+	ids = seq_along(polys)
+	res = reproject_props(props, crs0 = sf::st_crs(polys), crs = sf::st_crs(3857), tmapID0 = ids, tmapID = ids)
+	bb = sf::st_bbox(sf::st_sfc(res$prop_poly, crs = 3857))
+	expect_equal(as.numeric(bb), as.numeric(sf::st_bbox(sf::st_transform(polys, 3857))))
+	# the RD New meter is about 1.6 Web Mercator meters at the latitude of the Netherlands
+	expect_true(all(res$prop_poly_r > 15000 & res$prop_poly_r < 17000))
+	# the subset of features that remain after reprojection
+	res2 = reproject_props(props, crs0 = sf::st_crs(polys), crs = sf::st_crs(3857), tmapID0 = ids, tmapID = ids[-1])
+	expect_length(res2$prop_poly, length(ids) - 1L)
+})

@@ -55,7 +55,7 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 
 		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 
-		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
+		isdiv = !is.null(midpoint) || do.call(tmap_fun(fun_isdiv), args = list(x = values))
 
 
 		# determine midpoint
@@ -80,25 +80,25 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 		# update range if NA (automatic)
 		if (is.na(values.range[1])) {
 			fun_range = paste0("tmapValuesRange_", aes)
-			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = isdiv))
+			values.range = do.call(tmap_fun(fun_range), args = list(x = values, n = n, isdiv = isdiv))
 		}
 		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 
 
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), rep = values.repeat, o = o))
+		VV = do.call(tmap_fun(fun_getVV), list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, range = values.range, scale = values.scale * values_scale_o(aes, o), rep = values.repeat, o = o))
 
 		vvalues = VV$vvalues
 		value.na = VV$value.na
 
 		sfun = paste0("tmapValuesScale_", aes)
 		cfun = paste0("tmapValuesColorize_", aes)
-		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
+		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(tmap_fun(sfun), list(x = do.call(tmap_fun(cfun), list(x = value.neutral, pc = o$pc)), scale = values.scale))
 
 		mfun = paste0("tmapValuesSubmit_", aes)
-		vvalues = do.call(mfun, list(x = vvalues, args = layer_args))
-		value.na = do.call(mfun, list(x = value.na, args = layer_args))
-		value.neutral = do.call(mfun, list(x = value.neutral, args = layer_args))
+		vvalues = do.call(tmap_fun(mfun), list(x = vvalues, args = layer_args))
+		value.na = do.call(tmap_fun(mfun), list(x = value.na, args = layer_args))
+		value.neutral = do.call(tmap_fun(mfun), list(x = value.neutral, args = layer_args))
 
 
 		ids = match(x1, ticks)
@@ -182,7 +182,7 @@ tmapScaleDiscrete = function(x1, scale, legend, chart, o, aes, layer, layer_args
 
 		chartFun = paste0("tmapChart", toTitleCase(chart$summary))
 
-		chart = do.call(chartFun, list(chart,
+		chart = do.call(tmap_fun(chartFun), list(chart,
 									   bin_colors = vvalues,
 									   breaks_def = NULL,
 									   na.show = na.show,

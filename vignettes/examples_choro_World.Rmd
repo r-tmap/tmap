@@ -73,7 +73,7 @@ tm_shape(World) +
 
 A few improvements:
 
-* A suitable map projection. This one 'Equal Earth' is equal-area, i.e. the polygon area sizes are proportianal to the real-world country area sizes.
+* A suitable map projection. This one 'Equal Earth' is equal-area, i.e. the polygon area sizes are proportional to the real-world country area sizes.
 * A different color scheme. Run `cols4all::c4a_gui()` to explore them. For this application, we were looking for: a diverging, color-blind friendly palette with sufficient contrast with black (to see the border lines)
 * A custom legend title
 * The option `earth_boundary` is enabled, which shows the earth boundaries. Note that this feature is only available for certain map projections (for advanced users: families of pseudo-cylindrical and orthographic projections).

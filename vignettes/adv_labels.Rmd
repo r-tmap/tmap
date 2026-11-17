@@ -91,7 +91,7 @@ tm_shape(Africa, crs = "+proj=robin") +
   tm_layout(inner.margins = c(0.02, 0.1, 0.02, 0.1))
 ```
 
-The leader lines are specified with `tm_leader()`: the color (by default the text color), line width, line type, the shape (`"straight"` or `"elbow"`), and the minimum distance for which a leader line is drawn. Use `leader = FALSE` to omit them.
+With `col = "auto"`, the text color of a moved label contrasts with the map background instead of the polygon fill. The leader lines are specified with `tm_leader()`: the color (by default the text color), line width, line type, the shape (`"straight"` or `"elbow"`), and the minimum distance for which a leader line is drawn. Use `leader = FALSE` to omit them.
 
 Moved labels need free space within the map frame. When there is not enough space, labels are dropped, and a message suggests to add space with the `inner.margins` of `tm_layout()` (bottom, left, top, right), as in the map above.
 

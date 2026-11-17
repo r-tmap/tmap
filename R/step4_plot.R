@@ -725,7 +725,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		if (nrow(cdt)) cdt = process_components2(cdt, o)
 
 		# init
-		res = do.call(FUNinit, c(list(o = o, show = show, newpage = newpage, return.asp = return.asp, vp = vp, prx = prx), args))
+		res = do.call(tmap_fun(FUNinit), c(list(o = o, show = show, newpage = newpage, return.asp = return.asp, vp = vp, prx = prx), args))
 		if (return.asp) {
 			return(res)
 		} else {
@@ -743,7 +743,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 				FUNaux_prep = paste0("tmap", gs, "AuxPrepare")
 				a_args = structure(a$args, class = c(a$mapping.fun, "list"))
 
-				do.call(FUNaux_prep, list(a = a_args, bs = db$bbox, id = id, o = o))
+				do.call(tmap_fun(FUNaux_prep), list(a = a_args, bs = db$bbox, id = id, o = o))
 			}, aux, 1:length(aux))
 			aux_group = mapply(function(a, agd) {
 				ng = lengths(gregexpr("__", agd, fixed = TRUE))
@@ -830,7 +830,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		# group.control = leaflet::addLayerControl: check, radio or none (view mode)
 		# group.zoom_levels = leaflet::groupOptions: zoom levels displayed at
 
-		do.call(FUNaux, list(o = o, q = q))
+		do.call(tmap_fun(FUNaux), list(o = o, q = q))
 
 
 		# plot xtab headers
@@ -838,8 +838,8 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 			for (k in 1:o$npages) {
 				labrows = o$panel.labels[[1]]
 				labcols = o$panel.labels[[2]]
-				if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(FUNxtab, list(label = labrows[i], facet_row = i, facet_page = k, o = o))
-				if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(FUNxtab, list(label = labcols[j], facet_col = j, facet_page = k, o = o))
+				if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(tmap_fun(FUNxtab), list(label = labrows[i], facet_row = i, facet_page = k, o = o))
+				if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(tmap_fun(FUNxtab), list(label = labcols[j], facet_col = j, facet_page = k, o = o))
 
 			}
 		}
@@ -848,12 +848,12 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		# plot xlab and ylab
 		if (o$xlab.show) {
 			for (k in 1:o$npages) {
-				do.call(FUNxlab, list(facet_page = k, o = o))
+				do.call(tmap_fun(FUNxlab), list(facet_page = k, o = o))
 			}
 		}
 		if (o$ylab.show) {
 			for (k in 1:o$npages) {
-				do.call(FUNylab, list(facet_page = k, o = o))
+				do.call(tmap_fun(FUNylab), list(facet_page = k, o = o))
 			}
 		}
 
@@ -861,17 +861,17 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 		for (i in seq_len(nrow(d))) {
 			bbx = d$bbox[[i]]
-			if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim_data)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			if (o$panel.type == "wrap") do.call(tmap_fun(FUNwrap), list(label = o$panel.labels[[o$panel.labels.dim]][d[[paste0("by", o$panel.labels.dim_data)]][i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 			if (is.na(d$asp[i])) next
-			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			do.call(tmap_fun(FUNshape), list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 
 			# plot grid labels
 			if (o$grid.show && !o$grid.labels.inside_frame) {
 				if (o$grid.labels.show[2] && ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols))) {
-					do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+					do.call(tmap_fun(FUNgridylab), list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 				}
 				if (o$grid.labels.show[1] && ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows))) {
-					do.call(FUNgridxlab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+					do.call(tmap_fun(FUNgridxlab), list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 				}
 			}
 
@@ -895,7 +895,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 						a = structure(bl$mapping_args, class = c(bl$mapping_fun, "list"))
 
-						do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, ptdt = bl$popup.title.data, popup.layout = bl$popup.layout, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, glid = bl$glid, o = o)))
+						do.call(tmap_fun(FUN), c(list(a = a, shpTM = shpTM, dt = mdt, pdt = bl$popup.data, popup.format = bl$popup.format, ptdt = bl$popup.title.data, popup.layout = bl$popup.layout, hdt = bl$hover.data, idt = bl$id.data, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, glid = bl$glid, o = o)))
 					}
 
 				} else {
@@ -909,7 +909,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 					FUNaux_plot = paste0("tmap", gs, "AuxPlot")
 
 					id = g_lid # to do: test!
-					do.call(FUNaux_plot, list(a = a_args, bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
+					do.call(tmap_fun(FUNaux_plot), list(a = a_args, bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 
 				}
 
@@ -970,15 +970,15 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 
 				mdt = data.table(tmapID__ = seq_along(sfc_bbxs), fill = prp$box_bg.color, col = prp$box_frame.color, lwd = prp$box_frame.lwd, lty = prp$box_frame.lty, fill_alpha = prp$box_bg.alpha, col_alpha = prp$box_frame.alpha, ord__ = 1L)
 
-				do.call(FUN, c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
+				do.call(tmap_fun(FUN), c(list(a = a, shpTM = shpTM, dt = mdt, pdt = NULL, popup.format = list(), hdt = NULL, idt = NULL, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = "inset_frame", pane = "tmap500", group = NA, o = o)))
 
 			}
-			do.call(FUNoverlay, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			do.call(tmap_fun(FUNoverlay), list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		}
 
 	} else {
 		# init
-		asp = do.call(FUNinit, list(o = o, return.asp = return.asp, vp = vp))
+		asp = do.call(tmap_fun(FUNinit), list(o = o, return.asp = return.asp, vp = vp))
 	}
 
 
@@ -1133,7 +1133,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		# just.id = NULL
 		# klegs$just.id = sapply(klegs$comp, function(l) paste(l$position$just.h, l$position$just.v, sep = "."))
 		# klegs[, id:=paste(pos.h.id, pos.v.id, just.id, class, sep = "__")]
-		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
+		klegs[, do.call(tmap_fun(legfun), args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, stack_auto = .SD$stack_auto, pos.h = .SD$pos.h, pos.v = .SD$pos.v, .SD$bbox)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "stack_auto", "pos.h", "pos.v", "bbox")]
 	}
 
 	if (show) save_last_map()
@@ -1142,7 +1142,7 @@ step4_plot = function(tm, vp, return.asp, show, in.shiny, knit, knit_opts, args)
 		.TMAP$q = q
 	}
 
-	do.call(FUNrun, list(o = o, q = q, show = show, knit = knit, knit_opts = knit_opts, args))
+	do.call(tmap_fun(FUNrun), list(o = o, q = q, show = show, knit = knit, knit_opts = knit_opts, args))
 }
 
 # bb_ext reversing

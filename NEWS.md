@@ -12,6 +12,9 @@
 - [!] added `tm_map_colors()` to configure `"MAP_COLORS"`, e.g. `tm_polygons(fill = tm_map_colors(6, permutation = 1))`. The number of colors now follows the palette instead of always being 7, which gave adjacent polygons the same fill when the palette had fewer colors. Needs tmaptools 3.4
 - `tm_text(col = "auto")` (and `tm_labels()`): black or white text depending on the color underneath (the fill of the polygon layer below, the label background, or the map background), as in tmap v3
 - `api` in `tm_basemap()` working for CARTO basemaps (API keys are required since August 2026)
+- added basemap `"Esri.WorldDarkGrayCanvas"`, now used by the style `"cobalt"` (CARTO basemaps require an API key)
+- layers of extension packages also work when the package is not attached, e.g. `tmap.glyphs::tm_donuts()`
+- fixed: `tm_labels()` dropped most polygon labels when a basemap was shown
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not showing when the widget first renders inside a hidden container, e.g. an inactive Quarto/bslib dashboard tab (#1256)
 - fixed `fancy_breaks()` error ("missing value where TRUE/FALSE needed") when a numeric column with `NA` uses large values that trigger the `big.num.abbr` abbreviation path, e.g. when formatting popups in view mode (#1259)
 - fixed partial matching
