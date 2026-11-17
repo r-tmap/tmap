@@ -106,7 +106,9 @@ tm_shape(Africa, crs = "+proj=robin") +
 
 ![](adv_labels_files/figure-html/unnamed-chunk-5-1.png)
 
-The leader lines are specified with
+With `col = "auto"`, the text color of a moved label contrasts with the
+map background instead of the polygon fill. The leader lines are
+specified with
 [`tm_leader()`](https://r-tmap.github.io/tmap/reference/tm_leader.md):
 the color (by default the text color), line width, line type, the shape
 (`"straight"` or `"elbow"`), and the minimum distance for which a leader

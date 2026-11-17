@@ -9,7 +9,7 @@ The extension package
 [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) offers two new
 modes which are also interactive: `"mapbox"` and `"maplibre"` which use
 the JavaScript libraries Mapbox GL and Maplibre GL respectively. The
-latter is a open source fork of the former before it went from open to
+latter is an open source fork of the former before it went from open to
 closed source.
 
 An API key is required to use `"mapbox"` (free for personal use, see
@@ -70,12 +70,31 @@ mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jp
 
 tmap mapbox mode
 
+## Labels
+
+Labels made with
+[`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md) are
+placed by MapLibre and Mapbox: labels that overlap are hidden, in the
+order of `priority`, and they reappear when zooming in. Point labels are
+placed at one of the positions around the point (see the article on
+[label placement](https://r-tmap.github.io/tmap/articles/adv_labels)).
+
+``` r
+
+tmap_mode("maplibre")
+#> ℹ tmap modes "plot" -> "view" ->
+#> "mapbox" -> "maplibre"
+tm_shape(metro) +
+  tm_dots() +
+  tm_labels("name", priority = "pop2020")
+```
+
 ## 3d polygons
 
 **tmap.mapgl** also features a new layer type, `tm_polygons_3d`, which
 is only available for `"mapbox"` and `"maplibre"`.
 
-This map layer is the same as `tm_polygons`, but one addition: polygons
+This map layer is the same as `tm_polygons`, with one addition: polygons
 can be extruded in 3d shape. The map variable to control this is called
 `height`.
 
@@ -111,6 +130,6 @@ tm_shape(NLD_dist) +
   tm_polygons_3d(height = "pop_dens",
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-    fill.legend = tm_legend("Univeristy degree")) +
+    fill.legend = tm_legend("University degree")) +
 tm_maplibre(pitch = 45)
 ```

@@ -51,11 +51,26 @@
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
-<li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
+<li><h6 class="dropdown-header" data-toc-skip>Layers</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Layout</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Component layout</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Interactive and output</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -63,51 +78,40 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-comparison" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Comparison</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-comparison">
-<li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-extensions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Extensions</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-extensions">
-<li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
+<li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Extension packages</h6></li>
+    <li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
     <li><a class="dropdown-item" href="../articles/ext_cartogram">tmap.cartogram</a></li>
     <li><a class="dropdown-item" href="../articles/ext_glyphs">tmap.glyphs</a></li>
     <li><a class="dropdown-item" href="../articles/ext_networks">tmap.networks</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-background">
+<li><h6 class="dropdown-header" data-toc-skip>Foundations</h6></li>
+    <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Comparison</h6></li>
+    <li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -286,17 +290,13 @@
 <div class="section level2">
 <h2 id="example-1-basemap-labels">Example 1: basemap labels<a class="anchor" aria-label="anchor" href="#example-1-basemap-labels"></a>
 </h2>
-<p>A very common reason to reach for <code>multiply</code> is to drape a thematic layer over a basemap while keeping the basemap’s reference detail — place names, roads, country borders — readable underneath. Light basemaps such as <code>CartoDB.Positron</code> draw that detail as dark marks on a near-white background. An opaque thematic fill would hide it completely, and even a semi-transparent fill dulls it.</p>
+<p>A very common reason to reach for <code>multiply</code> is to drape a thematic layer over a basemap while keeping the basemap’s reference detail — place names, roads, country borders — readable underneath. Light basemaps such as <code>Esri.WorldTopoMap</code> draw that detail as dark marks on a light background. An opaque thematic fill would hide it completely, and even a semi-transparent fill dulls it.</p>
 <p><code>multiply</code> solves this neatly. Multiplying the thematic color by the near-white background barely changes it, so the choropleth shows in full where the basemap is empty. Multiplying it by the dark labels and lines keeps those dark, so they stay legible right through the fill.</p>
 <p>We map the Happy Planet Index of the <code>World</code> dataset over Africa. First the basemap and the choropleth on their own:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the basemap on its own</span></span>
-<span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"CartoDB.Positron"</span>, zoom <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="st">"Africa"</span>, ext <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">[basemaps]</span> CARTO now requires an API key for its basemaps; without one, tiles</span></span>
-<span><span class="co">#&gt; are shown with a "API KEY REQUIRED" watermark. Set it via `tm_basemap(..., api</span></span>
-<span><span class="co">#&gt; = &lt;your key&gt;)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"Esri.WorldTopoMap"</span>, zoom <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_crs.html">tm_crs</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="st">"Africa"</span>, ext <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="adv_blend_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the choropleth on its own</span></span>
@@ -309,7 +309,7 @@
 <p>Now the choropleth blended onto the basemap with <code>multiply</code>. The labels and borders from the basemap remain visible through the colors:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># multiply overlay</span></span>
-<span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"CartoDB.Positron"</span>, zoom <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"Esri.WorldTopoMap"</span>, zoom <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, bbox <span class="op">=</span> <span class="st">"Africa"</span>, ext <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"HPI"</span>, </span>
 <span>                fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-bu_br_div"</span><span class="op">)</span>,</span>

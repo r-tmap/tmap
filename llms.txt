@@ -428,10 +428,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   animations](https://r-tmap.github.io/tmap/articles/adv_animations.md):
 - [tmap advanced: layer
   blending](https://r-tmap.github.io/tmap/articles/adv_blend.md):
-- [tmap advanced: grouping of
-  components](https://r-tmap.github.io/tmap/articles/adv_comp_group.md):
-- [tmap advanced:
-  extensions](https://r-tmap.github.io/tmap/articles/adv_extensions.md):
+- [tmap extensions: extending
+  tmap](https://r-tmap.github.io/tmap/articles/adv_extensions.md):
 - [tmap advanced: ggplot2
   integration](https://r-tmap.github.io/tmap/articles/adv_ggplot2.md):
 - [tmap advanced: layer groups (view mode
@@ -450,8 +448,8 @@ Always use those in this form `<map_variable>.chart = tm_chart*()`
   options](https://r-tmap.github.io/tmap/articles/adv_options.md):
 - [tmap advanced: fill
   patterns](https://r-tmap.github.io/tmap/articles/adv_patterns.md):
-- [tmap advanced: positioning of
-  components](https://r-tmap.github.io/tmap/articles/adv_positions.md):
+- [tmap advanced: component
+  layout](https://r-tmap.github.io/tmap/articles/adv_positions.md):
 - [tmap advanced:
   options](https://r-tmap.github.io/tmap/articles/adv_shiny.md):
 - [tmap advanced: textures for

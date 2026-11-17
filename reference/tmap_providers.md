@@ -78,6 +78,7 @@ tmap_providers()
 #> [39] "Thunderforest.SpinalMap"        "Thunderforest.Landscape"       
 #> [41] "Thunderforest.Outdoors"         "Thunderforest.Pioneer"         
 #> [43] "Thunderforest.MobileAtlas"      "Thunderforest.Neighbourhood"   
+#> [45] "Esri.WorldDarkGrayCanvas"      
 
 # Use IDE autocomplete to discover providers interactively:
 # type .tmap_providers$ in the RStudio console

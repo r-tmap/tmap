@@ -111,4 +111,4 @@ positioned left bottom.
 
 More options regarding positioning, stacking, and alignment of
 components are explained in detail in the [vignette about grouping of
-components](https://r-tmap.github.io/tmap/articles/adv_comp_group)
+components](https://r-tmap.github.io/tmap/articles/adv_positions#grouping-components)

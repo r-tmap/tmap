@@ -52,6 +52,14 @@
 - `api` in
   [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   working for CARTO basemaps (API keys are required since August 2026)
+- added basemap `"Esri.WorldDarkGrayCanvas"`, now used by the style
+  `"cobalt"` (CARTO basemaps require an API key)
+- layers of extension packages also work when the package is not
+  attached,
+  e.g. [`tmap.glyphs::tm_donuts()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_donuts.html)
+- fixed:
+  [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
+  dropped most polygon labels when a basemap was shown
 - fixed view mode legends (for `group.control = "radio"`/`"check"`) not
   showing when the widget first renders inside a hidden container,
   e.g. an inactive Quarto/bslib dashboard tab

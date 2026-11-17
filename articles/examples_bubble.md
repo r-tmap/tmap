@@ -46,14 +46,10 @@ names(NLD_dist)
 #> [19] "geometry"
 ```
 
-We will create a choropleth about the variable `"edu_appl_sci"`, which
-contains the percentage of 15-75 year old people who have a university
-degree (Dutch: WO) or applied sciences degree (Dutch: HBO), per district
-as of 1st October 2022.
-
 ## Population of Dutch municipalities
 
-The following code creates a bubble map of population per
+The following code creates a bubble map of the population per
+municipality:
 
 ``` r
 
@@ -72,14 +68,14 @@ tm_shape(NLD_muni) +
 
 Note the scale function
 [`tm_scale()`](https://r-tmap.github.io/tmap/reference/tm_scale.md) is
-general purpose. Because the data is categorical, it will forward its
-arguments to
-[`tm_scale_categorical()`](https://r-tmap.github.io/tmap/reference/tm_scale_categorical.md).
+general purpose. Because the data is numeric, it will forward its
+arguments to the default scale for numeric data and symbol sizes,
+[`tm_scale_continuous()`](https://r-tmap.github.io/tmap/reference/tm_scale_continuous.md).
 
 ## Higher income class in Dutch districts
 
 The following map shows the percentage of people with a higher income
-per Dutch district. This is encoded via a interval ‘rainbow’ color
+per Dutch district. This is encoded via an interval ‘rainbow’ color
 scale. Bubble sizes are proportional to the population size.
 
 ``` r

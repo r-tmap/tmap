@@ -1,6 +1,6 @@
 # tmap advanced: legends
 
-This vignettes builds on the introduction vignettes about
+This article builds on the introduction articles about
 [legends](https://r-tmap.github.io/tmap/articles/basics_legends) and
 [scales](https://r-tmap.github.io/tmap/articles/basics_scales)
 

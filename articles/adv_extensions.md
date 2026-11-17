@@ -1,147 +1,318 @@
-# tmap advanced: extensions
+# tmap extensions: extending tmap
 
-## Extension types
+## Introduction
 
-There are three types of tmap extensions:
+tmap is designed to be extended. A map is built from layers, map
+variables, scales, components, and modes, and each of these building
+blocks can be added by another package. This article gives an overview:
+the existing extension packages, the ways in which tmap can be extended,
+and how to get started.
 
-1.  New map layer types
-2.  New spatial data classes
-3.  New output modes
+## Extension packages
 
-Rather than explaining how to extend tmap for each of these three types
-(which is rather complex), it is easier to demonstrate with
-proof-of-concept extension packages:
+The following packages extend tmap. Together with tmap and the color
+palette package **cols4all**, they are called the *tmapverse*.
 
-## New map layer types
+| package | what it adds | type of extension |
+|----|----|----|
+| [**tmap.mapgl**](https://r-tmap.github.io/tmap.mapgl/) | the modes `"maplibre"` and `"mapbox"`, 3D polygons, and components such as a geocoder | modes, layers, map variables, components |
+| [**tmap.glyphs**](https://r-tmap.github.io/tmap.glyphs/) | glyphs: donuts, pies, and flowers | layers, scales, map variables |
+| [**tmap.cartogram**](https://r-tmap.github.io/tmap.cartogram/) | contiguous, non-contiguous, and Dorling cartograms | layers (spatial transformations) |
+| [**tmap.networks**](https://r-tmap.github.io/tmap.networks/) | networks: **sfnetworks** and **spatstat** `linnet` objects, edges and nodes | spatial data classes, layers |
+| [**tmap.sources**](https://github.com/r-tmap/tmap.sources) | remote and tiled data sources, such as PMTiles and Overture Maps | spatial data classes |
+| [**cols4all**](https://cols4all.github.io/cols4all-R/) | the color palettes used by tmap | palettes |
 
-This type of extension requires:
+The articles in the menu *Extensions* show these packages in action. An
+extension package does not have to be attached: its layer functions can
+also be called directly,
+e.g. [`tmap.glyphs::tm_donuts()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_donuts.html).
 
-- Specification of map variables. For new map variable, options need to
-  be added.
-- Spatial transformation function needs to be specified: e.g. should
-  centroids be used?
-- The mapping between map variables and (standard) visual or
-  transformation parameters.
+The function
+[`tmap_overview()`](https://r-tmap.github.io/tmap/reference/tmap_overview.md)
+shows which layers and components are available in which mode, and from
+which package they come.
 
-See [`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs). A layer
-function `tm_donuts` is added. More glyph types layer functions will
-follow, e.g. `tm_pies`, or `tm_radars`.
+## Ways to extend tmap
+
+| extension | what to write | example |
+|----|----|----|
+| [map layer](#map-layers) | a layer function that returns a [`tm_element()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md), and optionally a plotting method per mode | `tm_donuts()` (**tmap.glyphs**) |
+| [spatial transformation](#spatial-transformations) | a function that transforms the geometries of a layer, e.g. based on a data variable | [`tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html) (**tmap.cartogram**) |
+| [map variable](#map-variables) | default values and a few `tmapValues*_<variable>()` functions | `height` (**tmap.mapgl**) |
+| [scale](#scales) | `tm_scale_<name>()` and the function that applies it | `tm_scale_composition()` (**tmap.glyphs**) |
+| [spatial data class](#spatial-data-classes) | methods that convert the object into geometries and data | `sfnetwork` (**tmap.networks**) |
+| [mode](#modes) | functions that initialize, draw, and show the map | `"maplibre"` (**tmap.mapgl**) |
+| [map component](#map-components) | a component function and drawing methods per mode | `tm_geocoder()` (**tmap.mapgl**) |
+| [options, styles, and basemaps](#options-styles-and-basemaps) | [`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md), [`tmapSubmitBasemapEquivalents()`](https://r-tmap.github.io/tmap/reference/tmapSubmitBasemapEquivalents.md) | styles of **tmap.mapgl** |
+| [palettes](#palettes) | palettes registered in **cols4all** | [`cols4all::c4a_load()`](https://cols4all.github.io/reference/c4a_data.html) |
+
+The functions that are needed for extensions are exported and documented
+as internal functions,
+e.g. [`?tmapScale`](https://r-tmap.github.io/tmap/reference/tmap_internal.md).
+
+## Example: a spike map layer
+
+The easiest way to create a new layer is to derive it from an existing
+one. As an example, we create a layer for *spike maps*: maps with a
+spike on each feature, with a height that is proportional to a data
+variable.
+
+A spike is a line, so the new layer is derived from
+[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md).
+Only the geometries have to be changed: each feature is replaced by a
+spike. This is done by a *spatial transformation function*. It takes the
+geometries (`shpTM$shp`), the values of the map variables that are used
+in the transformation (here `height`), and the arguments `args`, and
+returns new geometries with their IDs:
 
 ``` r
 
-library(tmap.glyphs)
-ZH_muni = NLD_muni[NLD_muni$province == "Zuid-Holland", ]
-ZH_muni$income_middle = 100 - ZH_muni$income_high - ZH_muni$income_low
-
-tm_shape(ZH_muni) +
-  tm_polygons() +
-  tm_donuts(
-    parts = tm_vars(c("income_low", "income_middle", "income_high"), multivariate = TRUE),
-    fill.scale = tm_scale_categorical(values = "-pu_gn_div"),             
-    size = "population",
-    size.scale = tm_scale_continuous(ticks = c(50000, 100000, 250000, 500000))) 
+tmapTransSpikes = function(shpTM, height, ord__, plot.order, args, scale) {
+  shp = shpTM$shp
+  pts = sf::st_coordinates(sf::st_point_on_surface(shp))
+  bb = sf::st_bbox(shp)
+  h = height / max(height, na.rm = TRUE) * args$height * (bb[4] - bb[2])
+  w = args$width * (bb[3] - bb[1]) / 2
+  spikes = lapply(seq_len(nrow(pts)), function(i) {
+    x = pts[i, 1]
+    y = pts[i, 2]
+    sf::st_linestring(rbind(c(x - w, y), c(x, y + h[i]), c(x + w, y)))
+  })
+  list(shp = sf::st_sfc(spikes, crs = sf::st_crs(shp)), tmapID = shpTM$tmapID, bbox = shpTM$bbox)
+}
 ```
 
-![](adv_extensions_files/figure-html/unnamed-chunk-3-1.png)
+The layer function creates a
+[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+layer and changes a few of its fields:
 
-## New spatial data classes
-
-This type of extension requires methods to obtain:
-
-- the spatial geometries (cast to either vectorized objects (`sfc`) or a
-  stars object with indices) and
-- the data variables and its levels (if any)
-
-See [`tmap.networks`](https://github.com/r-tmap/tmap.networks) which
-supports `sfnetworks`
+- `layer`: the name of the new layer, followed by the layer it is
+  derived from;
+- `trans.fun`: the transformation function;
+- `trans.aes`: the map variables that are used by the transformation,
+  created with
+  [`tmapScale()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md).
+  Here, the data values are passed on as they are
+  ([`tm_scale_asis()`](https://r-tmap.github.io/tmap/reference/tm_scale_asis.md));
+- `trans.args`: other arguments for the transformation function;
+- `trans.apply_to`: `"this"` means that the transformation is only
+  applied to this layer. With `"this_following"`, it is also applied to
+  the layers that follow in the same
+  [`tm_shape()`](https://r-tmap.github.io/tmap/reference/tm_shape.md)
+  group (used by cartograms).
 
 ``` r
 
-library(sfnetworks)
-library(tmap.networks)
-
-(sfn = as_sfnetwork(roxel))
-#> # A sfnetwork with 701 nodes and 851 edges
-#> #
-#> # CRS:  EPSG:4326 
-#> #
-#> # A directed multigraph with 14 components with spatially explicit edges
-#> #
-#> # Node data: 701 × 1 (active)
-#>              geometry
-#>           <POINT [°]>
-#> 1 (7.533722 51.95556)
-#> 2 (7.533461 51.95576)
-#> 3 (7.532442 51.95422)
-#> 4  (7.53209 51.95328)
-#> 5 (7.532709 51.95209)
-#> 6 (7.532869 51.95257)
-#> # ℹ 695 more rows
-#> #
-#> # Edge data: 851 × 5
-#>    from    to name                  type                                geometry
-#>   <int> <int> <chr>                 <fct>                       <LINESTRING [°]>
-#> 1     1     2 Havixbecker Strasse   residential (7.533722 51.95556, 7.533461 51…
-#> 2     3     4 Pienersallee          secondary   (7.532442 51.95422, 7.53236 51.…
-#> 3     5     6 Schulte-Bernd-Strasse residential (7.532709 51.95209, 7.532823 51…
-#> # ℹ 848 more rows
+tm_spikes = function(height, max.height = 0.2, width = 0.01, ...) {
+  layer = tm_lines(...)
+  layer[[1]] = within(layer[[1]], {
+    layer = c("spikes", "lines")
+    trans.fun = tmapTransSpikes
+    trans.aes = list(height = tmapScale(aes = "area", value = height, scale = tm_scale_asis(),
+      legend = tm_legend_hide(), chart = tm_chart_none(), free = NA))
+    trans.args = list(height = max.height, width = width)
+    trans.apply_to = "this"
+  })
+  layer
+}
 ```
 
-Besides this new spatial data class `"sfnetwork"`, this package also
-features new map layers, albeit very basic so far:
+The other arguments, such as `col` and `lwd`, are passed on to
+[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md), so
+they work as usual, including scales and legends:
 
 ``` r
 
-tm_shape(sfn) +
-    tm_network()
+tm_shape(NLD_muni) +
+  tm_polygons(fill = "grey95", col = "grey80") +
+tm_shape(NLD_muni) +
+  tm_spikes(height = "population", width = 0.006, lwd = 1.5,
+    col = "income_high",
+    col.scale = tm_scale_intervals(values = "brewer.reds", values.range = c(0.3, 1)),
+    col.legend = tm_legend("High income (%)"))
 ```
 
 ![](adv_extensions_files/figure-html/unnamed-chunk-5-1.png)
 
-``` r
+Since there is no plotting method for `"spikes"`, the plotting method of
+`"lines"` is used. Therefore, the new layer works in all modes,
+including view mode and the modes of **tmap.mapgl**. A layer that needs
+its own drawing, such as the donuts of **tmap.glyphs**, has a plotting
+method per mode (see [map layers](#map-layers)).
 
-tm_shape(sfn) +
-    tm_edges(col = "type", lwd = 4) +
-    tm_nodes()
-```
+In a package, the transformation function is exported, and the layer
+function gets the arguments of
+[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
+explicitly, with documentation, as in
+[`tmap.cartogram::tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html).
 
-![](adv_extensions_files/figure-html/unnamed-chunk-6-1.png)
+## Map layers
 
-## New mode
+A layer function returns a list
+([`tm_element_list()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md))
+with one
+[`tm_element()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md).
+The most important fields are:
 
-This type of extension is the most difficult one. It requires:
+| field | meaning |
+|----|----|
+| `layer` | the layer name, optionally followed by the layers it is derived from, e.g. `c("donuts", "symbols")` |
+| `mapping.aes` | the map variables: a named list of [`tmapScale()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md) objects (value, scale, legend, chart, and free) |
+| `gpar` | the graphical parameters for drawing, created with [`tmapGpar()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md): `"__fill"` refers to the map variable `fill` |
+| `trans.fun`, `trans.aes`, `trans.args`, `trans.apply_to` | the spatial transformation, e.g. [`tmapTransCentroid()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md) for symbols |
+| `tpar` | the transformation parameters ([`tmapTpar()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md)) |
+| `mapping.args` | other arguments for the plotting methods |
+| `plot.order`, `zindex`, `group`, `popup.*`, `hover`, `id` | as in the standard layers |
 
-- Initialization
-- Loading of the used spatial object
-- Plotting function for each map layer type
-- A function for each map component
-- Functions to preprocess and show the legends
-- Run the plot
-- Shiny integration functions
+The layer is drawn by the plotting method of each mode:
+[`tmapGridDataPlot()`](https://r-tmap.github.io/tmap/reference/tmapGridLeaflet.md)
+(plot mode),
+[`tmapLeafletDataPlot()`](https://r-tmap.github.io/tmap/reference/tmapGridLeaflet.md)
+(view mode), and `tmapMaplibreDataPlot()` and `tmapMapboxDataPlot()`
+(**tmap.mapgl**). These are S3 generics that dispatch on the class
+`tm_data_<layer>`, e.g. `tmapGridDataPlot.tm_data_donuts()`. A method
+can modify the data, and then pass it on to the method of the layer it
+is derived from with
+[`NextMethod()`](https://rdrr.io/r/base/UseMethod.html), as
+**tmap.networks** does. If a layer has no method for a mode, the method
+of the layer it is derived from is used. The methods for the modes of
+**tmap.mapgl** are registered with
+`@exportS3Method tmap.mapgl::tmapMaplibreDataPlot`, so that
+**tmap.mapgl** is only needed when it is installed.
 
-A package in development
-[`tmap.mapgl`](https://github.com/r-tmap/tmap.mapgl) contains two new
-modes, `"mapbox"` and `"maplibre"`.
+## Spatial transformations
 
-The shiny integration may not work yet.
+A spatial transformation function changes the geometries before they are
+drawn. It is called with the geometries (`shpTM`), the values of the map
+variables of `trans.aes`, the plotting order, and `trans.args`, as in
+the spike map example above. It returns a list with the new geometries
+(`shp`), their IDs (`tmapID`), and the bounding box (`bbox`). tmap
+applies the transformation per facet, and reprojects the result to the
+crs of the map.
 
-``` r
+## Map variables
 
-library(tmap.mapgl)
-```
+A new map variable, such as `height` for 3D polygons in **tmap.mapgl**,
+needs:
 
-``` r
+- default values, submitted with
+  [`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md)
+  when the package is loaded: the constant value (`value.const`), the
+  values for missing data (`value.na`), the default palettes or ranges
+  (`values.var`, `values.range`), and the default scales (`scales.var`);
+- functions named `tmapValues<Type>_<variable>()`, which are called by
+  name: `Check` (are the visual values valid?), `IsDiv` (are they
+  diverging?), `Range`, `Scale` (apply the global `scale`), `Colorize`
+  (apply color effects, such as sepia), `VV` and `CVV` (the visual
+  values for numeric and categorical scales), and `Submit`.
 
-tmap_mode("maplibre")
-#> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
-#> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
+The functions of an existing map variable can often be reused,
+e.g. `tmapValuesCheck_height = tmap::tmapValuesCheck_size`. Use
+`tmap_options("value.const")` to see the defaults of the existing map
+variables.
 
-tm_shape(NLD_dist) +
-  tm_polygons(
-    fill = "employment_rate", 
-    fill.scale = tm_scale_intervals(values = "scico.roma"),
-    lwd = 0.1) +
-tm_shape(NLD_muni) +
-  tm_polygons(fill = NULL, lwd = 1) +
-tm_maplibre(pitch = 70)
-```
+## Scales
+
+A scale consists of two functions:
+
+- `tm_scale_<name>()`, which returns the scale arguments as a list with
+  class `c("tm_scale_<name>", "tm_scale", "list")` and the element
+  `FUN`, the name of the function that applies the scale;
+- that function, e.g. `tmapScaleComposition()`, which maps the data
+  values to visual values, and creates the legend and chart.
+
+The scale functions of tmap, such as
+[`tmapScaleIntervals()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md),
+are a good starting point. See
+[`tmap.glyphs::tm_scale_composition()`](https://r-tmap.github.io/tmap.glyphs/reference/tm_scale_composition.html)
+for an example.
+
+## Spatial data classes
+
+tmap supports **sf**, **stars**, **terra**, and **sp** objects. Another
+spatial data class is supported via S3 methods:
+
+- [`tmapShape()`](https://r-tmap.github.io/tmap/reference/tmapShape.md):
+  converts the object into geometries (`sfc` or a **stars** dimensions
+  object) and a data table;
+- [`tmapGetShapeMeta1()`](https://r-tmap.github.io/tmap/reference/tmapGetShapeMeta1.md)
+  and
+  [`tmapGetShapeMeta2()`](https://r-tmap.github.io/tmap/reference/tmapGetShapeMeta2.md):
+  return metadata, such as the names and levels of the data variables;
+- [`tmapSubsetShp()`](https://r-tmap.github.io/tmap/reference/tmapSubsetShp.md):
+  selects the data variables that are needed;
+- [`tmapReproject()`](https://r-tmap.github.io/tmap/reference/tmapReproject.md):
+  only needed when the geometries are not converted to **sf** or
+  **stars**, as in **tmap.sources**.
+
+**tmap.networks** (classes `sfnetwork` and `linnet`) and
+**tmap.sources** (data sources specified by a character string) are
+examples.
+
+## Modes
+
+A mode is a graphics engine, such as **grid** (plot mode) and
+**leaflet** (view mode). A new mode is registered with
+`tmapSubmitOptions(options = list(modes = list(<mode> = list(name = "<Name>", ...))))`,
+where `<Name>` is used in the names of the functions of the mode,
+e.g. `tmapMaplibreInit()`:
+
+- initialization and output: `Init`, `Shape` (per facet), `Overlay`,
+  `Run`, `Arrange` (for
+  [`tmap_arrange()`](https://r-tmap.github.io/tmap/reference/tmap_arrange.md)),
+  and `Providers` (basemaps);
+- data layers: the S3 generic `DataPlot`, and `AuxPrepare` and `AuxPlot`
+  for basemaps, tiles, and grid lines;
+- components: the S3 generics `CompPrepare`, `CompWidth`, `CompHeight`,
+  and `CompPlot`, and `Comp` for the legends;
+- facet labels, axis labels, and grid labels: `Wrap`, `Xtab`, `Xlab`,
+  `Ylab`, `GridXLab`, and `GridYLab`;
+- **shiny** integration: methods for
+  [`tmapOutputGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
+  and
+  [`tmapProxyGS()`](https://r-tmap.github.io/tmap/reference/renderTmap.md).
+
+This is the most extensive type of extension. **tmap.mapgl** is the
+reference implementation.
+
+## Map components
+
+A map component, such as `tm_geocoder()` of **tmap.mapgl**, is a
+[`tm_element()`](https://r-tmap.github.io/tmap/reference/tmap_internal.md)
+with the subclass `c("tm_<component>", "tm_component")`, and methods
+`tmap<Mode>CompPrepare()`, `tmap<Mode>CompWidth()`,
+`tmap<Mode>CompHeight()`, and `tmap<Mode>CompPlot()` for each mode in
+which it is available. Components are positioned and grouped by tmap
+(see [component
+layout](https://r-tmap.github.io/tmap/articles/adv_positions)).
+
+## Options, styles, and basemaps
+
+[`tmapSubmitOptions()`](https://r-tmap.github.io/tmap/reference/tmapSubmitOptions.md)
+adds options, e.g. the defaults of new map variables or modes, and with
+`styleOptions` the options of a style for a mode, such as the basemap of
+the style `"cobalt"` in maplibre mode. It is called in the `.onLoad()`
+function of the package.
+
+Different modes have different basemaps.
+[`tmapSubmitBasemapEquivalents()`](https://r-tmap.github.io/tmap/reference/tmapSubmitBasemapEquivalents.md)
+declares which basemaps are similar across modes (e.g. light gray, dark,
+or satellite), so that a map can be shown in another mode with a similar
+basemap.
+
+## Palettes
+
+The palettes of tmap come from **cols4all**. New palettes can be added
+with
+[`cols4all::c4a_load()`](https://cols4all.github.io/reference/c4a_data.html),
+after which they can be used in tmap by their name, just like the other
+palettes.
+
+## Ideas
+
+There is plenty of room for new extensions. Some ideas: other glyph
+types, such as radar charts; flow maps; hexagonal binning (as a spatial
+transformation); new modes, e.g. based on **deck.gl** or **highcharter**
+(for which proofs of concept exist); and spatial data classes of other
+packages. Feel free to reach out via
+[GitHub](https://github.com/r-tmap/tmap/issues).

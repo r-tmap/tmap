@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>tmap advanced: positioning of components • tmap</title>
+<title>tmap advanced: component layout • tmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -15,7 +15,7 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="tmap advanced: positioning of components">
+<meta property="og:title" content="tmap advanced: component layout">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -51,11 +51,26 @@
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
-<li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
+<li><h6 class="dropdown-header" data-toc-skip>Layers</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Layout</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Component layout</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Interactive and output</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -63,51 +78,40 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-comparison" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Comparison</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-comparison">
-<li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-extensions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Extensions</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-extensions">
-<li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
+<li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Extension packages</h6></li>
+    <li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
     <li><a class="dropdown-item" href="../articles/ext_cartogram">tmap.cartogram</a></li>
     <li><a class="dropdown-item" href="../articles/ext_glyphs">tmap.glyphs</a></li>
     <li><a class="dropdown-item" href="../articles/ext_networks">tmap.networks</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-background">
+<li><h6 class="dropdown-header" data-toc-skip>Foundations</h6></li>
+    <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Comparison</h6></li>
+    <li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -127,7 +131,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: positioning of components</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>tmap advanced: component layout</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/adv_positions.Rmd" class="external-link"><code>vignettes/adv_positions.Rmd</code></a></small>
@@ -136,7 +140,7 @@
 
     
     
-<p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/basics_components">vignette about components</a> that the <code>position</code> argument of map components specifies their position.</p>
+<p>Recall from the <a href="https://r-tmap.github.io/tmap/articles/basics_components">vignette about components</a> that the <code>position</code> argument of map components specifies their position, and that components can be grouped. This article explains both in detail: the positioning of components (first part) and the grouping of components (second part).</p>
 <p>It can be specified in two ways:</p>
 <ul>
 <li>An object from the <code><a href="../reference/tm_pos.html">tm_pos()</a></code>, or one of its wrappers, such as <code><a href="../reference/tm_pos.html">tm_pos_in()</a></code> and <code><a href="../reference/tm_pos.html">tm_pos_out()</a></code>.</li>
@@ -314,7 +318,215 @@
 <div class="section level2">
 <h2 id="grouping-components">Grouping components<a class="anchor" aria-label="anchor" href="#grouping-components"></a>
 </h2>
-<p>What happens when components share the same position? See <a href="https://r-tmap.github.io/tmap/articles/adv_comp_group">next vignette</a></p>
+<p>What happens when components share the same position? They are grouped. Components can also be grouped explicitly via <code><a href="../reference/tm_components.html">tm_components()</a></code>. This section explains how they are grouped and what the grouping options are.</p>
+<div class="section level3">
+<h3 id="grouping-components-via-the-map-component-functions">Grouping components via the map component functions<a class="anchor" aria-label="anchor" href="#grouping-components-via-the-map-component-functions"></a>
+</h3>
+<p>In the following map, each map component is placed in a different location.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">tm1</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"dwelling_value"</span>, </span>
+<span>               size <span class="op">=</span> <span class="st">"population"</span>,</span>
+<span>               size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"center"</span>, pos.v <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_compass.html">tm_compass</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_scalebar.html">tm_scalebar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Statistics Netherlands"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-9-1.png" alt="" width="100%"></p>
+<p>Let’s put all legends to the left hand side of the map, and the compass and scale bar below the frame.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_legend"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tm_compass"</span>, <span class="st">"tm_scalebar"</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-10-1.png" alt="" width="100%"></p>
+<p>All map components that are not title, chart, or title can be accessed via <code>tm_&lt;other&gt;</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_legend"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_&lt;other&gt;"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-11-1.png" alt="" width="100%"></p>
+<p>When <code>tm_component()</code> is called without <code>group_id</code>, all map components are affected:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_legend"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_&lt;other&gt;"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-12-1.png" alt="" width="100%"></p>
+<p>Note that each time a <code><a href="../reference/tm_components.html">tm_components()</a></code> is called, it will update the map. So in this case, the first two <code><a href="../reference/tm_components.html">tm_components()</a></code> are overruled with the third one.
+If we change the order, the map components are placed in different locations:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm1</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_&lt;other&gt;"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"tm_legend"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"center"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-13-1.png" alt="" width="100%"></p>
+<p>Now all components are placed to the right hand side of the map (second <code><a href="../reference/tm_components.html">tm_components()</a></code> call), except for the legends, which are placed on the left hand side of the map (third <code><a href="../reference/tm_components.html">tm_components()</a></code> call).</p>
+</div>
+<div class="section level3">
+<h3 id="grouping-components-via-group_id">Grouping components via <code>group_id</code><a class="anchor" aria-label="anchor" href="#grouping-components-via-group_id"></a>
+</h3>
+<p>Map components can also be grouped via a self-specified <code>group_id</code>, which should also be specified in the map component function (e.g. <code><a href="../reference/tm_legend.html">tm_legend()</a></code>).</p>
+<p>To illustrate this and further explain <code><a href="../reference/tm_components.html">tm_components()</a></code>, we will use a self-made map component, made with the grid package that we show via <code><a href="../reference/tm_inset.html">tm_inset()</a></code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">text</span><span class="op">)</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.grob.html" class="external-link">gList</a></span><span class="op">(</span></span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span>gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.45</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">text</span><span class="op">)</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.grob.html" class="external-link">gList</a></span><span class="op">(</span></span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span>gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.45</span><span class="op">)</span>, </span>
+<span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm2</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"B1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"B"</span>, height <span class="op">=</span> <span class="fl">3</span>, width <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">b</span><span class="op">(</span><span class="st">"B2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"B"</span>, height <span class="op">=</span> <span class="fl">3</span>, width <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tm2</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-15-1.png" alt="" width="100%"></p>
+<p>Under the hood, the actual grouping is done by position alone: all components with the same position are considered as a group and therefore stacked instead of drawn on top of each other.
+In this example components of A and B have the same position and are therefore grouped, even though they have a different <code>group_id</code>.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm2</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-16-1.png" alt="" width="100%"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="grouping-options">Grouping options<a class="anchor" aria-label="anchor" href="#grouping-options"></a>
+</h2>
+<div class="section level3">
+<h3 id="stacking">Stacking<a class="anchor" aria-label="anchor" href="#stacking"></a>
+</h3>
+<p>The goal of <code><a href="../reference/tm_components.html">tm_components()</a></code> is not only to group map components, but also to specify group related arguments, as we will show now.</p>
+<div class="section level4">
+<h4 id="direction">Direction<a class="anchor" aria-label="anchor" href="#direction"></a>
+</h4>
+<p>The <code>stack</code> argument is either <code>"horizontal"</code> or <code>"vertical"</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tm2</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, stack <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"B"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>, stack <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-17-1.png" alt="" width="100%"></p>
+</div>
+<div class="section level4">
+<h4 id="order">Order<a class="anchor" aria-label="anchor" href="#order"></a>
+</h4>
+<p>The stacking order is by default the same as in which the components appear, but can be changed with the <code>z</code> argument in each component function:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, z <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, z <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, z <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-18-1.png" alt="" width="100%"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="frame">Frame<a class="anchor" aria-label="anchor" href="#frame"></a>
+</h3>
+<div class="section level4">
+<h4 id="frame_combine">
+<code>frame_combine</code><a class="anchor" aria-label="anchor" href="#frame_combine"></a>
+</h4>
+<p>By default <code>frame_combine = TRUE</code>, which means that a single frame is drawn for all components in the same group. This can be disabled with <code>frame_combine = FALSE</code></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-19-1.png" alt="" width="100%"></p>
+</div>
+<div class="section level4">
+<h4 id="equalize">
+<code>equalize</code><a class="anchor" aria-label="anchor" href="#equalize"></a>
+</h4>
+<p>Equalize (by default <code>TRUE</code>) means that components made equal in size, that is: the widths in case they are stacked vertically (as in this example), and the heights in case they are stacked horizontally.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-20-1.png" alt="" width="100%"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="margins">Margins<a class="anchor" aria-label="anchor" href="#margins"></a>
+</h3>
+<div class="section level4">
+<h4 id="general-offset-and-stack_margin">General <code>offset</code> and <code>stack_margin</code><a class="anchor" aria-label="anchor" href="#general-offset-and-stack_margin"></a>
+</h4>
+<p>The <code>offset</code> specifies the distance (in line heights) between the frame and components. By default 0.75 in case the components are drawn inside the frame and <code>pos.h</code> and <code>pos.v</code> are lower case, and 0 otherwise.</p>
+<p>The <code>stack_margin</code> specifies the distance between components. In case <code>frame_combine</code> it is 0.5 by default, otherwise 0.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%"></p>
+<p>Note: currently both <code>offset</code> and <code>stack_margin</code> are applied for all components for which <code>pos.h</code> and <code>pos.v</code> are specified as characters.</p>
+</div>
+<div class="section level4">
+<h4 id="component-specific-margins">Component specific <code>margins</code><a class="anchor" aria-label="anchor" href="#component-specific-margins"></a>
+</h4>
+<p>Each component has its own margins, which are the margins to the frame. These can be specified with a vector of four: bottom, left, top, right.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span>, margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">T</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="alignment">Alignment<a class="anchor" aria-label="anchor" href="#alignment"></a>
+</h3>
+<p>Recall that the <code>align.h</code> and <code>align.v</code> arguments of <code><a href="../reference/tm_pos.html">tm_pos()</a></code> specify the alignment of the components (see <a href="#align.h-and-align.v"><code>align.h</code> and <code>align.v</code></a>).
+This can be set for each component individually, or, in case it is the same for all components inside <code><a href="../reference/tm_components.html">tm_components()</a></code>.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey95"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span>, align.h <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span>, frame_combine <span class="op">=</span> <span class="cn">FALSE</span>, equalize <span class="op">=</span> <span class="cn">FALSE</span>, offset <span class="op">=</span> <span class="fl">0</span>, stack_margin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="frame-and-background-color-and-alpha">Frame and background color and alpha<a class="anchor" aria-label="anchor" href="#frame-and-background-color-and-alpha"></a>
+</h3>
+<p>The frame and background belong to the group, not to the individual components: they are drawn around the whole group (or around each component in case <code>frame_combine = FALSE</code>). They can be specified via <code><a href="../reference/tm_components.html">tm_components()</a></code>, but also via the arguments of the component functions themselves (e.g. <code>tm_legend(frame = FALSE)</code>), which are passed on to the group. Note that this means that the frame and background are not part of the component itself; e.g. the frame around a chart cannot be removed via <code>ggplot2</code> theme settings, but only via these arguments.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"grey75"</span>, col <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A2"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_inset.html">tm_inset</a></span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="st">"A3"</span><span class="op">)</span>, group_id <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/tm_components.html">tm_components</a></span><span class="op">(</span><span class="st">"A"</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_in</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">TRUE</span>, bg.color <span class="op">=</span> <span class="st">"purple"</span>, bg.alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="adv_positions_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%"></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -111,7 +111,8 @@ tm_crs("auto")
 ![](basics_charts_files/figure-html/unnamed-chunk-10-1.png)
 
 Or, in case we would like the chart to be next to the legend, but in a
-different frame:
+different frame (see the [vignette about component
+groups](https://r-tmap.github.io/tmap/articles/adv_positions#grouping-components)):
 
 ``` r
 
@@ -119,13 +120,11 @@ tm_shape(World) +
   tm_polygons(
     fill = "press",
     fill.scale = tm_scale_intervals(n=10, values = "scico.hawaii"),
-    fill.legend = tm_legend("World Press\nFreedom Index", group.frame = FALSE),
-    fill.chart = tm_chart_bar(position = tm_pos_out("center", "bottom", align.v = "top"))) +
-    tm_layout(component.stack_margin = .5) +
+    fill.legend = tm_legend("World Press\nFreedom Index", group_id = "bottom"),
+    fill.chart = tm_chart_bar(group_id = "bottom")) +
+tm_components("bottom", position = tm_pos_out("center", "bottom", align.v = "top"),
+  frame_combine = FALSE, stack = "horizontal", stack_margin = 0.5) +
 tm_crs("auto")
-#> Warning: Component group arguments, such as `group.frame`, are deprecated as of 4.1.
-#> Please use `group_id = "ID"` in combination with `tm_components(frame_combine =
-#> FALSE)` instead.
 ```
 
 ![](basics_charts_files/figure-html/unnamed-chunk-11-1.png)
@@ -153,7 +152,7 @@ tm_shape(World) +
 The frame and background around a chart are drawn by tmap, not by
 ggplot2: they belong to the group of map components that the chart is
 part of (see [vignette about grouping of
-components](https://r-tmap.github.io/tmap/articles/adv_comp_group)).
+components](https://r-tmap.github.io/tmap/articles/adv_positions#grouping-components)).
 Therefore, they cannot be changed with ggplot2 code, such as
 `theme(plot.background = element_rect(colour = NA))` via
 `extra.ggplot2`. Instead, use the `frame` and `bg` arguments of the

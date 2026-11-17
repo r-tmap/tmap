@@ -20,15 +20,15 @@ selected via a select input widget:
 
 ``` r
 
-NLD_vars <- setdiff(names(NLD_dist), c("code", "name"))
+NLD_vars = setdiff(names(NLD_dist), c("code", "name"))
 tmap_mode("plot")
 shinyApp(
   ui = fluidPage(
     tmapOutput("map", height = "1000px"),
     selectInput("var", "Variable", NLD_vars)
   ),
-  server <- function(input, output, session) {
-    output$map <- renderTmap({
+  server = function(input, output, session) {
+    output$map = renderTmap({
       tm_shape(NLD_dist) +
         tm_polygons(input$var, zindex = 401, lwd = 0.5) +
       tm_shape(NLD_muni) +
@@ -55,7 +55,7 @@ legend width, which in turn depends on the legend title /item labels.
 Also note that because the map is redrawn every time the inputs change,
 proxy objects via
 [`tmapProxy()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
-cannot be used. The are used in `"view"` mode as well see next.
+cannot be used. They are used in `"view"` mode, see below.
 
 ## View mode
 
@@ -69,9 +69,9 @@ tmap_mode("view")
 When inputs are changed in `"view"` mode, it is preferable that the
 focus (zoom and panning location) does not change. That is where
 [`tmapProxy()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
-comes into play. It updates the mape. Old layer are removed via
+comes into play. It updates the map: old layers are removed with
 [`tm_remove_layer()`](https://r-tmap.github.io/tmap/reference/renderTmap.md)
-and new layer can be added.
+and new layers can be added.
 
 It is recommended to:
 
@@ -102,8 +102,8 @@ shinyApp(
     tmapOutput("map", height = "1000px"),
     selectInput("var", "Variable", NLD_vars)
 ),
-server <- function(input, output, session) {
-  output$map <- renderTmap({
+server = function(input, output, session) {
+  output$map = renderTmap({
     tm = tm_shape(NLD_dist_4326) +
       tm_polygons(
         fill = NLD_vars[1], 
@@ -116,7 +116,7 @@ server <- function(input, output, session) {
       tm_layout(meta.margins = c(0, 0, 0, 0.3))  # fixed margin for the legend
   })
   observe({
-    var <- input$var
+    var = input$var
     tmapProxy("map", session, {
       tm_remove_layer(401) + 
       tm_shape(NLD_dist_4326) +

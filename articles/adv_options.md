@@ -2058,7 +2058,7 @@ tree(tmap_options_diff())
 #> ├─chart.title.color: "white"
 #> ├─chart.text.color: "white"
 #> ├─space.color: "#002240"
-#> ├─basemap.server: "CartoDB.DarkMatter"
+#> ├─basemap.server: "Esri.WorldDarkGrayCanvas"
 #> ├─basemap.alpha: 0.5
 #> └─attr.color: "white"
 ```

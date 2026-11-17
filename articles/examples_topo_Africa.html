@@ -51,11 +51,26 @@
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
-<li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
+<li><h6 class="dropdown-header" data-toc-skip>Layers</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Layout</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Component layout</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Interactive and output</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -63,51 +78,40 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-comparison" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Comparison</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-comparison">
-<li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-extensions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Extensions</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-extensions">
-<li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
+<li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Extension packages</h6></li>
+    <li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
     <li><a class="dropdown-item" href="../articles/ext_cartogram">tmap.cartogram</a></li>
     <li><a class="dropdown-item" href="../articles/ext_glyphs">tmap.glyphs</a></li>
     <li><a class="dropdown-item" href="../articles/ext_networks">tmap.networks</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-background">
+<li><h6 class="dropdown-header" data-toc-skip>Foundations</h6></li>
+    <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Comparison</h6></li>
+    <li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -144,13 +148,13 @@
 <div class="section level2">
 <h2 id="about-the-data">About the data<a class="anchor" aria-label="anchor" href="#about-the-data"></a>
 </h2>
-<p>We use several spatial data object that are contained in tmap. The first is called <code>World</code>, which we only use for country borders. We’ll only select the African countries:</p>
+<p>We use several spatial data objects that are contained in tmap. The first is called <code>World</code>, which we only use for country borders. We’ll only select the African countries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metroAfrica</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">metro</span>, <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: attribute variables are assumed to be spatially constant throughout</span></span>
 <span><span class="co">#&gt; all geometries</span></span>
 <span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span></code></pre></div>
-<p>The second is <code>land</code> which is a <code>stars</code> object that contains land cover. The third object is <code>metro</code> an <code>sf</code> object with metropolitan areas. The fourth and final ovject is <code>World_rivers</code>.</p>
+<p>The second is <code>land</code> which is a <code>stars</code> object that contains land cover. The third object is <code>metro</code> an <code>sf</code> object with metropolitan areas. The fourth and final object is <code>World_rivers</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="topographic-map">Topographic map<a class="anchor" aria-label="anchor" href="#topographic-map"></a>
@@ -178,14 +182,15 @@
 <span>      values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, priority <span class="op">=</span> <span class="st">"pop2020"</span>, size <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>    options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_labels</a></span><span class="op">(</span>halo <span class="op">=</span> <span class="cn">TRUE</span>, halo.col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects.\nProduction of Global Land Cover Data - GLCNMO2008."</span>, position <span class="op">=</span> <span class="fu"><a href="../reference/tm_pos.html">tm_pos_out</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_topo_Africa_files/figure-html/unnamed-chunk-4-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="breaking-down-in-layers">Breaking down in layers<a class="anchor" aria-label="anchor" href="#breaking-down-in-layers"></a>
 </h2>
-<p>If this code chunk is overwhelming, let’s that a look at the layer groups:</p>
+<p>If this code chunk is overwhelming, let’s take a look at the layer groups:</p>
 <div class="section level3">
 <h3 id="land-use-layer">Land use layer<a class="anchor" aria-label="anchor" href="#land-use-layer"></a>
 </h3>
@@ -215,7 +220,7 @@
 </h3>
 <p>Note that the first two layers are from a global data set (so not just Africa).
 Note that in the final plot this raster is cropped to the bounding box of Africa.
-We’ll use <code>is.main</code> for the the spatial object <code>Africa</code> to do the actual cropping.</p>
+We’ll use <code>is.main</code> for the spatial object <code>Africa</code> to do the actual cropping.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">=</span> <span class="va">tm</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, is.main <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -226,6 +231,7 @@ We’ll use <code>is.main</code> for the the spatial object <code>Africa</code> 
 <div class="section level3">
 <h3 id="african-cities">African cities<a class="anchor" aria-label="anchor" href="#african-cities"></a>
 </h3>
+<p>The cities are labeled with <code><a href="../reference/tm_text.html">tm_labels()</a></code>. Each label is placed at a free position around its city; the largest cities are labeled first (<code>priority</code>), and labels that do not fit are dropped. A white halo makes the labels readable on top of the land cover (see the article on <a href="https://r-tmap.github.io/tmap/articles/adv_labels">label placement</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">=</span> <span class="va">tm</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metroAfrica</span><span class="op">)</span> <span class="op">+</span></span>
@@ -240,10 +246,11 @@ We’ll use <code>is.main</code> for the the spatial object <code>Africa</code> 
 <span>      values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">23</span>, <span class="fl">22</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    shape.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_combine</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, priority <span class="op">=</span> <span class="st">"pop2020"</span>, size <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>    options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_labels</a></span><span class="op">(</span>halo <span class="op">=</span> <span class="cn">TRUE</span>, halo.col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tm</span></span></code></pre></div>
 <p><img src="examples_topo_Africa_files/figure-html/unnamed-chunk-8-1.png" alt="" width="100%"></p>
-<p>See the <a href="https://r-tmap.github.io/tmap/articles/basics_scales">vigette about scale</a> and <a href="https://r-tmap.github.io/tmap/articles/basics_legends">about legends</a>.</p>
+<p>See the <a href="https://r-tmap.github.io/tmap/articles/basics_scales">vignette about scales</a> and <a href="https://r-tmap.github.io/tmap/articles/basics_legends">about legends</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

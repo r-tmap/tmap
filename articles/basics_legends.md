@@ -90,7 +90,7 @@ s + tm_polygons(
   fill.scale = tm_scale_continuous(values = "pu_gn"),
   fill.legend = 
     tm_legend(
-      title = "Happy Planex Index", 
+      title = "Happy Planet Index", 
       orientation = "landscape", 
       width = 60))
 #> [plot mode] fit legend/component: Some legend items or map compoments do not
@@ -113,7 +113,7 @@ s + tm_polygons(
   fill.scale = tm_scale_continuous(values = "pu_gn"),
   fill.legend = 
     tm_legend(
-      title = "Happy Planex Index", 
+      title = "Happy Planet Index", 
       orientation = "landscape", 
       width = 60)) +
 tm_layout(scale = 0.25)
@@ -136,6 +136,19 @@ s + tm_polygons(
 
 ![](basics_legends_files/figure-html/unnamed-chunk-10-1.png)
 
-See the [advanced
-vignette](https://r-tmap.github.io/tmap/articles/adv_legends) for more
-options.
+## More
+
+The [advanced article about
+legends](https://r-tmap.github.io/tmap/articles/adv_legends) covers:
+
+- the formatting of item labels (numbers, intervals, and big numbers);
+- multiple legends: neutral values, combining legends, and crossing
+  legends (e.g. pattern and fill);
+- dot density legends;
+- manual legends via
+  [`tm_add_legend()`](https://r-tmap.github.io/tmap/reference/tm_add_legend.md);
+- the layout of legends, e.g. item sizes and ticks.
+
+The positioning and grouping of legends and other components is
+explained in the article about [component
+layout](https://r-tmap.github.io/tmap/articles/adv_positions).

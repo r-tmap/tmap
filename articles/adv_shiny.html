@@ -51,11 +51,26 @@
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
-<li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
+<li><h6 class="dropdown-header" data-toc-skip>Layers</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Layout</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Component layout</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Interactive and output</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -63,51 +78,40 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-comparison" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Comparison</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-comparison">
-<li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-extensions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Extensions</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-extensions">
-<li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
+<li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Extension packages</h6></li>
+    <li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
     <li><a class="dropdown-item" href="../articles/ext_cartogram">tmap.cartogram</a></li>
     <li><a class="dropdown-item" href="../articles/ext_glyphs">tmap.glyphs</a></li>
     <li><a class="dropdown-item" href="../articles/ext_networks">tmap.networks</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-background">
+<li><h6 class="dropdown-header" data-toc-skip>Foundations</h6></li>
+    <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Comparison</h6></li>
+    <li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -148,15 +152,15 @@
 </h2>
 <p>An (almost) minimal example of a choropleth where the data variable is selected via a select input widget:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">NLD_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">NLD_vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span>
 <span>  ui <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/renderTmap.html">tmapOutput</a></span><span class="op">(</span><span class="st">"map"</span>, height <span class="op">=</span> <span class="st">"1000px"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="va">NLD_vars</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">=</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span>
 <span>        <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">var</span>, zindex <span class="op">=</span> <span class="fl">401</span>, lwd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
@@ -172,7 +176,7 @@
 <img src="https://r-tmap.github.io/tmap/reference/figures/shiny_plot.jpg" alt="tmap plot mode in shiny"><div class="figcaption">tmap plot mode in shiny</div>
 </div>
 <p>Note that setting <code>meta.margins</code> in the last tmap line is needed to make sure the map stays in the same position after rendering. Without this line (so by default) the horizontal position of the map depends on the legend width, which in turn depends on the legend title /item labels.</p>
-<p>Also note that because the map is redrawn every time the inputs change, proxy objects via <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> cannot be used. The are used in <code>"view"</code> mode as well see next.</p>
+<p>Also note that because the map is redrawn every time the inputs change, proxy objects via <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> cannot be used. They are used in <code>"view"</code> mode, see below.</p>
 </div>
 <div class="section level2">
 <h2 id="view-mode">View mode<a class="anchor" aria-label="anchor" href="#view-mode"></a>
@@ -181,7 +185,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap modes <span style="color: #0000BB;">"plot"</span> - <span style="color: #0000BB; font-weight: bold;">"view"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> toggle with `tmap::ttm()`</span></span></code></pre></div>
-<p>When inputs are changed in <code>"view"</code> mode, it is preferable that the focus (zoom and panning location) does not change. That is where <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> comes into play. It updates the mape. Old layer are removed via <code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> and new layer can be added.</p>
+<p>When inputs are changed in <code>"view"</code> mode, it is preferable that the focus (zoom and panning location) does not change. That is where <code><a href="../reference/renderTmap.html">tmapProxy()</a></code> comes into play. It updates the map: old layers are removed with <code><a href="../reference/renderTmap.html">tm_remove_layer()</a></code> and new layers can be added.</p>
 <p>It is recommended to:</p>
 <ul>
 <li>Set <code>zindex</code> for each map layer, because this determines the plotting order (which is not necessarily the order of call anymore, because of these removals and additions).</li>
@@ -199,8 +203,8 @@
 <span>    <span class="fu"><a href="../reference/renderTmap.html">tmapOutput</a></span><span class="op">(</span><span class="st">"map"</span>, height <span class="op">=</span> <span class="st">"1000px"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, <span class="va">NLD_vars</span><span class="op">)</span></span>
 <span><span class="op">)</span>,</span>
-<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">=</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist_4326</span><span class="op">)</span> <span class="op">+</span></span>
 <span>      <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span></span>
 <span>        fill <span class="op">=</span> <span class="va">NLD_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span>
@@ -213,7 +217,7 @@
 <span>      <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>meta.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>  <span class="co"># fixed margin for the legend</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html" class="external-link">observe</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="va">var</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">var</span></span>
+<span>    <span class="va">var</span> <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">var</span></span>
 <span>    <span class="fu"><a href="../reference/renderTmap.html">tmapProxy</a></span><span class="op">(</span><span class="st">"map"</span>, <span class="va">session</span>, <span class="op">{</span></span>
 <span>      <span class="fu"><a href="../reference/renderTmap.html">tm_remove_layer</a></span><span class="op">(</span><span class="fl">401</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>      <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist_4326</span><span class="op">)</span> <span class="op">+</span></span>

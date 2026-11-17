@@ -44,7 +44,7 @@ tm_shape(World) +
 A few improvements:
 
 - A suitable map projection. This one ‘Equal Earth’ is equal-area,
-  i.e. the polygon area sizes are proportianal to the real-world country
+  i.e. the polygon area sizes are proportional to the real-world country
   area sizes.
 - A different color scheme. Run
   [`cols4all::c4a_gui()`](https://cols4all.github.io/reference/c4a_gui.html)

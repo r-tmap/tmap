@@ -37,7 +37,7 @@ We specify this object with `tm_shape` and for convenience assign it to
 
 ``` r
 
-s <- tm_shape(World, crs = "+proj=eqearth")
+s = tm_shape(World, crs = "+proj=eqearth")
 ```
 
 ## Constant visual values

@@ -51,11 +51,26 @@
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-foundations" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Foundations</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-foundations">
-<li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
-    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
+<li><h6 class="dropdown-header" data-toc-skip>Layers</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Layout</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_positions">Component layout</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Interactive and output</h6></li>
+    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -63,51 +78,40 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-examples">
 <li><a class="dropdown-item" href="../articles/examples_choro_World">Choropleth (World)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_choro_NLD">Choropleth (Netherlands)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
     <li><a class="dropdown-item" href="../articles/examples_bubble">Bubble map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_dot_density">Dot density map</a></li>
+    <li><a class="dropdown-item" href="../articles/adv_textures">Uncertainty map (textures)</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
     <li><a class="dropdown-item" href="../articles/examples_raster">Raster map</a></li>
     <li><a class="dropdown-item" href="../articles/examples_topo_Africa">Topographic map (Africa)</a></li>
     <li><a class="dropdown-item" href="../articles/examples_terrain">Terrain map</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_gridmaps">Gridmap</a></li>
-    <li><a class="dropdown-item" href="../articles/examples_biv_choro">Bivariate choropleth</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-comparison" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Comparison</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-comparison">
-<li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
-    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-extensions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Extensions</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-extensions">
-<li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
+<li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Extension packages</h6></li>
+    <li><a class="dropdown-item" href="../articles/ext_mapgl">tmap.mapgl</a></li>
     <li><a class="dropdown-item" href="../articles/ext_cartogram">tmap.cartogram</a></li>
     <li><a class="dropdown-item" href="../articles/ext_glyphs">tmap.glyphs</a></li>
     <li><a class="dropdown-item" href="../articles/ext_networks">tmap.networks</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-advanced" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Advanced</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-advanced">
-<li><a class="dropdown-item" href="../articles/adv_legends">Legends</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_inset_maps">Inset maps</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_animations">Animations</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_shiny">shiny integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_ggplot2">ggplot2 integration</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_multivariate">Multivariate map variables</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_positions">Positioning of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_comp_group">Grouping of components</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_options">Options and styles</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_margins">Margins and aspect ratio (plot mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_groups">Layer groups (view mode)</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_extensions">Extending tmap</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_blend">Layer blending</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_patterns">Fill patterns</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_textures">Textures for uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/adv_labels">Label placement</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-background">
+<li><h6 class="dropdown-header" data-toc-skip>Foundations</h6></li>
+    <li><a class="dropdown-item" href="../articles/foundations_gg">Grammar of Graphics</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_crs">Map projections (CRS)</a></li>
+    <li><a class="dropdown-item" href="../articles/foundations_units">Units</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Comparison</h6></li>
+    <li><a class="dropdown-item" href="../articles/versus_ggplot2">tmap vs ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapview">tmap vs mapview</a></li>
+    <li><a class="dropdown-item" href="../articles/versus_mapsf">tmap vs mapsf</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -154,9 +158,13 @@ cartograms.</p>
 </h2>
 <p>The shapes of the polygons are distorted, where the neighborhood
 relationships between them are preserved as much as possible.</p>
-<p>Text labels follow the distorted shapes. With
-<code>col = "auto"</code>, each label is black or white, depending on
-the fill color underneath.</p>
+<p>Labels follow the distorted shapes. With <code><a href="../reference/tm_text.html">tm_labels()</a></code>,
+each label is placed at the center of the largest circle that fits
+inside its polygon, and it is wrapped, rotated, or shrunk if needed (see
+the article on <a href="https://r-tmap.github.io/tmap/articles/adv_labels">label
+placement</a>). The preset <code>"inside"</code> keeps the labels inside
+their polygons. With <code>col = "auto"</code>, each label is black or
+white, depending on the fill color underneath.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Africa</span> <span class="op">=</span> <span class="va">World</span><span class="op">[</span><span class="va">World</span><span class="op">$</span><span class="va">continent</span> <span class="op">==</span> <span class="st">"Africa"</span>, <span class="op">]</span></span>
 <span></span>
@@ -167,7 +175,8 @@ the fill color underneath.</p>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_intervals.html">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-cols4all.bu_br_div"</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">"Age"</span><span class="op">)</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram</a></span><span class="op">(</span>itermax <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, size <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, size <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>    options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_labels</a></span><span class="op">(</span>placement <span class="op">=</span> <span class="st">"inside"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Life Expectancy"</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_animate.html">tm_animate_fast</a></span><span class="op">(</span>play <span class="op">=</span> <span class="st">"pingpong"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
@@ -176,7 +185,10 @@ the fill color underneath.</p>
 <div class="section level2">
 <h2 id="non-contiguous-cartograms">Non-contiguous cartograms<a class="anchor" aria-label="anchor" href="#non-contiguous-cartograms"></a>
 </h2>
-<p>Here, the polygons are only resized while they keep their shape.</p>
+<p>Here, the polygons are only resized while they keep their shape. Most
+labels do not fit inside the shrunk polygons, but there is plenty of
+free space around them. Therefore, labels are moved outside, even when
+many of them do not fit (<code>move.max = 1</code>):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">Africa</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram_ncont</a></span><span class="op">(</span></span>
@@ -185,17 +197,25 @@ the fill color underneath.</p>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"cols4all.pu_gn_div"</span>, values.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span>,</span>
 <span>    options <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">opt_tm_cartogram_ncont</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_text</a></span><span class="op">(</span>point.label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"name"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, size <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>    options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_labels</a></span><span class="op">(</span>placement <span class="op">=</span> <span class="fu"><a href="../reference/tm_placement.html">tm_placement</a></span><span class="op">(</span>move.max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"Income inequality (Gini coefficient)"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
+<span><span class="co">#&gt; Cartogram in progress...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">[labels]</span> 1 label could not be moved outside: not enough free space near its</span></span>
+<span><span class="co">#&gt; feature</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Add space around the map with e.g. `tm_layout(inner.margins = c(0.02, 0.1,</span></span>
+<span><span class="co">#&gt;   0.02, 0.1))` (bottom, left, top, right)</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once every 8 hours.</span></span></span></code></pre></div>
 <p><img src="ext_cartogram_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="dorling-cartogram">Dorling cartogram<a class="anchor" aria-label="anchor" href="#dorling-cartogram"></a>
 </h2>
 <p>Polygons are replaced by non-overlapping bubbles. The labels are
-scaled with the bubbles (a square root scale, since the bubble areas are
-proportional to <code>pop_est</code>).</p>
+scaled with the bubbles: with <code><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area()</a></code>,
+the font size is proportional to the square root of
+<code>pop_est</code>, just like the bubble diameters. Labels that do not
+fit inside their bubble are shrunk, or dropped.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, crs <span class="op">=</span> <span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html">tm_cartogram_dorling</a></span><span class="op">(</span></span>
@@ -203,9 +223,10 @@ proportional to <code>pop_est</code>).</p>
 <span>    fill <span class="op">=</span> <span class="st">"press"</span>,</span>
 <span>    fill.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"cols4all.pu_gn_div"</span>, midpoint <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
 <span>    fill.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend</a></span><span class="op">(</span><span class="st">""</span>, height <span class="op">=</span> <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
-<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous.html">tm_scale_continuous_sqrt</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span>,</span>
-<span>    size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/tm_text.html">tm_labels</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, col <span class="op">=</span> <span class="st">"auto"</span>, size <span class="op">=</span> <span class="st">"pop_est"</span>,</span>
+<span>    size.scale <span class="op">=</span> <span class="fu"><a href="../reference/tm_scale_continuous_area.html">tm_scale_continuous_area</a></span><span class="op">(</span>values.scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>    size.legend <span class="op">=</span> <span class="fu"><a href="../reference/tm_legend.html">tm_legend_hide</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    options <span class="op">=</span> <span class="fu"><a href="../reference/tm_text.html">opt_tm_labels</a></span><span class="op">(</span>placement <span class="op">=</span> <span class="st">"inside"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="../reference/tm_title.html">tm_title</a></span><span class="op">(</span><span class="st">"World Press Freedom Index"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Cartogram in progress...</span></span></code></pre></div>
 <p><img src="ext_cartogram_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="768"></p>

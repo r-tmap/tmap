@@ -52,14 +52,16 @@ Show
     #> [37] "Thunderforest.Transport"        "Thunderforest.TransportDark"   
     #> [39] "Thunderforest.SpinalMap"        "Thunderforest.Landscape"       
     #> [41] "Thunderforest.Outdoors"         "Thunderforest.Pioneer"         
-    #> [43] "Thunderforest.MobileAtlas"      "Thunderforest.Neighbourhood"
+    #> [43] "Thunderforest.MobileAtlas"      "Thunderforest.Neighbourhood"   
+    #> [45] "Esri.WorldDarkGrayCanvas"
 
 Tip: `.tmap_providers` contains the same information, but stored as an
 environment, which is convenient with auto-completion (e.g. RStudio);
 type `.tmap_providers$` and the list of options will appear.
 
-Note: for Thunderforest and Stadia, a (free for personal use) API key is
-required.
+Note: for Thunderforest, Stadia, and CARTO, an API key is required (free
+for personal use), which is set with the argument `api` of
+[`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md).
 
 See
 [previews](https://leaflet-extras.github.io/leaflet-providers/preview/)
@@ -68,11 +70,7 @@ See
 
 tm_shape(metro) +
     tm_bubbles(size = "pop2020") +
-    tm_basemap("CartoDB.PositronNoLabels")
-#> [basemaps] CARTO now requires an API key for its basemaps; without one, tiles
-#> are shown with a "API KEY REQUIRED" watermark. Set it via `tm_basemap(..., api
-#> = <your key>)`.
-#> This message is displayed once per session.
+    tm_basemap("Esri.WorldGrayCanvas")
 ```
 
 ![](basics_basemaps_files/figure-html/unnamed-chunk-6-1.png)

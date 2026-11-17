@@ -13,8 +13,8 @@ for creating facets, and for multivariate mapping.
 
 ## Creating facets
 
-Recall from the [vigentte about
-facets](https://r-tmap.github.io/tmap/articles/03_basics_facets)
+Recall from the [vignette about
+facets](https://r-tmap.github.io/tmap/articles/basics_facets):
 
 ``` r
 
@@ -42,32 +42,6 @@ tm_shape(NLD_muni) +
 
 ![](adv_multivariate_files/figure-html/unnamed-chunk-4-1.png)
 
-Or the first 3 variables:
-
-``` r
-
-tm_shape(NLD_muni) +
-  tm_polygons(
-    fill = tm_vars(n = 3))
-#> Warning: Number of levels of the variable assigned to the aesthetic "fill" of
-#> the layer "polygons" is 345, which is larger than n.max (which is 30), so
-#> levels are combined.
-#> Warning: Number of levels of the variable assigned to the aesthetic "fill" of
-#> the layer "polygons" is 345, which is larger than n.max (which is 30), so
-#> levels are combined.
-#> [plot mode] fit legend/component: Some legend items or map compoments do not
-#> fit well, and are therefore rescaled.
-#> ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.
-```
-
-![](adv_multivariate_files/figure-html/unnamed-chunk-5-1.png)
-
-1.  For creating facets. This is the standard way.
-2.  For multivariate mapping.
-
-These cases can be divived into two g Before going through these cases,
-there is one important There are two
-
 ## Multivariate mapping
 
 There are (at least) two use cases:
@@ -93,7 +67,7 @@ tif = system.file("tif/L7_ETMs.tif", package = "stars")
 #> band    1   6      NA    NA                         NA    NA
 ```
 
-Note that the channels are included in the dimenison `"band"`. We can
+Note that the channels are included in the dimension `"band"`. We can
 use the argument `dimvalues` to select them:
 
 ``` r
@@ -102,7 +76,7 @@ tm_shape(L7) +
     tm_rgb(col = tm_vars(dimvalues = 3:1, multivariate = TRUE))
 ```
 
-![](adv_multivariate_files/figure-html/unnamed-chunk-7-1.png)
+![](adv_multivariate_files/figure-html/unnamed-chunk-6-1.png)
 
 Alternatively, we can split the `stars` object:
 
@@ -132,12 +106,12 @@ tm_shape(L7split) +
     tm_rgb(col = tm_vars(3:1, multivariate = TRUE))
 ```
 
-![](adv_multivariate_files/figure-html/unnamed-chunk-9-1.png)
+![](adv_multivariate_files/figure-html/unnamed-chunk-8-1.png)
 
 ### Glyphs
 
-Glyph are small charts plotted as symbols. See the \[extention package
-[`tmap.glyphs`](https://github.com/r-tmap/tmap.glyphs).
+Glyphs are small charts plotted as symbols. See the extension package
+[**tmap.glyphs**](https://r-tmap.github.io/tmap.glyphs/).
 
 ``` r
 
@@ -155,7 +129,7 @@ tm_shape(ZH_muni) +
     size.scale = tm_scale_continuous(ticks = c(50000, 100000, 250000, 500000))) 
 ```
 
-![](adv_multivariate_files/figure-html/unnamed-chunk-10-1.png)
+![](adv_multivariate_files/figure-html/unnamed-chunk-9-1.png)
 
 The map variable `parts` (introduced in `tmap.glyphs`) is specified as
 multivariate map variable. It specifies the parts (slices) of the donut

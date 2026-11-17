@@ -4,7 +4,6 @@ pkgdown_sha: ~
 articles:
   adv_animations: adv_animations.html
   adv_blend: adv_blend.html
-  adv_comp_group: adv_comp_group.html
   adv_extensions: adv_extensions.html
   adv_ggplot2: adv_ggplot2.html
   adv_groups: adv_groups.html
@@ -47,7 +46,7 @@ articles:
   versus_ggplot2: versus_ggplot2.html
   versus_mapsf: versus_mapsf.html
   versus_mapview: versus_mapview.html
-last_built: 2026-11-16T19:49Z
+last_built: 2026-11-17T10:02Z
 urls:
   reference: https://r-tmap.github.io/tmap/reference
   article: https://r-tmap.github.io/tmap/articles

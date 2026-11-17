@@ -10,9 +10,9 @@ tmap_options(scale = 0.75)
 
 ## About the data
 
-We use several spatial data object that are contained in tmap. The first
-is called `World`, which we only use for country borders. We’ll only
-select the African countries:
+We use several spatial data objects that are contained in tmap. The
+first is called `World`, which we only use for country borders. We’ll
+only select the African countries:
 
 ``` r
 
@@ -24,7 +24,7 @@ Africa = World[World$continent == "Africa", ]
 
 The second is `land` which is a `stars` object that contains land cover.
 The third object is `metro` an `sf` object with metropolitan areas. The
-fourth and final ovject is `World_rivers`.
+fourth and final object is `World_rivers`.
 
 ## Topographic map
 
@@ -52,7 +52,8 @@ tm_shape(metroAfrica) +
       values = c(21, 23, 22, 21, 23, 22)
     ),
     shape.legend = tm_legend_combine("size")) +
-  tm_labels("name") +
+  tm_labels("name", priority = "pop2020", size = 0.8,
+    options = opt_tm_labels(halo = TRUE, halo.col = "white")) +
 tm_credits("United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects.\nProduction of Global Land Cover Data - GLCNMO2008.", position = tm_pos_out("center", "bottom"))
 ```
 
@@ -60,7 +61,7 @@ tm_credits("United Nations, Department of Economic and Social Affairs, Populatio
 
 ## Breaking down in layers
 
-If this code chunk is overwhelming, let’s that a look at the layer
+If this code chunk is overwhelming, let’s take a look at the layer
 groups:
 
 ### Land use layer
@@ -95,7 +96,7 @@ tm
 
 Note that the first two layers are from a global data set (so not just
 Africa). Note that in the final plot this raster is cropped to the
-bounding box of Africa. We’ll use `is.main` for the the spatial object
+bounding box of Africa. We’ll use `is.main` for the spatial object
 `Africa` to do the actual cropping.
 
 ``` r
@@ -109,6 +110,14 @@ tm
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-7-1.png)
 
 ### African cities
+
+The cities are labeled with
+[`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md).
+Each label is placed at a free position around its city; the largest
+cities are labeled first (`priority`), and labels that do not fit are
+dropped. A white halo makes the labels readable on top of the land cover
+(see the article on [label
+placement](https://r-tmap.github.io/tmap/articles/adv_labels)).
 
 ``` r
 
@@ -125,12 +134,13 @@ tm_shape(metroAfrica) +
       values = c(21, 23, 22, 21, 23, 22)
     ),
     shape.legend = tm_legend_combine("size")) +
-  tm_labels("name")
+  tm_labels("name", priority = "pop2020", size = 0.8,
+    options = opt_tm_labels(halo = TRUE, halo.col = "white"))
 tm
 ```
 
 ![](examples_topo_Africa_files/figure-html/unnamed-chunk-8-1.png)
 
-See the [vigette about
-scale](https://r-tmap.github.io/tmap/articles/basics_scales) and [about
+See the [vignette about
+scales](https://r-tmap.github.io/tmap/articles/basics_scales) and [about
 legends](https://r-tmap.github.io/tmap/articles/basics_legends).
