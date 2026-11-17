@@ -95,6 +95,14 @@ tmapLeafletAux = function(o, q) {
 	lids = setdiff(q$lid[isTMAP & isNEW], .TMAP$pane_ids)
 
 	groups_radio = unique(unlist(strsplit(q$group[q$group.control == "radio"], split = "__", fixed = TRUE)))
+
+	# radio groups of data layers (e.g. alternative choropleths) and only one basemap: the basemap is always shown,
+	# and therefore not a radio button (otherwise it would hide the data layers)
+	groups_radio_aux = unique(unlist(strsplit(q$group[q$group.control == "radio" & q$gid == 0], split = "__", fixed = TRUE)))
+	groups_radio_data = unique(unlist(strsplit(q$group[q$group.control == "radio" & q$gid != 0], split = "__", fixed = TRUE)))
+	if (length(groups_radio_aux) == 1L && length(groups_radio_data) && !(groups_radio_aux %in% groups_radio_data)) {
+		groups_radio = setdiff(groups_radio, groups_radio_aux)
+	}
 	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
 
 

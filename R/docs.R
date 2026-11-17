@@ -161,6 +161,10 @@
 	examples_choro_NLD   = "Choropleth (Netherlands)",
 	examples_bubble      = "Bubble map",
 	examples_dot_density = "Dot density map",
+	examples_reference   = "Reference map (Europe)",
+	examples_lines       = "Line map (rivers)",
+	examples_time        = "Change over time",
+	examples_interactive = "Interactive map",
 	examples_raster      = "Raster map",
 	examples_topo_Africa = "Topographic map (Africa)",
 	examples_terrain     = "Terrain map",
@@ -206,8 +210,8 @@
 	examples = switch(layer,
 					  polygons = c("adv_patterns", "examples_choro_World", "examples_choro_NLD", "examples_biv_choro", "examples_dot_density", "adv_textures", "examples_gridmaps"),
 					  symbols  = c("examples_bubble", "examples_terrain"),
-					  lines = "examples_terrain",
-					  text = c("adv_labels", "examples_topo_Africa", "examples_terrain"),
+					  lines = c("examples_lines", "examples_terrain"),
+					  text = c("adv_labels", "examples_reference", "examples_topo_Africa", "examples_terrain"),
 					  raster   = c("examples_raster", "examples_terrain"),
 					  character(0)  # default: common links only (lines, text, ...)
 	)
@@ -245,7 +249,7 @@
 }
 
 .doc_see_also_facets = function() {
-	.doc_links(c("basics_facets", "adv_animations", "examples_gridmaps"))
+	.doc_links(c("basics_facets", "adv_animations", "examples_time", "examples_gridmaps"))
 }
 
 .doc_see_also_animations = function() {
@@ -253,7 +257,7 @@
 }
 
 .doc_see_also_modes = function() {
-	.doc_links(c("basics_modes"))
+	.doc_links(c("basics_modes", "examples_interactive"))
 }
 
 .doc_see_also_export = function() {

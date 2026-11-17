@@ -115,9 +115,14 @@ tmapGridDataPlot.tm_data_text = function(a, shpTM, dt, gp, bbx, facet_row, facet
 				c((convertWidth(grobWidth(g), "inch", valueOnly = TRUE) + pad) * xIn,
 				  (convertHeight(grobHeight(g), "inch", valueOnly = TRUE) + pad) * yIn)
 			}
+			if (pmode == "polygons") {
+				# polygons that cross the map frame: labels at the center of the visible part
+				pc = placement_clip_polys(dt$poly[ids], coords[ids, 1:2, drop = FALSE], dt$poly_r[ids], bbx)
+				coords[ids, 1:2] = pc$anchors
+			}
 			pl = if (pmode == "polygons") {
-				placement_polygons(a$placement, polys = dt$poly[ids], anchors = coords[ids, 1:2, drop = FALSE],
-								   radii = dt$poly_r[ids], text = text[ids], measure = function(txt, i) measure(txt, i),
+				placement_polygons(a$placement, polys = pc$polys, anchors = pc$anchors,
+								   radii = pc$radii, text = text[ids], measure = function(txt, i) measure(txt, i),
 								   bbx = bbx, line = lineIn * yIn, short = lab_short[ids], priority = lab_prio[ids])
 			} else {
 				placement_points(a$placement, anchors = coords[ids, 1:2, drop = FALSE], text = text[ids],

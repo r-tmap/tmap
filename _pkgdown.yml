@@ -198,6 +198,8 @@ navbar:
     example:
       text: Examples
       menu:
+        - text: Reference map (Europe)
+          href: articles/examples_reference
         - text: Choropleth (World)
           href: articles/examples_choro_World
         - text: Choropleth (Netherlands)
@@ -214,6 +216,12 @@ navbar:
           href: articles/examples_gridmaps
         - text: Raster map
           href: articles/examples_raster
+        - text: Line map (rivers)
+          href: articles/examples_lines
+        - text: Change over time
+          href: articles/examples_time
+        - text: Interactive map
+          href: articles/examples_interactive
         - text: Topographic map (Africa)
           href: articles/examples_topo_Africa
         - text: Terrain map

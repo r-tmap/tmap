@@ -278,5 +278,5 @@ tm_shape(World) +
 			 lty.legend = tm_legend_combine("col"))
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
+\href{https://r-tmap.github.io/tmap/articles/basics_vv}{Map variables}, \href{https://r-tmap.github.io/tmap/articles/basics_scales}{Scales}, \href{https://r-tmap.github.io/tmap/articles/basics_legends}{Legends}, \href{https://r-tmap.github.io/tmap/articles/basics_facets}{Facets}, \href{https://r-tmap.github.io/tmap/articles/foundations_units}{Units}, \href{https://r-tmap.github.io/tmap/articles/adv_blend}{Layer blending}, \href{https://r-tmap.github.io/tmap/articles/examples_lines}{Line map (rivers)}, \href{https://r-tmap.github.io/tmap/articles/examples_terrain}{Terrain map}
 }

@@ -138,3 +138,16 @@ test_that("polygons of label placement are reprojected to the plotting crs", {
 	res2 = reproject_props(props, crs0 = sf::st_crs(polys), crs = sf::st_crs(3857), tmapID0 = ids, tmapID = ids[-1])
 	expect_length(res2$prop_poly, length(ids) - 1L)
 })
+
+test_that("polygons that cross the map frame are labeled in their visible part", {
+	p = sf::st_polygon(list(rbind(c(0, 0), c(10, 0), c(10, 2), c(0, 2), c(0, 0))))
+	res = placement_clip_polys(list(p), anchors = matrix(c(8, 1), ncol = 2), radii = 1, bbx = c(0, 0, 4, 4))
+	expect_true(res$anchors[1, 1] < 4)
+	expect_equal(as.numeric(sf::st_bbox(res$polys[[1]])[3]), 4)
+})
+
+test_that("point_per = 'largest' works for lines", {
+	r = World_rivers[!is.na(World_rivers$name), ][1:50, ]
+	named = aggregate(r["strokelwd"], by = list(name = r$name), FUN = max)
+	expect_no_error(print(tm_shape(named) + tm_labels("name", options = opt_tm_labels(point_per = "largest"))))
+})

@@ -12,14 +12,9 @@ rivers$type <- factor(rivers$type)
 rivers$scalerank <- as.integer(rivers$scalerank)
 rivers$strokelwd <- as.numeric(rivers$strokelwd)
 
-Encoding(rivers$name) <- "latin1"
-rivers$name <- iconv(
-	rivers$name,
-	"latin1",
-	"ASCII",
-	""
-)
-x <- grep("I_WAS_NOT_ASCII", iconv(levels(rivers$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
+# the names are UTF-8: transliterate to ASCII (e.g. "Sénégal" -> "Senegal"), as in NLD.R
+rivers$name <- stringi::stri_trans_general(rivers$name, "Latin-ASCII")
+stopifnot(all(is.na(rivers$name) | grepl("^[ -~]*$", rivers$name)))
 
 rivers = sf::st_set_crs(rivers, 4326)
 

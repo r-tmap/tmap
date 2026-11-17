@@ -157,6 +157,29 @@ placement_poly_anchor = function(polys) {
 	list(shp = sf::st_sfc(lapply(res, `[[`, "pt"), crs = crs), r = vapply(res, `[[`, numeric(1), "r"))
 }
 
+# Polygons that cross the map frame are clipped to the frame, so that their labels are placed at the center of the
+# visible part (e.g. Russia on a map of Europe). Returns the (clipped) polygons, anchors, and radii.
+placement_clip_polys = function(polys, anchors, radii, bbx) {
+	bb = unname(c(bbx[1], bbx[2], bbx[3], bbx[4]))
+	frame = sf::st_as_sfc(sf::st_bbox(c(xmin = bb[1], ymin = bb[2], xmax = bb[3], ymax = bb[4])))
+	for (i in seq_along(polys)) {
+		p = polys[[i]]
+		if (is.null(p)) next
+		pb = sf::st_bbox(p)
+		if (pb[1] >= bb[1] && pb[2] >= bb[2] && pb[3] <= bb[3] && pb[4] <= bb[4]) next
+		cl = tryCatch(suppressWarnings(sf::st_intersection(sf::st_make_valid(sf::st_sfc(p)), frame)), error = function(e) NULL)
+		if (is.null(cl) || !length(cl) || all(sf::st_is_empty(cl))) next
+		cl = suppressWarnings(sf::st_collection_extract(cl, "POLYGON"))
+		if (!length(cl)) next
+		cl = sf::st_union(cl)
+		pa = placement_poly_anchor(cl)
+		polys[[i]] = cl[[1]]
+		anchors[i, ] = sf::st_coordinates(pa$shp)[1, 1:2]
+		radii[i] = pa$r
+	}
+	list(polys = polys, anchors = anchors, radii = radii)
+}
+
 # Angle (degrees, in (-90, 90]) of the main axis of a polygon (the long side of its minimum rotated rectangle)
 placement_main_axis = function(poly) {
 	m = tryCatch(sf::st_minimum_rotated_rectangle(sf::st_sfc(poly)), error = function(e) NULL)
@@ -407,7 +430,9 @@ placement_polygons = function(placement, polys, anchors, radii, text, measure, b
 
 	# phase 2: move outside (unless too many labels need to be moved)
 	if (!is.na(im) && any(!fitted) && !is.null(bbx)) {
-		frac = sum(!fitted) / sum(valid)
+		# only the polygons with their label spot inside the map frame count
+		inmap = valid & anchors[, 1] >= bbx[1] & anchors[, 1] <= bbx[3] & anchors[, 2] >= bbx[2] & anchors[, 2] <= bbx[4]
+		frac = if (any(inmap)) sum(!fitted & inmap) / sum(inmap) else 0
 		if (frac > placement$move.max) {
 			message_placement(paste0(round(100 * frac), "% of the labels do not fit inside their polygons, ",
 									 "which is too many to move outside (see {.arg move.max} of {.fun tm_placement})"),
@@ -915,7 +940,9 @@ placement_points = function(placement, anchors, text, measure, bbx, line, short 
 
 	# move
 	if (!is.na(im) && any(!fitted)) {
-		frac = sum(!fitted) / sum(valid)
+		# only the points inside the map frame count (e.g. not the cities of the world on a map of Europe)
+		inmap = valid & anchors[, 1] >= bb[1] & anchors[, 1] <= bb[3] & anchors[, 2] >= bb[2] & anchors[, 2] <= bb[4]
+		frac = if (any(inmap)) sum(!fitted & inmap) / sum(inmap) else 0
 		if (frac > placement$move.max) {
 			message_placement(paste0(round(100 * frac), "% of the labels do not fit next to their points, ",
 									 "which is too many to move (see {.arg move.max} of {.fun tm_placement})"),

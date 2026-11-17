@@ -15,5 +15,5 @@ tm_plot(use_gradient, limit_latitude_3857)
 Plot mode options. This option is specific to the plot mode.
 }
 \seealso{
-\href{https://r-tmap.github.io/tmap/articles/basics_modes}{Modes}
+\href{https://r-tmap.github.io/tmap/articles/basics_modes}{Modes}, \href{https://r-tmap.github.io/tmap/articles/examples_interactive}{Interactive map}
 }

@@ -147,7 +147,7 @@ tmapTransCentroid = function(shpTM, xmod = NULL, ymod = NULL, ord__, plot.order,
 				if (geom_all2 == "GEOMETRY") {
 					geom_types2 = sf::st_geometry_type(shp)
 				} else {
-					geom_types2 = rep(geom_all, length(shp))
+					geom_types2 = rep(geom_all2, length(shp))
 				}
 
 				ids_poly = which(geom_types2 %in% c("POLYGON", "MULTIPOLYGON"))
