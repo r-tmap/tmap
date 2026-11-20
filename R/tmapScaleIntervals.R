@@ -11,6 +11,12 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 	}
 
+	# style "sd": the mean is the midpoint, so a diverging palette is used by default
+	if (identical(scale$style, "sd") && is.null(scale$midpoint) && is.numeric(x1) && !all(is.na(x1))) {
+		scale$midpoint = mean(without_units(x1), na.rm = TRUE)
+		cls = data_class(x1, midpoint_enabled = TRUE)
+	}
+
 	if (!(cls[1] %in% c("num", "datetime", "date"))) {
 		if (!is.factor(x1)) x1 = as.factor(x1)
 		x1 = as.integer(x1)
@@ -114,6 +120,10 @@ tmapScaleIntervals = function(x1, scale, legend, chart, o, aes, layer, layer_arg
 
 		# create legend values
 		#values = breaks[-nbrks]
+
+		if (is.null(labels) && is.sd && sd.labels) {
+			labels = sd_labels(sd.zbreaks, intervals = (label.style == "discrete"), interval.closure = int.closure, label.format = label.format)
+		}
 
 		if (label.style == "discrete") {
 			if (is.null(labels)) {
@@ -261,6 +271,14 @@ interval_num = function(scale, x1, aes, layer, show.messages, show.warnings) {
 		}
 
 		#breaks.specified <- !is.null(breaks)
+		is.sd = (style == "sd")
+		if (is.sd) {
+			sd.labels = if (is.null(style.args$sd.labels)) TRUE else style.args$sd.labels
+			breaks = breaks_sd(x1, n = n, width = style.args$sd.width)
+			sd.zbreaks = attr(breaks, "zbreaks")
+			style = "fixed"
+		}
+
 		is.log = (style == "log10_pretty")
 		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
 
@@ -362,6 +380,7 @@ interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings
 		n = nbrks - 1
 
 		is.log = FALSE
+		is.sd = FALSE
 
 		int.closure <- attr(q, "intervalClosure")
 
@@ -392,4 +411,37 @@ interval_datetime = function(scale, x1, aes, layer, show.messages, show.warnings
 		}
 	})
 
+}
+
+
+# Breaks for style "sd": intervals of `width` standard deviations, where the middle
+# interval is centered around the mean. If `width` is NULL, it is chosen such that
+# the number of intervals is closest to `n`.
+breaks_sd = function(x, n, width = NULL) {
+	m = mean(x, na.rm = TRUE)
+	s = stats::sd(x, na.rm = TRUE)
+	if (is.na(s) || s == 0) s = 1
+	z = range((x - m) / s, na.rm = TRUE)
+
+	zbrks = function(w) {
+		round(seq((floor(z[1] / w + 0.5) - 0.5) * w, (ceiling(z[2] / w - 0.5) + 0.5) * w, by = w), 10)
+	}
+
+	if (is.null(width)) {
+		ws = c(2, 1, 0.5, 0.25)
+		nc = vapply(ws, function(w) length(zbrks(w)) - 1L, integer(1))
+		width = ws[which.min(abs(nc - n))]
+	}
+
+	zb = zbrks(width)
+	structure(m + zb * s, zbreaks = zb)
+}
+
+# Labels for style "sd": deviation from the mean in standard deviations
+sd_labels = function(zbreaks, intervals, interval.closure, label.format) {
+	lf = label.format[setdiff(names(label.format), c("fun", "prefix", "suffix", "big.num.abbr", "interval.disjoint", "text.to.columns", "scientific", "called"))]
+	# "to" instead of "-", to avoid labels such as "-1.5 - -0.5 SD"
+	if (!("text.separator" %in% label.format$called)) lf$text.separator = "to"
+	lbls = do.call("fancy_breaks", c(list(vec = zbreaks, intervals = intervals, interval.closure = interval.closure, big.num.abbr = NA), lf))
+	structure(paste(lbls, "SD"), align = attr(lbls, "align"))
 }

@@ -30,9 +30,9 @@ tm_scale_intervals(
 \arguments{
 \item{n}{Number of intervals. For some styles (see argument \code{style} below) it is the preferred number rather than the exact number.}
 
-\item{style}{Method to create intervals. Options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. See the details in \code{\link[classInt:classIntervals]{classInt::classIntervals()}} (extra arguments can be passed on via \code{style.args}).}
+\item{style}{Method to create intervals. Options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. See the details in \code{\link[classInt:classIntervals]{classInt::classIntervals()}} (extra arguments can be passed on via \code{style.args}). An exception is \code{"sd"}: its intervals are a number of standard deviations wide, with a middle interval centered around the mean. By default, the legend labels show the deviation from the mean in standard deviations, and a diverging palette is used with the mean as \code{midpoint}.}
 
-\item{style.args}{List of extra arguments passed on to \code{\link[classInt:classIntervals]{classInt::classIntervals()}}.}
+\item{style.args}{List of extra arguments passed on to \code{\link[classInt:classIntervals]{classInt::classIntervals()}}. For \code{style = "sd"}, the following arguments are used instead: \code{sd.width}, the width of the intervals in standard deviations (by default 2, 1, 0.5, or 0.25, whichever gives the number of intervals closest to \code{n}), and \code{sd.labels}, whether the labels show standard deviations (\code{TRUE}, default) or data values (\code{FALSE}).}
 
 \item{breaks}{Interval breaks (only used and required when \code{style = "fixed"})}
 

@@ -100,3 +100,19 @@ test_that("the range of values is used by tm_scale_continuous", {
 	# values.range is relative: the default lwd values are 0 to 3
 	expect_equal(vals("lwd", tm_scale_continuous(values.range = c(0.5, 1))), 1.5 + 1.5 * x / 1e4)
 })
+
+test_that("tm_scale_intervals(style = \"sd\") centers the middle interval around the mean (#509)", {
+	x = World$life_exp
+	brks = breaks_sd(x, n = 5)
+	zb = attr(brks, "zbreaks")
+	expect_equal(zb, c(-2.5, -1.5, -0.5, 0.5, 1.5, 2.5))
+	expect_equal(mean(brks[3:4]), mean(x, na.rm = TRUE))
+	expect_equal(diff(attr(breaks_sd(x, n = 9), "zbreaks"))[1], 0.5)
+	expect_equal(diff(attr(breaks_sd(x, n = 5, width = 2), "zbreaks"))[1], 2)
+
+	lbls = sd_labels(zb, intervals = TRUE, interval.closure = "left", label.format = list())
+	expect_equal(as.vector(lbls)[3], "-0.5 to 0.5 SD")
+
+	expect_no_error(print(tm_shape(World) + tm_polygons("life_exp", fill.scale = tm_scale_intervals(style = "sd"))))
+	expect_no_error(print(tm_shape(World) + tm_polygons("life_exp", fill.scale = tm_scale_intervals(style = "sd", label.style = "continuous", style.args = list(sd.labels = FALSE)))))
+})
