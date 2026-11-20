@@ -87,6 +87,10 @@ tm_circles = function(size = tm_const(),
 					  ...) {
 
 	args = c(as.list(environment()), list(...))
+	# do not pass on the popup arguments unless specified (popup.vars and popup.format are deprecated)
+	if (missing(popup)) args$popup = NULL
+	if (missing(popup.vars)) args$popup.vars = NULL
+	if (missing(popup.format)) args$popup.format = NULL
 
 	# tm_symbols expects a shape argument; fix it to a filled circle (21).
 	# The "circles" layer class drives dispatch to the geographic-circle

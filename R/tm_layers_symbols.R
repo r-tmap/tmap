@@ -706,21 +706,24 @@ opt_tm_markers = function(markers_on_top_of_text = FALSE,
 						  dots.just = NA,
 						  dots.icon.scale = 3,
 						  dots.grob.dim = c(width=48, height=48, render.width=256, render.height=256)) {
+	text_args = list(points_only = points_only,
+					 point_per = point_per,
+					 on_surface = on_surface,
+					 shadow = shadow,
+					 shadow.offset.x = shadow.offset.x,
+					 shadow.offset.y = shadow.offset.y,
+					 just = just,
+					 along_lines = along_lines,
+					 bg.padding = bg.padding,
+					 clustering = clustering)
+	# the point label options are deprecated in opt_tm_labels(): only pass them on when specified
+	if (!missing(point.label)) text_args$point.label = point.label
+	if (!missing(point.label.gap)) text_args$point.label.gap = point.label.gap
+	if (!missing(point.label.method)) text_args$point.label.method = point.label.method
+	if (!missing(remove_overlap)) text_args$remove_overlap = remove_overlap
+
 	list(markers = list(markers_on_top_of_text = markers_on_top_of_text),
-		 text = opt_tm_labels(points_only = points_only,
-		 					 point_per = point_per,
-		 					 on_surface = on_surface,
-		 					 shadow = shadow,
-		 					 shadow.offset.x = shadow.offset.x,
-		 					 shadow.offset.y = shadow.offset.y,
-		 					 just = just,
-		 					 along_lines = along_lines,
-		 					 bg.padding = bg.padding,
-		 					 clustering = clustering,
-		 					 point.label = point.label,
-		 					 point.label.gap = point.label.gap,
-		 					 point.label.method = point.label.method,
-		 					 remove_overlap = remove_overlap),
+		 text = do.call(opt_tm_labels, text_args),
 		 dots = opt_tm_dots(points_only = points_only,
 		 				   point_per = point_per,
 		 				   on_surface = on_surface,
