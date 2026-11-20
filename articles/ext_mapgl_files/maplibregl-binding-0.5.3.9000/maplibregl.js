@@ -1215,6 +1215,15 @@ function tooltipStyleToClass(spec) {
   if (!spec || typeof spec !== "object") {
     return null;
   }
+  // hide_after is behavior, not appearance: keep it out of the generated
+  // class so a spec that only sets it leaves the native look untouched.
+  if (spec.hide_after != null) {
+    spec = Object.assign({}, spec);
+    delete spec.hide_after;
+    if (Object.keys(spec).length === 0) {
+      return null;
+    }
+  }
   if (!window._mapglTooltipStyleClasses) {
     window._mapglTooltipStyleClasses = {};
   }
@@ -1311,13 +1320,41 @@ function applyPopupClass(popup, spec) {
   if (popup._container && cls) {
     popup._container.classList.add(cls);
   }
+  // tooltip_style(hide_after = ) / popup_style(hide_after = ): seconds after
+  // which the tooltip or popup removes itself. A tooltip is re-added on every
+  // pointer move, so its clock restarts whenever the pointer moves.
+  const hideAfter = spec && typeof spec === "object" ? Number(spec.hide_after) : NaN;
+  popup._mapglHideAfter = hideAfter > 0 ? hideAfter : null;
+  const scheduleHide = function () {
+    if (popup._mapglHideTimer) {
+      clearTimeout(popup._mapglHideTimer);
+      popup._mapglHideTimer = null;
+    }
+    if (popup._mapglHideAfter) {
+      popup._mapglHideTimer = setTimeout(function () {
+        popup._mapglHideTimer = null;
+        popup.remove();
+      }, popup._mapglHideAfter * 1000);
+    }
+  };
   if (!popup._mapglClassHook && typeof popup.on === "function") {
     popup._mapglClassHook = true;
     popup.on("open", function () {
       if (popup._container && popup._mapglStyleClass) {
         popup._container.classList.add(popup._mapglStyleClass);
       }
+      scheduleHide();
     });
+    popup.on("close", function () {
+      if (popup._mapglHideTimer) {
+        clearTimeout(popup._mapglHideTimer);
+        popup._mapglHideTimer = null;
+      }
+    });
+  }
+  // Already on the map (a click popup is styled after addTo()): start now.
+  if (typeof popup.isOpen === "function" && popup.isOpen()) {
+    scheduleHide();
   }
 }
 

@@ -245,10 +245,6 @@ tm_shape(NLD_muni) +
   tm_circles(size = 2000, fill = "#99dd99", col = NULL) +
 tm_shape(NLD_dist) +
   tm_circles(size = 1000, fill = "#ff8833", col = NULL)
-#> [popup] Both `popup` and the deprecated `popup.vars`/`popup.format` were
-#> supplied to `tm_circles()`.
-#> ℹ The deprecated arguments are ignored in favour of `popup`.
-#> This message is displayed once every 8 hours.
 
 
 ## Use a units object — any linear unit is accepted and converted to meters

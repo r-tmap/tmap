@@ -229,6 +229,21 @@
     display: block;
 }
 
+/* A legend anchored to the bottom of the map grows upward, so a button that
+   appears after the first click would push the rows out from under the
+   pointer and the next click would land on a different row. Keep the button's
+   space there from the start and only toggle whether it can be seen. */
+.mapboxgl-legend.bottom-left:not(.mapgl-legend-collapsed) > .legend-reset-btn,
+.mapboxgl-legend.bottom-right:not(.mapgl-legend-collapsed) > .legend-reset-btn {
+    display: block;
+    visibility: hidden;
+}
+
+.mapboxgl-legend.bottom-left:not(.mapgl-legend-collapsed) > .legend-reset-btn.visible,
+.mapboxgl-legend.bottom-right:not(.mapgl-legend-collapsed) > .legend-reset-btn.visible {
+    visibility: visible;
+}
+
 /* Dark theme support - detect via background color */
 .mapboxgl-legend[style*="background-color: rgb(0, 0, 0)"] .legend-range-display,
 .mapboxgl-legend[style*="background-color: #000"] .legend-range-display,

@@ -2,6 +2,14 @@
 
 ## tmap (development version)
 
+- added a cheatsheet
+  ([\#447](https://github.com/r-tmap/tmap/issues/447)): see
+  <https://r-tmap.github.io/tmap/tmap_cheatsheet.pdf>
+- `tm_scale_intervals(style = "sd")`
+  ([\#509](https://github.com/r-tmap/tmap/issues/509)): a middle
+  interval around the mean, labels in standard deviations, and a
+  diverging palette. See
+  [`tm_scale_intervals()`](https://r-tmap.github.io/tmap/reference/tm_scale_intervals.md)
 - \[!\] label placement in
   [`tm_labels()`](https://r-tmap.github.io/tmap/reference/tm_text.md)
   ([\#850](https://github.com/r-tmap/tmap/issues/850)): labels that do

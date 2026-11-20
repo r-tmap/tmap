@@ -85,9 +85,15 @@ tm_shape(World, crs = "+proj=robin") +
 
 ## Additional Resources for Learning **tmap**
 
+[![tmap
+cheatsheet](reference/figures/cheatsheet.png)](https://r-tmap.github.io/tmap/tmap_cheatsheet.pdf)
+
 For more in-depth learning on the **tmap** package, refer to the
 following resources:
 
+- **Cheatsheet:** a two-page
+  [cheatsheet](https://r-tmap.github.io/tmap/tmap_cheatsheet.pdf) (PDF)
+  with the main functions at a glance.
 - **Book Chapter:** [Geocomputation with R](https://r.geocompx.org/)
   includes a chapter on [Making Maps with
   R](https://r.geocompx.org/adv-map), which covers **tmap**.  

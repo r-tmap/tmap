@@ -34,6 +34,7 @@ The function tm_scale_intervals() is used for numerical data."><meta property="o
     <li><a class="dropdown-item" href="../articles/basics_charts">Charts</a></li>
     <li><a class="dropdown-item" href="../articles/basics_layout">Layout</a></li>
     <li><a class="dropdown-item" href="../articles/basics_exporting">Exporting</a></li>
+    <li><a class="dropdown-item" href="../tmap_cheatsheet.pdf">Cheatsheet (PDF)</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-background" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Background</button>
@@ -153,11 +154,11 @@ The function <code>tm_scale_intervals()</code> is used for numerical data.</p>
 
 
 <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
-<dd><p>Method to create intervals. Options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. See the details in <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classInt::classIntervals()</a></code> (extra arguments can be passed on via <code>style.args</code>).</p></dd>
+<dd><p>Method to create intervals. Options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. See the details in <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classInt::classIntervals()</a></code> (extra arguments can be passed on via <code>style.args</code>). An exception is <code>"sd"</code>: its intervals are a number of standard deviations wide, with a middle interval centered around the mean. By default, the legend labels show the deviation from the mean in standard deviations, and a diverging palette is used with the mean as <code>midpoint</code>.</p></dd>
 
 
 <dt id="arg-style-args">style.args<a class="anchor" aria-label="anchor" href="#arg-style-args"></a></dt>
-<dd><p>List of extra arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classInt::classIntervals()</a></code>.</p></dd>
+<dd><p>List of extra arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classInt::classIntervals()</a></code>. For <code>style = "sd"</code>, the following arguments are used instead: <code>sd.width</code>, the width of the intervals in standard deviations (by default 2, 1, 0.5, or 0.25, whichever gives the number of intervals closest to <code>n</code>), and <code>sd.labels</code>, whether the labels show standard deviations (<code>TRUE</code>, default) or data values (<code>FALSE</code>).</p></dd>
 
 
 <dt id="arg-breaks">breaks<a class="anchor" aria-label="anchor" href="#arg-breaks"></a></dt>

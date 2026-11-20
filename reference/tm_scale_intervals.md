@@ -47,12 +47,21 @@ tm_scale_intervals(
   `"bclust"`, `"fisher"`, `"jenks"`, `"dpih"`, `"headtails"`, and
   `"log10_pretty"`. See the details in
   [`classInt::classIntervals()`](https://r-spatial.github.io/classInt/reference/classIntervals.html)
-  (extra arguments can be passed on via `style.args`).
+  (extra arguments can be passed on via `style.args`). An exception is
+  `"sd"`: its intervals are a number of standard deviations wide, with a
+  middle interval centered around the mean. By default, the legend
+  labels show the deviation from the mean in standard deviations, and a
+  diverging palette is used with the mean as `midpoint`.
 
 - style.args:
 
   List of extra arguments passed on to
   [`classInt::classIntervals()`](https://r-spatial.github.io/classInt/reference/classIntervals.html).
+  For `style = "sd"`, the following arguments are used instead:
+  `sd.width`, the width of the intervals in standard deviations (by
+  default 2, 1, 0.5, or 0.25, whichever gives the number of intervals
+  closest to `n`), and `sd.labels`, whether the labels show standard
+  deviations (`TRUE`, default) or data values (`FALSE`).
 
 - breaks:
 
