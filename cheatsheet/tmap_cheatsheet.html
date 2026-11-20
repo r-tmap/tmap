@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>tmap cheatsheet</title>
+<style>
+@page { size: A4 landscape; margin: 0; }
+:root {
+	--ink: #1f2a16;
+	--accent: #4f6b2a;
+	--accent-light: #eef2e3;
+	--sand: #f6f1dc;
+	--code-bg: #f4f4f0;
+	--muted: #5b6152;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 8.6pt;
+	line-height: 1.32;
+	color: var(--ink);
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+.page {
+	width: 297mm;
+	height: 210mm;
+	padding: 7mm 8mm 6mm 8mm;
+	display: flex;
+	flex-direction: column;
+	page-break-after: always;
+	overflow: hidden;
+}
+.page:last-child { page-break-after: auto; }
+header {
+	display: flex;
+	align-items: center;
+	gap: 4mm;
+	border-bottom: 1.2mm solid var(--accent);
+	padding-bottom: 2mm;
+	margin-bottom: 3mm;
+}
+header img { height: 17mm; }
+header h1 { margin: 0; font-size: 21pt; font-weight: 700; letter-spacing: -0.3pt; }
+header h1 span { color: var(--accent); font-weight: 400; }
+header .intro { flex: 1; font-size: 8.6pt; color: var(--muted); margin-left: 3mm; }
+.cols { flex: 1; display: grid; gap: 4mm; min-height: 0; }
+.cols.c4 { grid-template-columns: minmax(0, 1.05fr) repeat(3, minmax(0, 1fr)); }
+.col { display: flex; flex-direction: column; gap: 2.6mm; min-height: 0; }
+section h2 {
+	margin: 0 0 1.4mm 0;
+	font-size: 11pt;
+	color: #fff;
+	background: var(--accent);
+	padding: 0.8mm 2mm;
+	border-radius: 1mm;
+}
+section h3 { margin: 1.6mm 0 0.6mm 0; font-size: 9pt; color: var(--accent); }
+p { margin: 0 0 1mm 0; }
+code, pre { font-family: "Menlo", "SF Mono", Consolas, monospace; font-size: 7.9pt; }
+code { background: var(--code-bg); padding: 0 0.6mm; border-radius: 0.6mm; }
+pre {
+	margin: 0.6mm 0 1.2mm 0;
+	background: var(--code-bg);
+	border-left: 0.7mm solid var(--accent);
+	padding: 1mm 1.6mm;
+	white-space: pre;
+	line-height: 1.3;
+}
+pre code { background: none; padding: 0; }
+.fn { font-family: "Menlo", "SF Mono", Consolas, monospace; font-weight: 700; font-size: 8pt; }
+.row { display: flex; gap: 2mm; align-items: center; margin-bottom: 1.2mm; }
+.row img { width: 17mm; height: auto; flex: none; border: 0.2mm solid #ddd; border-radius: 0.6mm; }
+.row .txt { flex: 1; min-width: 0; }
+.row.wide img { width: 30mm; }
+.figure { width: 100%; border: 0.2mm solid #ddd; border-radius: 0.6mm; display: block; margin: 0.6mm 0 1.2mm 0; }
+ul { margin: 0 0 1mm 0; padding-left: 3.6mm; }
+li { margin-bottom: 0.4mm; }
+table { border-collapse: collapse; width: 100%; margin: 0.6mm 0 1.2mm 0; }
+td, th { text-align: left; vertical-align: top; padding: 0.5mm 1mm; border-bottom: 0.2mm solid #e2e2da; }
+th { color: var(--accent); font-size: 8pt; }
+.tip { background: var(--sand); border-radius: 1mm; padding: 1.2mm 1.8mm; }
+.styles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4mm; margin: 0.6mm 0 1mm 0; }
+.styles figure { margin: 0; text-align: center; font-size: 7.6pt; }
+.styles img { width: 100%; border: 0.2mm solid #ddd; border-radius: 0.6mm; }
+.posgrid { display: grid; grid-template-columns: 1fr 1.25fr 1fr; grid-template-rows: auto 9mm auto; gap: 0.6mm; margin: 0.8mm 0 1.2mm 0; font-family: "Menlo", "SF Mono", Consolas, monospace; font-size: 7pt; }
+.posgrid div { background: var(--code-bg); border: 0.2mm dashed #b9c0a8; border-radius: 0.6mm; padding: 1mm; text-align: center; display: flex; align-items: center; justify-content: center; }
+.posgrid div.map { background: var(--accent-light); border: 0.4mm solid var(--accent); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; color: var(--accent); }
+.margins { margin: 0.6mm 0 1.2mm 0; display: flex; justify-content: center; }
+.mbox { position: relative; width: 52mm; height: 14mm; border: 0.4mm solid var(--accent); background: var(--accent-light); font-size: 7.4pt; }
+.mbox span { position: absolute; color: var(--accent); font-weight: 700; }
+.mbox .m-b { bottom: 0.5mm; left: 50%; transform: translateX(-50%); }
+.mbox .m-t { top: 0.5mm; left: 50%; transform: translateX(-50%); }
+.mbox .m-l { left: 1mm; top: 50%; transform: translateY(-50%); }
+.mbox .m-r { right: 1mm; top: 50%; transform: translateY(-50%); }
+.mbox .m-c { left: 50%; top: 50%; transform: translate(-50%, -50%); font-weight: 400; color: var(--muted); font-size: 6.6pt; width: 26mm; text-align: center; }
+.scgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm 2.5mm; margin: 0.6mm 0 1.4mm 0; }
+.scgrid figure { margin: 0; }
+.scgrid figcaption { font-size: 7.6pt; line-height: 1.25; margin-bottom: 0.6mm; }
+.scgrid figcaption .fn, .scgrid figcaption code { font-size: 7.2pt; }
+.scgrid img { display: block; zoom: 0.32; } /* 300 dpi images at their physical size (96 / 300) */
+footer {
+	margin-top: 2mm;
+	font-size: 7.4pt;
+	color: var(--muted);
+	display: flex;
+	justify-content: space-between;
+	border-top: 0.3mm solid #d8dccd;
+	padding-top: 1.2mm;
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================================= PAGE 1 -->
+<div class="page">
+<header>
+	<img src="../man/figures/logo.png" alt="tmap logo">
+	<h1>Thematic maps with tmap <span>:: cheatsheet</span></h1>
+	<div class="intro">A map is built from a shape (spatial data) with layers on top,<br>
+	like the layers of ggplot2. The same code makes a static map (<b>plot</b> mode)<br>
+	or an interactive one (<b>view</b> mode).</div>
+</header>
+
+<div class="cols c4">
+
+<!-- column 1 -->
+<div class="col">
+<section>
+<h2>Basics</h2>
+<pre><code>library(tmap)
+tm_shape(World) +
+  tm_polygons(fill = "HPI") +
+tm_shape(metro) +
+  tm_bubbles(size = "pop2020",
+    fill = "gold") +
+tm_crs("auto") +
+tm_title("Happy Planet Index")</code></pre>
+<img class="figure" src="img/basics.png" alt="">
+<p>One or more <span class="fn">tm_shape()</span> groups, each followed by its layers, plus components and layout. <span class="fn">qtm</span><code>(World, fill = "HPI")</code> quick thematic map.</p>
+</section>
+
+<section>
+<h2>Spatial data</h2>
+<p><span class="fn">tm_shape</span><code>(shp, bbox, crs, is.main, ...)</code></p>
+<ul>
+<li><code>shp</code>: the spatial data object (see below)</li>
+<li><code>bbox</code>: map extent, e.g. <code>"Europe"</code></li>
+<li><code>crs</code>: projection, e.g. <code>"+proj=robin"</code> (whole map: <code>tm_crs()</code>)</li>
+<li><code>is.main</code>: main shape (sets extent and projection)?</li>
+</ul>
+<p>Supported <code>shp</code> objects:</p>
+<ul>
+<li>vector data: <b>sf</b>, <b>sfc</b>, <b>terra</b> SpatVector</li>
+<li>raster data: <b>stars</b>, <b>terra</b> SpatRaster</li>
+<li>networks: <b>sfnetworks</b> (with <b>tmap.networks</b>)</li>
+</ul>
+<p>Example data: <code>World</code>, <code>World_rivers</code>, <code>metro</code>, <code>land</code>, <code>NLD_prov</code>, <code>NLD_muni</code>, <code>NLD_dist</code></p>
+</section>
+</div>
+
+<!-- column 2 -->
+<div class="col">
+<section>
+<h2>Layers: polygons, symbols &amp; lines</h2>
+<div class="row"><img src="img/l_polygons.png" alt=""><div class="txt"><span class="fn">tm_polygons</span><code>(fill = "income_high")</code><br>polygons, filled with borders</div></div>
+<div class="row"><img src="img/l_fill_borders.png" alt=""><div class="txt"><span class="fn">tm_fill</span><code>(fill = "urbanity")</code><br><span class="fn">tm_borders</span><code>(lwd = 1.5)</code><br>fill only and borders only</div></div>
+<div class="row"><img src="img/l_symbols.png" alt=""><div class="txt"><span class="fn">tm_symbols</span><code>(size = "pop2020", fill = "pop2020", shape = 24)</code><br>symbols for points (or polygon centroids); shapes: <code>tmap_show_values("shape")</code></div></div>
+<div class="row"><img src="img/l_bubbles.png" alt=""><div class="txt"><span class="fn">tm_bubbles</span><code>(size = "pop2020")</code><br>also <span class="fn">tm_squares()</span>, <span class="fn">tm_markers()</span>, <span class="fn">tm_circles()</span> (size in map units)</div></div>
+<div class="row"><img src="img/l_dots.png" alt=""><div class="txt"><span class="fn">tm_dots</span><code>(fill = "red")</code><br>small dots, e.g. for many points</div></div>
+<div class="row"><img src="img/l_lines.png" alt=""><div class="txt"><span class="fn">tm_lines</span><code>(col = "steelblue", lwd = "strokelwd")</code><br>lines, e.g. rivers or roads</div></div>
+</section>
+</div>
+
+<!-- column 3 -->
+<div class="col">
+<section>
+<h2>Layers: raster, text &amp; more</h2>
+<div class="row"><img src="img/l_raster.png" alt=""><div class="txt"><span class="fn">tm_raster</span><code>("elevation")</code><br>raster data; <span class="fn">tm_rgb()</span> for color images</div></div>
+<div class="row"><img src="img/l_text.png" alt=""><div class="txt"><span class="fn">tm_text</span><code>("name", size = 0.8)</code><br>text at the feature positions</div></div>
+<div class="row"><img src="img/l_labels.png" alt=""><div class="txt"><span class="fn">tm_labels</span><code>("name")</code><br>labels that avoid overlap; see <span class="fn">tm_placement()</span></div></div>
+<div class="row"><img src="img/l_graticules.png" alt=""><div class="txt"><span class="fn">tm_graticules</span><code>()</code><br>longitude-latitude lines; <span class="fn">tm_grid()</span> for coordinate grid lines</div></div>
+<h3>Basemaps &amp; tiles</h3>
+<p><span class="fn">tm_basemap</span><code>("Esri.WorldTopoMap")</code> tiles under the map<br>
+<span class="fn">tm_tiles</span><code>(...)</code> tiles on top of the map<br>
+<code>tmap_providers()</code> lists the providers.</p>
+<h3>Groups (view mode)</h3>
+<p><code>tm_polygons(..., group = "Countries")</code> layers with the same <code>group</code> are switched on and off together.</p>
+</section>
+<section>
+<h2>Modes</h2>
+<ul>
+<li><code>"plot"</code> static maps (default)</li>
+<li><code>"view"</code> interactive maps with <b>leaflet</b></li>
+<li><code>"maplibre"</code>, <code>"mapbox"</code> interactive maps with <b>tmap.mapgl</b></li>
+</ul>
+<p><span class="fn">tmap_mode</span><code>("view")</code> set the mode<br>
+<span class="fn">ttm</span><code>()</code> toggle between the last two modes<br>
+<span class="fn">rtm</span><code>()</code> rotate through all modes</p>
+</section></div>
+
+<!-- column 4 -->
+<div class="col">
+<section>
+<h2>Map variables</h2>
+<p>Each layer has <b>map variables</b>: visual properties that are either constant or mapped from a data variable.</p>
+<pre><code>tm_polygons(fill = "red") # constant
+tm_polygons(fill = "HPI") # data</code></pre>
+<table>
+<tr><th>layer</th><th>map variables</th></tr>
+<tr><td><code>tm_polygons</code></td><td>fill, col, lwd, lty, fill_alpha, col_alpha, pattern</td></tr>
+<tr><td><code>tm_symbols</code></td><td>fill, col, size, shape, lwd, lty, fill_alpha, col_alpha</td></tr>
+<tr><td><code>tm_lines</code></td><td>col, lwd, lty, col_alpha</td></tr>
+<tr><td><code>tm_raster</code></td><td>col, col_alpha</td></tr>
+<tr><td><code>tm_text</code></td><td>text, size, col, fontface, bgcol</td></tr>
+</table>
+<p>Each map variable <code>x</code> has four related arguments:</p>
+<table>
+<tr><td><code>x.scale</code></td><td>how data values map to visual values, e.g. <code>tm_scale_intervals()</code></td></tr>
+<tr><td><code>x.legend</code></td><td>the legend: <code>tm_legend()</code></td></tr>
+<tr><td><code>x.chart</code></td><td>a chart: <code>tm_chart_histogram()</code></td></tr>
+<tr><td><code>x.free</code></td><td>separate scales per facet?</td></tr>
+</table>
+<pre><code>tm_polygons(
+  fill = "HPI",
+  fill.scale = tm_scale_intervals(
+    values = "brewer.rd_yl_gn"),
+  fill.legend = tm_legend(
+    title = "Happy Planet Index"),
+  fill.chart = tm_chart_histogram())</code></pre>
+</section>
+<section>
+<h2>Popups &amp; hover (view mode)</h2>
+<pre><code>tm_polygons(fill = "HPI",
+  hover = "name",
+  popup = tm_popup(
+    vars = c("HPI", "life_exp")))</code></pre>
+</section>
+</div>
+
+</div>
+<footer><span>tmap: thematic maps in R &middot; r-tmap.github.io/tmap</span><span>tmap 4.x</span></footer>
+</div>
+
+<!-- ======================================================= PAGE 2 -->
+<div class="page">
+<div class="cols c4">
+
+<!-- column 1 -->
+<div class="col">
+<section>
+<h2>Scales</h2>
+<p>The <code>.scale</code> argument determines how data values are mapped to visual values: colors, sizes, shapes, etc.</p>
+<div class="scgrid">
+<figure><figcaption><span class="fn">tm_scale_<wbr>categorical</span><code>()</code> categories</figcaption><img src="img/s_categorical.png" alt="" ></figure>
+<figure><figcaption><span class="fn">tm_scale_<wbr>ordinal</span><code>()</code> ordered categories</figcaption><img src="img/s_ordinal.png" alt="" ></figure>
+<figure><figcaption><span class="fn">tm_scale_<wbr>intervals</span><code>(style = "jenks")</code> classes</figcaption><img src="img/s_intervals.png" alt="" ></figure>
+<figure><figcaption><span class="fn">tm_scale_<wbr>intervals</span><code>(style = "sd")</code> deviation from the mean</figcaption><img src="img/s_sd.png" alt="" ></figure>
+<figure><figcaption><span class="fn">tm_scale_<wbr>continuous</span><code>()</code> continuous</figcaption><img src="img/s_continuous.png" alt="" ></figure>
+<figure><figcaption><span class="fn">tm_scale_<wbr>continuous_<wbr>log10</span><code>()</code> also <code>_log</code>, <code>_sqrt</code>, <code>_pseudo_log</code></figcaption><img src="img/s_log10.png" alt="" ></figure>
+</div>
+<p>Also: <span class="fn">tm_scale_rank()</span>, <span class="fn">tm_scale_discrete()</span>, <span class="fn">tm_scale_bivariate()</span>, <span class="fn">tm_scale_asis()</span>, <span class="fn">tm_scale_rgb()</span>.</p>
+<p><code>style</code> of <code>tm_scale_intervals()</code>: <code>"pretty"</code>, <code>"quantile"</code>, <code>"equal"</code>, <code>"jenks"</code>, <code>"fisher"</code>, <code>"sd"</code>, <code>"fixed"</code> (with <code>breaks</code>), &hellip;</p>
+</section>
+<section>
+<h2>Save &amp; export</h2>
+<pre><code>m = tm_shape(World) +
+  tm_polygons("HPI")
+tmap_save(m, "map.png")
+tmap_save(m, "map.html")
+tmap_animation(m2, "map.gif")</code></pre>
+<p><code>tmap_leaflet(m)</code> leaflet widget, <code>tmap_grob(m)</code> grob<br>
+<code>renderTmap()</code> &amp; <code>tmapOutput()</code> for <b>shiny</b> apps.</p>
+</section>
+</div>
+
+<!-- column 2 -->
+<div class="col">
+<section>
+<h2>Legends &amp; charts</h2>
+<pre><code>fill.legend = tm_legend(
+  title = "HPI",
+  orientation = "landscape",
+  position = tm_pos_out(
+    "center", "bottom"))</code></pre>
+<p><span class="fn">tm_legend_hide()</span> no legend<br>
+<span class="fn">tm_add_legend()</span> a manual legend</p>
+<p>One legend for two map variables:</p>
+<pre><code>tm_bubbles(size = "pop2020",
+  fill = "pop2020",
+  size.legend =
+    tm_legend_combine("fill"))</code></pre>
+<p>A chart shows the distribution of a map variable:</p>
+<pre><code>fill.chart = tm_chart_bar()</code></pre>
+<p>Also <span class="fn">tm_chart_histogram()</span>, <span class="fn">tm_chart_donut()</span>, <span class="fn">tm_chart_violin()</span>, <span class="fn">tm_chart_box()</span>, <span class="fn">tm_chart_heatmap()</span></p>
+</section>
+<section>
+<h2>Colors &amp; values</h2>
+<p>The <code>values</code> argument of a scale sets the visual values, e.g. a color palette:</p>
+<pre><code>tm_scale_continuous(
+  values = "viridis")
+tm_scale_intervals(
+  values = "-brewer.rd_bu")
+tm_scale_categorical(
+  values = c("red", "blue", "gold"))</code></pre>
+<p>A <code>-</code> prefix reverses a palette. Palettes come from <b>cols4all</b>: explore them at cols4all.org.</p>
+<p><code>midpoint</code> sets the middle of a diverging palette. Other options: <code>n</code>, <code>labels</code>, <code>value.na</code>, <code>label.na</code>, <code>values.range</code>.</p>
+<p><code>tmap_show_values()</code> shows the values of symbol shapes, line types, and fill patterns.</p>
+</section>
+</div>
+
+<!-- column 3 -->
+<div class="col">
+<section>
+<h2>Positions</h2>
+<p>Legends, charts and components have a <code>position</code> argument.</p>
+<h3>Outside the map frame: <code>tm_pos_out(cell.h, cell.v)</code></h3>
+<div class="posgrid">
+<div>"left", "top"</div><div>"center", "top"</div><div>"right", "top"</div>
+<div>"left", "center"</div><div class="map">map</div><div>"right", "center"</div>
+<div>"left", "bottom"</div><div>"center", "bottom"</div><div>"right", "bottom"</div>
+</div>
+<pre><code>position = tm_pos_out("right", "center")</code></pre>
+<h3>Inside the map frame: <code>tm_pos_in(pos.h, pos.v)</code></h3>
+<pre><code>position = tm_pos_in("left", "top")
+position = c("left", "top")  # short</code></pre>
+<p>Uppercase (<code>"LEFT"</code>, <code>"TOP"</code>): tight against the frame. Components at the same position are stacked.</p>
+</section>
+<section>
+<h2>Components</h2>
+<div class="row wide"><img src="img/components.png" alt="" style="width:24mm"><div class="txt">
+<span class="fn">tm_title</span><code>("Title")</code><br>
+<span class="fn">tm_compass</span><code>()</code><br>
+<span class="fn">tm_scalebar</span><code>()</code><br>
+<span class="fn">tm_credits</span><code>("Credits")</code></div></div>
+<p><span class="fn">tm_logo()</span>, <span class="fn">tm_inset()</span> (a map within a map), <span class="fn">tm_minimap()</span> and <span class="fn">tm_mouse_coordinates()</span> (view mode)</p>
+</section>
+<section>
+<h2>Extensions</h2>
+<p><b>tmap.mapgl</b> MapLibre and Mapbox modes<br>
+<b>tmap.glyphs</b> glyphs, e.g. donut charts per feature<br>
+<b>tmap.cartogram</b> cartograms<br>
+<b>tmap.networks</b> network data<br>
+<b>tmap.sources</b> remote and tiled data sources, e.g. PMTiles</p>
+</section>
+</div>
+
+<!-- column 4 -->
+<div class="col">
+<section>
+<h2>Facets: small multiples</h2>
+<img class="figure" src="img/facets.png" alt="" style="width:85%;margin-left:auto;margin-right:auto">
+<pre><code>tm_polygons(
+  fill = c("well_being", "footprint"))</code></pre>
+<p>One facet per variable, or split by a variable:</p>
+<p><span class="fn">tm_facets_wrap</span><code>(by = "continent", ncol = 3)</code><br>
+<span class="fn">tm_facets_grid</span><code>(rows = , columns = )</code><br>
+<span class="fn">tm_facets_stack</span><code>()</code> facets in a row or column<br>
+<span class="fn">tm_facets_pagewise</span><code>()</code> one facet per page<br>
+<span class="fn">tm_animate</span><code>(frames = "continent")</code> one frame per category</p>
+<p><code>fill.free = TRUE</code> gives each facet its own scale and legend.</p>
+<p><span class="fn">tmap_arrange</span><code>(m1, m2)</code> separate maps side by side</p>
+</section>
+<section>
+<h2>Layout &amp; styles</h2>
+<p><span class="fn">tm_layout</span><code>(frame = FALSE, inner.margins = c(0.02, 0.1, 0.02, 0.1))</code> layout of one map</p>
+<div class="margins"><div class="mbox"><span class="m-b">1 bottom</span><span class="m-l">2 left</span><span class="m-t">3 top</span><span class="m-r">4 right</span><span class="m-c">margins as a fraction of the map frame</span></div></div>
+<p><span class="fn">tm_crs</span><code>("auto")</code> projection for the whole map</p>
+<div class="styles">
+<figure><img src="img/style_white.png" alt="">white</figure>
+<figure><img src="img/style_cobalt.png" alt="">cobalt</figure>
+<figure><img src="img/style_classic.png" alt="">classic</figure>
+<figure><img src="img/style_natural.png" alt="">natural</figure>
+</div>
+<p><span class="fn">tm_style</span><code>("cobalt")</code> style of one map<br>
+<span class="fn">tmap_style</span><code>("classic")</code> style of all maps<br>
+<code>tmap_style_catalogue()</code> previews of all styles</p>
+<p><span class="fn">tmap_options</span><code>(...)</code> global options; <code>tmap_options_reset()</code></p>
+</section>
+</div>
+
+</div>
+<footer><span>tmap: thematic maps in R &middot; r-tmap.github.io/tmap</span><span>tmap 4.x</span></footer>
+</div>
+
+</body>
+</html>

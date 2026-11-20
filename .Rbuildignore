@@ -33,3 +33,4 @@ man/figures/shiny_view.jpg
 ^CRAN-SUBMISSION$
 ^\.positai$
 ^\.claude$
+^cheatsheet$

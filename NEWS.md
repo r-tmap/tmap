@@ -1,5 +1,7 @@
 # tmap  (development version)
 
+- added a cheatsheet (#447): see https://r-tmap.github.io/tmap/tmap_cheatsheet.pdf
+- `tm_scale_intervals(style = "sd")` (#509): a middle interval around the mean, labels in standard deviations, and a diverging palette. See `tm_scale_intervals()`
 - [!] label placement in `tm_labels()` (#850): labels that do not fit are wrapped, rotated, shrunk, or moved outside with a leader line. See `tm_placement()` and the article "Label placement"
 - `opt_tm_labels()`: `point.label*` and `remove_overlap` are deprecated (use `tm_placement()`)
 - [!] fill patterns for polygons (#1135): motifs (e.g. hatching and dots) and textures for uncertainty. See `tm_patterns()` and the articles "Fill patterns", "Textures for uncertainty", and "Dot density map"

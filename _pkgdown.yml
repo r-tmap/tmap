@@ -159,6 +159,8 @@ navbar:
           href: articles/basics_layout
         - text: Exporting
           href: articles/basics_exporting
+        - text: Cheatsheet (PDF)
+          href: tmap_cheatsheet.pdf
 
     background:
       text: Background
