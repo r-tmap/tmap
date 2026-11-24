@@ -35,7 +35,7 @@ Options: \code{"symbols"} (default), \code{"lines"}, \code{"polygons"}, and \cod
 
 \item{position}{The position of the legend. A tm_pos object, or a shortcut of two values: horizontal (left, center, right) and vertical (top, center, bottom). See tm_pos for details}
 
-\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_components]{tm_components()}} where its argument \code{id} should correspond to \code{group_id}.}
+\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_components]{tm_components()}} where its argument \code{group_id} should correspond.}
 
 \item{group}{Name of the group to which this layer belongs. This is only
 relevant in view mode, where layer groups can be switched (see \code{group.control})}

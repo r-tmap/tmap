@@ -1,32 +1,27 @@
+m = tm_shape(NLD_muni) +
+	tm_polygons(
+		fill = "population",
+		fill.scale = tm_scale_intervals(style = "kmeans"),
+		fill.legend = tm_legend("Population"),
+		col = "grey50") +
+tm_shape(NLD_prov) +
+	tm_borders("grey25", lwd = 2) +
+tm_scalebar(position = c("left", "bottom")) +
+tm_compass(position = c("right", "bottom"))
+
+# height interpreted in inches
+tmap_save(m, file.path(tempdir(), "choropleth.png"), height = 7)
+
+# height interpreted in pixels; a small image needs a smaller scale
+tmap_save(m, file.path(tempdir(), "choropleth_small.png"), height = 300, scale = .3)
+
+m2 = tm_shape(World, crs = "+proj=eqearth") +
+	tm_polygons("well_being", fill.legend = tm_legend("Well-being"), id = "name")
+
+# full HD image; asp = 0 means the map fills the whole image
+tmap_save(m2, file.path(tempdir(), "World_map.png"), width = 1920, height = 1080, asp = 0)
+
 \dontrun{
-	data(NLD_muni, NLD_prov)
-	m <- tm_shape(NLD_muni) +
-		     tm_fill(col="population", convert2density=TRUE,
-                 style="kmeans",
-                 title=expression("Population (per " * km^2 * ")")) +
-		     tm_borders("black", alpha=.5) +
-		 tm_shape(NLD_prov) +
-		     tm_borders("grey25", lwd=2) +
-		tm_style("classic") +
-		tm_format("NLD", inner.margins = c(.02, .15, .06, .15)) +
-	    tm_scalebar(position = c("left", "bottom")) +
-	    tm_compass(position=c("right", "bottom"))
-
-	tmap_save(m, "choropleth.png", height = 7) # height interpreted in inches
-	tmap_save(m, "choropleth_icon.png", height = 100, scale = .1) # height interpreted in pixels
-
-	data(World)
-	m2 <- tm_shape(World) +
-		tm_fill("well_being", id="name", title="Well-being") +
-		tm_format("World")
-
-	# save image
-	tmap_save(m2, "World_map.png", width=1920, height=1080, asp=0)
-
-	# cut left inner margin to make sure Antarctica is snapped to frame
-	tmap_save(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)),
-        "World_map2.png", width=1920, height=1080, asp=0)
-
-	# save interactive plot
-	tmap_save(m2, "World_map.html")
+# save interactive map
+tmap_save(m2, "World_map.html")
 }

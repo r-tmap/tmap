@@ -121,8 +121,6 @@ Since there is no plotting method for `"spikes"`, the plotting method of `"lines
 
 In a package, the transformation function is exported, and the layer function gets the arguments of `tm_lines()` explicitly, with documentation, as in `tmap.cartogram::tm_cartogram()`.
 
-In a package, the transformation function is exported, and the layer function gets the arguments of `tm_lines()` explicitly, with documentation, as in `tmap.cartogram::tm_cartogram()`.
-
 ### The layer element
 
 A layer function returns a list (`tm_element_list()`) with one `tm_element()`. The most important fields are:

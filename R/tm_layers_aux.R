@@ -71,7 +71,7 @@ tm_basemap = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.na
 
 #' @export
 #' @rdname tm_basemap
-tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17, sub = "abc", zindex = NA, group = NA, group.control = "check") {
+tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, api = NULL, max.native.zoom = 17, sub = "abc", zindex = NA, group = NA, group.control = "check") {
 	if (is.null(server)) {
 		disable = TRUE
 	} else {
@@ -85,7 +85,7 @@ tm_tiles = function(server = NA, alpha = NULL, zoom = NULL, max.native.zoom = 17
 
 
 	tm_element_list(tm_element(
-		args = list(server = server, alpha = alpha, zoom = zoom, max.native.zoom = max.native.zoom, sub = sub, type = "overlay", disable = disable),
+		args = list(server = server, alpha = alpha, zoom = zoom, api = api, max.native.zoom = max.native.zoom, sub = sub, type = "overlay", disable = disable),
 		mapping.fun = "tm_aux_tiles",
 		zindex = zindex,
 		group = group,

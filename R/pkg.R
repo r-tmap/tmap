@@ -12,5 +12,5 @@
 #' @concept statistical maps
 #' @concept choropleth
 #' @concept bubble map
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
+#' @references Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 "_PACKAGE"

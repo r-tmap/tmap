@@ -20,7 +20,7 @@
 #' @param bg.color Background color
 #' @param bg.alpha Background transparency
 #' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also `r .doc_see_vig("adv_positions")`. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_components()].
-#' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_components()] where its argument `id` should correspond to `group_id`.
+#' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_components()] where its argument `group_id` should correspond.
 #' @param width,height width and height of the component.
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso `r .doc_see_also_comp()`

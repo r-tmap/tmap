@@ -12,7 +12,7 @@ thematic maps, such as choropleths and bubble maps. It is based on the grammar
 of graphics, and resembles the syntax of ggplot2.
 }
 \references{
-Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
+Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
 \href{https://r-tmap.github.io/tmap/index.html}{Main documentation}
