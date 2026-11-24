@@ -153,12 +153,6 @@ function gets the arguments of
 explicitly, with documentation, as in
 [`tmap.cartogram::tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html).
 
-In a package, the transformation function is exported, and the layer
-function gets the arguments of
-[`tm_lines()`](https://r-tmap.github.io/tmap/reference/tm_lines.md)
-explicitly, with documentation, as in
-[`tmap.cartogram::tm_cartogram()`](https://r-tmap.github.io/tmap.cartogram/reference/tm_cartogram.html).
-
 ### The layer element
 
 A layer function returns a list

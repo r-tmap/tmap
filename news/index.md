@@ -60,6 +60,9 @@
 - `api` in
   [`tm_basemap()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md)
   working for CARTO basemaps (API keys are required since August 2026)
+- added `api` to
+  [`tm_tiles()`](https://r-tmap.github.io/tmap/reference/tm_basemap.md),
+  e.g. for CARTO label tiles
 - added basemap `"Esri.WorldDarkGrayCanvas"`, now used by the style
   `"cobalt"` (CARTO basemaps require an API key)
 - layers of extension packages also work when the package is not

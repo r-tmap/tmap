@@ -129,7 +129,7 @@ tm_legend_bivariate(
   with the same `group_id` will be grouped. The specifications of how
   they are placed (e.g. stacking, margins etc.) are determined in
   [`tm_components()`](https://r-tmap.github.io/tmap/reference/tm_components.md)
-  where its argument `id` should correspond to `group_id`.
+  where its argument `group_id` should correspond.
 
 - width:
 

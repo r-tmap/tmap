@@ -75,8 +75,8 @@ versions:
 
 ``` r
 tmap_style()
-#> current tmap style is "white" (tmap default)
-#> other available styles are: "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"
+#> current tmap style is "white (modified)"
+#> other available styles are: "white" (tmap default), "gray", "natural", "cobalt", "albatross", "beaver", "bw", "classic", "watercolor", "fancy"
 #> styles of previous tmap versions: "v4.4" (numeric scales of tmap 4.0-4.4), "v3" (tmap v3 default), "gray_v3", "natural_v3", "cobalt_v3", "albatross_v3", "beaver_v3", "bw_v3", "classic_v3", "watercolor_v3"
 
 tm_shape(World) + tm_polygons("HPI")
