@@ -328,6 +328,9 @@ tmapGridCompWidth.tm_legend_portrait = function(comp, o) {
 }
 
 add_user_specified_values = function(gp, usr) {
+	# width and height are legend dimensions (tm_legend()), not map variable values,
+	# also when a map variable is called height (e.g. tm_polygons_3d() in tmap.mapgl)
+	usr = usr[setdiff(names(usr), c("width", "height"))]
 	if (!length(usr)) return(gp)
 
 	for (v in names(usr)) {
