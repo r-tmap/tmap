@@ -226,13 +226,13 @@ tm_compass(position = c("right", "bottom"))
 
 # height interpreted in inches
 tmap_save(m, file.path(tempdir(), "choropleth.png"), height = 7)
-#> Map saved to /tmp/Rtmp22TT9f/choropleth.png
+#> Map saved to /tmp/RtmpD09q8p/choropleth.png
 #> Resolution: 1777.826 by 2100 pixels
 #> Size: 5.926088 by 7 inches (300 dpi)
 
 # height interpreted in pixels; a small image needs a smaller scale
 tmap_save(m, file.path(tempdir(), "choropleth_small.png"), height = 300, scale = .3)
-#> Map saved to /tmp/Rtmp22TT9f/choropleth_small.png
+#> Map saved to /tmp/RtmpD09q8p/choropleth_small.png
 #> Resolution: 253.9752 by 300 pixels
 #> Size: 0.846584 by 1 inches (300 dpi)
 
@@ -241,7 +241,7 @@ m2 = tm_shape(World, crs = "+proj=eqearth") +
 
 # full HD image; asp = 0 means the map fills the whole image
 tmap_save(m2, file.path(tempdir(), "World_map.png"), width = 1920, height = 1080, asp = 0)
-#> Map saved to /tmp/Rtmp22TT9f/World_map.png
+#> Map saved to /tmp/RtmpD09q8p/World_map.png
 #> Resolution: 1920 by 1080 pixels
 #> Size: 6.4 by 3.6 inches (300 dpi)
 
