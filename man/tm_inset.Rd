@@ -55,7 +55,7 @@ tm_inset(
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
@@ -79,7 +79,7 @@ tm_inset(
 
 \item{main_frame.r, main_frame.color, main_frame.alpha, main_frame.lwd}{Properties of the main frame}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 }
 \description{
 Map component that adds an inset object, e.g. a mini map

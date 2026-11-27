@@ -24,7 +24,7 @@ message_style_reset = function(style, opts) {
 message_comp_scale = function() {
 	if (!message_thrown("comp_scale")) {
 		cli::cli_inform(c(
-			"{.field [plot mode]} fit legend/component: Some legend items or map compoments do not fit well, and are therefore rescaled.",
+			"{.field [plot mode]} fit legend/component: Some legend items or map components do not fit well, and are therefore rescaled.",
 			i = "Set the tmap option {.code component.autoscale =  FALSE} to disable rescaling."
 			),
 			.frequency_id = "comp_scale"
@@ -223,7 +223,7 @@ message_basemaps_blurry = function(serv) {
 message_basemaps = function(is_stadia) {
 	provider = ifelse(is_stadia, "Stadia", "Thunderforest")
 	cli::cli_inform(
-		"{.field [basemaps]} An API key is requierd for tiles from {.str {provider}}",
+		"{.field [basemaps]} An API key is required for tiles from {.str {provider}}",
 		.frequency_id = "basemap_API",
 		.frequency = "once"
 	)

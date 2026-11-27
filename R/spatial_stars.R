@@ -65,7 +65,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, layer, shp_nam
 		dimsfc = vapply(dimvals, inherits, what = "sfc", FUN.VALUE = logical(1))
 
 		if (!any(dimsfc)) {
-			stop("stars object ", shp_name, " is a stars object without raster and doens't have a geometry dimension")
+			stop("stars object ", shp_name, " is a stars object without raster and doesn't have a geometry dimension")
 		} else {
 			dimid = which(dimsfc)
 			geoms = dimvals[[dimid]]
@@ -231,5 +231,3 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 	names(smeta$vars_levs) = names(shp)
 	smeta
 }
-
-

@@ -1,10 +1,10 @@
 ---
 title: "tmap basics: modes"
-output: 
+output:
   bookdown::html_vignette2:
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -47,12 +47,12 @@ tmap_options(scale = 0.75)
 
 ## Modes
 
-tmap facilitates two output modes: 
+tmap facilitates two output modes:
 
-* `"plot"`, which produces static maps, and 
+* `"plot"`, which produces static maps, and
 * `"view"` which produces (using the same tmap code) interactive maps (using the JavaScript library Leaflet as backend).
 
-Via the extension package, `tmap.mapgl`, two interactive new modes are available, `"mapbox"` and `"maplibre"`, as demonstrated below. 
+Via the extension package, `tmap.mapgl`, two interactive new modes are available, `"mapbox"` and `"maplibre"`, as demonstrated below.
 
 
 The default mode is `"plot"`:
@@ -65,7 +65,7 @@ tmap_mode()
 ### Switching between modes
 
 
-```{r} 
+```{r}
 ## to view mode
 tmap_mode("view")
 
@@ -75,7 +75,7 @@ tmap_mode("plot")
 
 The handy function `ttm()` is used to toggle between the modes:
 
-```{r} 
+```{r}
 ## to view mode
 ttm()
 
@@ -121,7 +121,7 @@ tm
 
 Note that there is a big difference: in `"view"` mode there are basemaps, and in `"plot"` mode none. This is caused by different default options.
 
-Basemaps can be enabled or disabled via `tm_basemap()`: 
+Basemaps can be enabled or disabled via `tm_basemap()`:
 
 ```{r, fig.height = 3.5}
 tm + tm_basemap(NULL)
@@ -150,7 +150,7 @@ library(tmap.mapgl)
 ```
 
 
-### Rotate bewteen modes
+### Rotate between modes
 
 When more than two modes are loaded (now four), `rtm()` can be used to rotate between modes:
 
@@ -164,7 +164,7 @@ This (and `ttm()`) is especially useful in interactive sessinos. For scripts, it
 ### Modes `"mapbox"` and `"maplibre"`.
 
 For the mode `"mapbox"` an API key is required, which is free for personal use. The mode `maplibre` is a fork of `mapbox` before it sent from open to closed source.
-No API key is required for `maplibre`. 
+No API key is required for `maplibre`.
 
 These modes are not as feature rich (yet) as the `"view"` mode, but they do offer a lot of new features: globe view and 3d polygons. This is possible because of the support of WebGL, a fast rendering technique. Therefore, these modes, and especially `maplibre` for its open open source, are [considered the way forward in web mapping](https://tim-salabim.codeberg.page/sotwm/sotwm.html).
 
@@ -173,6 +173,3 @@ These modes are not as feature rich (yet) as the `"view"` mode, but they do offe
 tmap_mode("maplibre")
 tm
 ```
-
-
-

@@ -1,6 +1,6 @@
 ---
 title: "tmap example: rasters"
-output: 
+output:
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
@@ -8,7 +8,7 @@ template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -75,7 +75,7 @@ Reading with the `stars` package
 
 ## Example 1
 
-first plot - a NDVI image in false color with a brewer pallete
+first plot - a NDVI image in false color with a brewer palette
 
 ```{r fig.height = 4.5}
 ndvi = ndvi_terra # or ndivi_stars
@@ -83,7 +83,7 @@ ndvi = ndvi_terra # or ndivi_stars
 # scale the data to get image in [-1..1] range
 ndvi = ndvi * 0.0001
 
-# plot using brewer "RdYlGn" pallete
+# plot using brewer "RdYlGn" palette
 tmap::tm_shape(ndvi) +
     tmap::tm_raster(
         col.scale = tmap::tm_scale_continuous(
@@ -129,11 +129,11 @@ clc2018_poznan = rast("https://github.com/Nowosad/comparing-spatial-patterns-202
 ```
 
 ```{r}
-tm_shape(clc2018_poznan) + 
+tm_shape(clc2018_poznan) +
 	tm_raster()
 ```
 
 ```{r}
-tm_shape(clc2018_poznan) + 
+tm_shape(clc2018_poznan) +
 	tm_raster(col.legend = tm_legend(title = "Land cover"))
 ```

@@ -1,10 +1,10 @@
 ---
 title: "tmap versus: mapview"
-output: 
+output:
   bookdown::html_vignette2:
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -25,12 +25,12 @@ library(tmap)
 
 Mapview is an excellent R package for interactive maps. Although the packages have a lot in common, the focus is different:
 
-* tmap focusses on thematic mapping with a syntax that is based on the [grammar of graphics](11_foundations_gg) and is therefore popular for education purposes;
+* tmap focuses on thematic mapping with a syntax that is based on the [grammar of graphics](11_foundations_gg) and is therefore popular for education purposes;
 * mapview focuses on fast exploration of spatial data and has more interactive features.
 
 ## Modes / platforms
 
-* tmap offers two modes: "plot" and "view" (but is extendable, see https://github.com/r-tmap/tmap.deckgl). 
+* tmap offers two modes: "plot" and "view" (but is extendable, see https://github.com/r-tmap/tmap.deckgl).
 * mapview supports three modes, which they call *platforms*: "leaflet", "leafgl", and "mapdeck".
 
 tmap "view" (with `tm_view(use_WebGL = FALSE)`) is similar to mapview "leaflet"
@@ -79,10 +79,10 @@ tm_shape(World) +
     col_alpha = 0.9,
     fill.legend = tm_legend(
       title = "World - HPI",
-      position = c("right", "top"), 
+      position = c("right", "top"),
       fill_alpha = 1),
     fill.scale = tm_scale_continuous(values = "viridis", n = 7, value.na = "#BEBEBE")
-  ) + 
-tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter", 
+  ) +
+tm_basemap(c("CartoDB.Positron", "CartoDB.DarkMatter",
   "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
 ```

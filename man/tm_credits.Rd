@@ -65,7 +65,7 @@ tm_credits(
 
 \item{width, height}{width and height of the component.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{...}{to catch deprecated arguments}
 }

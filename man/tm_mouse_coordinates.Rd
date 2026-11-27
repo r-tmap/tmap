@@ -13,7 +13,7 @@ tm_mouse_coordinates(stack, position, group_id, z)
 
 \item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[=tm_components]{tm_components()}} where its argument \code{group_id} should correspond.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 }
 \description{
 Map component that adds mouse coordinates

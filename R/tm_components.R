@@ -12,7 +12,7 @@
 #' @param offset Offset margin between frame and the components block. One or two values. If two values are provided, the first is the horizontal offset and the second the vertical. The unit is text line heights.
 #' @param frame Should a frame be drawn? By default `TRUE` for legends, charts and insets, and `FALSE` otherwise.
 #' @param frame.color frame color
-#' @param frame.alpha frame alpha transparancy
+#' @param frame.alpha frame alpha transparency
 #' @param frame.lwd frame line width
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg Background color the components block. Is usually set in each component function, but if specified here, it will overwrite them.

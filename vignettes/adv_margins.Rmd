@@ -1,6 +1,6 @@
 ---
 title: "tmap advanced: margins and aspect ratio"
-output: 
+output:
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
@@ -8,7 +8,7 @@ template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -52,11 +52,11 @@ tmap_options(scale = 0.75)
 
 ## Design mode
 
-tmap offers a special **design mode**, which can be enabled via `tmap_design_mode`. Bolow the same map, but the second time with this design mode enabled:
+tmap offers a special **design mode**, which can be enabled via `tmap_design_mode`. Below the same map, but the second time with this design mode enabled:
 
 ```{r, figures-side, fig.show="hold", out.width="47%", fig.height=8}
 (tm = tm_shape(NLD_muni) +
-  tm_polygons(fill = "employment_rate", 
+  tm_polygons(fill = "employment_rate",
     fill.legend = tm_legend(position = tm_pos_in("left", "top"))) +
    tm_compass(position = tm_pos_in("right", "bottom")) +
    tm_scalebar(position = tm_pos_in("left", "bottom")))
@@ -75,9 +75,9 @@ These options are a subset of all tmap options, which can be set via `tmap_optio
 
 ## Margins
 
-There are three types of margins: 
+There are three types of margins:
 
-* `inner.margins` are the margins between the shape (i.e. spatial geometries) and the map frame. Vector of four numbers 
+* `inner.margins` are the margins between the shape (i.e. spatial geometries) and the map frame. Vector of four numbers
 * `meta.margins` are the margins in which map components are drawn.
 * `outer.margins` are the margins between the plot (maps and components) and the device borders.
 
@@ -95,7 +95,7 @@ tm_shape(NLD_muni) +
 
 Via the **inner margins**, the space between the borders of the Netherlands and the map frame is set to 0.2 in each direction. This value is relative to the width (for the left and right-handside margin) and height (top and bottom margin). In other words, the bounding box of the Netherlands occupies 60 percent of the horizontal space and 60 percent of the vertical space of the map frame, shown as the **yellow** box in design mode.
 
-The meta margins is the space dedicated for map components that are outside the map (see [vignette about component   positions](https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v). The value of the right-handside meta margin 0.15 in this example means that 15 percent of the total device width is used for the ouside components (in this example the legend), shown in the **green** box. If not specified, for single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, `meta.margins` is set to `c(0, 0, 0, 0)`. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.
+The meta margins is the space dedicated for map components that are outside the map (see [vignette about component   positions](https://r-tmap.github.io/tmap/articles/adv_positions#cell-h-and-cell-v). The value of the right-handside meta margin 0.15 in this example means that 15 percent of the total device width is used for the outside components (in this example the legend), shown in the **green** box. If not specified, for single maps this is calculated automatically, using the other margins and the map component sizes. If there are no outside map components, `meta.margins` is set to `c(0, 0, 0, 0)`. For complex maps (e.g. facetted maps) it is set to 0.4 for each side in which map components are placed.
 
 The outer margins can also be specified. By default these are 0.02 in each dimension. This is shown in the light blue area. Note that the left and right-handside margin are larger. This is caused by a mismatch between the plot (map and outside components) and the device. Because the aspect ratio of the device is larger (more landscape) than that of the map and components, the 'excess' margin is also added to the outer margins. It is also possible to add this 'excess' margin to the inner margins by setting `asp = 0`. This is explained in the next section.
 

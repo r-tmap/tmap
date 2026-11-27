@@ -1,6 +1,6 @@
 ---
 title: "tmap versus: ggplot2"
-output: 
+output:
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
@@ -8,7 +8,7 @@ template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -49,9 +49,9 @@ library(tmap)
 tmap_options(scale = 1)
 ```
 
-## Choropleth Map comparision
+## Choropleth Map comparison
 
-An example of how the default output of `tmap` compares with `ggplot2`. 
+An example of how the default output of `tmap` compares with `ggplot2`.
 
 This is the default output of `ggplot2`:
 
@@ -77,12 +77,12 @@ tm_shape(World, crs = "+proj=eqearth") +
 				fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35))
 ```
 
-Note the different line width values: 
+Note the different line width values:
 
 - `linewidth = .4` in `ggplot2`
 - `lwd = 1` in `tmap`
 
-The unit of a line width is different. `tmap` follows the `lwd` parameter (see [`graphics::par`](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/par)) whereas in `ggplot2` `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth). 
+The unit of a line width is different. `tmap` follows the `lwd` parameter (see [`graphics::par`](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/par)) whereas in `ggplot2` `linewidth = 1` equals roughly 0.75 [due to a historical error](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#linewidth).
 
 
 ## Mimicking ggplot2 layout
@@ -96,16 +96,14 @@ tm_shape(World, crs = "+proj=eqearth") +
     col = "grey20",
     lwd = 1,
     fill.scale = tm_scale_continuous(values = "pu_gn", midpoint = 35),
-    fill.legend = tm_legend(reverse = TRUE, 
-      frame = FALSE, 
-      item.height = 2.25, 
-      item.width = 1.8, 
-	  position = tm_pos_out(pos.v = "center"), 
-	  na.show = FALSE, 
-      ticks = list(c(0, 0.1), c(0.9, 1)), 
-      ticks.col = "white", 
+    fill.legend = tm_legend(reverse = TRUE,
+      frame = FALSE,
+      item.height = 2.25,
+      item.width = 1.8,
+	  position = tm_pos_out(pos.v = "center"),
+	  na.show = FALSE,
+      ticks = list(c(0, 0.1), c(0.9, 1)),
+      ticks.col = "white",
       col = "white")) +
 tm_layout(frame = FALSE, outer.margins = 0)
 ```
-
-

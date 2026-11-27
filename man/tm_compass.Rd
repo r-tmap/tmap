@@ -71,7 +71,7 @@ tm_compass(
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
@@ -79,7 +79,7 @@ tm_compass(
 
 \item{margins}{margins}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{...}{to catch deprecated arguments (alpha)}
 }

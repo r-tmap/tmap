@@ -6,7 +6,7 @@ tm_shape(NLD_dist) +
 tm_shape(NLD_muni) +
   tm_borders(lwd = 3) +
   tm_facets(by = "province") +
-tm_title("Population with a univeristy degree (incl appl. sciences), percentages")
+tm_title("Population with a university degree (incl appl. sciences), percentages")
 
 tm_shape(World) +
   tm_polygons(c("gender", "press"),

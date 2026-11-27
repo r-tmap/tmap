@@ -63,7 +63,7 @@ tm_chart_heatmap(position, group_id, width, height, stack, z, ...)
 
 \item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{...}{passed on to \code{tm_title()}}
 }
