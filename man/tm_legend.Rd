@@ -106,7 +106,7 @@ tm_legend_bivariate(
 
 \item{height}{Height of the legend. Units are 'text line heights'. In case a negative number is specified, the units are (approximate) pixels. The relation between these two is configured via the option \code{absolute_fontsize}.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{title.color}{The color of the title of the legend.}
 
@@ -138,7 +138,7 @@ tm_legend_bivariate(
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 

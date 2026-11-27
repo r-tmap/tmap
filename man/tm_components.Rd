@@ -44,7 +44,7 @@ tm_components(
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 

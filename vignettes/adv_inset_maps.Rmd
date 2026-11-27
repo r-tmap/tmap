@@ -1,10 +1,10 @@
 ---
 title: "tmap advanced: inset maps and minimaps"
-output: 
+output:
   bookdown::html_vignette2:
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -61,7 +61,7 @@ tm_shape(NLD_muni) +
 	tm_polygons(
 		fill = "edu_appl_sci") +
 	tm_title("Population share with (applied) university degree in 2022") +
-	tm_credits("Statistics Netherlands (CBS)") + 
+	tm_credits("Statistics Netherlands (CBS)") +
 	tm_minimap(position = c("left", "top"))
 ```
 
@@ -80,7 +80,7 @@ Note that the minimap is also supported in two other modes, `"maplibre"` and `"m
 
 ## Inset maps
 
-Inset (zoomed in) maps are only implemented in `"plot"` mode, because this feature is less usefull in interactive modes (`"view"`, `"maplibre"` and `"mapbox"`) because of the user's ability to zoom in.
+Inset (zoomed in) maps are only implemented in `"plot"` mode, because this feature is less useful in interactive modes (`"view"`, `"maplibre"` and `"mapbox"`) because of the user's ability to zoom in.
 
 The function `tm_inset()` is general purpose. It can accept many input objects including ggplot2 objects and image files. In this vignette, we look at two types of inputs: a bounding box and a tmap object.
 
@@ -101,7 +101,7 @@ tm_shape(NLD_dist) +
 tm_shape(NLD_muni) +
 	tm_borders() +
 tm_title("Population share with (applied) university degree in 2022") +
-tm_credits("Statistics Netherlands (CBS)") + 
+tm_credits("Statistics Netherlands (CBS)") +
 tm_title("Amsterdam", size = 0.8, position = c("left", "top")) +
 tm_inset(bb("Amsterdam"), position = c("left", "top"), box_frame.color = "red", main_frame.color = "red") +
 tm_title("The Hague", size = 0.8, position = c("left", "top")) +
@@ -119,7 +119,7 @@ To have more flexibility it is also possible to inset a different tmap object.
 NLD_muni$pop_est_dens = NLD_muni$population / NLD_muni$area
 
 tm_NLD = tm_shape(NLD_muni) +
-	tm_polygons(fill = "pop_est_dens", 
+	tm_polygons(fill = "pop_est_dens",
 				fill.legend = tm_legend_hide(),
 				fill.scale = tm_scale_continuous_sqrt(values = "viridis", limits = c(0, 6500)),
 				col = NULL) +
@@ -127,7 +127,7 @@ tm_NLD = tm_shape(NLD_muni) +
 	tm_borders()
 
 tm_shape(World) +
-	tm_polygons(fill = "pop_est_dens", 
+	tm_polygons(fill = "pop_est_dens",
 				col = "black",
 				fill.scale = tm_scale_continuous_sqrt(values = "viridis", limits = c(0, 6500))) +
 	tm_inset(tm_NLD, position = c("left", "bottom")) +

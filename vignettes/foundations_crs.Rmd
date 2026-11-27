@@ -1,6 +1,6 @@
 ---
 title: "tmap foundations: map projections (CRS)"
-output: 
+output:
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
@@ -8,7 +8,7 @@ template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -63,11 +63,11 @@ World$geometry
 The used coordinates are latitudes and longitudes. Latitudes define north/south (so perpendicular to the equator), whereas longitudes define east/west.
 
 ```{r, fig.width=6,fig.height=6}
-tm_shape(World, 
+tm_shape(World,
     bbox = "FULL",
     crs = "+proj=ortho +lat_0=30 +lon_0=0") +
   tm_polygons() +
-tm_style("natural") + 
+tm_style("natural") +
 tm_layout(earth_boundary = TRUE) +
 tm_graticules(n.x = 20, n.y = 10, col = "black", lwd = 2, labels.show = FALSE) +
 tm_xlab("Longitudes", size = 1.1) +tm_ylab("Latitudes", size = 1.1)
@@ -98,11 +98,11 @@ World_polygons$area = sf::st_area(World_polygons)
 
 tm_shape(World_polygons) +
   tm_cartogram_ncont(size = "area", fill = "gold", options = opt_tm_cartogram_ncont(expansion = 0.4)) +
-tm_title("Polygons shrinked to real area sizes")
+tm_title("Polygons shrunk to real area sizes")
 ```
 
 
-Therefore, mathematicians thought about other ways how to 'flatten down the earth'. Bring in CRS... 
+Therefore, mathematicians thought about other ways how to 'flatten down the earth'. Bring in CRS...
 
 
 
@@ -121,7 +121,7 @@ Several map projections are useful for world maps. Useful in the sense that plot
 
 ```{r, fig.height=10}
 # vector of world map projections
-world_projs = c("wintri", "robin", paste0("eck", 1:6), 
+world_projs = c("wintri", "robin", paste0("eck", 1:6),
   "moll", paste0("wag", 1:7), "eqearth")
 
 # create a tmap for each of them
@@ -164,4 +164,3 @@ tm_shape(World) +
   tm_polygons(fill = "life_exp") +
 tm_crs(crs = "+proj=robin")
 ```
-

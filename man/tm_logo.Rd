@@ -41,13 +41,13 @@ If multiple logos are specified by a vector or list, the heights can be specifie
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
 \item{frame.r}{Radius of the rounded frame corners. 0 means no rounding.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 }
 \description{
 Map component that adds a logo.

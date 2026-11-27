@@ -36,7 +36,7 @@ tm_scale_intervals(
 
 \item{breaks}{Interval breaks (only used and required when \code{style = "fixed"})}
 
-\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.}
+\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. If \code{as.count = TRUE}, \code{interval.closure} is always set to \code{"left"}.}
 
 \item{label.style}{Either \code{"discrete"} or \code{"continuous"}. If \code{discrete} (default) intervals will be labeled. If \code{continuous}, the legend will be similar to a continuous scale legend (but with discrete colors), where the breaks are labeled.}
 

@@ -1,6 +1,6 @@
 ---
 title: "tmap example: terrain map"
-output: 
+output:
   bookdown::html_vignette2:
 pkgdown:
   as_is: true
@@ -8,7 +8,7 @@ template:
   math-rendering: mathjax
 bibliography: '`r system.file("tmap.bib", package="tmap")`'
 csl: "`r system.file('ieee.csl', package = 'tmap')`"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -63,23 +63,23 @@ tm_shape(land) +
 #tm_shape(World) +
 #	tm_borders() +
 tm_shape(World_rivers) +
-	tm_lines(lwd = "strokelwd", 
+	tm_lines(lwd = "strokelwd",
 			 lwd.scale = tm_scale_asis(values.scale = 0.2)) +
 tm_shape(metro) +
 	tm_symbols(shape = 20, size = 0.6, fill = "white") +
 	tm_symbols(shape = 20, size = 0.5, fill = "red") +
-tm_crs("+proj=eck4") + 
+tm_crs("+proj=eck4") +
 tm_layout(earth_boundary = TRUE,
 		  earth_boundary.lwd = 2,
 		  legend.show = FALSE,     # option to disable all legends
 		  frame = FALSE,
 		  space.color = "white") +
-tm_title("Map of the World", 
+tm_title("Map of the World",
   position = tm_pos_out(cell.h = "center", cell.v = "top", pos.h = "center")) +
 tm_credits("Eckert IV projection", position = c("RIGHT", "BOTTOM"))
 ```
 
-Note: upper case position spefications (last line) means tight to the right bottom corner
+Note: upper case position specifications (last line) means tight to the right bottom corner
 
 ## Classic style
 

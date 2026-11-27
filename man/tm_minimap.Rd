@@ -46,7 +46,7 @@ Note the latter does not happen when \code{server} is specified.}
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
@@ -58,7 +58,7 @@ Note the latter does not happen when \code{server} is specified.}
 
 \item{bg.alpha}{Background transparency}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{...}{
   Arguments passed on to \code{\link[leaflet:addMiniMap]{leaflet::addMiniMap}}

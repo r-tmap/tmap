@@ -72,7 +72,7 @@ and the unit suffix is appended to the second-to-last label instead.}
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
@@ -80,7 +80,7 @@ and the unit suffix is appended to the second-to-last label instead.}
 
 \item{margins}{margins}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 }
 \description{
 Map component that adds a scale bar.

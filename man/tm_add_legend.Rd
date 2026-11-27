@@ -46,7 +46,7 @@ buttons (meaning only one group can be shown), \code{"check"} for check boxes
 (so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 }
 \description{
 Map component that adds a manual legend.

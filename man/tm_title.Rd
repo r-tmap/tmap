@@ -58,7 +58,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{frame.color}{frame color}
 
-\item{frame.alpha}{frame alpha transparancy}
+\item{frame.alpha}{frame alpha transparency}
 
 \item{frame.lwd}{frame line width}
 
@@ -76,7 +76,7 @@ tm_title_out(text, ..., position = tm_pos_out("center", "top"))
 
 \item{width, height}{width and height of the component.}
 
-\item{z}{z index, e.g. the place of the component relative to the other componets}
+\item{z}{z index, e.g. the place of the component relative to the other components}
 
 \item{...}{passed on to \code{tm_title()}}
 }

@@ -13,7 +13,7 @@
 #' @param just just
 #' @param frame frame should a frame be drawn?
 #' @param frame.color frame color
-#' @param frame.alpha frame alpha transparancy
+#' @param frame.alpha frame alpha transparency
 #' @param frame.lwd frame line width
 #' @param frame.r Radius of the rounded frame corners. 0 means no rounding.
 #' @param bg Show background?
@@ -22,7 +22,7 @@
 #' @param position The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also `r .doc_see_vig("adv_positions")`. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_components()].
 #' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_components()] where its argument `group_id` should correspond.
 #' @param width,height width and height of the component.
-#' @param z z index, e.g. the place of the component relative to the other componets
+#' @param z z index, e.g. the place of the component relative to the other components
 #' @seealso `r .doc_see_also_comp()`
 #' @export
 tm_title = function(text, size, color, padding, fontface, fontfamily, alpha, stack, just, frame, frame.color, frame.alpha, frame.lwd, frame.r, bg, bg.color, bg.alpha, position, group_id, width, height, z) {
